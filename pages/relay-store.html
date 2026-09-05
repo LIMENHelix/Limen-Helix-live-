@@ -97,6 +97,11 @@
   .policybox .pl a{color:var(--warn)}
   .msg{font-size:.82rem;text-align:center;margin-top:10px;min-height:1.1em;color:var(--soft)}
   .msg.err{color:#b91c1c}
+  /* A refused line names the item and says what to do about it. Left-aligned inside a
+     centred message block, because a list of items reads badly centred. */
+  .msg .unavail{text-align:left;margin-top:8px;padding:8px 10px;border:1px solid #f1d4d4;
+    border-radius:8px;background:#fff8f8}
+  .msg .unavail .hint{font-size:.8rem;color:var(--soft);margin-top:3px}
 </style>
 </head>
 <body>
@@ -304,7 +309,14 @@ function renderCart() {
       '<button onclick="setQty(\'' + esc(id) + '\',1)">+</button></div>' +
       '<button class="rm" onclick="rmItem(\'' + esc(id) + '\')">Remove</button></div></div>';
   }).join('');
-  var sub = subtotal(), ship = sub > 75 ? 0 : 5.99;
+  // FREE SHIPPING, AND THE QUOTE MUST MATCH THE CHARGE.
+  //
+  // This computed its own $5.99 and showed the shopper a Total of subtotal + 5.99. The
+  // server stopped adding that fee, because supplier freight is already inside the listed
+  // price, so the modal was quoting a total the customer would never actually be charged.
+  // A checkout screen that overstates the total is its own defect even when it errs in the
+  // customer favour: the number they agree to has to be the number that is taken.
+  var sub = subtotal(), ship = 0;
   EL('carttot').innerHTML =
     '<div class="r"><span>Subtotal</span><span>' + money(sub) + '</span></div>' +
     '<div class="r"><span>Shipping</span><span>' + (ship ? money(ship) : 'Free') + '</span></div>' +
@@ -341,7 +353,8 @@ function checkout() {
   var ids = Object.keys(CART).filter(find);
   if (!ids.length) return;
   EL('drawer').classList.remove('show');
-  var sub = subtotal(), ship = sub > 75 ? 0 : 5.99;
+  // Same as the drawer above: no fee is charged, so none is quoted. See the note there.
+  var sub = subtotal(), ship = 0;
   var lines = ids.map(function (id) {
     var i = find(id);
     return '<div style="display:flex;justify-content:space-between;font-size:.9rem;margin-bottom:5px">' +
@@ -413,7 +426,24 @@ function payNow() {
     msg.className = 'msg err';
     if (j.needsKey) msg.textContent = 'Payments are not switched on yet.';
     else if (j.missing) msg.textContent = 'Please complete: ' + j.missing.join(', ');
-    else if (j.unavailable) msg.textContent = (j.message || 'Some items are no longer available.');
+    else if (j.unavailable) {
+      // NAME THE ITEM. The server sends one entry per refused line, each with a code and a
+      // sentence written for the shopper; this used to throw that array away and print one
+      // generic line, so a customer was told "some items are no longer available" without
+      // being told WHICH, or why, or what to do. That is the message a real buyer read
+      // before leaving.
+      //
+      // The title comes from the catalogue we already hold client-side, so a refusal names
+      // the thing the person put in their basket. If a listing has gone from the catalogue
+      // entirely we fall back to the id rather than printing an empty name.
+      var rows = (j.unavailable || []).map(function (u) {
+        var item = find(u.listingId);
+        var name = (item && item.title) ? item.title : u.listingId;
+        return '<div class="unavail"><b>' + esc(name) + '</b>' +
+               '<div class="hint">' + esc(u.reason || 'We cannot sell this right now.') + '</div></div>';
+      }).join('');
+      msg.innerHTML = '<div>' + esc(j.message || 'Some items are no longer available.') + '</div>' + rows;
+    }
     else msg.textContent = j.error || 'Checkout failed, please try again.';
     btn.disabled = false; btn.textContent = 'Confirm final sale & pay →';
   }).catch(function () {

@@ -40,9 +40,37 @@ const supplier = require('../lib/relay-supplier-quote');
 const autonomy = require('../lib/relay-autonomy');
 
 
-const FREE_SHIPPING_OVER = 75;
-const FLAT_SHIPPING = 5.99;
 
+
+/**
+ * WHAT THE SHOPPER IS TOLD, KEYED BY CODE.
+ *
+ * The 409 used to carry the supplier and gate text verbatim, which leaked landed cost and
+ * margin; that was closed by genericising it, and the cost was that every refusal collapsed
+ * into one sentence saying nothing actionable. A real customer read "Nothing has been
+ * charged. Remove these and try again" with no item named and left.
+ *
+ * One sentence per code, written for the person who is trying to buy something. Each says
+ * what happened and what they can do, and none of them contains a figure, a wallet, a
+ * committed total or the word margin. The code stays alongside for the UI to branch on.
+ *
+ * Anything unrecognised falls back to the honest generic rather than to silence, because a
+ * code added later must not render as an empty line.
+ */
+const CUSTOMER_MESSAGE = {
+  'out-of-stock': 'Sold out at our supplier. Remove it to continue.',
+  'no-quote': 'We cannot ship this to your address. Try a different address, or remove it.',
+  'cost-drift': 'Shipping to your address costs more than when this was listed, so we have not charged you. Remove it to continue.',
+  'not-fulfillable': 'We cannot fulfil this item right now. Nothing has been charged.',
+  'unconfigured': 'Our supplier is unreachable right now. Please try again shortly.',
+  'stale-quote': 'This listing is out of date and needs re-checking. Remove it to continue.',
+  'inactive': 'No longer available.',
+  'unsourceable': 'No longer available.',
+  'over-stock': 'We do not have that many. Lower the quantity to continue.'
+};
+function customerMessage(code) {
+  return CUSTOMER_MESSAGE[code] || 'We cannot sell this right now. Nothing has been charged.';
+}
 function sendJSON(res, code, obj) {
   res.statusCode = code;
   res.setHeader('Content-Type', 'application/json');
@@ -121,17 +149,17 @@ module.exports = async function handler(req, res) {
     const listing = await store.getListing(listingId);
 
     if (!listing || listing.status !== 'active') {
-      unavailable.push({ listingId: listingId, reason: 'no longer available' });
+      unavailable.push({ listingId: listingId, code: 'inactive', reason: customerMessage('inactive') });
       continue;
     }
     // Every Relay listing is sourced. No source URL means nobody can buy it for the
     // customer, so it must not be sold.
     if (!listing.sourceUrl) {
-      unavailable.push({ listingId: listingId, reason: 'cannot be sourced' });
+      unavailable.push({ listingId: listingId, code: 'unsourceable', reason: customerMessage('unsourceable') });
       continue;
     }
     if (qty > (listing.quantity || 1)) {
-      unavailable.push({ listingId: listingId, reason: 'only ' + (listing.quantity || 1) + ' available' });
+      unavailable.push({ listingId: listingId, code: 'over-stock', reason: customerMessage('over-stock') });
       continue;
     }
 
@@ -161,7 +189,7 @@ module.exports = async function handler(req, res) {
       console.warn('[relay-cart] line refused by supplier requote: ' + JSON.stringify({
         listingId: listingId, code: check.code, reason: check.reason
       }));
-      unavailable.push({ listingId: listingId, reason: 'cannot be sourced right now', code: check.code });
+      unavailable.push({ listingId: listingId, code: check.code, reason: customerMessage(check.code) });
       continue;
     }
 
@@ -208,7 +236,7 @@ module.exports = async function handler(req, res) {
       console.warn('[relay-cart] line refused by autonomy: ' + JSON.stringify({
         listingId: listingId, reason: limits.reason
       }));
-      unavailable.push({ listingId: listingId, reason: 'cannot be sourced right now', code: 'not-fulfillable' });
+      unavailable.push({ listingId: listingId, code: 'not-fulfillable', reason: customerMessage('not-fulfillable') });
       continue;
     }
     plannedSpend = round(plannedSpend + lineCost);
@@ -241,7 +269,20 @@ module.exports = async function handler(req, res) {
   }
 
   subtotal = round(subtotal);
-  const shipping = subtotal > FREE_SHIPPING_OVER ? 0 : FLAT_SHIPPING;
+  // FREIGHT IS ALREADY IN THE PRICE, SO IT IS NOT CHARGED AGAIN HERE.
+  //
+  // Every source folds supplier freight into the acquisition cost before the engine
+  // prices it (lib/relay-cj.js:334 returns product + freight as `price`), and the listing
+  // is priced off that landed number. Adding $5.99 on top charged the customer supplier
+  // freight a second time, under a name that made it look like a pass-through.
+  //
+  // Zero, not a smaller number: this also makes the two checkout routes agree, since
+  // relay-demand-purchase has always created its orders with shipping: 0. Two routes to
+  // the same catalogue quoting different shipping was its own defect.
+  //
+  // The removed FREE_SHIPPING_OVER threshold went with it. It only existed to waive
+  // FLAT_SHIPPING above $75, so with the fee gone it had no remaining reader.
+  const shipping = 0;
   const total = round(subtotal + shipping);
 
   if (!finance.paymentsEnabled()) {

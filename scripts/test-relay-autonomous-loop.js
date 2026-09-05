@@ -560,13 +560,19 @@ function invoke(handler, req) {
     method: 'POST', headers: {},
     body: { items: [{ listingId: orphan.id, qty: 1 }], shippingAddress: goodAddr, buyerEmail: 'a@b.com', policyAccepted: true }
   });
-  assert('refuses a house item with no source', k4.status === 409 && /cannot be sourced/.test(JSON.stringify(k4.body)), JSON.stringify(k4.body).slice(0, 160));
+  // Asserted on the CODE now. The reason field carries a sentence written for the shopper,
+  // and pinning that prose here would make the wording unchangeable without editing a test.
+  assert('refuses a house item with no source', k4.status === 409 &&
+    (((k4.body || {}).unavailable || [])[0] || {}).code === 'unsourceable',
+    JSON.stringify(k4.body).slice(0, 160));
 
   var k5 = await invoke(cartCheckout, {
     method: 'POST', headers: {},
     body: { items: [{ listingId: pub.listingId, qty: 99 }], shippingAddress: goodAddr, buyerEmail: 'a@b.com', policyAccepted: true }
   });
-  assert('refuses more than we hold', k5.status === 409 && /only 1 available/.test(JSON.stringify(k5.body)), JSON.stringify(k5.body).slice(0, 160));
+  assert('refuses more than we hold', k5.status === 409 &&
+    (((k5.body || {}).unavailable || [])[0] || {}).code === 'over-stock',
+    JSON.stringify(k5.body).slice(0, 160));
 
   // A second sourced item, so the cart is genuinely multi-line.
   var second = await store.createListing({
@@ -1350,7 +1356,13 @@ function invoke(handler, req) {
   assert('and names it by code rather than failing vaguely',
     firstCode(cOut) === 'out-of-stock', JSON.stringify(cOut.body).slice(0, 200));
   assert('and the supplier text reaches the operator, not the shopper',
-    /sold out/i.test(outWarn) && !/sold out/i.test(JSON.stringify(cOut.body)), outWarn.slice(0, 200));
+    // The supplier phrase for THIS code happens to be customer-safe: both say sold out. So
+    // the leak test cannot key on that word any more, and keying on it would fail the moment
+    // the shopper message says the true thing. What must never travel is the supplier
+    // FIGURES, which is what cost-drift carries, so that is what is asserted here: the
+    // operator still gets the supplier text, and the body carries no numbers at all.
+    /sold out/i.test(outWarn) && JSON.stringify(cOut.body).indexOf('$') === -1,
+    outWarn.slice(0, 200));
   assert('and creates no order', Object.keys((await db.get('relay:store:orders')) || {}).length === ordersBeforeCart);
 
   STOCK_QTY = 100;
@@ -1996,7 +2008,12 @@ function invoke(handler, req) {
 
   // ── now the real payment ──
   STRIPE_SESSIONS = [{ id: 'cs_paid', status: 'complete', payment_status: 'paid',
-    payment_intent: 'pi_abc', amount_total: 1735, currency: 'usd' }];
+    payment_intent: 'pi_abc', amount_total: 1136, currency: 'usd' }];
+  // 1136, not 1735. The cart no longer adds a $5.99 shipping line, because supplier
+  // freight is already inside the listed price, so this order totals its $11.36 subtotal.
+  // Left at 1735 this is a $5.99 OVERPAYMENT, and the order correctly went to
+  // payment-review instead of paid: the collected-amount check was doing its job, which
+  // is why six assertions downstream of it failed rather than one.
   var rec2 = await engine3.reconcilePayments({ limit: 25 });
   var paidOrder = await store.getOrder(payOrderId);
   assert('a paid link marks the order paid', paidOrder.status === 'paid', paidOrder.status);
@@ -2007,10 +2024,15 @@ function invoke(handler, req) {
   // reconcile correctly settles those too against the same stubbed Stripe answer.
   var mine = function () { return LEDGER_WRITES.filter(function (w) { return w.orderId === payOrderId; }); };
   assert('income reached finance once, for what was actually collected',
-    mine().length === 1 && mine()[0].amount === 17.35,
+    mine().length === 1 && mine()[0].amount === 11.36,
     JSON.stringify(mine()).slice(0, 200));
+  // 11.36 and 3.79, down from 17.35 and 9.78. Both moved for one reason, and it is
+  // worth being plain about it: the old figures counted the $5.99 shipping fee as
+  // revenue, and that fee was the customer paying supplier freight a SECOND time,
+  // since freight is already inside the listed price. Reported margin falls here
+  // because it was overstated, not because the business got worse.
   assert('with the source cost carried so the margin is real, not assumed',
-    mine()[0].sourceCostTotal === 7.57 && mine()[0].margin === 9.78,
+    mine()[0].sourceCostTotal === 7.57 && mine()[0].margin === 3.79,
     JSON.stringify(mine()[0]).slice(0, 200));
 
   // Idempotence. The cron and a manual reconcile both run; neither may double-report.
@@ -3840,6 +3862,482 @@ function invoke(handler, req) {
   // instance, and restoring limen-db does not reach back into their closures. relay-engine
   // is the one that bites: the control handler pulls it in, so it rebound here, and its
   // next db.get() called fetch() against an UPSTASH url that no longer exists. That is a
+  // ── T63 ─────────────────────────────────────────────────────────────────
+  // THE STOREFRONT STOPS LISTING WHAT CHECKOUT WILL REFUSE.
+  //
+  // A real customer hit this: a phone case listed at $11.50 on a landed cost of $8.52,
+  // refused at checkout by the $8 margin floor. Freight was never the problem; every
+  // source folds it into item.price before the engine sees it. The problem is arithmetic.
+  // marginUsd = salePrice - landed = cost * m, so at the default 35% markup a flat $8
+  // floor is unreachable for any item under $22.86 landed. The whole cheap catalogue was
+  // published and then refused, by construction.
+  //
+  // Two changes, proven separately: price to the greater of the markup and the floor, and
+  // ask the REAL purchase gate before listing instead of a second, weaker copy of it.
+  console.log('T63: publish prices to the floor and asks the gate that will refuse');
+  // PIN limen-db TO THE INSTANCE THIS SUITE WRITES THROUGH.
+  //
+  // T45 replaces require.cache[limen-db].exports with a wrapper object while the suite's
+  // top-level `db` still points at the original, so from that block onward
+  // require('../lib/limen-db') and `db` are DIFFERENT objects. Any later block that
+  // re-requires a module gets the wrapper, and a config written through `db` is invisible
+  // to it: this test first read perOrderCapUsd 75 (the DEFAULTS) while `db` plainly held
+  // 100, and every gate assertion below passed or failed for the wrong reason.
+  //
+  // Pinned rather than worked around, because a test that silently measures a different
+  // store than it writes is worth less than no test. Restored at the end of the block.
+  var dbP63 = require.resolve('../lib/limen-db');
+  var cachedDb63 = require.cache[dbP63] ? require.cache[dbP63].exports : null;
+  require.cache[dbP63] = { id: dbP63, filename: dbP63, loaded: true, exports: db };
+  // relay-store has to be pinned too, and for a sharper reason. The cached relay-store is
+  // bound to that same stray limen-db, and THAT instance memoised _redisAvailable = true
+  // inside T57 stub window while the UPSTASH env vars were briefly set. With the vars now
+  // gone it still believes it has Redis, so every read through it calls fetch(undefined):
+  // ── T64 ─────────────────────────────────────────────────────────────────
+  // FREIGHT IS CHARGED ONCE, NOT TWICE.
+  //
+  // Supplier freight is folded into the acquisition cost by every source before the engine
+  // prices it (lib/relay-cj.js:334), and the listing is priced off that landed number. The
+  // cart then added a $5.99 line on top, so the customer paid supplier freight a second
+  // time under a name that made it look like a pass-through. relay-demand-purchase has
+  // always created orders with shipping: 0, so the two routes to one catalogue were
+  // quoting different shipping as well.
+  console.log('T64: freight is inside the price, so the cart adds no second charge');
+  var dbP64 = require.resolve('../lib/limen-db');
+  var stP64 = require.resolve('../lib/relay-store');
+  var cachedDb64 = require.cache[dbP64] ? require.cache[dbP64].exports : null;
+  var cachedSt64 = require.cache[stP64] ? require.cache[stP64].exports : null;
+  // Pinned for the same reason as T63: from T45 onward the cached limen-db is a different
+  // object than the db this suite writes through, and it believes it has Redis.
+  require.cache[dbP64] = { id: dbP64, filename: dbP64, loaded: true, exports: db };
+  require.cache[stP64] = { id: stP64, filename: stP64, loaded: true, exports: store };
+
+  var cjP64 = require.resolve('../lib/relay-cj');
+  var realCj64 = require('../lib/relay-cj');
+  var sqP64 = require.resolve('../lib/relay-supplier-quote');
+  var realSq64 = require('../lib/relay-supplier-quote');
+  var finP64 = require.resolve('../lib/relay-finance-bridge');
+  var realFin64 = require.cache[finP64] ? require.cache[finP64].exports : require('../lib/relay-finance-bridge');
+
+  require.cache[cjP64] = { id: cjP64, filename: cjP64, loaded: true, exports: Object.assign({}, realCj64, {
+    configured: function () { return true; },
+    stock: async function () { return { qty: 50, from: 'US' }; },
+    freight: async function () { return { price: 4.00, carrier: 'CJPacket' }; },
+    balance: async function () { return { ok: true, available: 5000 }; }
+  }) };
+  require.cache[finP64] = { id: finP64, filename: finP64, loaded: true, exports: Object.assign({}, realFin64, {
+    paymentsEnabled: function () { return true; },
+    createPayment: async function () { return { ok: true, url: 'https://pay.test/64', paymentLinkId: 'p64' }; }
+  }) };
+  delete require.cache[sqP64];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
+  var cart64 = require('../handlers/relay-cart-checkout');
+
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 500, dailyCeilingUsd: 5000,
+    minMarginUsd: 1, minMarginPct: 0.05, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var addr64 = { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' };
+
+  async function buyCart64(unitPrice, qty) {
+    var l = await store.createListing({
+      marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: 'shipping probe',
+      price: unitPrice, description: 'x', category: 'other', condition: 'new', quantity: 99,
+      sourceMarketplace: 'cj', sourceId: 'v64_' + unitPrice + '_' + qty,
+      sourceUrl: 'https://www.cjdropshipping.com/product/-p-64' + unitPrice + 'x' + qty + '.html',
+      sourceCost: 11.00, sourceShipping: 4.00, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+      marginAtListing: 0.5, sourceVerifiedAt: new Date().toISOString()
+    });
+    var r = await invoke(cart64, {
+      method: 'POST', headers: {},
+      body: { items: [{ listingId: l.id, qty: qty }], shippingAddress: addr64,
+        buyerEmail: 'a@b.com', policyAccepted: true }
+    });
+    return { res: r, listing: l };
+  }
+
+  // UNDER the old threshold: exactly where the fee used to be added.
+  var small64 = await buyCart64(20.00, 1);
+  assert('a small cart still checks out', small64.res.status === 200 && small64.res.body.ok === true,
+    JSON.stringify(small64.res.body).slice(0, 200));
+  assert('no shipping is charged on a small cart',
+    small64.res.body.shipping === 0, JSON.stringify({ shipping: small64.res.body.shipping }));
+  assert('and the total is exactly the sum of the line prices, with no addend',
+    small64.res.body.total === 20.00 && small64.res.body.total === small64.res.body.subtotal,
+    JSON.stringify({ subtotal: small64.res.body.subtotal, total: small64.res.body.total }));
+
+  // The stored ORDER, not just the response: what the customer is charged comes from
+  // relay-store.createOrder, which adds data.shipping to the subtotal.
+  var ord64 = await store.getOrder(small64.res.body.orderId);
+  assert('the stored order records no shipping charge',
+    ord64.shipping === 0, JSON.stringify({ shipping: ord64.shipping }));
+  assert('and its total equals its subtotal',
+    ord64.total === ord64.subtotal, JSON.stringify({ subtotal: ord64.subtotal, total: ord64.total }));
+
+  // MULTI-UNIT, because a per-unit freight addend would only show up here.
+  var multi64 = await buyCart64(20.00, 3);
+  assert('a multi-unit cart is charged the line total and nothing more',
+    multi64.res.body.total === 60.00 && multi64.res.body.shipping === 0,
+    JSON.stringify({ total: multi64.res.body.total, shipping: multi64.res.body.shipping }));
+
+  // OVER the old threshold, where shipping was already waived. Pinned so reintroducing the
+  // threshold in either direction is caught, not only the fee.
+  var big64 = await buyCart64(90.00, 1);
+  assert('a cart over the old free-shipping threshold is also charged no shipping',
+    big64.res.body.shipping === 0 && big64.res.body.total === big64.res.body.subtotal,
+    JSON.stringify({ subtotal: big64.res.body.subtotal, total: big64.res.body.total }));
+
+  // THE TWO ROUTES AGREE. relay-demand-purchase has always passed shipping: 0; the cart
+  // now matches it, so one catalogue quotes one shipping policy.
+  var fs64 = require('fs'), path64 = require('path');
+  var dpSrc64 = fs64.readFileSync(path64.join(__dirname, '../handlers/relay-demand-purchase.js'), 'utf8');
+  assert('the demand route still creates orders with no shipping charge',
+    /shipping:\s*0\b/.test(dpSrc64), 'no shipping-zero found in relay-demand-purchase');
+  var cartSrc64 = fs64.readFileSync(path64.join(__dirname, '../handlers/relay-cart-checkout.js'), 'utf8');
+  assert('and the cart no longer declares a shipping fee at all',
+    !/FLAT_SHIPPING\s*=/.test(cartSrc64) && !/FREE_SHIPPING_OVER\s*=/.test(cartSrc64),
+    'a shipping-fee constant is still declared in relay-cart-checkout');
+
+  require.cache[cjP64] = { id: cjP64, filename: cjP64, loaded: true, exports: realCj64 };
+  require.cache[sqP64] = { id: sqP64, filename: sqP64, loaded: true, exports: realSq64 };
+  require.cache[finP64] = { id: finP64, filename: finP64, loaded: true, exports: realFin64 };
+  if (cachedDb64) require.cache[dbP64] = { id: dbP64, filename: dbP64, loaded: true, exports: cachedDb64 };
+  if (cachedSt64) require.cache[stP64] = { id: stP64, filename: stP64, loaded: true, exports: cachedSt64 };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
+
+  // ── T65 ─────────────────────────────────────────────────────────────────
+  // A REFUSAL THAT NAMES THE PROBLEM, WITHOUT NAMING OUR COSTS.
+  //
+  // Closing the leak genericised every refusal into one sentence, and the cost was that a
+  // real customer read "Nothing has been charged. Remove these and try again" with no item
+  // named, no reason, and nothing to do about it. They left. Each refusal now carries its
+  // code and a sentence written for the shopper, and every one of those sentences is
+  // reachable from an actual refusal rather than being a string nobody can trigger.
+  console.log('T65: each refusal says what happened, in words, leaking nothing');
+  var dbP65 = require.resolve('../lib/limen-db');
+  var stP65 = require.resolve('../lib/relay-store');
+  var cachedDb65 = require.cache[dbP65] ? require.cache[dbP65].exports : null;
+  var cachedSt65 = require.cache[stP65] ? require.cache[stP65].exports : null;
+  require.cache[dbP65] = { id: dbP65, filename: dbP65, loaded: true, exports: db };
+  require.cache[stP65] = { id: stP65, filename: stP65, loaded: true, exports: store };
+
+  var cjP65 = require.resolve('../lib/relay-cj');
+  var realCj65 = require('../lib/relay-cj');
+  var sqP65 = require.resolve('../lib/relay-supplier-quote');
+  var realSq65 = require('../lib/relay-supplier-quote');
+  var STOCK65 = 50, FREIGHT65 = 4.00, QUOTE65 = true;
+  require.cache[cjP65] = { id: cjP65, filename: cjP65, loaded: true, exports: Object.assign({}, realCj65, {
+    configured: function () { return true; },
+    stock: async function () { return { qty: STOCK65, from: 'US' }; },
+    freight: async function () { return QUOTE65 ? { price: FREIGHT65, carrier: 'CJPacket' } : null; },
+    balance: async function () { return { ok: true, available: 5000 }; }
+  }) };
+  delete require.cache[sqP65];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
+  var cart65 = require('../handlers/relay-cart-checkout');
+  var addr65 = { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' };
+
+  async function refuse65(tag) {
+    var l = await store.createListing({
+      marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: 'message probe ' + tag,
+      price: 30.00, description: 'x', category: 'other', condition: 'new', quantity: 5,
+      sourceMarketplace: 'cj', sourceId: 'v65' + tag,
+      sourceUrl: 'https://www.cjdropshipping.com/product/-p-65' + tag + '.html',
+      sourceCost: 11.00, sourceShipping: 4.00, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+      marginAtListing: 0.5, sourceVerifiedAt: new Date().toISOString()
+    });
+    var r = await invoke(cart65, {
+      method: 'POST', headers: {},
+      body: { items: [{ listingId: l.id, qty: 1 }], shippingAddress: addr65,
+        buyerEmail: 'a@b.com', policyAccepted: true }
+    });
+    var row = ((r.body || {}).unavailable || [])[0] || {};
+    return { res: r, row: row, body: JSON.stringify(r.body || {}), listing: l };
+  }
+  function clean65(name, out) {
+    assert(name + ': the body carries no dollar figure',
+      out.body.indexOf('$') === -1, out.body.slice(0, 200));
+    assert(name + ': and none of wallet / committed / margin',
+      !/wallet|committed|margin/i.test(out.body), out.body.slice(0, 200));
+  }
+
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 500, dailyCeilingUsd: 5000,
+    minMarginUsd: 1, minMarginPct: 0.05, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+
+  // OUT OF STOCK at the supplier.
+  STOCK65 = 0; FREIGHT65 = 4.00; QUOTE65 = true;
+  var oos65 = await refuse65('a');
+  assert('out-of-stock is refused and named by code',
+    oos65.res.status === 409 && oos65.row.code === 'out-of-stock', JSON.stringify(oos65.row));
+  assert('and told to the shopper in words they can act on',
+    /sold out/i.test(oos65.row.reason || '') && /remove/i.test(oos65.row.reason || ''),
+    JSON.stringify(oos65.row.reason));
+  clean65('out-of-stock', oos65);
+
+  // NO FREIGHT QUOTE to this address.
+  STOCK65 = 50; QUOTE65 = false;
+  var nq65 = await refuse65('b');
+  assert('no-quote is refused and named by code',
+    nq65.res.status === 409 && nq65.row.code === 'no-quote', JSON.stringify(nq65.row));
+  assert('and says it is about the address, not a mystery',
+    /address/i.test(nq65.row.reason || ''), JSON.stringify(nq65.row.reason));
+  clean65('no-quote', nq65);
+
+  // COST DRIFT: freight to this address costs far more than the listing was built on.
+  QUOTE65 = true; FREIGHT65 = 30.00;
+  var cd65 = await refuse65('c');
+  assert('cost-drift is refused and named by code',
+    cd65.res.status === 409 && cd65.row.code === 'cost-drift', JSON.stringify(cd65.row));
+  assert('and promises the shopper they were not charged more than shown',
+    /shipping/i.test(cd65.row.reason || '') && /not charged|have not charged/i.test(cd65.row.reason || ''),
+    JSON.stringify(cd65.row.reason));
+  clean65('cost-drift', cd65);
+
+  // NOT FULFILLABLE: the purchase gate refuses on a limit.
+  FREIGHT65 = 4.00;
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 5, dailyCeilingUsd: 5000,
+    minMarginUsd: 1, minMarginPct: 0.05, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var nf65 = await refuse65('d');
+  assert('a gate refusal is named by code',
+    nf65.res.status === 409 && nf65.row.code === 'not-fulfillable', JSON.stringify(nf65.row));
+  assert('and says nothing was charged, without saying why we refused',
+    /nothing has been charged/i.test(nf65.row.reason || '') && !/cap|limit|floor/i.test(nf65.row.reason || ''),
+    JSON.stringify(nf65.row.reason));
+  clean65('not-fulfillable', nf65);
+
+  // EVERY message is distinct, or the code is decoration.
+  var msgs65 = [oos65.row.reason, nq65.row.reason, cd65.row.reason, nf65.row.reason];
+  assert('the four refusals say four different things',
+    new Set(msgs65).size === 4, JSON.stringify(msgs65));
+  assert('and every one of them is non-empty',
+    msgs65.every(function (m) { return typeof m === 'string' && m.length > 10; }), JSON.stringify(msgs65));
+
+  require.cache[cjP65] = { id: cjP65, filename: cjP65, loaded: true, exports: realCj65 };
+  require.cache[sqP65] = { id: sqP65, filename: sqP65, loaded: true, exports: realSq65 };
+  if (cachedDb65) require.cache[dbP65] = { id: dbP65, filename: dbP65, loaded: true, exports: cachedDb65 };
+  if (cachedSt65) require.cache[stP65] = { id: stP65, filename: stP65, loaded: true, exports: cachedSt65 };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
+
+  // ── T66 ─────────────────────────────────────────────────────────────────
+  // THE REPRICE RUNS TWICE AND CHANGES NOTHING THE SECOND TIME.
+  //
+  // Everything published before the pricing fix was priced cost * (1 + m) on landed cost,
+  // which could not clear an $8 floor below $22.86 landed. This brings those onto the rule
+  // once. The danger in a bulk price rewrite is compounding: computed from the CURRENT
+  // price it would climb on every run. It is computed from the stored sourceCost and the
+  // live margin instead, so it is idempotent by construction rather than by luck.
+  console.log('T66: the reprice is idempotent, and never prices an unknown cost as zero');
+  var dbP66 = require.resolve('../lib/limen-db');
+  var stP66 = require.resolve('../lib/relay-store');
+  var cachedDb66 = require.cache[dbP66] ? require.cache[dbP66].exports : null;
+  var cachedSt66 = require.cache[stP66] ? require.cache[stP66].exports : null;
+  require.cache[dbP66] = { id: dbP66, filename: dbP66, loaded: true, exports: db };
+  require.cache[stP66] = { id: stP66, filename: stP66, loaded: true, exports: store };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../scripts/relay-reprice-listings.js')];
+  var reprice66 = require('../scripts/relay-reprice-listings.js').reprice;
+
+  await db.set('relay_margin', 0.35);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 40, dailyCeilingUsd: 5000,
+    minMarginUsd: 8, minMarginPct: 0.18, requireFunds: true,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+
+  async function seed66(title, price, cost, shipping) {
+    return store.createListing({
+      marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: title,
+      price: price, description: 'x', category: 'other', condition: 'new', quantity: 5,
+      sourceMarketplace: 'cj', sourceId: 'v66_' + title,
+      sourceUrl: 'https://www.cjdropshipping.com/product/-p-66' + title + '.html',
+      sourceCost: cost, sourceShipping: shipping, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+      marginAtListing: 0.35, sourceVerifiedAt: new Date().toISOString()
+    });
+  }
+  var cheap66 = await seed66('cheap', 11.50, 8.52, 2.80);      // the real case
+  var nullShip66 = await seed66('nullship', 19.99, 12.00, null); // cannot be costed
+  var overCap66 = await seed66('overcap', 60.00, 45.00, 9.00);   // gate refuses at any price
+
+  // A DRY RUN WRITES NOTHING.
+  var before66 = JSON.stringify(await store.getListing(cheap66.id));
+  var dry66 = await reprice66({ apply: false });
+  assert('the dry run reports the underpriced listing',
+    dry66.repriced.some(function (r) { return r.id === cheap66.id && r.to === 16.52; }),
+    JSON.stringify(dry66.repriced));
+  assert('and writes nothing at all',
+    JSON.stringify(await store.getListing(cheap66.id)) === before66, 'the listing changed during a DRY run');
+
+  // APPLY.
+  var run1 = await reprice66({ apply: true });
+  var after1 = await store.getListing(cheap66.id);
+  assert('applying prices the listing to the floor',
+    after1.price === 16.52, String(after1.price));
+  assert('and stamps the margin in force',
+    after1.marginAtListing === 0.35, String(after1.marginAtListing));
+
+  // IDEMPOTENCE: the whole store, not just one row.
+  var snapshot66 = JSON.stringify(await store.activeListings(500));
+  var run2 = await reprice66({ apply: true });
+  assert('a second apply changes NOTHING',
+    JSON.stringify(await store.activeListings(500)) === snapshot66,
+    'the catalogue moved on the second run');
+  assert('and the second run reports nothing left to reprice',
+    run2.repriced.length === 0, JSON.stringify(run2.repriced));
+  assert('while still recognising the listing as already correct',
+    run2.unchanged.some(function (r) { return r.id === cheap66.id; }), JSON.stringify(run2.unchanged));
+  var run3 = await reprice66({ apply: true });
+  assert('and a third run is still a no-op',
+    JSON.stringify(await store.activeListings(500)) === snapshot66 && run3.repriced.length === 0,
+    'the catalogue moved on the third run');
+
+  // A NULL COST IS NEVER A ZERO.
+  var nullAfter66 = await store.getListing(nullShip66.id);
+  assert('a listing with unknown freight is skipped, not priced',
+    nullAfter66.price === 19.99, String(nullAfter66.price));
+  assert('and it is named so a human knows it was left alone',
+    run1.skipped.some(function (r) { return r.id === nullShip66.id && /null|unknown/i.test(r.why); }),
+    JSON.stringify(run1.skipped));
+
+  // AN ITEM THAT CANNOT CLEAR THE GATE IS REPORTED, NOT DELISTED.
+  var overAfter66 = await store.getListing(overCap66.id);
+  assert('an unsellable listing is left live rather than pulled',
+    overAfter66.status === 'active' && overAfter66.price === 60.00,
+    JSON.stringify({ status: overAfter66.status, price: overAfter66.price }));
+  assert('and it is reported with the gate reason for a human to decide',
+    run1.unsellable.some(function (r) { return r.id === overCap66.id && /per-order cap/.test(r.reason); }),
+    JSON.stringify(run1.unsellable));
+
+  if (cachedDb66) require.cache[dbP66] = { id: dbP66, filename: dbP66, loaded: true, exports: cachedDb66 };
+  if (cachedSt66) require.cache[stP66] = { id: stP66, filename: stP66, loaded: true, exports: cachedSt66 };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../scripts/relay-reprice-listings.js')];
+
+  // five escaped requests, caught by the hermetic check at the end of this file. Pinning to
+  // the suite store also means the engine writes listings where the assertions look.
+  var stP63 = require.resolve('../lib/relay-store');
+  var cachedSt63 = require.cache[stP63] ? require.cache[stP63].exports : null;
+  require.cache[stP63] = { id: stP63, filename: stP63, loaded: true, exports: store };
+  var ssP63 = require.resolve('../lib/relay-source-search');
+  var realSS63 = require('../lib/relay-source-search');
+  var ITEMS63 = [];
+  require.cache[ssP63] = { id: ssP63, filename: ssP63, loaded: true, exports: Object.assign({}, realSS63, {
+    searchAllSources: async function () { return { ok: true, items: ITEMS63, sources: ['cj'] }; }
+  }) };
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  var eng63 = require('../lib/relay-engine');
+  var aut63 = require('../lib/relay-autonomy');
+
+  // The real case: 5.72 product + 2.80 default-destination freight = 8.52 landed.
+  function cheap63(tag) {
+    return {
+      itemId: 'v63' + tag, source: 'cj', title: 'silicone phone case ' + tag,
+      price: 8.52, productPrice: 5.72, shipping: 2.80, shippingKnown: true,
+      carrier: 'CJPacket', fromCountry: 'US', condition: 'new',
+      url: 'https://www.cjdropshipping.com/product/-p-63' + tag + '.html',
+      image: null, seller: 'CJ Dropshipping', buyable: true, provider: 'cj'
+    };
+  }
+
+  await db.set('relay_margin', 0.35);
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
+    minMarginUsd: 8, minMarginPct: 0.18, requireFunds: true,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+
+  var ledgerBefore63 = JSON.stringify(await db.get('relay:autonomy-ledger'));
+  ITEMS63 = [cheap63('a')];
+  var pub63 = await eng63.discoverAndList({
+    concept: 'phone case', marketplaceId: mktId, sellerId: 'usr_relay_house',
+    maxSourcePrice: 100, maxPerCycle: 3
+  });
+  assert('the cheap item is published rather than skipped',
+    pub63.published.length === 1, JSON.stringify(pub63).slice(0, 240));
+  assert('it is priced to the FLOOR, not to a markup that could never clear it',
+    pub63.published[0].price === 16.52,
+    'price ' + pub63.published[0].price + ' (markup alone would give 11.50)');
+  var margin63 = Math.round((pub63.published[0].price - 8.52) * 100) / 100;
+  assert('so the listed price actually clears the floor the buyer path enforces',
+    margin63 >= 8, 'margin ' + margin63);
+
+  // requireFunds is TRUE above and no CJ wallet is readable in this suite, so this also
+  // pins the funding exclusion: without it the storefront would publish nothing at all.
+  assert('publishing is not blocked by an unfunded wallet',
+    pub63.published.length === 1 && !/wallet|funding/i.test(JSON.stringify(pub63.refusedReasons || [])),
+    JSON.stringify(pub63.refusedReasons || []));
+
+  assert('a publish cycle creates no ledger row',
+    JSON.stringify(await db.get('relay:autonomy-ledger')) === ledgerBefore63,
+    'after: ' + JSON.stringify(await db.get('relay:autonomy-ledger')).slice(0, 100));
+
+  // THE GATE ACTUALLY REFUSES. A per-order cap under the landed cost is a refusal the
+  // pricing formula cannot price its way out of.
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 5, dailyCeilingUsd: 1000,
+    minMarginUsd: 8, minMarginPct: 0.18, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  ITEMS63 = [cheap63('b')];
+  var refused63 = await eng63.discoverAndList({
+    concept: 'phone case', marketplaceId: mktId, sellerId: 'usr_relay_house',
+    maxSourcePrice: 100, maxPerCycle: 3
+  });
+  assert('an item the purchase gate would refuse is NOT listed',
+    refused63.published.length === 0, JSON.stringify(refused63.published).slice(0, 200));
+  assert('and the cycle says why, to the operator only',
+    refused63.refusedByGate === 1 && /per-order cap/.test(JSON.stringify(refused63.refusedReasons)),
+    JSON.stringify(refused63.refusedReasons));
+
+  // THE FLOOR IS THE LIVE ONE. A second copy of this number inside relay-engine is exactly
+  // how the publish gate drifted from the purchase gate in the first place.
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
+    minMarginUsd: 20, minMarginPct: 0.18, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  ITEMS63 = [cheap63('c')];
+  var floor63 = await eng63.discoverAndList({
+    concept: 'phone case', marketplaceId: mktId, sellerId: 'usr_relay_house',
+    maxSourcePrice: 100, maxPerCycle: 3
+  });
+  assert('raising minMarginUsd in config raises the listed price',
+    floor63.published.length === 1 && floor63.published[0].price === 28.52,
+    JSON.stringify(floor63.published.map(function (p) { return p.price; })));
+
+  // SIBLING AXIS: skipFunds must be inert without dryRun, or it becomes a way to authorise
+  // a real purchase against a wallet nobody checked.
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: true,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var live63 = await aut63.authorize({
+    amount: 11.00, salePrice: 22.00, marketplace: 'cj',
+    orderId: 'o63', listingId: 'l63', skipFunds: true
+  });
+  assert('skipFunds does NOT skip the funding check on a real authorisation',
+    live63.allowed === false && /wallet|funding|funds/i.test(live63.reason || ''),
+    JSON.stringify({ allowed: live63.allowed, reason: live63.reason }));
+
+  require.cache[ssP63] = { id: ssP63, filename: ssP63, loaded: true, exports: realSS63 };
+  if (cachedDb63) require.cache[dbP63] = { id: dbP63, filename: dbP63, loaded: true, exports: cachedDb63 };
+  if (cachedSt63) require.cache[stP63] = { id: stP63, filename: stP63, loaded: true, exports: cachedSt63 };
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+
   // real escaped request, caught by the hermetic check rather than by anything in T57.
   // Dropping them from cache forces a rebind to the restored instance.
   delete require.cache[require.resolve('../lib/relay-engine')];
