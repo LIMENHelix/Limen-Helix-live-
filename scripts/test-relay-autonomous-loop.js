@@ -4256,6 +4256,85 @@ function invoke(handler, req) {
   delete require.cache[require.resolve('../lib/relay-autonomy')];
   delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
 
+  // ── T62 ─────────────────────────────────────────────────────────────────
+  // A CLICK MUST NOT BE THE THING THAT HIDES THE ROW.
+  //
+  // approve() checked only the state, stamped approvedAt and wrote. consumeApproved
+  // refuses a stale-day approval, but AFTER that write, and pending() filters on
+  // !approvedAt. So on a queued line that crossed the UTC boundary (19:00 America/Chicago,
+  // mid-evening) the operator's click was itself what removed the row from their list: the
+  // purchase then refused, the row stayed 'reserved' forever, and the PAID line was
+  // stranded with nothing anywhere showing it.
+  //
+  // The check now runs BEFORE any mutation, which is the entire point: a refusal must
+  // leave the ledger exactly as it found it. consumeApproved keeps its own check as the
+  // last line of defence.
+  console.log('T62: a stale-day approval refuses without hiding the row');
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  var aut62 = require('../lib/relay-autonomy');
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+
+  var q62 = await aut62.authorize({
+    amount: 11.00, salePrice: 22.00, marketplace: 'cj',
+    orderId: 'ord_62', listingId: 'lst_62', note: 'crossed the boundary'
+  });
+  assert('the line is queued for a human', q62.queued === true && !!q62.decisionId,
+    JSON.stringify({ queued: q62.queued, allowed: q62.allowed }));
+
+  // Move it to YESTERDAY, which is what 19:00 Central does to a row taken minutes earlier.
+  var rows62 = await db.get('relay:autonomy-ledger');
+  var yesterday62 = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  rows62.find(function (r) { return r.id === q62.decisionId; }).day = yesterday62;
+  await db.set('relay:autonomy-ledger', rows62);
+
+  var pendBefore62 = await aut62.pending();
+  assert('a stale-day queued row is still offered to the operator, so it CAN be clicked',
+    pendBefore62.some(function (r) { return r.id === q62.decisionId; }),
+    JSON.stringify(pendBefore62.map(function (r) { return r.id + '/' + r.day; })));
+
+  // The ledger exactly as it stands before the click.
+  var ledgerBefore62 = JSON.stringify(await db.get('relay:autonomy-ledger'));
+
+  var ap62 = await aut62.approve(q62.decisionId, 'operator');
+  assert('approve() REFUSES a stale-day reservation',
+    ap62.ok === false && /cannot be spent today/.test(ap62.error || ''),
+    JSON.stringify(ap62).slice(0, 200));
+  assert('and it says which day it was from, in the same words consumeApproved uses',
+    new RegExp('is from ' + yesterday62).test(ap62.error || ''),
+    JSON.stringify(ap62.error));
+
+  // THE POINT OF PUTTING IT IN approve(): a refusal writes NOTHING.
+  var ledgerAfter62 = JSON.stringify(await db.get('relay:autonomy-ledger'));
+  assert('a refused approval leaves the ledger byte-identical',
+    ledgerAfter62 === ledgerBefore62,
+    'before: ' + ledgerBefore62.slice(0, 120) + ' || after: ' + ledgerAfter62.slice(0, 120));
+  var row62 = (await db.get('relay:autonomy-ledger')).find(function (r) { return r.id === q62.decisionId; });
+  assert('approvedAt is NOT stamped by a refused approval',
+    !row62.approvedAt, JSON.stringify({ approvedAt: row62.approvedAt, approvedBy: row62.approvedBy }));
+  assert('the row is still reserved, not consumed or released',
+    row62.state === 'reserved', String(row62.state));
+
+  // And therefore it is still visible, which is the whole difference between a dead end
+  // the operator can see and a silence they cannot.
+  var pendAfter62 = await aut62.pending();
+  assert('the row REMAINS in pending() after the refusal',
+    pendAfter62.some(function (r) { return r.id === q62.decisionId; }),
+    JSON.stringify(pendAfter62.map(function (r) { return r.id + '/' + r.day; })));
+
+  // consumeApproved keeps its own check: it is the last line of defence, not a duplicate.
+  var cons62 = await aut62.consumeApproved({
+    decisionId: q62.decisionId, orderId: 'ord_62', listingId: 'lst_62', amount: 11.00
+  });
+  assert('consumeApproved still refuses it independently',
+    cons62.allowed === false, JSON.stringify(cons62.reason).slice(0, 160));
+
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
   // reached the network, a credential-holding machine ran a different test than CI did.
