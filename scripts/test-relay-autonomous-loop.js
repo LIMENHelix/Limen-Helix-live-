@@ -4149,6 +4149,113 @@ function invoke(handler, req) {
   delete require.cache[require.resolve('../lib/relay-autonomy')];
   delete require.cache[dpP60];
 
+  // ── T61 ─────────────────────────────────────────────────────────────────
+  // A SUCCESSFUL APPROVAL CLOSES THE JOB IT FINISHED.
+  //
+  // In queue mode the first fulfilment attempt files a manual task so the held line is
+  // visible to a human. approve-purchase can now finish that line, and nothing closed the
+  // task, so every SUCCESSFUL approval left a permanent 'job waiting on a human' in
+  // needsAttention. The counter added to end silence became a counter that cries wolf,
+  // which loses it the same trust the silence did. closeTask existed the whole time and
+  // was reachable only from the manual close-task action.
+  console.log('T61: a successful approval closes the task it just finished');
+  var buyP61 = require.resolve('../lib/relay-buy');
+  var realBuy61 = require('../lib/relay-buy');
+  var B61_OK = true;
+  // fileManualTask, openTasks and closeTask stay REAL: the task has to actually land in
+  // the store and actually be closed, or this proves nothing about the counter.
+  require.cache[buyP61] = { id: buyP61, filename: buyP61, loaded: true, exports: Object.assign({}, realBuy61, {
+    execute: async function (job) {
+      return B61_OK
+        ? { ok: true, provider: 'cj', sourceOrderId: 'cjo_61', amount: job.maxCost }
+        : { ok: false, error: 'CJ refused the order' };
+    }
+  }) };
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+  var eng61 = require('../lib/relay-engine');
+  var ctl61 = require('../handlers/relay-autonomous-control');
+  var AK61 = process.env.RELAY_ADMIN_KEY;
+
+  async function attention61() {
+    return (await invoke(ctl61, {
+      method: 'GET', url: '/api/relay?view=control&action=status&key=' + AK61, headers: {}
+    })).body;
+  }
+  async function openCount61() { return (await realBuy61.openTasks()).length; }
+
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var l61 = await store.createListing({
+    marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: 'task close probe',
+    price: 22.00, description: 'x', category: 'other', condition: 'new', quantity: 5,
+    sourceMarketplace: 'cj', sourceId: 'v_61', sourceUrl: 'https://www.cjdropshipping.com/product/-p-61.html',
+    sourceCost: 11.00, sourceShipping: 4.00, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+    marginAtListing: 0.5, sourceVerifiedAt: new Date().toISOString()
+  });
+
+  async function heldOrder61(tag) {
+    var o = await store.createOrder({
+      buyerId: 'b_61' + tag, shipping: 0, shippingAddress: cartAddr,
+      lines: [{ listingId: l61.id, qty: 1, unitPrice: 22.00, title: 'task close probe', sourceCost: 11.00 }]
+    });
+    await store.updateOrder(o.id, { status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_61' + tag });
+    var held = await eng61.fulfillPaidOrder({ orderId: o.id });
+    return { order: o, decisionId: (held.lines || [])[0].decisionId };
+  }
+
+  var baseAttention61 = (await attention61()).needsAttention;
+  var baseTasks61 = await openCount61();
+
+  // ── the successful approval ──
+  B61_OK = true;
+  var h61 = await heldOrder61('a');
+  var queuedAttention61 = (await attention61()).needsAttention;
+  assert('a queued line raises the count and files a task',
+    (await openCount61()) === baseTasks61 + 1 && queuedAttention61 > baseAttention61,
+    JSON.stringify({ tasksBefore: baseTasks61, tasksNow: await openCount61(),
+      attentionBefore: baseAttention61, attentionNow: queuedAttention61 }));
+
+  var okRes61 = await invoke(ctl61, {
+    method: 'POST', headers: {},
+    body: { action: 'approve-purchase', key: AK61, decisionId: h61.decisionId }
+  });
+  assert('the approved purchase completes', okRes61.body && okRes61.body.purchased === true,
+    JSON.stringify(okRes61.body && okRes61.body.reason).slice(0, 160));
+  assert('and it reports the task it closed',
+    Array.isArray(okRes61.body.closedTasks) && okRes61.body.closedTasks.length === 1,
+    JSON.stringify(okRes61.body.closedTasks));
+  assert('the task is actually closed in the store, not just reported',
+    (await openCount61()) === baseTasks61, JSON.stringify({ open: await openCount61(), base: baseTasks61 }));
+  assert('and needsAttention returns to the baseline it started from',
+    (await attention61()).needsAttention === baseAttention61,
+    JSON.stringify({ base: baseAttention61, now: (await attention61()).needsAttention }));
+
+  // ── the FAILED approval: the work is still outstanding, so the task must survive ──
+  B61_OK = false;
+  var h61b = await heldOrder61('b');
+  var tasksAfterQueueB = await openCount61();
+  var failRes61 = await invoke(ctl61, {
+    method: 'POST', headers: {},
+    body: { action: 'approve-purchase', key: AK61, decisionId: h61b.decisionId }
+  });
+  assert('a failed approval does not report itself as purchased',
+    failRes61.body && failRes61.body.purchased !== true, JSON.stringify(failRes61.body).slice(0, 160));
+  assert('a FAILED approval closes nothing',
+    (!failRes61.body.closedTasks || failRes61.body.closedTasks.length === 0) &&
+    (await openCount61()) === tasksAfterQueueB,
+    JSON.stringify({ closed: failRes61.body.closedTasks, open: await openCount61(), expected: tasksAfterQueueB }));
+
+  require.cache[buyP61] = { id: buyP61, filename: buyP61, loaded: true, exports: realBuy61 };
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
   // reached the network, a credential-holding machine ran a different test than CI did.

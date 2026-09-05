@@ -27,6 +27,24 @@ const CHROME = [
 // non-empty output line as the skip reason.
 if (!CHROME) { console.log('SKIPPED: no Chrome on this machine; the console test needs a renderer'); process.exit(77); }
 
+// A WEBSOCKET CLIENT THAT EXISTS ON EVERY SUPPORTED NODE.
+//
+// package.json engines allows ^20.19.0, and Node 20 has no unflagged global WebSocket. The
+// runner launches this script with plain process.execPath, so on a Node 20 machine WITH
+// Chrome installed execution reached the CDP connect and threw 'ReferenceError: WebSocket
+// is not defined' before a single assertion ran. CI is on Node 22 and never saw it, which
+// is the same shape as the bug this file was fixed for once already: a browser test that
+// does not run where it claims to.
+//
+// undici is already a direct dependency and ships a spec WebSocket, so this adds nothing;
+// the global is preferred where it exists and undici is the fallback. If neither is
+// available the file SKIPS rather than failing, because that is a statement about the
+// runtime and not about relay-control.html.
+const WS = globalThis.WebSocket || (function () {
+  try { return require('undici').WebSocket; } catch (e) { return null; }
+})();
+if (!WS) { console.log('SKIPPED: no WebSocket client on this runtime; the console test needs one to drive CDP'); process.exit(77); }
+
 const PORT_CDP = 9347;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -109,7 +127,7 @@ srv.listen(0, async function () {
     done(77);
   }
 
-  ws = new WebSocket(page.webSocketDebuggerUrl);
+  ws = new WS(page.webSocketDebuggerUrl);
   const waiters = new Map(); let seq = 0;
   ws.addEventListener('message', function (e) {
     let m; try { m = JSON.parse(e.data); } catch (x) { return; }

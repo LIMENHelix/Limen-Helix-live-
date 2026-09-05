@@ -427,11 +427,47 @@ async function handlePOST(body) {
       const lines = (r && r.lines) || [];
       const mine = lines.find(function (l) { return l.decisionId === body.decisionId; });
       const bought = !!(mine && mine.state === 'purchased');
+
+      // THE QUEUED TASK IS THE OTHER HALF OF THIS APPROVAL.
+      //
+      // In queue mode the first fulfilment attempt files a manual task so the held line is
+      // visible to a human. This path can now finish that line, and nothing ever closed the
+      // task, so EVERY successful approval left a permanent 'job waiting on a human' in
+      // needsAttention. The counter built to end silence became a counter that cries wolf,
+      // which costs it the same trust the silence did.
+      //
+      // Matched on decisionId, which is per LINE. A multi-line order keeps the tasks
+      // belonging to its other lines, and a task carrying no decisionId is never closed
+      // here because it cannot be shown to belong to this decision.
+      //
+      // ONLY on success. A refused or failed approval leaves the work outstanding, and the
+      // task is the only place that work is written down.
+      let closedTasks = [];
+      if (bought) {
+        try {
+          const open = await buy.openTasks();
+          for (const t of open) {
+            if (!t.decisionId || t.decisionId !== body.decisionId) continue;
+            const closed = await buy.closeTask(t.id, {
+              sourceOrderId: mine.sourceOrderId || null,
+              amount: mine.actualCost != null ? mine.actualCost : null
+            });
+            if (closed.ok) closedTasks.push(t.id);
+          }
+        } catch (e) {
+          // THE MONEY ALREADY MOVED. A bookkeeping write that fails afterwards must never
+          // be reported back as a failed purchase; that would invite a retry of a line
+          // that is already bought and paid for.
+          console.warn('[relay-control] approved purchase completed but its task could not ' +
+            'be closed: ' + (e && e.message));
+        }
+      }
       return {
         ok: bought,
         purchased: bought,
         approved: approved.row,
         line: mine || null,
+        closedTasks: closedTasks,
         // Why it did not buy, in the words of the gate that refused.
         reason: bought ? null : ((mine && (mine.reason || mine.error)) || (r && r.error) || 'the approved line did not complete'),
         fulfillment: r
