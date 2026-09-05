@@ -5350,23 +5350,98 @@ async function fetchFedRegInterior() { return _fetchFedRegAgencyEnv('Fed Reg Int
 // CARE_ACCESS_FAILURE, CHRONIC_DISEASE_LOAD, CLINICAL_COORDINATION_BREAKDOWN,
 // THERAPEUTIC_RELIABILITY_RISK.
 
+/**
+ * TRUE 30-day Federal Register document count for one health agency.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════════════
+ * THREE COMPOUNDING ERRORS IN THE OLD SHAPE, NOT ONE.
+ *
+ * It requested `per_page=20&order=newest` with NO date filter, then counted how many of
+ * those twenty fell inside the last 30 days. That is wrong three separate ways, and the
+ * first of them hid the other two:
+ *
+ *   1. PAGE PIN. For any agency publishing more than twenty documents a month, all
+ *      twenty are inside the window, so the answer is exactly twenty forever. HHS and
+ *      NIH were pinned. The channel reported its own page size.
+ *
+ *   2. BOUNDARY DROP. The cutoff was a millisecond timestamp compared against a date
+ *      parsed at midnight UTC, so documents published on the boundary DAY were discarded
+ *      by a few hours. CDC lost three that way and reported 17 against a true 20.
+ *
+ *   3. FUTURE DOCUMENTS COUNTED. The Federal Register publishes ahead of time; CDC's
+ *      newest document on 2026-09-05 was dated 2026-09-08. A `>= thirtyDaysAgo` test
+ *      admits every one of them, so documents that had not been published yet were
+ *      counted as activity in the trailing 30 days.
+ *
+ * Measured against the publisher on 2026-09-05:
+ *
+ *     channel      old method     gte only     TRUE trailing 30d
+ *     Fed Reg HHS          20          200                   194
+ *     Fed Reg NIH          20           56                    53
+ *     Fed Reg CDC          17           21                    20
+ *     Fed Reg CMS          12           12                    11
+ *
+ * NO AGENCY WAS CORRECT, including CMS, which looked correct only because its page-pin
+ * and its future-dated documents happened to cancel out at one observation.
+ *
+ * THE FIX IS TO ASK THE PUBLISHER FOR A BOUNDED WINDOW, NOT TO PAGE. The API applies
+ * `conditions[publication_date][gte|lte]` server-side as DATE comparisons, inclusive of
+ * both boundary days, and returns the matching total in `count`. One request with
+ * `per_page=1` yields the real figure and transfers less than the old call did. `count`
+ * is the authoritative total for the filter; `results` is only its first page and must
+ * never be re-counted as the answer. The `lte` bound is what excludes documents that
+ * have not been published yet, and dropping it silently reintroduces error 3.
+ *
+ * Do not read the unfiltered `count` either: for CDC it returns 10000, which is the
+ * API's ceiling rather than a total.
+ * ═══════════════════════════════════════════════════════════════════════════════════
+ *
+ * STRESS IS DELIBERATELY LEFT ON THE OLD `recent / 12` DIVISOR AND IS KNOWN WRONG.
+ * Repairing the count makes the divisor's saturation worse, not better: at a true HHS
+ * count of 200 it pins to 1.0 harder than it did at 20. A single divisor cannot serve
+ * agencies whose true monthly rates span 12 (CMS) to 200 (HHS), a 17x range, so the
+ * replacement is a per-agency reference derived from each agency's own history rather
+ * than a number chosen here. That history currently holds the CAPPED era, so deriving it
+ * is blocked on the same re-baseline decision as the RSS retirement and is explicitly
+ * NOT taken in this change. `stressBasisPinned` marks every reading produced under the
+ * old divisor so the boundary stays visible downstream instead of being inferred later
+ * from a date.
+ */
 async function _fetchFedRegAgencyHealth(label, slug) {
   try {
-    var url = 'https://www.federalregister.gov/api/v1/documents.json?per_page=20&order=newest&conditions%5Bagencies%5D%5B%5D=' + encodeURIComponent(slug);
+    var nowMs = Date.now();
+    var since = new Date(nowMs - 30 * 86400000).toISOString().slice(0, 10);
+    var until = new Date(nowMs).toISOString().slice(0, 10);
+    var url = 'https://www.federalregister.gov/api/v1/documents.json?per_page=1&order=newest'
+      + '&conditions%5Bagencies%5D%5B%5D=' + encodeURIComponent(slug)
+      + '&conditions%5Bpublication_date%5D%5Bgte%5D=' + encodeURIComponent(since)
+      /* Excludes documents scheduled for future publication. Removing this bound does not
+         fail; it silently inflates every agency (HHS 194 -> 200 on 2026-09-05). */
+      + '&conditions%5Bpublication_date%5D%5Blte%5D=' + encodeURIComponent(until);
     var data = await timedJSON(url, { headers: { 'User-Agent': 'LIMEN-Helix/1.0' } });
-    if (!data || !data.results) { trackHealth(label, 'health', 'fallback', 'empty response'); return null; }
-    if (data.results.length === 0) { trackHealth(label, 'health', 'fallback', 'no recent documents'); return null; }
-    var thirtyDaysAgo = Date.now() - 30 * 86400000;
-    var recent = 0;
-    for (var i = 0; i < data.results.length; i++) {
-      var d = data.results[i];
-      var pub = new Date(d.publication_date).getTime();
-      if (!isNaN(pub) && pub >= thirtyDaysAgo) recent++;
-    }
+    if (!data || typeof data.count !== 'number') { trackHealth(label, 'health', 'fallback', 'no count for the 30d filter'); return null; }
+    /* Zero is a real reading, not an absence: an agency can publish nothing in 30 days.
+       Only a missing `count` is a failure, and that is handled above. */
+    var recent = data.count;
     var stress = clamp(recent / 12, 0, 1);
     trackHealth(label, 'health', 'live', null, recent);
     var shortLabel = label.replace('Fed Reg ', '');
-    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _federalRegisterIdentity(data, slug, Date.now()) };
+    return {
+      value: recent,
+      label: recent + ' ' + shortLabel + ' docs (30d)',
+      stress: round(stress),
+      stressBasisPinned: true,
+      signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d',
+      updated: Date.now(), fetchedAt: Date.now(),
+      /* The OBSERVATION IS THE COUNT, so the identity has to move when the count moves.
+         `_federalRegisterIdentity` hashes the returned records and the window but not the
+         count, which was adequate while this call paged 20 documents and is not adequate
+         now that it pages one. `_federalRegisterResultIdentity` folds `count` into the
+         material, so a withdrawn document changes the identity even though the newest
+         document did not change. It returns null on a zero-result window rather than
+         inventing a token, which is the intended abstention. */
+      sourceUpdatedAt: _federalRegisterResultIdentity(data, 'health-agency-30d:' + slug)
+    };
   } catch (e) { trackHealth(label, 'health', 'fallback', e.message); return null; }
 }
 
