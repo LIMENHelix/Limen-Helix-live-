@@ -44,9 +44,11 @@ Path.mkdir = _safe_mkdir
 
 # ─── 3. Add the locked kernel directory to sys.path and import ───
 _HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, _HERE)
 sys.path.insert(0, os.path.join(_HERE, "helix_app", "thing1"))
 
 import limen_backtest as lbt  # noqa: E402
+from fred_delta import fetch_fred_delta  # noqa: E402
 
 Path.mkdir = _orig_mkdir  # restore for any downstream user code
 
@@ -266,11 +268,10 @@ def score(req: ScoreRequest):
         "debt_long_quarters":    len(dl),
     }
 
-    # FRED delta — best-effort (proceed with empty dict if unreachable)
-    try:
-        fred_delta = lbt.fetch_fred()
-    except Exception:
-        fred_delta = {}
+    # FRED delta — wrapper-level acquisition keeps the byte-locked kernel
+    # unchanged while using the deployment secret. The adapter never logs a
+    # URL or exception text, because requests includes query secrets there.
+    fred_delta = fetch_fred_delta(_rq.get, os.environ.get("FRED_API_KEY"))
 
     # Run validated pipeline: features → phases → trajectory → composite
     df = lbt.compute_all_features(data, fred_delta)
