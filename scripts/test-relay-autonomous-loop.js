@@ -560,13 +560,19 @@ function invoke(handler, req) {
     method: 'POST', headers: {},
     body: { items: [{ listingId: orphan.id, qty: 1 }], shippingAddress: goodAddr, buyerEmail: 'a@b.com', policyAccepted: true }
   });
-  assert('refuses a house item with no source', k4.status === 409 && /cannot be sourced/.test(JSON.stringify(k4.body)), JSON.stringify(k4.body).slice(0, 160));
+  // Asserted on the CODE now. The reason field carries a sentence written for the shopper,
+  // and pinning that prose here would make the wording unchangeable without editing a test.
+  assert('refuses a house item with no source', k4.status === 409 &&
+    (((k4.body || {}).unavailable || [])[0] || {}).code === 'unsourceable',
+    JSON.stringify(k4.body).slice(0, 160));
 
   var k5 = await invoke(cartCheckout, {
     method: 'POST', headers: {},
     body: { items: [{ listingId: pub.listingId, qty: 99 }], shippingAddress: goodAddr, buyerEmail: 'a@b.com', policyAccepted: true }
   });
-  assert('refuses more than we hold', k5.status === 409 && /only 1 available/.test(JSON.stringify(k5.body)), JSON.stringify(k5.body).slice(0, 160));
+  assert('refuses more than we hold', k5.status === 409 &&
+    (((k5.body || {}).unavailable || [])[0] || {}).code === 'over-stock',
+    JSON.stringify(k5.body).slice(0, 160));
 
   // A second sourced item, so the cart is genuinely multi-line.
   var second = await store.createListing({
@@ -1350,7 +1356,13 @@ function invoke(handler, req) {
   assert('and names it by code rather than failing vaguely',
     firstCode(cOut) === 'out-of-stock', JSON.stringify(cOut.body).slice(0, 200));
   assert('and the supplier text reaches the operator, not the shopper',
-    /sold out/i.test(outWarn) && !/sold out/i.test(JSON.stringify(cOut.body)), outWarn.slice(0, 200));
+    // The supplier phrase for THIS code happens to be customer-safe: both say sold out. So
+    // the leak test cannot key on that word any more, and keying on it would fail the moment
+    // the shopper message says the true thing. What must never travel is the supplier
+    // FIGURES, which is what cost-drift carries, so that is what is asserted here: the
+    // operator still gets the supplier text, and the body carries no numbers at all.
+    /sold out/i.test(outWarn) && JSON.stringify(cOut.body).indexOf('$') === -1,
+    outWarn.slice(0, 200));
   assert('and creates no order', Object.keys((await db.get('relay:store:orders')) || {}).length === ordersBeforeCart);
 
   STOCK_QTY = 100;
@@ -3993,6 +4005,127 @@ function invoke(handler, req) {
   require.cache[finP64] = { id: finP64, filename: finP64, loaded: true, exports: realFin64 };
   if (cachedDb64) require.cache[dbP64] = { id: dbP64, filename: dbP64, loaded: true, exports: cachedDb64 };
   if (cachedSt64) require.cache[stP64] = { id: stP64, filename: stP64, loaded: true, exports: cachedSt64 };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
+
+  // ── T65 ─────────────────────────────────────────────────────────────────
+  // A REFUSAL THAT NAMES THE PROBLEM, WITHOUT NAMING OUR COSTS.
+  //
+  // Closing the leak genericised every refusal into one sentence, and the cost was that a
+  // real customer read "Nothing has been charged. Remove these and try again" with no item
+  // named, no reason, and nothing to do about it. They left. Each refusal now carries its
+  // code and a sentence written for the shopper, and every one of those sentences is
+  // reachable from an actual refusal rather than being a string nobody can trigger.
+  console.log('T65: each refusal says what happened, in words, leaking nothing');
+  var dbP65 = require.resolve('../lib/limen-db');
+  var stP65 = require.resolve('../lib/relay-store');
+  var cachedDb65 = require.cache[dbP65] ? require.cache[dbP65].exports : null;
+  var cachedSt65 = require.cache[stP65] ? require.cache[stP65].exports : null;
+  require.cache[dbP65] = { id: dbP65, filename: dbP65, loaded: true, exports: db };
+  require.cache[stP65] = { id: stP65, filename: stP65, loaded: true, exports: store };
+
+  var cjP65 = require.resolve('../lib/relay-cj');
+  var realCj65 = require('../lib/relay-cj');
+  var sqP65 = require.resolve('../lib/relay-supplier-quote');
+  var realSq65 = require('../lib/relay-supplier-quote');
+  var STOCK65 = 50, FREIGHT65 = 4.00, QUOTE65 = true;
+  require.cache[cjP65] = { id: cjP65, filename: cjP65, loaded: true, exports: Object.assign({}, realCj65, {
+    configured: function () { return true; },
+    stock: async function () { return { qty: STOCK65, from: 'US' }; },
+    freight: async function () { return QUOTE65 ? { price: FREIGHT65, carrier: 'CJPacket' } : null; },
+    balance: async function () { return { ok: true, available: 5000 }; }
+  }) };
+  delete require.cache[sqP65];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
+  var cart65 = require('../handlers/relay-cart-checkout');
+  var addr65 = { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' };
+
+  async function refuse65(tag) {
+    var l = await store.createListing({
+      marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: 'message probe ' + tag,
+      price: 30.00, description: 'x', category: 'other', condition: 'new', quantity: 5,
+      sourceMarketplace: 'cj', sourceId: 'v65' + tag,
+      sourceUrl: 'https://www.cjdropshipping.com/product/-p-65' + tag + '.html',
+      sourceCost: 11.00, sourceShipping: 4.00, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+      marginAtListing: 0.5, sourceVerifiedAt: new Date().toISOString()
+    });
+    var r = await invoke(cart65, {
+      method: 'POST', headers: {},
+      body: { items: [{ listingId: l.id, qty: 1 }], shippingAddress: addr65,
+        buyerEmail: 'a@b.com', policyAccepted: true }
+    });
+    var row = ((r.body || {}).unavailable || [])[0] || {};
+    return { res: r, row: row, body: JSON.stringify(r.body || {}), listing: l };
+  }
+  function clean65(name, out) {
+    assert(name + ': the body carries no dollar figure',
+      out.body.indexOf('$') === -1, out.body.slice(0, 200));
+    assert(name + ': and none of wallet / committed / margin',
+      !/wallet|committed|margin/i.test(out.body), out.body.slice(0, 200));
+  }
+
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 500, dailyCeilingUsd: 5000,
+    minMarginUsd: 1, minMarginPct: 0.05, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+
+  // OUT OF STOCK at the supplier.
+  STOCK65 = 0; FREIGHT65 = 4.00; QUOTE65 = true;
+  var oos65 = await refuse65('a');
+  assert('out-of-stock is refused and named by code',
+    oos65.res.status === 409 && oos65.row.code === 'out-of-stock', JSON.stringify(oos65.row));
+  assert('and told to the shopper in words they can act on',
+    /sold out/i.test(oos65.row.reason || '') && /remove/i.test(oos65.row.reason || ''),
+    JSON.stringify(oos65.row.reason));
+  clean65('out-of-stock', oos65);
+
+  // NO FREIGHT QUOTE to this address.
+  STOCK65 = 50; QUOTE65 = false;
+  var nq65 = await refuse65('b');
+  assert('no-quote is refused and named by code',
+    nq65.res.status === 409 && nq65.row.code === 'no-quote', JSON.stringify(nq65.row));
+  assert('and says it is about the address, not a mystery',
+    /address/i.test(nq65.row.reason || ''), JSON.stringify(nq65.row.reason));
+  clean65('no-quote', nq65);
+
+  // COST DRIFT: freight to this address costs far more than the listing was built on.
+  QUOTE65 = true; FREIGHT65 = 30.00;
+  var cd65 = await refuse65('c');
+  assert('cost-drift is refused and named by code',
+    cd65.res.status === 409 && cd65.row.code === 'cost-drift', JSON.stringify(cd65.row));
+  assert('and promises the shopper they were not charged more than shown',
+    /shipping/i.test(cd65.row.reason || '') && /not charged|have not charged/i.test(cd65.row.reason || ''),
+    JSON.stringify(cd65.row.reason));
+  clean65('cost-drift', cd65);
+
+  // NOT FULFILLABLE: the purchase gate refuses on a limit.
+  FREIGHT65 = 4.00;
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 5, dailyCeilingUsd: 5000,
+    minMarginUsd: 1, minMarginPct: 0.05, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var nf65 = await refuse65('d');
+  assert('a gate refusal is named by code',
+    nf65.res.status === 409 && nf65.row.code === 'not-fulfillable', JSON.stringify(nf65.row));
+  assert('and says nothing was charged, without saying why we refused',
+    /nothing has been charged/i.test(nf65.row.reason || '') && !/cap|limit|floor/i.test(nf65.row.reason || ''),
+    JSON.stringify(nf65.row.reason));
+  clean65('not-fulfillable', nf65);
+
+  // EVERY message is distinct, or the code is decoration.
+  var msgs65 = [oos65.row.reason, nq65.row.reason, cd65.row.reason, nf65.row.reason];
+  assert('the four refusals say four different things',
+    new Set(msgs65).size === 4, JSON.stringify(msgs65));
+  assert('and every one of them is non-empty',
+    msgs65.every(function (m) { return typeof m === 'string' && m.length > 10; }), JSON.stringify(msgs65));
+
+  require.cache[cjP65] = { id: cjP65, filename: cjP65, loaded: true, exports: realCj65 };
+  require.cache[sqP65] = { id: sqP65, filename: sqP65, loaded: true, exports: realSq65 };
+  if (cachedDb65) require.cache[dbP65] = { id: dbP65, filename: dbP65, loaded: true, exports: cachedDb65 };
+  if (cachedSt65) require.cache[stP65] = { id: stP65, filename: stP65, loaded: true, exports: cachedSt65 };
   delete require.cache[require.resolve('../lib/relay-autonomy')];
   delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
 
