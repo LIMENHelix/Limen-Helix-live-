@@ -13,10 +13,16 @@
  *      total, not from counting inside a 20-item page. The old shape reported HHS as
  *      20 when the true figure was 200.
  *
- * Network test. A publisher outage is reported as SKIP, not as a pass: an acceptance
- * test that goes green when it could not reach the thing it is asserting about is worse
- * than no test. Run it with the deploy, not in the unit sweep.
+ * NETWORK TEST, AND IT IS IN THE CI SWEEP. scripts/run-tests.mjs discovers it by name,
+ * so it reaches openFDA, FDA and federalregister.gov on every run.
+ *
+ * A publisher outage therefore MUST NOT report as a pass. The runner treats exit code 77
+ * as SKIP, and that is what an unreachable publisher exits with here. An earlier version
+ * of this file exited 0 after printing "SKIP", which the runner counted as PASS, so the
+ * suite would have gone green while asserting nothing. That is the precise failure this
+ * header warns about, committed in the file that warns about it.
  */
+var SKIP_STATUS = 77;   // scripts/run-tests.mjs
 'use strict';
 
 var https = require('https');
@@ -189,13 +195,16 @@ async function checkFedRegTrueCount() {
   await checkFedRegTrueCount();
   console.log('');
 
+  /* A real assertion failure outranks an outage: if something we DID reach is wrong,
+     that is a failure regardless of what else was unreachable. */
   if (failures) {
     console.error(failures + ' failure(s), ' + skips + ' skip(s)');
     process.exit(1);
   }
   if (skips) {
-    console.log('0 failures, ' + skips + ' skip(s) — a skip is NOT a pass; rerun when the publisher is reachable.');
-    process.exit(0);
+    console.log(skips + ' publisher(s) unreachable — asserted nothing about them. '
+      + 'Exiting ' + SKIP_STATUS + ' so the runner records SKIP, not PASS.');
+    process.exit(SKIP_STATUS);
   }
   console.log('all acceptance checks passed');
 })();
