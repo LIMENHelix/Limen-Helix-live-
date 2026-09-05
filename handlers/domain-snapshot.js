@@ -526,7 +526,7 @@ module.exports = async function handler(req, res) {
       fetchNOAAClimate(),         // 4: environment A
       fetchNOAAAlerts(),          // 5: environment B
       fetchFDAEvents(),           // 6: health A
-      fetchFDARecalls(),          // 7: health B
+      fetchFDARecalls(),          // 7: health B — openFDA DRUG ENFORCEMENT, 30d. Binds FDARecalls. Distinct quantity from the food RSS at index 204.
       fetchPatents(),             // 8: technology A
       fetchArXivCS(),             // 9: technology B
       fetchPubMed(),              // 10: research A
@@ -723,7 +723,7 @@ module.exports = async function handler(req, res) {
       fetchUSDADroughtMonitor(),       // 201: agriculture D — USDA Drought Monitor (institutional, stress)
       fetchNOAACPCDrought(),           // 202: agriculture E — NOAA CPC drought outlook (institutional, stress)
       fetchNOAANWSAgAlerts(),          // 203: agriculture F — NWS active alerts (ag-filtered) (institutional, stress)
-      fetchFDARecalls(),               // 204: agriculture G — FDA Recalls RSS (institutional, stress)
+      fetchFDARecallsFoodRSS(),        // 204: agriculture G — FDA recalls RSS, FOOD item count (institutional, stress). Binds FDARecalls_2. NOT the openFDA drug-enforcement fetcher at index 7.
       fetchFedRegUSDA(),               // 205: agriculture H — Fed Reg USDA (regulatory)
       fetchFedRegFDA(),                // 206: agriculture I — Fed Reg FDA (food safety regulatory)
       fetchFedRegEPA(),                // 207: agriculture J — Fed Reg EPA (pesticide / water)
@@ -992,7 +992,7 @@ module.exports = async function handler(req, res) {
         // medical signal is inseparable from biomedical literature / funding flows.
         // Existing health institutional feeds (6)
         src('openFDA Events', byKey('FDAEvents')),    // 1: openFDA adverse events API
-        src('openFDA Recalls', byKey('FDARecalls')),    // 2: openFDA recalls API
+        src('openFDA Recalls', byKey('FDARecalls')),    // 2: openFDA drug ENFORCEMENT actions, 30d count
         src('CDC MMWR', byKey('CDCMMWR')),   // 3: CDC Morbidity and Mortality Weekly Report
         src('WHO Disease Outbreak', byKey('WHODiseaseOutbreak')),   // 4: WHO disease outbreak news
         src('FDA Drug Shortages', byKey('FDADrugShortages')),   // 5: FDA drug shortages
@@ -1001,7 +1001,10 @@ module.exports = async function handler(req, res) {
         src('PubMed', byKey('PubMed')),   // 7: PubMed biomedical literature (reused)
         src('NIH Grants', byKey('NIHGrants')),   // 8: NIH Grants research funding (reused)
         src('Retraction Watch', byKey('RetractionWatch')),   // 9: research integrity (reused)
-        // FDA Recalls RSS XML — distinct from openFDA API (1)
+        /* FDA recalls RSS XML, FOOD item count, reused from agriculture. Genuinely distinct
+           from row 2 as of 2026-09-05: until then a function-shadowing bug served BOTH rows
+           the same RSS fetch, so this comment described an intent the runtime did not honour.
+           Row 2 counts drug enforcement actions; this row counts food-recall feed items. */
         src('FDA Recalls', byKey('FDARecalls_2')),  // 10: FDA recalls RSS XML (reused from agriculture)
         // Federal Register doc-counts (5)
         src('Fed Reg HHS', byKey('FedRegHHS')),  // 11: HHS regulatory volume
@@ -2581,6 +2584,18 @@ async function fetchFDAEvents() {
   }
 }
 
+/**
+ * openFDA DRUG ENFORCEMENT ACTIONS in a 30-day window. Health's channel, bound to
+ * `FDARecalls` at fetcher index 7.
+ *
+ * This is a count of filed drug enforcement actions. It is NOT the food-recall feed:
+ * `fetchFDARecallsFoodRSS` counts `<item>` elements in an FDA RSS feed and is bound to
+ * `FDARecalls_2`. The two measure different quantities and must be free to disagree.
+ *
+ * This function was UNREACHABLE from an unknown date until 2026-09-05, shadowed by a
+ * second declaration of the old shared name. See the header on `fetchFDARecallsFoodRSS`
+ * for the full failure and `scripts/test-fetcher-shadowing.js` for the guard.
+ */
 async function fetchFDARecalls() {
   try {
     var today = new Date().toISOString().slice(0, 10);
@@ -4876,7 +4891,34 @@ async function fetchNOAANWSAgAlerts() {
   } catch (e) { trackHealth('NOAA NWS Ag Alerts', 'agriculture', 'fallback', e.message); return null; }
 }
 
-async function fetchFDARecalls() {
+/**
+ * FOOD-RECALL RSS ITEM COUNT. Agriculture's channel, bound to `FDARecalls_2`.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════════════
+ * THE NAME IS DELIBERATELY NOT `fetchFDARecalls`, AND RENAMING IT BACK REBREAKS HEALTH.
+ *
+ * Until 2026-09-05 this function was also called `fetchFDARecalls`, declared ~2300 lines
+ * BELOW the openFDA drug-enforcement fetcher of that same name. Function declarations
+ * hoist, so the later one silently replaced the earlier one for EVERY call site. The
+ * consequences, all measured in production:
+ *
+ *   - health index 7 (`FDARecalls`), displayed as "openFDA Recalls", was served this
+ *     food-recall RSS item count instead of openFDA drug enforcement actions;
+ *   - health index 204 (`FDARecalls_2`), commented "distinct from openFDA API", was the
+ *     SAME fetch run a second time, so the two channels could never disagree;
+ *   - the openFDA drug-enforcement code was unreachable, which is why `openFDA Recalls`
+ *     never appeared in production sourceHealth at all.
+ *
+ * Two channels that measure different quantities (drug enforcement actions vs food-recall
+ * feed items) reported one number. `brain-v2/bind/medicine.js` warned in prose that this
+ * pair was the most plausible-looking false relationship in the domain; the runtime had
+ * already collapsed it.
+ *
+ * The guard against a recurrence is `scripts/test-fetcher-shadowing.js`, which fails on
+ * any duplicate top-level fetcher declaration in this file.
+ * ═══════════════════════════════════════════════════════════════════════════════════
+ */
+async function fetchFDARecallsFoodRSS() {
   // FDA Recalls / Market Withdrawals / Safety Alerts RSS — biological / supply signal.
   try {
     var xml = await timedText('https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/recalls/rss.xml', {
@@ -6673,7 +6715,12 @@ module.exports._fetchNOAANWSAlerts = fetchNOAANWSAlerts;
 module.exports._fetchUSGSEarthquakes = fetchUSGSEarthquakes;
 module.exports._fetchCISAKEV = fetchCISAKEV;
 module.exports._fetchCISAAdvisories = fetchCISAAdvisories;
-module.exports._fetchFDARecalls = fetchFDARecalls;
+/* THIS EXPORT WAS ITSELF A CASUALTY OF THE SHADOW BUG. It reads as the openFDA
+   drug-enforcement fetcher and, until 2026-09-05, delivered the food-recall RSS one,
+   because that was the declaration that won. Both are now exported under names that
+   match what they fetch. */
+module.exports._fetchFDARecalls = fetchFDARecalls;                 // openFDA drug enforcement, 30d
+module.exports._fetchFDARecallsFoodRSS = fetchFDARecallsFoodRSS;   // FDA food-recall RSS, item count
 module.exports._fetchFedRegAgencyResearch = _fetchFedRegAgencyResearch;
 module.exports._fetchOFACRecentActions = fetchOFACRecentActions;
 module.exports._fetchBBCWorldNews = fetchBBCWorldNews;
