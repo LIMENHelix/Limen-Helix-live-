@@ -152,7 +152,16 @@ module.exports = async function handler(req, res) {
       shippingAddress: addr
     });
     if (!check.ok) {
-      unavailable.push({ listingId: listingId, reason: check.reason, code: check.code });
+      // Same rule as the gate below, same reason. cost-drift spells out the per-unit
+      // freight quoted against the freight on record, which is our landed cost, and this
+      // endpoint takes no key. The CODE stays: unconfigured / stale-quote / out-of-stock /
+      // no-quote / cost-drift carry no internal detail and are what the UI branches on.
+      // The cost is that 'sold out' and 'only 2 left with the supplier' collapse into one
+      // generic line; a caller wanting those words should render them from the code.
+      console.warn('[relay-cart] line refused by supplier requote: ' + JSON.stringify({
+        listingId: listingId, code: check.code, reason: check.reason
+      }));
+      unavailable.push({ listingId: listingId, reason: 'cannot be sourced right now', code: check.code });
       continue;
     }
 
@@ -172,10 +181,34 @@ module.exports = async function handler(req, res) {
       // out — on a paid, half-fulfillable order. Carry what this cart has already
       // committed to so the ceiling is checked against the whole basket.
       plannedToday: plannedSpend,
+      // The COUNT as well as the dollars. A dry run writes no ledger row, so every line of
+      // a cart saw the same empty window: a four-line cart passed checkout, took the
+      // money, and had its fourth line blocked at fulfilment. The basket is refused now,
+      // not its tail.
+      plannedOrders: lines.length,
       dryRun: true
     });
     if (!limits.allowed) {
-      unavailable.push({ listingId: listingId, reason: limits.reason, code: 'not-fulfillable' });
+      // THE INTERNAL REASON NEVER ENTERS THE RESPONSE.
+      //
+      // limits.reason is authorize()'s operator text. Depending on which gate refused, it
+      // carries the CJ wallet balance, supplier spend already committed, the remaining
+      // ceiling, the margin floor, and this item's private acquisition cost. This endpoint
+      // is unauthenticated, so forwarding it let any shopper read the supplier margin on
+      // any listing by putting it in a cart and reading the 409.
+      //
+      // Withheld BY CONSTRUCTION, not by redaction. Nothing here inspects the string, so a
+      // refusal reason added to authorize() later cannot reintroduce this. The other
+      // entries on this path (lines 124-134) already answer the customer in these terms;
+      // this was the one that did not.
+      //
+      // Destination for the detail: the server log, and only the server log. There is no
+      // order record to attach it to (store.createOrder is below, after this block
+      // returns), so it cannot travel to an order-status surface even in principle.
+      console.warn('[relay-cart] line refused by autonomy: ' + JSON.stringify({
+        listingId: listingId, reason: limits.reason
+      }));
+      unavailable.push({ listingId: listingId, reason: 'cannot be sourced right now', code: 'not-fulfillable' });
       continue;
     }
     plannedSpend = round(plannedSpend + lineCost);

@@ -348,6 +348,60 @@ console.log('F8: the bridge fails soft on the ledger, hard on the charge');
   require.cache[ledgerPath].exports = realLedger;
   require.cache[stripePath].exports = realStripe;
 
+  // ── F10 ───────────────────────────────────────────────────────────────────
+  // NO NEW SPEND-CAPABLE RELAY ENDPOINT SHIPS UNGATED.
+  //
+  // handlers/relay-autonomous-fulfillment.js was routed, accepted an anonymous POST, went
+  // straight from the method check into req.body, and had zero callers anywhere in the
+  // repo. It is deleted. Deleting it changed nothing any test could see, which is the
+  // problem: 49 assertions were green with the hole open, and they would be green again
+  // if someone added another one tomorrow.
+  //
+  // The property pinned here is narrower and more meaningful than "has an auth check":
+  // a routed relay-* handler that can SPEND — a paid API, a supplier order, a money
+  // movement — must require a credential. Public storefront reads are supposed to be
+  // public and are not the subject.
+  console.log('F10: no routed Relay handler can spend without a credential');
+  const routerSrc = fs.readFileSync(path.join(ROOT, 'api/[...route].js'), 'utf8');
+  const routed = [...routerSrc.matchAll(/'(relay-[a-z0-9-]+)':\s*require\(/g)].map(m => m[1]);
+
+  // PAID THIRD-PARTY QUOTA, burned per call with nothing coming back the other way.
+  //
+  // Deliberately NOT the purchase flow. relay-checkout, relay-demand-purchase and the cart
+  // reach relay-cj and stripe-rail, and they must stay public — that is a customer buying
+  // something, money comes IN first, and the supplier spend behind it is gated by
+  // relay-autonomy. An anonymous caller there cannot make us poorer. An anonymous caller
+  // that generates an image can.
+  const SPENDS = /XAI_API_KEY|GROK_API_KEY|api\.x\.ai|SERPAPI|serpapi|OPENAI_API_KEY|ANTHROPIC_API_KEY|GOOGLE_API_KEY/;
+  const GATED = /RELAY_ADMIN_KEY|RELAY_MARGIN_KEY|CRON_SECRET|x-relay-key|cron-auth|admin-gate|verifySignature|STRIPE_WEBHOOK_SECRET/;
+
+  // PINNED. These reach a paid API and are NOT gated today. relay-grok-image is wired to
+  // the storefront's own image button (pages/relay.html), so gating it with an admin key
+  // would break a customer-facing feature the operator asked for — it needs a rate limit,
+  // not a password, and that is named work rather than something to bolt on here.
+  // relay-image-search has no caller at all and is a deletion candidate.
+  // The list may SHRINK. It may not grow: a new name here fails the build.
+  const KNOWN_UNGATED_SPENDERS = ['relay-grok-image', 'relay-image-search'];
+
+  const ungatedSpenders = [];
+  for (const name of routed) {
+    const f = path.join(ROOT, 'handlers', name + '.js');
+    if (!fs.existsSync(f)) continue;
+    const src = fs.readFileSync(f, 'utf8');
+    if (!SPENDS.test(src)) continue;
+    if (GATED.test(src)) continue;
+    ungatedSpenders.push(name);
+  }
+  const unexpected = ungatedSpenders.filter(n => KNOWN_UNGATED_SPENDERS.indexOf(n) === -1);
+  assert('no NEW spend-capable Relay endpoint is reachable without a credential',
+    unexpected.length === 0, unexpected.join(', '));
+  assert('the pinned ungated list has not grown',
+    ungatedSpenders.length <= KNOWN_UNGATED_SPENDERS.length,
+    ungatedSpenders.join(', '));
+  assert('the deleted anonymous fulfilment endpoint stays deleted',
+    !fs.existsSync(path.join(ROOT, 'handlers/relay-autonomous-fulfillment.js')) &&
+    routed.indexOf('relay-autonomous-fulfillment') === -1);
+
   console.log('');
   console.log(failures === 0
     ? 'FIREWALL INTACT (' + tests + ' assertions)'

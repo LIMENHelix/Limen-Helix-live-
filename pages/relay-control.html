@@ -52,6 +52,14 @@
   button.go:hover{filter:brightness(1.08)}
   .msg{font-size:.84rem;margin-top:12px;min-height:1.2em;color:var(--soft)}
   .msg.err{color:var(--red)} .msg.good{color:var(--green)}
+  /* Unknown is NOT calm. It gets its own colour so it can never be mistaken for the
+     green all-clear at a glance. */
+  .unknown{background:rgba(200,72,72,.09);border:1px solid var(--red);border-radius:9px;
+    padding:12px 14px;font-size:.84rem;margin-bottom:10px}
+  .allclear{color:var(--green);font-size:.92rem;font-weight:600}
+  .needs{color:var(--amber);font-size:.92rem;font-weight:600;margin-bottom:8px}
+  .needrow{display:flex;justify-content:space-between;gap:12px;padding:7px 0;
+    border-top:1px solid var(--line);font-size:.84rem}
   .blocked{background:rgba(217,164,65,.08);border:1px solid var(--amber);border-radius:9px;
     padding:12px 14px;color:var(--amber);font-size:.85rem;margin-top:14px}
   .approve{display:flex;justify-content:space-between;align-items:center;gap:12px;
@@ -77,6 +85,14 @@
   </div>
 
   <div id="main" class="hide">
+    <!-- FIRST, above everything. The counters existed only in a JSON endpoint nobody
+         opens, so an underpayment or a paid-but-never-bought order was invisible to the
+         person who owns the money. An alert below the fold is not an alert. -->
+    <div class="panel">
+      <h2>Needs you</h2>
+      <div id="attention" class="why">Checking…</div>
+    </div>
+
     <div class="panel">
       <h2>Running state</h2>
       <div class="now"><span class="dot" id="dot"></span><span id="modeLabel">…</span></div>
@@ -237,19 +253,129 @@ function paintReadiness(r) {
 }
 
 function paintApprovals(list) {
+  var failed = renderFailedApprovals();
   if (!list || !list.length) {
-    EL('approvals').innerHTML = '<div class="why">Nothing waiting.</div>';
+    EL('approvals').innerHTML = failed + '<div class="why">Nothing waiting.</div>';
     return;
   }
-  EL('approvals').innerHTML = list.map(function (a) {
+  EL('approvals').innerHTML = failed + list.map(function (a) {
     return '<div class="approve"><div>' + esc(a.note || a.listingId || a.id) +
       '<div class="why">' + money(a.amount) + ' from ' + esc(a.marketplace || 'source') + '</div></div>' +
       '<button onclick="approve(\'' + esc(a.id) + '\')">Approve</button></div>';
   }).join('');
 }
 
+/* WHAT THE OPERATOR IS OWED, IN PLAIN WORDS.
+   Three states, and they must never look alike: nothing needs you / N things need you /
+   we cannot tell. The third is the one that used to render as the first. */
+function paintAttention(j) {
+  var box = EL('attention');
+  if (!j || !j.ok) {
+    box.className = '';
+    box.innerHTML = '<div class="unknown"><b>Could not reach Relay to check.</b>' +
+      '<div class="why">Nothing below is confirmed. This is not an all-clear.</div></div>';
+    return;
+  }
+  box.className = '';
+
+  // THE OUTAGE CASE. needsAttention is null, not 0, when the order store cannot be read.
+  // Rendering that as '0' is what made the whole alerting worthless.
+  if (j.ordersUnavailable || j.needsAttention === null || j.needsAttention === undefined) {
+    box.innerHTML = '<div class="unknown"><b>Relay cannot read its orders right now, so it ' +
+      'cannot tell you what needs doing.</b>' +
+      '<div class="why">Treat this as &ldquo;unknown&rdquo;, not &ldquo;fine&rdquo;. ' +
+      'Orders may be waiting. ' + (j.ordersUnavailable ? esc(j.ordersUnavailable) : '') +
+      '</div></div>';
+    return;
+  }
+
+  var rows = [];
+  function row(n, label, hint) {
+    if (!n) return;
+    rows.push('<div class="needrow"><span>' + esc(label) + '</span><b>' + n + '</b></div>' +
+      (hint ? '<div class="why">' + esc(hint) + '</div>' : ''));
+  }
+  row(j.heldForReview, 'Payments held for review', 'A customer paid an amount that did not match. Nothing was bought.');
+  row(j.strandedWithoutTask, 'Paid, but never bought', 'Money taken and no supplier order. These need you most.');
+  row(j.openTasks, 'Jobs waiting on a human', null);
+  // The item SHIPPED, so nothing else on this panel was ever going to mention it.
+  row(j.flaggedLines, 'Bought above the approved price',
+    'The supplier charged more than was authorised. The order shipped anyway and the ' +
+    'overspend was flagged for a human, but nothing was ever shown it.');
+
+  if (!j.needsAttention) {
+    box.innerHTML = '<div class="allclear">Nothing needs you.</div>' +
+      '<div class="why" style="margin-top:6px">' +
+      (j.awaitingPayment != null ? j.awaitingPayment + ' waiting on payment. ' : '') +
+      'Checked just now.</div>';
+    return;
+  }
+
+  var reasons = (j.heldReasons || []).map(function (h) {
+    return '<div class="why">' + esc(h.orderId) + ' &mdash; ' + esc(h.reason || 'held') + '</div>';
+  }).join('') + (j.flaggedReasons || []).map(function (f) {
+    // The reason itself, because relay-buy records what it actually cost against what
+    // was approved, and that sentence is the entire value of the flag. A bare count
+    // sends the operator hunting through the order store for the number.
+    return '<div class="why">' + esc(f.orderId) + ' &mdash; ' + esc(f.reason) + '</div>';
+  }).join('');
+
+  box.innerHTML = '<div class="needs">' + j.needsAttention +
+    (j.needsAttention === 1 ? ' thing needs you.' : ' things need you.') + '</div>' +
+    rows.join('') + (reasons ? '<div style="margin-top:10px">' + reasons + '</div>' : '');
+}
+
+/* A FAILED APPROVAL MUST NOT VANISH.
+   approve() stamps approvedAt before the purchase is attempted, and pending() returns only
+   unapproved rows - so when fulfilment is refused by a limit, the wallet, or the supplier,
+   the row disappeared from the list and nothing said why. The operator clicked Approve,
+   watched it go, and nothing was bought. Held here so it survives the refresh, with the
+   decisionId kept so it is RETRYABLE: consumeApproved re-checks every limit, so a retry
+   after funding the wallet is exactly the right move. */
+var FAILED_APPROVALS = [];
+
 function approve(id) {
-  post({ action: 'approve-purchase', decisionId: id }).then(function () { refresh(); });
+  FAILED_APPROVALS = FAILED_APPROVALS.filter(function (f) { return f.id !== id; });
+  post({ action: 'approve-purchase', decisionId: id }).then(function (r) {
+    if (!r || !r.ok) {
+      FAILED_APPROVALS.push({
+        id: id,
+        reason: (r && (r.reason || r.error)) || 'the purchase was refused, with no reason given',
+        // Released means this decisionId can never be approved again, so the retry action
+        // must not be offered for it. Read from the LINE, because that is where the state
+        // that followed the release is reported.
+        released: !!(r && r.line && (r.line.state === 'failed' || r.line.state === 'manual-required'))
+      });
+    }
+    refresh();
+  }).catch(function (e) {
+    FAILED_APPROVALS.push({ id: id, reason: 'could not reach Relay: ' + e.message });
+    refresh();
+  });
+}
+
+function renderFailedApprovals() {
+  if (!FAILED_APPROVALS.length) return '';
+  return FAILED_APPROVALS.map(function (f) {
+    return '<div class="unknown"><b>Approved, but NOT bought.</b>' +
+      '<div class="why">' + esc(f.reason) + '</div>' +
+      // NO RETRY ON A RELEASED RESERVATION. fulfillLine calls autonomy.release() before it
+      // returns failed or manual-required, and approve() refuses any row whose state is not
+      // still 'reserved'. The button was therefore incapable of working: it answered
+      // 'reservation is released, not reserved' every time, forever, on a PAID order, while
+      // presenting itself as the fix. A notice that says what actually happens is worth
+      // more than an action that cannot.
+      //
+      // Every OTHER refusal keeps the button on purpose. A funds or limit refusal after
+      // approval leaves the reservation reserved AND approved, so retrying once the wallet
+      // is funded is exactly the right move; removing it there would break a path that works.
+      (f.released
+        ? '<div class="why">The supplier purchase failed and the reservation was released, so ' +
+          'this approval cannot be retried. The order re-authorises on the next cycle, or ' +
+          'from the order view.</div>'
+        : '<button style="margin-top:8px" onclick="approve(' + '\u0027' + esc(f.id) + '\u0027' + ')">Try again</button>') +
+      '</div>';
+  }).join('');
 }
 
 function paintInventory(r) {
@@ -299,10 +425,37 @@ function refresh() {
     EL('capMargin').textContent = money(cfg.minMarginUsd) + ' / ' +
       Math.round((cfg.minMarginPct || 0) * 100) + '%';
   });
+  get('status').then(paintAttention).catch(function () { paintAttention(null); });
   get('readiness').then(paintReadiness);
   get('pending-approvals').then(function (j) { paintApprovals(j.approvals); });
   get('inventory').then(paintInventory);
+  startPolling();
 }
+
+/* THE PANEL IS AN ALARM, SO IT HAS TO KEEP LOOKING.
+   The status read ran only inside refresh(), and after the first paint nothing called it
+   again. A console left open on a green all-clear kept showing that all-clear for as long
+   as it stayed open, while an underpayment, a double payment or a paid-but-never-bought
+   order arrived underneath it. A stale green is worse than no panel at all, because it is
+   the one thing here the operator is invited to trust.
+
+   Guarded, not stacked. unlock() and every action call refresh(), so setting an interval
+   per call would multiply them until the page hammered its own endpoint. Clearing first
+   makes startPolling idempotent however many times it runs.
+
+   Failures route through the SAME paintAttention as the first read, .catch included, so an
+   unreadable backend repaints as "cannot tell" instead of leaving the last good all-clear
+   on screen. A refresh loop that paints green over a failed read is the confident-zero
+   defect one layer up, and this is the layer where it would be least visible. */
+var POLL = null;
+var POLL_MS = 30000;
+function startPolling() {
+  if (POLL) clearInterval(POLL);
+  POLL = setInterval(function () {
+    get('status').then(paintAttention).catch(function () { paintAttention(null); });
+  }, POLL_MS);
+}
+
 
 try {
   var saved = sessionStorage.getItem('relay_admin_key');

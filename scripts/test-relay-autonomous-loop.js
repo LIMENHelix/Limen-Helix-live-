@@ -46,6 +46,14 @@ var BLOCK_NETWORK = async function (u) {
 };
 global.fetch = BLOCK_NETWORK;
 
+// The hourly rate limit (3 orders / $60) is REAL and it is the production default. Almost
+// every fixture below predates it and spends more than $60 an hour by design, because it
+// is testing margins, freight or reconciliation rather than pacing. Raising the baseline
+// here keeps those tests about their own subject; T46 sets the real numbers back and is
+// the test that actually pins the cap.
+require('../lib/relay-autonomy').DEFAULTS.velocityMaxOrders = 9999;
+require('../lib/relay-autonomy').DEFAULTS.velocityMaxUsd = 9999999;
+
 var failures = 0, tests = 0;
 function assert(name, cond, detail) {
   tests++;
@@ -1318,42 +1326,67 @@ function invoke(handler, req) {
   var cart2 = require('../handlers/relay-cart-checkout');
   var cartAddr = { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' };
 
+  // These three used to match the supplier's own sentence in the RESPONSE, which meant they
+  // were holding a leak in place: the cost-drift one asserted a dollar figure, and that
+  // figure is the freight on our landed cost. Each claim is unchanged; the specific text is
+  // now read from the operator log, and the CODE is what the response is asserted on. That
+  // is also the first real exercise of the code field surviving the genericised message.
+  var CARTWARN = [];
+  var cartWarnReal = console.warn;
+  function capture() { CARTWARN = []; console.warn = function () { CARTWARN.push(Array.prototype.join.call(arguments, ' ')); }; }
+  function release() { console.warn = cartWarnReal; return CARTWARN.join(' | '); }
+  function firstCode(r) { return (((r.body || {}).unavailable || [])[0] || {}).code || null; }
+
   STOCK_QTY = 0;
   var ordersBeforeCart = Object.keys((await db.get('relay:store:orders')) || {}).length;
+  capture();
   var cOut = await invoke(cart2, {
     method: 'POST', headers: {},
     body: { items: [{ listingId: cjListing.id, qty: 1 }], shippingAddress: cartAddr,
       buyerEmail: 'a@b.com', policyAccepted: true }
   });
+  var outWarn = release();
   assert('the cart refuses a sold-out supplier line', cOut.status === 409, String(cOut.status));
-  assert('and names it rather than failing vaguely',
-    /sold out/i.test(JSON.stringify(cOut.body)), JSON.stringify(cOut.body).slice(0, 200));
+  assert('and names it by code rather than failing vaguely',
+    firstCode(cOut) === 'out-of-stock', JSON.stringify(cOut.body).slice(0, 200));
+  assert('and the supplier text reaches the operator, not the shopper',
+    /sold out/i.test(outWarn) && !/sold out/i.test(JSON.stringify(cOut.body)), outWarn.slice(0, 200));
   assert('and creates no order', Object.keys((await db.get('relay:store:orders')) || {}).length === ordersBeforeCart);
 
   STOCK_QTY = 100;
   FREIGHT_OVERRIDE = 9.87;
+  capture();
   var cDrift = await invoke(cart2, {
     method: 'POST', headers: {},
     body: { items: [{ listingId: cjListing.id, qty: 1 }], shippingAddress: cartAddr,
       buyerEmail: 'a@b.com', policyAccepted: true }
   });
+  var driftWarn = release();
   assert('the cart refuses a destination fulfilment would not ship to at that price',
-    cDrift.status === 409 && /costs \$9\.87/.test(JSON.stringify(cDrift.body)),
+    cDrift.status === 409 && firstCode(cDrift) === 'cost-drift',
     JSON.stringify(cDrift.body).slice(0, 220));
+  assert('cart cost-drift: no dollar figure reaches the buyer',
+    JSON.stringify(cDrift.body).indexOf('$') === -1, JSON.stringify(cDrift.body).slice(0, 220));
+  assert('cart cost-drift: the word quoted does not reach the buyer either',
+    !/quoted/i.test(JSON.stringify(cDrift.body)), JSON.stringify(cDrift.body).slice(0, 220));
+  assert('cart cost-drift: the freight detail still reaches the operator log',
+    /costs \$9\.87/.test(driftWarn), driftWarn.slice(0, 220));
   FREIGHT_OVERRIDE = undefined;
 
   // Repeats collapse BEFORE the stock check. Two qty-1 entries of one listing each passed
   // the quantity and stock checks on their own and together asked the supplier for two of
   // something there may be one of, with the customer charged for both.
   STOCK_QTY = 1;
+  capture();
   var cDup = await invoke(cart2, {
     method: 'POST', headers: {},
     body: { items: [{ listingId: cjListing.id, qty: 1 }, { listingId: cjListing.id, qty: 1 }],
       shippingAddress: cartAddr, buyerEmail: 'a@b.com', policyAccepted: true }
   });
+  var dupWarn = release();
   assert('two entries of one listing are counted as two, not twice as one',
-    cDup.status === 409 && /only 1 left/.test(JSON.stringify(cDup.body)),
-    JSON.stringify(cDup.body).slice(0, 220));
+    cDup.status === 409 && firstCode(cDup) === 'out-of-stock' && /only 1 left/.test(dupWarn),
+    JSON.stringify(cDup.body).slice(0, 220) + ' || warn: ' + dupWarn.slice(0, 120));
   STOCK_QTY = 100;
 
   // What the supplier quoted for THIS address must reach fulfilment. The listing keeps
@@ -1423,14 +1456,27 @@ function invoke(handler, req) {
   });
   assert('one line inside the remaining ceiling still sells', cOne.status === 200,
     JSON.stringify(cOne.body).slice(0, 200));
+  // The cumulative-ceiling refusal is now checked where the detail actually goes. This
+  // assertion used to match 'already in this cart' in the RESPONSE, which meant it was
+  // pinning the leak in place: that sentence carries the cart's committed supplier spend
+  // and the remaining daily ceiling, and the shopper reading the 409 is unauthenticated.
+  // The claim under test has not changed, only the channel it is read from.
+  var CEILWARN = [];
+  var ceilWarnReal = console.warn;
+  console.warn = function () { CEILWARN.push(Array.prototype.join.call(arguments, ' ')); };
   var cBoth = await invoke(cart2, {
     method: 'POST', headers: {},
     body: { items: [{ listingId: cjListing.id, qty: 1 }, { listingId: second.id, qty: 1 }],
       shippingAddress: cartAddr, buyerEmail: 'a@b.com', policyAccepted: true }
   });
+  console.warn = ceilWarnReal;
   assert('a cart whose TOTAL breaks the ceiling is refused',
-    cBoth.status === 409 && /already in this cart/.test(JSON.stringify(cBoth.body)),
+    cBoth.status === 409 && /not-fulfillable/.test(JSON.stringify(cBoth.body)),
     JSON.stringify(cBoth.body).slice(0, 260));
+  assert('and the cumulative-ceiling reason reaches the operator log, not the shopper',
+    /already in this cart/.test(CEILWARN.join(' ')) &&
+    !/already in this cart/.test(JSON.stringify(cBoth.body)),
+    CEILWARN.join(' | ').slice(0, 200));
 
   // The per-unit/aggregate seam, one layer down. buyFromCJ computes
   // maxCost - sourceShipping + requote.price: maxCost is the LINE total and cj.freight()
@@ -1556,14 +1602,23 @@ function invoke(handler, req) {
     minMarginUsd: 8, minMarginPct: 0.18, requireFunds: false
   });
   var beforeThin = Object.keys((await db.get('relay:store:orders')) || {}).length;
+  // Read from the operator log, not the response. This used to match /floor/ in the BODY,
+  // which meant it was holding the leak in place: 'margin $3.79 is under the $8 floor'
+  // hands a shopper the computed margin on the item. The claim is unchanged.
+  var THINWARN = [];
+  var thinWarnReal = console.warn;
+  console.warn = function () { THINWARN.push(Array.prototype.join.call(arguments, ' ')); };
   var pResThin = await invoke(dPurchase, {
     method: 'POST', headers: {},
     body: { searchId: rec2.searchId, itemId: map2.itemId, buyerId: 'b_t31t', policyAccepted: true,
       shippingAddress: { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' } }
   });
+  console.warn = thinWarnReal;
   assert('a spread fulfilment would refuse is not sold',
-    pResThin.status === 409 && /floor/.test(JSON.stringify(pResThin.body)),
+    pResThin.status === 409 && !/floor/.test(JSON.stringify(pResThin.body)),
     JSON.stringify(pResThin.body).slice(0, 200));
+  assert('and the margin-floor reason reaches the operator log, not the buyer',
+    /floor/.test(THINWARN.join(' ')), THINWARN.join(' | ').slice(0, 200));
   assert('and nothing was charged for that either',
     Object.keys((await db.get('relay:store:orders')) || {}).length === beforeThin);
   // A dry run must not consume the day's ceiling: it reserves nothing.
@@ -1672,6 +1727,58 @@ function invoke(handler, req) {
 
   // Matched on the hostname. An honest merchant whose product slug happens to contain the
   // supplier's name is a sourceable lead, and a whole-URL substring test threw it away.
+  // A GENUINE CROSS-SOURCE DUPLICATE, which the assertions above no longer produce.
+  //
+  // Re-proving these guards with a verifying mutator showed all three of the shared-URL
+  // assertions had gone vacuous: deleting the URL dedup entirely left the suite green.
+  // The cause was a LATER fix — isDirectSupplierUrl strips open-web cjdropshipping URLs
+  // before the merge, so the CJ-vs-reverse-image collision they construct can no longer
+  // happen, and they were asserting on a one-item list. The dedup is still needed for
+  // duplicates that do NOT involve a direct supplier, and nothing tested that.
+  //
+  // eBay and reverse-image returning the SAME non-supplier URL is the case that survives.
+  var dupUrl = 'https://legitshop.com/p/the-same-thing';
+  var savedEbayId2 = process.env.EBAY_CLIENT_ID, savedEbaySec2 = process.env.EBAY_CLIENT_SECRET;
+  process.env.EBAY_CLIENT_ID = 'test-id';
+  process.env.EBAY_CLIENT_SECRET = 'test-secret';
+  var realFetchDup = global.fetch;
+  global.fetch = async function (u) {
+    var url = String(u);
+    if (url.indexOf('identity/v1/oauth2/token') !== -1) {
+      return { ok: true, status: 200, json: async function () { return { access_token: 'tok', expires_in: 7200 }; } };
+    }
+    if (url.indexOf('item_summary/search') !== -1) {
+      return { ok: true, status: 200, json: async function () {
+        return { itemSummaries: [{ itemId: 'ebay_dup', title: 'the same thing',
+          price: { value: '9.00', currency: 'USD' }, itemWebUrl: dupUrl, condition: 'Used' }] }; } };
+    }
+    return BLOCK_NETWORK(u);
+  };
+  require.cache[riPath].exports = Object.assign({}, require.cache[riPath].exports, {
+    findForSale: async function () {
+      return { ok: true, matches: [{ url: dupUrl, title: 'the same thing, open web',
+        price: 4.00, shipping: 0, thumbnail: null, sourceName: 'legitshop', provider: 'serpapi_shopping' }] };
+    }
+  });
+  require.cache[cjPath2].exports = {
+    configured: function () { return true; },
+    search: async function () { return { ok: true, reason: null, items: [] }; }
+  };
+  delete require.cache[ssPath];
+  var ssDup = require('../lib/relay-source-search');
+  var crossed = await ssDup.searchAllSources({ description: 'the same thing', maxPrice: 500 });
+  assert('one URL returned by TWO providers collapses to a single item',
+    (crossed.items || []).length === 1,
+    JSON.stringify((crossed.items || []).map(function (i) { return i.source + ':' + i.itemId; })));
+  // Ranked before deduped, so the record kept is the one Relay can actually act on: eBay
+  // has a buy API and the open-web match does not, even though the open-web copy is cheaper.
+  assert('and the kept record is the ranked one, not merely the first seen',
+    crossed.items[0] && crossed.items[0].source === 'ebay',
+    crossed.items[0] && crossed.items[0].source + ' @ $' + crossed.items[0].price);
+  global.fetch = realFetchDup;
+  if (savedEbayId2 === undefined) delete process.env.EBAY_CLIENT_ID; else process.env.EBAY_CLIENT_ID = savedEbayId2;
+  if (savedEbaySec2 === undefined) delete process.env.EBAY_CLIENT_SECRET; else process.env.EBAY_CLIENT_SECRET = savedEbaySec2;
+
   assert('a supplier name in the path is not a supplier domain',
     ss5.isDirectSupplierUrl('https://legitshop.com/products/cjdropshipping-style-case') === false);
   assert('a tracking parameter is not one either',
@@ -2229,6 +2336,13 @@ function invoke(handler, req) {
   // on top of a session it already booked double-books that session — and a duplicate
   // charge is money on its way back to the customer, not revenue. The extras are recorded
   // on the order for a refund decision a human makes.
+  //
+  // WHAT ACTUALLY GATES THIS, corrected after re-proving it: not the per-session choice in
+  // relay-finance-bridge (mutating that to sum every paid session leaves this green), but
+  // the overpayment cap in lib/relay-engine.js — `bookable`, which clamps the booked
+  // amount to the order total. Two paid sessions of $11.36 sum to $22.72, above an $11.36
+  // order, so the cap catches it before the per-session choice ever matters. The comment
+  // used to name the wrong guard; the number below is correct either way.
   assert('only the order\'s own charge is booked as income',
     LEDGER_WRITES.filter(function (w) { return w.orderId === twice.id; })[0].amount === 11.36,
     String(LEDGER_WRITES.filter(function (w) { return w.orderId === twice.id; })[0].amount));
@@ -2284,6 +2398,40 @@ function invoke(handler, req) {
     LINKS_CLOSED.indexOf('plink_' + over.id) !== -1, JSON.stringify(LINKS_CLOSED.slice(-4)));
   assert('and the order records that it closed',
     !!(await store.getOrder(over.id)).paymentLinkClosedAt);
+
+  // ISOLATE THE SETTLE-PATH CLOSE. The assertion above was vacuous: deleting the close
+  // inside the settle loop left it green, because the retry loop later in the SAME
+  // reconcilePayments call picked the order up. Two mechanisms, and the test could not
+  // tell which one fired.
+  //
+  // Here the retry loop is deliberately starved: limit is 1, and an older never-attempted
+  // order sorts ahead of ours in the retry's least-recently-tried ordering, consuming the
+  // whole batch. So if this order's link ends up closed, only the settle path can have
+  // done it.
+  var decoy = await store.createOrder({
+    buyerId: 'b_decoy', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(decoy.id, {
+    status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_decoy',
+    paymentLinkId: 'plink_decoy'                       // unclosed, never attempted -> sorts first
+  });
+  var isolated = await store.createOrder({
+    buyerId: 'b_isolated', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(isolated.id, {
+    status: 'awaiting-payment', paymentLinkId: 'plink_isolated',
+    lastCloseAttemptAt: new Date().toISOString()       // recently tried -> sorts LAST in the retry
+  });
+  STRIPE_SESSIONS = [{ id: 'cs_iso', status: 'complete', payment_status: 'paid',
+    payment_intent: 'pi_iso', amount_total: 1136, currency: 'usd' }];
+  LINKS_CLOSED.length = 0;
+  await engine3.reconcilePayments({ limit: 1 });
+  assert('the retry batch of one was spent on the older order, not ours',
+    LINKS_CLOSED.indexOf('plink_decoy') !== -1, JSON.stringify(LINKS_CLOSED));
+  assert('so this link can only have been closed by the settle path itself',
+    LINKS_CLOSED.indexOf('plink_isolated') !== -1, JSON.stringify(LINKS_CLOSED));
 
   // A closure Stripe refused must be retried, not left as the final word: until the link
   // closes, that customer can still be charged through it. "Best effort" that never tries
@@ -2449,6 +2597,1743 @@ function invoke(handler, req) {
   assert('the scan window is at least the ledger retention',
     isFinite(scanN) && isFinite(keepN) && scanN >= keepN,
     'scan ' + scanN + ' vs retained ' + keepN);
+
+  // ── T44 ─────────────────────────────────────────────────────────────────
+  // THE APPROVE DEFECT. approve() stamped approvedAt and NOTHING read it: fulfillLine
+  // called authorize() again, which in queue mode took a SECOND reservation and re-queued.
+  // The click bought nothing, and neither reservation was ever settled or released, so
+  // each click burned the line cost twice out of dailyCeilingUsd until the UTC day rolled.
+  console.log('T44: a human click actually buys, exactly once');
+  var apBuy = require.resolve('../lib/relay-buy');
+  var apRealBuy = require('../lib/relay-buy');
+  var AP_JOBS = [];
+  require.cache[apBuy].exports = Object.assign({}, apRealBuy, {
+    execute: async function (job) {
+      AP_JOBS.push(job);
+      return { ok: true, provider: 'cj', sourceOrderId: 'cjo_approved', amount: job.maxCost };
+    },
+    fileManualTask: async function () { return { ok: true, task: { id: 'task_stub' } }; }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+  var apEngine = require('../lib/relay-engine');
+  var apCtl = require('../handlers/relay-autonomous-control');
+  var apAut = require('../lib/relay-autonomy');
+
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
+  var apListing = await store.createListing({
+    marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: 'approve-path item',
+    price: 22.00, description: 'x', category: 'other', condition: 'new', quantity: 5,
+    sourceMarketplace: 'cj', sourceId: 'v_ap', sourceUrl: 'https://www.cjdropshipping.com/product/-p-AP.html',
+    sourceCost: 11.00, sourceShipping: 4.00, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+    marginAtListing: 0.5, sourceVerifiedAt: new Date().toISOString()
+  });
+  var apOrder = await store.createOrder({
+    buyerId: 'b_ap', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: apListing.id, qty: 1, unitPrice: 22.00, title: 'approve-path item', sourceCost: 11.00 }]
+  });
+  await store.updateOrder(apOrder.id, { status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_ap' });
+
+  // First pass: queue mode reserves and holds for a human. Nothing is bought.
+  var pass1 = await apEngine.fulfillPaidOrder({ orderId: apOrder.id });
+  assert('queue mode holds the line for a human, buying nothing',
+    AP_JOBS.length === 0 && (pass1.lines || [])[0] && pass1.lines[0].state === 'awaiting-approval',
+    JSON.stringify((pass1.lines || [])[0] || {}).slice(0, 160));
+  var apDecision = pass1.lines[0].decisionId;
+  var spentAfterHold = (await apAut.status()).spentToday;
+  assert('and one reservation is counted against the day', spentAfterHold === 11, String(spentAfterHold));
+
+  // The click. This is the whole defect: before the fix it bought nothing and reserved again.
+  var click = await invoke(apCtl, {
+    method: 'POST', headers: {},
+    body: { action: 'approve-purchase', key: process.env.RELAY_ADMIN_KEY, decisionId: apDecision }
+  });
+  var clickBody = click.body || {};
+  assert('the click actually places the supplier order',
+    AP_JOBS.length === 1 && AP_JOBS[0].orderId === apOrder.id,
+    'jobs: ' + AP_JOBS.length);
+  assert('and the handler reports THIS decision, not the order aggregate',
+    clickBody.purchased === true && clickBody.ok === true,
+    JSON.stringify({ ok: clickBody.ok, purchased: clickBody.purchased, reason: clickBody.reason }));
+  assert('the approved reservation is the one that was spent',
+    AP_JOBS[0].decisionId === apDecision, String(AP_JOBS[0].decisionId));
+
+  // The leak: a second reservation would double-count the day's spend.
+  var spentAfterBuy = (await apAut.status()).spentToday;
+  assert('no second reservation was taken', spentAfterBuy === 11,
+    'spentToday ' + spentAfterHold + ' -> ' + spentAfterBuy);
+  var apRows = (await db.get('relay:autonomy-ledger')) || [];
+  assert('and the reservation ended settled, not orphaned',
+    apRows.filter(function (r) { return r.state === 'settled'; }).length === 1 &&
+    apRows.filter(function (r) { return r.state === 'reserved'; }).length === 0,
+    JSON.stringify(apRows.map(function (r) { return r.state; })));
+
+  // Idempotence: the same approval cannot be spent twice.
+  var click2 = await invoke(apCtl, {
+    method: 'POST', headers: {},
+    body: { action: 'approve-purchase', key: process.env.RELAY_ADMIN_KEY, decisionId: apDecision }
+  });
+  assert('the same approval cannot be spent twice',
+    AP_JOBS.length === 1, 'jobs after second click: ' + AP_JOBS.length);
+
+  // THE KILL SWITCH. An approval granted before the switch was thrown is not permission
+  // to spend after it. This is the fatal objection the adversarial review raised.
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
+  var offOrder = await store.createOrder({
+    buyerId: 'b_apoff', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: apListing.id, qty: 1, unitPrice: 22.00, title: 'x', sourceCost: 11.00 }]
+  });
+  await store.updateOrder(offOrder.id, { status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_apoff' });
+  var offHold = await apEngine.fulfillPaidOrder({ orderId: offOrder.id });
+  var offDecision = offHold.lines[0].decisionId;
+  await apAut.approve(offDecision, 'operator');
+  var beforeOff = AP_JOBS.length;
+  await db.set('relay:autonomy', {
+    mode: 'off', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
+  var offRes = await apAut.consumeApproved({
+    decisionId: offDecision, orderId: offOrder.id, listingId: apListing.id, amount: 11.00
+  });
+  assert('mode OFF refuses an approval granted before the switch',
+    offRes.allowed === false && /OFF/.test(String(offRes.reason)), JSON.stringify(offRes.reason));
+  assert('and nothing was bought', AP_JOBS.length === beforeOff, 'jobs: ' + AP_JOBS.length);
+
+  // An auto-mode reservation is not something a human approved.
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
+  await db.set('relay:autonomy-ledger', []);
+  var autoRes = await apAut.authorize({ amount: 11, salePrice: 22, orderId: 'o_auto', listingId: apListing.id });
+  await apAut.approve(autoRes.decisionId, 'operator');
+  var autoConsume = await apAut.consumeApproved({
+    decisionId: autoRes.decisionId, orderId: 'o_auto', listingId: apListing.id, amount: 11
+  });
+  assert('an auto-mode reservation cannot be consumed as an approval',
+    autoConsume.allowed === false && /not queued/.test(String(autoConsume.reason)),
+    JSON.stringify(autoConsume.reason));
+
+  // Funds are re-checked at consume time: approval is a human delay, and the contract is
+  // "never spend into overdraft", not "never start to".
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
+  await db.set('relay:autonomy-ledger', []);
+  var fundRes = await apAut.authorize({ amount: 11, salePrice: 22, orderId: 'o_f', listingId: apListing.id });
+  await apAut.approve(fundRes.decisionId, 'operator');
+  var ppPath = require.resolve('../lib/relay-paypal-balance');
+  var ppReal = require.cache[ppPath] ? require.cache[ppPath].exports : null;
+  require.cache[ppPath] = { id: ppPath, filename: ppPath, loaded: true,
+    exports: { getCurrentBalance: async function () { return 0; } } };
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: true
+  });
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  var apAut2 = require('../lib/relay-autonomy');
+  var fundConsume = await apAut2.consumeApproved({
+    decisionId: fundRes.decisionId, orderId: 'o_f', listingId: apListing.id, amount: 11
+  });
+  assert('funds are re-checked when the approval is spent, not only when reserved',
+    fundConsume.allowed === false && /funding balance/.test(String(fundConsume.reason)),
+    JSON.stringify(fundConsume.reason));
+  if (ppReal) require.cache[ppPath] = { id: ppPath, filename: ppPath, loaded: true, exports: ppReal };
+  else delete require.cache[ppPath];
+
+  require.cache[apBuy].exports = apRealBuy;
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+
+  // ── T45 ─────────────────────────────────────────────────────────────────
+  // _claimIncome IS THE CONCURRENCY GUARD, AND IT HAD NO TEST.
+  //
+  // Re-proving every guard from the merged PRs with a verifying mutator turned this up:
+  // replacing `const claim = await _claimIncome(order.id)` with `{ ok: true }` left all
+  // 376 assertions green. The claim's happy path runs on every booking, so it LOOKED
+  // covered; the contended path it exists for — two overlapping reconciles both reading
+  // "not booked" and both writing income — was never exercised once.
+  //
+  // limen-db has no compare-and-set, so this is a write-then-verify claim: write a token,
+  // read it back, and only proceed if it is still ours. That is the whole mechanism, and
+  // "read it back" is the half that was untested.
+  console.log('T45: a contended income claim is refused, and the money is not booked twice');
+  var dbPath = require.resolve('../lib/limen-db');
+  var realDb = require('../lib/limen-db');
+  var CLAIM_KEY = 'relay:income-claims';
+  var raceMode = null;          // null | 'foreign-readback'
+  var raceOrderId = null;
+  var claimSetSeen = false;
+  require.cache[dbPath].exports = Object.assign({}, realDb, {
+    get: async function (k) {
+      // THE RACE. Our token was written, and between our write and our read another
+      // writer clobbered the key with theirs. This is the exact interleaving the
+      // write-then-verify exists to catch, and it cannot be produced any other way
+      // without a real second process.
+      if (k === CLAIM_KEY && raceMode === 'foreign-readback' && claimSetSeen) {
+        var m = {};
+        m[raceOrderId] = { token: 'the-other-cycle', at: Date.now() };
+        return m;
+      }
+      return realDb.get(k);
+    },
+    set: async function (k, v) {
+      if (k === CLAIM_KEY) claimSetSeen = true;
+      return realDb.set(k, v);
+    }
+  });
+  // The bridge MUST be stubbed here or LEDGER_WRITES stays empty for the ordinary reason
+  // and every "nothing was booked" assertion below is vacuous. Caught exactly that way:
+  // the stale-claim case failed while its two neighbours passed, and the neighbours were
+  // passing because income was going to the real ledger, not because it was refused.
+  var raceBookings = [];
+  require.cache[fbPath].exports = Object.assign({}, realFb, {
+    paymentsEnabled: function () { return true; },
+    incomeAlreadyBooked: async function () { return false; },
+    queueDepth: async function () { return 0; },
+    drainQueue: async function () { return { ok: true, drained: 0 }; },
+    reportIncome: async function (e) {
+      raceBookings.push(e);
+      LEDGER_WRITES.push(e);
+      return { ok: true, recorded: true };
+    }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  var raceEngine = require('../lib/relay-engine');
+
+  var raceOrder = await store.createOrder({
+    buyerId: 'b_race', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  raceOrderId = raceOrder.id;
+  await store.updateOrder(raceOrder.id, {
+    status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_race', collectedAmount: 11.36
+  });
+  await db.set(CLAIM_KEY, {});
+  var writesBeforeRace = LEDGER_WRITES.length;
+
+  raceMode = 'foreign-readback';
+  claimSetSeen = false;
+  var raceRows = (await raceEngine.reconcilePayments({ limit: 500 })).checked
+    .filter(function (c) { return c.orderId === raceOrder.id; });
+  raceMode = null;
+
+  assert('a claim whose read-back returns another writer\'s token is refused',
+    raceRows.length === 1 && raceRows[0].incomeSkipped === 'claimed-elsewhere',
+    JSON.stringify(raceRows));
+  assert('and NOTHING is booked for it',
+    LEDGER_WRITES.filter(function (w) { return w.orderId === raceOrder.id; }).length === 0,
+    'writes: ' + (LEDGER_WRITES.length - writesBeforeRace));
+  assert('and the order is left unmarked, so the winner books it and we retry',
+    !(await store.getOrder(raceOrder.id)).incomeReportedAt,
+    String((await store.getOrder(raceOrder.id)).incomeReportedAt));
+
+  // The other rejection path: a claim already held by a live cycle. Different branch of
+  // the same guard — this one sees the contention BEFORE writing rather than after.
+  var heldOrder = await store.createOrder({
+    buyerId: 'b_held_claim', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(heldOrder.id, {
+    status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_held', collectedAmount: 11.36
+  });
+  var heldMap = {};
+  heldMap[heldOrder.id] = { token: 'a-cycle-still-running', at: Date.now() };
+  await db.set(CLAIM_KEY, heldMap);
+  var heldRows = (await raceEngine.reconcilePayments({ limit: 500 })).checked
+    .filter(function (c) { return c.orderId === heldOrder.id; });
+  assert('an order already claimed by a live cycle is left alone',
+    heldRows.length === 1 && heldRows[0].incomeSkipped === 'claimed-elsewhere',
+    JSON.stringify(heldRows));
+  assert('and nothing is booked for that one either',
+    LEDGER_WRITES.filter(function (w) { return w.orderId === heldOrder.id; }).length === 0);
+
+  // A claim left behind by a crash must not wedge the order out of recovery forever.
+  var staleMap = {};
+  staleMap[heldOrder.id] = { token: 'from-a-cycle-that-died', at: Date.now() - (10 * 60 * 1000) };
+  await db.set(CLAIM_KEY, staleMap);
+  await raceEngine.reconcilePayments({ limit: 500 });
+  assert('a stale claim from a crashed cycle is reclaimable',
+    LEDGER_WRITES.filter(function (w) { return w.orderId === heldOrder.id; }).length === 1,
+    'writes: ' + LEDGER_WRITES.filter(function (w) { return w.orderId === heldOrder.id; }).length);
+
+  require.cache[dbPath].exports = realDb;
+  require.cache[fbPath].exports = realFb;
+  await db.set(CLAIM_KEY, {});
+  delete require.cache[require.resolve('../lib/relay-engine')];
+
+  // ── T46 ─────────────────────────────────────────────────────────────────
+  // THE RATE LIMIT, at its real production values: 3 orders or $60 per rolling hour.
+  //
+  // perOrderCapUsd and dailyCeilingUsd are both TOTALS, and the daily one keys on the UTC
+  // date — which rolls at 19:00 America/Chicago. A loop that has gone wrong can spend the
+  // whole day's ceiling in one cycle and get a fresh $250 five minutes later. Neither
+  // limit bounds how FAST money leaves, and the whole point of this one is that it does
+  // not depend on a human noticing.
+  console.log('T46: the hourly rate limit holds without anyone watching');
+  var velAut = require('../lib/relay-autonomy');
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 3, velocityMaxUsd: 60          // the confirmed production numbers
+  });
+
+  // Three small orders inside the window are fine.
+  var v1 = await velAut.authorize({ amount: 10, salePrice: 30, orderId: 'v1', marketplace: 'cj' });
+  var v2 = await velAut.authorize({ amount: 10, salePrice: 30, orderId: 'v2', marketplace: 'cj' });
+  var v3 = await velAut.authorize({ amount: 10, salePrice: 30, orderId: 'v3', marketplace: 'cj' });
+  assert('three purchases in the hour are allowed',
+    v1.allowed && v2.allowed && v3.allowed,
+    JSON.stringify([v1.allowed, v2.allowed, v3.allowed]));
+
+  // The fourth is refused on COUNT, with $30 of a $250 ceiling used and $60 of headroom.
+  var v4 = await velAut.authorize({ amount: 10, salePrice: 30, orderId: 'v4', marketplace: 'cj' });
+  assert('the fourth is refused on order count, not on the daily ceiling',
+    v4.allowed === false && /reaches the 3 limit/.test(String(v4.reason)),
+    JSON.stringify(v4.reason));
+  assert('and the day still has plenty of room, proving it was the RATE that stopped it',
+    v4.remainingToday >= 200, String(v4.remainingToday));
+
+  // The dollar half, independently: one big order inside the count limit.
+  await db.set('relay:autonomy-ledger', []);
+  var b1 = await velAut.authorize({ amount: 50, salePrice: 150, orderId: 'b1', marketplace: 'cj' });
+  var b2 = await velAut.authorize({ amount: 40, salePrice: 120, orderId: 'b2', marketplace: 'cj' });
+  assert('spend past $60 in the hour is refused even on the second order',
+    b1.allowed === true && b2.allowed === false && /exceeds the \$60 hourly rate limit/.test(String(b2.reason)),
+    JSON.stringify({ b1: b1.allowed, b2: b2.reason }));
+
+  // THE WINDOW ROLLS. An order that ages out stops counting — this is what makes it a
+  // rate limit rather than a second, smaller daily ceiling.
+  var aged = (await db.get('relay:autonomy-ledger')) || [];
+  aged.forEach(function (r) { r.ts = new Date(Date.now() - 61 * 60 * 1000).toISOString(); });
+  await db.set('relay:autonomy-ledger', aged);
+  var afterWindow = await velAut.authorize({ amount: 40, salePrice: 120, orderId: 'b3', marketplace: 'cj' });
+  assert('once the hour passes, purchasing resumes on its own',
+    afterWindow.allowed === true, JSON.stringify(afterWindow.reason));
+
+  // Clicking approve repeatedly must not outrun it either.
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var q1 = await velAut.authorize({ amount: 10, salePrice: 30, orderId: 'q1', listingId: 'L1', marketplace: 'cj' });
+  var q2 = await velAut.authorize({ amount: 10, salePrice: 30, orderId: 'q2', listingId: 'L2', marketplace: 'cj' });
+  await velAut.approve(q2.decisionId, 'operator');
+  // Both are reserved. NOW the rate limit tightens — the click must not be a way past it.
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 1, velocityMaxUsd: 60
+  });
+  var qConsume = await velAut.consumeApproved({
+    decisionId: q2.decisionId, orderId: 'q2', listingId: 'L2', amount: 10
+  });
+  assert('an approval cannot be used to outrun the rate limit',
+    qConsume.allowed === false && /last hour/.test(String(qConsume.reason)),
+    JSON.stringify(qConsume.reason));
+
+  // ── T47 ─────────────────────────────────────────────────────────────────
+  // THE FUNDING GATE READS THE WALLET THAT IS ACTUALLY DEBITED.
+  //
+  // It read a PayPal balance for every purchase, and no Relay purchase has ever debited
+  // PayPal — CJ pays from its own prepaid wallet. Live PayPal read $0.00, so the gate
+  // refused every sale, including the customer's checkout, on a number about a different
+  // account. Nothing in the client could read the right one, which is why it stood.
+  console.log('T47: funding is checked against the CJ wallet, not PayPal');
+  var cjPathF = require.resolve('../lib/relay-cj');
+  var realCjF = require.cache[cjPathF] ? require.cache[cjPathF].exports : require('../lib/relay-cj');
+  var ppPathF = require.resolve('../lib/relay-paypal-balance');
+  var realPpF = require.cache[ppPathF] ? require.cache[ppPathF].exports : null;
+  var CJ_BAL = { ok: true, available: 100, amount: 100, frozen: 0 };
+  var paypalReads = 0;
+  require.cache[cjPathF] = { id: cjPathF, filename: cjPathF, loaded: true,
+    exports: Object.assign({}, realCjF, { balance: async function () { return CJ_BAL; } }) };
+  require.cache[ppPathF] = { id: ppPathF, filename: ppPathF, loaded: true,
+    exports: { getCurrentBalance: async function () { paypalReads++; return 0; } } };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  let fundAut = require('../lib/relay-autonomy');
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: true,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+
+  var funded = await fundAut.authorize({ amount: 20, salePrice: 60, orderId: 'f1', marketplace: 'cj' });
+  assert('a funded CJ wallet authorises the purchase',
+    funded.allowed === true, JSON.stringify(funded.reason));
+  assert('and PayPal was never consulted for a CJ purchase',
+    paypalReads === 0, 'paypal reads: ' + paypalReads);
+
+  // The wallet read is cached for a minute so a cart does not pay a round trip per line.
+  // Re-requiring clears that module state, which is the only way to vary it in-test.
+  CJ_BAL = { ok: true, available: 5, amount: 5, frozen: 0 };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  fundAut = require('../lib/relay-autonomy');
+  var poor = await fundAut.authorize({ amount: 20, salePrice: 60, orderId: 'f2', marketplace: 'cj' });
+  // The refusal also names money already COMMITTED but not yet debited — the earlier $20
+  // reservation is spend the wallet has not seen leave yet, and counting it is what stops
+  // two orders inside the cache window from both passing on the same balance.
+  assert('an empty CJ wallet refuses, naming the wallet and the shortfall',
+    poor.allowed === false &&
+    /CJ wallet has \$5\.00/.test(String(poor.reason)) &&
+    /\$20\.00 purchase/.test(String(poor.reason)),
+    JSON.stringify(poor.reason));
+
+  // Unreadable is NOT empty. Both refuse, but the reason has to be true or the operator
+  // funds the wrong thing chasing a wrong message.
+  CJ_BAL = { ok: false, error: 'CJ 503: upstream' };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  fundAut = require('../lib/relay-autonomy');
+  var blind = await fundAut.authorize({ amount: 20, salePrice: 60, orderId: 'f3', marketplace: 'cj' });
+  assert('an unreadable wallet refuses as UNREADABLE, not as empty',
+    blind.allowed === false && /could not read the CJ wallet/.test(String(blind.reason)),
+    JSON.stringify(blind.reason));
+
+  if (realPpF) require.cache[ppPathF] = { id: ppPathF, filename: ppPathF, loaded: true, exports: realPpF };
+  else delete require.cache[ppPathF];
+  require.cache[cjPathF] = { id: cjPathF, filename: cjPathF, loaded: true, exports: realCjF };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+
+  // ── T48 ─────────────────────────────────────────────────────────────────
+  // AN EXCEPTION QUEUE NOBODY IS TOLD ABOUT IS A DRAWER, NOT A QUEUE.
+  //
+  // reconcilePayments routes underpayments and double-payments to 'payment-review' and
+  // keeps them out of the automatic sweep. That is the right behaviour and it was totally
+  // silent: no email, no webhook, no counter anywhere in Relay, and not one control read
+  // touched relay:store:orders. A customer's money arrived, the loop deliberately stopped,
+  // and nothing said so — nor was there any way to look.
+  console.log('T48: a held order is visible where the operator already looks');
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+  var alertCtl = require('../handlers/relay-autonomous-control');
+  var K = process.env.RELAY_ADMIN_KEY;
+
+  var heldA = await store.createOrder({
+    buyerId: 'b_alert', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(heldA.id, {
+    status: 'payment-review',
+    reviewReason: 'paid $5.00 against $11.36 owed',
+    collectedAmount: 5.00, paidAt: new Date().toISOString()
+  });
+
+  var stat = await invoke(alertCtl, {
+    method: 'GET', url: '/api/relay?view=control&action=status&key=' + K, headers: {}
+  });
+  assert('status counts orders held for review',
+    stat.body && stat.body.heldForReview >= 1, JSON.stringify(stat.body && stat.body.heldForReview));
+  assert('and needsAttention is non-zero, so silence means nothing is wrong',
+    stat.body && stat.body.needsAttention >= 1, String(stat.body && stat.body.needsAttention));
+  // A count alone makes the operator go hunting for the reason. The reason rides along.
+  var mine = ((stat.body && stat.body.heldReasons) || []).filter(function (r) { return r.orderId === heldA.id; });
+  assert('the reason travels with the count, not somewhere else',
+    mine.length === 1 && /5\.00/.test(String(mine[0].reason)) && mine[0].collected === 5,
+    JSON.stringify(mine));
+
+  // The lookup that did not exist. ?view=order is a POST purchase route, and no control
+  // read touched the order store — so during a live test nobody could answer "did it flip
+  // to paid, or is it stuck".
+  var listed = await invoke(alertCtl, {
+    method: 'GET', url: '/api/relay?view=control&action=orders&status=payment-review&key=' + K, headers: {}
+  });
+  var found = ((listed.body && listed.body.orders) || []).filter(function (o) { return o.id === heldA.id; });
+  assert('held orders can actually be listed', found.length === 1, JSON.stringify(listed.body && listed.body.count));
+  assert('and carry what a human needs to decide',
+    found[0] && found[0].collectedAmount === 5 && found[0].total === 11.36 && /owed/.test(String(found[0].reviewReason)),
+    JSON.stringify(found[0]));
+
+  // Operator-only: these rows carry source costs, which is the one thing that must never
+  // reach a customer.
+  var noKey = await invoke(alertCtl, {
+    method: 'GET', url: '/api/relay?view=control&action=orders&status=payment-review', headers: {}
+  });
+  assert('the order lookup is gated like every other admin read',
+    noKey.status === 403 || (noKey.body && noKey.body.ok === false),
+    JSON.stringify({ s: noKey.status, b: noKey.body }).slice(0, 140));
+
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+
+  // ── T49 ─────────────────────────────────────────────────────────────────
+  // FOUR WAYS THE NEW GATES COULD BE WALKED AROUND, found in review.
+  console.log('T49: the rate limit and the approval gate cannot be walked around');
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  var wAut = require('../lib/relay-autonomy');
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+  var wCtl = require('../handlers/relay-autonomous-control');
+
+  // (a) AN AGED QUEUE, APPROVED IN A BURST. The window keyed on the reservation
+  // timestamp, so three reservations left overnight and approved in quick succession
+  // counted for nothing — the rate limit was defeated on exactly the path a human drives.
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    // Permissive while RESERVING, or the third reservation is refused here and the test
+    // proves nothing about the consume path. Caught by mutation: zeroing the consumedAt
+    // term left this green, because there were only ever two rows to approve.
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var agedIds = [];
+  for (var ai = 0; ai < 3; ai++) {
+    var a = await wAut.authorize({ amount: 5, salePrice: 30, orderId: 'aged' + ai, listingId: 'L' + ai, marketplace: 'cj' });
+    agedIds.push(a.decisionId);
+  }
+  var agedRows = (await db.get('relay:autonomy-ledger')) || [];
+  agedRows.forEach(function (r) { r.ts = new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(); });
+  await db.set('relay:autonomy-ledger', agedRows);
+  for (var aj = 0; aj < 3; aj++) await wAut.approve(agedIds[aj], 'operator');
+  // NOW the rate limit tightens. Three aged, approved rows and a limit of two: the
+  // consume path is the only thing that can hold the burst.
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 2, velocityMaxUsd: 999
+  });
+  var burst = [];
+  for (var ak = 0; ak < 3; ak++) {
+    burst.push(await wAut.consumeApproved({
+      decisionId: agedIds[ak], orderId: 'aged' + ak, listingId: 'L' + ak, amount: 5
+    }));
+  }
+  assert('an aged queue cannot be approved into an unbounded burst',
+    agedIds.filter(Boolean).length === 3 && burst.filter(function (r) { return r.allowed; }).length === 2,
+    JSON.stringify(burst.map(function (r) { return r.allowed ? 'ok' : r.reason; })));
+
+  // (b) LIMITS TIGHTENED AFTER QUEUEING must apply to a pending approval.
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var pend = await wAut.authorize({ amount: 40, salePrice: 100, orderId: 'tight', listingId: 'LT', marketplace: 'cj' });
+  await wAut.approve(pend.decisionId, 'operator');
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 10, dailyCeilingUsd: 250,      // cap cut below the row
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var capped = await wAut.consumeApproved({ decisionId: pend.decisionId, orderId: 'tight', listingId: 'LT', amount: 40 });
+  assert('a per-order cap lowered after queueing still binds the approval',
+    capped.allowed === false && /per-order cap/.test(String(capped.reason)), JSON.stringify(capped.reason));
+
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 90, minMarginPct: 0.10, requireFunds: false,     // floor raised above the spread
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var floored = await wAut.consumeApproved({ decisionId: pend.decisionId, orderId: 'tight', listingId: 'LT', amount: 40 });
+  assert('a margin floor raised after queueing still binds the approval',
+    floored.allowed === false && /floor as it stands now/.test(String(floored.reason)), JSON.stringify(floored.reason));
+
+  // (c) A CART'S OTHER LINES ARE REAL INTENT. A dry run writes no row, so every line saw
+  // an empty window; the basket passed, the customer paid, and the tail blocked later.
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 3, velocityMaxUsd: 999
+  });
+  var lineFour = await wAut.authorize({
+    amount: 10, salePrice: 30, orderId: 'cart', marketplace: 'cj', dryRun: true, plannedOrders: 3
+  });
+  assert('a cart whose LINE COUNT breaks the rate limit is refused before payment',
+    lineFour.allowed === false && /rate limit/.test(String(lineFour.reason)), JSON.stringify(lineFour.reason));
+
+  // (d) MONEY ALREADY PROMISED comes off the cached wallet, or two orders inside the
+  // cache window both pass on the same balance and the second customer pays for nothing.
+  var cjW = require.resolve('../lib/relay-cj');
+  var realCjW = require.cache[cjW] ? require.cache[cjW].exports : require('../lib/relay-cj');
+  require.cache[cjW] = { id: cjW, filename: cjW, loaded: true,
+    exports: Object.assign({}, realCjW, { balance: async function () { return { ok: true, available: 40, amount: 40, frozen: 0 }; } }) };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  var wal = require('../lib/relay-autonomy');
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: true,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var w1 = await wal.authorize({ amount: 25, salePrice: 80, orderId: 'w1', marketplace: 'cj' });
+  var w2 = await wal.authorize({ amount: 25, salePrice: 80, orderId: 'w2', marketplace: 'cj' });
+  assert('the first $25 passes against a $40 wallet', w1.allowed === true, JSON.stringify(w1.reason));
+  assert('the second is refused, because the first $25 is already committed',
+    w2.allowed === false && /already committed/.test(String(w2.reason)), JSON.stringify(w2.reason));
+  require.cache[cjW] = { id: cjW, filename: cjW, loaded: true, exports: realCjW };
+
+  // (e) The rate limit must be settable through the endpoint that advertises it.
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 3, velocityMaxUsd: 60
+  });
+  var setRes = await invoke(wCtl, {
+    method: 'POST', headers: {},
+    body: { action: 'set-limits', key: process.env.RELAY_ADMIN_KEY, velocityMaxOrders: 7, velocityMaxUsd: 123 }
+  });
+  assert('set-limits actually forwards the rate limit, instead of reporting success',
+    setRes.body && setRes.body.ok && setRes.body.config &&
+    setRes.body.config.velocityMaxOrders === 7 && setRes.body.config.velocityMaxUsd === 123,
+    JSON.stringify(setRes.body && setRes.body.config));
+
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+
+  // ── T50 ─────────────────────────────────────────────────────────────────
+  // ONE ROW, COUNTED ONCE. Two guards made the same mistake in opposite directions: the
+  // funds check left the row being spent in the "already committed" total and then asked
+  // the remainder to cover it AGAIN, so an approval needed twice the purchase price in
+  // the wallet; the dollar-rate check excluded the row AND passed a zero amount, so the
+  // purchase being released counted for nothing. One rule now: drop the row from what is
+  // already committed, then count its amount once as the new spend.
+  console.log('T50: the row being spent is counted exactly once, in both gates');
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  var oneAut = require('../lib/relay-autonomy');
+  var cjOne = require.resolve('../lib/relay-cj');
+  var realCjOne = require.cache[cjOne] ? require.cache[cjOne].exports : require('../lib/relay-cj');
+  var WALLET = 30;
+  require.cache[cjOne] = { id: cjOne, filename: cjOne, loaded: true,
+    exports: Object.assign({}, realCjOne, {
+      balance: async function () { return { ok: true, available: WALLET, amount: WALLET, frozen: 0 }; } }) };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  oneAut = require('../lib/relay-autonomy');
+
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: true,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var r20 = await oneAut.authorize({ amount: 20, salePrice: 60, orderId: 'one', listingId: 'LO', marketplace: 'cj' });
+  assert('a $20 purchase queues against a $30 wallet', !!r20.decisionId, JSON.stringify(r20.reason));
+  await oneAut.approve(r20.decisionId, 'operator');
+  var spend20 = await oneAut.consumeApproved({ decisionId: r20.decisionId, orderId: 'one', listingId: 'LO', amount: 20 });
+  assert('and the SAME $20 is spendable at approval, not double-subtracted',
+    spend20.allowed === true, JSON.stringify(spend20.reason));
+
+  // The dollar-rate side of the same rule: two overnight $40 approvals must not both
+  // clear a $60 hourly cap by each counting as zero.
+  await db.set('relay:autonomy-ledger', []);
+  WALLET = 500;
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    // Permissive while RESERVING, or the second reservation never exists and the test
+    // proves nothing about the consume path. Same trap as T49; caught the same way.
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var d1 = await oneAut.authorize({ amount: 40, salePrice: 120, orderId: 'd1', listingId: 'LD1', marketplace: 'cj' });
+  var d2 = await oneAut.authorize({ amount: 40, salePrice: 120, orderId: 'd2', listingId: 'LD2', marketplace: 'cj' });
+  var dRows = (await db.get('relay:autonomy-ledger')) || [];
+  dRows.forEach(function (r) { r.ts = new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(); });
+  await db.set('relay:autonomy-ledger', dRows);
+  await oneAut.approve(d1.decisionId, 'operator');
+  await oneAut.approve(d2.decisionId, 'operator');
+  // NOW the dollar cap tightens: two aged $40 approvals against $60 an hour.
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 60
+  });
+  var c1 = await oneAut.consumeApproved({ decisionId: d1.decisionId, orderId: 'd1', listingId: 'LD1', amount: 40 });
+  var c2 = await oneAut.consumeApproved({ decisionId: d2.decisionId, orderId: 'd2', listingId: 'LD2', amount: 40 });
+  assert('two $40 approvals cannot both clear a $60 hourly cap',
+    !!d1.decisionId && !!d2.decisionId &&
+    c1.allowed === true && c2.allowed === false && /hourly rate limit/.test(String(c2.reason)),
+    JSON.stringify({ first: c1.allowed, second: c2.reason }));
+
+  // A SETTLED purchase still counts against the cached wallet. settle() flips the row the
+  // instant the buy succeeds while the balance stays cached for a minute, so counting
+  // only 'reserved' meant an ordinary completed purchase subtracted nothing.
+  await db.set('relay:autonomy-ledger', []);
+  WALLET = 40;
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  oneAut = require('../lib/relay-autonomy');
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: true,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var s1 = await oneAut.authorize({ amount: 25, salePrice: 80, orderId: 's1', marketplace: 'cj' });
+  await oneAut.settle(s1.decisionId, { amount: 25, sourceOrderId: 'cjo_s1' });
+  var s2 = await oneAut.authorize({ amount: 25, salePrice: 80, orderId: 's2', marketplace: 'cj' });
+  assert('a SETTLED debit still counts while the wallet figure is cached',
+    s2.allowed === false && /committed/.test(String(s2.reason)), JSON.stringify(s2.reason));
+
+  require.cache[cjOne] = { id: cjOne, filename: cjOne, loaded: true, exports: realCjOne };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+
+  // ── T51 ─────────────────────────────────────────────────────────────────
+  // THE ALERT MUST NOT GO QUIET UNDER THE FAILURE IT EXISTS FOR.
+  console.log('T51: a stranded order and an unreadable store both raise the alarm');
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+  var alCtl = require('../handlers/relay-autonomous-control');
+  var AK = process.env.RELAY_ADMIN_KEY;
+
+  // A paid order whose purchase failed WITHOUT filing a task. needsAttention summed only
+  // held orders and tasks, so this read as zero while a customer's money sat taken and
+  // nothing had been ordered.
+  // MEASURED AS A DELTA. Asserting needsAttention >= 1 was vacuous: held orders from
+  // earlier blocks already made it non-zero, so the stranded order contributed nothing
+  // and removing it from the sum left the assertion green.
+  var beforeStranded = (await invoke(alCtl, {
+    method: 'GET', url: '/api/relay?view=control&action=status&key=' + AK, headers: {}
+  })).body.needsAttention;
+  var strandedOrder = await store.createOrder({
+    buyerId: 'b_stranded', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(strandedOrder.id, {
+    status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_str',
+    fulfillment: { state: 'failed', reason: 'supplier refused' }
+  });
+  var st2 = await invoke(alCtl, {
+    method: 'GET', url: '/api/relay?view=control&action=status&key=' + AK, headers: {}
+  });
+  assert('a paid order nobody bought RAISES the attention total',
+    st2.body && st2.body.needsAttention === beforeStranded + 1 && st2.body.strandedWithoutTask >= 1,
+    JSON.stringify({ before: beforeStranded, after: st2.body && st2.body.needsAttention, s: st2.body && st2.body.strandedWithoutTask }));
+
+  // An unreadable order store must not answer with the same shape as an empty one.
+  var storePath = require.resolve('../lib/relay-store');
+  var realStoreMod = require.cache[storePath].exports;
+  require.cache[storePath].exports = Object.assign({}, realStoreMod, {
+    ordersByStatus: async function () { throw new Error('redis-unavailable'); }
+  });
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+  var blindCtl = require('../handlers/relay-autonomous-control');
+  var st3 = await invoke(blindCtl, {
+    method: 'GET', url: '/api/relay?view=control&action=status&key=' + AK, headers: {}
+  });
+  assert('an unreadable order store does NOT report zero held',
+    st3.body && st3.body.heldForReview === null, JSON.stringify(st3.body && st3.body.heldForReview));
+  assert('needsAttention is unknown, not calm',
+    st3.body && st3.body.needsAttention === null, JSON.stringify(st3.body && st3.body.needsAttention));
+  assert('and the outage is named, so null is never mistaken for fine',
+    st3.body && /redis-unavailable/.test(String(st3.body.ordersUnavailable)),
+    JSON.stringify(st3.body && st3.body.ordersUnavailable));
+
+  require.cache[storePath].exports = realStoreMod;
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+
+  // ── T52 ─────────────────────────────────────────────────────────────────
+  // ONE APPROVAL BELONGS TO ONE LINE. fulfillPaidOrder hands the same decisionId to every
+  // unfinished line of a multi-line order, so the others hit the binding check. Treating
+  // that as a plain refusal made them fall through to a fresh authorize() — duplicating
+  // reservations that were still live, filing a second manual task each, and
+  // double-counting the day's and the hour's capacity. Approving one line quietly
+  // inflated the queue.
+  console.log('T52: approving one line does not duplicate the others');
+  var mlBuy = require.resolve('../lib/relay-buy');
+  var mlRealBuy = require('../lib/relay-buy');
+  var ML_JOBS = [];
+  require.cache[mlBuy].exports = Object.assign({}, mlRealBuy, {
+    execute: async function (job) { ML_JOBS.push(job); return { ok: true, provider: 'cj', sourceOrderId: 'cjo_ml', amount: job.maxCost }; },
+    fileManualTask: async function () { return { ok: true, task: { id: 'task_ml' } }; }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  var mlEngine = require('../lib/relay-engine');
+  var mlAut = require('../lib/relay-autonomy');
+
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var mlB = await store.createListing({
+    marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: 'second line',
+    price: 22.00, description: 'x', category: 'other', condition: 'new', quantity: 5,
+    sourceMarketplace: 'cj', sourceId: 'v_ml', sourceUrl: 'https://www.cjdropshipping.com/product/-p-ML.html',
+    sourceCost: 11.00, sourceShipping: 4.00, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+    marginAtListing: 0.5, sourceVerifiedAt: new Date().toISOString()
+  });
+  var mlOrder = await store.createOrder({
+    buyerId: 'b_ml', shipping: 0, shippingAddress: cartAddr,
+    lines: [
+      { listingId: payListing.id, qty: 1, unitPrice: 22.00, title: 'line one', sourceCost: 11.00 },
+      { listingId: mlB.id, qty: 1, unitPrice: 22.00, title: 'line two', sourceCost: 11.00 }
+    ]
+  });
+  await store.updateOrder(mlOrder.id, { status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_ml' });
+
+  var held2 = await mlEngine.fulfillPaidOrder({ orderId: mlOrder.id });
+  assert('both lines queue for a human', (held2.lines || []).length === 2 &&
+    held2.lines.every(function (l) { return l.state === 'awaiting-approval'; }),
+    JSON.stringify((held2.lines || []).map(function (l) { return l.state; })));
+  var firstDecision = held2.lines[0].decisionId;
+  var reservedBefore = ((await db.get('relay:autonomy-ledger')) || []).length;
+  assert('two reservations exist, one per line', reservedBefore === 2, String(reservedBefore));
+
+  await mlAut.approve(firstDecision, 'operator');
+  var mlRun = await mlEngine.fulfillPaidOrder({ orderId: mlOrder.id, decisionId: firstDecision, force: true });
+
+  assert('the approved line is bought', ML_JOBS.length === 1, 'jobs: ' + ML_JOBS.length);
+  var other = (mlRun.lines || []).find(function (l) { return l.decisionId === null && l.skipped; });
+  assert('the other line is left queued, not re-authorised',
+    !!other && other.state === 'awaiting-approval',
+    JSON.stringify((mlRun.lines || []).map(function (l) { return l.state + (l.skipped ? '/skipped' : ''); })));
+  var ledgerAfter = (await db.get('relay:autonomy-ledger')) || [];
+  assert('and NO third reservation was created for it',
+    ledgerAfter.length === 2, 'rows: ' + ledgerAfter.length +
+    ' -> ' + JSON.stringify(ledgerAfter.map(function (r) { return r.state; })));
+
+  require.cache[mlBuy].exports = mlRealBuy;
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+
+  // ── T53 ─────────────────────────────────────────────────────────────────
+  // A DEBIT COMES OFF THE WALLET ONCE, NOT ON EVERY CHECKOUT FOREVER.
+  //
+  // Counting every settled row against a CJ-reported balance double-counted money CJ had
+  // already taken out of that number. The ledger keeps 4000 rows across days, so the error
+  // was cumulative and permanent: a $100 wallet that had ever spent $70 reported $30
+  // spendable, and kept shrinking with each sale until the gate refused everything. The
+  // bug grew with the store's own success, which is the worst way for one to grow.
+  //
+  // The fix cannot simply drop settled rows, because CJ applies a debit on its own
+  // schedule: for a window after settlement the balance we hold is still a pre-purchase
+  // number, and that debit does have to come off or a customer pays for something the
+  // wallet cannot buy. Both directions are asserted here.
+  console.log('T53: settled debits stop counting once the wallet figure reflects them');
+  var cjP53 = require.resolve('../lib/relay-cj');
+  var realCj53 = require.cache[cjP53] ? require.cache[cjP53].exports : require('../lib/relay-cj');
+  var ppP53 = require.resolve('../lib/relay-paypal-balance');
+  var realPp53 = require.cache[ppP53] ? require.cache[ppP53].exports : null;
+  require.cache[cjP53] = { id: cjP53, filename: cjP53, loaded: true,
+    exports: Object.assign({}, realCj53, { balance: async function () { return { ok: true, available: 100, amount: 100, frozen: 0 }; } }) };
+  require.cache[ppP53] = { id: ppP53, filename: ppP53, loaded: true,
+    exports: { getCurrentBalance: async function () { return 0; } } };
+
+  // Ceiling and velocity are deliberately wide open: this test is about the WALLET gate,
+  // and a refusal from any other guard would look identical in the result.
+  var CFG53 = {
+    mode: 'auto', perOrderCapUsd: 1000, dailyCeilingUsd: 1000000,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: true,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  };
+  var today53 = new Date().toISOString().slice(0, 10);
+  function row53(state, amount, settledMsAgo) {
+    return {
+      id: 'r53_' + Math.random().toString(36).slice(2), day: today53,
+      ts: new Date(Date.now() - 7200000).toISOString(),
+      state: state, amount: amount, marketplace: 'cj', orderId: 'o53', mode: 'auto',
+      settledAt: state === 'settled' ? new Date(Date.now() - settledMsAgo).toISOString() : null
+    };
+  }
+  // Re-requiring is the only way to clear the module-level wallet cache between cases.
+  async function fundsCheck53(rows) {
+    await db.set('relay:autonomy-ledger', rows);
+    await db.set('relay:autonomy', CFG53);
+    delete require.cache[require.resolve('../lib/relay-autonomy')];
+    var a = require('../lib/relay-autonomy');
+    return a.authorize({ amount: 50, salePrice: 400, orderId: 'new53', marketplace: 'cj' });
+  }
+
+  // $100 wallet, $70 of purchases CJ debited two hours ago. That $70 is already gone from
+  // the $100, so $50 fits. The old code reported $30 spendable and refused.
+  var oldDebits = await fundsCheck53([row53('settled', 40, 7200000), row53('settled', 30, 7200000)]);
+  assert('an old settled debit is NOT subtracted again from a wallet that already reflects it',
+    oldDebits.allowed === true, JSON.stringify(oldDebits.reason));
+
+  // Same $70, settled a second ago. CJ may not have applied it yet, so it still comes off.
+  var freshDebit = await fundsCheck53([row53('settled', 70, 1000)]);
+  assert('a JUST-settled debit still counts, because CJ may not have applied it yet',
+    freshDebit.allowed === false && /already committed/.test(String(freshDebit.reason)),
+    JSON.stringify(freshDebit.reason));
+
+  // Money promised and not yet spent can never be reflected in any wallet figure.
+  var openRes = await fundsCheck53([row53('reserved', 70, 0)]);
+  assert('an OPEN reservation from today counts, because it is still spendable',
+    openRes.allowed === false && /already committed/.test(String(openRes.reason)),
+    JSON.stringify(openRes.reason));
+
+  // A reservation nobody can spend is not a commitment. consumeApproved refuses any row
+  // whose day is not today, and nothing sweeps the ledger, so a reservation stranded by a
+  // failed approval or a crash between buy and settle would otherwise shrink the wallet
+  // forever. Found while tracing the approval-failure path, not reported by review.
+  var deadRes = [row53('reserved', 70, 0)];
+  deadRes[0].day = '2020-01-01';
+  deadRes[0].ts = new Date(Date.now() - 7200000).toISOString();
+  var stale = await fundsCheck53(deadRes);
+  assert('a reservation from an earlier day, which can NEVER be consumed, stops counting',
+    stale.allowed === true, JSON.stringify(stale.reason));
+
+  // BUT 'not today' alone must not drop it. row.day is stamped at authorize() and the UTC
+  // date rolls at 19:00 America/Chicago, mid-trading-day. A reservation taken seconds
+  // before that roll is still in flight — relay-engine buys and settles it after
+  // authorize() returns — and dropping it would let the next line spend the same dollars
+  // once a day at a predictable minute. Caught by an independent re-read, not by review.
+  var justRolled = [row53('reserved', 70, 0)];
+  justRolled[0].day = '2020-01-01';           // a foreign day...
+  justRolled[0].ts = new Date().toISOString(); // ...but seconds old, so still in flight
+  var inFlight = await fundsCheck53(justRolled);
+  assert('a reservation made seconds before the date roll STILL counts, mid-purchase',
+    inFlight.allowed === false && /already committed/.test(String(inFlight.reason)),
+    JSON.stringify(inFlight.reason));
+
+  // The accumulation is what made this fatal rather than merely wrong: enough history and
+  // the gate refuses every sale on a wallet that can plainly afford it.
+  var manyOld = [];
+  for (var i53 = 0; i53 < 12; i53++) manyOld.push(row53('settled', 25, 7200000));
+  var pileUp = await fundsCheck53(manyOld);
+  assert('and $300 of long-settled history does not bankrupt a $100 wallet on paper',
+    pileUp.allowed === true, JSON.stringify(pileUp.reason));
+
+  if (realPp53) require.cache[ppP53] = { id: ppP53, filename: ppP53, loaded: true, exports: realPp53 };
+  else delete require.cache[ppP53];
+  require.cache[cjP53] = { id: cjP53, filename: cjP53, loaded: true, exports: realCj53 };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+
+  // ── T54 ─────────────────────────────────────────────────────────────────
+  // THE OUTAGE HAS TO REACH THE CATCH THAT HANDLES IT.
+  //
+  // Round 2 wrapped the order reads in a try/catch so a database outage would report
+  // 'unknown' instead of a calm zero. It never fired. db.get() swallows a Redis failure and
+  // returns process memory, which on a cold serverless instance is empty, so
+  // ordersByStatus resolved [] and nothing ever threw. The counters read a confident zero
+  // during exactly the failure the catch was added for — the alerting went silent under
+  // the one condition it exists for, which is the same defect one layer down.
+  console.log('T54: an unreadable store is detected at the read, not assumed empty');
+  var dbP54 = require.resolve('../lib/limen-db');
+  var realDb54 = require.cache[dbP54] ? require.cache[dbP54].exports : require('../lib/limen-db');
+  var strictCalls = 0;
+  require.cache[dbP54] = { id: dbP54, filename: dbP54, loaded: true,
+    exports: Object.assign({}, realDb54, {
+      // Pretend Redis is configured — strictness only bites where there is a Redis to be
+      // strict about, so a memory backend would skip the whole path under test.
+      getBackend: function () { return 'redis'; },
+      getStrict: async function () {
+        strictCalls++;
+        var e = new Error('redis-get-unreachable');
+        e.code = 'LIMEN_DB_REDIS_READ_FAILED';
+        throw e;
+      }
+    }) };
+  delete require.cache[require.resolve('../lib/relay-store')];
+  var store54 = require('../lib/relay-store');
+
+  // The forgiving read is unchanged. Shopper-facing lists still degrade rather than fail.
+  var quiet54 = await store54.ordersByStatus('paid', 10);
+  assert('the ordinary order read still degrades quietly, as its callers expect',
+    Array.isArray(quiet54), typeof quiet54);
+
+  var threw54 = false, err54 = null;
+  try { await store54.ordersByStatus('paid', 10, { strict: true }); }
+  catch (e) { threw54 = true; err54 = e.message; }
+  assert('a STRICT read throws on an unreadable store instead of resolving zero orders',
+    threw54 && /unreachable/.test(String(err54)), 'threw: ' + threw54 + ' ' + err54);
+  assert('and it got there through getStrict, not the swallowing get',
+    strictCalls > 0, 'getStrict calls: ' + strictCalls);
+
+  // End to end: the handler must now actually reach its own catch.
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+  var ctl54 = require('../handlers/relay-autonomous-control');
+  var st54 = await invoke(ctl54, {
+    method: 'GET', url: '/api/relay?view=control&action=status&key=' + process.env.RELAY_ADMIN_KEY, headers: {}
+  });
+  assert('a real Redis outage now reports UNKNOWN, not a calm zero',
+    st54.body && st54.body.needsAttention === null && st54.body.heldForReview === null,
+    JSON.stringify({ n: st54.body && st54.body.needsAttention, h: st54.body && st54.body.heldForReview }));
+  assert('and it names the outage',
+    st54.body && /unreachable/.test(String(st54.body.ordersUnavailable)),
+    JSON.stringify(st54.body && st54.body.ordersUnavailable));
+
+  require.cache[dbP54] = { id: dbP54, filename: dbP54, loaded: true, exports: realDb54 };
+  delete require.cache[require.resolve('../lib/relay-store')];
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+
+  // ── T55 ─────────────────────────────────────────────────────────────────
+  // HALF-FULFILLED IS NOT FULFILLED. On a multi-line paid order where one supplier
+  // purchase succeeds and another fails transiently, fulfillPaidOrder records
+  // state 'partial' and the transient failure files no manual task. The stranded filter
+  // counted only missing-or-failed fulfilment, so a customer with one line shipped and one
+  // line never ordered showed up nowhere at all.
+  console.log('T55: a half-fulfilled paid order still counts as needing attention');
+  var ctl55 = require('../handlers/relay-autonomous-control');
+  var AK55 = process.env.RELAY_ADMIN_KEY;
+  var before55 = (await invoke(ctl55, {
+    method: 'GET', url: '/api/relay?view=control&action=status&key=' + AK55, headers: {}
+  })).body.needsAttention;
+
+  var partialOrder = await store.createOrder({
+    buyerId: 'b_partial', shipping: 0, shippingAddress: cartAddr,
+    lines: [
+      { listingId: payListing.id, qty: 1, unitPrice: 22.00, title: 'shipped', sourceCost: 11.00 },
+      { listingId: payListing.id, qty: 1, unitPrice: 22.00, title: 'never ordered', sourceCost: 11.00 }
+    ]
+  });
+  await store.updateOrder(partialOrder.id, {
+    status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_partial',
+    // One line bought, one not — and NO taskId, which is what made it invisible.
+    fulfillment: { state: 'partial', taskId: null, reason: 'CJ timed out on line 2' }
+  });
+  var st55 = await invoke(ctl55, {
+    method: 'GET', url: '/api/relay?view=control&action=status&key=' + AK55, headers: {}
+  });
+  assert('a partly-bought paid order RAISES the attention total',
+    st55.body && st55.body.needsAttention === before55 + 1,
+    JSON.stringify({ before: before55, after: st55.body && st55.body.needsAttention }));
+
+  // COVERAGE IS PER LINE TOO. Matching a task only on orderId meant an order with two
+  // outstanding lines and a task for ONE of them read as fully handled, and the other line
+  // went silent — the same hole one level down. Found by an independent re-read of the fix
+  // above, not by review.
+  var buyP55 = require.resolve('../lib/relay-buy');
+  var realBuy55 = require.cache[buyP55] ? require.cache[buyP55].exports : require('../lib/relay-buy');
+  var TASKS55 = [];
+  require.cache[buyP55] = { id: buyP55, filename: buyP55, loaded: true,
+    exports: Object.assign({}, realBuy55, { openTasks: async function () { return TASKS55; } }) };
+
+  var twoLine = await store.createOrder({
+    buyerId: 'b_twoline', shipping: 0, shippingAddress: cartAddr,
+    lines: [
+      { listingId: 'lst_A', qty: 1, unitPrice: 22.00, title: 'A', sourceCost: 11.00 },
+      { listingId: 'lst_B', qty: 1, unitPrice: 22.00, title: 'B', sourceCost: 11.00 }
+    ]
+  });
+  await store.updateOrder(twoLine.id, {
+    status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_two',
+    fulfillment: { state: 'partial', lines: [
+      { listingId: 'lst_A', state: 'failed' },
+      { listingId: 'lst_B', state: 'failed' }
+    ] }
+  });
+
+  // MEASURED AS DELTAS AGAINST THE NO-TASK BASELINE. Asserting "stranded >= 1" was
+  // vacuous: stranded orders from earlier blocks already made it non-zero, so order-level
+  // coverage could drop this order entirely and the assertion stayed green.
+  async function strandedCount55() {
+    delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+    var c = require('../handlers/relay-autonomous-control');
+    return (await invoke(c, {
+      method: 'GET', url: '/api/relay?view=control&action=status&key=' + AK55, headers: {}
+    })).body.strandedWithoutTask;
+  }
+
+  TASKS55 = [];
+  var covNone = await strandedCount55();
+
+  // A task for line A only. Line B is still nobody's job, so NOTHING may change.
+  TASKS55 = [{ id: 'tsk_A', orderId: twoLine.id, listingId: 'lst_A', state: 'open' }];
+  var covOne = await strandedCount55();
+  assert('one task on a two-line order does NOT mark the whole order handled',
+    covOne === covNone,
+    JSON.stringify({ noTasks: covNone, oneTask: covOne }));
+
+  // Now cover BOTH lines. Only now does the order drop out.
+  TASKS55 = [
+    { id: 'tsk_A', orderId: twoLine.id, listingId: 'lst_A', state: 'open' },
+    { id: 'tsk_B', orderId: twoLine.id, listingId: 'lst_B', state: 'open' }
+  ];
+  var covBoth = await strandedCount55();
+  assert('and once every line has a task, it stops being counted',
+    covBoth === covNone - 1,
+    JSON.stringify({ noTasks: covNone, bothTasks: covBoth }));
+
+  // AN EMPTY LINES ARRAY IS NOT A FINISHED ORDER. `lines: []` passes Array.isArray, so a
+  // filter-only reading returns nothing outstanding and the order reports as served. It
+  // has to fail closed: an order whose shape we cannot read is unfinished.
+  TASKS55 = [];
+  var emptyLines = await store.createOrder({
+    buyerId: 'b_emptylines', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: 'lst_E', qty: 1, unitPrice: 22.00, title: 'E', sourceCost: 11.00 }]
+  });
+  var beforeEmpty = await strandedCount55();
+  await store.updateOrder(emptyLines.id, {
+    status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_empty',
+    fulfillment: { state: 'partial', lines: [] }
+  });
+  var afterEmpty = await strandedCount55();
+  assert('a paid order with an EMPTY lines array counts as unfinished, not as served',
+    afterEmpty === beforeEmpty + 1,
+    JSON.stringify({ before: beforeEmpty, after: afterEmpty }));
+
+  require.cache[buyP55] = { id: buyP55, filename: buyP55, loaded: true, exports: realBuy55 };
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+
+  // ── T56 ─────────────────────────────────────────────────────────────────
+  // A REFUSED APPROVAL MUST NOT BUY THE LINE ANYWAY.
+  //
+  // pending() listed every reserved-and-unapproved row with no mode filter, so an
+  // AUTO-mode reservation appeared to the operator as something to click while its own
+  // purchase was still in flight. Clicking it could never consume it (consumeApproved
+  // refuses a row that is not queued and not approved), and that refusal was not a
+  // 'mismatch', so fulfillLine fell through to a fresh authorize() and bought the same
+  // line a SECOND time. The refusal was recorded and then only read on the failure path,
+  // so the successful double purchase reported nothing. Both halves are pinned here:
+  // the fall-through backstop, and the display list that led the operator into it.
+  console.log('T56: a refused approval does not fall through into a second purchase');
+  var apBuyP = require.resolve('../lib/relay-buy');
+  var apRealBuy2 = require('../lib/relay-buy');
+  var AP_JOBS = [];
+  require.cache[apBuyP].exports = Object.assign({}, apRealBuy2, {
+    execute: async function (job) { AP_JOBS.push(job); return { ok: true, provider: 'cj', sourceOrderId: 'cjo_ap', amount: job.maxCost }; },
+    fileManualTask: async function () { return { ok: true, task: { id: 'task_ap' } }; }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  var apEngine2 = require('../lib/relay-engine');
+  var apAut3 = require('../lib/relay-autonomy');
+
+  await db.set('relay:autonomy-ledger', []);
+  // AUTO, and funded, so that a fall-through authorize() would genuinely succeed. If this
+  // were queue mode the second authorize() would only re-queue and the test would pass
+  // for the wrong reason, proving nothing about the money.
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+
+  var apL = await store.createListing({
+    marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: 'inflight line',
+    price: 22.00, description: 'x', category: 'other', condition: 'new', quantity: 5,
+    sourceMarketplace: 'cj', sourceId: 'v_ap', sourceUrl: 'https://www.cjdropshipping.com/product/-p-AP.html',
+    sourceCost: 11.00, sourceShipping: 4.00, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+    marginAtListing: 0.5, sourceVerifiedAt: new Date().toISOString()
+  });
+  var apO = await store.createOrder({
+    buyerId: 'b_ap', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: apL.id, qty: 1, unitPrice: 22.00, title: 'inflight line', sourceCost: 11.00 }]
+  });
+  await store.updateOrder(apO.id, { status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_ap' });
+
+  // The in-flight state exactly as it exists mid-purchase: reserved, never approved,
+  // stamped auto. Also what a crash between authorize() and settle() leaves behind.
+  var inflight = await apAut3.authorize({
+    amount: 11.00, salePrice: 22.00, marketplace: 'cj',
+    orderId: apO.id, listingId: apL.id, note: 'inflight'
+  });
+  assert('the in-flight reservation is live, auto and unapproved',
+    inflight.allowed === true && !!inflight.decisionId, JSON.stringify({ allowed: inflight.allowed }));
+  var apRowsBefore = ((await db.get('relay:autonomy-ledger')) || []).length;
+  assert('exactly one reservation exists before the click', apRowsBefore === 1, String(apRowsBefore));
+
+  // The operator clicks it, because pending() offered it.
+  var apRun = await apEngine2.fulfillPaidOrder({ orderId: apO.id, decisionId: inflight.decisionId, force: true });
+
+  assert('NO supplier purchase is made from a refused approval',
+    AP_JOBS.length === 0, 'supplier jobs: ' + AP_JOBS.length +
+    ' ' + JSON.stringify(AP_JOBS.map(function (j) { return j.listingId; })));
+  var apRowsAfter = ((await db.get('relay:autonomy-ledger')) || []);
+  assert('and NO second reservation is created for the same line',
+    apRowsAfter.length === 1, 'rows: ' + apRowsAfter.length +
+    ' -> ' + JSON.stringify(apRowsAfter.map(function (r) { return r.state + '/' + r.mode; })));
+  var apLine = (apRun.lines || [])[0] || {};
+  assert('the line comes back as still awaiting a human, not blocked',
+    apLine.state === 'awaiting-approval' && apLine.skipped === true,
+    JSON.stringify({ state: apLine.state, skipped: apLine.skipped }));
+  assert('and the operator is told WHY their approval was not used',
+    typeof apLine.approvalRefused === 'string' && /not been approved|not queued/.test(apLine.approvalRefused),
+    JSON.stringify({ approvalRefused: apLine.approvalRefused, reason: apLine.reason }));
+
+  // ── the display list that caused the click ──
+  // A queue-mode row must STILL be listed. Over-filtering here would empty the operator's
+  // approval queue and strand every held order in silence, which is a worse failure than
+  // the one being fixed.
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var queued56 = await apAut3.authorize({
+    amount: 11.00, salePrice: 22.00, marketplace: 'cj',
+    orderId: apO.id, listingId: apL.id, note: 'queued'
+  });
+  var pend56 = await apAut3.pending();
+  var pendIds = pend56.map(function (r) { return r.id; });
+  assert('an in-flight AUTO reservation is not offered to the operator as approvable',
+    pendIds.indexOf(inflight.decisionId) === -1,
+    JSON.stringify(pend56.map(function (r) { return r.mode + '/' + r.state; })));
+  assert('a genuinely QUEUED reservation is still offered',
+    pendIds.indexOf(queued56.decisionId) !== -1,
+    JSON.stringify(pend56.map(function (r) { return r.mode + '/' + r.state; })));
+
+  require.cache[apBuyP].exports = apRealBuy2;
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+
+  // ── T57 ─────────────────────────────────────────────────────────────────
+  // A REDIS COMMAND ERROR IS NOT AN ABSENT KEY.
+  //
+  // Upstash answers WRONGTYPE, a revoked token or a quota refusal with HTTP 200 and
+  // {error: ...}. _redisRequest turned that into null, and getStrict read null as
+  // 'genuinely absent'. So the strict path added to stop an outage rendering as a
+  // confident zero still rendered a confident zero, for the subset of outages that
+  // arrive as a command error rather than a dropped connection. The strict contract
+  // leaked at its very last step. The forgiving get() must KEEP swallowing it: every
+  // other caller in the repo depends on that, and this is not the branch to change them.
+  console.log('T57: a Redis command error is distinguishable from a missing key');
+  var dbP57 = require.resolve('../lib/limen-db');
+  var stP57 = require.resolve('../lib/relay-store');
+  var ctlP57 = require.resolve('../handlers/relay-autonomous-control');
+  var realDb57 = require('../lib/limen-db');
+  var realSt57 = require('../lib/relay-store');
+
+  process.env.UPSTASH_REDIS_REST_URL = 'https://stub.invalid';
+  process.env.UPSTASH_REDIS_REST_TOKEN = 'stub-token';
+  delete require.cache[dbP57];
+  delete require.cache[stP57];
+  delete require.cache[ctlP57];
+  var sdb57 = require('../lib/limen-db');
+
+  // A genuinely missing key stays a plain null. Without this the 'fix' could just be
+  // 'throw on everything', which would turn every empty store into a false alarm.
+  global.fetch = async function () { return { json: async function () { return { result: null }; } }; };
+  var missing57 = await sdb57.getStrict('relay:orders');
+  assert('a genuinely missing key is still a plain null, not an error',
+    missing57 === null, JSON.stringify(missing57));
+
+  // The command error.
+  global.fetch = async function () {
+    return { json: async function () { return { error: 'WRONGTYPE Operation against a key holding the wrong kind of value' }; } };
+  };
+  var threw57 = null;
+  try { await sdb57.getStrict('relay:orders'); } catch (e) { threw57 = e; }
+  assert('a WRONGTYPE command error THROWS instead of reading as absent',
+    !!threw57 && threw57.code === 'LIMEN_DB_REDIS_READ_FAILED',
+    threw57 ? threw57.code + ': ' + threw57.message : 'did not throw, returned as absent');
+
+  // The forgiving path is deliberately unchanged for its existing callers.
+  var forgave57 = 'unset';
+  try { forgave57 = await sdb57.get('relay:orders'); } catch (e) { forgave57 = 'THREW: ' + e.message; }
+  assert('db.get() still swallows a command error for its own callers',
+    forgave57 !== 'unset' && String(forgave57).indexOf('THREW') !== 0,
+    JSON.stringify(forgave57));
+
+  // ── and the operator's order lookup stops answering 'count: 0' during that outage ──
+  var ctl57 = require('../handlers/relay-autonomous-control');
+  var ord57 = await invoke(ctl57, {
+    method: 'GET',
+    url: '/api/relay?view=control&action=orders&key=' + process.env.RELAY_ADMIN_KEY,
+    headers: {}
+  });
+  var b57 = ord57.body || {};
+  assert('the order lookup reports the unreadable store instead of an empty list',
+    b57.ok === false && /unreadable/.test(String(b57.error || '')),
+    JSON.stringify({ ok: b57.ok, error: b57.error, count: b57.count }));
+  assert('and it never reports a count of zero it could not measure',
+    b57.count === null || b57.count === undefined, JSON.stringify({ count: b57.count }));
+
+  // Restore the ORIGINAL module instances, not fresh ones: a new limen-db brings a new
+  // empty _memStore, and every order the suite created above lives in the old one.
+  delete process.env.UPSTASH_REDIS_REST_URL;
+  delete process.env.UPSTASH_REDIS_REST_TOKEN;
+  global.fetch = BLOCK_NETWORK;
+  // ANY module required during the window above bound itself to the redis-enabled limen-db
+  // instance, and restoring limen-db does not reach back into their closures. relay-engine
+  // is the one that bites: the control handler pulls it in, so it rebound here, and its
+  // next db.get() called fetch() against an UPSTASH url that no longer exists. That is a
+  // real escaped request, caught by the hermetic check rather than by anything in T57.
+  // Dropping them from cache forces a rebind to the restored instance.
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  require.cache[dbP57] = { id: dbP57, filename: dbP57, loaded: true, exports: realDb57 };
+  require.cache[stP57] = { id: stP57, filename: stP57, loaded: true, exports: realSt57 };
+  delete require.cache[ctlP57];
+
+  // ── T58 ─────────────────────────────────────────────────────────────────
+  // NO INTERNAL REFUSAL REASON REACHES A SHOPPER.
+  //
+  // relay-cart-checkout forwarded authorize()'s reason verbatim into its 409. That endpoint
+  // takes no key, so any shopper could read the CJ wallet balance, the supplier spend
+  // already committed, the remaining ceiling, and via the margin refusal the computed
+  // margin on the item itself, by adding it to a cart and reading the error. The wallet
+  // sentence was the one that got noticed; 'margin $8.00 is under the $12 floor' gives away
+  // more, more directly.
+  //
+  // Asserted on the WHOLE serialised body rather than on the two sentences under test, so a
+  // refusal reason added to authorize() later cannot quietly reintroduce this.
+  console.log('T58: the public 409 carries no internal refusal reason');
+  var sqP58 = require.resolve('../lib/relay-supplier-quote');
+  var realSq58 = require('../lib/relay-supplier-quote');
+  var cjP58 = require.resolve('../lib/relay-cj');
+  var realCj58 = require('../lib/relay-cj');
+
+  // The real relay-supplier-quote runs against a stubbed CJ, rather than revalidate being
+  // stubbed wholesale, so the cost-drift case below produces the REAL refusal sentence
+  // instead of one this test wrote for itself.
+  var FREIGHT58 = 4.00;
+  require.cache[cjP58] = { id: cjP58, filename: cjP58, loaded: true, exports: Object.assign({}, realCj58, {
+    configured: function () { return true; },
+    stock: async function () { return { qty: 10, from: 'US' }; },
+    freight: async function () { return { price: FREIGHT58 }; },
+    balance: async function () { return { ok: true, available: 1.00 }; }
+  }) };
+  // relay-supplier-quote holds its OWN relay-cj reference, so it is rebuilt after the stub.
+  // A FRESH autonomy too, because _cjBalCache is module state with a one minute TTL and an
+  // earlier block's good balance would be served instead of the $1 stubbed here.
+  delete require.cache[sqP58];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
+  var cart58 = require('../handlers/relay-cart-checkout');
+
+  var l58 = await store.createListing({
+    marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: 'leak probe',
+    price: 22.00, description: 'x', category: 'other', condition: 'new', quantity: 5,
+    sourceMarketplace: 'cj', sourceId: 'v_58', sourceUrl: 'https://www.cjdropshipping.com/product/-p-58.html',
+    sourceCost: 11.00, sourceShipping: 4.00, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+    marginAtListing: 0.5, sourceVerifiedAt: new Date().toISOString()
+  });
+  var addr58 = { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' };
+  var ordersBefore58 = (await store.orderHistory(500)).length;
+
+  // The operator detail must still GO somewhere, or this is a deletion rather than a fix.
+  var WARNED58 = [];
+  var realWarn58 = console.warn;
+  console.warn = function () { WARNED58.push(Array.prototype.join.call(arguments, ' ')); };
+
+  async function refuse58(cfg) {
+    await db.set('relay:autonomy-ledger', []);
+    await db.set('relay:autonomy', cfg);
+    return await invoke(cart58, {
+      method: 'POST', headers: {},
+      body: {
+        items: [{ listingId: l58.id, qty: 1 }], shippingAddress: addr58,
+        buyerEmail: 'a@b.com', policyAccepted: true
+      }
+    });
+  }
+
+  // (a) a MARGIN refusal
+  var marginRes = await refuse58({
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 500, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var marginBody = JSON.stringify(marginRes.body || {});
+  assert('a margin refusal still refuses the line', marginRes.status === 409 &&
+    /not-fulfillable/.test(marginBody), marginRes.status + ' ' + marginBody.slice(0, 120));
+  assert('the margin refusal leaks no dollar figure to the shopper',
+    marginBody.indexOf('$') === -1, marginBody.slice(0, 200));
+  assert('and leaks none of wallet / committed / margin',
+    !/wallet|committed|margin/i.test(marginBody), marginBody.slice(0, 200));
+
+  // (b) a FUNDS refusal, against a $1 CJ wallet
+  var fundsRes = await refuse58({
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: true,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var fundsBody = JSON.stringify(fundsRes.body || {});
+  assert('a funds refusal still refuses the line', fundsRes.status === 409 &&
+    /not-fulfillable/.test(fundsBody), fundsRes.status + ' ' + fundsBody.slice(0, 120));
+  assert('the funds refusal leaks no dollar figure to the shopper',
+    fundsBody.indexOf('$') === -1, fundsBody.slice(0, 200));
+  assert('and leaks none of wallet / committed / margin',
+    !/wallet|committed|margin/i.test(fundsBody), fundsBody.slice(0, 200));
+
+  console.warn = realWarn58;
+  assert('the operator detail is not dropped, it goes to the log',
+    WARNED58.length >= 2 && /wallet|margin/i.test(WARNED58.join(' ')),
+    WARNED58.length + ' warnings: ' + WARNED58.join(' | ').slice(0, 160));
+
+  // THE HOP DOWNSTREAM. A reason kept out of the 409 but written onto the order record
+  // would leak again through anything that later serves an order to a buyer. It cannot:
+  // store.createOrder runs AFTER this block returns, so a refused cart writes no order at
+  // all. Pinned, because 'there is no order yet' is a property of the current control flow
+  // and a later refactor could move the write above the gate.
+  var ordersAfter58 = (await store.orderHistory(500)).length;
+  assert('a refused cart creates no order for the reason to travel on',
+    ordersAfter58 === ordersBefore58, JSON.stringify({ before: ordersBefore58, after: ordersAfter58 }));
+
+  require.cache[sqP58] = { id: sqP58, filename: sqP58, loaded: true, exports: realSq58 };
+  require.cache[cjP58] = { id: cjP58, filename: cjP58, loaded: true, exports: realCj58 };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
+
+  // ── T59 ─────────────────────────────────────────────────────────────────
+  // A FLAGGED OVERSPEND IS NOT ALLOWED TO SHIP IN SILENCE.
+  //
+  // relay-buy.js:232 sets needsReview when CJ completes an order more than 10% above the
+  // authorised cost, and writes the reviewReason with it. Nothing read either. Because a
+  // line that BOUGHT successfully moves its order to 'shipped', and the attention scan only
+  // opened 'payment-review' and 'paid', the console could say "Nothing needs you" over a
+  // purchase the code had itself marked for a human.
+  //
+  // Counted by the LINE, not by an order-status allowlist, which is why the paid/partial
+  // case below is covered by the same code rather than by a second branch.
+  console.log('T59: a flagged supplier overspend reaches the operator');
+  var AK59 = process.env.RELAY_ADMIN_KEY;
+  async function status59() {
+    delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+    var c = require('../handlers/relay-autonomous-control');
+    return (await invoke(c, {
+      method: 'GET', url: '/api/relay?view=control&action=status&key=' + AK59, headers: {}
+    })).body;
+  }
+
+  var base59 = await status59();
+
+  // SHIPPED: every line bought, one of them above the approved price.
+  var shipped59 = await store.createOrder({
+    buyerId: 'b_59', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: 'lst_59', qty: 1, unitPrice: 22.00, title: 'overspent', sourceCost: 11.00 }]
+  });
+  await store.updateOrder(shipped59.id, {
+    status: 'shipped', paidAt: new Date().toISOString(), stripeSessionId: 'cs_59',
+    fulfillment: {
+      state: 'purchased',
+      lines: [{
+        listingId: 'lst_59', state: 'purchased', needsReview: true,
+        reviewReason: 'CJ charged $14.90 against $11.00 approved'
+      }]
+    }
+  });
+  var afterShipped59 = await status59();
+  assert('a flagged line on a SHIPPED order raises the attention count by exactly one',
+    afterShipped59.needsAttention === base59.needsAttention + 1,
+    JSON.stringify({ before: base59.needsAttention, after: afterShipped59.needsAttention }));
+  assert('and it is counted as a flagged line, not folded into another number',
+    afterShipped59.flaggedLines === (base59.flaggedLines || 0) + 1,
+    JSON.stringify({ before: base59.flaggedLines, after: afterShipped59.flaggedLines }));
+  // THE DESCRIPTION, not just the integer. A count with no sentence sends the operator
+  // hunting through the order store for what the supplier actually charged.
+  var reason59 = (afterShipped59.flaggedReasons || []).find(function (f) { return f.orderId === shipped59.id; });
+  assert('the reviewReason travels with it, so the operator is told what happened',
+    !!reason59 && /14\.90/.test(reason59.reason || ''),
+    JSON.stringify(afterShipped59.flaggedReasons || []).slice(0, 200));
+
+  // THE SIBLING CASE: the same flag on a PAID, partially fulfilled order. _unfulfilledLines
+  // drops this line for having been purchased, so an order-status allowlist that had been
+  // widened to include 'shipped' and stopped there would still miss it.
+  var partial59 = await store.createOrder({
+    buyerId: 'b_59b', shipping: 0, shippingAddress: cartAddr,
+    lines: [
+      { listingId: 'lst_59c', qty: 1, unitPrice: 22.00, title: 'overspent too', sourceCost: 11.00 },
+      { listingId: 'lst_59d', qty: 1, unitPrice: 22.00, title: 'never bought', sourceCost: 11.00 }
+    ]
+  });
+  await store.updateOrder(partial59.id, {
+    status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_59b',
+    fulfillment: {
+      state: 'partial',
+      lines: [
+        { listingId: 'lst_59c', state: 'purchased', needsReview: true, reviewReason: 'CJ charged $16.00 against $11.00 approved' },
+        { listingId: 'lst_59d', state: 'failed' }
+      ]
+    }
+  });
+  var afterPartial59 = await status59();
+  assert('a flagged line on a PAID partial order is counted too',
+    afterPartial59.flaggedLines === afterShipped59.flaggedLines + 1,
+    JSON.stringify({ before: afterShipped59.flaggedLines, after: afterPartial59.flaggedLines }));
+
+  // An unreadable store must not report a flagged count it could not measure.
+  assert('flaggedLines is null, never 0, when the order store cannot be read',
+    base59.ordersUnavailable ? base59.flaggedLines === null : true,
+    JSON.stringify({ unavailable: base59.ordersUnavailable, flagged: base59.flaggedLines }));
+
+  // ── T60 ─────────────────────────────────────────────────────────────────
+  // THE SECOND FRONT DOOR LEAKS THE SAME THINGS.
+  //
+  // The cart was not the only public consumer of these reasons. relay-demand-purchase is
+  // reachable at /api/relay?view=order and view=demand-purchase with no key, and it
+  // forwarded BOTH producers: the supplier requote's text at gate 2 and authorize()'s
+  // operator text at gate 5. So the criterion the cart fix satisfied was still false one
+  // view over: wallet balance, committed spend, remaining ceiling, computed margin, and
+  // the per-unit freight against the freight on record were all readable by asking to buy.
+  //
+  // This block owns its module state rather than borrowing T31's live stubs, because
+  // relay-supplier-quote holds its own relay-cj reference and relay-autonomy caches the CJ
+  // balance for a minute; either one inherited from another block would test the wrong thing.
+  console.log('T60: the demand-purchase door carries no internal reason either');
+  var cjP60 = require.resolve('../lib/relay-cj');
+  var realCj60 = require('../lib/relay-cj');
+  var sqP60 = require.resolve('../lib/relay-supplier-quote');
+  var realSq60 = require('../lib/relay-supplier-quote');
+  var dpP60 = require.resolve('../handlers/relay-demand-purchase');
+
+  var FREIGHT60 = 4.00;   // per-unit freight the supplier quotes back
+  var CJBAL60 = 500.00;   // what the CJ wallet reports
+  require.cache[cjP60] = { id: cjP60, filename: cjP60, loaded: true, exports: Object.assign({}, realCj60, {
+    configured: function () { return true; },
+    stock: async function () { return { qty: 10, from: 'US' }; },
+    freight: async function () { return { price: FREIGHT60 }; },
+    balance: async function () { return { ok: true, available: CJBAL60 }; }
+  }) };
+  // Both of these hold their own reference to relay-cj, so they must be rebuilt AFTER the
+  // stub is installed or they run against the real module.
+  delete require.cache[sqP60];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[dpP60];
+  var dp60 = require('../handlers/relay-demand-purchase');
+
+  await db.set('relay:searches', [{
+    searchId: 'srch_60', description: 'leak probe', maxPrice: 100,
+    sourceMapping: [{
+      source: 'cj', itemId: 'it_60', sourceCost: 11.00, sourceShipping: 4.00,
+      sourceCarrier: 'CJPacket', sourceFromCountry: 'US', displayedPrice: 100,
+      sourceUrl: 'https://www.cjdropshipping.com/product/-p-60.html'
+    }]
+  }]);
+  var addr60 = { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' };
+
+  async function buy60(cfg) {
+    await db.set('relay:autonomy-ledger', []);
+    await db.set('relay:autonomy', cfg);
+    var WARN = [];
+    var realWarn = console.warn;
+    console.warn = function () { WARN.push(Array.prototype.join.call(arguments, ' ')); };
+    var r = await invoke(dp60, {
+      method: 'POST', headers: {},
+      body: {
+        searchId: 'srch_60', itemId: 'it_60', buyerId: 'b_60',
+        policyAccepted: true, shippingAddress: addr60
+      }
+    });
+    console.warn = realWarn;
+    return { res: r, body: JSON.stringify(r.body || {}), warn: WARN.join(' | ') };
+  }
+  var OPEN60 = {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  };
+  function clean60(name, r) {
+    assert(name + ': no dollar figure reaches the buyer',
+      r.body.indexOf('$') === -1, r.body.slice(0, 220));
+    assert(name + ': none of wallet / committed / margin reaches the buyer',
+      !/wallet|committed|margin/i.test(r.body), r.body.slice(0, 220));
+  }
+
+  // (a) FREIGHT DRIFT at gate 2. $12 a unit against the $4 on record trips cost-drift
+  // before any later gate can fire, which is why it is provoked here and not stubbed.
+  FREIGHT60 = 12.00;
+  var drift60 = await buy60(OPEN60);
+  assert('a freight-drift requote still refuses the sale',
+    drift60.res.status === 409 && /cost-drift/.test(drift60.body),
+    drift60.res.status + ' ' + drift60.body.slice(0, 160));
+  clean60('freight drift', drift60);
+  assert('the drift detail still reaches the operator log',
+    /costs \$12\.00 a unit/.test(drift60.warn), drift60.warn.slice(0, 200));
+  assert('and the machine-readable code survives for the UI to branch on',
+    (drift60.res.body || {}).code === 'cost-drift', JSON.stringify((drift60.res.body || {}).code));
+
+  // (b) MARGIN refusal at gate 5.
+  FREIGHT60 = 4.00;
+  var margin60 = await buy60(Object.assign({}, OPEN60, { minMarginUsd: 500 }));
+  assert('a margin-floor refusal still refuses the sale',
+    margin60.res.status === 409, margin60.res.status + ' ' + margin60.body.slice(0, 160));
+  clean60('margin refusal', margin60);
+  assert('the margin detail still reaches the operator log',
+    /margin/i.test(margin60.warn) && /\$/.test(margin60.warn), margin60.warn.slice(0, 200));
+
+  // (c) FUNDS refusal at gate 5, against a $1 wallet.
+  CJBAL60 = 1.00;
+  var funds60 = await buy60(Object.assign({}, OPEN60, { requireFunds: true }));
+  assert('a funds refusal still refuses the sale',
+    funds60.res.status === 409, funds60.res.status + ' ' + funds60.body.slice(0, 160));
+  clean60('funds refusal', funds60);
+  assert('the wallet detail still reaches the operator log',
+    /CJ wallet has \$1\.00/.test(funds60.warn), funds60.warn.slice(0, 200));
+
+  require.cache[cjP60] = { id: cjP60, filename: cjP60, loaded: true, exports: realCj60 };
+  require.cache[sqP60] = { id: sqP60, filename: sqP60, loaded: true, exports: realSq60 };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[dpP60];
+
+  // ── T61 ─────────────────────────────────────────────────────────────────
+  // A SUCCESSFUL APPROVAL CLOSES THE JOB IT FINISHED.
+  //
+  // In queue mode the first fulfilment attempt files a manual task so the held line is
+  // visible to a human. approve-purchase can now finish that line, and nothing closed the
+  // task, so every SUCCESSFUL approval left a permanent 'job waiting on a human' in
+  // needsAttention. The counter added to end silence became a counter that cries wolf,
+  // which loses it the same trust the silence did. closeTask existed the whole time and
+  // was reachable only from the manual close-task action.
+  console.log('T61: a successful approval closes the task it just finished');
+  var buyP61 = require.resolve('../lib/relay-buy');
+  var realBuy61 = require('../lib/relay-buy');
+  var B61_OK = true;
+  // fileManualTask, openTasks and closeTask stay REAL: the task has to actually land in
+  // the store and actually be closed, or this proves nothing about the counter.
+  require.cache[buyP61] = { id: buyP61, filename: buyP61, loaded: true, exports: Object.assign({}, realBuy61, {
+    execute: async function (job) {
+      return B61_OK
+        ? { ok: true, provider: 'cj', sourceOrderId: 'cjo_61', amount: job.maxCost }
+        : { ok: false, error: 'CJ refused the order' };
+    }
+  }) };
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+  var eng61 = require('../lib/relay-engine');
+  var ctl61 = require('../handlers/relay-autonomous-control');
+  var AK61 = process.env.RELAY_ADMIN_KEY;
+
+  async function attention61() {
+    return (await invoke(ctl61, {
+      method: 'GET', url: '/api/relay?view=control&action=status&key=' + AK61, headers: {}
+    })).body;
+  }
+  async function openCount61() { return (await realBuy61.openTasks()).length; }
+
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var l61 = await store.createListing({
+    marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: 'task close probe',
+    price: 22.00, description: 'x', category: 'other', condition: 'new', quantity: 5,
+    sourceMarketplace: 'cj', sourceId: 'v_61', sourceUrl: 'https://www.cjdropshipping.com/product/-p-61.html',
+    sourceCost: 11.00, sourceShipping: 4.00, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+    marginAtListing: 0.5, sourceVerifiedAt: new Date().toISOString()
+  });
+
+  async function heldOrder61(tag) {
+    var o = await store.createOrder({
+      buyerId: 'b_61' + tag, shipping: 0, shippingAddress: cartAddr,
+      lines: [{ listingId: l61.id, qty: 1, unitPrice: 22.00, title: 'task close probe', sourceCost: 11.00 }]
+    });
+    await store.updateOrder(o.id, { status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_61' + tag });
+    var held = await eng61.fulfillPaidOrder({ orderId: o.id });
+    return { order: o, decisionId: (held.lines || [])[0].decisionId };
+  }
+
+  var baseAttention61 = (await attention61()).needsAttention;
+  var baseTasks61 = await openCount61();
+
+  // ── the successful approval ──
+  B61_OK = true;
+  var h61 = await heldOrder61('a');
+  var queuedAttention61 = (await attention61()).needsAttention;
+  assert('a queued line raises the count and files a task',
+    (await openCount61()) === baseTasks61 + 1 && queuedAttention61 > baseAttention61,
+    JSON.stringify({ tasksBefore: baseTasks61, tasksNow: await openCount61(),
+      attentionBefore: baseAttention61, attentionNow: queuedAttention61 }));
+
+  var okRes61 = await invoke(ctl61, {
+    method: 'POST', headers: {},
+    body: { action: 'approve-purchase', key: AK61, decisionId: h61.decisionId }
+  });
+  assert('the approved purchase completes', okRes61.body && okRes61.body.purchased === true,
+    JSON.stringify(okRes61.body && okRes61.body.reason).slice(0, 160));
+  assert('and it reports the task it closed',
+    Array.isArray(okRes61.body.closedTasks) && okRes61.body.closedTasks.length === 1,
+    JSON.stringify(okRes61.body.closedTasks));
+  assert('the task is actually closed in the store, not just reported',
+    (await openCount61()) === baseTasks61, JSON.stringify({ open: await openCount61(), base: baseTasks61 }));
+  assert('and needsAttention returns to the baseline it started from',
+    (await attention61()).needsAttention === baseAttention61,
+    JSON.stringify({ base: baseAttention61, now: (await attention61()).needsAttention }));
+
+  // ── the FAILED approval: the work is still outstanding, so the task must survive ──
+  B61_OK = false;
+  var h61b = await heldOrder61('b');
+  var tasksAfterQueueB = await openCount61();
+  var failRes61 = await invoke(ctl61, {
+    method: 'POST', headers: {},
+    body: { action: 'approve-purchase', key: AK61, decisionId: h61b.decisionId }
+  });
+  assert('a failed approval does not report itself as purchased',
+    failRes61.body && failRes61.body.purchased !== true, JSON.stringify(failRes61.body).slice(0, 160));
+  assert('a FAILED approval closes nothing',
+    (!failRes61.body.closedTasks || failRes61.body.closedTasks.length === 0) &&
+    (await openCount61()) === tasksAfterQueueB,
+    JSON.stringify({ closed: failRes61.body.closedTasks, open: await openCount61(), expected: tasksAfterQueueB }));
+
+  require.cache[buyP61] = { id: buyP61, filename: buyP61, loaded: true, exports: realBuy61 };
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+
+  // ── T62 ─────────────────────────────────────────────────────────────────
+  // A CLICK MUST NOT BE THE THING THAT HIDES THE ROW.
+  //
+  // approve() checked only the state, stamped approvedAt and wrote. consumeApproved
+  // refuses a stale-day approval, but AFTER that write, and pending() filters on
+  // !approvedAt. So on a queued line that crossed the UTC boundary (19:00 America/Chicago,
+  // mid-evening) the operator's click was itself what removed the row from their list: the
+  // purchase then refused, the row stayed 'reserved' forever, and the PAID line was
+  // stranded with nothing anywhere showing it.
+  //
+  // The check now runs BEFORE any mutation, which is the entire point: a refusal must
+  // leave the ledger exactly as it found it. consumeApproved keeps its own check as the
+  // last line of defence.
+  console.log('T62: a stale-day approval refuses without hiding the row');
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  var aut62 = require('../lib/relay-autonomy');
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+
+  var q62 = await aut62.authorize({
+    amount: 11.00, salePrice: 22.00, marketplace: 'cj',
+    orderId: 'ord_62', listingId: 'lst_62', note: 'crossed the boundary'
+  });
+  assert('the line is queued for a human', q62.queued === true && !!q62.decisionId,
+    JSON.stringify({ queued: q62.queued, allowed: q62.allowed }));
+
+  // Move it to YESTERDAY, which is what 19:00 Central does to a row taken minutes earlier.
+  var rows62 = await db.get('relay:autonomy-ledger');
+  var yesterday62 = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  rows62.find(function (r) { return r.id === q62.decisionId; }).day = yesterday62;
+  await db.set('relay:autonomy-ledger', rows62);
+
+  var pendBefore62 = await aut62.pending();
+  assert('a stale-day queued row is still offered to the operator, so it CAN be clicked',
+    pendBefore62.some(function (r) { return r.id === q62.decisionId; }),
+    JSON.stringify(pendBefore62.map(function (r) { return r.id + '/' + r.day; })));
+
+  // The ledger exactly as it stands before the click.
+  var ledgerBefore62 = JSON.stringify(await db.get('relay:autonomy-ledger'));
+
+  var ap62 = await aut62.approve(q62.decisionId, 'operator');
+  assert('approve() REFUSES a stale-day reservation',
+    ap62.ok === false && /cannot be spent today/.test(ap62.error || ''),
+    JSON.stringify(ap62).slice(0, 200));
+  assert('and it says which day it was from, in the same words consumeApproved uses',
+    new RegExp('is from ' + yesterday62).test(ap62.error || ''),
+    JSON.stringify(ap62.error));
+
+  // THE POINT OF PUTTING IT IN approve(): a refusal writes NOTHING.
+  var ledgerAfter62 = JSON.stringify(await db.get('relay:autonomy-ledger'));
+  assert('a refused approval leaves the ledger byte-identical',
+    ledgerAfter62 === ledgerBefore62,
+    'before: ' + ledgerBefore62.slice(0, 120) + ' || after: ' + ledgerAfter62.slice(0, 120));
+  var row62 = (await db.get('relay:autonomy-ledger')).find(function (r) { return r.id === q62.decisionId; });
+  assert('approvedAt is NOT stamped by a refused approval',
+    !row62.approvedAt, JSON.stringify({ approvedAt: row62.approvedAt, approvedBy: row62.approvedBy }));
+  assert('the row is still reserved, not consumed or released',
+    row62.state === 'reserved', String(row62.state));
+
+  // And therefore it is still visible, which is the whole difference between a dead end
+  // the operator can see and a silence they cannot.
+  var pendAfter62 = await aut62.pending();
+  assert('the row REMAINS in pending() after the refusal',
+    pendAfter62.some(function (r) { return r.id === q62.decisionId; }),
+    JSON.stringify(pendAfter62.map(function (r) { return r.id + '/' + r.day; })));
+
+  // consumeApproved keeps its own check: it is the last line of defence, not a duplicate.
+  var cons62 = await aut62.consumeApproved({
+    decisionId: q62.decisionId, orderId: 'ord_62', listingId: 'lst_62', amount: 11.00
+  });
+  assert('consumeApproved still refuses it independently',
+    cons62.allowed === false, JSON.stringify(cons62.reason).slice(0, 160));
+
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
 
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything

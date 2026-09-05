@@ -97,8 +97,16 @@ module.exports = async (req, res) => {
       shippingAddress: shippingAddress
     });
     if (!check.ok) {
+      // The supplier requote's text is internal too: cost-drift spells out the per-unit
+      // freight we were quoted against the freight on record, which is our landed cost.
+      // The CODE stays. unconfigured / stale-quote / out-of-stock / no-quote / cost-drift
+      // carry no internal detail and are what the UI branches on; dropping them would
+      // break the caller to fix a leak it is not part of.
+      console.warn('[relay-demand] purchase refused by supplier requote: ' + JSON.stringify({
+        searchId: (search && search.searchId) || null, code: check.code, reason: check.reason
+      }));
       return res.status(409).json({
-        error: check.reason,
+        error: 'this item cannot be sourced right now',
         code: check.code,
         message: 'Nothing was charged. Search again to get a current price.'
       });
@@ -153,10 +161,23 @@ module.exports = async (req, res) => {
       dryRun: true
     });
     if (!limits.allowed) {
+      // THE INTERNAL REASON NEVER ENTERS THE RESPONSE.
+      //
+      // Same door, same defect, one view over from the cart. limits.reason is authorize()'s
+      // operator text: the CJ wallet balance, supplier spend already committed, the
+      // remaining ceiling, the margin floor, and via the margin sentence the computed
+      // margin on this item. /api/relay?view=demand-purchase takes no key, so forwarding it
+      // let any shopper read the supplier margin by asking to buy.
+      //
+      // Withheld BY CONSTRUCTION: nothing here inspects the string, so a reason added to
+      // authorize() later cannot reintroduce this. The error field above was already
+      // generic; the leak was the extra reason field beside it.
+      console.warn('[relay-demand] purchase refused by autonomy: ' + JSON.stringify({
+        searchId: (search && search.searchId) || null, reason: limits.reason
+      }));
       return res.status(409).json({
         error: 'this item cannot be fulfilled at that price',
-        message: 'Nothing was charged.',
-        reason: limits.reason
+        message: 'Nothing was charged.'
       });
     }
 

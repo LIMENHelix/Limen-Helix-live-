@@ -64,14 +64,177 @@ async function handleGET(q) {
     try { spend = await spendTracker.getSpendStatus(); } catch (e) { spend = { error: e.message }; }
     const cycles = await engine.recentCycles(3);
 
+    // ORDERS THAT NEED A HUMAN, counted where the operator already looks.
+    //
+    // reconcilePayments routes underpayments and double-payments to 'payment-review' and
+    // deliberately keeps them out of the automatic sweep — which is right, and was also
+    // completely silent. Nothing in Relay notifies anyone: no email, no webhook, no
+    // counter. An order landed there and sat until somebody thought to go looking, and
+    // there was no read-only way to look either. An exception queue nobody is told about
+    // is a drawer, not a queue.
+    const relayStore = require('../lib/relay-store');
+    let held = [];
+    // NULL, not zero. A failed read used to leave these at their zero initializer and the
+    // endpoint still answered ok:true — so a database outage produced the same reassuring
+    // "nothing needs attention" as an empty queue. An alerting signal that goes quiet
+    // under the failure it exists to report is worse than no signal, because it is
+    // actively trusted. Unknown must look different from fine.
+    let awaitingPayment = null;
+    let paidUnfulfilled = null;
+    let strandedIds = [];
+    let stranded = [];
+    let flagged = [];
+    let ordersError = null;
+    try {
+      // STRICT, or the catch above is decoration. db.get() swallows a Redis failure and
+      // returns process memory, which is empty on a cold instance, so ordersByStatus
+      // resolved [] and these awaits never threw during the exact outage the try/catch
+      // was added for. The counters read a confident zero while the store was unreadable.
+      const S = { strict: true };
+      held = await relayStore.ordersByStatus('payment-review', 200, S);
+      awaitingPayment = (await relayStore.ordersByStatus('awaiting-payment', 500, S)).length;
+      const paidOrders = await relayStore.ordersByStatus('paid', 200, S);
+      stranded = paidOrders.filter(function (o) {
+        // Judged PER LINE, not by the order's headline state. A half-fulfilled order
+        // records 'partial', and counting only missing-or-failed let one shipped line hide
+        // a line that was never ordered at all.
+        return _unfulfilledLines(o).length > 0;
+      });
+      strandedIds = stranded.map(function (o) { return o.id; });
+      paidUnfulfilled = stranded.length;
+      // SHIPPED IS READ TOO, and it is read for a reason a status allowlist cannot serve.
+      // An order whose lines all bought successfully becomes 'shipped' even when one of
+      // them cost more than was authorised, so the flagged case lives in the one status
+      // this scan never opened. Reading 'paid' as well is not redundant: a flagged line
+      // can sit beside an unbought line on a partial order, where _unfulfilledLines drops
+      // it for having been purchased.
+      flagged = _flaggedLines(held.concat(paidOrders, await relayStore.ordersByStatus('shipped', 200, S)));
+    } catch (e) {
+      ordersError = e.message || 'order store unreadable';
+      held = null;
+      stranded = [];
+      flagged = [];
+    }
+
+    // A PAID ORDER THAT NEVER GOT BOUGHT IS THE WHOLE POINT OF THIS NUMBER.
+    // needsAttention summed only held orders and open tasks, so a purchase that failed
+    // without filing a task left a customer's money taken, nothing ordered, and the
+    // aggregate reading zero.
+    //
+    // COVERAGE IS PER LINE TOO. Matching only on orderId meant an order with two
+    // outstanding lines and a task for ONE of them counted as fully handled, and the
+    // other line went silent again - the same hole one level down. Tasks carry a
+    // listingId (lib/relay-buy.js), so the match uses it, and a task with no listingId
+    // can never stand in for a specific line.
+    const covered = function (orderId, listingId) {
+      return tasks.some(function (t) {
+        return t.orderId === orderId && !!t.listingId && t.listingId === listingId;
+      });
+    };
+    const strandedWithoutTask = stranded.filter(function (o) {
+      return _unfulfilledLines(o).some(function (l) {
+        // A line we cannot identify cannot be shown to be covered. Count it.
+        return !l.listingId || !covered(o.id, l.listingId);
+      });
+    }).map(function (o) { return o.id; });
+    const attention = ordersError
+      ? null
+      : held.length + tasks.length + strandedWithoutTask.length + flagged.length;
+
     return {
       ok: true,
       autonomy: st,
       openTasks: tasks.length,
       pendingPayouts: payouts.length,
+      // The number that must not be zero-by-silence. Non-zero means a customer's money
+      // arrived and the loop deliberately stopped.
+      heldForReview: held ? held.length : null,
+      needsAttention: attention,
+      // Present ONLY when the counters could not be read. Its presence is the signal;
+      // a consumer that sees needsAttention:null must not read that as calm.
+      ordersUnavailable: ordersError || undefined,
+      strandedWithoutTask: ordersError ? null : strandedWithoutTask.length,
+      // A supplier overspend that was FLAGGED and then filed nowhere. relay-buy sets
+      // needsReview past the 10% tolerance and writes the reviewReason; until now
+      // nothing read either, so the console could say Nothing needs you over a purchase
+      // the code itself had marked for review. The reasons ride along, because a count
+      // the operator cannot act on is only a slightly better silence.
+      flaggedLines: ordersError ? null : flagged.length,
+      flaggedReasons: flagged.slice(0, 10),
+      awaitingPayment: awaitingPayment,
+      paidUnfulfilled: paidUnfulfilled,
+      // The reasons inline, so "1 held" is never a number the operator has to go and
+      // decode somewhere else.
+      heldReasons: (held || []).slice(0, 10).map(function (o) {
+        return {
+          orderId: o.id,
+          reason: o.reviewReason || 'held',
+          collected: o.collectedAmount != null ? o.collectedAmount : null,
+          expected: o.total != null ? o.total : null,
+          at: o.paidAt || o.ts || null
+        };
+      }),
       spend: spend,
       lastCycleAt: cycles[0] ? cycles[0].ts : null,
       lastCyclePublished: cycles[0] ? cycles[0].publishedCount : null
+    };
+  }
+
+  // THE ORDER LOOKUP THAT DID NOT EXIST.
+  //
+  // Not one of the control reads touched relay:store:orders, and ?view=order is a POST
+  // purchase route. So after a customer paid, nobody could answer "did that order flip to
+  // paid, or is it stuck" from any permitted probe — including during a supervised live
+  // test, which is exactly when the question gets asked. Operator-gated like every other
+  // action here, because these rows carry source costs.
+  if (action === 'orders') {
+    const relayStore = require('../lib/relay-store');
+    const want = (q.status || '').trim();
+    const limit = Math.min(parseInt(q.limit, 10) || 25, 200);
+    // STRICT, like the counters above. This endpoint exists to answer "is this order
+    // paid, or is it stuck", and it gets asked during an outage as often as outside one.
+    // A forgiving read falls back to process memory, which is empty on a cold serverless
+    // instance, so the honest answer "I cannot read the store" was being rendered as the
+    // confident and completely wrong "ok: true, count: 0, orders: []".
+    const S = { strict: true };
+    let rows;
+    try {
+      rows = want
+        ? await relayStore.ordersByStatus(want, limit, S)
+        : (await relayStore.orderHistory(limit, S));
+    } catch (e) {
+      return {
+        ok: false,
+        error: 'order store unreadable: ' + (e.message || 'unknown'),
+        status: want || 'any',
+        count: null,
+        orders: null
+      };
+    }
+    return {
+      ok: true,
+      status: want || 'any',
+      count: rows.length,
+      orders: rows.map(function (o) {
+        return {
+          id: o.id,
+          status: o.status,
+          total: o.total,
+          collectedAmount: o.collectedAmount != null ? o.collectedAmount : null,
+          reviewReason: o.reviewReason || null,
+          amountMismatch: o.amountMismatch || null,
+          duplicatePayments: o.duplicatePayments || null,
+          paidAt: o.paidAt || null,
+          paidVia: o.paidVia || null,
+          stripeSessionId: o.stripeSessionId || null,
+          incomeReportedAt: o.incomeReportedAt || null,
+          incomeBookedBy: o.incomeBookedBy || null,
+          paymentLinkClosedAt: o.paymentLinkClosedAt || null,
+          fulfillment: o.fulfillment || null,
+          lines: (o.lines || []).length,
+          ts: o.ts
+        };
+      })
     };
   }
 
@@ -237,7 +400,11 @@ async function handlePOST(body) {
       dailyCeilingUsd: body.dailyCeilingUsd,
       minMarginUsd: body.minMarginUsd,
       minMarginPct: body.minMarginPct,
-      requireFunds: body.requireFunds
+      requireFunds: body.requireFunds,
+      // The rate limit is settable like every other limit. Adding it to setConfig without
+      // forwarding it here meant a POST returned success and silently kept the old value.
+      velocityMaxOrders: body.velocityMaxOrders,
+      velocityMaxUsd: body.velocityMaxUsd
     }, body.by || 'operator');
   }
 
@@ -245,10 +412,66 @@ async function handlePOST(body) {
     if (!body.decisionId) return { ok: false, error: 'decisionId required' };
     const approved = await autonomy.approve(body.decisionId, body.by || 'operator');
     if (!approved.ok) return approved;
-    // Approval alone does not buy anything; run the order so the money actually moves.
+    // Approval alone does not buy anything; run the order so the money actually moves —
+    // and pass the decisionId, so fulfilment SPENDS this reservation instead of taking a
+    // fresh one. Without it the click re-queued and bought nothing.
     if (approved.row && approved.row.orderId) {
-      const r = await engine.fulfillPaidOrder({ orderId: approved.row.orderId, force: true });
-      return { ok: true, approved: approved.row, fulfillment: r };
+      const r = await engine.fulfillPaidOrder({
+        orderId: approved.row.orderId,
+        decisionId: body.decisionId,
+        force: true
+      });
+      // Report on THIS decision, not on the order as a whole. Returning ok:true for an
+      // order-level result is how a click that bought nothing looked like a success for
+      // as long as it did — the console throws the body away and just refreshes.
+      const lines = (r && r.lines) || [];
+      const mine = lines.find(function (l) { return l.decisionId === body.decisionId; });
+      const bought = !!(mine && mine.state === 'purchased');
+
+      // THE QUEUED TASK IS THE OTHER HALF OF THIS APPROVAL.
+      //
+      // In queue mode the first fulfilment attempt files a manual task so the held line is
+      // visible to a human. This path can now finish that line, and nothing ever closed the
+      // task, so EVERY successful approval left a permanent 'job waiting on a human' in
+      // needsAttention. The counter built to end silence became a counter that cries wolf,
+      // which costs it the same trust the silence did.
+      //
+      // Matched on decisionId, which is per LINE. A multi-line order keeps the tasks
+      // belonging to its other lines, and a task carrying no decisionId is never closed
+      // here because it cannot be shown to belong to this decision.
+      //
+      // ONLY on success. A refused or failed approval leaves the work outstanding, and the
+      // task is the only place that work is written down.
+      let closedTasks = [];
+      if (bought) {
+        try {
+          const open = await buy.openTasks();
+          for (const t of open) {
+            if (!t.decisionId || t.decisionId !== body.decisionId) continue;
+            const closed = await buy.closeTask(t.id, {
+              sourceOrderId: mine.sourceOrderId || null,
+              amount: mine.actualCost != null ? mine.actualCost : null
+            });
+            if (closed.ok) closedTasks.push(t.id);
+          }
+        } catch (e) {
+          // THE MONEY ALREADY MOVED. A bookkeeping write that fails afterwards must never
+          // be reported back as a failed purchase; that would invite a retry of a line
+          // that is already bought and paid for.
+          console.warn('[relay-control] approved purchase completed but its task could not ' +
+            'be closed: ' + (e && e.message));
+        }
+      }
+      return {
+        ok: bought,
+        purchased: bought,
+        approved: approved.row,
+        line: mine || null,
+        closedTasks: closedTasks,
+        // Why it did not buy, in the words of the gate that refused.
+        reason: bought ? null : ((mine && (mine.reason || mine.error)) || (r && r.error) || 'the approved line did not complete'),
+        fulfillment: r
+      };
     }
     return { ok: true, approved: approved.row };
   }
@@ -318,6 +541,60 @@ async function handlePOST(body) {
   }
 
   return { ok: false, error: 'unknown action: ' + action };
+}
+
+/**
+ * Lines the supplier overspent on, judged BY THE LINE and never by the order's status.
+ *
+ * lib/relay-buy.js:232 sets needsReview when CJ completes an order more than 10% above the
+ * authorised cost, and writes a reviewReason with it; lib/relay-engine.js carries both onto
+ * the fulfilment line. Nothing anywhere read either one. The flag exists precisely for a
+ * purchase that SUCCEEDED at the wrong price, and a successful purchase moves the order to
+ * 'shipped', so every status allowlist that watched 'paid' and 'payment-review' was
+ * guaranteed to miss it: the console could say "Nothing needs you" over a line the code had
+ * itself marked for a human.
+ *
+ * Fails closed on shape, like _unfulfilledLines: an unreadable fulfilment is not evidence
+ * that nothing is flagged, but it is also not evidence that something is, so it contributes
+ * nothing here and is caught by the stranded scan instead.
+ */
+function _flaggedLines(orders) {
+  const out = [];
+  (orders || []).forEach(function (o) {
+    const f = o && o.fulfillment;
+    if (!f || !Array.isArray(f.lines)) return;
+    f.lines.forEach(function (l) {
+      if (!l || l.needsReview !== true) return;
+      out.push({
+        orderId: o.id,
+        listingId: l.listingId || null,
+        reason: l.reviewReason || 'the supplier charged more than was approved'
+      });
+    });
+  });
+  return out;
+}
+
+/**
+ * The lines of a paid order that were never actually bought.
+ *
+ * The order-level fulfilment state is a headline, not an inventory: 'partial' means
+ * SOMETHING shipped, which is exactly when a line that was never ordered is easiest to
+ * miss. Every branch here fails CLOSED - an order we cannot read the shape of counts as
+ * unfinished, because the alternative is telling the operator a customer is served when
+ * nobody checked.
+ */
+function _unfulfilledLines(order) {
+  const f = order && order.fulfillment;
+  if (!f) return [{ listingId: (order && order.listingId) || null, state: 'not-attempted' }];
+  // Legacy and single-line orders carry no lines array. Trust the headline only when it
+  // says everything was bought.
+  if (!Array.isArray(f.lines) || f.lines.length === 0) {
+    return f.state === 'purchased'
+      ? []
+      : [{ listingId: order.listingId || null, state: f.state || 'unknown' }];
+  }
+  return f.lines.filter(function (l) { return l && l.state !== 'purchased'; });
 }
 
 module.exports = async function handler(req, res) {
