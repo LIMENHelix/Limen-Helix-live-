@@ -2082,16 +2082,77 @@ function sleep(ms) {
   return new Promise(function (resolve) { setTimeout(resolve, ms); });
 }
 
-// BLS v2 request body helper (added 2026-07-21). Without a key the public API caps at 25
-// calls/day/IP; production burns that across all three BLS feeds (employment, freight PPI,
-// manufacturing PPI) and they fall back to `broken` — the runtime health board's industry
-// realFeeds=0. A free key (https://data.bls.gov/registrationEngine/) raises the cap to 500/day and
-// rides in the POST body as `registrationkey`. Additive + keyless-fallback: unset env = exactly the
-// prior behavior. Operator action: register the free key, set env BLS_API_KEY.
+// BLS publishes all three series through one batch-capable endpoint. Keep the domain adapters
+// separate, because employment, freight, and manufacturing are different observations, but share
+// one upstream request and one successful-response cache. The data is monthly; a six-hour warm
+// cache is conservative and prevents each page read from spending three calls from the same daily
+// registration-key quota. Failed/quota responses are never cached, so recovery is immediate.
+var BLS_URL = 'https://api.bls.gov/publicAPI/v2/timeseries/data/';
+var BLS_SERIES = Object.freeze({
+  employment: 'CES0000000001',
+  freight: 'PCU484121484121',
+  manufacturing: 'PCUOMFG--OMFG--'
+});
+var BLS_CACHE_TTL = 6 * 60 * 60 * 1000;
+var _blsBatchCache = null; // { data, cachedAt } or { promise }
+
+// BLS v2 request body helper (added 2026-07-21). A registration key raises the public quota and
+// rides in the POST body. It must never be copied into a public source-health error.
 function blsBody(seriesIds, startYear, endYear) {
   var b = { seriesid: seriesIds, startyear: String(startYear), endyear: String(endYear) };
   if (process.env.BLS_API_KEY) b.registrationkey = process.env.BLS_API_KEY;
   return JSON.stringify(b);
+}
+
+function _redactBLSMessage(message) {
+  var text = String(message || 'request failed');
+  var key = process.env.BLS_API_KEY;
+  return key ? text.split(key).join('[redacted]') : text;
+}
+
+function _blsSeriesFrom(data, seriesId) {
+  var rows = data && data.Results && data.Results.series;
+  if (!Array.isArray(rows)) return null;
+  for (var i = 0; i < rows.length; i++) {
+    if (rows[i] && rows[i].seriesID === seriesId) return rows[i];
+  }
+  return null;
+}
+
+function _requestBLSBatch() {
+  var now = Date.now();
+  if (_blsBatchCache && _blsBatchCache.data &&
+      now - _blsBatchCache.cachedAt < BLS_CACHE_TTL) {
+    return Promise.resolve(_blsBatchCache.data);
+  }
+  if (_blsBatchCache && _blsBatchCache.promise) return _blsBatchCache.promise;
+
+  var year = new Date(now).getFullYear();
+  var promise = timedJSON(BLS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: blsBody([
+      BLS_SERIES.employment,
+      BLS_SERIES.freight,
+      BLS_SERIES.manufacturing
+    ], year - 1, year)
+  }).then(function (data) {
+    if (data && data.status === 'REQUEST_SUCCEEDED') {
+      _blsBatchCache = { data: data, cachedAt: Date.now() };
+    } else {
+      _blsBatchCache = null;
+    }
+    return data;
+  }, function (error) {
+    _blsBatchCache = null;
+    throw error;
+  });
+  _blsBatchCache = { promise: promise };
+  return promise;
+}
+
+function _resetBLSRequestState() {
+  _blsBatchCache = null;
 }
 
 var FEDERAL_REGISTER_MAX_CONCURRENCY = 4;
@@ -2207,20 +2268,17 @@ async function fetchFRED() {
 
 async function fetchBLS() {
   try {
-    var body = blsBody(['CES0000000001'], new Date().getFullYear(), new Date().getFullYear());
-    var data = await timedJSON('https://api.bls.gov/publicAPI/v2/timeseries/data/', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body
-    });
+    var data = await _requestBLSBatch();
     if (!data || data.status !== 'REQUEST_SUCCEEDED') {
       var blsMsg = (data && data.message && data.message[0]) || 'request failed';
-      trackHealth('BLS Employment', 'economy', 'fallback', 'BLS status: ' + blsMsg);
+      trackHealth('BLS Employment', 'economy', 'fallback', 'BLS status: ' + _redactBLSMessage(blsMsg));
       return null;
     }
     if (!data.Results) {
       trackHealth('BLS Employment', 'economy', 'fallback', 'no Results in response');
       return null;
     }
-    var series = data.Results.series && data.Results.series[0];
+    var series = _blsSeriesFrom(data, BLS_SERIES.employment);
     if (!series || !series.data || !series.data[0]) {
       trackHealth('BLS Employment', 'economy', 'fallback', 'empty series data');
       return null;
@@ -2922,20 +2980,17 @@ async function fetchArXivAll() {
 
 async function fetchBLSFreight() {
   try {
-    var body = blsBody(['PCU484121484121'], new Date().getFullYear(), new Date().getFullYear());
-    var data = await timedJSON('https://api.bls.gov/publicAPI/v2/timeseries/data/', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body
-    });
+    var data = await _requestBLSBatch();
     if (!data || data.status !== 'REQUEST_SUCCEEDED') {
       var blsMsg = (data && data.message && data.message[0]) || 'request failed';
-      trackHealth('BLS Freight PPI', 'supplyChain', 'fallback', 'BLS status: ' + blsMsg);
+      trackHealth('BLS Freight PPI', 'supplyChain', 'fallback', 'BLS status: ' + _redactBLSMessage(blsMsg));
       return null;
     }
     if (!data.Results) {
       trackHealth('BLS Freight PPI', 'supplyChain', 'fallback', 'no Results in response');
       return null;
     }
-    var series = data.Results.series && data.Results.series[0];
+    var series = _blsSeriesFrom(data, BLS_SERIES.freight);
     if (!series || !series.data || !series.data[0]) {
       trackHealth('BLS Freight PPI', 'supplyChain', 'fallback', 'empty series data');
       return null;
@@ -3226,10 +3281,10 @@ async function fetchFREDIndustry() {
 
 async function fetchBLSManufacturing() {
   try {
-    var body = blsBody(['PCUOMFG--OMFG--'], new Date().getFullYear() - 1, new Date().getFullYear());
-    var data = await timedJSON('https://api.bls.gov/publicAPI/v2/timeseries/data/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body });
-    if (!data || data.status !== 'REQUEST_SUCCEEDED' || !data.Results || !data.Results.series || !data.Results.series[0] || !data.Results.series[0].data || !data.Results.series[0].data[0]) { trackHealth('BLS Manufacturing PPI', 'industry', 'fallback', 'BLS status: ' + (data ? data.status : 'null') + (data && data.message ? ' — ' + data.message[0] : '')); return null; }
-    var latest = data.Results.series[0].data[0];
+    var data = await _requestBLSBatch();
+    var series = _blsSeriesFrom(data, BLS_SERIES.manufacturing);
+    if (!data || data.status !== 'REQUEST_SUCCEEDED' || !series || !series.data || !series.data[0]) { trackHealth('BLS Manufacturing PPI', 'industry', 'fallback', 'BLS status: ' + (data ? data.status : 'null') + (data && data.message ? ' — ' + _redactBLSMessage(data.message[0]) : '')); return null; }
+    var latest = series.data[0];
     var val = parseFloat(latest.value);
     if (isNaN(val)) { trackHealth('BLS Manufacturing PPI', 'industry', 'fallback', 'non-numeric'); return null; }
     var stress = clamp((val - 120) / 40, 0, 1);
@@ -6574,6 +6629,9 @@ module.exports._selectUSPTOGazetteIssue = _selectUSPTOGazetteIssue;
 module.exports._selectUSDAQuickStatsCrops = _selectUSDAQuickStatsCrops;
 module.exports._selectUNWPPPopulationDataset = _selectUNWPPPopulationDataset;
 module.exports._resetFederalRegisterRequestState = _resetFederalRegisterRequestState;
+module.exports._resetBLSRequestState = _resetBLSRequestState;
+module.exports._blsSeriesFrom = _blsSeriesFrom;
+module.exports._redactBLSMessage = _redactBLSMessage;
 /* The three SPY fetchers themselves, so a test can exercise the REAL path — helper plus
    wiring — against a stubbed `fetch`. Testing only the helper would leave the three lines
    that actually attach `sourceUpdatedAt` unproven, which is where the defect lived. */
@@ -6625,6 +6683,8 @@ module.exports._fetchOpenAlex = fetchOpenAlex;
 module.exports._fetchFederalRegister = fetchFederalRegister;
 module.exports._fetchSECEnforcement = fetchSECEnforcement;
 module.exports._fetchSECEDGARCurrent = fetchSECEDGARCurrent;
+module.exports._fetchBLS = fetchBLS;
+module.exports._fetchBLSFreight = fetchBLSFreight;
 module.exports._fetchBLSManufacturing = fetchBLSManufacturing;
 module.exports._fetchHackerNews = fetchHackerNews;
 module.exports._fetchTreasuryDebt = fetchTreasuryDebt;

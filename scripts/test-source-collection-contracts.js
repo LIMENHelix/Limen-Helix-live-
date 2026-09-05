@@ -109,9 +109,12 @@ function jsonResponse(body) {
     assert.match(edgarReading.sourceUpdatedAt,
       /^rss-set-v1:sec-edgar-current\|items:1\|sha256:[a-f0-9]{64}$/);
 
-    var bls = { status: 'REQUEST_SUCCEEDED', Results: { series: [{ data: [{
-      year: '2026', period: 'M07', value: '143.5'
-    }] }] } };
+    var bls = { status: 'REQUEST_SUCCEEDED', Results: { series: [
+      { seriesID: 'CES0000000001', data: [{ year: '2026', period: 'M07', value: '160000' }] },
+      { seriesID: 'PCU484121484121', data: [{ year: '2026', period: 'M07', value: '130.0' }] },
+      { seriesID: 'PCUOMFG--OMFG--', data: [{ year: '2026', period: 'M07', value: '143.5' }] }
+    ] } };
+    H._resetBLSRequestState();
     global.fetch = function () { return Promise.resolve(jsonResponse(bls)); };
     var blsReading = await H._fetchBLSManufacturing();
     assert.equal(blsReading.sourceUpdatedAt,
@@ -171,6 +174,7 @@ function jsonResponse(body) {
     console.log('source collection contracts: 34/34 passed');
   } finally {
     global.fetch = realFetch;
+    H._resetBLSRequestState();
   }
 })().catch(function (error) {
   console.error(error && error.stack || error);
