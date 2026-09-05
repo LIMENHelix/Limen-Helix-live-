@@ -146,7 +146,8 @@ export async function sense() {
     metrics[k + '.phaseBeliefAbstention'] = {
       reason,
       degraded: pb.degraded || null,
-      channels: Array.isArray(pb.channels) ? pb.channels : null
+      channels: Array.isArray(pb.channels) ? pb.channels : null,
+      precisionDiagnostic: pb.precisionDiagnostic || null
     };
     attention.push({
       issue: k + ' phaseBelief estimator abstained',

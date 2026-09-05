@@ -14,6 +14,7 @@ var phasePercept = require('../lib/phase-percept');
 var groundedStress = require('../lib/grounded-stress');   // SHADOW candidate: stress from node/company distress, not feed volume
 var phaseEstimator = require('../lib/phase-estimator');   // SHADOW: precision-weighted P0-P10 belief; grounded-stress is its Adapter B
 var phaseBeliefTelemetry = require('../lib/phase-belief-telemetry');   // telemetry-only projection; never changes estimator or promotion
+var phaseAbstentionDiagnostic = require('../lib/phase-abstention-diagnostic'); // pure replay; exposes why the real estimator abstained
 var energyMarketFeed = require('../lib/energy-market-feed');   // LIVE market channel, ENERGY ONLY (real, validated WTI series; see memory: energy-backfill-first-result)
 var domainMarketFeed = require('../lib/domain-market-feed');   // LIVE market channel for the other 19, off each domain's curated basket
 var domainSeriesFeed = require('../lib/domain-series-feed');   // DEEP free FRED series per domain — energy's WTI pattern, generalised
@@ -456,9 +457,17 @@ module.exports = async function handler(req, res) {
           try {
             var peHist = {};
             for (var histKey in gsSlot.history) { if (gsSlot.history.hasOwnProperty(histKey)) peHist[histKey] = gsSlot.history[histKey]; }
-            var est = phaseEstimator.estimate(bundle, { corrState: gsSlot.phaseCorr, history: peHist, distressComposite: bundle.distressComposite });
+            var estOpts = { corrState: gsSlot.phaseCorr, history: peHist, distressComposite: bundle.distressComposite };
+            var est = phaseEstimator.estimate(bundle, estOpts);
             if (est.grounded) gsSlot.phaseCorr = est.corrState;   // persist estimator memory (belief carried forward)
-            dsum.phaseBelief = phaseBeliefTelemetry.build(est);
+            // A low-precision result intentionally omits channels. Replay the PURE estimator with
+            // a zero diagnostic floor and publish only its precision accounting. The real result
+            // above remains the sole promotion/persistence authority; the replay's belief and
+            // corrState are discarded by phase-abstention-diagnostic.
+            var precisionDiagnostic = est.grounded
+              ? null
+              : phaseAbstentionDiagnostic.inspect(phaseEstimator, bundle, estOpts);
+            dsum.phaseBelief = phaseBeliefTelemetry.build(est, precisionDiagnostic);
 
             // PROMOTE the grounded estimate into the LIVE, DISPLAYED dsum.stress (2026-07-20, ENERGY
             // ONLY). Every commit up to this one deliberately left dsum.stress (feed-volume) untouched —

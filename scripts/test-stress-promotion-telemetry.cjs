@@ -21,7 +21,13 @@ var snapshot = {
         grounded: false,
         reason: 'total precision 0.42 < floor 0.5 — abstain',
         degraded: { reason: 'total precision 0.42 < floor 0.5 — abstain' },
-        channels: null
+        channels: null,
+        precisionDiagnostic: {
+          diagnosticOnly: true,
+          floor: 0.5,
+          totalPrecision: 0.42,
+          channels: [{ key: 'companyDistress', precision: 0.42, informative: true, fromHint: false }]
+        }
       }
     }
   }
@@ -41,6 +47,7 @@ global.fetch = async function () {
     'total precision 0.42 < floor 0.5 — abstain'
   );
   assert.equal(result.metrics['law.phaseBeliefAbstention'].channels, null);
+  assert.equal(result.metrics['law.phaseBeliefAbstention'].precisionDiagnostic.totalPrecision, 0.42);
   assert(result.attention.some(function (item) {
     return item.issue === 'law phaseBelief estimator abstained'
       && item.action.includes('total precision 0.42 < floor 0.5 — abstain');
