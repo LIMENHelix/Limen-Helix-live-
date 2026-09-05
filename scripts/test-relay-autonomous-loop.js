@@ -1326,42 +1326,67 @@ function invoke(handler, req) {
   var cart2 = require('../handlers/relay-cart-checkout');
   var cartAddr = { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' };
 
+  // These three used to match the supplier's own sentence in the RESPONSE, which meant they
+  // were holding a leak in place: the cost-drift one asserted a dollar figure, and that
+  // figure is the freight on our landed cost. Each claim is unchanged; the specific text is
+  // now read from the operator log, and the CODE is what the response is asserted on. That
+  // is also the first real exercise of the code field surviving the genericised message.
+  var CARTWARN = [];
+  var cartWarnReal = console.warn;
+  function capture() { CARTWARN = []; console.warn = function () { CARTWARN.push(Array.prototype.join.call(arguments, ' ')); }; }
+  function release() { console.warn = cartWarnReal; return CARTWARN.join(' | '); }
+  function firstCode(r) { return (((r.body || {}).unavailable || [])[0] || {}).code || null; }
+
   STOCK_QTY = 0;
   var ordersBeforeCart = Object.keys((await db.get('relay:store:orders')) || {}).length;
+  capture();
   var cOut = await invoke(cart2, {
     method: 'POST', headers: {},
     body: { items: [{ listingId: cjListing.id, qty: 1 }], shippingAddress: cartAddr,
       buyerEmail: 'a@b.com', policyAccepted: true }
   });
+  var outWarn = release();
   assert('the cart refuses a sold-out supplier line', cOut.status === 409, String(cOut.status));
-  assert('and names it rather than failing vaguely',
-    /sold out/i.test(JSON.stringify(cOut.body)), JSON.stringify(cOut.body).slice(0, 200));
+  assert('and names it by code rather than failing vaguely',
+    firstCode(cOut) === 'out-of-stock', JSON.stringify(cOut.body).slice(0, 200));
+  assert('and the supplier text reaches the operator, not the shopper',
+    /sold out/i.test(outWarn) && !/sold out/i.test(JSON.stringify(cOut.body)), outWarn.slice(0, 200));
   assert('and creates no order', Object.keys((await db.get('relay:store:orders')) || {}).length === ordersBeforeCart);
 
   STOCK_QTY = 100;
   FREIGHT_OVERRIDE = 9.87;
+  capture();
   var cDrift = await invoke(cart2, {
     method: 'POST', headers: {},
     body: { items: [{ listingId: cjListing.id, qty: 1 }], shippingAddress: cartAddr,
       buyerEmail: 'a@b.com', policyAccepted: true }
   });
+  var driftWarn = release();
   assert('the cart refuses a destination fulfilment would not ship to at that price',
-    cDrift.status === 409 && /costs \$9\.87/.test(JSON.stringify(cDrift.body)),
+    cDrift.status === 409 && firstCode(cDrift) === 'cost-drift',
     JSON.stringify(cDrift.body).slice(0, 220));
+  assert('cart cost-drift: no dollar figure reaches the buyer',
+    JSON.stringify(cDrift.body).indexOf('$') === -1, JSON.stringify(cDrift.body).slice(0, 220));
+  assert('cart cost-drift: the word quoted does not reach the buyer either',
+    !/quoted/i.test(JSON.stringify(cDrift.body)), JSON.stringify(cDrift.body).slice(0, 220));
+  assert('cart cost-drift: the freight detail still reaches the operator log',
+    /costs \$9\.87/.test(driftWarn), driftWarn.slice(0, 220));
   FREIGHT_OVERRIDE = undefined;
 
   // Repeats collapse BEFORE the stock check. Two qty-1 entries of one listing each passed
   // the quantity and stock checks on their own and together asked the supplier for two of
   // something there may be one of, with the customer charged for both.
   STOCK_QTY = 1;
+  capture();
   var cDup = await invoke(cart2, {
     method: 'POST', headers: {},
     body: { items: [{ listingId: cjListing.id, qty: 1 }, { listingId: cjListing.id, qty: 1 }],
       shippingAddress: cartAddr, buyerEmail: 'a@b.com', policyAccepted: true }
   });
+  var dupWarn = release();
   assert('two entries of one listing are counted as two, not twice as one',
-    cDup.status === 409 && /only 1 left/.test(JSON.stringify(cDup.body)),
-    JSON.stringify(cDup.body).slice(0, 220));
+    cDup.status === 409 && firstCode(cDup) === 'out-of-stock' && /only 1 left/.test(dupWarn),
+    JSON.stringify(cDup.body).slice(0, 220) + ' || warn: ' + dupWarn.slice(0, 120));
   STOCK_QTY = 100;
 
   // What the supplier quoted for THIS address must reach fulfilment. The listing keeps
@@ -3841,22 +3866,20 @@ function invoke(handler, req) {
   var cjP58 = require.resolve('../lib/relay-cj');
   var realCj58 = require('../lib/relay-cj');
 
-  // Revalidation must PASS, or the line is refused at the supplier check above and never
-  // reaches the gate this test is about.
-  require.cache[sqP58] = { id: sqP58, filename: sqP58, loaded: true, exports: Object.assign({}, realSq58, {
-    revalidate: async function (o) {
-      return {
-        ok: true, effectiveCost: parseFloat(o.sourceCost),
-        shipping: parseFloat(o.sourceShipping) || 0,
-        carrier: o.sourceCarrier || 'CJPacket', fromCountry: o.sourceFromCountry || 'US'
-      };
-    }
-  }) };
+  // The real relay-supplier-quote runs against a stubbed CJ, rather than revalidate being
+  // stubbed wholesale, so the cost-drift case below produces the REAL refusal sentence
+  // instead of one this test wrote for itself.
+  var FREIGHT58 = 4.00;
   require.cache[cjP58] = { id: cjP58, filename: cjP58, loaded: true, exports: Object.assign({}, realCj58, {
+    configured: function () { return true; },
+    stock: async function () { return { qty: 10, from: 'US' }; },
+    freight: async function () { return { price: FREIGHT58 }; },
     balance: async function () { return { ok: true, available: 1.00 }; }
   }) };
-  // A FRESH autonomy, because _cjBalCache is module state with a one minute TTL and an
+  // relay-supplier-quote holds its OWN relay-cj reference, so it is rebuilt after the stub.
+  // A FRESH autonomy too, because _cjBalCache is module state with a one minute TTL and an
   // earlier block's good balance would be served instead of the $1 stubbed here.
+  delete require.cache[sqP58];
   delete require.cache[require.resolve('../lib/relay-autonomy')];
   delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
   var cart58 = require('../handlers/relay-cart-checkout');

@@ -152,7 +152,16 @@ module.exports = async function handler(req, res) {
       shippingAddress: addr
     });
     if (!check.ok) {
-      unavailable.push({ listingId: listingId, reason: check.reason, code: check.code });
+      // Same rule as the gate below, same reason. cost-drift spells out the per-unit
+      // freight quoted against the freight on record, which is our landed cost, and this
+      // endpoint takes no key. The CODE stays: unconfigured / stale-quote / out-of-stock /
+      // no-quote / cost-drift carry no internal detail and are what the UI branches on.
+      // The cost is that 'sold out' and 'only 2 left with the supplier' collapse into one
+      // generic line; a caller wanting those words should render them from the code.
+      console.warn('[relay-cart] line refused by supplier requote: ' + JSON.stringify({
+        listingId: listingId, code: check.code, reason: check.reason
+      }));
+      unavailable.push({ listingId: listingId, reason: 'cannot be sourced right now', code: check.code });
       continue;
     }
 

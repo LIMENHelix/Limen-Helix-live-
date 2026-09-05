@@ -340,7 +340,11 @@ function approve(id) {
     if (!r || !r.ok) {
       FAILED_APPROVALS.push({
         id: id,
-        reason: (r && (r.reason || r.error)) || 'the purchase was refused, with no reason given'
+        reason: (r && (r.reason || r.error)) || 'the purchase was refused, with no reason given',
+        // Released means this decisionId can never be approved again, so the retry action
+        // must not be offered for it. Read from the LINE, because that is where the state
+        // that followed the release is reported.
+        released: !!(r && r.line && (r.line.state === 'failed' || r.line.state === 'manual-required'))
       });
     }
     refresh();
@@ -355,7 +359,21 @@ function renderFailedApprovals() {
   return FAILED_APPROVALS.map(function (f) {
     return '<div class="unknown"><b>Approved, but NOT bought.</b>' +
       '<div class="why">' + esc(f.reason) + '</div>' +
-      '<button style="margin-top:8px" onclick="approve(' + '\u0027' + esc(f.id) + '\u0027' + ')">Try again</button>' +
+      // NO RETRY ON A RELEASED RESERVATION. fulfillLine calls autonomy.release() before it
+      // returns failed or manual-required, and approve() refuses any row whose state is not
+      // still 'reserved'. The button was therefore incapable of working: it answered
+      // 'reservation is released, not reserved' every time, forever, on a PAID order, while
+      // presenting itself as the fix. A notice that says what actually happens is worth
+      // more than an action that cannot.
+      //
+      // Every OTHER refusal keeps the button on purpose. A funds or limit refusal after
+      // approval leaves the reservation reserved AND approved, so retrying once the wallet
+      // is funded is exactly the right move; removing it there would break a path that works.
+      (f.released
+        ? '<div class="why">The supplier purchase failed and the reservation was released, so ' +
+          'this approval cannot be retried. The order re-authorises on the next cycle, or ' +
+          'from the order view.</div>'
+        : '<button style="margin-top:8px" onclick="approve(' + '\u0027' + esc(f.id) + '\u0027' + ')">Try again</button>') +
       '</div>';
   }).join('');
 }

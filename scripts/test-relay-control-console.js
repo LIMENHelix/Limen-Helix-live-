@@ -276,6 +276,42 @@ srv.listen(0, async function () {
   A('and the REASON is rendered, not just the count',
     /14\.90/.test(flagPanel) && /11\.00/.test(flagPanel), JSON.stringify(flagPanel).slice(0, 300));
 
+  // ── STATE 9 ─────────────────────────────────────────────────────────────
+  // A BUTTON THAT CANNOT WORK IS WORSE THAN NO BUTTON.
+  //
+  // When the supplier purchase fails, fulfillLine calls autonomy.release() and returns
+  // 'failed'. approve() refuses any row whose state is not still 'reserved', so the
+  // Try again button answered 'reservation is released, not reserved' every time, forever,
+  // on a PAID order, while presenting itself as the remedy. Removed for released rows and
+  // replaced with what actually happens next. Real retry needs a new authorisation and is
+  // deferred to its own branch.
+  console.log('\nSTATE 9 — a released reservation offers no dead retry');
+  await ev("FAILED_APPROVALS = []; paintApprovals([]);");
+  await ev("(function(){ post = function(){ return Promise.resolve({ ok:false, reason:'CJ refused the order', line:{ state:'failed' } }); }; })()");
+  await ev("approve('dec_released_1')");
+  await sleep(700);
+  const rel = await ev("(document.getElementById('approvals')||{}).innerText||''");
+  const relHtml = await ev("(document.getElementById('approvals')||{}).innerHTML||''");
+  A('the failure is still shown, not swallowed',
+    /Approved, but NOT bought/i.test(rel), JSON.stringify(rel).slice(0, 250));
+  A('NO retry action is offered for a released reservation',
+    !/Try again/i.test(relHtml) && relHtml.indexOf('approve(') === -1,
+    JSON.stringify(relHtml).slice(0, 300));
+  A('and it says what happens instead of offering a dead button',
+    /released/i.test(rel) && /next cycle|order view/i.test(rel), JSON.stringify(rel).slice(0, 300));
+
+  // The other half: a refusal that did NOT release must stay retryable, or removing the
+  // dead button would have broken a path that works. A funds refusal after approval leaves
+  // the reservation reserved and approved, so retrying once the wallet is funded is right.
+  await ev("FAILED_APPROVALS = []; paintApprovals([]);");
+  await ev("(function(){ post = function(){ return Promise.resolve({ ok:false, reason:'CJ wallet has $0.00' }); }; })()");
+  await ev("approve('dec_notreleased_1')");
+  await sleep(700);
+  const keep = await ev("(document.getElementById('approvals')||{}).innerHTML||''");
+  A('a refusal that did NOT release the reservation stays retryable',
+    /Try again/i.test(keep) && keep.indexOf('dec_notreleased_1') >= 0,
+    JSON.stringify(keep).slice(0, 300));
+
   clearTimeout(watchdog);
   console.log(fails ? '\n' + fails + ' FAILED\n' : '\nALL PASS\n');
   done(fails ? 1 : 0);
