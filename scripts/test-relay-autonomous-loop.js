@@ -1996,7 +1996,12 @@ function invoke(handler, req) {
 
   // ── now the real payment ──
   STRIPE_SESSIONS = [{ id: 'cs_paid', status: 'complete', payment_status: 'paid',
-    payment_intent: 'pi_abc', amount_total: 1735, currency: 'usd' }];
+    payment_intent: 'pi_abc', amount_total: 1136, currency: 'usd' }];
+  // 1136, not 1735. The cart no longer adds a $5.99 shipping line, because supplier
+  // freight is already inside the listed price, so this order totals its $11.36 subtotal.
+  // Left at 1735 this is a $5.99 OVERPAYMENT, and the order correctly went to
+  // payment-review instead of paid: the collected-amount check was doing its job, which
+  // is why six assertions downstream of it failed rather than one.
   var rec2 = await engine3.reconcilePayments({ limit: 25 });
   var paidOrder = await store.getOrder(payOrderId);
   assert('a paid link marks the order paid', paidOrder.status === 'paid', paidOrder.status);
@@ -2007,10 +2012,15 @@ function invoke(handler, req) {
   // reconcile correctly settles those too against the same stubbed Stripe answer.
   var mine = function () { return LEDGER_WRITES.filter(function (w) { return w.orderId === payOrderId; }); };
   assert('income reached finance once, for what was actually collected',
-    mine().length === 1 && mine()[0].amount === 17.35,
+    mine().length === 1 && mine()[0].amount === 11.36,
     JSON.stringify(mine()).slice(0, 200));
+  // 11.36 and 3.79, down from 17.35 and 9.78. Both moved for one reason, and it is
+  // worth being plain about it: the old figures counted the $5.99 shipping fee as
+  // revenue, and that fee was the customer paying supplier freight a SECOND time,
+  // since freight is already inside the listed price. Reported margin falls here
+  // because it was overstated, not because the business got worse.
   assert('with the source cost carried so the margin is real, not assumed',
-    mine()[0].sourceCostTotal === 7.57 && mine()[0].margin === 9.78,
+    mine()[0].sourceCostTotal === 7.57 && mine()[0].margin === 3.79,
     JSON.stringify(mine()[0]).slice(0, 200));
 
   // Idempotence. The cron and a manual reconcile both run; neither may double-report.
@@ -3871,6 +3881,121 @@ function invoke(handler, req) {
   // bound to that same stray limen-db, and THAT instance memoised _redisAvailable = true
   // inside T57 stub window while the UPSTASH env vars were briefly set. With the vars now
   // gone it still believes it has Redis, so every read through it calls fetch(undefined):
+  // ── T64 ─────────────────────────────────────────────────────────────────
+  // FREIGHT IS CHARGED ONCE, NOT TWICE.
+  //
+  // Supplier freight is folded into the acquisition cost by every source before the engine
+  // prices it (lib/relay-cj.js:334), and the listing is priced off that landed number. The
+  // cart then added a $5.99 line on top, so the customer paid supplier freight a second
+  // time under a name that made it look like a pass-through. relay-demand-purchase has
+  // always created orders with shipping: 0, so the two routes to one catalogue were
+  // quoting different shipping as well.
+  console.log('T64: freight is inside the price, so the cart adds no second charge');
+  var dbP64 = require.resolve('../lib/limen-db');
+  var stP64 = require.resolve('../lib/relay-store');
+  var cachedDb64 = require.cache[dbP64] ? require.cache[dbP64].exports : null;
+  var cachedSt64 = require.cache[stP64] ? require.cache[stP64].exports : null;
+  // Pinned for the same reason as T63: from T45 onward the cached limen-db is a different
+  // object than the db this suite writes through, and it believes it has Redis.
+  require.cache[dbP64] = { id: dbP64, filename: dbP64, loaded: true, exports: db };
+  require.cache[stP64] = { id: stP64, filename: stP64, loaded: true, exports: store };
+
+  var cjP64 = require.resolve('../lib/relay-cj');
+  var realCj64 = require('../lib/relay-cj');
+  var sqP64 = require.resolve('../lib/relay-supplier-quote');
+  var realSq64 = require('../lib/relay-supplier-quote');
+  var finP64 = require.resolve('../lib/relay-finance-bridge');
+  var realFin64 = require.cache[finP64] ? require.cache[finP64].exports : require('../lib/relay-finance-bridge');
+
+  require.cache[cjP64] = { id: cjP64, filename: cjP64, loaded: true, exports: Object.assign({}, realCj64, {
+    configured: function () { return true; },
+    stock: async function () { return { qty: 50, from: 'US' }; },
+    freight: async function () { return { price: 4.00, carrier: 'CJPacket' }; },
+    balance: async function () { return { ok: true, available: 5000 }; }
+  }) };
+  require.cache[finP64] = { id: finP64, filename: finP64, loaded: true, exports: Object.assign({}, realFin64, {
+    paymentsEnabled: function () { return true; },
+    createPayment: async function () { return { ok: true, url: 'https://pay.test/64', paymentLinkId: 'p64' }; }
+  }) };
+  delete require.cache[sqP64];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
+  var cart64 = require('../handlers/relay-cart-checkout');
+
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 500, dailyCeilingUsd: 5000,
+    minMarginUsd: 1, minMarginPct: 0.05, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var addr64 = { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' };
+
+  async function buyCart64(unitPrice, qty) {
+    var l = await store.createListing({
+      marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: 'shipping probe',
+      price: unitPrice, description: 'x', category: 'other', condition: 'new', quantity: 99,
+      sourceMarketplace: 'cj', sourceId: 'v64_' + unitPrice + '_' + qty,
+      sourceUrl: 'https://www.cjdropshipping.com/product/-p-64' + unitPrice + 'x' + qty + '.html',
+      sourceCost: 11.00, sourceShipping: 4.00, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+      marginAtListing: 0.5, sourceVerifiedAt: new Date().toISOString()
+    });
+    var r = await invoke(cart64, {
+      method: 'POST', headers: {},
+      body: { items: [{ listingId: l.id, qty: qty }], shippingAddress: addr64,
+        buyerEmail: 'a@b.com', policyAccepted: true }
+    });
+    return { res: r, listing: l };
+  }
+
+  // UNDER the old threshold: exactly where the fee used to be added.
+  var small64 = await buyCart64(20.00, 1);
+  assert('a small cart still checks out', small64.res.status === 200 && small64.res.body.ok === true,
+    JSON.stringify(small64.res.body).slice(0, 200));
+  assert('no shipping is charged on a small cart',
+    small64.res.body.shipping === 0, JSON.stringify({ shipping: small64.res.body.shipping }));
+  assert('and the total is exactly the sum of the line prices, with no addend',
+    small64.res.body.total === 20.00 && small64.res.body.total === small64.res.body.subtotal,
+    JSON.stringify({ subtotal: small64.res.body.subtotal, total: small64.res.body.total }));
+
+  // The stored ORDER, not just the response: what the customer is charged comes from
+  // relay-store.createOrder, which adds data.shipping to the subtotal.
+  var ord64 = await store.getOrder(small64.res.body.orderId);
+  assert('the stored order records no shipping charge',
+    ord64.shipping === 0, JSON.stringify({ shipping: ord64.shipping }));
+  assert('and its total equals its subtotal',
+    ord64.total === ord64.subtotal, JSON.stringify({ subtotal: ord64.subtotal, total: ord64.total }));
+
+  // MULTI-UNIT, because a per-unit freight addend would only show up here.
+  var multi64 = await buyCart64(20.00, 3);
+  assert('a multi-unit cart is charged the line total and nothing more',
+    multi64.res.body.total === 60.00 && multi64.res.body.shipping === 0,
+    JSON.stringify({ total: multi64.res.body.total, shipping: multi64.res.body.shipping }));
+
+  // OVER the old threshold, where shipping was already waived. Pinned so reintroducing the
+  // threshold in either direction is caught, not only the fee.
+  var big64 = await buyCart64(90.00, 1);
+  assert('a cart over the old free-shipping threshold is also charged no shipping',
+    big64.res.body.shipping === 0 && big64.res.body.total === big64.res.body.subtotal,
+    JSON.stringify({ subtotal: big64.res.body.subtotal, total: big64.res.body.total }));
+
+  // THE TWO ROUTES AGREE. relay-demand-purchase has always passed shipping: 0; the cart
+  // now matches it, so one catalogue quotes one shipping policy.
+  var fs64 = require('fs'), path64 = require('path');
+  var dpSrc64 = fs64.readFileSync(path64.join(__dirname, '../handlers/relay-demand-purchase.js'), 'utf8');
+  assert('the demand route still creates orders with no shipping charge',
+    /shipping:\s*0\b/.test(dpSrc64), 'no shipping-zero found in relay-demand-purchase');
+  var cartSrc64 = fs64.readFileSync(path64.join(__dirname, '../handlers/relay-cart-checkout.js'), 'utf8');
+  assert('and the cart no longer declares a shipping fee at all',
+    !/FLAT_SHIPPING\s*=/.test(cartSrc64) && !/FREE_SHIPPING_OVER\s*=/.test(cartSrc64),
+    'a shipping-fee constant is still declared in relay-cart-checkout');
+
+  require.cache[cjP64] = { id: cjP64, filename: cjP64, loaded: true, exports: realCj64 };
+  require.cache[sqP64] = { id: sqP64, filename: sqP64, loaded: true, exports: realSq64 };
+  require.cache[finP64] = { id: finP64, filename: finP64, loaded: true, exports: realFin64 };
+  if (cachedDb64) require.cache[dbP64] = { id: dbP64, filename: dbP64, loaded: true, exports: cachedDb64 };
+  if (cachedSt64) require.cache[stP64] = { id: stP64, filename: stP64, loaded: true, exports: cachedSt64 };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
+
   // five escaped requests, caught by the hermetic check at the end of this file. Pinning to
   // the suite store also means the engine writes listings where the assertions look.
   var stP63 = require.resolve('../lib/relay-store');

@@ -40,8 +40,6 @@ const supplier = require('../lib/relay-supplier-quote');
 const autonomy = require('../lib/relay-autonomy');
 
 
-const FREE_SHIPPING_OVER = 75;
-const FLAT_SHIPPING = 5.99;
 
 function sendJSON(res, code, obj) {
   res.statusCode = code;
@@ -241,7 +239,20 @@ module.exports = async function handler(req, res) {
   }
 
   subtotal = round(subtotal);
-  const shipping = subtotal > FREE_SHIPPING_OVER ? 0 : FLAT_SHIPPING;
+  // FREIGHT IS ALREADY IN THE PRICE, SO IT IS NOT CHARGED AGAIN HERE.
+  //
+  // Every source folds supplier freight into the acquisition cost before the engine
+  // prices it (lib/relay-cj.js:334 returns product + freight as `price`), and the listing
+  // is priced off that landed number. Adding $5.99 on top charged the customer supplier
+  // freight a second time, under a name that made it look like a pass-through.
+  //
+  // Zero, not a smaller number: this also makes the two checkout routes agree, since
+  // relay-demand-purchase has always created its orders with shipping: 0. Two routes to
+  // the same catalogue quoting different shipping was its own defect.
+  //
+  // The removed FREE_SHIPPING_OVER threshold went with it. It only existed to waive
+  // FLAT_SHIPPING above $75, so with the fee gone it had no remaining reader.
+  const shipping = 0;
   const total = round(subtotal + shipping);
 
   if (!finance.paymentsEnabled()) {
