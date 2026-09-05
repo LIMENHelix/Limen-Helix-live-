@@ -14,6 +14,16 @@ var abstained = telemetry.build({
     untransformedChannels: true
   },
   corrState: { secret: 'must not escape' }
+}, {
+  diagnosticOnly: true,
+  floor: 0.5,
+  totalPrecision: 0.42,
+  channels: [
+    { key: 'distress', precision: 0.12, informative: true, fromHint: false },
+    { key: 'marketScore', precision: 0.3, informative: true, fromHint: true }
+  ],
+  belief: ['must not escape'],
+  corrState: { secret: 'must not escape' }
 });
 
 assert.equal(abstained.grounded, false);
@@ -26,6 +36,17 @@ assert.deepEqual(abstained.degraded, {
 });
 assert.deepEqual(abstained.belief, [0.111, 0.222]);
 assert.equal(Object.prototype.hasOwnProperty.call(abstained, 'corrState'), false);
+assert.deepEqual(abstained.precisionDiagnostic, {
+  diagnosticOnly: true,
+  floor: 0.5,
+  totalPrecision: 0.42,
+  channels: [
+    { key: 'distress', precision: 0.12, informative: true, fromHint: false },
+    { key: 'marketScore', precision: 0.3, informative: true, fromHint: true }
+  ]
+});
+assert.equal(Object.prototype.hasOwnProperty.call(abstained.precisionDiagnostic, 'belief'), false);
+assert.equal(Object.prototype.hasOwnProperty.call(abstained.precisionDiagnostic, 'corrState'), false);
 
 var grounded = telemetry.build({
   grounded: true,
@@ -48,10 +69,12 @@ assert.deepEqual(grounded.channels, [
 assert.equal(grounded.degraded.selfConsistencyPrecision, true);
 assert.equal(grounded.degraded.uninformativeChannels, 1);
 assert.equal(Object.prototype.hasOwnProperty.call(grounded.degraded, 'note'), false);
+assert.equal(grounded.precisionDiagnostic, null);
 
 var malformed = telemetry.build(null);
 assert.equal(malformed.grounded, false);
 assert.equal(malformed.reason, 'estimator abstained without a reason');
 assert.equal(malformed.channels, null);
+assert.equal(malformed.precisionDiagnostic, null);
 
 console.log('phase belief telemetry: abstention reason, bounded degradation, and channel precision preserved; estimator memory excluded');
