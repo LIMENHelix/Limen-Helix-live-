@@ -183,7 +183,7 @@
         "neuralRole": "Sensory",
         "brainNodeId": "S1",
         "brainNodeRole": "Raw Materials & Components",
-        "relationshipNote": ". Historically, Anixter supplied Heilind with industrial connectors and cabling for aerospace and defense applications. Anixter's aerospace-certified product lines (MIL-DTL-38999, MIL-DTL-26482) align with Heilind's distribution focus. Relationship may have been restructured following Tech Data's 2021 acquisition of Anixter; current volume and terms require verification.",
+        "relationshipNote": "Historically, Anixter supplied Heilind with industrial connectors and cabling for aerospace and defense applications. Anixter's aerospace-certified product lines (MIL-DTL-38999, MIL-DTL-26482) align with Heilind's distribution focus. Relationship may have been restructured following Tech Data's 2021 acquisition of Anixter; current volume and terms require verification.",
         "confidence": "low",
         "sourceType": [
           "inferred",
@@ -243,7 +243,7 @@
         "neuralRole": "Sensory",
         "brainNodeId": "S1",
         "brainNodeRole": "Raw Materials & Components",
-        "relationshipNote": ". Wesco historically supplied Heilind with industrial electrical and fastener products. Wesco's 2016 merger with Heilind (proposed, later restructured) reflects competitive dynamics in industrial distribution. Current relationship status and volume require verification following Tech Data's 2021 Anixter acquisition and subsequent market consolidation.",
+        "relationshipNote": "Wesco historically supplied Heilind with industrial electrical and fastener products. Wesco's 2016 merger with Heilind (proposed, later restructured) reflects competitive dynamics in industrial distribution. Current relationship status and volume require verification following Tech Data's 2021 Anixter acquisition and subsequent market consolidation.",
         "confidence": "low",
         "sourceType": [
           "inferred",
@@ -258,7 +258,7 @@
         "neuralRole": "Sensory",
         "brainNodeId": "S1",
         "brainNodeRole": "Raw Materials & Components",
-        "relationshipNote": ". Historically, Sensormatic supplied Heilind with aerospace sensors and control systems. Current relationship status following Tyco/Johnson Controls restructuring requires verification. Estimated historical volume: 1–2% of procurement.",
+        "relationshipNote": "Historically, Sensormatic supplied Heilind with aerospace sensors and control systems. Current relationship status following Tyco/Johnson Controls restructuring requires verification. Estimated historical volume: 1–2% of procurement.",
         "confidence": "low",
         "sourceType": [
           "inferred"
@@ -784,5 +784,54 @@
       "research": 1
     },
     "totalArtifacts": 2
+  },
+  "kernelReadings": {
+    "k3": {
+      "schemaVersion": "k3-relational-topology/1.0",
+      "state": "RELATIONAL_MAP_OBSERVED",
+      "readingType": "relational_topology",
+      "phase": null,
+      "composite": null,
+      "alert": false,
+      "coverage": {
+        "relationshipCount": 34,
+        "categoryCount": 8,
+        "neuralRoleCount": 6,
+        "topologyTaggedCount": 34,
+        "topologyTaggedRate": 1,
+        "evidenceTaggedCount": 34,
+        "evidenceTaggedRate": 1,
+        "inferredRelationCount": 19,
+        "inferredRelationRate": 0.559,
+        "categories": [
+          "auditor",
+          "capitalProviders",
+          "competitors",
+          "customers",
+          "logisticsPartners",
+          "marketSignals",
+          "regulators",
+          "suppliers"
+        ],
+        "neuralRoles": [
+          "DMN",
+          "Limbic",
+          "Motor",
+          "Peer",
+          "Salience",
+          "Sensory"
+        ]
+      },
+      "sourceFingerprint": "d0ee430eb85b094f261c227550384cf631350ded46942f952a5006e4b931c9ec",
+      "limitations": [
+        "INTERPRETIVE_ONLY",
+        "NOT_A_FINANCIAL_PHASE",
+        "NOT_OUTCOME_VALIDATED",
+        "SOURCE_CLAIMS_NOT_INDEPENDENTLY_VERIFIED"
+      ],
+      "kernelId": "k3-relational-kernel/1.0",
+      "lastScored": "2026-09-04T16:53:58.087Z"
+    },
+    "primary": "k3"
   }
 }

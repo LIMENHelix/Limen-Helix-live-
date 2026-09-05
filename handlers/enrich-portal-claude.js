@@ -26,7 +26,7 @@
  *   - Citations only from contextPacket.evidence.citations[] when supplied;
  *     otherwise sourceType references generic categories (10-K, 8-K, 20-F,
  *     industry-report) without fabricating specific document references
- *   - DATA_NEEDED placeholders allowed for unknown specifics
+ *   - Placeholder tokens are rejected; unknown optional details are omitted or null
  *
  * Env: ANTHROPIC_API_KEY (required), ANTHROPIC_MODEL (default
  *      claude-sonnet-4-6), ANTHROPIC_TIMEOUT_MS (default 280000),
@@ -44,6 +44,21 @@ const ANTHROPIC_MAX_TOKENS = parseInt(process.env.ANTHROPIC_MAX_TOKENS || '16000
 const ANTHROPIC_TIMEOUT_MS = parseInt(process.env.ANTHROPIC_TIMEOUT_MS || '280000', 10);
 const ANTHROPIC_VERSION = '2023-06-01';
 const ENDPOINT = 'https://api.anthropic.com/v1/messages';
+const XAI_ENDPOINT = 'https://api.x.ai/v1/chat/completions';
+const portalAdmission = require('../lib/portal-admission');
+const crypto = require('node:crypto');
+const adminGate = require('../lib/admin-gate');
+
+function sameSecret(received, expected) {
+  const a = Buffer.from(String(received || ''));
+  const b = Buffer.from(String(expected || ''));
+  return !!(a.length && b.length && a.length === b.length && crypto.timingSafeEqual(a, b));
+}
+
+function isAuthorized(req) {
+  const key = adminGate.reqKey(req);
+  return adminGate.isMaster(key) || sameSecret(key, process.env.PORTAL_REGEN_ADMIN_KEY);
+}
 
 // Same banned-vocab rule as expand-artifact-claude. Internal LIMEN
 // architecture terms must not appear in the portal JSON.
@@ -98,21 +113,21 @@ Every portal JSON must conform to this exact top-level shape (Walmart is the can
   "helixReportUrl": "helix-report.html?cik=<cik>",
 
   "financialHealth": {
-    "asOf": "<YYYY-MM-DD or DATA_NEEDED>",
-    "lastKernelRun": "<ISO timestamp or DATA_NEEDED>",
-    "kernelId": "limen_backtest.py",
-    "validationStatus": "<validated | unavailable | DATA_NEEDED>",
-    "envelopeStatus": "<ELIGIBLE_NOW | etc.>",
-    "historyQuarters": <int or DATA_NEEDED>,
-    "latestQuarter": "<YYYYQn or DATA_NEEDED>",
-    "compositeScore": <0..1 or DATA_NEEDED>,
-    "alert": <bool or DATA_NEEDED>,
-    "distressBand": "<green | yellow | red | DATA_NEEDED>",
-    "dominantPhase": "<p0 - p10 or DATA_NEEDED>",
+    "asOf": null,
+    "lastKernelRun": null,
+    "kernelId": null,
+    "validationStatus": "unavailable",
+    "envelopeStatus": "INGESTION_SUSPECT",
+    "historyQuarters": null,
+    "latestQuarter": null,
+    "compositeScore": null,
+    "alert": false,
+    "distressBand": "unknown",
+    "dominantPhase": null,
     "financialState": {
-      "cashLatest": <number USD or DATA_NEEDED>,
-      "debtLatest": <number USD or DATA_NEEDED>,
-      "cashRunwayQ": <int or null>
+      "cashLatest": null,
+      "debtLatest": null,
+      "cashRunwayQ": null
     }
   },
 
@@ -125,8 +140,8 @@ Every portal JSON must conform to this exact top-level shape (Walmart is the can
   "portalRelevance": "<2-3 sentence prose: why this company matters to a financial-intelligence model. Reference its tier (anchor / peer / specialty / supplier) and any unique structural role.>",
 
   "notes": {
-    "cohortStatus": "<DATA_NEEDED or specific category>",
-    "envelopeStatus": "<DATA_NEEDED or status>"
+    "cohortStatus": null,
+    "envelopeStatus": "INGESTION_SUSPECT"
   },
 
   "intelligenceCycle": [
@@ -157,17 +172,19 @@ Every portal JSON must conform to this exact top-level shape (Walmart is the can
 FUNCTIONAL NETWORK — DENSITY REQUIREMENTS (Walmart-grade)
 ═══════════════════════════════════════════════════════════════════
 
-Target: 25–30 total entries across categories. Walmart's exemplar is 30; that's the ceiling, not a floor. Per-category targets:
+Target: 24–30 total entries across categories. The admission floor is 20, so never return fewer than 24. Per-category targets:
 
-  suppliers          — 8–10 entries (anchor brands / commodity / packaging / raw materials)
-  logisticsPartners  — 3–5 entries (carriers, freight, last-mile)
-  customers          — 0 if pure-B2C, 2–4 if B2B (institutional / channel accounts)
-  competitors        — 4–6 entries (direct competitors at scale + 1-2 adjacent-category)
-  regulators         — 4–5 entries (SEC always; plus FDA / USDA / EPA / DOT / FCC / FTC by industry)
+  suppliers          — 5–6 entries (anchor brands / commodity / packaging / raw materials)
+  logisticsPartners  — 2–3 entries (carriers, freight, last-mile)
+  customers          — 0 for pure-B2C; 3–4 named buyers or channel accounts for B2B
+  competitors        — 4–5 entries (direct competitors at scale + 1-2 adjacent-category)
+  regulators         — 3–4 entries (SEC always; plus FDA / USDA / EPA / DOT / FCC / FTC by industry)
   auditor            — 1 object (Big-Four)
-  capitalProviders   — 2–4 entries (anchor lenders, major equity holders >5%)
-  executiveTeam      — 3–4 entries (CEO + CFO always; plus COO / chair / GC if relevant)
-  marketSignals      — 2–3 for retail/consumer; 0 for B2B infrastructure
+  capitalProviders   — 2–3 entries (anchor lenders, major equity holders >5%)
+  executiveTeam      — 3 entries (CEO + CFO always; plus COO / chair / GC if relevant)
+  marketSignals      — 1–2 entries where relevant
+
+For a pure-B2C company, do not invent named customers and do not misclassify subsidiaries as customers. Replace that category's count with additional supportable suppliers, competitors, regulators, capital providers, or market signals so the total still reaches 24.
 
 IMPORTANT: the JSON must fit within the response token budget. Prioritize DEPTH per entry over count. 25 entries with 70-word relationshipNotes beats 35 entries that get truncated mid-stream. If you must cut, drop adjacent-category competitors first, then secondary capitalProviders, then marketSignals.
 
@@ -176,12 +193,12 @@ Every entry must carry:
 {
   "name": "<full legal entity name>",
   "ticker": "<ticker if public, null if private/government>",
-  "cik": "<10-digit zero-padded SEC CIK if available, null otherwise>",
+  "cik": null,
   "slug": "<lowercase_underscore_slug>",
-  "neuralRole": "<DMN | Salience | PFC | Motor | Sensory | Limbic | Peer>",
+  "neuralRole": "<DMN | Salience | PFC | Motor | Sensory | Peer>",
   "brainNodeId": "<one of 123 LIMEN canonical node IDs — see default palette below>",
   "brainNodeRole": "<descriptive role label tied to the brain node's business binding>",
-  "relationshipNote": "<2-4 sentences with: named programs / contract specifics / % market share / historical pivots / regulatory actions / distinguishing facts. NO GENERIC PROSE. Walmart-grade specificity. If the specific is unknown, mark inline [DATA_NEEDED: <field>].>",
+  "relationshipNote": "<2-4 sentences with named, supportable anchors. Omit an unsupported sentence or the entire entry; never emit a placeholder token.>",
   "confidence": "high | medium | low",
   "sourceType": [ "<10-K | 8-K | S-1 | DEF14A | 20-F | statutory | industry-report | news | inferred>", ... ]
 }
@@ -192,7 +209,7 @@ DEFAULT NEURAL-ROLE PALETTE (override per pair when specifics warrant):
 |----------------------------------------------|------------|-------------|---------------|
 | Anchor supplier (identity-defining CPG)      | DMN        | mPFC        | Brand & Identity |
 | Commodity / raw-material supplier            | Sensory    | S1          | Raw Materials |
-| Operations / production input                | Motor      | STRI        | Operations |
+| Operations / production input                | Motor      | M1          | Operations |
 | Distribution / logistics partner             | Motor      | M1          | Production & Delivery |
 | Information / data infrastructure            | Sensory    | THAL        | Information Flow |
 | Anchor customer (institutional buyer)        | DMN        | NAcc        | Sales & Revenue |
@@ -202,16 +219,16 @@ DEFAULT NEURAL-ROLE PALETTE (override per pair when specifics warrant):
 | Federal regulator (SEC, FTC, FCC)            | Salience   | dACC        | Compliance & Governance |
 | Health-safety regulator (FDA, USDA, EPA)     | Salience   | AI          | Crisis Detection |
 | Antitrust regulator                          | Salience   | dACC        | Compliance + Strategic |
-| Anchor lender / bond underwriter             | Limbic     | OFC         | Market Intelligence + Capital |
+| Anchor lender / bond underwriter             | PFC        | OFC         | Market Intelligence + Capital |
 | Major equity holder (>5%)                    | DMN        | mPFC        | Brand & Identity (governance) |
 | Strategic JV partner                         | PFC        | dlPFC       | Strategic |
 | Technology integrator                        | Sensory    | THAL        | Information Flow |
-| CEO                                          | PFC        | FPN         | Executive Leadership |
+| CEO                                          | PFC        | dlPFC       | Executive Leadership |
 | CFO                                          | PFC        | vmPFC       | Financial Management |
-| COO                                          | Motor      | STRI        | Operations |
+| COO                                          | Motor      | M1          | Operations |
 | Chairperson / major shareholder              | DMN        | mPFC        | Governance & Identity |
 | General Counsel                              | PFC        | vlPFC       | Legal & Compliance |
-| Market signal (comp sales, demand index)     | Limbic     | NAcc/OFC    | Sales & Revenue / Market Intel |
+| Market signal (comp sales, demand index)     | Salience   | NAcc        | Sales & Revenue / Market Intel |
 
 ═══════════════════════════════════════════════════════════════════
 NON-NEGOTIABLE RULES
@@ -222,13 +239,13 @@ You may use general industry knowledge (e.g., "Coca-Cola is a major supplier to 
   - Specific contract values, percentages, share counts, deal terms unless you are highly confident from public filings
   - Specific patent numbers, NOFO numbers, case numbers, FAR clauses
   - Specific named programs or product line revenues unless commonly known
-If specifics are not in your training and not supplied, use [DATA_NEEDED: <field>] inline.
+If specifics are not in your training and not supplied, omit the optional sentence or entry. Never fill a knowledge gap with a placeholder token.
 
 RULE 2 — NO INTERNAL VOCABULARY
 The following words MUST NOT appear anywhere in the output JSON: LIMEN, Helix, kernel (except in the literal "limen_backtest.py" kernelId reserved field), polyvagal, "Thing 1", "Thing 2", "civilization brain", "connectome brain", "master brain", "domain brain", "super-brain", "pattern envelope", "pattern broker", "pattern signature", "dominant phase" (except in the financialHealth.dominantPhase reserved field where it's just a value), "salience score", "opportunity signal", "handoff packet", "fractal brain", "limen.com" or "limenhelix.com" or any LIMEN URL.
 
 RULE 3 — REAL CIKs ONLY
-For any public company entry, use the actual 10-digit zero-padded SEC CIK. If you don't know it confidently, set cik: null and add sourceType to include "inferred". Do not fabricate a CIK.
+Nested relationship entries MUST use cik: null. The deterministic identity resolver, not the model, attaches counterparty CIKs after generation. Never copy a remembered CIK into a relationship entry.
 
 RULE 4 — RELATIONSHIPNOTE MUST BE SPECIFIC, DENSE, AND BOUNDED
 Every relationshipNote must be 50–90 words (target ~70). Word ceiling matters as much as floor — overshoot leads to truncated JSON. Each note must pass this test: an industry analyst reading it should learn at least one specific fact they didn't already know about this pair. Required prose elements (at minimum 3 of these 5 per entry):
@@ -247,12 +264,12 @@ HARD ANCHOR REQUIREMENT — every relationshipNote MUST contain at least ONE of:
   (f) a specific facility / plant location ("Foxconn Zhengzhou plant", "Pfizer Kalamazoo")
   (g) a named executive / signatory with title ("CEO Bob Iger", "USPTO Director Vidal")
 
-Entries with ONLY generic prose like "supplier of various goods", "important regulator", "key technology partner", or "longstanding relationship" are FORBIDDEN and will be rejected by the post-generation check. If you don't know a specific anchor, write [DATA_NEEDED: <what's missing>] inline rather than producing generic prose.
+Entries with ONLY generic prose like "supplier of various goods", "important regulator", "key technology partner", or "longstanding relationship" are FORBIDDEN and will be rejected by the post-generation check. If you don't know a specific anchor, omit that entry rather than producing generic prose or a placeholder.
 
 RULE 6 — INTELLIGENCE CYCLE IS REQUIRED (restoring v1 procedural scaffolding)
 You MUST populate the 7-layer intelligenceCycle with 2-4 specific items per layer. This is the decision-cycle structure that v1 portals had and v2 dropped. Items should be entity-specific, not generic. Example for a retailer:
   signal: ["weekly comp-store sales prints", "8-K cyber-incident filings", "supplier price-change notices via EDI"]
-  state: ["HELIX phase classification each quarter", "rolling 4Q free-cash-flow trajectory"]
+  state: ["quarterly operating-state classification", "rolling 4Q free-cash-flow trajectory"]
   diagnosis: ["pattern-match against prior P3 / P7 transitions in same SIC peer group"]
   regulate: ["inventory throughput hedge via futures on cotton/wheat", "pricing-power buffer rebuild plan"]
   action: ["board-approved buyback expansion", "dividend pause if pathway A trips"]
@@ -270,9 +287,9 @@ Reply with the raw JSON object ONLY. No code fences. No preamble. No closing rem
 
 If you produce \`\`\`json fences or any text outside the JSON object, the response will be rejected.
 
-The JSON must be COMPLETE — every opened { needs its closing }, every opened [ needs its closing ]. If you cannot fit a full WMT-grade portal in the token budget, REDUCE entry counts (e.g., 6 suppliers instead of 13) but ALWAYS close the JSON properly. A truncated 20-entry portal is useless; a complete 15-entry portal is shippable.
+The JSON must be COMPLETE — every opened { needs its closing }, every opened [ needs its closing ]. Stay within 24–30 entries and shorten relationshipNote prose toward the 50-word floor if necessary, but never return fewer than 24 entries. A truncated portal is useless; a complete portal below the 20-entry admission floor is also refused.
 
-The JSON's top-level shape matches the schema above exactly. Preserve all reserved fields even if their values are null or [DATA_NEEDED].
+The JSON's top-level shape matches the schema above exactly. Preserve reserved fields with the literal null/false/unavailable values shown. Never claim a financial score or phase; the scoring pipeline owns those fields. The strings DATA_NEEDED, CITATION_NEEDED, VERIFY, TBD, TODO, INSERT, and PLACEHOLDER are forbidden anywhere in the JSON.
 `;
 }
 
@@ -298,7 +315,7 @@ If the existing portal is provided:
 
 If no existing portal:
   - Produce the full JSON from scratch using your knowledge of the entity
-  - All reserved fields stay null / empty / DATA_NEEDED as specified in the schema
+  - All reserved fields stay null / empty / unavailable as specified in the schema
 
 For functionalNetwork, prioritize entries you can describe with specificity. It is better to ship 25 entries with deep relationshipNote prose than 40 entries with shallow placeholders.
 
@@ -323,6 +340,7 @@ function validate(body) {
   if (!body || typeof body !== 'object') return { ok: false, reason: 'body-not-object' };
   if (!body.target || typeof body.target !== 'object') return { ok: false, reason: 'missing-target' };
   const t = body.target;
+  if (!t.slug && !t.companyId) return { ok: false, reason: 'target-must-have-slug' };
   if (!t.name && !t.ticker && !t.cik) {
     return { ok: false, reason: 'target-must-have-name-ticker-or-cik' };
   }
@@ -393,6 +411,79 @@ function extractProseValues(obj, out, currentKey) {
   return out.s;
 }
 
+function parsePortalText(text) {
+  let portal = null;
+  let parseError = null;
+  const candidates = [String(text || '').trim()];
+  const fenceMatch = String(text || '').match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/);
+  if (fenceMatch) candidates.push(fenceMatch[1].trim());
+  const objMatch = String(text || '').match(/\{[\s\S]*\}/);
+  if (objMatch) candidates.push(objMatch[0]);
+  for (const candidate of candidates) {
+    try { portal = JSON.parse(candidate); break; }
+    catch (e) { parseError = e.message; }
+  }
+  return { portal, parseError };
+}
+
+function isAnthropicCreditError(json) {
+  const error = json && json.error;
+  return !!(error && error.type === 'invalid_request_error' && /credit balance is too low/i.test(String(error.message || '')));
+}
+
+async function callGrokFallback(body, maxTokens) {
+  const apiKey = process.env.GROK_API_KEY || process.env.XAI_API_KEY || '';
+  if (!apiKey) return { ok: false, status: 501, reason: 'grok-fallback-unavailable', detail: 'XAI_API_KEY/GROK_API_KEY not configured' };
+  const model = process.env.GROK_MODEL || 'grok-4';
+  const requestBody = {
+    model,
+    max_tokens: maxTokens,
+    temperature: 0.25,
+    messages: [
+      { role: 'system', content: buildSystemBlock() },
+      { role: 'user', content: buildUserPrompt(body) + '\n\nXAI FALLBACK COMPLETENESS CONTRACT: Return 24–30 functionalNetwork entries across at least 6 categories. This is a hard admission requirement, not a suggestion. Use the canonical brainNodeId palette exactly (never combine IDs). Every relationship must include brainNodeId, neuralRole, brainNodeRole, confidence, and sourceType. Do not stop after a representative sample.' }
+    ]
+  };
+  const budget = require('../lib/anthropic-call');
+  const guard = await budget.guard(requestBody, 'enrich-portal-grok-fallback');
+  if (!guard.ok) return { ok: false, refused: true, reason: guard.reason, detail: guard.reason };
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ANTHROPIC_TIMEOUT_MS);
+  let response;
+  let json;
+  try {
+    response = await fetch(XAI_ENDPOINT, {
+      method: 'POST',
+      headers: { authorization: 'Bearer ' + apiKey, 'content-type': 'application/json' },
+      body: JSON.stringify(requestBody),
+      signal: controller.signal
+    });
+    json = await response.json().catch(() => null);
+  } catch (error) {
+    clearTimeout(timer);
+    await budget.close(guard, null);
+    return { ok: false, status: 0, reason: 'grok-fetch-failed', detail: String(error && error.message || error) };
+  }
+  clearTimeout(timer);
+  const xaiUsage = json && json.usage;
+  await budget.close(guard, xaiUsage ? { usage: { input_tokens: xaiUsage.prompt_tokens || 0, output_tokens: xaiUsage.completion_tokens || 0 } } : null);
+  if (!response.ok) return { ok: false, status: response.status, reason: 'grok-error', detail: json };
+  const text = json && json.choices && json.choices[0] && json.choices[0].message && json.choices[0].message.content || '';
+  const parsed = parsePortalText(text);
+  return {
+    ok: !!parsed.portal,
+    status: response.status,
+    json,
+    rawText: text,
+    portal: parsed.portal,
+    parseError: parsed.parseError,
+    bannedHits: parsed.portal ? lintBannedTerms(parsed.portal) : [],
+    usage: xaiUsage || null,
+    model,
+    provider: 'xai'
+  };
+}
+
 async function callAnthropic(body, opts) {
   if (!ANTHROPIC_API_KEY) {
     return { ok: false, status: 501, reason: 'ANTHROPIC_API_KEY not configured' };
@@ -450,6 +541,11 @@ async function callAnthropic(body, opts) {
   clearTimeout(timer);
 
   if (!resp.ok) {
+    if (isAnthropicCreditError(json)) {
+      const fallback = await callGrokFallback(body, maxTokens);
+      if (fallback.ok) return fallback;
+      return { ok: false, status: fallback.status || 502, reason: 'anthropic-credit-exhausted-and-grok-fallback-failed', detail: { anthropic: json, fallback: fallback.detail || fallback.reason } };
+    }
     return { ok: false, status: resp.status, reason: 'anthropic-error', detail: json };
   }
 
@@ -463,21 +559,9 @@ async function callAnthropic(body, opts) {
   // Parse JSON from model output. The model is told to reply with raw JSON
   // but sometimes wraps in code fences anyway — try multiple extraction
   // strategies.
-  let portal = null;
-  let parseError = null;
-  const candidates = [];
-  candidates.push(text.trim());
-  // Strip code fences
-  const fenceMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/);
-  if (fenceMatch) candidates.push(fenceMatch[1].trim());
-  // Extract first { ... } block
-  const objMatch = text.match(/\{[\s\S]*\}/);
-  if (objMatch) candidates.push(objMatch[0]);
-
-  for (const c of candidates) {
-    try { portal = JSON.parse(c); break; }
-    catch (e) { parseError = e.message; }
-  }
+  const parsed = parsePortalText(text);
+  const portal = parsed.portal;
+  const parseError = parsed.parseError;
 
   // Lint banned terms in the portal's PROSE-VALUE FIELDS only — skips
   // reserved schema enum values (kernelId='limen_backtest.py',
@@ -497,7 +581,8 @@ async function callAnthropic(body, opts) {
     parseError: parseError,
     bannedHits: bannedHits,
     usage: json.usage || null,
-    model: json.model || ANTHROPIC_MODEL
+    model: json.model || ANTHROPIC_MODEL,
+    provider: 'anthropic'
   };
 }
 
@@ -505,15 +590,14 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   if (await require('../lib/ai-kill-switch').spendDisabled()) { res.statusCode = 503; res.setHeader('content-type', 'application/json'); return res.end(JSON.stringify({ ok: false, disabled: true, error: 'AI disabled — billing stopped per operator' })); }
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'content-type');
+  res.setHeader('Access-Control-Allow-Headers', 'content-type, x-limen-pass');
   if (req.method === 'OPTIONS') {
     res.statusCode = 204;
     return res.end();
   }
   // ADMIN-ONLY: spends paid AI. Gate it so it is not a public denial-of-wallet faucet when AI is on.
   {
-    var _g = require('../lib/admin-gate');
-    if (!_g.isMaster(_g.reqKey(req))) { res.statusCode = 403; res.setHeader('content-type', 'application/json'); return res.end(JSON.stringify({ ok: false, error: 'admin only' })); }
+    if (!isAuthorized(req)) { res.statusCode = 403; res.setHeader('content-type', 'application/json'); return res.end(JSON.stringify({ ok: false, error: 'admin only' })); }
   }
 
   // GET returns config (no secrets) — same pattern as expand-artifact-claude
@@ -622,6 +706,30 @@ module.exports = async function handler(req, res) {
       })(r.portal);
     } catch (e) { nodeGuard.error = String(e && e.message || e); }
 
+    // ── Portal admission gate ───────────────────────────────────────
+    // Model output is a proposal, never identity or kernel authority. New
+    // portals receive an explicit unscored financial stub, top-level identity
+    // comes from the queued target, and unverified nested CIKs are cleared.
+    // Existing-portal enrichment preserves the existing kernel fields exactly.
+    const rawPlaceholderHits = portalAdmission.findPlaceholderHits(r.portal);
+    const prepared = portalAdmission.prepareGeneratedPortal(r.portal, body.target, body.currentPortal);
+    r.portal = prepared.portal;
+    const admission = portalAdmission.validatePortalAdmission(r.portal);
+    if (rawPlaceholderHits.length || r.bannedHits.length || !admission.ok) {
+      res.statusCode = 422;
+      res.setHeader('content-type', 'application/json');
+      return res.end(JSON.stringify({
+        ok: false,
+        error: 'portal-admission-refused',
+        placeholderHits: rawPlaceholderHits.slice(0, 20),
+        bannedHits: r.bannedHits.slice(0, 20),
+        admission: admission,
+        sanitization: prepared.sanitization,
+        usage: r.usage,
+        model: r.model
+      }));
+    }
+
     // Count functionalNetwork entries — use the FULL WMT-shape category
     // list. Includes both new (logisticsPartners, competitors,
     // executiveTeam, marketSignals) and legacy (peers, partners,
@@ -715,6 +823,8 @@ module.exports = async function handler(req, res) {
         genericExamples: genericExamples
       },
       nodeGuard: nodeGuard,
+      admission: admission,
+      sanitization: prepared.sanitization,
       usage: r.usage,
       model: r.model,
       provenance: {
@@ -722,7 +832,8 @@ module.exports = async function handler(req, res) {
         generatedAtISO: new Date().toISOString(),
         contentHash: contentHash,
         llmModel: r.model,
-        anthropicVersion: ANTHROPIC_VERSION
+        provider: r.provider || 'anthropic',
+        anthropicVersion: (r.provider || 'anthropic') === 'anthropic' ? ANTHROPIC_VERSION : null
       }
     }));
 
@@ -736,3 +847,5 @@ module.exports = async function handler(req, res) {
     }));
   }
 };
+
+module.exports._test = { buildSystemBlock, buildUserPrompt, lintBannedTerms, extractProseValues, sameSecret, isAuthorized, parsePortalText, isAnthropicCreditError };

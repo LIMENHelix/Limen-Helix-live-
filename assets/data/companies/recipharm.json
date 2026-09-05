@@ -197,7 +197,7 @@
         "neuralRole": "Sensory",
         "brainNodeId": "S1",
         "brainNodeRole": "Secondary Packaging & Blister Materials",
-        "relationshipNote": "Huhtamaki supplies blister foil, PVC/PVDC films, and secondary packaging materials for Recipharm's solid-dose manufacturing. Huhtamaki's Nordic manufacturing footprint (Finland, Sweden) provides geographic proximity and supply-chain resilience. Estimated 4–6% of solid-dose COGS; contracts include quarterly price adjustments tied to aluminum and PET commodity indices..",
+        "relationshipNote": "Huhtamaki supplies blister foil, PVC/PVDC films, and secondary packaging materials for Recipharm's solid-dose manufacturing. Huhtamaki's Nordic manufacturing footprint (Finland, Sweden) provides geographic proximity and supply-chain resilience. Estimated 4–6% of solid-dose COGS; contracts include quarterly price adjustments tied to aluminum and PET commodity indices.",
         "confidence": "medium",
         "sourceType": [
           "industry-report",
@@ -427,7 +427,7 @@
         "neuralRole": "Peer",
         "brainNodeId": "TPJ",
         "brainNodeRole": "European CDMO Competitor",
-        "relationshipNote": "Fareva is a private European CDMO with €1.5–2B estimated revenue and manufacturing footprint in France, Germany, and Eastern Europe. Fareva's 2021 acquisition of Thea Pharma and 2023 expansion in biologics manufacturing position it as a regional competitor to Recipharm. Fareva's geographic proximity to major pharma customers (Sanofi, Boehringer Ingelheim) and lower-cost manufacturing in Eastern Europe create pricing pressure on Recipharm's Nordic operations..",
+        "relationshipNote": "Fareva is a private European CDMO with €1.5–2B estimated revenue and manufacturing footprint in France, Germany, and Eastern Europe. Fareva's 2021 acquisition of Thea Pharma and 2023 expansion in biologics manufacturing position it as a regional competitor to Recipharm. Fareva's geographic proximity to major pharma customers (Sanofi, Boehringer Ingelheim) and lower-cost manufacturing in Eastern Europe create pricing pressure on Recipharm's Nordic operations.",
         "confidence": "medium",
         "sourceType": [
           "industry-report",
@@ -442,7 +442,7 @@
         "neuralRole": "Peer",
         "brainNodeId": "TPJ",
         "brainNodeRole": "Specialty Injectable CDMO Competitor",
-        "relationshipNote": "Vetter Pharma is a private German CDMO specializing in fill-finish for injectables and biologics, with estimated €500M+ revenue. Vetter's 2022 capacity expansion in Germany and Switzerland and focus on prefilled syringes and cartridges create direct competition with Recipharm's injectable manufacturing. Vetter's customer base includes Roche, Novartis, and Amgen—overlapping with Recipharm's anchor customers..",
+        "relationshipNote": "Vetter Pharma is a private German CDMO specializing in fill-finish for injectables and biologics, with estimated €500M+ revenue. Vetter's 2022 capacity expansion in Germany and Switzerland and focus on prefilled syringes and cartridges create direct competition with Recipharm's injectable manufacturing. Vetter's customer base includes Roche, Novartis, and Amgen—overlapping with Recipharm's anchor customers.",
         "confidence": "medium",
         "sourceType": [
           "industry-report",
@@ -717,5 +717,54 @@
     ],
     "evaluatedAt": "2026-06-14T03:48:25.981Z",
     "patternsConsidered": 33
+  },
+  "kernelReadings": {
+    "k3": {
+      "schemaVersion": "k3-relational-topology/1.0",
+      "state": "RELATIONAL_MAP_OBSERVED",
+      "readingType": "relational_topology",
+      "phase": null,
+      "composite": null,
+      "alert": false,
+      "coverage": {
+        "relationshipCount": 34,
+        "categoryCount": 8,
+        "neuralRoleCount": 6,
+        "topologyTaggedCount": 34,
+        "topologyTaggedRate": 1,
+        "evidenceTaggedCount": 34,
+        "evidenceTaggedRate": 1,
+        "inferredRelationCount": 19,
+        "inferredRelationRate": 0.559,
+        "categories": [
+          "auditor",
+          "capitalProviders",
+          "competitors",
+          "customers",
+          "logisticsPartners",
+          "marketSignals",
+          "regulators",
+          "suppliers"
+        ],
+        "neuralRoles": [
+          "DMN",
+          "Limbic",
+          "Motor",
+          "Peer",
+          "Salience",
+          "Sensory"
+        ]
+      },
+      "sourceFingerprint": "d383c7ae2924531842bc5af1e80aaee4f50b143dd6249bb1c515e0384805730d",
+      "limitations": [
+        "INTERPRETIVE_ONLY",
+        "NOT_A_FINANCIAL_PHASE",
+        "NOT_OUTCOME_VALIDATED",
+        "SOURCE_CLAIMS_NOT_INDEPENDENTLY_VERIFIED"
+      ],
+      "kernelId": "k3-relational-kernel/1.0",
+      "lastScored": "2026-09-04T16:53:58.087Z"
+    },
+    "primary": "k3"
   }
 }

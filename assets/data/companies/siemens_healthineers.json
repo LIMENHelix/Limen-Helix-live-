@@ -230,7 +230,7 @@
         "neuralRole": "Sensory",
         "brainNodeId": "S1",
         "brainNodeRole": "Raw Materials / Rare-Earth Magnets",
-        "relationshipNote": ". Rare-earth magnets (neodymium, dysprosium) are critical inputs for MRI superconducting magnets. Siemens sources from multiple suppliers including China-based rare-earth producers; supply concentration risk in China creates geopolitical vulnerability. 2024 rare-earth price volatility (+15% YoY) impacts MRI system cost of goods sold.",
+        "relationshipNote": "Rare-earth magnets (neodymium, dysprosium) are critical inputs for MRI superconducting magnets. Siemens sources from multiple suppliers including China-based rare-earth producers; supply concentration risk in China creates geopolitical vulnerability. 2024 rare-earth price volatility (+15% YoY) impacts MRI system cost of goods sold.",
         "confidence": "medium",
         "sourceType": [
           "industry-report",
@@ -759,5 +759,55 @@
       "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
       "auditPath": "assets/data/audit/unsupported-kernel-claims.json"
     }
+  },
+  "kernelReadings": {
+    "k3": {
+      "schemaVersion": "k3-relational-topology/1.0",
+      "state": "RELATIONAL_MAP_OBSERVED",
+      "readingType": "relational_topology",
+      "phase": null,
+      "composite": null,
+      "alert": false,
+      "coverage": {
+        "relationshipCount": 36,
+        "categoryCount": 8,
+        "neuralRoleCount": 7,
+        "topologyTaggedCount": 36,
+        "topologyTaggedRate": 1,
+        "evidenceTaggedCount": 36,
+        "evidenceTaggedRate": 1,
+        "inferredRelationCount": 14,
+        "inferredRelationRate": 0.389,
+        "categories": [
+          "capitalProviders",
+          "competitors",
+          "customers",
+          "executiveTeam",
+          "logisticsPartners",
+          "marketSignals",
+          "regulators",
+          "suppliers"
+        ],
+        "neuralRoles": [
+          "DMN",
+          "Limbic",
+          "Motor",
+          "PFC",
+          "Peer",
+          "Salience",
+          "Sensory"
+        ]
+      },
+      "sourceFingerprint": "444251c12269dc6d966e1cb2ec0eab7e00d53e3adfd66ba4a6100d039d220a22",
+      "limitations": [
+        "INTERPRETIVE_ONLY",
+        "NOT_A_FINANCIAL_PHASE",
+        "NOT_OUTCOME_VALIDATED",
+        "SOURCE_CLAIMS_NOT_INDEPENDENTLY_VERIFIED"
+      ],
+      "kernelId": "k3-relational-kernel/1.0",
+      "lastScored": "2026-09-04T16:53:58.087Z"
+    },
+    "primary": "k3"
   }
 }

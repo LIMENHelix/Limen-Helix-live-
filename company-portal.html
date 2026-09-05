@@ -85,6 +85,7 @@
 
 </div>
 <script src="assets/js/company-resolver.js"></script>
+<script src="assets/js/domain-identity.js"></script>
 <script src="assets/js/kernel-reading-helper.js"></script>
 <script src="assets/js/render-authority.js"></script>
 <script src="assets/js/company-portal-ui.js"></script>
@@ -112,7 +113,13 @@
     origRender(co);
     _currentCo = co;
     document.getElementById('centerTicker').textContent = co.ticker;
-    document.getElementById('centerIndustry').textContent = co.industry + ' \u00b7 ' + (co.domainId === 'p2_agri' ? 'Agriculture' : co.domainId.charAt(0).toUpperCase() + co.domainId.slice(1));
+    var _displayDomain = window.LIMENDomainIdentity && window.LIMENDomainIdentity.resolve
+      ? window.LIMENDomainIdentity.resolve(co.domainId)
+      : null;
+    var _displayDomainLabel = _displayDomain
+      ? _displayDomain.label
+      : (co.domainId === 'p2_agri' ? 'Agriculture' : co.domainId.charAt(0).toUpperCase() + co.domainId.slice(1));
+    document.getElementById('centerIndustry').textContent = co.industry + ' \u00b7 ' + _displayDomainLabel;
 
     // Add kernel analysis button if company has CIK
     if (co.cik) {
@@ -349,8 +356,18 @@
     html += '<div style="font-size:0.36rem;color:rgba(180,120,84,0.55);font-style:italic;letter-spacing:0.5px">v2.0.1 schema fields; consumers under construction</div>';
     html += '</div>';
     if (co.domainId) {
-      var domLink = co.portalAttachment || (co.domainId + '-portal.html');
-      html += '<div style="margin-top:4px;font-size:0.42rem;color:rgba(200,195,184,0.6);letter-spacing:1px">domain: <a href="' + _esc(domLink) + '" style="color:rgba(74,170,106,0.85);text-decoration:none;font-weight:500;text-transform:uppercase">' + _esc(co.domainId) + '</a>';
+      // portalAttachment is authored provenance and is displayed in the
+      // identity panel, but old records may point it at a runtime alias such
+      // as supplychain-portal.html. Route navigation through the canonical
+      // resolver without rewriting that source field.
+      var domainRoute = window.LIMENDomainIdentity && window.LIMENDomainIdentity.resolve
+        ? window.LIMENDomainIdentity.resolve(co.domainId)
+        : null;
+      var domLink = domainRoute
+        ? domainRoute.portalKey + '_portal.html'
+        : (co.portalAttachment || (co.domainId + '_portal.html'));
+      var domLabel = domainRoute ? domainRoute.label : co.domainId;
+      html += '<div style="margin-top:4px;font-size:0.42rem;color:rgba(200,195,184,0.6);letter-spacing:1px">domain: <a href="' + _esc(domLink) + '" style="color:rgba(74,170,106,0.85);text-decoration:none;font-weight:500;text-transform:uppercase">' + _esc(domLabel) + '</a>';
       if (co.sic) html += ' \u00b7 SIC ' + _esc(co.sic);
       if (co.industry) html += ' \u00b7 ' + _esc(co.industry);
       html += '</div>';

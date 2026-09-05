@@ -476,7 +476,7 @@
         "neuralRole": "PFC",
         "brainNodeId": "FPN",
         "brainNodeRole": "Chief Executive Officer",
-        "relationshipNote": ". TE's CEO sets strategic direction on EV transition, industrial-automation positioning, and M&A strategy. The CEO's quarterly earnings calls provide guidance on order intake, backlog, and margin outlook. CEO compensation (salary, bonus, equity) is disclosed in TE's proxy statement (DEF 14A). CEO succession planning is a material governance issue given TE's scale and market position.",
+        "relationshipNote": "TE's CEO sets strategic direction on EV transition, industrial-automation positioning, and M&A strategy. The CEO's quarterly earnings calls provide guidance on order intake, backlog, and margin outlook. CEO compensation (salary, bonus, equity) is disclosed in TE's proxy statement (DEF 14A). CEO succession planning is a material governance issue given TE's scale and market position.",
         "confidence": "low",
         "sourceType": [
           "10-K",
@@ -491,7 +491,7 @@
         "neuralRole": "PFC",
         "brainNodeId": "vmPFC",
         "brainNodeRole": "Chief Financial Officer",
-        "relationshipNote": ". TE's CFO manages financial planning, capital allocation, and investor relations. The CFO leads quarterly earnings calls, discussing segment performance, free-cash-flow generation, and dividend/buyback policy. CFO commentary on gross-margin trends, commodity-cost pass-through, and working-capital management is critical for financial-health assessment. CFO changes are disclosed via 8-K filings.",
+        "relationshipNote": "TE's CFO manages financial planning, capital allocation, and investor relations. The CFO leads quarterly earnings calls, discussing segment performance, free-cash-flow generation, and dividend/buyback policy. CFO commentary on gross-margin trends, commodity-cost pass-through, and working-capital management is critical for financial-health assessment. CFO changes are disclosed via 8-K filings.",
         "confidence": "low",
         "sourceType": [
           "10-K",
@@ -802,7 +802,7 @@
         "neuralRole": "PFC",
         "brainNodeId": "FPN",
         "brainNodeRole": "Chief Executive Officer",
-        "relationshipNote": ". TE's CEO sets strategic direction on EV transition, industrial-automation positioning, and M&A strategy. The CEO's quarterly earnings calls provide guidance on order intake, backlog, and margin outlook. CEO compensation (salary, bonus, equity) is disclosed in TE's proxy statement (DEF 14A). CEO succession planning is a material governance issue given TE's scale and market position.",
+        "relationshipNote": "TE's CEO sets strategic direction on EV transition, industrial-automation positioning, and M&A strategy. The CEO's quarterly earnings calls provide guidance on order intake, backlog, and margin outlook. CEO compensation (salary, bonus, equity) is disclosed in TE's proxy statement (DEF 14A). CEO succession planning is a material governance issue given TE's scale and market position.",
         "confidence": "low",
         "sourceType": [
           "10-K",
@@ -817,7 +817,7 @@
         "neuralRole": "PFC",
         "brainNodeId": "vmPFC",
         "brainNodeRole": "Chief Financial Officer",
-        "relationshipNote": ". TE's CFO manages financial planning, capital allocation, and investor relations. The CFO leads quarterly earnings calls, discussing segment performance, free-cash-flow generation, and dividend/buyback policy. CFO commentary on gross-margin trends, commodity-cost pass-through, and working-capital management is critical for financial-health assessment. CFO changes are disclosed via 8-K filings.",
+        "relationshipNote": "TE's CFO manages financial planning, capital allocation, and investor relations. The CFO leads quarterly earnings calls, discussing segment performance, free-cash-flow generation, and dividend/buyback policy. CFO commentary on gross-margin trends, commodity-cost pass-through, and working-capital management is critical for financial-health assessment. CFO changes are disclosed via 8-K filings.",
         "confidence": "low",
         "sourceType": [
           "10-K",
@@ -832,7 +832,7 @@
         "neuralRole": "Motor",
         "brainNodeId": "STRI",
         "brainNodeRole": "Chief Operating Officer",
-        "relationshipNote": ". TE's COO oversees manufacturing operations, supply-chain management, and operational efficiency initiatives. The COO's strategic priorities include automation, cost reduction, and capacity optimization across TE's global manufacturing footprint. COO commentary on supply-chain disruptions, labor costs, and manufacturing-footprint decisions is disclosed in earnings calls and 10-K filings.",
+        "relationshipNote": "TE's COO oversees manufacturing operations, supply-chain management, and operational efficiency initiatives. The COO's strategic priorities include automation, cost reduction, and capacity optimization across TE's global manufacturing footprint. COO commentary on supply-chain disruptions, labor costs, and manufacturing-footprint decisions is disclosed in earnings calls and 10-K filings.",
         "confidence": "low",
         "sourceType": [
           "10-K",
@@ -926,5 +926,54 @@
     ],
     "evaluatedAt": "2026-06-13T16:34:00.950Z",
     "patternsConsidered": 33
+  },
+  "kernelReadings": {
+    "k3": {
+      "schemaVersion": "k3-relational-topology/1.0",
+      "state": "RELATIONAL_MAP_OBSERVED",
+      "readingType": "relational_topology",
+      "phase": null,
+      "composite": null,
+      "alert": false,
+      "coverage": {
+        "relationshipCount": 47,
+        "categoryCount": 7,
+        "neuralRoleCount": 7,
+        "topologyTaggedCount": 47,
+        "topologyTaggedRate": 1,
+        "evidenceTaggedCount": 47,
+        "evidenceTaggedRate": 1,
+        "inferredRelationCount": 15,
+        "inferredRelationRate": 0.319,
+        "categories": [
+          "capitalProviders",
+          "competitors",
+          "executiveTeam",
+          "logisticsPartners",
+          "marketSignals",
+          "regulators",
+          "suppliers"
+        ],
+        "neuralRoles": [
+          "DMN",
+          "Limbic",
+          "Motor",
+          "PFC",
+          "Peer",
+          "Salience",
+          "Sensory"
+        ]
+      },
+      "sourceFingerprint": "e5296ff6a4c382fc140d5d1fdd003830399534a459282a451ff5351871ee395e",
+      "limitations": [
+        "INTERPRETIVE_ONLY",
+        "NOT_A_FINANCIAL_PHASE",
+        "NOT_OUTCOME_VALIDATED",
+        "SOURCE_CLAIMS_NOT_INDEPENDENTLY_VERIFIED"
+      ],
+      "kernelId": "k3-relational-kernel/1.0",
+      "lastScored": "2026-09-04T16:53:58.087Z"
+    },
+    "primary": "k3"
   }
 }

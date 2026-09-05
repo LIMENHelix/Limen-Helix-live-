@@ -731,7 +731,7 @@
         "neuralRole": "PFC",
         "brainNodeId": "FPN",
         "brainNodeRole": "Executive Leadership",
-        "relationshipNote": ". The CEO sets strategic direction for Lonza's cell & gene therapy expansion, capacity investment priorities, and customer diversification strategy. CEO guidance on mRNA segment normalization and cell therapy growth inflection directly impacts investor expectations and stock valuation. CEO compensation (salary, bonus, equity) and stock holdings signal alignment with shareholder interests.",
+        "relationshipNote": "The CEO sets strategic direction for Lonza's cell & gene therapy expansion, capacity investment priorities, and customer diversification strategy. CEO guidance on mRNA segment normalization and cell therapy growth inflection directly impacts investor expectations and stock valuation. CEO compensation (salary, bonus, equity) and stock holdings signal alignment with shareholder interests.",
         "confidence": "low",
         "sourceType": [
           ""
@@ -745,7 +745,7 @@
         "neuralRole": "PFC",
         "brainNodeId": "vmPFC",
         "brainNodeRole": "Financial Management",
-        "relationshipNote": ". The CFO manages Lonza's capital allocation, debt structure, and financial reporting. CFO guidance on gross margin trajectory, capex intensity, and free cash flow generation shapes investor confidence in Lonza's financial sustainability. CFO's quarterly earnings call commentary on segment performance, customer concentration, and regulatory compliance directly impacts stock price.",
+        "relationshipNote": "The CFO manages Lonza's capital allocation, debt structure, and financial reporting. CFO guidance on gross margin trajectory, capex intensity, and free cash flow generation shapes investor confidence in Lonza's financial sustainability. CFO's quarterly earnings call commentary on segment performance, customer concentration, and regulatory compliance directly impacts stock price.",
         "confidence": "low",
         "sourceType": [
           ""
@@ -759,7 +759,7 @@
         "neuralRole": "Motor",
         "brainNodeId": "STRI",
         "brainNodeRole": "Operations",
-        "relationshipNote": ". The COO oversees manufacturing operations, facility utilization, quality systems, and supply-chain resilience. COO execution on cell & gene therapy capacity ramp, regulatory compliance, and customer satisfaction directly impacts Lonza's operational performance and customer retention. COO's responsibility for FDA/EMA compliance and manufacturing cost control shapes Lonza's gross margins and customer confidence.",
+        "relationshipNote": "The COO oversees manufacturing operations, facility utilization, quality systems, and supply-chain resilience. COO execution on cell & gene therapy capacity ramp, regulatory compliance, and customer satisfaction directly impacts Lonza's operational performance and customer retention. COO's responsibility for FDA/EMA compliance and manufacturing cost control shapes Lonza's gross margins and customer confidence.",
         "confidence": "low",
         "sourceType": [
           ""
@@ -773,7 +773,7 @@
         "neuralRole": "DMN",
         "brainNodeId": "mPFC",
         "brainNodeRole": "Governance & Identity",
-        "relationshipNote": ". The Board Chair leads governance oversight, strategic planning, and CEO performance evaluation. Board composition and committee structure (audit, compensation, strategy) shape Lonza's risk management and capital allocation discipline. Board Chair's engagement with major shareholders and regulators influences Lonza's strategic direction and stakeholder confidence.",
+        "relationshipNote": "The Board Chair leads governance oversight, strategic planning, and CEO performance evaluation. Board composition and committee structure (audit, compensation, strategy) shape Lonza's risk management and capital allocation discipline. Board Chair's engagement with major shareholders and regulators influences Lonza's strategic direction and stakeholder confidence.",
         "confidence": "low",
         "sourceType": [
           ""
@@ -1152,5 +1152,56 @@
     ],
     "evaluatedAt": "2026-06-13T16:34:00.149Z",
     "patternsConsidered": 33
+  },
+  "kernelReadings": {
+    "k3": {
+      "schemaVersion": "k3-relational-topology/1.0",
+      "state": "RELATIONAL_MAP_OBSERVED",
+      "readingType": "relational_topology",
+      "phase": null,
+      "composite": null,
+      "alert": false,
+      "coverage": {
+        "relationshipCount": 40,
+        "categoryCount": 8,
+        "neuralRoleCount": 8,
+        "topologyTaggedCount": 40,
+        "topologyTaggedRate": 1,
+        "evidenceTaggedCount": 36,
+        "evidenceTaggedRate": 0.9,
+        "inferredRelationCount": 26,
+        "inferredRelationRate": 0.65,
+        "categories": [
+          "capitalProviders",
+          "competitors",
+          "customers",
+          "executiveTeam",
+          "logisticsPartners",
+          "marketSignals",
+          "regulators",
+          "suppliers"
+        ],
+        "neuralRoles": [
+          "DMN",
+          "Limbic",
+          "Motor",
+          "PFC",
+          "Peer",
+          "Salience",
+          "Sensory",
+          "feedforward_demand_signal"
+        ]
+      },
+      "sourceFingerprint": "e34b86109c96bc337e694125ab6838a2d34b1a36c6cf5b6284e9bd64aed5c359",
+      "limitations": [
+        "INTERPRETIVE_ONLY",
+        "NOT_A_FINANCIAL_PHASE",
+        "NOT_OUTCOME_VALIDATED",
+        "SOURCE_CLAIMS_NOT_INDEPENDENTLY_VERIFIED"
+      ],
+      "kernelId": "k3-relational-kernel/1.0",
+      "lastScored": "2026-09-04T16:53:58.087Z"
+    },
+    "primary": "k3"
   }
 }

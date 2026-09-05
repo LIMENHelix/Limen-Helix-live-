@@ -200,7 +200,7 @@
         "neuralRole": "Sensory",
         "brainNodeId": "THAL",
         "brainNodeRole": "Driver Communication & Safety",
-        "relationshipNote": "Supplier of in-cab communication systems, headsets, and telematics integration for Hellmann's fleet. Driver safety and compliance (FMCSA hours-of-service, distracted-driving prevention) depend on reliable communication hardware. Sennheiser's wireless systems reduce wiring complexity and improve driver ergonomics..",
+        "relationshipNote": "Supplier of in-cab communication systems, headsets, and telematics integration for Hellmann's fleet. Driver safety and compliance (FMCSA hours-of-service, distracted-driving prevention) depend on reliable communication hardware. Sennheiser's wireless systems reduce wiring complexity and improve driver ergonomics.",
         "confidence": "low",
         "sourceType": [
           "inferred"
@@ -723,5 +723,54 @@
     ],
     "evaluatedAt": "2026-06-13T16:33:59.938Z",
     "patternsConsidered": 33
+  },
+  "kernelReadings": {
+    "k3": {
+      "schemaVersion": "k3-relational-topology/1.0",
+      "state": "RELATIONAL_MAP_OBSERVED",
+      "readingType": "relational_topology",
+      "phase": null,
+      "composite": null,
+      "alert": false,
+      "coverage": {
+        "relationshipCount": 34,
+        "categoryCount": 8,
+        "neuralRoleCount": 6,
+        "topologyTaggedCount": 34,
+        "topologyTaggedRate": 1,
+        "evidenceTaggedCount": 34,
+        "evidenceTaggedRate": 1,
+        "inferredRelationCount": 17,
+        "inferredRelationRate": 0.5,
+        "categories": [
+          "auditor",
+          "capitalProviders",
+          "competitors",
+          "customers",
+          "logisticsPartners",
+          "marketSignals",
+          "regulators",
+          "suppliers"
+        ],
+        "neuralRoles": [
+          "DMN",
+          "Limbic",
+          "Motor",
+          "Peer",
+          "Salience",
+          "Sensory"
+        ]
+      },
+      "sourceFingerprint": "7dfab3ca58e9b42eb9a1bd2674eec74100b285012b9e00ca40c15f2169fe0d4d",
+      "limitations": [
+        "INTERPRETIVE_ONLY",
+        "NOT_A_FINANCIAL_PHASE",
+        "NOT_OUTCOME_VALIDATED",
+        "SOURCE_CLAIMS_NOT_INDEPENDENTLY_VERIFIED"
+      ],
+      "kernelId": "k3-relational-kernel/1.0",
+      "lastScored": "2026-09-04T16:53:58.087Z"
+    },
+    "primary": "k3"
   }
 }

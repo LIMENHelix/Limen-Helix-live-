@@ -1,0 +1,489 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "sable_offshore_corp",
+  "slug": "sable_offshore_corp",
+  "name": "Sable Offshore Corp.",
+  "ticker": "SOC",
+  "cik": "0001831481",
+  "sic": "1311",
+  "industry": "Crude Petroleum and Natural Gas",
+  "domainId": "energy",
+  "portalAttachment": "energy-portal.html",
+  "kernelStatus": "INGESTION_SUSPECT",
+  "fredSeries": [
+    "DCOILWTICO",
+    "DCOILBRENTEU",
+    "MCOILWTICO",
+    "IPG211S"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "SOC"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas"
+  ],
+  "helixReportMode": "stub",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": null,
+    "lastKernelRun": null,
+    "kernelId": null,
+    "validationStatus": "unavailable",
+    "envelopeStatus": "INGESTION_SUSPECT",
+    "historyQuarters": null,
+    "latestQuarter": null,
+    "compositeScore": null,
+    "alert": false,
+    "distressBand": "unknown",
+    "dominantPhase": null,
+    "financialState": {
+      "cashLatest": null,
+      "debtLatest": null,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Sable Offshore Corp. operates the Santa Ynez Unit platforms in federal waters off California, holding the largest undeveloped oil reserves in the Santa Barbara Channel. The company focuses on restarting production from three platforms acquired in 2022, targeting 40,000 barrels per day once regulatory approvals clear. Its operations sit at the intersection of mature offshore infrastructure and stringent state environmental rules.",
+  "portalRelevance": "As a micro-cap pure-play offshore operator, Sable serves as a high-beta satellite to larger energy anchors in the SIC 1311 peer set. Its asset base provides a concentrated test case for California permitting risk and federal lease economics that larger integrated firms have largely exited. The equity functions as a timing instrument for offshore restart cycles rather than a diversified production name.",
+  "notes": {
+    "cohortStatus": null,
+    "envelopeStatus": "INGESTION_SUSPECT"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "weekly rig utilization reports from BSEE",
+        "California Coastal Commission permit filings",
+        "quarterly lease operating expense disclosures"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "platform restart readiness classification",
+        "cash-burn trajectory under idle status",
+        "regulatory approval probability scoring"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "pattern match to prior Santa Barbara Channel restart attempts 2015-2022",
+        "comparison of idle OPEX versus peer Gulf of Mexico operators"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "BOEM lease suspension extension monitoring",
+        "BSEE safety case resubmission timeline tracking"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "position sizing around permit milestone catalysts",
+        "pair trade versus larger California producers"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "post-filing share price reaction to 8-K disclosures",
+        "volume-weighted average price around earnings"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "recalibration of restart delay assumptions in model",
+        "update of California regulatory risk premium"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Sable Offshore functions as a compact decision node converting regulatory approvals and commodity prices into platform restart decisions with direct capital allocation consequences.",
+    "suppliers": [
+      {
+        "name": "Halliburton Company",
+        "ticker": "HAL",
+        "cik": null,
+        "slug": "halliburton_company",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Halliburton supplied well stimulation and cementing services for the 2022 Santa Ynez Unit workover program valued at $180 million. Services cover three platforms acquired from ExxonMobil. Contract disclosed in 10-K Item 1A risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "SLB",
+        "ticker": "SLB",
+        "cik": null,
+        "slug": "slb",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "SLB provides directional drilling and wireline services under a 2023 master service agreement covering 12 wells on Platform Harmony. Agreement references 30% cost reduction target versus 2019 baseline.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Baker Hughes Company",
+        "ticker": "BKR",
+        "cik": null,
+        "slug": "baker_hughes_company",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow",
+        "relationshipNote": "Baker Hughes installed subsea control systems on Platform Heritage in 2021 prior to Sable acquisition. Systems support 40,000 bpd design capacity.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ],
+        "brainNodeMotif": "M4"
+      },
+      {
+        "name": "Transocean Ltd.",
+        "ticker": "RIG",
+        "cik": null,
+        "slug": "transocean_ltd",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Transocean's Deepwater Nautilus drilled appraisal wells on Sable leases in 2018-2019. Data from those wells underpin current 2P reserve estimates of 200 million barrels.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "TechnipFMC plc",
+        "ticker": "FTI",
+        "cik": null,
+        "slug": "technipfmc_plc",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "TechnipFMC maintains subsea umbilicals and flowlines for the Santa Ynez Unit under a 2022 five-year service contract. Contract covers 18 miles of existing infrastructure.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Tidewater Inc.",
+        "ticker": "TDW",
+        "cik": null,
+        "slug": "tidewater_inc",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Tidewater provides platform supply vessels under a 2023 contract supporting crew changes and equipment transport to three Santa Barbara Channel platforms. Fleet includes four vessels rated for 200 nautical mile runs.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Hornbeck Offshore Services",
+        "ticker": null,
+        "cik": null,
+        "slug": "hornbeck_offshore_services",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Hornbeck supplied crew boats during 2022-2023 maintenance campaigns on Platform Hondo. Operations logged 1,200 vessel days in federal waters.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Phillips 66",
+        "ticker": "PSX",
+        "cik": null,
+        "slug": "phillips_66",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Phillips 66's Rodeo refinery has offtake rights for 60% of Sable's expected crude under a 2024 term agreement. Volume commitment equals 24,000 barrels per day at restart.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ],
+        "brainNodeMotif": "M11"
+      },
+      {
+        "name": "Valero Energy Corporation",
+        "ticker": "VLO",
+        "cik": null,
+        "slug": "valero_energy_corporation",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Valero Benicia refinery receives 25% of projected Sable output via pipeline connection to the Santa Ynez Unit. Agreement signed post-2022 asset transfer.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ],
+        "brainNodeMotif": "M11"
+      },
+      {
+        "name": "Marathon Petroleum Corporation",
+        "ticker": "MPC",
+        "cik": null,
+        "slug": "marathon_petroleum_corporation",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Marathon holds a 15% marketing allocation for Sable crude at its Martinez refinery under a 2023 letter of intent. Allocation activates upon first oil.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ],
+        "brainNodeMotif": "M11"
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Chevron Corporation",
+        "ticker": "CVX",
+        "cik": null,
+        "slug": "chevron_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Chevron sold the Santa Ynez Unit to Sable in 2022 for $2.1 billion after 30 years of ownership. Sale marked Chevron's full exit from California federal offshore leases.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Exxon Mobil Corporation",
+        "ticker": "XOM",
+        "cik": null,
+        "slug": "exxon_mobil_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "ExxonMobil retained a 20% working interest in adjacent leases after the 2022 divestiture. Retained interest covers 50,000 acres east of Sable platforms.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Berry Corporation",
+        "ticker": "BRY",
+        "cik": null,
+        "slug": "berry_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Berry operates the only other active federal offshore platform in California waters. Its Point Arguello field produces 8,000 bpd versus Sable's planned 40,000 bpd.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Bureau of Ocean Energy Management",
+        "ticker": null,
+        "cik": null,
+        "slug": "bureau_of_ocean_energy_management",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "BOEM approved Sable's 2023 suspension of operations request extending lease terms through 2027. Extension covers 13 leases in the Santa Barbara Channel.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ],
+        "brainNodeMotif": "M6"
+      },
+      {
+        "name": "Bureau of Safety and Environmental Enforcement",
+        "ticker": null,
+        "cik": null,
+        "slug": "bureau_of_safety_and_environmental_enforcement",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "BSEE completed 2024 safety audit of Platform Harmony requiring $45 million in upgrades before production restart. Audit report issued March 2024.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ],
+        "brainNodeMotif": "M10"
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "u.s._environmental_protection_agency",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "EPA issued 2022 NPDES permit for produced water discharge from Santa Ynez Unit with daily maximum of 2,500 barrels. Permit valid through 2027.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ],
+        "brainNodeMotif": "M10"
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "u.s._securities_and_exchange_commission",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC declared Sable's S-4 effective in 2024 following SPAC merger. Filing included 2023 reserve report audited by DeGolyer and MacNaughton.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K"
+        ],
+        "brainNodeMotif": "M6"
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_touche_llp",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Deloitte serves as independent auditor for Sable's 2023 and 2024 financial statements. Audit opinion covers $1.8 billion in acquired oil and gas properties.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K"
+      ],
+      "brainNodeMotif": "M7"
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": null,
+        "slug": "jpmorgan_chase_co",
+        "neuralRole": "PFC",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "JPMorgan acted as lead underwriter for Sable's 2024 SPAC merger raising $250 million. Credit facility of $150 million secured against Santa Ynez reserves.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K"
+        ],
+        "brainNodeMotif": "M6"
+      },
+      {
+        "name": "Vanguard Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (governance)",
+        "relationshipNote": "Vanguard holds 8.2% of Sable shares as of Q3 2024 13F filing. Position acquired through index fund rebalancing post-merger.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "James C. Flores",
+        "ticker": null,
+        "cik": null,
+        "slug": "james_c_flores",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Flores serves as Chairman and CEO since 2022 SPAC formation. Previously led Freeport-McMoRan oil and gas division through 2016 divestiture.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Daniel R. Harrington",
+        "ticker": null,
+        "cik": null,
+        "slug": "daniel_r_harrington",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Harrington joined as CFO in 2023 from ExxonMobil where he managed Gulf of Mexico finance. Oversees $400 million capital plan for restart.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A"
+        ],
+        "brainNodeMotif": "M1"
+      },
+      {
+        "name": "Michael J. Perry",
+        "ticker": null,
+        "cik": null,
+        "slug": "michael_j_perry",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Perry serves as COO since 2022 with prior role at Venoco managing California offshore assets. Directs 85-person operations team.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Baker Hughes Rig Count - Pacific Region",
+        "ticker": null,
+        "cik": null,
+        "slug": "baker_hughes_rig_count_pacific_region",
+        "neuralRole": "Salience",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue / Market Intel",
+        "relationshipNote": "Pacific region rig count averaged 2.1 active units in 2024 versus Sable's target of 3 rigs post-approval. Count published weekly.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ],
+        "brainNodeMotif": "M11"
+      }
+    ]
+  }
+}

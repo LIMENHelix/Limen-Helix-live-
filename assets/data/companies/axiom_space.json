@@ -222,7 +222,7 @@
         "neuralRole": "Sensory",
         "brainNodeId": "S1",
         "brainNodeRole": "Raw Materials (carbon-fiber composites, aluminum-lithium alloys)",
-        "relationshipNote": ". Axiom modules require advanced composite structures (carbon-fiber reinforced polymer) for pressure vessels and thermal protection. Aluminum-lithium alloys (Al-Li 2195, 2198) used for primary structure. Estimated material cost $50M–$80M over development phase. Supply-chain risk: composite-material lead times 6–12 months; any supplier capacity constraint delays module manufacturing.",
+        "relationshipNote": "Axiom modules require advanced composite structures (carbon-fiber reinforced polymer) for pressure vessels and thermal protection. Aluminum-lithium alloys (Al-Li 2195, 2198) used for primary structure. Estimated material cost $50M–$80M over development phase. Supply-chain risk: composite-material lead times 6–12 months; any supplier capacity constraint delays module manufacturing.",
         "confidence": "low",
         "sourceType": [
           "inferred"
@@ -265,7 +265,7 @@
         "neuralRole": "Sensory",
         "brainNodeId": "S1",
         "brainNodeRole": "Raw Materials & Subsystems (photovoltaic arrays, power distribution)",
-        "relationshipNote": ". AxPower module requires high-efficiency solar arrays (>30% efficiency) and power-distribution electronics. Estimated power generation 120–150 kW for initial 4-module configuration. Solar-array lead times 12–18 months; any supplier delay impacts AxPower launch schedule (Q3 2026). Power-system reliability critical to Axiom station's autonomous operations.",
+        "relationshipNote": "AxPower module requires high-efficiency solar arrays (>30% efficiency) and power-distribution electronics. Estimated power generation 120–150 kW for initial 4-module configuration. Solar-array lead times 12–18 months; any supplier delay impacts AxPower launch schedule (Q3 2026). Power-system reliability critical to Axiom station's autonomous operations.",
         "confidence": "low",
         "sourceType": [
           "inferred"
@@ -526,7 +526,7 @@
         "neuralRole": "Salience",
         "brainNodeId": "BLA",
         "brainNodeRole": "Risk Assessment + Compliance (financial audit, internal controls)",
-        "relationshipNote": "Deloitte is Axiom's external auditor for financial statements and internal-control assessments. Deloitte conducts annual audits of Axiom's Series C funding rounds and investor reporting. Deloitte also provides advisory services on NASA-contract accounting (milestone revenue recognition) and compliance with government-contract regulations (FAR, DFARS). Deloitte's audit opinion is critical for investor confidence and future funding rounds. If Axiom IPOs, Deloitte's audit will be required for SEC filings..",
+        "relationshipNote": "Deloitte is Axiom's external auditor for financial statements and internal-control assessments. Deloitte conducts annual audits of Axiom's Series C funding rounds and investor reporting. Deloitte also provides advisory services on NASA-contract accounting (milestone revenue recognition) and compliance with government-contract regulations (FAR, DFARS). Deloitte's audit opinion is critical for investor confidence and future funding rounds. If Axiom IPOs, Deloitte's audit will be required for SEC filings.",
         "confidence": "medium",
         "sourceType": [
           "inferred"
@@ -572,7 +572,7 @@
         "neuralRole": "Limbic",
         "brainNodeId": "OFC",
         "brainNodeRole": "Market Intelligence + Capital (debt financing)",
-        "relationshipNote": ". Axiom may pursue project financing or equipment financing for module manufacturing and launch services. NASA milestone payments ($2.1B+ over 2025–2035) provide revenue visibility for debt underwriters. Estimated debt capacity $500M–$1B based on NASA contract value. Any debt financing would likely be secured by NASA contract receivables. Interest rates and covenants depend on Axiom's credit rating (currently unrated as private company).",
+        "relationshipNote": "Axiom may pursue project financing or equipment financing for module manufacturing and launch services. NASA milestone payments ($2.1B+ over 2025–2035) provide revenue visibility for debt underwriters. Estimated debt capacity $500M–$1B based on NASA contract value. Any debt financing would likely be secured by NASA contract receivables. Interest rates and covenants depend on Axiom's credit rating (currently unrated as private company).",
         "confidence": "low",
         "sourceType": [
           "inferred"
@@ -694,5 +694,56 @@
     ],
     "evaluatedAt": "2026-06-14T03:48:24.983Z",
     "patternsConsidered": 33
+  },
+  "kernelReadings": {
+    "k3": {
+      "schemaVersion": "k3-relational-topology/1.0",
+      "state": "RELATIONAL_MAP_OBSERVED",
+      "readingType": "relational_topology",
+      "phase": null,
+      "composite": null,
+      "alert": false,
+      "coverage": {
+        "relationshipCount": 32,
+        "categoryCount": 9,
+        "neuralRoleCount": 7,
+        "topologyTaggedCount": 32,
+        "topologyTaggedRate": 1,
+        "evidenceTaggedCount": 32,
+        "evidenceTaggedRate": 1,
+        "inferredRelationCount": 20,
+        "inferredRelationRate": 0.625,
+        "categories": [
+          "auditor",
+          "capitalProviders",
+          "competitors",
+          "customers",
+          "executiveTeam",
+          "logisticsPartners",
+          "marketSignals",
+          "regulators",
+          "suppliers"
+        ],
+        "neuralRoles": [
+          "DMN",
+          "Limbic",
+          "Motor",
+          "PFC",
+          "Peer",
+          "Salience",
+          "Sensory"
+        ]
+      },
+      "sourceFingerprint": "31ce44303dfbe3681a1a5d5cbc3a1b031f1b7c5f99384652c445cd53b4fccf9d",
+      "limitations": [
+        "INTERPRETIVE_ONLY",
+        "NOT_A_FINANCIAL_PHASE",
+        "NOT_OUTCOME_VALIDATED",
+        "SOURCE_CLAIMS_NOT_INDEPENDENTLY_VERIFIED"
+      ],
+      "kernelId": "k3-relational-kernel/1.0",
+      "lastScored": "2026-09-04T16:53:58.087Z"
+    },
+    "primary": "k3"
   }
 }

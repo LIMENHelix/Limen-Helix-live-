@@ -235,7 +235,7 @@
         "neuralRole": "Sensory",
         "brainNodeId": "S1",
         "brainNodeRole": "Raw Materials — Distributed Supply Base",
-        "relationshipNote": ". Rolls-Royce maintains a 200+ supplier base across UK, US, and EU for machining, heat-treatment, and sub-assembly work. 2023 supply-chain audit identified 15 single-source suppliers in critical areas (rare-earth magnets, advanced ceramics). UK government's 2021 Supply Chain Review flagged Rolls-Royce as a national-security chokepoint; mitigation includes supplier diversification and nearshoring initiatives.",
+        "relationshipNote": "Rolls-Royce maintains a 200+ supplier base across UK, US, and EU for machining, heat-treatment, and sub-assembly work. 2023 supply-chain audit identified 15 single-source suppliers in critical areas (rare-earth magnets, advanced ceramics). UK government's 2021 Supply Chain Review flagged Rolls-Royce as a national-security chokepoint; mitigation includes supplier diversification and nearshoring initiatives.",
         "confidence": "medium",
         "sourceType": [
           "20-F",
@@ -282,7 +282,7 @@
         "neuralRole": "Motor",
         "brainNodeId": "M1",
         "brainNodeRole": "Production & Delivery — Inbound/Outbound Logistics",
-        "relationshipNote": ". Rolls-Royce operates a global supply-chain network spanning 15 manufacturing sites (UK, US, Germany, Singapore, Japan). DHL Supply Chain manages inbound logistics for 40+ supplier hubs; Kuehne+Nagel handles finished-engine export (air freight to OEM assembly plants). 2023 logistics spend: ~$180M (4% of COGS). COVID-era supply-chain disruptions (2020–2022) exposed single-carrier dependencies; Rolls-Royce now maintains dual-carrier redundancy for critical components.",
+        "relationshipNote": "Rolls-Royce operates a global supply-chain network spanning 15 manufacturing sites (UK, US, Germany, Singapore, Japan). DHL Supply Chain manages inbound logistics for 40+ supplier hubs; Kuehne+Nagel handles finished-engine export (air freight to OEM assembly plants). 2023 logistics spend: ~$180M (4% of COGS). COVID-era supply-chain disruptions (2020–2022) exposed single-carrier dependencies; Rolls-Royce now maintains dual-carrier redundancy for critical components.",
         "confidence": "medium",
         "sourceType": [
           "20-F",
@@ -297,7 +297,7 @@
         "neuralRole": "Sensory",
         "brainNodeId": "S1",
         "brainNodeRole": "Raw Materials — Fasteners & Seals",
-        "relationshipNote": ". Lisi Aerospace (France) and Eaton Aerospace (US) supply titanium fasteners, seals, and hydraulic components for Rolls-Royce engines. Combined 2023 spend: ~$95M. Lisi's Toulouse facility is sole-source for certain high-temperature fastener grades (Inconel X-750); Eaton supplies 60% of engine seal requirements. Both suppliers operate at 85%+ capacity utilization; any demand spike creates 8–12 week lead-time extensions.",
+        "relationshipNote": "Lisi Aerospace (France) and Eaton Aerospace (US) supply titanium fasteners, seals, and hydraulic components for Rolls-Royce engines. Combined 2023 spend: ~$95M. Lisi's Toulouse facility is sole-source for certain high-temperature fastener grades (Inconel X-750); Eaton supplies 60% of engine seal requirements. Both suppliers operate at 85%+ capacity utilization; any demand spike creates 8–12 week lead-time extensions.",
         "confidence": "medium",
         "sourceType": [
           "industry-report",
@@ -728,7 +728,7 @@
         "neuralRole": "PFC",
         "brainNodeId": "STRI",
         "brainNodeRole": "Operations — COO / Chief Operating Officer",
-        "relationshipNote": ". Rolls-Royce's organizational structure (2023) includes COO role reporting to CEO; responsibilities: manufacturing operations, supply-chain management, and quality assurance. Key challenge: managing 15-site global manufacturing network amid supply-chain disruptions and Ultrafan production ramp.",
+        "relationshipNote": "Rolls-Royce's organizational structure (2023) includes COO role reporting to CEO; responsibilities: manufacturing operations, supply-chain management, and quality assurance. Key challenge: managing 15-site global manufacturing network amid supply-chain disruptions and Ultrafan production ramp.",
         "confidence": "medium",
         "sourceType": [
           "20-F",
@@ -809,5 +809,55 @@
       "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
       "auditPath": "assets/data/audit/unsupported-kernel-claims.json"
     }
+  },
+  "kernelReadings": {
+    "k3": {
+      "schemaVersion": "k3-relational-topology/1.0",
+      "state": "RELATIONAL_MAP_OBSERVED",
+      "readingType": "relational_topology",
+      "phase": null,
+      "composite": null,
+      "alert": false,
+      "coverage": {
+        "relationshipCount": 38,
+        "categoryCount": 8,
+        "neuralRoleCount": 7,
+        "topologyTaggedCount": 38,
+        "topologyTaggedRate": 1,
+        "evidenceTaggedCount": 38,
+        "evidenceTaggedRate": 1,
+        "inferredRelationCount": 2,
+        "inferredRelationRate": 0.053,
+        "categories": [
+          "capitalProviders",
+          "competitors",
+          "customers",
+          "executiveTeam",
+          "logisticsPartners",
+          "marketSignals",
+          "regulators",
+          "suppliers"
+        ],
+        "neuralRoles": [
+          "DMN",
+          "Limbic",
+          "Motor",
+          "PFC",
+          "Peer",
+          "Salience",
+          "Sensory"
+        ]
+      },
+      "sourceFingerprint": "01a0f9e8cfe14942d6098e655057418d4c63c28cbe47837028f5a4063d667d2d",
+      "limitations": [
+        "INTERPRETIVE_ONLY",
+        "NOT_A_FINANCIAL_PHASE",
+        "NOT_OUTCOME_VALIDATED",
+        "SOURCE_CLAIMS_NOT_INDEPENDENTLY_VERIFIED"
+      ],
+      "kernelId": "k3-relational-kernel/1.0",
+      "lastScored": "2026-09-04T16:53:58.087Z"
+    },
+    "primary": "k3"
   }
 }

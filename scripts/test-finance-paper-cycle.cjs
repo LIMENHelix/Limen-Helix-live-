@@ -21,8 +21,8 @@ function base(overrides) {
       assertDurable() { calls.push('durable'); },
       async get() { calls.push('preview-read'); return null; }
     },
-    previewProvider: { enabled() { return true; } },
-    decisionProvider: { enabled() { return true; } },
+    previewProvider: { enabled() { return true; }, configured() { return true; } },
+    decisionProvider: { enabled() { return true; }, configured() { return true; } },
     broker: { configured() { return true; } },
     commissioning: {
       enabled() { return true; },
@@ -75,6 +75,15 @@ function base(overrides) {
   assert.deepEqual(setup.calls, ['durable', 'commissioning', 'input', 'audit', 'preview-read', 'preview', 'feed-confirmation', 'admission', 'decision', 'executor']);
 
   setup = base({
+    env: { GROK_API_KEY: 'configured', BRAIN_SHADOW_TOKEN: 'brain', LIMEN_FINANCE_PAPER_COMMISSIONING_ENABLED: '1' }
+  });
+  handler = Handler.createHandler(setup.deps); res = response();
+  await handler({ method: 'GET', auth: true }, res);
+  assert.equal(res.body.stage, 'paper-execution');
+  assert.equal(res.body.orderPlaced, true);
+  assert.equal(setup.calls.includes('executor'), true);
+
+  setup = base({
     feedConfirmation: { build() { setup.calls.push('feed-confirmation'); return { status: 'ABSTAINED', blockers: ['finance_feed_confirmation_fresh_issuer_observation_required'] }; } }
   });
   handler = Handler.createHandler(setup.deps); res = response();
@@ -107,5 +116,5 @@ function base(overrides) {
   assert.equal(res.body.effectExecuted, false);
   assert.deepEqual(setup.calls, ['durable', 'commissioning']);
 
-  console.log('finance paper cycle: cron auth, autonomous zero-effect commissioning, stage stops, and sandbox execution passed');
+  console.log('finance paper cycle: cron auth, provider-independent configuration, autonomous zero-effect commissioning, stage stops, and sandbox execution passed');
 })().catch(function (error) { console.error(error); process.exit(1); });

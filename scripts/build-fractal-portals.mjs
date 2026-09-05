@@ -29,6 +29,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import portalAdmission from '../lib/portal-admission.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -43,7 +44,7 @@ let ALIAS = {};
 try { ALIAS = JSON.parse(fs.readFileSync(ALIAS_PATH, 'utf8')).aliases || {}; } catch (e) {}
 const BASE_URL = process.env.LIMEN_BASE_URL || 'https://limenhelix.com';
 const MIN_ANCHORED = 0.85;   // depth gate — reject filler
-const MAX_DATA_NEEDED = 5;   // placeholder gate — reject portals where the model said "DATA_NEEDED" too often (signals the model didn't have real info to anchor on; passes depth gate by stuffing structured placeholders but operator sees gibberish)
+const MAX_DATA_NEEDED = 0;   // any placeholder means the portal is not publishable
 // Fractal-brain fidelity gate. Each portal must mirror the brain: every
 // functionalNetwork entry tagged with brainNodeId + neuralRole + brainNodeRole.
 // This is the CORE goal — every portal is a mini-brain, the network is the
@@ -56,6 +57,7 @@ const getArg = (n, d) => { const i = args.indexOf('--' + n); return i === -1 ? d
 const TIER = String(getArg('tier', '1'));
 const LIMIT = parseInt(getArg('limit', '5'), 10);
 const DRY = args.includes('--dry-run');
+const ADMIN_KEY = process.env.PORTAL_REGEN_ADMIN_KEY || process.env.ADMIN_MASTER || process.env.ADMIN_MASTER_KEY || '';
 // --queue <path> : drain the autonomous-portal-regen queue (the body's OWN
 // self-identified backlog) instead of a tier scan. This is the find→build link
 // of the autonomy loop: regen flags what's missing → this builds it. Entries
@@ -165,7 +167,7 @@ function buildQueue() {
     // recurring name-variant dup generation across eligible batches.
     const pNames = portalNameKeys();
     for (const c of cb) {
-      const hasPortal = (c.s && slugSet.has(c.s)) || c2s[normCik(c.c)] || pNames.has(nameKey(c.n));
+      const hasPortal = (c.s && slugSet.has(c.s)) || (c.s && ALIAS[c.s] && slugSet.has(ALIAS[c.s])) || c2s[normCik(c.c)] || pNames.has(nameKey(c.n));
       if (hasPortal) continue;
       const slug = nameSlug(c.n) || c.s;
       if (slugSet.has(slug) || seen.has(slug)) continue;       // dedup CB rows that collapse to one slug (e.g. NICE x2)
@@ -224,7 +226,7 @@ async function enrichOne(target, hint) {
   let lastErr = null;
   for (let attempt = 1; attempt <= 4; attempt++) {
     try {
-      const r = await fetch(BASE_URL + '/api/enrich-portal-claude', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+      const r = await fetch(BASE_URL + '/api/enrich-portal-claude', { method: 'POST', headers: { 'content-type': 'application/json', 'x-limen-pass': ADMIN_KEY }, body: JSON.stringify(body) });
       const j = await r.json().catch(() => ({}));
       return { ok: r.ok && j && j.ok, j, elapsedS: ((Date.now() - t0) / 1000).toFixed(0) };
     } catch (e) {
@@ -240,6 +242,7 @@ async function enrichOne(target, hint) {
 const errStr = j => { const e = j && j.error; if (e == null) return j ? JSON.stringify(j).slice(0, 160) : 'no response'; return typeof e === 'string' ? e : JSON.stringify(e).slice(0, 160); };
 
 async function main() {
+  if (!DRY && !ADMIN_KEY) throw new Error('PORTAL_REGEN_ADMIN_KEY (or ADMIN_MASTER/ADMIN_MASTER_KEY) is required for the admin-only enrichment endpoint');
   const queue = buildQueue();
   console.log(`=== fractal portal build — ${QUEUE_FILE ? 'regen-queue drain' : 'tier ' + TIER} ===`);
   console.log(`base: ${BASE_URL}  queue: ${queue.length}  limit: ${LIMIT}  dryRun: ${DRY}`);
@@ -263,23 +266,30 @@ async function main() {
       }
       let dnCount = res.j && res.j.portal ? countDN(res.j.portal) : 0;
       let bf = res.j && res.j.portal ? brainFidelity(res.j.portal) : { rate: 0, roles: 0 };
-      const needsRetry = res.ok && (dr.genericityWarning || (typeof dr.anchoredRate === 'number' && dr.anchoredRate < MIN_ANCHORED) || dnCount > MAX_DATA_NEEDED || bf.rate < MIN_BRAIN_TAGGED || bf.roles < MIN_NEURAL_ROLES_PRESENT);
+      let localPrepared = res.j && res.j.portal ? portalAdmission.prepareGeneratedPortal(res.j.portal, t, null) : null;
+      let admission = localPrepared ? portalAdmission.validatePortalAdmission(localPrepared.portal) : { ok: false, errors: [{ code: 'NO_PORTAL' }] };
+      let bannedCount = Array.isArray(res.j && res.j.bannedHits) ? res.j.bannedHits.length : 0;
+      const needsRetry = res.ok && (dr.genericityWarning || (typeof dr.anchoredRate === 'number' && dr.anchoredRate < MIN_ANCHORED) || dnCount > MAX_DATA_NEEDED || bf.rate < MIN_BRAIN_TAGGED || bf.roles < MIN_NEURAL_ROLES_PRESENT || bannedCount > 0 || !admission.ok);
       if (needsRetry) {
         console.log(`  ${t.slug}: gate (anchored ${dr.anchoredRate}, DATA_NEEDED ${dnCount}, brain-tagged ${(bf.rate * 100).toFixed(0)}%, roles ${bf.roles}) — retry with hint`);
-        res = await enrichOne(t, 'Be maximally specific with REAL details — and every functionalNetwork entry must mirror the brain: assign brainNodeId, neuralRole (Sensory/Motor/Peer/DMN/Salience/PFC/Limbic), and brainNodeRole. If you do not know a specific detail (e.g. CEO name, exact $ amount), OMIT the entry or the sentence — DO NOT write "[DATA_NEEDED: ...]" placeholders. The operator must see only verified specifics, fully brain-tagged, no placeholders.');
+        res = await enrichOne(t, 'Be maximally specific with attributable details — and every functionalNetwork entry must mirror the brain: assign a canonical brainNodeId, neuralRole (Sensory/Motor/Peer/DMN/Salience/PFC), and brainNodeRole. If a specific detail (e.g. CEO name, exact $ amount) is uncertain, OMIT the entry or sentence — DO NOT write "[DATA_NEEDED: ...]" placeholders. Every retained detail must name its sourceType; emit fully brain-tagged entries with no placeholders.');
         dr = (res.j && res.j.densityReport) || {};
         dnCount = res.j && res.j.portal ? countDN(res.j.portal) : 0;
         bf = res.j && res.j.portal ? brainFidelity(res.j.portal) : bf;
+        localPrepared = res.j && res.j.portal ? portalAdmission.prepareGeneratedPortal(res.j.portal, t, null) : null;
+        admission = localPrepared ? portalAdmission.validatePortalAdmission(localPrepared.portal) : { ok: false, errors: [{ code: 'NO_PORTAL' }] };
+        bannedCount = Array.isArray(res.j && res.j.bannedHits) ? res.j.bannedHits.length : 0;
       }
       if (!res.ok || !res.j.portal) { failed++; console.log(`  ${t.slug}: FAIL ${errStr(res.j)}`); logLine({ tier: TIER, slug: t.slug, name: t.name, status: res.networkError ? 'fail-network' : 'fail', detail: errStr(res.j) }); continue; }
-      if (dr.genericityWarning || (typeof dr.anchoredRate === 'number' && dr.anchoredRate < MIN_ANCHORED) || dnCount > MAX_DATA_NEEDED || bf.rate < MIN_BRAIN_TAGGED || bf.roles < MIN_NEURAL_ROLES_PRESENT) { failed++; console.log(`  ${t.slug}: REJECT (anchored ${dr.anchoredRate}, DATA_NEEDED ${dnCount}, brain-tagged ${(bf.rate * 100).toFixed(0)}%, roles ${bf.roles})`); logLine({ tier: TIER, slug: t.slug, name: t.name, status: 'reject-generic', anchoredRate: dr.anchoredRate, dataNeeded: dnCount, brainTagRate: bf.rate, neuralRoles: bf.roles }); continue; }
-      const portal = res.j.portal;
-      portal.slug = t.slug;
-      // NEVER keep a model-fabricated cik. When we didn't pass one (Tier-2
-      // orphans), the model invents a cik that collides with real companies
-      // (flowserve got Equifax's, 6 cos shared 1616707). null = honest unknown.
-      portal.cik = t.cik ? String(t.cik) : null;
-      if (t.domainId) portal.domainId = portal.domainId || t.domainId;
+      if (dr.genericityWarning || (typeof dr.anchoredRate === 'number' && dr.anchoredRate < MIN_ANCHORED) || dnCount > MAX_DATA_NEEDED || bf.rate < MIN_BRAIN_TAGGED || bf.roles < MIN_NEURAL_ROLES_PRESENT || bannedCount > 0 || !admission.ok) { failed++; console.log(`  ${t.slug}: REJECT (anchored ${dr.anchoredRate}, placeholders ${dnCount}, brain-tagged ${(bf.rate * 100).toFixed(0)}%, roles ${bf.roles}, admission ${admission.ok})`); logLine({ tier: TIER, slug: t.slug, name: t.name, status: 'reject-admission', anchoredRate: dr.anchoredRate, placeholders: dnCount, brainTagRate: bf.rate, neuralRoles: bf.roles, admissionErrors: admission.errors, bannedTerms: bannedCount }); continue; }
+      // Defense in depth: an older deployment may not yet have the server-side
+      // admission gate. Re-apply identity/kernel sanitization immediately before
+      // the filesystem write, then validate the exact object being persisted.
+      const rawPlaceholderHits = portalAdmission.findPlaceholderHits(res.j.portal);
+      const prepared = localPrepared || portalAdmission.prepareGeneratedPortal(res.j.portal, t, null);
+      const portal = prepared.portal;
+      const finalAdmission = portalAdmission.validatePortalAdmission(portal);
+      if (rawPlaceholderHits.length || !finalAdmission.ok) { failed++; console.log(`  ${t.slug}: REJECT before write (${rawPlaceholderHits.length} placeholders, ${finalAdmission.errors.length} admission errors)`); logLine({ tier: TIER, slug: t.slug, name: t.name, status: 'reject-before-write', placeholderHits: rawPlaceholderHits.slice(0, 20), admissionErrors: finalAdmission.errors }); continue; }
       fs.writeFileSync(fp, JSON.stringify(portal, null, 2));
       done++;
       console.log(`  ${t.slug}: OK ${dr.functionalNetworkTotal} entries, anchored ${dr.anchoredRate}, ${res.elapsedS}s  (${t.name})`);

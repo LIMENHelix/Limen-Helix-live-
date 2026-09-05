@@ -832,5 +832,55 @@
       "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
       "auditPath": "assets/data/audit/unsupported-kernel-claims.json"
     }
+  },
+  "kernelReadings": {
+    "k3": {
+      "schemaVersion": "k3-relational-topology/1.0",
+      "state": "RELATIONAL_MAP_OBSERVED",
+      "readingType": "relational_topology",
+      "phase": null,
+      "composite": null,
+      "alert": false,
+      "coverage": {
+        "relationshipCount": 40,
+        "categoryCount": 8,
+        "neuralRoleCount": 7,
+        "topologyTaggedCount": 40,
+        "topologyTaggedRate": 1,
+        "evidenceTaggedCount": 40,
+        "evidenceTaggedRate": 1,
+        "inferredRelationCount": 13,
+        "inferredRelationRate": 0.325,
+        "categories": [
+          "capitalProviders",
+          "competitors",
+          "customers",
+          "executiveTeam",
+          "logisticsPartners",
+          "marketSignals",
+          "regulators",
+          "suppliers"
+        ],
+        "neuralRoles": [
+          "DMN",
+          "Limbic",
+          "Motor",
+          "PFC",
+          "Peer",
+          "Salience",
+          "Sensory"
+        ]
+      },
+      "sourceFingerprint": "135b93cdf7b06f10a4fea7fd781414b638246143eafece73a0b26369c2ef2773",
+      "limitations": [
+        "INTERPRETIVE_ONLY",
+        "NOT_A_FINANCIAL_PHASE",
+        "NOT_OUTCOME_VALIDATED",
+        "SOURCE_CLAIMS_NOT_INDEPENDENTLY_VERIFIED"
+      ],
+      "kernelId": "k3-relational-kernel/1.0",
+      "lastScored": "2026-09-04T16:53:58.087Z"
+    },
+    "primary": "k3"
   }
 }

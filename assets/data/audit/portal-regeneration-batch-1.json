@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "portal-regeneration-audit/1.0",
+  "generatedAt": "2026-09-04T18:18:40.356Z",
+  "sourceProduction": {
+    "commitSha": "e6e92b561fc69b84e185acbb180ce4239829a8b2",
+    "deploymentId": "dpl_3puJnnGXp57GXkrLUkNAe2DoKJx3",
+    "readyState": "READY",
+    "target": "production"
+  },
+  "providerPath": {
+    "primary": "anthropic",
+    "primaryResult": "HTTP 400 invalid_request_error: credit balance too low",
+    "fallback": "xai",
+    "fallbackModel": "grok-4",
+    "metered": true
+  },
+  "backlog": {
+    "previouslyReported": 175,
+    "runnableBeforeBatch": 170,
+    "falsePositiveAliasesRemoved": 5,
+    "generated": 1,
+    "remaining": 169,
+    "remainingBySource": {
+      "eligible": 169
+    }
+  },
+  "wiring": {
+    "curatedRowsRepaired": 5,
+    "eligibleRowsRepaired": 1,
+    "postAudit": {
+      "curatedWiring": 1,
+      "eligibleWiring": 0.42,
+      "brokenRewirable": 0
+    }
+  },
+  "targets": [
+    {
+      "slug": "edison_international",
+      "name": "EDISON INTERNATIONAL",
+      "ticker": "EIX",
+      "cik": "0000827052",
+      "file": "assets/data/companies/edison_international.json",
+      "sha256": "68af38d30c11b273a52021ad10b5774afdb2379797d14326e1ce2d620847c249",
+      "admission": {
+        "ok": true,
+        "relationshipCount": 20,
+        "categoryCount": 9,
+        "topologyTaggedRate": 1,
+        "evidenceTaggedRate": 1,
+        "placeholderHits": 0
+      },
+      "schemaValidation": "PASS",
+      "financialHealth": {
+        "validationStatus": "unavailable",
+        "kernelStatus": "INGESTION_SUSPECT",
+        "compositeScore": null,
+        "dominantPhase": null,
+        "alert": false
+      }
+    }
+  ],
+  "proofCommands": [
+    "node scripts/autonomous-portal-regen.mjs --apply",
+    "node scripts/wire-cb-slugs.mjs --dry-run",
+    "node scripts/wire-eligible-slugs.mjs --dry-run",
+    "node scripts/audit-corpus-vitals.mjs --dry-run",
+    "node scripts/test-portal-regeneration-admission.js",
+    "node scripts/validate-company-schema.js edison_international",
+    "npm run check",
+    "npm run test:unit"
+  ],
+  "limitations": [
+    "SOURCE_CLAIMS_NOT_INDEPENDENTLY_VERIFIED",
+    "FINANCIAL_SCORING_NOT_RUN",
+    "KERNEL_PHASE_NOT_CLAIMED"
+  ]
+}

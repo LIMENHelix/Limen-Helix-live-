@@ -447,7 +447,7 @@
         "neuralRole": "Peer",
         "brainNodeId": "TPJ",
         "brainNodeRole": "Perspective-Taking / Theory of Mind",
-        "relationshipNote": ". Rolled Alloys is a private specialty alloy producer competing with ATI in stainless steel and nickel-based alloy markets. Rolled Alloys serves aerospace, industrial, and chemical processing customers. Competitive dynamics with ATI in aerospace-grade materials are.",
+        "relationshipNote": "Rolled Alloys is a private specialty alloy producer competing with ATI in stainless steel and nickel-based alloy markets. Rolled Alloys serves aerospace, industrial, and chemical processing customers. Competitive dynamics with ATI in aerospace-grade materials are.",
         "confidence": "low",
         "sourceType": [
           "inferred"
@@ -770,5 +770,56 @@
     ],
     "evaluatedAt": "2026-06-14T03:48:24.878Z",
     "patternsConsidered": 33
+  },
+  "kernelReadings": {
+    "k3": {
+      "schemaVersion": "k3-relational-topology/1.0",
+      "state": "RELATIONAL_MAP_OBSERVED",
+      "readingType": "relational_topology",
+      "phase": null,
+      "composite": null,
+      "alert": false,
+      "coverage": {
+        "relationshipCount": 37,
+        "categoryCount": 9,
+        "neuralRoleCount": 7,
+        "topologyTaggedCount": 37,
+        "topologyTaggedRate": 1,
+        "evidenceTaggedCount": 37,
+        "evidenceTaggedRate": 1,
+        "inferredRelationCount": 7,
+        "inferredRelationRate": 0.189,
+        "categories": [
+          "auditor",
+          "capitalProviders",
+          "competitors",
+          "customers",
+          "executiveTeam",
+          "logisticsPartners",
+          "marketSignals",
+          "regulators",
+          "suppliers"
+        ],
+        "neuralRoles": [
+          "DMN",
+          "Limbic",
+          "Motor",
+          "PFC",
+          "Peer",
+          "Salience",
+          "Sensory"
+        ]
+      },
+      "sourceFingerprint": "82085e738700c5926f008ad9debc255f933816d6162e31126f8c5912239689a9",
+      "limitations": [
+        "INTERPRETIVE_ONLY",
+        "NOT_A_FINANCIAL_PHASE",
+        "NOT_OUTCOME_VALIDATED",
+        "SOURCE_CLAIMS_NOT_INDEPENDENTLY_VERIFIED"
+      ],
+      "kernelId": "k3-relational-kernel/1.0",
+      "lastScored": "2026-09-04T16:53:58.087Z"
+    },
+    "primary": "k3"
   }
 }

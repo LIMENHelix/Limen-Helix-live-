@@ -12,8 +12,9 @@
  *        polyvagal context — even when EDGAR is empty (neutral intrinsic
  *        prior + polyvagal bias). Target: 100% coverage post-persist.
  *
- *   K3 — relational-only (slot reserved). For portals K2 still can't reach.
- *        Always null today; surfaces gracefully fall through.
+ *   K3 — relational topology fallback. For portals K1/K2 can't reach, K3
+ *        reports whether a broad, tagged, sourced relationship map exists.
+ *        It deliberately emits no financial phase, composite, or alert.
  *
  * Use this helper in every place that wants to render a phase / score / state
  * from a portal. Surfaces should not read `portal.financialHealth.composite`
@@ -36,6 +37,7 @@
 
   function _has(o) { return o && typeof o === 'object'; }
   function _phaseOf(r) { return r && (r.phase || r.dominantPhase) || null; }
+  function _stateOf(r) { return r && (r.state || _phaseOf(r)) || null; }
   function _scoreOf(r) { return r && (typeof r.composite === 'number' ? r.composite : (typeof r.score === 'number' ? r.score : null)); }
 
   // Read the K1 reading from a portal. Honors the new kernelReadings shape AND
@@ -73,7 +75,7 @@
   function readK3(portal) {
     if (!portal) return null;
     var kr = portal.kernelReadings;
-    if (_has(kr) && _has(kr.k3) && _phaseOf(kr.k3)) return kr.k3;
+    if (_has(kr) && _has(kr.k3) && _stateOf(kr.k3)) return kr.k3;
     return null;
   }
 
@@ -93,7 +95,7 @@
     // Default fallback: K2 first (universal target), then K1, then K3
     if (k2 && _phaseOf(k2)) return _enrich('k2', k2);
     if (k1 && _phaseOf(k1)) return _enrich('k1', k1);
-    if (k3 && _phaseOf(k3)) return _enrich('k3', k3);
+    if (k3 && _stateOf(k3)) return _enrich('k3', k3);
     return null;
   }
   function _enrich(kind, r) {
@@ -102,6 +104,7 @@
       label: KIND_LABELS[kind],
       color: KIND_COLORS[kind],
       phase: _phaseOf(r),
+      state: _stateOf(r),
       score: _scoreOf(r),
       alert: !!r.alert,
       trajectory: r.trajectory || null,
@@ -110,6 +113,8 @@
       polyvagal_context_source: r.polyvagal_context_source || null,
       kernelId: r.kernelId || null,
       lastScored: r.lastScored || null,
+      coverage: r.coverage || null,
+      limitations: r.limitations || null,
       raw: r
     };
   }
@@ -118,7 +123,7 @@
   function getKernelBadge(portal) {
     var p = getPrimaryReading(portal);
     if (!p) return { kind: 'none', label: 'NO KERNEL', phase: null, color: 'rgba(200,195,184,0.3)', source: null };
-    return { kind: p.kind.toUpperCase(), label: p.label, phase: p.phase, color: p.color, source: p.intrinsic_source || p.polyvagal_context_source || null, alert: p.alert };
+    return { kind: p.kind.toUpperCase(), label: p.label, phase: p.phase, state: p.state, color: p.color, source: p.intrinsic_source || p.polyvagal_context_source || null, alert: p.alert };
   }
 
   // Coverage check — what kernels does this portal have readings from?

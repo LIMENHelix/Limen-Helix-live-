@@ -239,7 +239,7 @@
         "neuralRole": "Sensory",
         "brainNodeId": "THAL",
         "brainNodeRole": "Driver Communication & Safety",
-        "relationshipNote": ". SNDR operates driver-communication systems and in-cab safety devices; vendor relationships support driver training and compliance with FMCSA hours-of-service regulations. Disclosed in 10-K Item 1A regulatory compliance.",
+        "relationshipNote": "SNDR operates driver-communication systems and in-cab safety devices; vendor relationships support driver training and compliance with FMCSA hours-of-service regulations. Disclosed in 10-K Item 1A regulatory compliance.",
         "confidence": "low",
         "sourceType": [
           "inferred"
@@ -1330,7 +1330,7 @@
         "neuralRole": "PFC",
         "brainNodeId": "STRI",
         "brainNodeRole": "Chief Operating Officer",
-        "relationshipNote": ". COO oversees fleet operations, driver management, and intermodal terminal performance. COO's operational metrics (operating ratio, fleet utilization, driver turnover) disclosed in quarterly earnings calls and investor presentations.",
+        "relationshipNote": "COO oversees fleet operations, driver management, and intermodal terminal performance. COO's operational metrics (operating ratio, fleet utilization, driver turnover) disclosed in quarterly earnings calls and investor presentations.",
         "confidence": "low",
         "sourceType": [
           "10-K",
@@ -1880,5 +1880,55 @@
     ],
     "evaluatedAt": "2026-06-13T16:34:00.746Z",
     "patternsConsidered": 33
+  },
+  "kernelReadings": {
+    "k3": {
+      "schemaVersion": "k3-relational-topology/1.0",
+      "state": "RELATIONAL_MAP_OBSERVED",
+      "readingType": "relational_topology",
+      "phase": null,
+      "composite": null,
+      "alert": false,
+      "coverage": {
+        "relationshipCount": 62,
+        "categoryCount": 8,
+        "neuralRoleCount": 7,
+        "topologyTaggedCount": 62,
+        "topologyTaggedRate": 1,
+        "evidenceTaggedCount": 62,
+        "evidenceTaggedRate": 1,
+        "inferredRelationCount": 32,
+        "inferredRelationRate": 0.516,
+        "categories": [
+          "capitalProviders",
+          "competitors",
+          "customers",
+          "executiveTeam",
+          "logisticsPartners",
+          "marketSignals",
+          "regulators",
+          "suppliers"
+        ],
+        "neuralRoles": [
+          "DMN",
+          "Limbic",
+          "PFC",
+          "Peer",
+          "Salience",
+          "Sensory",
+          "feedforward_demand_signal"
+        ]
+      },
+      "sourceFingerprint": "88bbfda69abc09899502000e9d90927f21dd0cf0b406c89bfffc939c544ed927",
+      "limitations": [
+        "INTERPRETIVE_ONLY",
+        "NOT_A_FINANCIAL_PHASE",
+        "NOT_OUTCOME_VALIDATED",
+        "SOURCE_CLAIMS_NOT_INDEPENDENTLY_VERIFIED"
+      ],
+      "kernelId": "k3-relational-kernel/1.0",
+      "lastScored": "2026-09-04T16:53:58.087Z"
+    },
+    "primary": "k3"
   }
 }

@@ -679,7 +679,7 @@
         "neuralRole": "PFC",
         "brainNodeId": "vmPFC",
         "brainNodeRole": "Financial Management & Capital Allocation",
-        "relationshipNote": ". Evergreen's CFO is responsible for financial planning, capital allocation, debt management, and investor relations. CFO's key responsibilities: managing $1.5B–$2B newbuild capex program, optimizing debt structure (TDB + Mizuho + SMFG facilities), and hedging fuel-cost and foreign-exchange exposure. CFO's compensation estimated at $2M–$4M annually. CFO's quarterly earnings calls and investor presentations are key communication channels for Evergreen's financial strategy and guidance.",
+        "relationshipNote": "Evergreen's CFO is responsible for financial planning, capital allocation, debt management, and investor relations. CFO's key responsibilities: managing $1.5B–$2B newbuild capex program, optimizing debt structure (TDB + Mizuho + SMFG facilities), and hedging fuel-cost and foreign-exchange exposure. CFO's compensation estimated at $2M–$4M annually. CFO's quarterly earnings calls and investor presentations are key communication channels for Evergreen's financial strategy and guidance.",
         "confidence": "low",
         "sourceType": [
           "inferred"
@@ -693,7 +693,7 @@
         "neuralRole": "Motor",
         "brainNodeId": "STRI",
         "brainNodeRole": "Operations & Fleet Management",
-        "relationshipNote": ". Evergreen's COO is responsible for fleet operations, vessel deployment, route optimization, and port-operations management. COO's key responsibilities: managing 850,000 TEU fleet across 100+ routes, optimizing vessel utilization (target 95%+), and ensuring schedule reliability (target 96%+ on-time). COO's compensation estimated at $2M–$4M annually. COO's operational metrics (utilization, on-time performance, fuel efficiency) are key performance indicators for Evergreen's competitive positioning.",
+        "relationshipNote": "Evergreen's COO is responsible for fleet operations, vessel deployment, route optimization, and port-operations management. COO's key responsibilities: managing 850,000 TEU fleet across 100+ routes, optimizing vessel utilization (target 95%+), and ensuring schedule reliability (target 96%+ on-time). COO's compensation estimated at $2M–$4M annually. COO's operational metrics (utilization, on-time performance, fuel efficiency) are key performance indicators for Evergreen's competitive positioning.",
         "confidence": "low",
         "sourceType": [
           "inferred"
@@ -848,5 +848,55 @@
       "research": 1
     },
     "totalArtifacts": 2
+  },
+  "kernelReadings": {
+    "k3": {
+      "schemaVersion": "k3-relational-topology/1.0",
+      "state": "RELATIONAL_MAP_OBSERVED",
+      "readingType": "relational_topology",
+      "phase": null,
+      "composite": null,
+      "alert": false,
+      "coverage": {
+        "relationshipCount": 37,
+        "categoryCount": 8,
+        "neuralRoleCount": 7,
+        "topologyTaggedCount": 37,
+        "topologyTaggedRate": 1,
+        "evidenceTaggedCount": 37,
+        "evidenceTaggedRate": 1,
+        "inferredRelationCount": 24,
+        "inferredRelationRate": 0.649,
+        "categories": [
+          "capitalProviders",
+          "competitors",
+          "customers",
+          "executiveTeam",
+          "logisticsPartners",
+          "marketSignals",
+          "regulators",
+          "suppliers"
+        ],
+        "neuralRoles": [
+          "DMN",
+          "Limbic",
+          "Motor",
+          "PFC",
+          "Peer",
+          "Salience",
+          "Sensory"
+        ]
+      },
+      "sourceFingerprint": "2b3142ecd734319008c823b3c43efacb3124b36e4cf37aa922faee56651b5bd3",
+      "limitations": [
+        "INTERPRETIVE_ONLY",
+        "NOT_A_FINANCIAL_PHASE",
+        "NOT_OUTCOME_VALIDATED",
+        "SOURCE_CLAIMS_NOT_INDEPENDENTLY_VERIFIED"
+      ],
+      "kernelId": "k3-relational-kernel/1.0",
+      "lastScored": "2026-09-04T16:53:58.087Z"
+    },
+    "primary": "k3"
   }
 }

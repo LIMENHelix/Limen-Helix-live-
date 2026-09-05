@@ -180,7 +180,7 @@
         "neuralRole": "Sensory",
         "brainNodeId": "THAL",
         "brainNodeRole": "LLM Backbone & Artifact Generation",
-        "relationshipNote": "Anthropic Claude Sonnet 4.6 and Haiku 4.5 models power LIMEN Helix's six-engine artifact factory (patent, grant, SBA, FDD, investment, research). Claude's constitutional AI training enables regulatory-compliant document generation (37 CFR, SF-424, SOP 50 10 7.1, 16 CFR Part 436). Deployed via Vercel serverless for sub-100ms latency on artifact generation..",
+        "relationshipNote": "Anthropic Claude Sonnet 4.6 and Haiku 4.5 models power LIMEN Helix's six-engine artifact factory (patent, grant, SBA, FDD, investment, research). Claude's constitutional AI training enables regulatory-compliant document generation (37 CFR, SF-424, SOP 50 10 7.1, 16 CFR Part 436). Deployed via Vercel serverless for sub-100ms latency on artifact generation.",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -194,7 +194,7 @@
         "neuralRole": "Motor",
         "brainNodeId": "M1",
         "brainNodeRole": "Serverless Compute & Edge Deployment",
-        "relationshipNote": "Vercel provides serverless hosting, cron scheduling, and edge-function deployment for LIMEN Helix's real-time kernel (3-minute rescoring cycle). Handles 275+ concurrent portal generation requests and API gateway for financial-services institution licensing. Vercel's edge network enables sub-50ms latency for Bloomberg + FRED data ingestion and artifact delivery..",
+        "relationshipNote": "Vercel provides serverless hosting, cron scheduling, and edge-function deployment for LIMEN Helix's real-time kernel (3-minute rescoring cycle). Handles 275+ concurrent portal generation requests and API gateway for financial-services institution licensing. Vercel's edge network enables sub-50ms latency for Bloomberg + FRED data ingestion and artifact delivery.",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -208,7 +208,7 @@
         "neuralRole": "Sensory",
         "brainNodeId": "THAL",
         "brainNodeRole": "State Management & Real-Time Scoring",
-        "relationshipNote": "Upstash Redis provides distributed state management for LIMEN Helix's 11-phase kernel and counterparty-propagation model. Stores phase scores, entity metadata, and network topology for 275+ tracked companies; enables 3-minute rescoring without database round-trips. Supports pub/sub for real-time alerts to API clients (financial-services institutions, family offices)..",
+        "relationshipNote": "Upstash Redis provides distributed state management for LIMEN Helix's 11-phase kernel and counterparty-propagation model. Stores phase scores, entity metadata, and network topology for 275+ tracked companies; enables 3-minute rescoring without database round-trips. Supports pub/sub for real-time alerts to API clients (financial-services institutions, family offices).",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -222,7 +222,7 @@
         "neuralRole": "Sensory",
         "brainNodeId": "THAL",
         "brainNodeRole": "Source Control & CI/CD Automation",
-        "relationshipNote": "GitHub hosts LIMEN Helix's source code, manages version control, and runs CI/CD pipelines for auto-deployment to Vercel. GitHub Actions orchestrates kernel updates, artifact-engine testing, and portal-schema validation on every commit. Enables hourly neurological sleep-cycle worker cycles (model retraining, reciprocity audits)..",
+        "relationshipNote": "GitHub hosts LIMEN Helix's source code, manages version control, and runs CI/CD pipelines for auto-deployment to Vercel. GitHub Actions orchestrates kernel updates, artifact-engine testing, and portal-schema validation on every commit. Enables hourly neurological sleep-cycle worker cycles (model retraining, reciprocity audits).",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -236,7 +236,7 @@
         "neuralRole": "Sensory",
         "brainNodeId": "THAL",
         "brainNodeRole": "SEC EDGAR Data Ingest & Lake Storage",
-        "relationshipNote": "AWS S3 + Lambda ingest SEC EDGAR filings (10-K, 10-Q, 8-K) in real-time via SEC's XBRL feed. Data lake stores 275+ company portals in v2.0.1 schema; Athena queries enable risk-factor extraction and counterparty-network topology updates. AWS Glue ETL pipelines normalize EDGAR data for kernel ingestion..",
+        "relationshipNote": "AWS S3 + Lambda ingest SEC EDGAR filings (10-K, 10-Q, 8-K) in real-time via SEC's XBRL feed. Data lake stores 275+ company portals in v2.0.1 schema; Athena queries enable risk-factor extraction and counterparty-network topology updates. AWS Glue ETL pipelines normalize EDGAR data for kernel ingestion.",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -264,7 +264,7 @@
         "neuralRole": "Sensory",
         "brainNodeId": "THAL",
         "brainNodeRole": "Institutional Market Data & Sales Channel",
-        "relationshipNote": "Bloomberg terminal data (credit spreads, equity volatility, sector indices, counterparty CDS) feeds LIMEN Helix's state-estimation layer for real-time phase scoring. Bloomberg is also a primary sales channel: LIMEN Helix licenses distress kernel + portal data to Bloomberg's institutional clients (asset managers, hedge funds, insurance companies)..",
+        "relationshipNote": "Bloomberg terminal data (credit spreads, equity volatility, sector indices, counterparty CDS) feeds LIMEN Helix's state-estimation layer for real-time phase scoring. Bloomberg is also a primary sales channel: LIMEN Helix licenses distress kernel + portal data to Bloomberg's institutional clients (asset managers, hedge funds, insurance companies).",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -278,7 +278,7 @@
         "neuralRole": "Motor",
         "brainNodeId": "M1",
         "brainNodeRole": "Visualization & Dashboard Delivery",
-        "relationshipNote": "Tableau + Plotly visualization libraries render LIMEN Helix's 275+ fractal portals and real-time distress dashboards for financial-services institutions and federal/state economic-development agencies. Tableau Server hosts interactive phase-kernel scorecards, counterparty-network topology maps, and artifact-readiness alerts. Enables drill-down from cohort-level risk to entity-level phase transitions..",
+        "relationshipNote": "Tableau + Plotly visualization libraries render LIMEN Helix's 275+ fractal portals and real-time distress dashboards for financial-services institutions and federal/state economic-development agencies. Tableau Server hosts interactive phase-kernel scorecards, counterparty-network topology maps, and artifact-readiness alerts. Enables drill-down from cohort-level risk to entity-level phase transitions.",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -294,7 +294,7 @@
         "neuralRole": "Motor",
         "brainNodeId": "M1",
         "brainNodeRole": "API Gateway & Content Delivery",
-        "relationshipNote": "Vercel's edge network delivers API responses (distress scores, portal JSON, artifact payloads) to financial-services clients with <50ms latency globally. Handles rate-limiting, authentication, and request routing for 4 customer segments (institutions, family offices, RIAs, policy makers). Edge functions enable real-time data transformation (e.g., phase-score normalization per client risk appetite)..",
+        "relationshipNote": "Vercel's edge network delivers API responses (distress scores, portal JSON, artifact payloads) to financial-services clients with <50ms latency globally. Handles rate-limiting, authentication, and request routing for 4 customer segments (institutions, family offices, RIAs, policy makers). Edge functions enable real-time data transformation (e.g., phase-score normalization per client risk appetite).",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -308,7 +308,7 @@
         "neuralRole": "Motor",
         "brainNodeId": "M1",
         "brainNodeRole": "Portal & Artifact Distribution",
-        "relationshipNote": "CloudFront caches and distributes 275+ v2.0.1 fractal portals (HTML, JSON, PDF artifacts) to end-users (financial-services institutions, family offices, policy makers). Enables 99.99% uptime SLA for distress-kernel dashboards and artifact-download endpoints. Integrates with S3 origin for portal storage and Lambda for dynamic artifact generation..",
+        "relationshipNote": "CloudFront caches and distributes 275+ v2.0.1 fractal portals (HTML, JSON, PDF artifacts) to end-users (financial-services institutions, family offices, policy makers). Enables 99.99% uptime SLA for distress-kernel dashboards and artifact-download endpoints. Integrates with S3 origin for portal storage and Lambda for dynamic artifact generation.",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -322,7 +322,7 @@
         "neuralRole": "Motor",
         "brainNodeId": "M1",
         "brainNodeRole": "Alert Delivery & Notification",
-        "relationshipNote": "Twilio SMS + email APIs deliver real-time distress alerts to financial-services clients when tracked entities transition to P7+ phases or when artifact-generation workflows are triggered. Enables 24/7 monitoring for lender-distress, supplier-rupture, and cohort-drag signals. Integrates with Upstash pub/sub for event-driven notifications..",
+        "relationshipNote": "Twilio SMS + email APIs deliver real-time distress alerts to financial-services clients when tracked entities transition to P7+ phases or when artifact-generation workflows are triggered. Enables 24/7 monitoring for lender-distress, supplier-rupture, and cohort-drag signals. Integrates with Upstash pub/sub for event-driven notifications.",
         "confidence": "medium",
         "sourceType": [
           "inferred"
@@ -352,7 +352,7 @@
         "neuralRole": "Motor",
         "brainNodeId": "M1",
         "brainNodeRole": "Portfolio Risk Overlay & Allocation",
-        "relationshipNote": "Family offices and RIAs use LIMEN Helix's phase-conditioned scoring for portfolio-risk overlay and asset-allocation adjustments. Distress signals trigger rebalancing away from high-phase-risk sectors or counterparties. Estimated 15–25 family office / RIA clients; typical AUM per client $500M–$5B..",
+        "relationshipNote": "Family offices and RIAs use LIMEN Helix's phase-conditioned scoring for portfolio-risk overlay and asset-allocation adjustments. Distress signals trigger rebalancing away from high-phase-risk sectors or counterparties. Estimated 15–25 family office / RIA clients; typical AUM per client $500M–$5B.",
         "confidence": "medium",
         "sourceType": [
           "inferred"
@@ -366,7 +366,7 @@
         "neuralRole": "Salience",
         "brainNodeId": "dACC",
         "brainNodeRole": "Policy Early-Warning & Intervention",
-        "relationshipNote": "Federal agencies (Commerce, Labor, SBA, USDA) and state economic-development offices license LIMEN Helix's cohort-distress dashboards for industry-wide early-warning monitoring. Enables policy makers to detect sector-level stress (e.g., agricultural supplier concentration, manufacturing lender-distress cascades) 30–60 days before public bankruptcy filings..",
+        "relationshipNote": "Federal agencies (Commerce, Labor, SBA, USDA) and state economic-development offices license LIMEN Helix's cohort-distress dashboards for industry-wide early-warning monitoring. Enables policy makers to detect sector-level stress (e.g., agricultural supplier concentration, manufacturing lender-distress cascades) 30–60 days before public bankruptcy filings.",
         "confidence": "medium",
         "sourceType": [
           "inferred"
@@ -380,7 +380,7 @@
         "neuralRole": "Sensory",
         "brainNodeId": "THAL",
         "brainNodeRole": "Systemic-Risk Research & Publication",
-        "relationshipNote": "Academic and policy-research institutions (e.g., Brookings, NBER, university business schools) license LIMEN Helix's anonymized portal data and counterparty-propagation models for systemic-risk research. Enables peer-reviewed publications on distress cascades, supply-chain fragility, and lender-concentration effects..",
+        "relationshipNote": "Academic and policy-research institutions (e.g., Brookings, NBER, university business schools) license LIMEN Helix's anonymized portal data and counterparty-propagation models for systemic-risk research. Enables peer-reviewed publications on distress cascades, supply-chain fragility, and lender-concentration effects.",
         "confidence": "low",
         "sourceType": [
           "inferred"
@@ -396,7 +396,7 @@
         "neuralRole": "Peer",
         "brainNodeId": "TPJ",
         "brainNodeRole": "Traditional Credit Ratings & Risk Assessment",
-        "relationshipNote": "Moody's dominates institutional credit-rating and risk-assessment markets (Aaa–C scale, ~$3B annual revenue). LIMEN Helix differentiates via real-time phase-conditioned scoring (11-phase kernel, 3-minute rescoring) vs. Moody's quarterly/annual rating cycles. LIMEN's counterparty-propagation modeling (supplier rupture, lender distress, cohort drag) is not offered by Moody's. However, Moody's scale, brand, and regulatory moat (SEC-recognized NRSRO status) remain formidable barriers..",
+        "relationshipNote": "Moody's dominates institutional credit-rating and risk-assessment markets (Aaa–C scale, ~$3B annual revenue). LIMEN Helix differentiates via real-time phase-conditioned scoring (11-phase kernel, 3-minute rescoring) vs. Moody's quarterly/annual rating cycles. LIMEN's counterparty-propagation modeling (supplier rupture, lender distress, cohort drag) is not offered by Moody's. However, Moody's scale, brand, and regulatory moat (SEC-recognized NRSRO status) remain formidable barriers.",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -410,7 +410,7 @@
         "neuralRole": "Peer",
         "brainNodeId": "TPJ",
         "brainNodeRole": "Credit Ratings, Market Intelligence, Data",
-        "relationshipNote": "S&P Global (ratings, Platts energy data, CapitalIQ, Market Intelligence) competes on credit ratings (BBB–D scale) and institutional data. S&P's CapitalIQ offers company-level risk metrics but lacks real-time phase-conditioned scoring and counterparty-propagation modeling. S&P's ~$8B annual revenue and NRSRO status provide scale advantage; LIMEN Helix targets niche (early-warning, artifact generation) where S&P has less penetration..",
+        "relationshipNote": "S&P Global (ratings, Platts energy data, CapitalIQ, Market Intelligence) competes on credit ratings (BBB–D scale) and institutional data. S&P's CapitalIQ offers company-level risk metrics but lacks real-time phase-conditioned scoring and counterparty-propagation modeling. S&P's ~$8B annual revenue and NRSRO status provide scale advantage; LIMEN Helix targets niche (early-warning, artifact generation) where S&P has less penetration.",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -424,7 +424,7 @@
         "neuralRole": "Peer",
         "brainNodeId": "TPJ",
         "brainNodeRole": "Data Integration, AI, Defense & Commercial Intelligence",
-        "relationshipNote": "Palantir Foundry + AIP (Artificial Intelligence Platform) offer data-integration and AI-driven analytics for defense and commercial clients. Palantir's strength is custom data-fusion and pattern-detection; LIMEN Helix's strength is pre-built, phase-conditioned distress kernel and artifact generation. Palantir's ~$2.2B revenue and government relationships (DoD, IC) position it as competitor for federal/state policy-maker segment..",
+        "relationshipNote": "Palantir Foundry + AIP (Artificial Intelligence Platform) offer data-integration and AI-driven analytics for defense and commercial clients. Palantir's strength is custom data-fusion and pattern-detection; LIMEN Helix's strength is pre-built, phase-conditioned distress kernel and artifact generation. Palantir's ~$2.2B revenue and government relationships (DoD, IC) position it as competitor for federal/state policy-maker segment.",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -438,7 +438,7 @@
         "neuralRole": "Peer",
         "brainNodeId": "TPJ",
         "brainNodeRole": "Institutional Data Terminal & Risk Analytics",
-        "relationshipNote": "Bloomberg terminal (~$24K/year per seat) dominates institutional market data and risk analytics. Bloomberg's credit-risk tools (CDS spreads, bond pricing, counterparty exposure) are industry standard. LIMEN Helix differentiates via phase-conditioned kernel and artifact generation; however, Bloomberg's installed base (200K+ terminals globally) and data breadth (equities, fixed income, commodities, FX) create formidable moat. LIMEN Helix positions as Bloomberg complement (distress early-warning layer) rather than replacement..",
+        "relationshipNote": "Bloomberg terminal (~$24K/year per seat) dominates institutional market data and risk analytics. Bloomberg's credit-risk tools (CDS spreads, bond pricing, counterparty exposure) are industry standard. LIMEN Helix differentiates via phase-conditioned kernel and artifact generation; however, Bloomberg's installed base (200K+ terminals globally) and data breadth (equities, fixed income, commodities, FX) create formidable moat. LIMEN Helix positions as Bloomberg complement (distress early-warning layer) rather than replacement.",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -452,7 +452,7 @@
         "neuralRole": "Peer",
         "brainNodeId": "TPJ",
         "brainNodeRole": "Insurance Risk Analytics & Data",
-        "relationshipNote": "Verisk (~$3.5B revenue) dominates insurance risk analytics (property, casualty, workers' comp). Verisk's strength is actuarial modeling and claims data; LIMEN Helix's strength is financial-distress prediction and counterparty-propagation modeling. Verisk competes for insurance-company clients seeking enterprise-risk management; LIMEN Helix targets broader financial-services segment (banks, asset managers, policy makers). Limited direct overlap; potential partnership opportunity..",
+        "relationshipNote": "Verisk (~$3.5B revenue) dominates insurance risk analytics (property, casualty, workers' comp). Verisk's strength is actuarial modeling and claims data; LIMEN Helix's strength is financial-distress prediction and counterparty-propagation modeling. Verisk competes for insurance-company clients seeking enterprise-risk management; LIMEN Helix targets broader financial-services segment (banks, asset managers, policy makers). Limited direct overlap; potential partnership opportunity.",
         "confidence": "medium",
         "sourceType": [
           "inferred"
@@ -468,7 +468,7 @@
         "neuralRole": "Salience",
         "brainNodeId": "dACC",
         "brainNodeRole": "Disclosure, Reporting, & Capital-Markets Oversight",
-        "relationshipNote": "SEC oversees LIMEN Helix's data sources (EDGAR filings, 10-K/10-Q/8-K disclosures) and potential future regulatory obligations if LIMEN goes public (10-K filing, Reg FD, insider-trading compliance). SEC also regulates LIMEN's financial-services institution clients (broker-dealers, investment advisers, hedge funds) who use distress-kernel data for investment decisions. LIMEN's artifact-generation engines (investment thesis, research brief) may trigger SEC research-report rules (Reg AC, Reg FD) if distributed to institutional clients..",
+        "relationshipNote": "SEC oversees LIMEN Helix's data sources (EDGAR filings, 10-K/10-Q/8-K disclosures) and potential future regulatory obligations if LIMEN goes public (10-K filing, Reg FD, insider-trading compliance). SEC also regulates LIMEN's financial-services institution clients (broker-dealers, investment advisers, hedge funds) who use distress-kernel data for investment decisions. LIMEN's artifact-generation engines (investment thesis, research brief) may trigger SEC research-report rules (Reg AC, Reg FD) if distributed to institutional clients.",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -482,7 +482,7 @@
         "neuralRole": "Salience",
         "brainNodeId": "dACC",
         "brainNodeRole": "Patent Prosecution & IP Protection",
-        "relationshipNote": "USPTO oversees LIMEN Helix's patent-artifact generation engine (37 CFR §§1.71-1.78, MPEP §608 compliance). LIMEN's engine generates patent applications for distressed companies seeking IP monetization or licensing. LIMEN itself may file patents on its 11-phase kernel, counterparty-propagation model, or artifact-generation algorithms..",
+        "relationshipNote": "USPTO oversees LIMEN Helix's patent-artifact generation engine (37 CFR §§1.71-1.78, MPEP §608 compliance). LIMEN's engine generates patent applications for distressed companies seeking IP monetization or licensing. LIMEN itself may file patents on its 11-phase kernel, counterparty-propagation model, or artifact-generation algorithms.",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -496,7 +496,7 @@
         "neuralRole": "Salience",
         "brainNodeId": "dACC",
         "brainNodeRole": "Federal Grant Compliance & Funding",
-        "relationshipNote": "NIH (SF-424 R&R) and NSF (PAPPG) oversee LIMEN Helix's federal-grant-artifact generation engine. LIMEN's engine generates compliant grant applications for distressed companies seeking R&D funding. LIMEN itself may pursue SBIR/STTR grants (NSF, NIH, USDA, DoD) to fund kernel development or artifact-engine expansion..",
+        "relationshipNote": "NIH (SF-424 R&R) and NSF (PAPPG) oversee LIMEN Helix's federal-grant-artifact generation engine. LIMEN's engine generates compliant grant applications for distressed companies seeking R&D funding. LIMEN itself may pursue SBIR/STTR grants (NSF, NIH, USDA, DoD) to fund kernel development or artifact-engine expansion.",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -510,7 +510,7 @@
         "neuralRole": "Salience",
         "brainNodeId": "dACC",
         "brainNodeRole": "SBA Loan Compliance & Small-Business Support",
-        "relationshipNote": "SBA (Office of Capital Access, SOP 50 10 7.1, Form 1919) oversees LIMEN Helix's SBA-7(a)-loan-artifact generation engine. LIMEN's engine generates compliant loan packages for distressed SMBs seeking SBA-guaranteed financing. LIMEN itself qualifies as SBA-eligible small business (likely <$7.5M revenue as of 2026); may pursue SBA loans for working capital or growth..",
+        "relationshipNote": "SBA (Office of Capital Access, SOP 50 10 7.1, Form 1919) oversees LIMEN Helix's SBA-7(a)-loan-artifact generation engine. LIMEN's engine generates compliant loan packages for distressed SMBs seeking SBA-guaranteed financing. LIMEN itself qualifies as SBA-eligible small business (likely <$7.5M revenue as of 2026); may pursue SBA loans for working capital or growth.",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -524,7 +524,7 @@
         "neuralRole": "Salience",
         "brainNodeId": "dACC",
         "brainNodeRole": "Franchise Disclosure & Consumer Protection",
-        "relationshipNote": "FTC (16 CFR Part 436, Item-by-Item FDD compliance) oversees LIMEN Helix's franchise-FDD-artifact generation engine. LIMEN's engine generates compliant Franchise Disclosure Documents for distressed companies seeking franchising as growth/exit strategy. FTC also oversees LIMEN's own data practices (privacy, consumer protection) if LIMEN collects personal data from end-users..",
+        "relationshipNote": "FTC (16 CFR Part 436, Item-by-Item FDD compliance) oversees LIMEN Helix's franchise-FDD-artifact generation engine. LIMEN's engine generates compliant Franchise Disclosure Documents for distressed companies seeking franchising as growth/exit strategy. FTC also oversees LIMEN's own data practices (privacy, consumer protection) if LIMEN collects personal data from end-users.",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -540,7 +540,7 @@
         "neuralRole": "Salience",
         "brainNodeId": "BLA",
         "brainNodeRole": "Financial Audit, Compliance, & Risk Assessment",
-        "relationshipNote": "Deloitte LLP provides financial audit, tax compliance, and risk-management advisory to LIMEN Helix. As a private Delaware LLC (formed 2024), LIMEN is not required to file audited financials; however, institutional investors and financial-services clients may require Deloitte audit or SOC 2 Type II attestation for data security and availability. Deloitte also advises on regulatory compliance (SEC, USPTO, NIH, SBA, FTC) and IP strategy..",
+        "relationshipNote": "Deloitte LLP provides financial audit, tax compliance, and risk-management advisory to LIMEN Helix. As a private Delaware LLC (formed 2024), LIMEN is not required to file audited financials; however, institutional investors and financial-services clients may require Deloitte audit or SOC 2 Type II attestation for data security and availability. Deloitte also advises on regulatory compliance (SEC, USPTO, NIH, SBA, FTC) and IP strategy.",
         "confidence": "medium",
         "sourceType": [
           "inferred"
@@ -556,7 +556,7 @@
         "neuralRole": "Limbic",
         "brainNodeId": "OFC",
         "brainNodeRole": "Early-Stage Capital & Strategic Guidance",
-        "relationshipNote": "LIMEN Helix was founded in 2024 with seed-stage capital from founder(s) and early-stage investors. Current cash position: $2.4M (as of 2026-05-21); 8-quarter runway at current burn rate. Seed investors likely include angel investors, micro-VCs, or founder's personal capital..",
+        "relationshipNote": "LIMEN Helix was founded in 2024 with seed-stage capital from founder(s) and early-stage investors. Current cash position: $2.4M (as of 2026-05-21); 8-quarter runway at current burn rate. Seed investors likely include angel investors, micro-VCs, or founder's personal capital.",
         "confidence": "medium",
         "sourceType": [
           "inferred"
@@ -570,7 +570,7 @@
         "neuralRole": "Limbic",
         "brainNodeId": "OFC",
         "brainNodeRole": "Growth Capital & Strategic Expansion",
-        "relationshipNote": "LIMEN Helix is likely seeking Series A / Series B funding (2026–2027) to scale kernel validation, expand artifact-engine capabilities, and build sales/marketing for financial-services institutions and policy-maker segments. Target raise: $5M–$15M to fund 18–24 months of growth and achieve 500+ portal production, 95%+ reciprocity, and 20+ institutional clients..",
+        "relationshipNote": "LIMEN Helix is likely seeking Series A / Series B funding (2026–2027) to scale kernel validation, expand artifact-engine capabilities, and build sales/marketing for financial-services institutions and policy-maker segments. Target raise: $5M–$15M to fund 18–24 months of growth and achieve 500+ portal production, 95%+ reciprocity, and 20+ institutional clients.",
         "confidence": "medium",
         "sourceType": [
           "inferred"
@@ -584,7 +584,7 @@
         "neuralRole": "Limbic",
         "brainNodeId": "OFC",
         "brainNodeRole": "Strategic Partnership & Acquisition Path",
-        "relationshipNote": "LIMEN Helix may attract strategic investment from Bloomberg, Palantir, Verisk, or S&P Global seeking to acquire distress-prediction and artifact-generation capabilities. Strategic investors would value LIMEN's 11-phase kernel, 275+ validated portals, and 91% reciprocity as differentiated IP. Potential acquisition price: $50M–$200M depending on institutional client count and revenue run-rate..",
+        "relationshipNote": "LIMEN Helix may attract strategic investment from Bloomberg, Palantir, Verisk, or S&P Global seeking to acquire distress-prediction and artifact-generation capabilities. Strategic investors would value LIMEN's 11-phase kernel, 275+ validated portals, and 91% reciprocity as differentiated IP. Potential acquisition price: $50M–$200M depending on institutional client count and revenue run-rate.",
         "confidence": "low",
         "sourceType": [
           "inferred"
@@ -601,7 +601,7 @@
         "neuralRole": "Limbic",
         "brainNodeId": "NAcc",
         "brainNodeRole": "Real-Time Phase Transition Monitoring",
-        "relationshipNote": "LIMEN Helix's 11-phase kernel rescores 275+ tracked entities every 3 minutes based on SEC EDGAR filings, FRED macroeconomic data, and Bloomberg institutional signals. Weekly aggregation shows phase-transition velocity (entities moving p0→p3, p7→p10) and cohort-drag signals (sector-wide distress acceleration). Institutional clients monitor weekly rescoring for portfolio-risk overlay and counterparty-exposure adjustments..",
+        "relationshipNote": "LIMEN Helix's 11-phase kernel rescores 275+ tracked entities every 3 minutes based on SEC EDGAR filings, FRED macroeconomic data, and Bloomberg institutional signals. Weekly aggregation shows phase-transition velocity (entities moving p0→p3, p7→p10) and cohort-drag signals (sector-wide distress acceleration). Institutional clients monitor weekly rescoring for portfolio-risk overlay and counterparty-exposure adjustments.",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -615,7 +615,7 @@
         "neuralRole": "Limbic",
         "brainNodeId": "OFC",
         "brainNodeRole": "Model Accuracy & Data Quality Assurance",
-        "relationshipNote": "LIMEN Helix conducts quarterly kernel validation: compare predicted phase transitions vs. realized outcomes (bankruptcy, covenant breach, M&A). Current baseline: 91% reciprocity across 275+ portals (Walmart pilot: 6/6 lanes validated). Quarterly audits measure portal-schema compliance, counterparty-network topology accuracy, and artifact-engine regulatory readiness. Results inform kernel reweighting and reciprocity-threshold adjustments..",
+        "relationshipNote": "LIMEN Helix conducts quarterly kernel validation: compare predicted phase transitions vs. realized outcomes (bankruptcy, covenant breach, M&A). Current baseline: 91% reciprocity across 275+ portals (Walmart pilot: 6/6 lanes validated). Quarterly audits measure portal-schema compliance, counterparty-network topology accuracy, and artifact-engine regulatory readiness. Results inform kernel reweighting and reciprocity-threshold adjustments.",
         "confidence": "high",
         "sourceType": [
           "inferred"
@@ -629,7 +629,7 @@
         "neuralRole": "Limbic",
         "brainNodeId": "NAcc",
         "brainNodeRole": "Revenue Growth & Market Penetration",
-        "relationshipNote": "LIMEN Helix tracks institutional client adoption (financial-services institutions, family offices, RIAs, policy makers) via API usage metrics: monthly active users, API request volume, portal downloads, artifact-generation requests. Current estimated client count: 8–12 institutions + 15–25 family offices/RIAs + 3–5 policy-maker agencies. Monthly recurring revenue (MRR) and annual contract value (ACV) are key growth signals..",
+        "relationshipNote": "LIMEN Helix tracks institutional client adoption (financial-services institutions, family offices, RIAs, policy makers) via API usage metrics: monthly active users, API request volume, portal downloads, artifact-generation requests. Current estimated client count: 8–12 institutions + 15–25 family offices/RIAs + 3–5 policy-maker agencies. Monthly recurring revenue (MRR) and annual contract value (ACV) are key growth signals.",
         "confidence": "medium",
         "sourceType": [
           "inferred"

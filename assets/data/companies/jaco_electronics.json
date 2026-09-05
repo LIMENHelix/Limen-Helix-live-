@@ -169,7 +169,7 @@
         "neuralRole": "Sensory",
         "brainNodeId": "S1",
         "brainNodeRole": "Raw Materials & Substrate Supply",
-        "relationshipNote": "Ventec supplies specialty PCB laminates (high-Tg, low-loss) for Jaco's aerospace and industrial-grade PCBA lines. Jaco sources 25–30% of substrate volume from Ventec, with pricing locked via 12-month supply agreements. Ventec's 2024 capacity expansion in Taiwan targets 15% volume growth; Jaco has secured allocation guarantees for Mexico facility expansion..",
+        "relationshipNote": "Ventec supplies specialty PCB laminates (high-Tg, low-loss) for Jaco's aerospace and industrial-grade PCBA lines. Jaco sources 25–30% of substrate volume from Ventec, with pricing locked via 12-month supply agreements. Ventec's 2024 capacity expansion in Taiwan targets 15% volume growth; Jaco has secured allocation guarantees for Mexico facility expansion.",
         "confidence": "medium",
         "sourceType": [
           "industry-report",
@@ -353,7 +353,7 @@
         "neuralRole": "DMN",
         "brainNodeId": "NAcc",
         "brainNodeRole": "Tier-1 Customer & Strategic Partner",
-        "relationshipNote": "Sanmina is Jaco's second-largest customer, representing 15–20% of revenue. Jaco supplies PCBA and electromechanical subassemblies for Sanmina's industrial automation, networking, and aerospace programs. Relationship established 2015; Sanmina's 2023 nearshoring strategy increased Jaco orders by 22% (vs 2022). Sanmina's aerospace-certified programs (AS9100) drive 18–22% gross margins (vs 16–18% consumer electronics)..",
+        "relationshipNote": "Sanmina is Jaco's second-largest customer, representing 15–20% of revenue. Jaco supplies PCBA and electromechanical subassemblies for Sanmina's industrial automation, networking, and aerospace programs. Relationship established 2015; Sanmina's 2023 nearshoring strategy increased Jaco orders by 22% (vs 2022). Sanmina's aerospace-certified programs (AS9100) drive 18–22% gross margins (vs 16–18% consumer electronics).",
         "confidence": "high",
         "sourceType": [
           "industry-report",
@@ -368,7 +368,7 @@
         "neuralRole": "DMN",
         "brainNodeId": "NAcc",
         "brainNodeRole": "Direct OEM Customer",
-        "relationshipNote": "Cisco sources networking equipment PCBA subassemblies from Jaco via Flex and Sanmina (indirect channels) and direct orders for specialty high-reliability products. Cisco's 2023 supply-chain diversification away from China increased Jaco's indirect volume by 12–15%. Cisco's nearshoring strategy targets 30% Mexico-sourced content by 2025; Jaco positioned to capture 5–8% of incremental volume..",
+        "relationshipNote": "Cisco sources networking equipment PCBA subassemblies from Jaco via Flex and Sanmina (indirect channels) and direct orders for specialty high-reliability products. Cisco's 2023 supply-chain diversification away from China increased Jaco's indirect volume by 12–15%. Cisco's nearshoring strategy targets 30% Mexico-sourced content by 2025; Jaco positioned to capture 5–8% of incremental volume.",
         "confidence": "medium",
         "sourceType": [
           "industry-report",
@@ -601,7 +601,7 @@
         "neuralRole": "DMN",
         "brainNodeId": "mPFC",
         "brainNodeRole": "Ownership & Strategic Direction",
-        "relationshipNote": "Jaco's founders and management team retain 50–60% equity ownership (post-Flex investment). Founders' long-term commitment to nearshoring strategy and operational excellence drives Jaco's competitive positioning. Management team includes CEO with 25+ years manufacturing experience and CFO with supply-chain finance background..",
+        "relationshipNote": "Jaco's founders and management team retain 50–60% equity ownership (post-Flex investment). Founders' long-term commitment to nearshoring strategy and operational excellence drives Jaco's competitive positioning. Management team includes CEO with 25+ years manufacturing experience and CFO with supply-chain finance background.",
         "confidence": "low",
         "sourceType": [
           "inferred"
@@ -710,5 +710,54 @@
     ],
     "evaluatedAt": "2026-06-13T16:34:00.044Z",
     "patternsConsidered": 33
+  },
+  "kernelReadings": {
+    "k3": {
+      "schemaVersion": "k3-relational-topology/1.0",
+      "state": "RELATIONAL_MAP_OBSERVED",
+      "readingType": "relational_topology",
+      "phase": null,
+      "composite": null,
+      "alert": false,
+      "coverage": {
+        "relationshipCount": 33,
+        "categoryCount": 8,
+        "neuralRoleCount": 6,
+        "topologyTaggedCount": 33,
+        "topologyTaggedRate": 1,
+        "evidenceTaggedCount": 33,
+        "evidenceTaggedRate": 1,
+        "inferredRelationCount": 26,
+        "inferredRelationRate": 0.788,
+        "categories": [
+          "auditor",
+          "capitalProviders",
+          "competitors",
+          "customers",
+          "logisticsPartners",
+          "marketSignals",
+          "regulators",
+          "suppliers"
+        ],
+        "neuralRoles": [
+          "DMN",
+          "Limbic",
+          "Motor",
+          "Peer",
+          "Salience",
+          "Sensory"
+        ]
+      },
+      "sourceFingerprint": "e40dda8c91cb774cbfeef42e5e6de35ded34384a4228a1d25f5f6655b4c9c2ea",
+      "limitations": [
+        "INTERPRETIVE_ONLY",
+        "NOT_A_FINANCIAL_PHASE",
+        "NOT_OUTCOME_VALIDATED",
+        "SOURCE_CLAIMS_NOT_INDEPENDENTLY_VERIFIED"
+      ],
+      "kernelId": "k3-relational-kernel/1.0",
+      "lastScored": "2026-09-04T16:53:58.087Z"
+    },
+    "primary": "k3"
   }
 }
