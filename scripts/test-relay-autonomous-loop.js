@@ -4129,6 +4129,100 @@ function invoke(handler, req) {
   delete require.cache[require.resolve('../lib/relay-autonomy')];
   delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
 
+  // ── T66 ─────────────────────────────────────────────────────────────────
+  // THE REPRICE RUNS TWICE AND CHANGES NOTHING THE SECOND TIME.
+  //
+  // Everything published before the pricing fix was priced cost * (1 + m) on landed cost,
+  // which could not clear an $8 floor below $22.86 landed. This brings those onto the rule
+  // once. The danger in a bulk price rewrite is compounding: computed from the CURRENT
+  // price it would climb on every run. It is computed from the stored sourceCost and the
+  // live margin instead, so it is idempotent by construction rather than by luck.
+  console.log('T66: the reprice is idempotent, and never prices an unknown cost as zero');
+  var dbP66 = require.resolve('../lib/limen-db');
+  var stP66 = require.resolve('../lib/relay-store');
+  var cachedDb66 = require.cache[dbP66] ? require.cache[dbP66].exports : null;
+  var cachedSt66 = require.cache[stP66] ? require.cache[stP66].exports : null;
+  require.cache[dbP66] = { id: dbP66, filename: dbP66, loaded: true, exports: db };
+  require.cache[stP66] = { id: stP66, filename: stP66, loaded: true, exports: store };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../scripts/relay-reprice-listings.js')];
+  var reprice66 = require('../scripts/relay-reprice-listings.js').reprice;
+
+  await db.set('relay_margin', 0.35);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 40, dailyCeilingUsd: 5000,
+    minMarginUsd: 8, minMarginPct: 0.18, requireFunds: true,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+
+  async function seed66(title, price, cost, shipping) {
+    return store.createListing({
+      marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: title,
+      price: price, description: 'x', category: 'other', condition: 'new', quantity: 5,
+      sourceMarketplace: 'cj', sourceId: 'v66_' + title,
+      sourceUrl: 'https://www.cjdropshipping.com/product/-p-66' + title + '.html',
+      sourceCost: cost, sourceShipping: shipping, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+      marginAtListing: 0.35, sourceVerifiedAt: new Date().toISOString()
+    });
+  }
+  var cheap66 = await seed66('cheap', 11.50, 8.52, 2.80);      // the real case
+  var nullShip66 = await seed66('nullship', 19.99, 12.00, null); // cannot be costed
+  var overCap66 = await seed66('overcap', 60.00, 45.00, 9.00);   // gate refuses at any price
+
+  // A DRY RUN WRITES NOTHING.
+  var before66 = JSON.stringify(await store.getListing(cheap66.id));
+  var dry66 = await reprice66({ apply: false });
+  assert('the dry run reports the underpriced listing',
+    dry66.repriced.some(function (r) { return r.id === cheap66.id && r.to === 16.52; }),
+    JSON.stringify(dry66.repriced));
+  assert('and writes nothing at all',
+    JSON.stringify(await store.getListing(cheap66.id)) === before66, 'the listing changed during a DRY run');
+
+  // APPLY.
+  var run1 = await reprice66({ apply: true });
+  var after1 = await store.getListing(cheap66.id);
+  assert('applying prices the listing to the floor',
+    after1.price === 16.52, String(after1.price));
+  assert('and stamps the margin in force',
+    after1.marginAtListing === 0.35, String(after1.marginAtListing));
+
+  // IDEMPOTENCE: the whole store, not just one row.
+  var snapshot66 = JSON.stringify(await store.activeListings(500));
+  var run2 = await reprice66({ apply: true });
+  assert('a second apply changes NOTHING',
+    JSON.stringify(await store.activeListings(500)) === snapshot66,
+    'the catalogue moved on the second run');
+  assert('and the second run reports nothing left to reprice',
+    run2.repriced.length === 0, JSON.stringify(run2.repriced));
+  assert('while still recognising the listing as already correct',
+    run2.unchanged.some(function (r) { return r.id === cheap66.id; }), JSON.stringify(run2.unchanged));
+  var run3 = await reprice66({ apply: true });
+  assert('and a third run is still a no-op',
+    JSON.stringify(await store.activeListings(500)) === snapshot66 && run3.repriced.length === 0,
+    'the catalogue moved on the third run');
+
+  // A NULL COST IS NEVER A ZERO.
+  var nullAfter66 = await store.getListing(nullShip66.id);
+  assert('a listing with unknown freight is skipped, not priced',
+    nullAfter66.price === 19.99, String(nullAfter66.price));
+  assert('and it is named so a human knows it was left alone',
+    run1.skipped.some(function (r) { return r.id === nullShip66.id && /null|unknown/i.test(r.why); }),
+    JSON.stringify(run1.skipped));
+
+  // AN ITEM THAT CANNOT CLEAR THE GATE IS REPORTED, NOT DELISTED.
+  var overAfter66 = await store.getListing(overCap66.id);
+  assert('an unsellable listing is left live rather than pulled',
+    overAfter66.status === 'active' && overAfter66.price === 60.00,
+    JSON.stringify({ status: overAfter66.status, price: overAfter66.price }));
+  assert('and it is reported with the gate reason for a human to decide',
+    run1.unsellable.some(function (r) { return r.id === overCap66.id && /per-order cap/.test(r.reason); }),
+    JSON.stringify(run1.unsellable));
+
+  if (cachedDb66) require.cache[dbP66] = { id: dbP66, filename: dbP66, loaded: true, exports: cachedDb66 };
+  if (cachedSt66) require.cache[stP66] = { id: stP66, filename: stP66, loaded: true, exports: cachedSt66 };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../scripts/relay-reprice-listings.js')];
+
   // five escaped requests, caught by the hermetic check at the end of this file. Pinning to
   // the suite store also means the engine writes listings where the assertions look.
   var stP63 = require.resolve('../lib/relay-store');
