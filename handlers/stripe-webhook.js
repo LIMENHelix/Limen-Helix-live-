@@ -29,6 +29,7 @@ var catalog = require('../lib/offer-catalog');
 var motorStore = require('../lib/autofire-efference-store');
 var religionFulfillment = require('../lib/religion-revenue-fulfillment');
 var financeFulfillment = require('../lib/finance-revenue-fulfillment');
+var watchDelivery = require('../lib/watch-purchase-delivery');
 var leadPipeline = require('../lib/lead-pipeline-bridge');
 /* Books confirmed payments into the twenty-domain double-entry treasury. Deposit only:
    the sole receipt it can write moves money INTO a domain's pending bucket, and the ledger
@@ -147,8 +148,11 @@ function welcomeEmail(sub, offer, paidCents) {
       (offer ? (offer.name + '\n' + offer.line + '\n\n') : '') +
       watchLine +
       (offer && offer.cadence ? ('How often it moves: ' + offer.cadence + '\n\n') : '') +
-      'Your first briefing arrives on the next run. Every figure in it comes from the federal ' +
-      'source named beside it, and you can check any of them yourself at ' + SITE + '/' + sub.domain + '\n\n' +
+      'YOUR ACCESS\n' +
+      'Open your watch any time: ' + SITE + '/' + sub.domain + '\n' +
+      'The live tools on that page are yours to use. Paid delivery is this email and the briefings that follow.\n\n' +
+      'A first briefing is sent with this receipt when the source is up; otherwise the next run sends when the figures move. Every figure comes from the federal ' +
+      'source named beside it.\n\n' +
       'If a source has nothing new, we send nothing rather than padding it out.\n\n' +
       'To cancel, reply to this email and we will stop the subscription.\n'
   };
@@ -167,6 +171,8 @@ function renewalReceipt(sub, cents, invoiceUrl) {
       (sub.watch ? 'Watching: ' + sub.watch + '\n' : '') +
       '---------------\n\n' +
       (invoiceUrl ? ('Full invoice: ' + invoiceUrl + '\n\n') : '') +
+      'YOUR ACCESS\n' +
+      'Open your watch any time: ' + SITE + '/' + sub.domain + '\n\n' +
       'Nothing to do. Your briefings continue as normal.\n\n' +
       'To cancel, reply to this email and we will stop the subscription.\n'
   };
@@ -227,6 +233,26 @@ module.exports = async function handler(req, res) {
             subscriber: act.subscriber, message: welcomeEmail(act.subscriber, offer, obj.amount_total), now: Date.now() });
           out.welcomeSent = welcome.status === 'COMPLETED'; out.welcomeStatus = welcome.status;
           out.welcomeTaskId = welcome.taskId || null; out.welcomeReason = welcome.reason || null;
+          // Motor HOLD is common (stale brain, immune veto). The customer still paid, so
+          // send receipt + access + best-effort briefing without waiting on cognition.
+          if (welcome.status !== 'COMPLETED') {
+            try {
+              var welcomeDelivery = await watchDelivery.deliver({
+                eventId: evt.id, kind: 'welcome', subscriber: act.subscriber,
+                offer: offer, paidCents: obj.amount_total
+              });
+              out.deliverySent = welcomeDelivery.sent === true;
+              out.deliveryStatus = welcomeDelivery.status;
+              out.deliveryReason = welcomeDelivery.reason || null;
+            } catch (e) {
+              out.deliverySent = false;
+              out.deliveryStatus = 'FAILED';
+              out.deliveryReason = (e && e.message) || 'delivery-error';
+            }
+          } else {
+            out.deliverySent = false;
+            out.deliveryStatus = 'MOTOR';
+          }
         }
       }
       /**
@@ -273,6 +299,24 @@ module.exports = async function handler(req, res) {
             message: renewalReceipt(who, obj.amount_paid != null ? obj.amount_paid : obj.total, obj.hosted_invoice_url), now: Date.now() });
           out.receiptSent = renewal.status === 'COMPLETED'; out.receiptStatus = renewal.status;
           out.receiptTaskId = renewal.taskId || null; out.receiptReason = renewal.reason || null;
+          if (renewal.status !== 'COMPLETED') {
+            try {
+              var renewalDelivery = await watchDelivery.deliver({
+                eventId: evt.id, kind: 'renewal', subscriber: who,
+                paidCents: obj.amount_paid != null ? obj.amount_paid : obj.total
+              });
+              out.deliverySent = renewalDelivery.sent === true;
+              out.deliveryStatus = renewalDelivery.status;
+              out.deliveryReason = renewalDelivery.reason || null;
+            } catch (e) {
+              out.deliverySent = false;
+              out.deliveryStatus = 'FAILED';
+              out.deliveryReason = (e && e.message) || 'delivery-error';
+            }
+          } else {
+            out.deliverySent = false;
+            out.deliveryStatus = 'MOTOR';
+          }
           await recordSubscriptionRevenue(who.domain, obj.amount_paid || 0, false);
         } else {
           out.receiptSent = false;

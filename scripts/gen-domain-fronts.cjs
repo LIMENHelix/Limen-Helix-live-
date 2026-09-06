@@ -131,7 +131,7 @@ const routes = Object.keys(CONFIG);
 const written = [];
 for (const route of routes) {
   const c = CONFIG[route];
-  const out = head(route, c) + bodyMarkup + '\n<script src="/assets/js/domain-front-app.js"></script>\n</body>\n</html>\n';
+  const out = head(route, c) + bodyMarkup + '\n<script src="/assets/js/watch-purchase-access.js"></script>\n<script src="/assets/js/domain-front-app.js"></script>\n</body>\n</html>\n';
   fs.writeFileSync(path.join(ROOT, route + '.html'), out);
   written.push({ route, bytes: out.length, title: c.name });
 }
