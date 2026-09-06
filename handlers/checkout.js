@@ -3,6 +3,7 @@
  *
  *   POST /api/checkout  { domain, rung, email? }   → { ok, url }   (redirect the buyer there)
  *   GET  /api/checkout                             → { ok, enabled, rungs }  (is buying live?)
+ *   GET  /api/checkout?start=1&domain=&rung=       → 303 to Stripe Checkout (Watch-page CTA)
  *
  * THE PRICE IS NEVER TAKEN FROM THE REQUEST. The body names a domain and a rung; the amount
  * is looked up in lib/offer-catalog.js on the server. A tampered client can therefore ask for
@@ -46,7 +47,8 @@ var WATCH_PROMPT = {
   industry:     'Which products or plants should we watch?',
   energy:       'Which utility or state?',
   infrastructure: 'Which airport, corridor or facility?',
-  communication:  'Which proceeding, licence or band?'
+  communication:  'Which proceeding, licence or band?',
+  culture:        'Which platforms or genres should we watch?'
 };
 
 function send(res, obj, code) {
@@ -68,6 +70,26 @@ function readBody(req) {
 
 function validEmail(e) { return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e || ''); }
 
+function queryOf(req) {
+  if (req.query && typeof req.query === 'object' && !Array.isArray(req.query)) return req.query;
+  try {
+    var u = new URL(req.url, 'http://localhost');
+    var out = {};
+    u.searchParams.forEach(function (v, k) { out[k] = v; });
+    return out;
+  } catch (e) { return {}; }
+}
+
+function preferRung(domain, requested) {
+  var rung = String(requested || '').toLowerCase().trim();
+  if (rung && catalog.lookup(domain, rung)) return rung;
+  var pref = ['p2', 'p1', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9', 'p10'];
+  for (var i = 0; i < pref.length; i++) {
+    if (catalog.lookup(domain, pref[i])) return pref[i];
+  }
+  return null;
+}
+
 // Record that someone started checkout. Best effort: a storage failure must never block a
 // purchase, because losing the sale is worse than losing the analytics row.
 async function recordIntent(rec) {
@@ -82,34 +104,41 @@ async function recordIntent(rec) {
 module.exports = async function handler(req, res) {
   try {
     if ((req.method || 'GET') === 'GET') {
-      var rungs = [];
-      catalog.domains().forEach(function (d) {
-        ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9', 'p10'].forEach(function (r) {
-          var o = catalog.lookup(d, r);
-          if (o) rungs.push({ domain: d, rung: r, name: o.name, priceCents: o.priceCents, cadence: o.cadence });
+      var q = queryOf(req);
+      // A Watch-page CTA can be a real link: /api/checkout?start=1&domain=religion&rung=p2
+      // Without start=1 this stays the catalog probe (enabled/mode/rungs).
+      if (String(q.start || '') === '1') {
+        req._checkoutFromQuery = q;
+      } else {
+        var rungs = [];
+        catalog.domains().forEach(function (d) {
+          ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9', 'p10'].forEach(function (r) {
+            var o = catalog.lookup(d, r);
+            if (o) rungs.push({ domain: d, rung: r, name: o.name, priceCents: o.priceCents, cadence: o.cadence });
+          });
         });
-      });
-      return send(res, {
-        ok: true,
-        enabled: stripe.hasKey(),
-        // test vs live, derived from the key PREFIX. Never returns the key itself. This is
-        // the only safe way to answer "can this take real money right now?" since Vercel
-        // will not read a sensitive value back.
-        mode: stripe.keyMode(),
-        keys: stripe.keyModes(),
-        reason: stripe.hasKey() ? null : 'Payments are not enabled yet: STRIPE_SECRET_KEY is not set on this deployment.',
-        count: rungs.length,
-        rungs: rungs
-      });
+        return send(res, {
+          ok: true,
+          enabled: stripe.hasKey(),
+          // test vs live, derived from the key PREFIX. Never returns the key itself. This is
+          // the only safe way to answer "can this take real money right now?" since Vercel
+          // will not read a sensitive value back.
+          mode: stripe.keyMode(),
+          keys: stripe.keyModes(),
+          reason: stripe.hasKey() ? null : 'Payments are not enabled yet: STRIPE_SECRET_KEY is not set on this deployment.',
+          count: rungs.length,
+          rungs: rungs
+        });
+      }
+    } else if (req.method !== 'POST') {
+      return send(res, { ok: false, error: 'POST or GET only' }, 405);
     }
 
-    if (req.method !== 'POST') return send(res, { ok: false, error: 'POST or GET only' }, 405);
-
-    var body = await readBody(req);
+    var body = req._checkoutFromQuery || await readBody(req);
     var domain = String(body.domain || '').toLowerCase().trim();
-    var rung = String(body.rung || '').toLowerCase().trim();
+    var rung = preferRung(domain, body.rung);
 
-    var offer = catalog.lookup(domain, rung);
+    var offer = rung ? catalog.lookup(domain, rung) : null;
     if (!offer) return send(res, { ok: false, error: 'That is not a plan we sell.' }, 400);
 
     if (!stripe.hasKey()) {
@@ -156,6 +185,13 @@ module.exports = async function handler(req, res) {
           email: email, domain: domain, rung: rung, source: 'stripe-checkout-start', consent: body.consent === true,
           note: offer.name, recordAcquisition: true });
       } catch (e) {}
+    }
+
+    if (req._checkoutFromQuery) {
+      res.statusCode = 303;
+      res.setHeader('Location', session.url);
+      res.setHeader('Cache-Control', 'no-store');
+      return res.end();
     }
 
     return send(res, { ok: true, url: session.url, priceCents: offer.priceCents, name: offer.name });
