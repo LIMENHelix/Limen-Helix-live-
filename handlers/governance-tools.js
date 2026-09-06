@@ -3,6 +3,10 @@
  *
  *   GET /api/governance-tools                 → top federal contractors nationwide
  *   GET /api/governance-tools?tool=state&st=MO → who collected federal contract money in that state
+ *   GET /api/governance-tools?tool=entity&q=  → recipient name as published
+ *   GET /api/governance-tools?tool=uei&id=    → 12-character UEI
+ *   GET /api/governance-tools?tool=naics&code= → 2-to-6 digit NAICS
+ *   GET /api/governance-tools?tool=meter      → World Bank WGI (US)
  *
  * Why this: "how a bill becomes law" is civics an assistant already recites. What it cannot
  * tell you is which companies collected federal contract dollars in YOUR state this fiscal
@@ -117,9 +121,105 @@ async function byState(stRaw) {
   });
 }
 
+function entityNote(out) {
+  if (out && out.ok) {
+    out.note = (out.note || '') + ' Names and UEIs are shown as USAspending published them. Two similar names are not treated as the same company.';
+    out.resolution = 'as-published';
+  }
+  return out;
+}
+
+async function byEntity(qRaw) {
+  var q = T.cleanQuery(qRaw, 80);
+  if (q.length < 3) return { ok: false, reason: 'Enter at least three letters of the entity name.' };
+  return T.cachedQuery('governance:tool:entity:v1:' + T.slugKey(q), TTL, async function () {
+    var f = baseFilters();
+    f.recipient_search_text = [q];
+    var out = await query(f, q);
+    if (out.ok) out.query = q;
+    return entityNote(out);
+  });
+}
+
+async function byUei(ueiRaw) {
+  var uei = String(ueiRaw || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12);
+  if (uei.length !== 12) return { ok: false, reason: 'A UEI is twelve letters and numbers.' };
+  return T.cachedQuery('governance:tool:uei:v1:' + uei, TTL, async function () {
+    var f = baseFilters();
+    f.recipient_unique_ids = [uei];
+    var out = await query(f, 'UEI ' + uei);
+    if (out.ok) out.uei = uei;
+    return entityNote(out);
+  });
+}
+
+async function byNaics(codeRaw) {
+  var code = String(codeRaw || '').replace(/\D/g, '').slice(0, 6);
+  if (code.length < 2) return { ok: false, reason: 'Enter a 2-to-6 digit NAICS code.' };
+  return T.cachedQuery('governance:tool:naics:v1:' + code, TTL, async function () {
+    var f = baseFilters();
+    f.naics_codes = [code];
+    var out = await query(f, 'NAICS ' + code);
+    if (out.ok) out.naics = code;
+    return entityNote(out);
+  });
+}
+
+var WGI = [
+  { id: 'CC.EST', label: 'Control of Corruption' },
+  { id: 'RL.EST', label: 'Rule of Law' },
+  { id: 'RQ.EST', label: 'Regulatory Quality' },
+  { id: 'PV.EST', label: 'Political Stability' },
+  { id: 'VA.EST', label: 'Voice & Accountability' },
+  { id: 'GE.EST', label: 'Government Effectiveness' }
+];
+
+function wbLatest(body) {
+  if (!Array.isArray(body) || !Array.isArray(body[1]) || !body[1][0]) return null;
+  var row = body[1][0];
+  if (row.value == null || !isFinite(Number(row.value))) return null;
+  return {
+    value: Number(row.value),
+    date: row.date || null,
+    lastUpdated: body[0] && body[0].lastupdated || null
+  };
+}
+
+async function wgiMeter() {
+  var rows = [];
+  for (var i = 0; i < WGI.length; i++) {
+    var url = 'https://api.worldbank.org/v2/country/USA/indicator/' + WGI[i].id
+      + '?format=json&mrnev=1';
+    var r = await T.getJSON(url, 10000);
+    var latest = (r.status === 200) ? wbLatest(r.body) : null;
+    rows.push({
+      id: WGI[i].id,
+      label: WGI[i].label,
+      value: latest ? latest.value : null,
+      date: latest ? latest.date : null,
+      lastUpdated: latest ? latest.lastUpdated : null
+    });
+  }
+  var ok = rows.some(function (x) { return x.value != null; });
+  if (!ok) return { ok: false, reason: 'World Bank WGI did not return a usable US reading.' };
+  return {
+    ok: true,
+    country: 'United States',
+    rows: rows,
+    source: 'World Bank Worldwide Governance Indicators',
+    sourceUrl: 'https://www.worldbank.org/en/publication/worldwide-governance-indicators',
+    note: 'Estimate scores, roughly -2.5 to +2.5. Annual. Non-partisan institutional-quality readings, not a ranking of parties or candidates.',
+    asOf: rows.filter(function (x) { return x.date; }).map(function (x) { return x.date; }).sort().slice(-1)[0] || null
+  };
+}
+
 module.exports = async function handler(req, res) {
   var q = req.query || {};
   try {
+    if (q.tool === 'meter') return T.send(res, await T.cached('governance:tool:wgi:v1', 24 * 3600 * 1000, wgiMeter));
+    if (q.tool === 'entity' && q.q) return T.send(res, await byEntity(q.q));
+    if (q.tool === 'uei' && q.id) return T.send(res, await byUei(q.id));
+    if (q.tool === 'naics' && q.code) return T.send(res, await byNaics(q.code));
     if (q.tool === 'state' && q.st) return T.send(res, await byState(q.st));
     var out = await T.cached('governance:tool:national:v2', TTL, nationwide);
     out.states = STATES;
