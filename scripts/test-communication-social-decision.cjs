@@ -33,10 +33,11 @@ function brain(domain, now, options) {
     }
   } };
 }
-function candidate(now) {
-  return { subjectDomain: 'law', text: 'A source-backed fact.\nhttps://limenhelix.com/law',
-    sourceIdentity: { kind: 'limen-live-tool-response', value: 'https://limenhelix.com/api/law-tools',
-      subjectDomain: 'law', retrievedAt: new Date(now - 100).toISOString(), responseHash: 'a'.repeat(64) } };
+function candidate(now, domain) {
+  domain = domain || 'law';
+  return { subjectDomain: domain, text: 'A source-backed fact.\nhttps://limenhelix.com/' + domain,
+    sourceIdentity: { kind: 'limen-live-tool-response', value: 'https://limenhelix.com/api/' + domain + '-tools',
+      subjectDomain: domain, retrievedAt: new Date(now - 100).toISOString(), responseHash: 'a'.repeat(64) } };
 }
 
 (async function () {
@@ -72,5 +73,55 @@ function candidate(now) {
   held = await Decision.decide(new Store(), stale, now, { cognition: cognition });
   assert.equal(held.reason, 'communication-b10-candidate-refused');
 
-  console.log('communication social decision: exact live source, separate Communication and subject packets, B10 brake/selection, salience, strict receipt, and no-action paths passed');
+  var Override = require('../lib/communication-social-operator-override.js');
+  var economyBrake = {
+    communication: brain('communication', now, { holdReason: 'brake-dampen', emittedCount: 0 }),
+    economy: brain('economy', now)
+  };
+  var noOverride = await Decision.decide(new Store(), candidate(now, 'economy'), now, { cognition: economyBrake });
+  assert.equal(noOverride.status, 'NO_ACTION');
+  assert.equal(noOverride.reason, 'communication-b10-held');
+  assert(noOverride.blockers.includes('communication-b10-brake-held:brake-dampen'));
+  assert(noOverride.blockers.includes('communication-b10-no-action-selected'));
+
+  var otherDomain = await Decision.decide(new Store(), candidate(now, 'law'), now, {
+    cognition: { communication: economyBrake.communication, law: brain('law', now) },
+    allowOperatorOverride: true
+  });
+  assert.equal(otherDomain.status, 'NO_ACTION');
+  assert(otherDomain.blockers.includes('communication-b10-brake-held:brake-dampen'));
+
+  var overrideStore = new Store();
+  var minted = await Override.mint(overrideStore, {
+    subjectDomain: 'economy', operatorKeyClass: 'SOCIAL_CRON_KEY', now: now
+  });
+  assert.equal(minted.ok, true);
+  var releasedOnce = await Decision.decide(overrideStore, candidate(now, 'economy'), now, {
+    cognition: economyBrake, allowOperatorOverride: true
+  });
+  assert.equal(releasedOnce.status, 'RELEASED');
+  assert.equal(releasedOnce.released, true);
+  assert.equal(releasedOnce.subjectDomain, 'economy');
+  assert.equal(releasedOnce.operatorOverride.operatorKeyClass, 'SOCIAL_CRON_KEY');
+  assert.equal(releasedOnce.operatorOverride.decisionReceiptId, releasedOnce.decisionReceiptId);
+  assert(releasedOnce.selectionReasons.includes('operator-override-economy-b10-release'));
+  assert.equal((await overrideStore.get(Override.receiptKey('economy'))).status, 'CONSUMED');
+
+  var second = await Decision.decide(overrideStore, candidate(now, 'economy'), now, {
+    cognition: economyBrake, allowOperatorOverride: true
+  });
+  assert.equal(second.status, 'NO_ACTION');
+  assert(second.blockers.includes('communication-b10-brake-held:brake-dampen'));
+
+  var immuneHeld = await Decision.decide(new Store(), candidate(now, 'economy'), now, {
+    cognition: {
+      communication: brain('communication', now, { holdReason: 'brake-dampen', immune: 'veto' }),
+      economy: brain('economy', now)
+    },
+    allowOperatorOverride: true
+  });
+  assert.equal(immuneHeld.status, 'NO_ACTION');
+  assert(immuneHeld.blockers.includes('communication-immune-veto'));
+
+  console.log('communication social decision: exact live source, separate Communication and subject packets, B10 brake/selection, salience, strict receipt, no-action, and economy operator-override paths passed');
 })().catch(function (error) { console.error(error); process.exit(1); });
