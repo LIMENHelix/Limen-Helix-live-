@@ -50,8 +50,7 @@ ok('browser variants preserve P7a/P7b', browser && browser.variants.p7a.parent =
 var domainPages = [
   'agriculture.html', 'communication.html', 'defense.html', 'domain-front.html',
   'economy.html', 'environment.html', 'finance.html',
-  'governance.html', 'industry.html', 'infrastructure.html', 'intelligence.html',
-  'law.html', 'medicine.html', 'population.html', 'science.html',
+  'industry.html', 'infrastructure.html', 'medicine.html', 'science.html',
   'technology.html', 'trade.html'
 ];
 domainPages.forEach(function (page) {
@@ -61,10 +60,12 @@ domainPages.forEach(function (page) {
   ok(page + ' loads registry before offers', registryAt >= 0 && offersAt > registryAt);
 });
 
-// Soft desks are hand-owned product pages. They sell via /api/checkout?start=1
-// and do not load domain-offers.js, so the registry-before-offers order does
-// not apply. Absence of that pair is the contract, not a missing include.
-['religion.html', 'education.html'].forEach(function (page) {
+// Soft desks and Civic desks are hand-owned product pages. They sell via
+// /api/checkout?start=1 and do not load domain-offers.js, so the
+// registry-before-offers order does not apply. Absence of that pair is the
+// contract, not a missing include.
+['religion.html', 'education.html', 'intelligence.html', 'population.html',
+  'law.html', 'governance.html'].forEach(function (page) {
   var html = fs.readFileSync(path.join(__dirname, '..', page), 'utf8');
   ok(page + ' is a productized desk, not a domain-offers shell',
     html.indexOf('/assets/js/domain-offers.js') === -1 &&

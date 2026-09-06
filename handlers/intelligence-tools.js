@@ -1,8 +1,8 @@
 /**
  * api/intelligence-tools.js — Intelligence Watch tool: IS THIS NAME SANCTIONED?
  *
- *   GET /api/intelligence-tools                    → list size, programme breakdown
- *   GET /api/intelligence-tools?tool=sdn&q=<name>  → search the OFAC list
+ *   GET /api/intelligence-tools                    → list size, programme breakdown (the OFAC meter)
+ *   GET /api/intelligence-tools?tool=sdn&q=<name>  → entity / counterparty name search
  *
  * Why this: "threat briefings" are commentary. The Specially Designated Nationals list is the
  * opposite, a legally operative document: dealing with anyone on it is prohibited for US
