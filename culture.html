@@ -81,13 +81,22 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
 .capstat{margin-top:12px;font-size:13px;min-height:16px}
 .foot{text-align:center;color:var(--dim);font-size:12px;padding:30px 0 50px}
 .foot .pp{font-size:11px;margin-top:6px}
+.desk-banner{display:none;margin:16px 18px 0;padding:12px 14px;border-radius:8px;background:rgba(201,169,78,0.08);border:1px solid var(--line);font-size:14px}
+.desk-banner.ok{display:block;color:var(--emerald);border-color:rgba(90,181,160,0.4)}
+.desk-banner:not([hidden]){display:block}
 </style>
 </head>
 <body>
 <div class="top">
   <div class="brand"><b>LIMEN</b> CULTURE WATCH</div>
-  <div class="r"><a class="alt" href="/">limenhelix.com</a><button class="adminbtn" onclick="LimenAdminLogin.open()">Admin</button></div>
+  <div class="r">
+    <a class="alt" href="/news">Gazette</a>
+    <a class="alt" href="/">limenhelix.com</a>
+    <a class="adminbtn" id="watchCheckoutLink" href="/api/checkout?start=1&amp;domain=culture&amp;rung=p2">Watch · $4/mo</a>
+    <button class="adminbtn" onclick="LimenAdminLogin.open()">Admin</button>
+  </div>
 </div>
+<div class="desk-banner" id="deskBanner" hidden></div>
 
 <div class="wrap">
   <div class="hero">
@@ -103,7 +112,8 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
       <a href="/wave-radar">🌊 Wave Radar</a>
       <a href="#royalty">🎚 Royalty X-Ray</a>
       <a href="#sub">💸 Where your $10.99 goes</a>
-      <a href="#tools">🔭 Creative economy</a>
+      <a href="#watchCheckout">👁 Paid Watch</a>
+      <a href="/news">Gazette</a>
     </div>
   </div>
 
@@ -163,16 +173,16 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
     <div class="sub">LIMEN maps where money and attention move across culture — to research and to invest, never to chase grants.</div>
     <div class="tools">
       <a class="tool" href="/culture_portal"><h3>The engine behind this →</h3><p>How LIMEN reads culture as a living system — the signals, phases, and opportunities under the surface.</p></a>
-      <div class="tool"><div class="soon">Soon</div><h3>Creative-economy themes</h3><p>Streaming, live, gaming, publishing — grouped by what's actually moving them. Research &amp; investment angles, not advice.</p></div>
-      <div class="tool"><div class="soon">Soon</div><h3>Royalty split calculator</h3><p>Split a track's earnings fairly across writers, performers, and producers — and see each share over time.</p></div>
-      <div class="tool"><div class="soon">Soon</div><h3>Local culture map</h3><p>Independent venues, makers, and storefronts carrying culture on the ground — built from real signals.</p></div>
+      <a class="tool" href="/wave-radar"><h3>Wave Radar →</h3><p>Which sounds are emerging vs already peaking. Aim the next release at a wave still climbing.</p></a>
+      <a class="tool" href="/news"><h3>The Gazette →</h3><p>The written paper for culture and the other nineteen domains.</p></a>
+      <a class="tool" href="#watchCheckout"><h3>Royalty Watch →</h3><p>The X-Ray is one cut. The paid Watch re-cuts your mix each month.</p></a>
     </div>
   </div>
 
   <div class="card" id="watchCheckout">
-    <h2>Start this domain watch</h2>
-    <div class="sub">Live Stripe Checkout for Culture’s L1 royalty and audience watch. One system Stripe account; this SKU is scoped to culture only.</div>
-    <a class="btn btn-primary" id="watchCheckoutLink" href="/api/checkout?start=1&amp;domain=culture&amp;rung=p2">Subscribe via Stripe Checkout · $4 / mo</a>
+    <h2>Your Royalty and Audience Read</h2>
+    <div class="sub">The X-Ray is a one-time cut. The Watch re-cuts your mix each month as public rates and attention move, and emails you the gap. $4 / month. Helix checkout, culture rung only.</div>
+    <a class="btn btn-primary" href="/api/checkout?start=1&amp;domain=culture&amp;rung=p2">Start the Watch · $4 / mo</a>
   </div>
 
   <!-- JOIN -->
@@ -189,12 +199,13 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
   </div>
 
   <div class="foot">
-    Powered by <a href="/">LIMEN Helix</a> · Culture Watch &nbsp;·&nbsp; <a href="/culture_portal">⚙ The engine behind this →</a>
+    Powered by <a href="/">LIMEN Helix</a> · Culture Watch &nbsp;·&nbsp; <a href="/news">Gazette</a> &nbsp;·&nbsp; <a href="/culture_portal">⚙ The engine behind this →</a>
     <div class="pp">Informational only — not financial or professional advice. Per-stream figures are public 2024–25 estimates and vary by deal, country, and listener tier. Your readings are stored in your browser.</div>
   </div>
 </div>
 
 <script src="assets/js/limen-admin-login.js"></script>
+<script src="/assets/js/soft-desk.js"></script>
 <script>
 (function(){
   'use strict';
@@ -256,6 +267,7 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
     }
 
     h+='<div class="note">To clear <b>'+money(livingWage)+'/mo</b> at this rate you\'d need about <b>'+intc(streamsForLiving)+'</b> streams every month. That gap — not talent — is why most working artists also tour, teach, sell merch, and license. LIMEN tracks where the creative economy is actually paying.</div>';
+    h+='<div id="royaltyUpgrade" style="margin-top:16px"><a class="btn btn-primary" href="/api/checkout?start=1&amp;domain=culture&amp;rung=p2">Watch this mix each month · $4 / mo</a></div>';
 
     $('resultBody').innerHTML=h;
     $('result').style.display='block';
@@ -313,6 +325,7 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
     });
   })();
 
+  if (window.LIMEN_SOFT_DESK) window.LIMEN_SOFT_DESK.banner('deskBanner');
   $('analyze').addEventListener('click',compute);
   $('streams').addEventListener('keydown',function(e){if(e.key==='Enter')compute();});
   renderHist(); renderSub();

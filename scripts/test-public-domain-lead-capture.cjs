@@ -4,7 +4,7 @@ var assert = require('node:assert/strict');
 var fs = require('node:fs');
 var path = require('node:path');
 var root = path.resolve(__dirname, '..');
-var generated = ['economy','environment','medicine','technology','science','trade','governance','infrastructure','agriculture','industry','education','communication','defense','religion','population','law','finance','intelligence'];
+var generated = ['economy','environment','medicine','technology','science','trade','governance','infrastructure','agriculture','industry','communication','defense','population','law','finance','intelligence'];
 
 var app = fs.readFileSync(path.join(root, 'assets/js/domain-front-app.js'), 'utf8');
 assert.match(app, /name:\s*payload\.name/);
@@ -19,6 +19,13 @@ generated.forEach(function (domain) {
 
 var culture = fs.readFileSync(path.join(root, 'culture.html'), 'utf8');
 assert.match(culture, /id="cap-name"/); assert.match(culture, /domain:'culture'/); assert.match(culture, /tier:'watchlist'/);
+['religion', 'education'].forEach(function (domain) {
+  var html = fs.readFileSync(path.join(root, domain + '.html'), 'utf8');
+  assert.match(html, /id="cap-name"/, domain + ' desk needs a name field');
+  assert.match(html, /id="cap-email"/, domain + ' desk needs an email field');
+  assert.match(html, /assets\/js\/soft-desk\.js/, domain + ' must use the Soft desk capture helper');
+  assert.match(html, new RegExp("domain:\\s*'" + domain + "'"), domain + ' capture must name its own domain');
+});
 var energy = fs.readFileSync(path.join(root, 'energy.html'), 'utf8');
 assert.match(energy, /id="energyLeadName"/); assert.match(energy, /id="energyLeadEmail"/); assert.match(energy, /domain:\s*'energy'/); assert.match(energy, /tier:\s*'watchlist'/);
 

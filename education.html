@@ -1,321 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Education Watch · LIMEN Helix</title>
-<meta name="description" content="Funding, policy, and what is actually working in learning." />
-<link rel="canonical" href="https://limenhelix.com/education" />
-<meta name="robots" content="index,follow,max-image-preview:large" />
-<meta property="og:type" content="website" />
-<meta property="og:site_name" content="LIMEN Helix" />
-<meta property="og:locale" content="en_US" />
-<meta property="og:url" content="https://limenhelix.com/education" />
-<meta property="og:title" content="Education Watch · LIMEN Helix" />
-<meta property="og:description" content="Funding, policy, and what is actually working in learning." />
-<meta property="og:image" content="https://limenhelix.com/assets/img/education.jpg" />
-<meta property="og:image:alt" content="Education Watch" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Education Watch · LIMEN Helix" />
-<meta name="twitter:description" content="Funding, policy, and what is actually working in learning." />
-<meta name="twitter:image" content="https://limenhelix.com/assets/img/education.jpg" />
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Inter:wght@400;450;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/domain-front.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Education Watch · LIMEN Helix","description":"Funding, policy, and what is actually working in learning.","url":"https://limenhelix.com/education","inLanguage":"en-US","isPartOf":{"@type":"WebSite","name":"LIMEN Helix","url":"https://limenhelix.com"},"primaryImageOfPage":{"@type":"ImageObject","contentUrl":"https://limenhelix.com/assets/img/education.jpg"},"publisher":{"@type":"Organization","name":"LIMEN Helix Transformation Sciences","url":"https://limenhelix.com"},"about":{"@type":"Thing","name":"Education"},"keywords":"District funding tracker, Policy-change alerts, What-works library"}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Education Watch · Does this degree pay for itself?</title>
+<meta name="description" content="Free desk: completion, debt, and earnings for any U.S. college, from the College Scorecard. Then watch your shortlist on each federal release.">
+<link rel="canonical" href="https://limenhelix.com/education">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Does this degree pay for itself? — College Scorecard desk">
+<meta property="og:description" content="See what students actually borrow, earn, and finish. Free, no account. Watch your shortlist on each federal release.">
+<meta property="og:url" content="https://limenhelix.com/education">
+<meta property="og:image" content="https://limenhelix.com/assets/img/education.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a1220; --panel:#101a2c; --panel2:#162238; --line:rgba(126,179,232,0.16);
+  --accent:#7eb3e8; --ink:#e8eef6; --dim:#8a9bb0; --ok:#6faf8a; --bad:#d07a6a;
+  --copper:#d4a574; --amber:#d4b45a;
+}
+html,body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+.wrap{max-width:760px;margin:0 auto;padding:0 18px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line)}
+.brand{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--dim)}
+.brand b{color:var(--accent)}
+.top .r{display:flex;align-items:center;gap:14px}
+.top a.alt{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)}
+.top a.buy{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#0a1220;background:var(--accent);padding:6px 12px;border-radius:6px}
+.hero{position:relative;width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);min-height:clamp(320px,48vh,520px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:64px 24px 52px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(10,18,32,.55),rgba(10,18,32,.88)),url('/assets/img/education.jpg') center 40%/cover no-repeat}
+.hero > *{max-width:720px;width:100%}
+.kicker{font-size:11px;letter-spacing:3.5px;text-transform:uppercase;color:var(--accent)}
+.hero h1{font-size:clamp(26px,5vw,40px);line-height:1.15;margin:12px 0 10px;letter-spacing:-0.4px}
+.hero p{color:var(--dim);font-size:16px;max-width:560px;margin:0 auto}
+.promise{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.promise span{font-size:12px;color:var(--dim);background:rgba(16,26,44,.75);border:1px solid var(--line);border-radius:20px;padding:5px 12px}
+.hubnav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.hubnav a{font-size:13px;border:1px solid rgba(126,179,232,0.3);border-radius:20px;padding:7px 14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;margin:18px 0}
+.card h2{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.card .sub{color:var(--dim);font-size:13px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:1fr 104px;gap:12px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+label{display:block;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);margin-bottom:5px}
+input{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:7px;color:var(--ink);font:inherit;font-size:15px;padding:10px 12px;outline:none}
+input:focus{border-color:rgba(126,179,232,0.5)}
+.btn{font:inherit;font-size:15px;font-weight:600;cursor:pointer;border-radius:8px;padding:12px 18px;border:1px solid transparent}
+.btn-primary{background:var(--accent);color:#0a1220;width:100%;margin-top:16px;display:block;text-align:center}
+.btn-primary:hover{filter:brightness(1.06)}
+.desk-banner{display:none;margin:16px 18px 0;padding:12px 14px;border-radius:8px;background:rgba(126,179,232,0.08);border:1px solid var(--line);font-size:14px}
+.desk-banner.ok{display:block;color:var(--ok);border-color:rgba(111,175,138,0.4)}
+.desk-banner:not([hidden]){display:block}
+.agrow{display:grid;grid-template-columns:1fr 92px 88px;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.agrow:first-child{border-top:none}
+.nm{font-size:14px}.nm em{display:block;color:var(--dim);font-style:normal;font-size:12px;margin-top:3px}
+.agval{text-align:right;font-size:14px;font-weight:600}.agval em{display:block;color:var(--dim);font-style:normal;font-weight:400;font-size:11px}
+.note{font-size:13px;color:var(--dim);background:rgba(212,165,116,0.07);border-left:2px solid var(--copper);padding:9px 12px;margin-top:14px}
+.warn{font-size:13px;color:var(--ink);background:rgba(208,122,106,0.1);border-left:2px solid var(--bad);padding:9px 12px;margin-bottom:14px}
+.fail{color:var(--bad);font-size:14px;margin-top:10px}
+.capstat{margin-top:12px;font-size:13px;min-height:16px}
+.foot{text-align:center;color:var(--dim);font-size:12px;padding:30px 0 50px}
+html,body{overflow-x:clip;max-width:100%}
+</style>
 </head>
 <body>
-<script type="x-shader/x-fragment" id="fragEnv">
-precision highp float;
-uniform vec2 u_res; uniform float u_time; uniform vec3 u_color; uniform float u_chaos; uniform float u_pow; uniform float u_ship; uniform float u_twist;
-mat2 rot(float a){float c=cos(a),s=sin(a);return mat2(c,-s,s,c);}
-void main(){
-  vec2 uv=(gl_FragCoord.xy-0.5*u_res)/min(u_res.x,u_res.y);
-  float t=u_time*0.12;
-  uv*=(1.35+0.42*sin(u_time*0.13));
-  uv*=rot(t*0.25 + length(uv)*u_twist*2.2);
-  for(int i=0;i<4;i++){ uv=abs(uv)-(0.42-u_chaos*0.10); uv*=rot(0.38+0.16*sin(t+float(i))+u_chaos*0.55*sin(t*1.9+float(i)*2.1)); }
-  vec2 c=0.7885*vec2(cos(t*0.7),sin(t*0.93));
-  vec2 z=uv*1.55; float m=0.0; bool esc=false;
-  for(int i=0;i<110;i++){ z=mix(z,abs(z),u_ship); vec2 z2=vec2(z.x*z.x-z.y*z.y,2.0*z.x*z.y); vec2 z3=vec2(z2.x*z.x-z2.y*z.y,z2.x*z.y+z2.y*z.x); z=mix(z2,z3,u_pow)+c; float d=dot(z,z);
-    if(d>16.0){ m=float(i)-log2(log2(d))+4.0; esc=true; break; } }
-  float n=esc?clamp(m/110.0,0.0,1.0):1.0;
-  float core=exp(-3.2*n);
-  vec3 base=u_color;
-  float shade=pow(n,1.25);
-  vec3 col=base*(0.15+1.02*shade);
-  col=mix(col, col*(0.65+0.6*sin(n*9.0+length(z)*2.2+t*0.6)), 0.42);
-  col+=core*mix(base,vec3(1.0),0.6)*1.3;
-  col+=base*pow(1.0-n,4.5)*1.0;
-  col=clamp(mix(vec3(dot(col,vec3(0.299,0.587,0.114))), col, 1.30), 0.0, 1.4);
-  col+=vec3(1.0)*pow(max(0.0,sin(34.0*length(z)+u_time*2.6)),22.0)*0.15;
-  float vig=1.0-0.55*length((gl_FragCoord.xy/u_res)-0.5);
-  col*=clamp(vig,0.0,1.0); col=pow(col,vec3(0.86));
-  gl_FragColor=vec4(col,1.0);
-}
-</script>
-<script src="/assets/js/domain-guides.js"></script>
-<script src="/assets/js/source-links.js"></script>
-<script src="/assets/js/phase-registry.js"></script>
-<script src="/assets/js/domain-offers.js"></script>
-
-<canvas id="fractal"></canvas>
+<div class="top">
+  <div class="brand"><b>LIMEN</b> EDUCATION WATCH</div>
+  <div class="r">
+    <a class="alt" href="/news">Gazette</a>
+    <a class="alt" href="/">limenhelix.com</a>
+    <a class="buy" id="watchCheckoutLink" href="/api/checkout?start=1&amp;domain=education&amp;rung=p2">Watch · $4/mo</a>
+  </div>
+</div>
+<div class="desk-banner" id="deskBanner" hidden></div>
 
 <div class="wrap">
-  <div class="backrow"><a href="/">← LIMEN Helix</a></div>
-
-  <div class="hero" id="hero">
-    <div class="hero-bg" id="heroBg"></div>
-    <div class="hero-scrim"></div>
-    <div class="hero-inner">
-      <div class="emoji" id="emoji">◆</div>
-      <div class="eyebrow" id="eyebrow">LIMEN Helix · public watch</div>
-      <h1 id="title">Domain Watch</h1>
-      <p class="lead" id="lead">A free, plain-language watch on this domain.</p>
-      <form class="capture" id="capForm" onsubmit="return subscribe(event)">
-        <input type="text" id="capName" placeholder="your name" autocomplete="name" />
-        <input type="email" id="capEmail" placeholder="you@email.com" required />
-        <button type="submit" id="capBtn">Watch this</button>
-      </form>
-      <div class="cap-note" id="capNote">Free. We email you when this domain moves. No spam, unsubscribe anytime.</div>
+  <div class="hero">
+    <div class="kicker">Free · No account needed</div>
+    <h1>Does this degree pay for itself?</h1>
+    <p>Every college is sold as an investment. The Department of Education publishes what students actually borrow, what they earn a decade later, and how many finish. Those three numbers answer the brochure.</p>
+    <div class="promise">
+      <span>Finish rate first</span>
+      <span>Debt vs pay</span>
+      <span>Watch your shortlist</span>
     </div>
-    <div class="photocred" id="photocred" style="display:none"></div>
-  </div>
-
-  <div id="sections">
-    <div class="wow" id="wowBanner" style="display:none">
-      <div class="k">● the numbers behind the news</div>
-      <div class="fact" id="wowFact"></div>
-      <div class="dots" id="wowDots"></div>
-    </div>
-    <!-- WHERE AMERICA IS MOVING (population) -->
-    <section id="popSection" style="display:none">
-      <!-- CONTEXT telescope: the world (6) down to your street (1) -->
-      <div class="teleband">The view · the world down to your street</div>
-
-      <details class="rung" data-tier="6" open>
-        <summary><span class="tchip">6</span><span class="tscope">World</span><span class="thead" id="t6head">Reading World Bank…</span></summary>
-        <div class="rungbody">
-          <div class="sub">Global population and net migration per country (World Bank), plus people forced from home worldwide (UNHCR).</div>
-          <div id="worldStat" style="margin-bottom:14px"><div class="muted">Reading World Bank…</div></div>
-          <div class="mig-cols">
-            <div><div class="mig-h gain">Gaining most people</div><div id="wMigGain"></div></div>
-            <div><div class="mig-h lose">Losing most people</div><div id="wMigLose"></div></div>
-          </div>
-          <div id="dispTotal" style="margin:16px 0 8px"></div>
-          <div class="stats" id="dispTop"></div>
-          <div class="disc" id="wCite"></div>
-        </div>
-      </details>
-
-      <details class="rung" data-tier="5">
-        <summary><span class="tchip">5</span><span class="tscope">North America</span><span class="thead" id="t5head">Canada · United States · Mexico</span></summary>
-        <div class="rungbody">
-          <div class="sub">The Canada to U.S. to Mexico corridor: net migration across the three, and the trade and business that rides it. This is where nearshoring and cross-border money move.</div>
-          <div id="t5body"><div class="muted">Reading World Bank…</div></div>
-        </div>
-      </details>
-
-      <details class="rung" data-tier="4">
-        <summary><span class="tchip">4</span><span class="tscope">United States</span><span class="thead" id="t4head">Net domestic migration by state</span></summary>
-        <div class="rungbody">
-          <div class="sub">U.S. residents moving state to state (Census). Rate is per 1,000 residents; the gray figure is people per year.</div>
-          <div class="mig-cols">
-            <div><div class="mig-h gain">Gaining fastest</div><div id="popGainers"><div class="muted">Reading Census…</div></div></div>
-            <div><div class="mig-h lose">Losing fastest</div><div id="popLosers"></div></div>
-          </div>
-          <div style="margin-top:18px"><div class="mig-h gain">Top landing counties (150k+)</div><div class="stats" id="popLanding"></div></div>
-          <div class="disc" id="popCite"></div>
-        </div>
-      </details>
-
-      <details class="rung" data-tier="3" id="t3">
-        <summary><span class="tchip">3</span><span class="tscope">Your state</span><span class="thead" id="t3head">drop your ZIP to load</span></summary>
-        <div class="rungbody" id="t3body"><div class="muted">Drop your ZIP at the hinge below and your state's migration rank loads here.</div></div>
-      </details>
-
-      <details class="rung" data-tier="2" id="t2">
-        <summary><span class="tchip">2</span><span class="tscope">Your county</span><span class="thead" id="t2head">drop your ZIP to load</span></summary>
-        <div class="rungbody" id="t2body"><div class="muted">Drop your ZIP at the hinge below and your county's numbers load here.</div></div>
-      </details>
-
-      <details class="rung" data-tier="1" id="t1">
-        <summary><span class="tchip">1</span><span class="tscope">You</span><span class="thead" id="t1head">drop your ZIP to load</span></summary>
-        <div class="rungbody" id="t1body"><div class="muted">Drop your ZIP at the hinge below and your street's read loads here.</div></div>
-      </details>
-
-      <!-- THE HINGE -->
-      <div class="hinge">
-        <div class="hinge-k">⟐ your ZIP is the hinge ⟐</div>
-        <div class="hinge-sub">Everything above is the world's context. Everything below is what <b>you</b> can do about it, easiest money first.</div>
-        <form class="ziprow" id="popZipForm" onsubmit="return popLookupZip(event)">
-          <input id="popZipInput" inputmode="numeric" maxlength="5" placeholder="ZIP code" />
-          <button type="submit" id="popZipBtn">Drop my pin</button>
-        </form>
-        <div id="popLocalOut"></div>
-      </div>
-
-      <!-- OPPORTUNITY telescope: your street (1) out to the institutions (6) -->
-      <div class="teleband">The plays · your street out to the institutions · <b>we take the easy money first, then climb</b></div>
-
-      <details class="orung" data-tier="1" id="o1" open>
-        <summary><span class="tchip on">1</span><span class="tscope">You</span><span class="thead">Your home's trajectory</span><span class="frontier">● live frontier</span></summary>
-        <div class="rungbody" id="o1body"><div class="muted">Drop your ZIP above and this rung loads for your street.</div></div>
-      </details>
-
-      <details class="orung" data-tier="2" id="o2">
-        <summary><span class="tchip">2</span><span class="tscope">County</span><span class="thead">Distressed homes where people are pouring in</span></summary>
-        <div class="rungbody" id="o2body"><div class="muted">Drop your ZIP above to load your county play.</div></div>
-      </details>
-
-      <details class="orung" data-tier="3">
-        <summary><span class="tchip">3</span><span class="tscope">State</span><span class="thead">Buy-and-hold where the state is concentrating</span><span class="soon">opens as we climb</span></summary>
-        <div class="rungbody"><div class="sub">Rentals and multifamily in the metros a state is funneling people into. We're assembling the state rung; claim first access.</div><button class="oppbtn" onclick="captureOpp(event,3,'state buy-and-hold')">Get first access →</button></div>
-      </details>
-
-      <details class="orung" data-tier="4">
-        <summary><span class="tchip">4</span><span class="tscope">Country</span><span class="thead">The migration-arbitrage signal (funds &amp; iBuyers)</span><span class="soon">opens as we climb</span></summary>
-        <div class="rungbody"><div class="sub">The ranked county-by-county inflow signal, cross-referenced with distress, sold to institutional buyers. Inquire if you deploy capital at scale.</div><button class="oppbtn" onclick="captureOpp(event,4,'national migration signal')">Inquire →</button></div>
-      </details>
-
-      <details class="orung" data-tier="5">
-        <summary><span class="tchip">5</span><span class="tscope">Continent</span><span class="thead">The North America corridor: nearshoring, cross-border property, remittances</span><span class="soon">opens as we climb</span></summary>
-        <div class="rungbody"><div class="sub">Factories are moving from Asia to Mexico and the U.S. under USMCA, Americans are buying across the border, and hundreds of billions in remittances flow south every year. The Canada-to-Mexico corridor is the biggest business story on the continent. We assemble its migration, trade, and property signals for operators and investors.</div><button class="oppbtn" onclick="captureOpp(event,5,'North America corridor brief')">Get the corridor brief →</button></div>
-      </details>
-
-      <details class="orung" data-tier="6">
-        <summary><span class="tchip">6</span><span class="tscope">World</span><span class="thead">Global labor &amp; housing demand shift</span><span class="soon">opens as we climb</span></summary>
-        <div class="rungbody"><div class="sub">Where global migration will move labor and housing demand next. Institutional briefings.</div><button class="oppbtn" onclick="captureOpp(event,6,'global demand shift')">Inquire →</button></div>
-      </details>
-    </section>
-
-    <!-- GENERIC LIVE (any domain with its own <key>-live feed: economy, law, …) -->
-    <section id="liveSection" style="display:none">
-      <div class="card">
-        <h2><span class="livedot"></span> <span id="liveHeadline">Live read</span> <span class="updated" id="liveUpdated"></span></h2>
-        <div class="sub" id="liveSub"></div>
-        <div class="stats" id="liveStats"><div class="muted">Reading live data…</div></div>
-        <div class="disc" id="liveCite"></div>
-      </div>
-      <div id="liveSections"></div>
-      <div class="card" id="liveFeedCard" style="display:none">
-        <h2><span class="livedot"></span> The feed <span class="updated">live</span></h2>
-        <div class="sub" id="liveFeedSub">The latest, straight from the source. Fresh every few minutes.</div>
-        <div id="liveFeed"></div>
-      </div>
-      <div class="card" id="liveTodoCard" style="display:none">
-        <h2>What to do with this</h2>
-        <div class="sub">Turn the signal into a move.</div>
-        <div class="todo" id="liveTodo"></div>
-        <div class="disc">General information to help you act, not financial, legal, or emergency advice. For decisions with real stakes, confirm with a professional and with official sources.</div>
-      </div>
-    </section>
-
-    <!-- LIMEN read: current phase -->
-    <section id="phaseSection" style="display:none">
-      <div class="card">
-        <h2>Where the environment stands: the LIMEN Helix read</h2>
-        <div class="sub">LIMEN Helix reads every live feed below as one system and places it on a phase cycle. This is the phase it is in right now, and what that means.</div>
-        <div id="phaseBody"><div class="muted">Reading the system…</div></div>
-      </div>
-    </section>
-
-    <!-- LIVE GOVERNMENT ALERTS (environment) -->
-    <section id="govSection" style="display:none">
-      <div class="card">
-        <h2><span class="livedot"></span> Live alerts across the country <span class="updated" id="govUpdated"></span></h2>
-        <div class="sub">Every active federal watch, warning &amp; hazard right now, pulled straight from the National Weather Service, U.S. Drought Monitor and USGS. These numbers move minute to minute.</div>
-        <div id="govHead"></div>
-        <div class="stats" id="govStats"><div class="muted">Reading National Weather Service, Drought Monitor &amp; USGS…</div></div>
-
-        <div style="margin-top:22px">
-          <div style="font-weight:700;font-size:.95rem;margin-bottom:6px">Your area</div>
-          <div class="sub" style="margin-bottom:8px">Enter your ZIP for active local alerts, today's forecast, and your state's drought status.</div>
-          <form class="ziprow" id="zipForm" onsubmit="return lookupZip(event)">
-            <input id="zipInput" inputmode="numeric" maxlength="5" placeholder="ZIP code" />
-            <button type="submit" id="zipBtn">Check my area</button>
-          </form>
-          <div id="localOut"></div>
-        </div>
-        <div class="disc" id="govCite"></div>
-      </div>
-    </section>
-
-    <!-- PULSE (LIMEN's own read) -->
-    <section id="pulseSection">
-      <div class="card">
-        <h2 id="pulseTitle">Live pulse</h2>
-        <div class="sub">LIMEN's own cross-domain read of this system, from the feed network.</div>
-        <div id="pulse"><div class="muted">Reading the live feed…</div></div>
-      </div>
-    </section>
-
-    <!-- ACTION GUIDE -->
-    <section id="guideSection">
-      <div class="card" id="guideCard" style="display:none">
-        <h2>What to do right now <span class="nowtag" id="nowTag" style="display:none">live</span></h2>
-        <div class="whytrig" id="whyTrig" style="display:none"></div>
-        <div class="sub" id="guideWhen">n/a</div>
-        <div id="guideBody"></div>
-      </div>
-      <div class="card" id="toolsCard">
-        <h2>Free tools</h2>
-        <div class="sub">The watchlist above is live now. These are on the way for this domain.</div>
-        <div class="tools" id="tools"></div>
-      </div>
-    </section>
-
-    <!-- NEWS -->
-    <section id="newsSection" style="display:none">
-      <div class="card">
-        <h2><span class="livedot"></span> Latest news <span class="updated" id="newsUpdated"></span></h2>
-        <div class="sub">Headlines from across the web on heat, water, drought, air &amp; hazards, links go to the original source.</div>
-        <div class="news" id="news"><div class="muted">Loading headlines…</div></div>
-      </div>
-    </section>
-
-    <section id="checkoutSection">
-      <div class="card" id="watchCheckout">
-        <h2>Start this domain watch</h2>
-        <div class="sub">Live Stripe Checkout for this domain’s L1 briefing. The page names the domain and the rung; the price is looked up on the server.</div>
-        <a class="pbuy checkout-link" id="watchCheckoutLink" href="/api/checkout?start=1&amp;domain=education&amp;rung=p2">Subscribe via Stripe Checkout · $4 / mo</a>
-      </div>
-    </section>
-
-    <section id="pathSection">
-      <div class="card">
-        <h2>Go deeper: the phase path</h2>
-        <div class="sub">The live read is free. Everything past it follows the same P0 to P10 cycle LIMEN uses to read the world, each layer one step deeper into this domain. These are coming as we grow; add your email for early access.</div>
-        <div class="ladder" id="phaseLadder"></div>
-        <form class="capture" id="eaForm" style="margin:20px auto 0" onsubmit="return earlyAccess(event)">
-          <input type="text" id="eaName" placeholder="your name" autocomplete="name" />
-          <input type="email" id="eaEmail" placeholder="you@email.com" required />
-          <button type="submit" id="eaBtn">Get early access</button>
-        </form>
-        <div class="cap-note" id="eaNote"></div>
-      </div>
-    </section>
-  </div>
-
-  <div class="explore">
-    <div class="explore-k">Part of LIMEN Helix · a live read on 20 domains of civilization</div>
-    <div class="explore-links">
-      <a href="/environment">Environment</a>
-      <a href="/population">Population</a>
-      <a href="/energy">Energy</a>
-      <a href="/economy">Economy</a>
-      <a href="/finance">Finance</a>
-      <a href="/">All 20 domains →</a>
+    <div class="hubnav">
+      <a href="#eduDesk">Scorecard desk</a>
+      <a href="#watchCheckout">Paid Watch</a>
+      <a href="/news">Gazette</a>
+      <a href="/education_portal">The engine</a>
     </div>
   </div>
-  <footer>
-    A <b style="color:#cdd6e4">LIMEN Helix Transformation Sciences</b> public front · <a href="/">limenhelix.com</a><br>
-    Educational information, not professional, financial, or emergency advice. In an emergency, follow official local alerts.
-    <a id="adminLink" href="/admin-deals" title="Deal Desk (admin)" style="display:none;margin-left:.5em;opacity:.45;text-decoration:none;letter-spacing:.12em;font-size:.7em">· DESK</a>
-    <a id="homesteadLink" href="/admin-homestead" title="Homestead — state → county opportunities (admin)" style="display:none;margin-left:.5em;opacity:.45;text-decoration:none;letter-spacing:.12em;font-size:.7em">· HOMESTEAD</a>
-  </footer>
+
+  <div class="card" id="eduDesk">
+    <h2>College Scorecard desk</h2>
+    <div class="sub">Search any U.S. college. Source: U.S. Department of Education, College Scorecard. Not advice. Field of study moves earnings far more than the school does.</div>
+    <div id="eduVintage"></div>
+    <div class="grid">
+      <div><label for="eduQ">College or school name</label><input id="eduQ" type="text" placeholder="e.g. University of Missouri" autocomplete="off"></div>
+      <div><label for="eduSt">State</label><input id="eduSt" type="text" maxlength="2" placeholder="MO" style="text-transform:uppercase"></div>
+    </div>
+    <button class="btn btn-primary" id="eduGo" type="button">Read the Scorecard →</button>
+    <div id="eduOut"></div>
+    <div class="note"><b>How to read it.</b> <b>Finish</b> is the share who complete. Where it is low, most students take the debt and never receive the degree, and student debt is not dischargeable in bankruptcy. <b>Debt vs pay</b> is median borrowing divided by median earnings ten years after enrolling: at 1.00 a graduate owes a full year of income.</div>
+  </div>
+
+  <div class="card" id="watchCheckout">
+    <h2>Your Shortlist, Each Release</h2>
+    <div class="sub">The desk is one search. The Watch keeps the schools on your shortlist and re-cuts completion, debt, and earnings on each federal data release. $4 / month. Helix checkout, education rung only.</div>
+    <a class="btn btn-primary" href="/api/checkout?start=1&amp;domain=education&amp;rung=p2">Start the Watch · $4 / mo</a>
+  </div>
+
+  <div class="card">
+    <h2>Get the next release</h2>
+    <div class="sub">Free list. We email you when Scorecard updates, or when this desk moves. Unsubscribe anytime.</div>
+    <div><label for="cap-name">Name</label><input id="cap-name" type="text" placeholder="your name" maxlength="200" autocomplete="name"></div>
+    <div style="margin-top:10px"><label for="cap-email">Email</label><input id="cap-email" type="email" placeholder="you@example.com" maxlength="200"></div>
+    <label style="display:flex;gap:8px;align-items:flex-start;margin-top:10px;font-size:13px;color:var(--dim);text-transform:none;letter-spacing:0"><input type="checkbox" id="cap-consent" checked style="width:auto;margin-top:3px"> I agree to be contacted about LIMEN Education Watch.</label>
+    <button class="btn btn-primary" id="cap-btn" type="button">Notify me →</button>
+    <div class="capstat" id="capstat"></div>
+  </div>
+
+  <div class="foot">
+    Powered by <a href="/">LIMEN Helix</a> · Education Watch ·
+    <a href="/news">Gazette</a> ·
+    <a href="/education_portal">The engine behind this</a>
+    <div style="margin-top:8px">Informational only. Not admissions, financial, or career advice. Earnings count only students who received federal aid.</div>
+  </div>
 </div>
 
-<script src="/assets/js/domain-front-app.js"></script>
+<script src="/assets/js/soft-desk.js"></script>
+<script>
+(function () {
+  'use strict';
+  var D = window.LIMEN_SOFT_DESK;
+  var $ = function (id) { return document.getElementById(id); };
+  D.banner('deskBanner');
+  D.lead({ nameId: 'cap-name', emailId: 'cap-email', consentId: 'cap-consent', btnId: 'cap-btn', statId: 'capstat',
+    interest: 'education-watch', sourcePage: '/education', domain: 'education', tier: 'watchlist' });
+
+  function fail(msg) { return '<div class="fail"><b>Not available right now.</b> ' + D.esc(msg) + '</div>'; }
+  function upgrade() {
+    return '<div class="note" id="eduUpgrade">One search is a snapshot. The Watch keeps your shortlist and re-cuts it on each federal release.<br><a class="btn btn-primary" style="margin-top:12px" href="/api/checkout?start=1&amp;domain=education&amp;rung=p2">Watch this shortlist · $4 / mo</a></div>';
+  }
+
+  function rows(list) {
+    return list.map(function (s) {
+      var fin = s.completionRate;
+      var finPct = fin == null ? null : Math.round(fin * 100);
+      var finCol = finPct == null ? 'var(--dim)' : finPct < 35 ? 'var(--bad)' : finPct < 55 ? 'var(--amber)' : 'var(--ok)';
+      var de = s.debtToEarnings;
+      var deCol = de == null ? 'var(--dim)' : de >= 1 ? 'var(--bad)' : de >= 0.6 ? 'var(--amber)' : 'var(--ok)';
+      var facts = [];
+      if (s.medianDebt != null) facts.push('borrows ' + D.money(s.medianDebt, 0));
+      if (s.medianEarnings10yr != null) facts.push('earns ' + D.money(s.medianEarnings10yr, 0) + ' ten years on');
+      if (s.annualCost != null) facts.push(D.money(s.annualCost, 0) + '/yr sticker');
+      return '<div class="agrow"><div class="nm">' +
+        '<a href="' + D.esc(s.scorecardUrl) + '" target="_blank" rel="noopener">' + D.esc(s.name) + '</a>' +
+        (s.forProfit ? ' · for-profit' : '') +
+        '<em>' + D.esc([s.city, s.state].filter(Boolean).join(', ')) + (s.ownership ? ' · ' + D.esc(s.ownership) : '') + '</em>' +
+        '<em>' + D.esc(facts.join(' · ')) + '</em>' +
+        (finPct != null && finPct < 50 ? '<em style="color:var(--bad)">Only ' + finPct + ' of every 100 who start here finish.</em>' : '') +
+        '</div>' +
+        '<div class="agval" style="color:' + finCol + '">' + (finPct == null ? 'n/a' : finPct + '%') + '<em>finish</em></div>' +
+        '<div class="agval" style="color:' + deCol + '">' + (de == null ? 'n/a' : de.toFixed(2)) + '<em>debt vs pay</em></div></div>';
+    }).join('');
+  }
+
+  function run() {
+    var q = $('eduQ').value.trim(), st = ($('eduSt').value || '').trim(), out = $('eduOut');
+    if (q.length < 3) { out.innerHTML = '<div class="note">Enter at least three letters.</div>'; return; }
+    out.innerHTML = '<div class="note">Reading the Scorecard…</div>';
+    fetch('/api/education-tools?tool=school&q=' + encodeURIComponent(q) + (st ? '&state=' + encodeURIComponent(st) : ''))
+      .then(function (r) { return r.json(); }).then(function (j) {
+        if (!j.ok) { out.innerHTML = fail(j.reason); return; }
+        if (!j.rows.length) { out.innerHTML = '<div class="note">No school matches "' + D.esc(j.query) + '"' + (j.state ? ' in ' + D.esc(j.state) : '') + '.</div>'; return; }
+        var worst = j.rows.filter(function (s) { return s.completionRate != null && s.completionRate < 0.35; }).length;
+        var vin = $('eduVintage');
+        if (vin && j.vintage) vin.innerHTML = '<div class="warn"><b>Read this first.</b> ' + D.esc(j.vintage) + '</div>';
+        out.innerHTML = '<div class="note" style="color:var(--ink)"><b>' + j.found + ' match' + (j.found === 1 ? '' : 'es') + '</b>' +
+          (j.dataYear ? ', from the <b>' + j.dataYear + '</b> data release' : '') +
+          (worst ? ', <span style="color:var(--bad)">' + worst + ' where fewer than a third of students finish</span>' : '') + '.</div>' +
+          rows(j.rows) + upgrade();
+      }).catch(function () { out.innerHTML = fail('The Scorecard lookup did not respond.'); });
+  }
+
+  $('eduGo').addEventListener('click', run);
+  $('eduQ').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); run(); } });
+})();
+</script>
 </body>
 </html>
