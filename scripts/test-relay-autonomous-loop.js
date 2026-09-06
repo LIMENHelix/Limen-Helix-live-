@@ -4223,6 +4223,117 @@ function invoke(handler, req) {
   delete require.cache[require.resolve('../lib/relay-autonomy')];
   delete require.cache[require.resolve('../scripts/relay-reprice-listings.js')];
 
+  // ── T67 ─────────────────────────────────────────────────────────────────
+  // A FILED TASK REACHES A HUMAN, AND CANNOT BREAK THE TASK IF IT DOES NOT.
+  //
+  // The console shows manual tasks, but nobody is watching the console at 11pm, and a paid
+  // order waiting to be discovered is the failure the task exists to prevent. The mail is a
+  // convenience ON TOP of the durable record: a missing key, a missing address or a Resend
+  // outage must never turn a filed task into a failed one, because fulfilment would then
+  // report a line as unrecorded when it is in fact recorded.
+  console.log('T67: a manual task mails the operator, and never fails because of the mail');
+  var buyP67 = require.resolve('../lib/relay-buy');
+  var ntP67 = require.resolve('../lib/relay-notify');
+  var realBuy67 = require('../lib/relay-buy');
+  var realNt67 = require('../lib/relay-notify');
+  var SENT67 = [];
+  var FETCH67 = { ok: true, status: 200, throwIt: false };
+  var savedFetch67 = global.fetch;
+  global.fetch = async function (url, init) {
+    if (String(url).indexOf('api.resend.com') === -1) return savedFetch67(url, init);
+    if (FETCH67.throwIt) throw new Error('resend unreachable');
+    SENT67.push(JSON.parse(init.body));
+    return { ok: FETCH67.ok, status: FETCH67.status };
+  };
+  process.env.RESEND_API_KEY = 'test-key-67';
+  process.env.RELAY_NOTIFY_FROM = 'Relay <relay@limenhelix.com>';
+  process.env.RELAY_NOTIFY_TO = 'chrishubbel72@gmail.com';
+  delete require.cache[ntP67];
+  delete require.cache[buyP67];
+  var buy67 = require('../lib/relay-buy');
+
+  var job67 = {
+    orderId: 'rord_67', listingId: 'lst_67', sourceMarketplace: 'cj',
+    sourceUrl: 'https://www.cjdropshipping.com/product/-p-67.html',
+    sourceId: 'vid_67_darkgreen_xsmax', title: 'Silicone phone case - Dark green-XS Max',
+    maxCost: 23.07, quantity: 2,
+    shippingAddress: { name: 'A Buyer', line1: '1 Main St', line2: 'Apt 4',
+      city: 'Kansas City', state: 'MO', postalCode: '64111', country: 'US' },
+    decisionId: 'auth_67'
+  };
+
+  SENT67 = [];
+  var filed67 = await buy67.fileManualTask(job67, 'queued for approval: needs a human');
+  assert('the task is filed', filed67.ok === true && !!filed67.task.id, JSON.stringify(filed67).slice(0, 160));
+  assert('exactly one mail is sent', SENT67.length === 1, 'sent ' + SENT67.length);
+  assert('and it goes ONLY to the configured operator address',
+    SENT67.length === 1 && JSON.stringify(SENT67[0].to) === JSON.stringify(['chrishubbel72@gmail.com']),
+    JSON.stringify(SENT67[0] && SENT67[0].to));
+  var body67 = (SENT67[0] || {}).text || '';
+  assert('the mail carries the supplier URL',
+    body67.indexOf('cjdropshipping.com/product/-p-67.html') !== -1, body67.slice(0, 200));
+  assert('the VARIANT, without which a human orders the wrong one',
+    body67.indexOf('vid_67_darkgreen_xsmax') !== -1, body67.slice(0, 300));
+  assert('the quantity and the cost ceiling',
+    /quantity\s+2/.test(body67) && /\$23\.07/.test(body67), body67.slice(0, 400));
+  assert('the full shipping address, every line of it',
+    /A Buyer/.test(body67) && /1 Main St/.test(body67) && /Apt 4/.test(body67) &&
+    /Kansas City, MO, 64111/.test(body67) && /US/.test(body67), body67.slice(0, 500));
+  assert('and the ids needed to close it afterwards',
+    body67.indexOf(filed67.task.id) !== -1 && body67.indexOf('rord_67') !== -1, body67.slice(0, 500));
+
+  // THE FAILURE PATHS. Each one must leave the task filed and ok.
+  FETCH67 = { ok: false, status: 422, throwIt: false };
+  SENT67 = [];
+  var rejected67 = await buy67.fileManualTask(job67, 'queued: resend rejects it');
+  assert('a REJECTED send still files the task',
+    rejected67.ok === true && !!rejected67.task.id, JSON.stringify(rejected67).slice(0, 200));
+  assert('and reports that it was not sent, with the reason',
+    rejected67.notified && rejected67.notified.sent === false && /422|rejected/.test(rejected67.notified.reason || ''),
+    JSON.stringify(rejected67.notified));
+
+  FETCH67 = { ok: true, status: 200, throwIt: true };
+  var threw67 = await buy67.fileManualTask(job67, 'queued: resend unreachable');
+  assert('a THROWN send still files the task',
+    threw67.ok === true && !!threw67.task.id, JSON.stringify(threw67).slice(0, 200));
+  assert('and is reported rather than swallowed into silence',
+    threw67.notified && threw67.notified.sent === false && /unreachable|failed/.test(threw67.notified.reason || ''),
+    JSON.stringify(threw67.notified));
+
+  // NO CONFIG AT ALL: today's behaviour exactly, no send and no error.
+  FETCH67 = { ok: true, status: 200, throwIt: false };
+  var savedTo67 = process.env.RELAY_NOTIFY_TO;
+  delete process.env.RELAY_NOTIFY_TO;
+  SENT67 = [];
+  var unconf67 = await buy67.fileManualTask(job67, 'queued: nothing configured');
+  assert('with no recipient configured the task is still filed',
+    unconf67.ok === true && !!unconf67.task.id, JSON.stringify(unconf67).slice(0, 200));
+  assert('and nothing is sent at all',
+    SENT67.length === 0 && unconf67.notified.sent === false && /not configured/.test(unconf67.notified.reason),
+    JSON.stringify({ sent: SENT67.length, notified: unconf67.notified }));
+  process.env.RELAY_NOTIFY_TO = savedTo67;
+
+  // ONE TASK, ONE MAIL. Two tasks send two; filing once never sends twice.
+  SENT67 = [];
+  await buy67.fileManualTask(job67, 'first line');
+  assert('one task sends one mail', SENT67.length === 1, 'sent ' + SENT67.length);
+  await buy67.fileManualTask(Object.assign({}, job67, { listingId: 'lst_67b' }), 'second line');
+  assert('a second task sends a second mail, not a duplicate of the first',
+    SENT67.length === 2 && SENT67[0].text !== SENT67[1].text, 'sent ' + SENT67.length);
+
+  // The task RECORD carries the variant too, not only the mail: the console reads the task.
+  var lastTask67 = (await db.get('relay:fulfillment-tasks') || []).slice(-1)[0];
+  assert('the stored task records the variant and the title',
+    lastTask67 && lastTask67.sourceId === 'vid_67_darkgreen_xsmax' && /Dark green/.test(lastTask67.title || ''),
+    JSON.stringify(lastTask67 && { sourceId: lastTask67.sourceId, title: lastTask67.title }));
+
+  global.fetch = savedFetch67;
+  delete process.env.RESEND_API_KEY;
+  delete process.env.RELAY_NOTIFY_FROM;
+  delete process.env.RELAY_NOTIFY_TO;
+  require.cache[ntP67] = { id: ntP67, filename: ntP67, loaded: true, exports: realNt67 };
+  require.cache[buyP67] = { id: buyP67, filename: buyP67, loaded: true, exports: realBuy67 };
+
   // five escaped requests, caught by the hermetic check at the end of this file. Pinning to
   // the suite store also means the engine writes listings where the assertions look.
   var stP63 = require.resolve('../lib/relay-store');
