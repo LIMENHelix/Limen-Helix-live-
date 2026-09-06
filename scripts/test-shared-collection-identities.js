@@ -80,7 +80,11 @@ function textResponse(body) {
     var fdaRss = '<rss><channel><description>' + 'official '.repeat(20) + '</description><item><title>FDA recall</title><guid>recall/1</guid>' +
       '<pubDate>Sat, 22 Aug 2026 00:00:00 EDT</pubDate><description>salmonella Class I</description></item></channel></rss>';
     global.fetch = function () { return Promise.resolve(textResponse(fdaRss)); };
-    var recallReading = await H._fetchFDARecalls();
+    /* Renamed 2026-09-05. `_fetchFDARecalls` now exports the openFDA drug-enforcement
+       fetcher, which is what that name always claimed to be; the food-recall RSS reader
+       this assertion is about is `_fetchFDARecallsFoodRSS`. The assertion itself is
+       unchanged: the RSS reading must still carry an `rss-set-v1:fda-recalls` identity. */
+    var recallReading = await H._fetchFDARecallsFoodRSS();
     assert.match(recallReading.sourceUpdatedAt,
       /^rss-set-v1:fda-recalls\|items:1\|sha256:[a-f0-9]{64}$/);
 
