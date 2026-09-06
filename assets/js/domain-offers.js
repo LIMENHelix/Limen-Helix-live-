@@ -8,8 +8,9 @@
  * domain's live source.
  *
  * A domain therefore sells the phases it can actually observe and NOTHING ELSE. Law reaches
- * six paid rungs; most reach one or two; Industry reaches none. An incomplete ladder is the
- * correct result, not a gap to be filled with copy.
+ * six paid rungs; most reach one or two. An incomplete ladder is the correct result, not a
+ * gap to be filled with copy. The five late L1 watches (energy, culture, communication,
+ * industry, infrastructure) were added only after a live source answered.
  *
  * PRICE FOLLOWS THE ARC'S OWN GRAMMAR, not the buyer's wallet:
  *   rhythm  $4  a HOLDING phase — a recurring briefing you subscribe to
@@ -139,23 +140,37 @@
     },
 
     industry: {
-      // NOTHING SELLABLE. The source answers with a year selector; no phase beyond the free
-      // read has a verified signal. Left empty deliberately rather than given a rung it cannot
-      // deliver.
-      who: 'manufacturers, buyers and plant communities'
+      // NHTSA recalls-by-vehicle is live at /api/industry-tools. The old year-selector
+      // comment is stale: park-it and park-outside flags are structured fields.
+      who: 'manufacturers, buyers and plant communities',
+      p1: { name: 'A Park-It Recall On Your Vehicle', line: 'NHTSA first flags your year, make and model as do-not-drive or do-not-garage.', cadence: 'same day NHTSA posts' },
+      p2: { name: 'Your Vehicle Recall Brief', line: 'Open safety recalls on the vehicle you actually drive, refreshed as NHTSA republishes.', cadence: 'per NHTSA update' }
     },
 
     communication: {
-      // NO SOURCE. handlers/communication-tools.js does not exist and is not registered, so
-      // /api/communication-tools 404s: the free card is broken and a paid watch would have
-      // nothing behind it. Clear this when the endpoint answers, not to tidy the ladder.
-      noSource: true,
-      who: 'publishers, PR and policy staff'
+      // Source is /api/communication-live: Federal Register FCC documents, keyless.
+      who: 'publishers, PR and policy staff',
+      p1: { name: 'A New FCC Action In Your Lane', line: 'A rule, notice or licence action first appears for the proceeding, licence or band you follow.', cadence: 'daily, as the Register publishes' },
+      p2: { name: 'Your FCC Docket Read', line: 'New FCC actions touching the proceedings, licences or bands you follow.', cadence: 'daily' }
     },
 
     infrastructure: {
-      noSource: true,
-      who: 'logistics, facilities and local officials'
+      // Source is /api/infrastructure-live: FAA National Airspace System status, keyless.
+      who: 'logistics, facilities and local officials',
+      p1: { name: 'A Ground Stop At Your Airport', line: 'FAA first posts a ground stop, delay program or closure at an airport you watch.', cadence: 'same hour as FAA posts' },
+      p2: { name: 'Your Airport and Corridor Watch', line: 'Ground stops, delays and closures for the airports, corridors or facilities you name.', cadence: 'as FAA updates, about every ten minutes' }
+    },
+
+    energy: {
+      // Source is the Energy Bill X-Ray plus /api/energy-entry utility aggregates.
+      who: 'households, treasurers and plant operators',
+      p2: { name: 'Your Utility Rate Watch', line: 'Rate and bill-pressure for the utility or state you name, re-cut as new readings land.', cadence: 'monthly, as bills and readings arrive' }
+    },
+
+    culture: {
+      // Source is the Royalty X-Ray on /culture plus /api/culture-markets.
+      who: 'artists, managers and venue operators',
+      p2: { name: 'Your Royalty and Audience Read', line: 'What your streams actually pay, and where attention is moving in the lanes you name.', cadence: 'monthly' }
     }
   };
 
