@@ -2,563 +2,62 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Relay · Marketplace</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="description" content="Relay Marketplace is the peer-to-peer side of Relay: people list items, buyers purchase them, and Relay handles checkout." />
+<title>Relay Marketplace · Buy from people</title>
 <style>
-  :root {
-    --bg: #f8f7f5;
-    --card: #ffffff;
-    --line: #e5e0d8;
-    --ink: #1a1512;
-    --soft: #6b6359;
-    --accent: #2563eb;
-    --green: #059669;
-  }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; }
-
-  header {
-    background: var(--card);
-    border-bottom: 1px solid var(--line);
-    padding: 24px 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .branding {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .logo {
-    font-size: 1.6rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    margin: 0;
-  }
-  .byline {
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--soft);
-    margin-top: 2px;
-    font-weight: 600;
-  }
-  .header-right {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-  }
-  .search-bar {
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 10px 14px;
-    width: 240px;
-    font-size: 0.9rem;
-    color: var(--ink);
-  }
-  .search-bar::placeholder { color: var(--soft); }
-  .cart-icon {
-    cursor: pointer;
-    font-size: 1.4rem;
-    position: relative;
-  }
-  .cart-count {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    background: var(--accent);
-    color: white;
-    border-radius: 50%;
-    width: 22px;
-    height: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.7rem;
-    font-weight: 700;
-  }
-
-  nav {
-    background: var(--card);
-    border-bottom: 1px solid var(--line);
-    padding: 0 32px;
-    display: flex;
-    gap: 2px;
-  }
-  nav a {
-    display: inline-block;
-    padding: 14px 16px;
-    font-size: 0.9rem;
-    color: var(--soft);
-    text-decoration: none;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s;
-  }
-  nav a:hover { color: var(--ink); }
-  nav a.active { border-bottom-color: var(--accent); color: var(--ink); font-weight: 600; }
-
-  .container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 32px;
-  }
-
-  .filters {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 32px;
-    flex-wrap: wrap;
-  }
-  .filter-btn {
-    background: var(--card);
-    border: 1px solid var(--line);
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: all 0.2s;
-  }
-  .filter-btn:hover { border-color: var(--accent); }
-  .filter-btn.active {
-    background: var(--accent);
-    color: white;
-    border-color: var(--accent);
-    font-weight: 600;
-  }
-
-  .listings-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    margin-bottom: 48px;
-  }
-  .listing-card {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: box-shadow 0.3s, border-color 0.2s;
-  }
-  .listing-card:hover {
-    border-color: var(--accent);
-    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.08);
-  }
-  .listing-card .image {
-    width: 100%;
-    height: 180px;
-    background: var(--line);
-    object-fit: cover;
-  }
-  .listing-card .info {
-    padding: 14px;
-  }
-  .listing-card .title {
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin: 0 0 6px;
-    line-height: 1.3;
-    color: var(--ink);
-  }
-  .listing-card .condition {
-    font-size: 0.75rem;
-    color: var(--soft);
-    margin-bottom: 10px;
-  }
-  .listing-card .price {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 10px;
-  }
-  .listing-card .add-btn {
-    width: 100%;
-    background: var(--accent);
-    color: white;
-    border: none;
-    padding: 9px;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: background 0.2s;
-  }
-  .listing-card .add-btn:hover { background: #1d4ed8; }
-
-  /* Cart Drawer */
-  .cart-drawer {
-    position: fixed;
-    right: -420px;
-    top: 0;
-    width: 420px;
-    height: 100vh;
-    background: var(--card);
-    border-left: 1px solid var(--line);
-    z-index: 200;
-    transition: right 0.3s;
-    overflow-y: auto;
-    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.06);
-  }
-  .cart-drawer.open { right: 0; }
-  .cart-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    border-bottom: 1px solid var(--line);
-    position: sticky;
-    top: 0;
-    background: var(--card);
-  }
-  .cart-header h2 { font-size: 1.1rem; margin: 0; }
-  .cart-header button {
-    background: none;
-    border: none;
-    font-size: 1.6rem;
-    cursor: pointer;
-    color: var(--ink);
-  }
-  .cart-items { padding: 16px; }
-  .cart-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px;
-    background: var(--bg);
-    border-radius: 6px;
-    margin-bottom: 8px;
-  }
-  .cart-item .title { font-weight: 600; font-size: 0.9rem; }
-  .cart-item .price { font-weight: 700; color: var(--accent); }
-  .cart-item .remove {
-    background: none;
-    border: none;
-    color: var(--soft);
-    cursor: pointer;
-    font-size: 0.8rem;
-  }
-  .cart-summary {
-    padding: 20px;
-    border-top: 1px solid var(--line);
-    position: sticky;
-    bottom: 0;
-    background: var(--card);
-  }
-  .cart-summary .row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    font-size: 0.9rem;
-  }
-  .cart-summary .total {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 16px;
-    border-top: 1px solid var(--line);
-    padding-top: 12px;
-  }
-  .checkout-btn {
-    width: 100%;
-    background: var(--accent);
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 6px;
-    font-weight: 700;
-    cursor: pointer;
-    font-size: 0.95rem;
-    transition: background 0.2s;
-  }
-  .checkout-btn:hover { background: #1d4ed8; }
-  .checkout-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .cart-empty {
-    padding: 32px 16px;
-    text-align: center;
-    color: var(--soft);
-  }
-
-  .loading {
-    text-align: center;
-    padding: 48px;
-    color: var(--soft);
-  }
-  .spinner {
-    display: inline-block;
-    width: 32px;
-    height: 32px;
-    border: 3px solid var(--line);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .status-msg {
-    padding: 12px 16px;
-    border-radius: 6px;
-    margin-bottom: 16px;
-    font-size: 0.9rem;
-  }
-  .status-msg.ok { background: #d1fae5; color: #047857; }
-  .status-msg.err { background: #fee2e2; color: #dc2626; }
-
-  footer {
-    background: var(--card);
-    border-top: 1px solid var(--line);
-    padding: 32px;
-    text-align: center;
-    color: var(--soft);
-    font-size: 0.85rem;
-  }
-  .footer-brand {
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 8px;
-  }
-
-  @media(max-width: 768px) {
-    .listings-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-    .cart-drawer { width: 100%; right: -100%; }
-    .search-bar { width: 140px; }
-    header { flex-direction: column; gap: 12px; align-items: flex-start; }
-    .header-right { width: 100%; justify-content: space-between; }
-  }
+:root{--bg:#f7f8fa;--card:#fff;--ink:#111827;--soft:#6b7280;--line:#e5e7eb;--blue:#2563eb;--green:#047857;--warn:#92400e;--warnbg:#fffbeb}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+a{color:inherit}header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}.top{max-width:1160px;margin:auto;padding:14px 20px;display:flex;gap:18px;align-items:center}.brand{font-size:1.2rem;font-weight:800;text-decoration:none}.brand small{display:block;color:var(--soft);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase}.top nav{margin-left:auto;display:flex;gap:14px;align-items:center}.top nav a{font-size:.86rem;color:var(--soft);text-decoration:none}.top nav a.primary{background:var(--blue);color:#fff;padding:8px 12px;border-radius:8px;font-weight:700}
+.hero{max-width:1160px;margin:0 auto;padding:38px 20px 22px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:end}.hero h1{font-size:clamp(1.8rem,4vw,3rem);margin:0 0 8px;letter-spacing:-.035em}.hero p{margin:0;color:var(--soft);max-width:680px;font-size:1rem}.split{font-size:.8rem;color:var(--soft);background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 13px}.split b{color:var(--ink)}
+.toolbar{max-width:1160px;margin:0 auto;padding:0 20px 18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.search{flex:1;min-width:250px;border:1px solid var(--line);background:#fff;border-radius:9px;display:flex;overflow:hidden}.search input{width:100%;font-size:16px;border:0;outline:0;padding:11px 13px;background:transparent}.count{font-size:.82rem;color:var(--soft)}
+main{max-width:1160px;margin:auto;padding:0 20px 70px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}.card{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}.photo{aspect-ratio:1/1;background:#f1f5f9 center/cover no-repeat;display:flex;align-items:center;justify-content:center}.mono{font-size:2.4rem;color:#cbd5e1;font-weight:800}.body{padding:13px;display:flex;flex:1;flex-direction:column}.title{font-weight:700;line-height:1.3;min-height:2.6em}.meta{font-size:.78rem;color:var(--soft);margin-top:6px}.desc{font-size:.82rem;color:var(--soft);margin:10px 0;min-height:2.5em}.price{font-size:1.25rem;font-weight:800;margin-top:auto}.buy{border:0;background:var(--blue);color:#fff;border-radius:8px;padding:10px 12px;font-weight:700;cursor:pointer;margin-top:10px}.buy:disabled{opacity:.5;cursor:not-allowed}.empty{grid-column:1/-1;text-align:center;color:var(--soft);padding:60px 20px;background:#fff;border:1px solid var(--line);border-radius:12px}.status{max-width:1160px;margin:0 auto 14px;padding:0 20px}.msg{padding:11px 13px;border-radius:9px;font-size:.86rem}.msg.err{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}.msg.ok{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+.overlay{position:fixed;inset:0;background:rgba(15,23,42,.48);display:none;z-index:40}.overlay.show{display:block}.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:18px;z-index:41}.modal.show{display:flex}.box{background:#fff;border-radius:14px;width:min(560px,96vw);max-height:94vh;overflow:auto;padding:22px;box-shadow:0 18px 50px rgba(0,0,0,.25)}.box h2{margin:0 0 4px}.sub{color:var(--soft);font-size:.84rem;margin-bottom:16px}.line{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--line)}.field{display:block;margin:10px 0}.field span{display:block;font-size:.75rem;color:var(--soft);margin-bottom:4px}.field input{width:100%;font-size:16px;border:1px solid var(--line);border-radius:8px;padding:10px 11px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.policy{background:var(--warnbg);border:1px solid #f0b429;border-radius:9px;padding:12px;margin-top:14px;color:#3f3f46;font-size:.82rem}.policy label{display:flex;gap:9px;align-items:flex-start}.policy input{width:18px;height:18px;margin-top:2px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.actions button{border-radius:8px;padding:11px;border:1px solid var(--line);font-weight:700;cursor:pointer}.actions .pay{background:var(--blue);border-color:var(--blue);color:#fff}.actions .pay:disabled{opacity:.5;cursor:not-allowed}
+footer{border-top:1px solid var(--line);background:#fff;color:var(--soft);font-size:.8rem;text-align:center;padding:25px}
+@media(max-width:680px){.top{align-items:flex-start}.top nav{gap:8px;flex-wrap:wrap;justify-content:flex-end}.hero{grid-template-columns:1fr;padding-top:26px}.split{display:none}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.row{grid-template-columns:1fr}.body{padding:10px}.title{font-size:.88rem}}
 </style>
 </head>
 <body>
-
-<header>
-  <div class="branding">
-    <div class="logo">Relay</div>
-    <div class="byline">by LIMEN Helix</div>
-  </div>
-  <div class="header-right">
-    <input type="text" class="search-bar" placeholder="Search items..." id="searchInput" />
-    <div class="cart-icon" onclick="toggleCart()">
-      🛒
-      <span class="cart-count" id="cartCount" style="display:none">0</span>
-    </div>
-  </div>
-</header>
-
-<nav>
-  <a href="#" class="active" onclick="setCategory(null); return false">All Items</a>
-  <a href="#" onclick="setCategory('fashion'); return false">Fashion</a>
-  <a href="#" onclick="setCategory('shoes'); return false">Shoes</a>
-  <a href="#" onclick="setCategory('accessories'); return false">Accessories</a>
-  <a href="#" onclick="setCategory('home'); return false">Home</a>
-</nav>
-
-<div class="container">
-  <div id="statusMsg"></div>
-
-  <div class="filters">
-    <button class="filter-btn active" onclick="setCondition(null)">All Conditions</button>
-    <button class="filter-btn" onclick="setCondition('like-new')">Like New</button>
-    <button class="filter-btn" onclick="setCondition('good')">Good</button>
-    <button class="filter-btn" onclick="setCondition('fair')">Fair</button>
-  </div>
-
-  <div id="listingsContainer">
-    <div class="loading"><div class="spinner"></div>Loading marketplace...</div>
-  </div>
-</div>
-
-<footer>
-  <div class="footer-brand">Relay · by LIMEN Helix</div>
-  <div>Buy and sell quality items · Fast, secure, fair</div>
-</footer>
-
-<!-- Cart Drawer -->
-<div class="cart-drawer" id="cartDrawer">
-  <div class="cart-header">
-    <h2>Your Cart</h2>
-    <button onclick="toggleCart()">✕</button>
-  </div>
-  <div id="cartItemsContainer" class="cart-items">
-    <div class="cart-empty">Your cart is empty</div>
-  </div>
-  <div class="cart-summary">
-    <div class="row"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
-    <div class="row"><span>Shipping</span><span id="shipping">$0.00</span></div>
-    <div class="total">Total: <span id="total">$0.00</span></div>
-    <button class="checkout-btn" id="checkoutBtn" onclick="checkout()" disabled>Go to Checkout</button>
-  </div>
-</div>
-
+<header><div class="top">
+<a class="brand" href="/marketplace-storefront">Relay Marketplace<small>People selling to people · by LIMEN Helix</small></a>
+<nav><a href="/relay">Relay Supply</a><a href="/api/relay?view=policy">Sale terms</a><a class="primary" href="/merchant-onboarding">Sell an item</a></nav>
+</div></header>
+<section class="hero"><div><h1>Buy from people. Sell what you already own.</h1><p>This is Relay's peer-to-peer marketplace. Sellers post their own items; buyers purchase one seller listing at a time; Relay handles the payment record and seller payout workflow.</p></div><div class="split"><b>Need Relay to source something?</b><br><a href="/relay">Use Relay Supply →</a></div></section>
+<div class="toolbar"><div class="search"><input id="q" type="search" enterkeyhint="search" autocomplete="off" placeholder="Search marketplace items…" aria-label="Search marketplace items" /></div><span class="count" id="count">Loading…</span></div>
+<div class="status" id="status"></div>
+<main><div class="grid" id="grid"><div class="empty">Loading marketplace…</div></div></main>
+<footer>Relay Marketplace · C2C seller listings · <a href="/merchant-onboarding">Sell on Relay</a> · <a href="/relay">Relay Supply</a></footer>
+<div class="overlay" id="overlay" onclick="closeBuy()"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="buyTitle"><div class="box">
+<h2 id="buyTitle">Buy this item</h2><div class="sub">One seller listing per checkout. Card details are entered on Stripe.</div>
+<div class="line"><span id="itemName">—</span><b id="itemPrice">—</b></div>
+<label class="field"><span>Full name</span><input id="name" autocomplete="name" /></label>
+<label class="field"><span>Email for order updates</span><input id="email" type="email" autocomplete="email" /></label>
+<label class="field"><span>Street address</span><input id="line1" autocomplete="address-line1" /></label>
+<label class="field"><span>Apartment / suite (optional)</span><input id="line2" autocomplete="address-line2" /></label>
+<div class="row"><label class="field"><span>City</span><input id="city" autocomplete="address-level2" /></label><label class="field"><span>State</span><input id="state" autocomplete="address-level1" /></label></div>
+<div class="row"><label class="field"><span>ZIP</span><input id="zip" autocomplete="postal-code" /></label><label class="field"><span>Country</span><input id="country" value="US" autocomplete="country" /></label></div>
+<div class="policy"><label><input id="accept" type="checkbox" /><span>I confirm the Relay sale terms. This is a peer-to-peer purchase from the listing's seller. <a href="/api/relay?view=policy" target="_blank" rel="noopener">Read terms</a>.</span></label></div>
+<div class="actions"><button onclick="closeBuy()">Cancel</button><button class="pay" id="pay" disabled onclick="payNow()">Continue to Stripe →</button></div>
+<div id="buyMsg" class="sub" style="margin-top:10px"></div>
+</div></div>
 <script>
 var MARKETPLACE_ID = localStorage.getItem('relay-marketplace-id') || 'mkt_1787335292880_bm7h5jy';
-var BUYER_ID = localStorage.getItem('relay-buyer-id') || 'buyer_' + Date.now();
-var cart = [];
-var listings = [];
-var currentCategory = null;
-var currentCondition = null;
-
+var BUYER_ID = localStorage.getItem('relay-buyer-id') || ('buyer_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,7));
+var LIST = [], CURRENT = null, IDEM = null;
 localStorage.setItem('relay-buyer-id', BUYER_ID);
-loadListings();
-updateCartUI();
-
-async function loadListings() {
-  try {
-    const r = await fetch('/api/relay-marketplace?action=list-listings&marketplaceId=' + encodeURIComponent(MARKETPLACE_ID) + '&limit=100');
-    const j = await r.json();
-    if (j.ok) {
-      listings = j.listings || [];
-      renderListings();
-    } else {
-      showStatus('Failed to load listings: ' + (j.error || 'unknown error'), 'err');
-    }
-  } catch (e) {
-    showStatus('Error: ' + e.message, 'err');
-  }
-}
-
-function renderListings() {
-  let filtered = listings.filter(function(l) {
-    if (currentCategory && l.category !== currentCategory) return false;
-    if (currentCondition && l.condition !== currentCondition) return false;
-    return true;
-  });
-
-  const html = filtered.map(function(l) {
-    return `
-      <div class="listing-card" onclick="viewListing('${l.id}')">
-        <img src="${l.images && l.images[0] ? l.images[0] : 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22180%22%3E%3Crect fill=%22%23e5e0d8%22 width=%22200%22 height=%22180%22/%3E%3C/svg%3E'}" class="image" alt="${l.title}" />
-        <div class="info">
-          <div class="title">${l.title}</div>
-          <div class="condition">${l.condition}</div>
-          <div class="price">$${l.price.toFixed(2)}</div>
-          <button class="add-btn" onclick="event.stopPropagation(); addToCart('${l.id}')">Add to Cart</button>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  document.getElementById('listingsContainer').innerHTML = html || '<p style="padding:40px;text-align:center;color:var(--soft)">No items found</p>';
-}
-
-function setCategory(cat) {
-  currentCategory = cat;
-  renderListings();
-}
-
-function setCondition(cond) {
-  currentCondition = cond;
-  renderListings();
-}
-
-function addToCart(listingId) {
-  const listing = listings.find(function(l) { return l.id === listingId; });
-  if (!listing) return;
-
-  const existing = cart.find(function(c) { return c.id === listingId; });
-  if (existing) {
-    existing.qty++;
-  } else {
-    cart.push({ id: listingId, title: listing.title, price: listing.price, qty: 1 });
-  }
-  updateCartUI();
-  showStatus('Added to cart!', 'ok');
-  setTimeout(() => document.getElementById('statusMsg').innerHTML = '', 2000);
-}
-
-function removeFromCart(listingId) {
-  cart = cart.filter(function(c) { return c.id !== listingId; });
-  updateCartUI();
-}
-
-function updateCartUI() {
-  const count = cart.reduce(function(sum, c) { return sum + c.qty; }, 0);
-  document.getElementById('cartCount').style.display = count > 0 ? 'flex' : 'none';
-  document.getElementById('cartCount').textContent = count;
-
-  const subtotal = cart.reduce(function(sum, c) { return sum + (c.price * c.qty); }, 0);
-  const shipping = subtotal > 75 ? 0 : 5.99;
-  const total = subtotal + shipping;
-
-  document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
-  document.getElementById('shipping').textContent = '$' + shipping.toFixed(2);
-  document.getElementById('total').textContent = '$' + total.toFixed(2);
-
-  const itemsHtml = cart.length === 0
-    ? '<div class="cart-empty">Your cart is empty</div>'
-    : cart.map(function(c) {
-        return `
-          <div class="cart-item">
-            <div>
-              <div class="title">${c.title}</div>
-              <div style="font-size:.8rem;color:var(--soft)">Qty: ${c.qty}</div>
-            </div>
-            <div>
-              <div class="price">$${(c.price * c.qty).toFixed(2)}</div>
-              <button class="remove" onclick="event.stopPropagation(); removeFromCart('${c.id}')">Remove</button>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-  document.getElementById('cartItemsContainer').innerHTML = itemsHtml;
-  document.getElementById('checkoutBtn').disabled = cart.length === 0;
-}
-
-function toggleCart() {
-  document.getElementById('cartDrawer').classList.toggle('open');
-}
-
-async function checkout() {
-  if (cart.length === 0) {
-    showStatus('Cart is empty', 'err');
-    return;
-  }
-
-  const btn = document.getElementById('checkoutBtn');
-  btn.disabled = true;
-  btn.textContent = 'Processing...';
-
-  try {
-    const items = cart.map(function(c) { return { id: c.id, qty: c.qty }; });
-    const r = await fetch('/api/relay-marketplace-checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        marketplaceId: MARKETPLACE_ID,
-        buyerId: BUYER_ID,
-        items: items
-      })
-    });
-
-    const j = await r.json();
-    if (j.ok && j.url) {
-      window.location.href = j.url;
-    } else {
-      showStatus('Checkout failed: ' + (j.error || 'unknown error'), 'err');
-      btn.disabled = false;
-      btn.textContent = 'Go to Checkout';
-    }
-  } catch (e) {
-    showStatus('Error: ' + e.message, 'err');
-    btn.disabled = false;
-    btn.textContent = 'Go to Checkout';
-  }
-}
-
-function viewListing(listingId) {
-  const listing = listings.find(function(l) { return l.id === listingId; });
-  if (listing) {
-    alert(listing.title + '\n\n$' + listing.price.toFixed(2) + '\n\nCondition: ' + listing.condition + '\n\n' + (listing.description || 'No description'));
-  }
-}
-
-function showStatus(msg, type) {
-  const el = document.getElementById('statusMsg');
-  el.textContent = msg;
-  el.className = 'status-msg ' + type;
-}
+var $ = function(id){return document.getElementById(id)};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]})}
+function money(n){return '$'+Number(n||0).toFixed(2)}
+function initials(t){var p=String(t||'?').trim().split(/\s+/);return (p[0][0]+(p[1]?p[1][0]:'')).toUpperCase()}
+function show(msg,type){$('status').innerHTML=msg?'<div class="msg '+(type||'')+'">'+esc(msg)+'</div>':''}
+function render(){var q=$('q').value.trim().toLowerCase();var rows=LIST.filter(function(l){return !q || (l.title+' '+(l.description||'')+' '+(l.category||'')+' '+(l.condition||'')).toLowerCase().indexOf(q)>=0});$('count').textContent=rows.length+' item'+(rows.length===1?'':'s');$('grid').innerHTML=rows.length?rows.map(function(l){var img=l.images&&l.images[0];return '<article class="card">'+(img?'<div class="photo" style="background-image:url(\''+esc(img)+'\')"></div>':'<div class="photo"><span class="mono">'+esc(initials(l.title))+'</span></div>')+'<div class="body"><div class="title">'+esc(l.title)+'</div><div class="meta">'+esc(l.condition||'used')+(l.category?' · '+esc(l.category):'')+'</div><div class="desc">'+esc(l.description||'Seller listing')+'</div><div class="price">'+money(l.price)+'</div><button class="buy" onclick="openBuy(\''+esc(l.id)+'\')">Buy from seller</button></div></article>'}).join(''):'<div class="empty">No marketplace items match that search.</div>'}
+async function load(){try{var r=await fetch('/api/relay-marketplace?action=list-listings&marketplaceId='+encodeURIComponent(MARKETPLACE_ID)+'&limit=100');var j=await r.json();if(!r.ok||!j.ok)throw new Error(j.error||'Could not load marketplace');LIST=(j.listings||[]).filter(function(l){return l&&l.status==='active'&&Number(l.quantity||0)>0});render()}catch(e){$('count').textContent='Unavailable';$('grid').innerHTML='<div class="empty">Marketplace is unavailable right now.</div>';show(e.message,'err')}}
+function newKey(){try{if(window.crypto&&crypto.randomUUID)return crypto.randomUUID()}catch(e){}return 'c2c_'+Date.now()+'_'+Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2)}
+function openBuy(id){CURRENT=LIST.find(function(l){return l.id===id});if(!CURRENT)return;IDEM=newKey();$('itemName').textContent=CURRENT.title;$('itemPrice').textContent=money(CURRENT.price);$('accept').checked=false;$('pay').disabled=true;$('pay').textContent='Continue to Stripe →';$('buyMsg').textContent='';$('overlay').classList.add('show');$('modal').classList.add('show');setTimeout(function(){$('name').focus()},30)}
+function closeBuy(){$('overlay').classList.remove('show');$('modal').classList.remove('show');CURRENT=null;IDEM=null}
+$('accept').addEventListener('change',function(){$('pay').disabled=!this.checked});$('q').addEventListener('input',render);
+async function payNow(){if(!CURRENT||!IDEM)return;var addr={name:$('name').value.trim(),line1:$('line1').value.trim(),line2:$('line2').value.trim(),city:$('city').value.trim(),state:$('state').value.trim(),postalCode:$('zip').value.trim(),country:($('country').value.trim()||'US').toUpperCase()};var email=$('email').value.trim();if(!addr.name||!addr.line1||!addr.city||!addr.state||!addr.postalCode||!email){$('buyMsg').textContent='Complete your name, email and shipping address.';return}var btn=$('pay');btn.disabled=true;btn.textContent='Creating secure checkout…';$('buyMsg').textContent='';try{var r=await fetch('/api/relay-marketplace-checkout',{method:'POST',headers:{'Content-Type':'application/json','Idempotency-Key':IDEM},body:JSON.stringify({marketplaceId:MARKETPLACE_ID,buyerId:BUYER_ID,buyerEmail:email,listingId:CURRENT.id,quantity:1,shippingAddress:addr,policyAccepted:true})});var j=await r.json();if(j.ok&&j.url){window.location.href=j.url;return}throw new Error(j.error||'Checkout failed')}catch(e){$('buyMsg').textContent=e.message;btn.disabled=false;btn.textContent='Try checkout again →'}}
+load();
 </script>
-</body>
-</html>
+</body></html>
