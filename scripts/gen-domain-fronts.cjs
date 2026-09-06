@@ -146,6 +146,80 @@ for (const route of routes) {
   written.push({ route, bytes: out.length, title: c.name });
 }
 
+// Economy keeps the generated Watch shell. Homestead Desk is a section +
+// /economy/homestead, not a Soft-desk rewrite. Re-apply the hook so a regen
+// does not drop the free Read or the $4 checkout.
+if (!PRODUCTIZED_FRONTS.has('economy')) {
+  const econPath = path.join(ROOT, 'economy.html');
+  let econ = fs.readFileSync(econPath, 'utf8');
+  if (econ.indexOf('id="homesteadDesk"') === -1) {
+    if (!/homestead-desk\.css/.test(econ)) {
+      econ = econ.replace(
+        '<link rel="stylesheet" href="/assets/css/domain-front.css" />',
+        '<link rel="stylesheet" href="/assets/css/domain-front.css" />\n<link rel="stylesheet" href="/assets/css/homestead-desk.css" />'
+      );
+    }
+    if (econ.indexOf('id="homesteadHeroLink"') === -1) {
+      econ = econ.replace(
+        '<div class="cap-note" id="capNote">Free. We email you when this domain moves. No spam, unsubscribe anytime.</div>',
+        '<div class="cap-note" id="capNote">Free. We email you when this domain moves. No spam, unsubscribe anytime.</div>\n      <p class="hs-hero-link" id="homesteadHeroLink"><a href="/economy/homestead">Homestead Desk · sell before auction</a><span> Free educational read. Not legal advice.</span></p>'
+      );
+    }
+    econ = econ.replace('<section id="checkoutSection">',
+      '<section id="homesteadDesk" class="hs-card" style="margin:18px 0">\n' +
+      '      <div class="hs-kicker">Homestead Desk</div>\n' +
+      '      <h2>Sell before auction</h2>\n' +
+      '      <p class="hs-plain">Free Homestead Read: ZIP or street to an educational stage clock. We do not invent auction dates. Not legal or financial advice.</p>\n' +
+      '      <div class="hs-grid">\n' +
+      '        <div>\n' +
+      '          <label for="hsQ">ZIP or street address</label>\n' +
+      '          <input id="hsQ" type="text" placeholder="64111 or 1200 Main St, Kansas City, MO" autocomplete="street-address">\n' +
+      '        </div>\n' +
+      '        <div>\n' +
+      '          <label for="hsNotice">What did you receive?</label>\n' +
+      '          <select id="hsNotice">\n' +
+      '            <option value="unsure">Not sure / just looking</option>\n' +
+      '            <option value="none">Nothing filed that I know of</option>\n' +
+      '            <option value="late">Late notices / collection calls</option>\n' +
+      '            <option value="nod">Notice of Default (or equivalent)</option>\n' +
+      '            <option value="sale">Sale / auction notice</option>\n' +
+      '            <option value="sold">I think it already sold</option>\n' +
+      '          </select>\n' +
+      '        </div>\n' +
+      '      </div>\n' +
+      '      <button class="hs-btn" id="hsGo" type="button">Read this place →</button>\n' +
+      '      <div id="hsOut"></div>\n' +
+      '      <p style="margin-top:14px"><a href="/economy/homestead">Open the full Homestead Desk →</a></p>\n' +
+      '      <div class="hs-card" id="deskWaitlist" style="margin:16px 0 0">\n' +
+      '        <h2>Watch this ZIP - free</h2>\n' +
+      '        <p class="hs-plain">Desk Alerts (~$19 / mo) are not live. We will not charge until we can send them. The $4 Economy Watch is live today.</p>\n' +
+      '        <label for="hsName">Name</label>\n' +
+      '        <input id="hsName" type="text" placeholder="your name" maxlength="200" autocomplete="name">\n' +
+      '        <div style="margin-top:10px"><label for="hsEmail">Email</label>\n' +
+      '        <input id="hsEmail" type="email" placeholder="you@email.com" maxlength="200" autocomplete="email"></div>\n' +
+      '        <label style="display:flex;gap:8px;align-items:flex-start;margin-top:10px;font-size:13px;text-transform:none;letter-spacing:0">\n' +
+      '          <input type="checkbox" id="hsConsent" checked style="width:auto;margin-top:3px"> I agree to be contacted about Homestead Desk.\n' +
+      '        </label>\n' +
+      '        <button class="hs-btn" id="hsWaitBtn" type="button">Watch this ZIP - free</button>\n' +
+      '        <div class="hs-waitstat" id="hsWaitStat"></div>\n' +
+      '      </div>\n' +
+      '      <div class="hs-disc">Educational information only. Not legal, financial, tax, or emergency advice. Confirm every date with the county. Crisis: 988 or 211.</div>\n' +
+      '    </section>\n\n    <section id="checkoutSection">');
+    if (econ.indexOf('homestead-desk.js') === -1) {
+      econ = econ.replace(
+        '<script src="/assets/js/domain-front-app.js"></script>\n</body>',
+        '<script src="/assets/js/domain-front-app.js"></script>\n' +
+        '<script src="/assets/js/homestead-desk.js"></script>\n' +
+        '<script src="/assets/js/homestead-chat.js"></script>\n' +
+        '<script>\n(function () {\n  if (window.LIMEN_HOMESTEAD) {\n    window.LIMEN_HOMESTEAD.boot({\n      injectHero: false,\n      waitlist: { interest: \'homestead-desk-waitlist\', sourcePage: \'/economy\' }\n    });\n  }\n})();\n</script>\n</body>'
+      );
+    }
+    fs.writeFileSync(econPath, econ);
+    const row = written.find(function (w) { return w.route === 'economy'; });
+    if (row) row.bytes = econ.length;
+  }
+}
+
 console.log('shared css : assets/css/domain-front.css (' + css.length + ' bytes)');
 console.log('shared app : assets/js/domain-front-app.js (' + appJs.length + ' bytes)');
 console.log('shells     : ' + written.length + (skipped.length ? '  skipped productized: ' + skipped.join(', ') : ''));
