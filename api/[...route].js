@@ -68,6 +68,7 @@ const HANDLERS = {
   'ai-switch': require('../handlers/ai-switch'),
   'civilization-valves': require('../handlers/civilization-valves'),
   'civilization-treasury': require('../handlers/civilization-treasury'),
+  'domain-paylink': require('../handlers/domain-paylink'),
   'civil-radar': require('../handlers/civil-radar'),
   'civil-rfps': require('../handlers/civil-rfps'),
   'infra-entry': require('../handlers/infra-entry'),

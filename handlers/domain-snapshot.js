@@ -526,7 +526,7 @@ module.exports = async function handler(req, res) {
       fetchNOAAClimate(),         // 4: environment A
       fetchNOAAAlerts(),          // 5: environment B
       fetchFDAEvents(),           // 6: health A
-      fetchFDARecalls(),          // 7: health B
+      fetchFDARecalls(),          // 7: health B — openFDA DRUG ENFORCEMENT, 30d. Binds FDARecalls. Distinct quantity from the food RSS at index 204.
       fetchPatents(),             // 8: technology A
       fetchArXivCS(),             // 9: technology B
       fetchPubMed(),              // 10: research A
@@ -723,7 +723,7 @@ module.exports = async function handler(req, res) {
       fetchUSDADroughtMonitor(),       // 201: agriculture D — USDA Drought Monitor (institutional, stress)
       fetchNOAACPCDrought(),           // 202: agriculture E — NOAA CPC drought outlook (institutional, stress)
       fetchNOAANWSAgAlerts(),          // 203: agriculture F — NWS active alerts (ag-filtered) (institutional, stress)
-      fetchFDARecalls(),               // 204: agriculture G — FDA Recalls RSS (institutional, stress)
+      fetchFDARecallsFoodRSS(),        // 204: agriculture G — FDA recalls RSS, FOOD item count (institutional, stress). Binds FDARecalls_2. NOT the openFDA drug-enforcement fetcher at index 7.
       fetchFedRegUSDA(),               // 205: agriculture H — Fed Reg USDA (regulatory)
       fetchFedRegFDA(),                // 206: agriculture I — Fed Reg FDA (food safety regulatory)
       fetchFedRegEPA(),                // 207: agriculture J — Fed Reg EPA (pesticide / water)
@@ -992,7 +992,7 @@ module.exports = async function handler(req, res) {
         // medical signal is inseparable from biomedical literature / funding flows.
         // Existing health institutional feeds (6)
         src('openFDA Events', byKey('FDAEvents')),    // 1: openFDA adverse events API
-        src('openFDA Recalls', byKey('FDARecalls')),    // 2: openFDA recalls API
+        src('openFDA Recalls', byKey('FDARecalls')),    // 2: openFDA drug ENFORCEMENT actions, 30d count
         src('CDC MMWR', byKey('CDCMMWR')),   // 3: CDC Morbidity and Mortality Weekly Report
         src('WHO Disease Outbreak', byKey('WHODiseaseOutbreak')),   // 4: WHO disease outbreak news
         src('FDA Drug Shortages', byKey('FDADrugShortages')),   // 5: FDA drug shortages
@@ -1001,7 +1001,10 @@ module.exports = async function handler(req, res) {
         src('PubMed', byKey('PubMed')),   // 7: PubMed biomedical literature (reused)
         src('NIH Grants', byKey('NIHGrants')),   // 8: NIH Grants research funding (reused)
         src('Retraction Watch', byKey('RetractionWatch')),   // 9: research integrity (reused)
-        // FDA Recalls RSS XML — distinct from openFDA API (1)
+        /* FDA recalls RSS XML, FOOD item count, reused from agriculture. Genuinely distinct
+           from row 2 as of 2026-09-05: until then a function-shadowing bug served BOTH rows
+           the same RSS fetch, so this comment described an intent the runtime did not honour.
+           Row 2 counts drug enforcement actions; this row counts food-recall feed items. */
         src('FDA Recalls', byKey('FDARecalls_2')),  // 10: FDA recalls RSS XML (reused from agriculture)
         // Federal Register doc-counts (5)
         src('Fed Reg HHS', byKey('FedRegHHS')),  // 11: HHS regulatory volume
@@ -2581,6 +2584,18 @@ async function fetchFDAEvents() {
   }
 }
 
+/**
+ * openFDA DRUG ENFORCEMENT ACTIONS in a 30-day window. Health's channel, bound to
+ * `FDARecalls` at fetcher index 7.
+ *
+ * This is a count of filed drug enforcement actions. It is NOT the food-recall feed:
+ * `fetchFDARecallsFoodRSS` counts `<item>` elements in an FDA RSS feed and is bound to
+ * `FDARecalls_2`. The two measure different quantities and must be free to disagree.
+ *
+ * This function was UNREACHABLE from an unknown date until 2026-09-05, shadowed by a
+ * second declaration of the old shared name. See the header on `fetchFDARecallsFoodRSS`
+ * for the full failure and `scripts/test-fetcher-shadowing.js` for the guard.
+ */
 async function fetchFDARecalls() {
   try {
     var today = new Date().toISOString().slice(0, 10);
@@ -4876,7 +4891,34 @@ async function fetchNOAANWSAgAlerts() {
   } catch (e) { trackHealth('NOAA NWS Ag Alerts', 'agriculture', 'fallback', e.message); return null; }
 }
 
-async function fetchFDARecalls() {
+/**
+ * FOOD-RECALL RSS ITEM COUNT. Agriculture's channel, bound to `FDARecalls_2`.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════════════
+ * THE NAME IS DELIBERATELY NOT `fetchFDARecalls`, AND RENAMING IT BACK REBREAKS HEALTH.
+ *
+ * Until 2026-09-05 this function was also called `fetchFDARecalls`, declared ~2300 lines
+ * BELOW the openFDA drug-enforcement fetcher of that same name. Function declarations
+ * hoist, so the later one silently replaced the earlier one for EVERY call site. The
+ * consequences, all measured in production:
+ *
+ *   - health index 7 (`FDARecalls`), displayed as "openFDA Recalls", was served this
+ *     food-recall RSS item count instead of openFDA drug enforcement actions;
+ *   - health index 204 (`FDARecalls_2`), commented "distinct from openFDA API", was the
+ *     SAME fetch run a second time, so the two channels could never disagree;
+ *   - the openFDA drug-enforcement code was unreachable, which is why `openFDA Recalls`
+ *     never appeared in production sourceHealth at all.
+ *
+ * Two channels that measure different quantities (drug enforcement actions vs food-recall
+ * feed items) reported one number. `brain-v2/bind/medicine.js` warned in prose that this
+ * pair was the most plausible-looking false relationship in the domain; the runtime had
+ * already collapsed it.
+ *
+ * The guard against a recurrence is `scripts/test-fetcher-shadowing.js`, which fails on
+ * any duplicate top-level fetcher declaration in this file.
+ * ═══════════════════════════════════════════════════════════════════════════════════
+ */
+async function fetchFDARecallsFoodRSS() {
   // FDA Recalls / Market Withdrawals / Safety Alerts RSS — biological / supply signal.
   try {
     var xml = await timedText('https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/recalls/rss.xml', {
@@ -5308,23 +5350,98 @@ async function fetchFedRegInterior() { return _fetchFedRegAgencyEnv('Fed Reg Int
 // CARE_ACCESS_FAILURE, CHRONIC_DISEASE_LOAD, CLINICAL_COORDINATION_BREAKDOWN,
 // THERAPEUTIC_RELIABILITY_RISK.
 
+/**
+ * TRUE 30-day Federal Register document count for one health agency.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════════════
+ * THREE COMPOUNDING ERRORS IN THE OLD SHAPE, NOT ONE.
+ *
+ * It requested `per_page=20&order=newest` with NO date filter, then counted how many of
+ * those twenty fell inside the last 30 days. That is wrong three separate ways, and the
+ * first of them hid the other two:
+ *
+ *   1. PAGE PIN. For any agency publishing more than twenty documents a month, all
+ *      twenty are inside the window, so the answer is exactly twenty forever. HHS and
+ *      NIH were pinned. The channel reported its own page size.
+ *
+ *   2. BOUNDARY DROP. The cutoff was a millisecond timestamp compared against a date
+ *      parsed at midnight UTC, so documents published on the boundary DAY were discarded
+ *      by a few hours. CDC lost three that way and reported 17 against a true 20.
+ *
+ *   3. FUTURE DOCUMENTS COUNTED. The Federal Register publishes ahead of time; CDC's
+ *      newest document on 2026-09-05 was dated 2026-09-08. A `>= thirtyDaysAgo` test
+ *      admits every one of them, so documents that had not been published yet were
+ *      counted as activity in the trailing 30 days.
+ *
+ * Measured against the publisher on 2026-09-05:
+ *
+ *     channel      old method     gte only     TRUE trailing 30d
+ *     Fed Reg HHS          20          200                   194
+ *     Fed Reg NIH          20           56                    53
+ *     Fed Reg CDC          17           21                    20
+ *     Fed Reg CMS          12           12                    11
+ *
+ * NO AGENCY WAS CORRECT, including CMS, which looked correct only because its page-pin
+ * and its future-dated documents happened to cancel out at one observation.
+ *
+ * THE FIX IS TO ASK THE PUBLISHER FOR A BOUNDED WINDOW, NOT TO PAGE. The API applies
+ * `conditions[publication_date][gte|lte]` server-side as DATE comparisons, inclusive of
+ * both boundary days, and returns the matching total in `count`. One request with
+ * `per_page=1` yields the real figure and transfers less than the old call did. `count`
+ * is the authoritative total for the filter; `results` is only its first page and must
+ * never be re-counted as the answer. The `lte` bound is what excludes documents that
+ * have not been published yet, and dropping it silently reintroduces error 3.
+ *
+ * Do not read the unfiltered `count` either: for CDC it returns 10000, which is the
+ * API's ceiling rather than a total.
+ * ═══════════════════════════════════════════════════════════════════════════════════
+ *
+ * STRESS IS DELIBERATELY LEFT ON THE OLD `recent / 12` DIVISOR AND IS KNOWN WRONG.
+ * Repairing the count makes the divisor's saturation worse, not better: at a true HHS
+ * count of 200 it pins to 1.0 harder than it did at 20. A single divisor cannot serve
+ * agencies whose true monthly rates span 12 (CMS) to 200 (HHS), a 17x range, so the
+ * replacement is a per-agency reference derived from each agency's own history rather
+ * than a number chosen here. That history currently holds the CAPPED era, so deriving it
+ * is blocked on the same re-baseline decision as the RSS retirement and is explicitly
+ * NOT taken in this change. `stressBasisPinned` marks every reading produced under the
+ * old divisor so the boundary stays visible downstream instead of being inferred later
+ * from a date.
+ */
 async function _fetchFedRegAgencyHealth(label, slug) {
   try {
-    var url = 'https://www.federalregister.gov/api/v1/documents.json?per_page=20&order=newest&conditions%5Bagencies%5D%5B%5D=' + encodeURIComponent(slug);
+    var nowMs = Date.now();
+    var since = new Date(nowMs - 30 * 86400000).toISOString().slice(0, 10);
+    var until = new Date(nowMs).toISOString().slice(0, 10);
+    var url = 'https://www.federalregister.gov/api/v1/documents.json?per_page=1&order=newest'
+      + '&conditions%5Bagencies%5D%5B%5D=' + encodeURIComponent(slug)
+      + '&conditions%5Bpublication_date%5D%5Bgte%5D=' + encodeURIComponent(since)
+      /* Excludes documents scheduled for future publication. Removing this bound does not
+         fail; it silently inflates every agency (HHS 194 -> 200 on 2026-09-05). */
+      + '&conditions%5Bpublication_date%5D%5Blte%5D=' + encodeURIComponent(until);
     var data = await timedJSON(url, { headers: { 'User-Agent': 'LIMEN-Helix/1.0' } });
-    if (!data || !data.results) { trackHealth(label, 'health', 'fallback', 'empty response'); return null; }
-    if (data.results.length === 0) { trackHealth(label, 'health', 'fallback', 'no recent documents'); return null; }
-    var thirtyDaysAgo = Date.now() - 30 * 86400000;
-    var recent = 0;
-    for (var i = 0; i < data.results.length; i++) {
-      var d = data.results[i];
-      var pub = new Date(d.publication_date).getTime();
-      if (!isNaN(pub) && pub >= thirtyDaysAgo) recent++;
-    }
+    if (!data || typeof data.count !== 'number') { trackHealth(label, 'health', 'fallback', 'no count for the 30d filter'); return null; }
+    /* Zero is a real reading, not an absence: an agency can publish nothing in 30 days.
+       Only a missing `count` is a failure, and that is handled above. */
+    var recent = data.count;
     var stress = clamp(recent / 12, 0, 1);
     trackHealth(label, 'health', 'live', null, recent);
     var shortLabel = label.replace('Fed Reg ', '');
-    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _federalRegisterIdentity(data, slug, Date.now()) };
+    return {
+      value: recent,
+      label: recent + ' ' + shortLabel + ' docs (30d)',
+      stress: round(stress),
+      stressBasisPinned: true,
+      signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d',
+      updated: Date.now(), fetchedAt: Date.now(),
+      /* The OBSERVATION IS THE COUNT, so the identity has to move when the count moves.
+         `_federalRegisterIdentity` hashes the returned records and the window but not the
+         count, which was adequate while this call paged 20 documents and is not adequate
+         now that it pages one. `_federalRegisterResultIdentity` folds `count` into the
+         material, so a withdrawn document changes the identity even though the newest
+         document did not change. It returns null on a zero-result window rather than
+         inventing a token, which is the intended abstention. */
+      sourceUpdatedAt: _federalRegisterResultIdentity(data, 'health-agency-30d:' + slug)
+    };
   } catch (e) { trackHealth(label, 'health', 'fallback', e.message); return null; }
 }
 
@@ -6673,7 +6790,12 @@ module.exports._fetchNOAANWSAlerts = fetchNOAANWSAlerts;
 module.exports._fetchUSGSEarthquakes = fetchUSGSEarthquakes;
 module.exports._fetchCISAKEV = fetchCISAKEV;
 module.exports._fetchCISAAdvisories = fetchCISAAdvisories;
-module.exports._fetchFDARecalls = fetchFDARecalls;
+/* THIS EXPORT WAS ITSELF A CASUALTY OF THE SHADOW BUG. It reads as the openFDA
+   drug-enforcement fetcher and, until 2026-09-05, delivered the food-recall RSS one,
+   because that was the declaration that won. Both are now exported under names that
+   match what they fetch. */
+module.exports._fetchFDARecalls = fetchFDARecalls;                 // openFDA drug enforcement, 30d
+module.exports._fetchFDARecallsFoodRSS = fetchFDARecallsFoodRSS;   // FDA food-recall RSS, item count
 module.exports._fetchFedRegAgencyResearch = _fetchFedRegAgencyResearch;
 module.exports._fetchOFACRecentActions = fetchOFACRecentActions;
 module.exports._fetchBBCWorldNews = fetchBBCWorldNews;
