@@ -165,13 +165,14 @@ async function byNaics(codeRaw) {
   });
 }
 
+// WGI 2025 revision renamed the series (CC.EST is archived). Source 3 is required.
 var WGI = [
-  { id: 'CC.EST', label: 'Control of Corruption' },
-  { id: 'RL.EST', label: 'Rule of Law' },
-  { id: 'RQ.EST', label: 'Regulatory Quality' },
-  { id: 'PV.EST', label: 'Political Stability' },
-  { id: 'VA.EST', label: 'Voice & Accountability' },
-  { id: 'GE.EST', label: 'Government Effectiveness' }
+  { id: 'GOV_WGI_CC.EST', label: 'Control of Corruption' },
+  { id: 'GOV_WGI_RL.EST', label: 'Rule of Law' },
+  { id: 'GOV_WGI_RQ.EST', label: 'Regulatory Quality' },
+  { id: 'GOV_WGI_PV.EST', label: 'Political Stability' },
+  { id: 'GOV_WGI_VA.EST', label: 'Voice & Accountability' },
+  { id: 'GOV_WGI_GE.EST', label: 'Government Effectiveness' }
 ];
 
 function wbLatest(body) {
@@ -189,7 +190,7 @@ async function wgiMeter() {
   var rows = [];
   for (var i = 0; i < WGI.length; i++) {
     var url = 'https://api.worldbank.org/v2/country/USA/indicator/' + WGI[i].id
-      + '?format=json&mrnev=1';
+      + '?format=json&mrnev=1&source=3';
     var r = await T.getJSON(url, 10000);
     var latest = (r.status === 200) ? wbLatest(r.body) : null;
     rows.push({
@@ -208,7 +209,7 @@ async function wgiMeter() {
     rows: rows,
     source: 'World Bank Worldwide Governance Indicators',
     sourceUrl: 'https://www.worldbank.org/en/publication/worldwide-governance-indicators',
-    note: 'Estimate scores, roughly -2.5 to +2.5. Annual. Non-partisan institutional-quality readings, not a ranking of parties or candidates.',
+    note: 'Estimate scores, roughly -2.5 to +2.5, from the WGI 2025 revision (source 3). Annual. Non-partisan institutional-quality readings, not a ranking of parties or candidates.',
     asOf: rows.filter(function (x) { return x.date; }).map(function (x) { return x.date; }).sort().slice(-1)[0] || null
   };
 }
