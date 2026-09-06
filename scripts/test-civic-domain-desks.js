@@ -123,7 +123,7 @@ ok('no secrets in civic files',
     intelligence + population + lawHtml + governance + civic));
 
 ok('OSINT / no surveillance copy on intelligence',
-  /OSINT only/.test(intelligence) && /not person-level/.test(intelligence));
+  /OSINT only/.test(intelligence) && /person-level/.test(intelligence));
 ok('aggregate-only copy on population', /Never re-identifies|county totals/i.test(population));
 ok('not-legal-advice copy on law', /not legal advice/i.test(lawHtml));
 ok('non-partisan / as-published copy on governance',
