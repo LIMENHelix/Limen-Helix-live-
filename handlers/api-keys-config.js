@@ -20,7 +20,7 @@ function operatorPass(req) {
 module.exports = function handler(req, res) {
   if (!adminGate.isMaster(operatorPass(req))) return adminGate.deny(res);
 
-  res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=30');
+  res.setHeader('Cache-Control', 'no-store');
 
   // ─── All API keys the system can use ──────────────────────────────
   var ALL_KEYS = {
