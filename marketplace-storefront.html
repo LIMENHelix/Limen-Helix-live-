@@ -58,7 +58,9 @@
     border-radius: 6px;
     padding: 10px 14px;
     width: 240px;
-    font-size: 0.9rem;
+    /* 16px or iOS Safari zooms the page the moment this is focused. */
+    font-size: 16px;
+    -webkit-appearance: none;
     color: var(--ink);
   }
   .search-bar::placeholder { color: var(--soft); }
@@ -338,7 +340,7 @@
     <div class="byline">by LIMEN Helix</div>
   </div>
   <div class="header-right">
-    <input type="text" class="search-bar" placeholder="Search items..." id="searchInput" />
+    <form onsubmit="return false" style="display:contents"><input type="search" enterkeyhint="search" autocapitalize="none" autocorrect="off" spellcheck="false" class="search-bar" placeholder="Search items..." id="searchInput" oninput="setSearch(this.value)" /></form>
     <div class="cart-icon" onclick="toggleCart()">
       🛒
       <span class="cart-count" id="cartCount" style="display:none">0</span>
@@ -398,6 +400,7 @@ var cart = [];
 var listings = [];
 var currentCategory = null;
 var currentCondition = null;
+var currentSearch = '';
 
 localStorage.setItem('relay-buyer-id', BUYER_ID);
 loadListings();
@@ -422,6 +425,8 @@ function renderListings() {
   let filtered = listings.filter(function(l) {
     if (currentCategory && l.category !== currentCategory) return false;
     if (currentCondition && l.condition !== currentCondition) return false;
+    if (currentSearch && (l.title + ' ' + (l.category || '') + ' ' + (l.description || ''))
+        .toLowerCase().indexOf(currentSearch) === -1) return false;
     return true;
   });
 
@@ -440,6 +445,11 @@ function renderListings() {
   }).join('');
 
   document.getElementById('listingsContainer').innerHTML = html || '<p style="padding:40px;text-align:center;color:var(--soft)">No items found</p>';
+}
+
+function setSearch(v) {
+  currentSearch = (v || '').trim().toLowerCase();
+  renderListings();
 }
 
 function setCategory(cat) {
