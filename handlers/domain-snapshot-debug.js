@@ -2,12 +2,23 @@
  * api/domain-snapshot-debug.js
  * Vercel serverless — debug view of domain-snapshot source health
  *
- * Shows per-source success/failure, parsed values, fallback reasons,
- * env var status, and raw fetch diagnostics. Not for production UI.
+ * Operator-only diagnostic. Shows per-source success/failure, fallback
+ * reasons, env var presence, and raw fetch diagnostics. Requires the
+ * operator master key (x-limen-pass); fails closed. Secret-derived
+ * material (key prefixes, suffixes, lengths, fingerprints) is never
+ * returned — only set / NOT SET presence.
  */
 
+var adminGate = require('../lib/admin-gate');
+
+function operatorPass(req) {
+  var headers = (req && req.headers) || {};
+  return headers['x-limen-pass'] || headers['X-Limen-Pass'] || '';
+}
+
 module.exports = async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  if (!adminGate.isMaster(operatorPass(req))) return adminGate.deny(res);
+
   res.setHeader('Cache-Control', 'no-cache');
 
   // Fetch the main snapshot to get live health data
@@ -22,11 +33,11 @@ module.exports = async function handler(req, res) {
     fetchError = e.message;
   }
 
-  // Environment variable audit
+  // Environment variable audit — presence only, never secret-derived material.
   var envStatus = {
-    FRED_API_KEY: !!process.env.FRED_API_KEY ? 'set (' + process.env.FRED_API_KEY.substring(0, 4) + '...)' : 'NOT SET',
-    EIA_API_KEY: !!process.env.EIA_API_KEY ? 'set (' + process.env.EIA_API_KEY.substring(0, 4) + '...)' : 'NOT SET',
-    NOAA_TOKEN: !!process.env.NOAA_TOKEN ? 'set (' + process.env.NOAA_TOKEN.substring(0, 4) + '...)' : 'NOT SET'
+    FRED_API_KEY: !!process.env.FRED_API_KEY ? 'set' : 'NOT SET',
+    EIA_API_KEY: !!process.env.EIA_API_KEY ? 'set' : 'NOT SET',
+    NOAA_TOKEN: !!process.env.NOAA_TOKEN ? 'set' : 'NOT SET'
   };
 
   // Source inventory
