@@ -2,25 +2,30 @@
 'use strict';
 
 /**
- * test-relay-demand-webhook.js — payment events must PROVE they came from Stripe.
+ * test-relay-demand-webhook.js — the legacy relay-demand webhook is a write-free stub.
  *
- * Runs against the REAL lib/stripe-rail verifier (HMAC over the raw body against the
- * STRIPE_WEBHOOK_SECRET family) with limen-db on its in-memory backend — signature
- * verification is the thing whose behaviour matters, so stubbing it would test the
- * mock. Events are signed with a throwaway secret; no network, no real Stripe state.
+ * Runs against the REAL lib/relay-finance-bridge verifier (HMAC over the raw body against
+ * the STRIPE_WEBHOOK_SECRET family) with limen-db on its in-memory backend — signature
+ * verification is the thing whose behaviour matters, so stubbing it would test the mock.
+ * Events are signed with a throwaway secret; no network, no real Stripe state.
+ *
+ * WHY RETIRED. The previous handler wrote `relay:orders` (the Trade domain's shared
+ * marketplace store — off-limits to Relay; Relay's own orders live under
+ * `relay:store:orders`), `relay:finance-ledger`, `relay:purchase-queue`, and a seen-list.
+ * Real payment reconciliation already exists: lib/relay-engine.js polls
+ * relay-finance-bridge.paymentStatus(), requiring payment_status 'paid' AND status
+ * 'complete'. This endpoint keeps its Stripe route registration (dashboard endpoint
+ * removal is unverified; 404s invite retry storms) and mutates NOTHING.
  *
  * The properties under test, in order of how much damage getting them wrong would do:
- *   1. No secret configured → 503, zero writes (fail closed, never fail open).
- *   2. Missing or invalid signature → 403, zero writes. Nothing unverified mutates.
- *   3. Only checkout.session.completed is accepted; other event types are ignored
- *      without touching storage.
- *   4. Identity comes from the VERIFIED event object, never caller JSON: a decoy
- *      top-level stripeSessionId must not drive the lookup.
- *   5. A verified event pays exactly one order: one ledger entry, one queue entry,
- *      and the order is paid with the event id recorded.
- *   6. Re-delivery of the same event, or a new event for an already-paid order,
- *      changes nothing.
- *   7. An unknown session is a no-op, not an error.
+ *   1. No secret configured → 503. Missing or invalid signature → 403. Fail closed.
+ *   2. A verified event of ANY type — checkout.session.completed paid or unpaid,
+ *      async_payment_succeeded, anything — → 200 acknowledging retirement.
+ *   3. ZERO writes in every case: relay:orders, relay:store:orders,
+ *      relay:finance-ledger, relay:purchase-queue and the retired seen-list are all
+ *      deep-equal to their seeded state afterwards, and no db.set call occurs while
+ *      the handler runs.
+ *   4. Repeated delivery of the same event changes nothing.
  */
 
 const assert = require('assert');
@@ -39,16 +44,12 @@ function restoreEnv() {
 }
 
 const SECRET = 'whsec_demand_test_throwaway';
-const ORDER = {
-  orderId: 'ord_1001',
-  stripeSessionId: 'cs_test_known_session',
-  margin: 12.5,
-  sourceMarketplace: 'ebay',
-  sourceUrl: 'https://example.com/item/1',
-  sourceCost: 40,
-  shippingAddress: { name: 'Buyer', line1: '1 Main St', city: 'Springfield', state: 'IL', postalCode: '62701', country: 'US' },
-  status: 'awaiting-payment'
-};
+
+const SEED_ORDERS_SHARED = [{ id: 'ord_shared', stripeSessionId: 'cs_test_known_session', status: 'awaiting-payment' }];
+const SEED_ORDERS_STORE = { ord_store: { id: 'ord_store', status: 'awaiting-payment' } };
+const SEED_LEDGER = [{ ts: '2026-01-01T00:00:00Z', type: 'margin', orderId: 'ord_prior', amount: 1 }];
+const SEED_QUEUE = [{ ts: '2026-01-01T00:00:00Z', orderId: 'ord_prior', status: 'pending_auto_buy' }];
+const SEED_SEEN = ['evt_prior'];
 
 const db = require('../lib/limen-db');
 const handler = require('../handlers/relay-demand-webhook.js');
@@ -64,11 +65,11 @@ function sign(raw, secret) {
   return 't=' + t + ',v1=' + crypto.createHmac('sha256', secret).update(t + '.' + raw).digest('hex');
 }
 
-function event(id, sessionId, type) {
+function event(id, sessionId, type, paymentStatus) {
   return JSON.stringify({
     id: id,
     type: type || 'checkout.session.completed',
-    data: { object: { id: sessionId, payment_status: 'paid' } }
+    data: { object: { id: sessionId, payment_status: paymentStatus || 'paid' } }
   });
 }
 
@@ -107,108 +108,113 @@ function invoke(req) {
   });
 }
 
-async function ledgerLen() { return ((await db.get('relay:finance-ledger')) || []).length; }
-async function queueLen() { return ((await db.get('relay:purchase-queue')) || []).length; }
-async function orders() { return ((await db.get('relay:orders')) || []); }
-async function seenLen() { return ((await db.get('relay:demand:events:seen:v1')) || []).length; }
+async function seed() {
+  await db.set('relay:orders', JSON.parse(JSON.stringify(SEED_ORDERS_SHARED)));
+  await db.set('relay:store:orders', JSON.parse(JSON.stringify(SEED_ORDERS_STORE)));
+  await db.set('relay:finance-ledger', JSON.parse(JSON.stringify(SEED_LEDGER)));
+  await db.set('relay:purchase-queue', JSON.parse(JSON.stringify(SEED_QUEUE)));
+  await db.set('relay:demand:events:seen:v1', JSON.parse(JSON.stringify(SEED_SEEN)));
+}
 
-async function assertNoWrites(label, expectedOrders) {
-  const os = await orders();
-  check(label + ': orders untouched', JSON.stringify(os), JSON.stringify(expectedOrders || []));
-  check(label + ': no ledger entry', await ledgerLen(), 0);
-  check(label + ': no queue entry', await queueLen(), 0);
-  check(label + ': nothing marked seen', await seenLen(), 0);
+/** Every protected key is deep-equal to its seed, and zero db.set ran during the invoke. */
+async function assertNoWrites(label, setCalls) {
+  check(label + ': zero db.set calls during invoke', setCalls, 0);
+  check(label + ': relay:orders untouched',
+    JSON.stringify(await db.get('relay:orders')), JSON.stringify(SEED_ORDERS_SHARED));
+  check(label + ': relay:store:orders untouched',
+    JSON.stringify(await db.get('relay:store:orders')), JSON.stringify(SEED_ORDERS_STORE));
+  check(label + ': relay:finance-ledger untouched',
+    JSON.stringify(await db.get('relay:finance-ledger')), JSON.stringify(SEED_LEDGER));
+  check(label + ': relay:purchase-queue untouched',
+    JSON.stringify(await db.get('relay:purchase-queue')), JSON.stringify(SEED_QUEUE));
+  check(label + ': retired seen-list untouched',
+    JSON.stringify(await db.get('relay:demand:events:seen:v1')), JSON.stringify(SEED_SEEN));
+}
+
+/** Invoke with a db.set counter wrapped around it, so zero writes is measured, not assumed. */
+async function invokeCounted(req) {
+  let sets = 0;
+  const realSet = db.set;
+  db.set = async function () { sets++; return realSet.apply(db, arguments); };
+  try {
+    const out = await invoke(req);
+    return { out: out, sets: sets };
+  } finally {
+    db.set = realSet;
+  }
 }
 
 async function main() {
   console.log('backend:', db.getBackend());
   delete process.env.STRIPE_WEBHOOK_SECRET_SUBS;
   delete process.env.STRIPE_WEBHOOK_SECRET_2;
-  process.env.STRIPE_WEBHOOK_SECRET = SECRET;
 
-  const RAW = event('evt_1', ORDER.stripeSessionId);
+  await seed();
 
   // ── 1. no secret configured: fail closed ───────────────────────────────────
   delete process.env.STRIPE_WEBHOOK_SECRET;
-  let r = await invoke(streamReq(RAW, { 'stripe-signature': sign(RAW, SECRET) }));
-  check('unconfigured webhook refuses (status)', r.status, 503);
-  await assertNoWrites('unconfigured');
+  const RAW = event('evt_1', 'cs_test_known_session');
+  let r = await invokeCounted(streamReq(RAW, { 'stripe-signature': sign(RAW, SECRET) }));
+  check('unconfigured webhook refuses (status)', r.out.status, 503);
+  await assertNoWrites('unconfigured', r.sets);
   process.env.STRIPE_WEBHOOK_SECRET = SECRET;
 
-  // ── 2. missing / invalid signature: refuse before anything is read ─────────
-  r = await invoke(streamReq(RAW, {}));
-  check('missing signature refuses (status)', r.status, 403);
-  await assertNoWrites('missing signature');
+  // ── 2. missing / invalid signature: refuse before anything is parsed ───────
+  r = await invokeCounted(streamReq(RAW, {}));
+  check('missing signature refuses (status)', r.out.status, 403);
+  await assertNoWrites('missing signature', r.sets);
 
-  r = await invoke(streamReq(RAW, { 'stripe-signature': 't=1,v1=deadbeef' }));
-  check('invalid signature refuses (status)', r.status, 403);
-  await assertNoWrites('invalid signature');
+  r = await invokeCounted(streamReq(RAW, { 'stripe-signature': 't=1,v1=deadbeef' }));
+  check('invalid signature refuses (status)', r.out.status, 403);
+  await assertNoWrites('invalid signature', r.sets);
 
-  r = await invoke(streamReq(RAW, { 'stripe-signature': sign(RAW, 'whsec_some_other_secret') }));
-  check('wrong-secret signature refuses (status)', r.status, 403);
-  await assertNoWrites('wrong-secret signature');
+  r = await invokeCounted(streamReq(RAW, { 'stripe-signature': sign(RAW, 'whsec_some_other_secret') }));
+  check('wrong-secret signature refuses (status)', r.out.status, 403);
+  await assertNoWrites('wrong-secret signature', r.sets);
 
-  // ── 3. wrong event type: acknowledged, ignored, no writes ──────────────────
-  const chargeRaw = event('evt_ignored', 'ch_test_1', 'charge.succeeded');
-  r = await invoke(streamReq(chargeRaw, { 'stripe-signature': sign(chargeRaw, SECRET) }));
-  check('wrong event type acknowledged (status)', r.status, 200);
-  check('wrong event type ignored', r.body.ignored, 'charge.succeeded');
-  await assertNoWrites('wrong event type');
+  // ── 3. verified checkout.session.completed, paid: acknowledged, ignored ────
+  r = await invokeCounted(streamReq(RAW, { 'stripe-signature': sign(RAW, SECRET) }));
+  check('verified paid session acknowledged (status)', r.out.status, 200);
+  check('response marks the endpoint retired', r.out.body.retired, true);
+  check('response states nothing was mutated', r.out.body.mutated, false);
+  await assertNoWrites('verified paid session', r.sets);
 
-  // ── seed one awaiting order ────────────────────────────────────────────────
-  await db.set('relay:orders', [ORDER]);
+  // ── 4. verified checkout.session.completed, UNPAID: same, still no writes ──
+  const unpaidRaw = event('evt_2', 'cs_test_known_session', 'checkout.session.completed', 'unpaid');
+  r = await invokeCounted(streamReq(unpaidRaw, { 'stripe-signature': sign(unpaidRaw, SECRET) }));
+  check('verified unpaid session acknowledged (status)', r.out.status, 200);
+  check('unpaid response also retired', r.out.body.retired, true);
+  await assertNoWrites('verified unpaid session', r.sets);
 
-  // ── 4. identity from the verified event, not caller JSON ───────────────────
-  const decoyRaw = JSON.stringify({
-    id: 'evt_2', type: 'checkout.session.completed', stripeSessionId: 'cs_test_decoy_never_ordered',
-    data: { object: { id: ORDER.stripeSessionId, payment_status: 'paid' } }
-  });
-  r = await invoke(streamReq(decoyRaw, { 'stripe-signature': sign(decoyRaw, SECRET) }));
-  check('verified event pays the order (status)', r.status, 200);
-  check('verified event pays the session order', r.body.orderId, 'ord_1001');
-  let os = await orders();
-  check('order is paid', os[0].status, 'paid');
-  check('order carries the verified event id', os[0].stripeEventId, 'evt_2');
-  let ledger = await db.get('relay:finance-ledger');
-  check('exactly one ledger entry so far', ledger.length, 1);
-  check('decoy session id appears nowhere',
-    (JSON.stringify(ledger) + JSON.stringify(await db.get('relay:purchase-queue'))).indexOf('decoy') === -1, true);
-  check('ledger entry names the real order', ledger[0].orderId, 'ord_1001');
+  // ── 5. verified async_payment_succeeded: acknowledged, ignored ─────────────
+  const asyncRaw = event('evt_3', 'cs_test_known_session', 'async_payment_succeeded', 'paid');
+  r = await invokeCounted(streamReq(asyncRaw, { 'stripe-signature': sign(asyncRaw, SECRET) }));
+  check('async_payment_succeeded acknowledged (status)', r.out.status, 200);
+  await assertNoWrites('async_payment_succeeded', r.sets);
 
-  // ── 5. exactly one ledger entry and one queue entry ────────────────────────
-  check('exactly one ledger entry', ledger.length, 1);
-  const queue = await db.get('relay:purchase-queue');
-  check('exactly one queue entry', queue.length, 1);
-  check('queue entry pending_auto_buy', queue[0].status, 'pending_auto_buy');
-  check('ledger is the reconciliation artifact (margin, event id)', ledger[0].stripeEventId, 'evt_2');
-  check('event marked seen', await seenLen(), 1);
+  // ── 6. unrelated event type: acknowledged, ignored ─────────────────────────
+  const chargeRaw = event('evt_4', 'ch_test_1', 'charge.succeeded');
+  r = await invokeCounted(streamReq(chargeRaw, { 'stripe-signature': sign(chargeRaw, SECRET) }));
+  check('unrelated event type acknowledged (status)', r.out.status, 200);
+  await assertNoWrites('unrelated event type', r.sets);
 
-  // ── 6. re-delivery changes nothing; neither does a new event, same session ─
-  r = await invoke(streamReq(decoyRaw, { 'stripe-signature': sign(decoyRaw, SECRET) }));
-  check('duplicate delivery acknowledged (status)', r.status, 200);
-  check('duplicate flagged', r.body.duplicate, true);
-  check('duplicate adds no ledger entry', await ledgerLen(), 1);
-  check('duplicate adds no queue entry', await queueLen(), 1);
-
-  const againRaw = event('evt_3', ORDER.stripeSessionId);
-  r = await invoke(streamReq(againRaw, { 'stripe-signature': sign(againRaw, SECRET) }));
-  check('new event for paid order acknowledged (status)', r.status, 200);
-  check('already-paid flagged', r.body.alreadyPaid, true);
-  check('already-paid adds no ledger entry', await ledgerLen(), 1);
-  check('already-paid adds no queue entry', await queueLen(), 1);
-  check('only the first event is marked seen', await seenLen(), 1);
-
-  // ── 7. unknown session: no-op, not an error ────────────────────────────────
-  const unknownRaw = event('evt_4', 'cs_test_never_heard_of');
-  r = await invoke(streamReq(unknownRaw, { 'stripe-signature': sign(unknownRaw, SECRET) }));
-  check('unknown session acknowledged (status)', r.status, 200);
-  check('unknown session is a no-op', r.body.orderId === undefined, true);
-  check('unknown session adds no ledger entry', await ledgerLen(), 1);
-  check('unknown session adds no queue entry', await queueLen(), 1);
+  // ── 7. repeated delivery of the same event: nothing changes ────────────────
+  r = await invokeCounted(streamReq(RAW, { 'stripe-signature': sign(RAW, SECRET) }));
+  check('repeated event acknowledged (status)', r.out.status, 200);
+  await assertNoWrites('repeated event', r.sets);
 
   // ── method guard ───────────────────────────────────────────────────────────
   r = await invoke({ method: 'GET', url: '/api/relay-demand-webhook', headers: {}, on: function () { return this; } });
   check('GET refuses (status)', r.status, 405);
+
+  // ── structural pin: the handler carries no store coupling at all ───────────
+  const src = require('fs').readFileSync(require('path').join(__dirname, '..', 'handlers', 'relay-demand-webhook.js'), 'utf8');
+  check('handler does not import limen-db', src.indexOf("require('../lib/limen-db')"), -1);
+  check('handler names no shared store key', src.indexOf("'relay:orders'"), -1);
+  check('handler names no Relay store key', src.indexOf("'relay:store:orders'"), -1);
+  check('handler names no finance ledger key', src.indexOf("'relay:finance-ledger'"), -1);
+  check('handler names no purchase queue key', src.indexOf("'relay:purchase-queue'"), -1);
+  check('handler names no seen-list key', src.indexOf("'relay:demand:events:seen:v1'"), -1);
 
   console.log(passed + '/' + passed + ' passed');
 }
