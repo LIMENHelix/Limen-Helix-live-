@@ -2,15 +2,25 @@
  * api/api-keys-config.js
  * Vercel serverless — API key status endpoint
  *
- * Returns which environment variables are configured (not the keys themselves).
- * Used by the front end to show feed readiness per domain.
+ * Operator-only. Returns which environment variables are configured
+ * (not the keys themselves, and no key-derived metadata such as lengths
+ * or prefixes). Used to audit feed readiness. Requires the operator
+ * master key (x-limen-pass); fails closed.
  *
  * GET /api/api-keys-config → { configured: [...], missing: [...], summary }
  */
 
+var adminGate = require('../lib/admin-gate');
+
+function operatorPass(req) {
+  var headers = (req && req.headers) || {};
+  return headers['x-limen-pass'] || headers['X-Limen-Pass'] || '';
+}
+
 module.exports = function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=30');
+  if (!adminGate.isMaster(operatorPass(req))) return adminGate.deny(res);
+
+  res.setHeader('Cache-Control', 'no-store');
 
   // ─── All API keys the system can use ──────────────────────────────
   var ALL_KEYS = {
@@ -66,7 +76,6 @@ module.exports = function handler(req, res) {
 
     if (process.env[key]) {
       entry.status = 'configured';
-      entry.length = process.env[key].length;  // length only, not the key
       configured.push(entry);
     } else {
       entry.status = 'missing';
