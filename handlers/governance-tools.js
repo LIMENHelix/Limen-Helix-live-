@@ -214,12 +214,20 @@ async function wgiMeter() {
   };
 }
 
+var Afferent = require('../lib/g0-desk-afferent');
+
 module.exports = async function handler(req, res) {
   var q = req.query || {};
   try {
     if (q.tool === 'meter') return T.send(res, await T.cached('governance:tool:wgi:v1', 24 * 3600 * 1000, wgiMeter));
-    if (q.tool === 'entity' && q.q) return T.send(res, await byEntity(q.q));
-    if (q.tool === 'uei' && q.id) return T.send(res, await byUei(q.id));
+    if (q.tool === 'entity' && q.q) {
+      Afferent.note('governance', q.q, 'governance-tools');
+      return T.send(res, await byEntity(q.q));
+    }
+    if (q.tool === 'uei' && q.id) {
+      Afferent.note('governance', q.id, 'governance-tools');
+      return T.send(res, await byUei(q.id));
+    }
     if (q.tool === 'naics' && q.code) return T.send(res, await byNaics(q.code));
     if (q.tool === 'state' && q.st) return T.send(res, await byState(q.st));
     var out = await T.cached('governance:tool:national:v2', TTL, nationwide);

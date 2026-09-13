@@ -60,7 +60,12 @@ var financeSubscriberEffectAt = financeSubscriberExecutor.indexOf('transport.sen
 assert(financeSubscriberExecutor.includes("require('./finance-subscriber-motor-authorization.js')"));
 assert(financeSubscriberGateAt >= 0 && financeSubscriberEffectAt > financeSubscriberGateAt);
 assert(financeSubscriberExecutor.slice(financeSubscriberGateAt, financeSubscriberEffectAt).includes('if (!motor || !motor.authorized)'));
-assert(stripeWebhook.includes("String(domain || '').toLowerCase() === 'finance' ? financeFulfillment : religionFulfillment"));
+assert(stripeWebhook.includes("require('../lib/g0-desk-fulfillment')"));
+assert(stripeWebhook.includes("if (id === 'finance') return financeFulfillment;"));
+assert(stripeWebhook.includes("if (id === 'religion') return religionFulfillment;"));
+assert(stripeWebhook.includes('if (g0DeskFulfillment.owns(id)) return g0DeskFulfillment;'));
+assert(stripeWebhook.includes('return religionFulfillment;'));
+assert(!stripeWebhook.includes("String(domain || '').toLowerCase() === 'finance' ? financeFulfillment : religionFulfillment"));
 assert(stripeWebhook.includes('welcomeMotor.enqueueAndAttempt({'));
 assert(stripeWebhook.includes('renewalMotor.enqueueAndAttempt({'));
 assert(stripeWebhook.includes('subs.activateStrict({'));

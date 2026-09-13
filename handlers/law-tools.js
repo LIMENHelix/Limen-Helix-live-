@@ -13,6 +13,7 @@
  * Source: Federal Register API (federalregister.gov/api/v1), keyless.
  */
 var T = require('../lib/tool-fetch');
+var Afferent = require('../lib/g0-desk-afferent');
 
 var BASE = 'https://www.federalregister.gov/api/v1/documents.json';
 var TTL = 6 * 3600 * 1000;
@@ -294,6 +295,7 @@ module.exports = async function handler(req, res) {
   try {
     if (q.tool === 'meter') return T.send(res, await meters());
     if (q.tool === 'comments' && (q.q || q.agency)) {
+      Afferent.note('law', q.q || q.agency, 'law-tools');
       return T.send(res, await searchComments(q.q, q.agency));
     }
     var out = await T.cached('law:tool:comments:open:v2', TTL, openComments);

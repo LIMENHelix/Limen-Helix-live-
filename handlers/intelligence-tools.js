@@ -19,6 +19,7 @@
  * dates of birth and the other Treasury lists; a name match here is a starting point only.
  */
 var T = require('../lib/tool-fetch');
+var Afferent = require('../lib/g0-desk-afferent');
 
 var SDN_URL = 'https://sanctionslistservice.ofac.treas.gov/api/publicationpreview/exports/SDN.CSV';
 var MEM_TTL = 12 * 3600 * 1000;
@@ -132,7 +133,10 @@ async function search(qRaw) {
 module.exports = async function handler(req, res) {
   var q = req.query || {};
   try {
-    if (q.tool === 'sdn' && q.q) return T.send(res, await search(q.q));
+    if (q.tool === 'sdn' && q.q) {
+      Afferent.note('intelligence', q.q, 'intelligence-tools');
+      return T.send(res, await search(q.q));
+    }
     var mem = await loadList();
     if (mem.error) return T.send(res, { ok: false, reason: mem.error });
     return T.send(res, summary(mem));

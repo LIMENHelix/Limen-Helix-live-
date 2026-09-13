@@ -111,11 +111,19 @@ async function orgDetail(einRaw) {
   });
 }
 
+var Afferent = require('../lib/g0-desk-afferent');
+
 module.exports = async function handler(req, res) {
   var q = req.query || {};
   try {
-    if (q.tool === 'detail' && q.ein) return T.send(res, await orgDetail(q.ein));
-    if (q.tool === 'org' && q.q) return T.send(res, await searchOrg(q.q, q.state));
+    if (q.tool === 'detail' && q.ein) {
+      Afferent.note('religion', q.ein, 'religion-tools');
+      return T.send(res, await orgDetail(q.ein));
+    }
+    if (q.tool === 'org' && q.q) {
+      Afferent.note('religion', q.q, 'religion-tools');
+      return T.send(res, await searchOrg(q.q, q.state));
+    }
     return T.send(res, {
       ok: true, mode: 'idle',
       source: 'ProPublica Nonprofit Explorer, from IRS Form 990 filings',

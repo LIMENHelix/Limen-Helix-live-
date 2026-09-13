@@ -7,6 +7,7 @@
  * Educational data only — NOT investment advice. Tickers are themes to research, never "buy".
  */
 var db = require('../lib/limen-db');
+var Afferent = require('../lib/g0-desk-afferent');
 
 var CACHE_KEY = 'culture:markets:v1';
 var TTL_MS = 15 * 60 * 1000;
@@ -49,6 +50,7 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=600');
   var now = Date.now();
+  Afferent.note('culture', 'markets', 'culture-markets');
   try {
     var cached = await db.get(CACHE_KEY);
     if (cached && cached.updatedMs && (now - cached.updatedMs) < TTL_MS && cached.quotes) {

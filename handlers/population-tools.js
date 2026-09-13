@@ -35,6 +35,7 @@
  *  - Statewide medians hide enormous variation between a city and a rural county.
  */
 var T = require('../lib/tool-fetch');
+var Afferent = require('../lib/g0-desk-afferent');
 
 var TTL = 24 * 3600 * 1000;
 var STATES = ('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND '
@@ -400,6 +401,7 @@ module.exports = async function handler(req, res) {
         return T.send(res, await T.cachedQuery('population:tool:mig:fips:' + fips, MIG_TTL, function () { return countyScan(fips); }));
       }
       if (q.zip) {
+        Afferent.note('population', q.zip, 'population-tools');
         var z = String(q.zip).replace(/\D/g, '').slice(0, 5);
         if (z.length !== 5) return T.send(res, { ok: false, reason: 'Enter a 5-digit ZIP.' });
         return T.send(res, await T.cachedQuery('population:tool:mig:zip:' + z, MIG_TTL, async function () {

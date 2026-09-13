@@ -20,6 +20,7 @@
  * and field of study moves it far more than the school does.
  */
 var T = require('../lib/tool-fetch');
+var Afferent = require('../lib/g0-desk-afferent');
 
 var BASE = 'https://api.data.gov/ed/collegescorecard/v1/schools';
 var TTL = 24 * 3600 * 1000;
@@ -144,7 +145,10 @@ async function searchSchool(qRaw, stateRaw) {
 module.exports = async function handler(req, res) {
   var q = req.query || {};
   try {
-    if (q.tool === 'school' && q.q) return T.send(res, await searchSchool(q.q, q.state));
+    if (q.tool === 'school' && q.q) {
+      Afferent.note('education', q.q, 'education-tools');
+      return T.send(res, await searchSchool(q.q, q.state));
+    }
     return T.send(res, {
       ok: true, mode: 'idle', keyed: !!apiKey(),
       source: 'U.S. Department of Education, College Scorecard',

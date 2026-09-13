@@ -29,6 +29,7 @@ var catalog = require('../lib/offer-catalog');
 var motorStore = require('../lib/autofire-efference-store');
 var religionFulfillment = require('../lib/religion-revenue-fulfillment');
 var financeFulfillment = require('../lib/finance-revenue-fulfillment');
+var g0DeskFulfillment = require('../lib/g0-desk-fulfillment');
 var leadPipeline = require('../lib/lead-pipeline-bridge');
 /* Books confirmed payments into the twenty-domain double-entry treasury. Deposit only:
    the sole receipt it can write moves money INTO a domain's pending bucket, and the ledger
@@ -40,7 +41,11 @@ var SEEN_CAP = 400;
 var SITE = process.env.PUBLIC_SITE_URL || 'https://limenhelix.com';
 
 function fulfillmentFor(domain) {
-  return String(domain || '').toLowerCase() === 'finance' ? financeFulfillment : religionFulfillment;
+  var id = String(domain || '').toLowerCase();
+  if (id === 'finance') return financeFulfillment;
+  if (id === 'religion') return religionFulfillment;
+  if (g0DeskFulfillment.owns(id)) return g0DeskFulfillment;
+  return religionFulfillment;
 }
 
 function send(res, obj, code) {
