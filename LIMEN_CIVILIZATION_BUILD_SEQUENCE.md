@@ -3851,3 +3851,54 @@ independent outcomes and rollback, accepted unhashed receipt identities without
 resolving them, and could mark fulfillment complete without a provider call.
 Those failure modes are explicitly excluded. Runtime code and its tests are
 implemented and reviewed in the repository against current code truth.
+
+### Soft-five commercial sovereignty repair — implementation in progress 2026-09-13
+
+The shorthand agent rollup (`Culture/Religion 5·6`, `Communication 6·6`,
+`Education/Medicine 6·5`) is not authoritative operational evidence. A fresh
+source audit on merged main `94079b89` found a narrower but important defect:
+the primary source-to-action lanes for all five Soft domains were present, but
+the paid subscriber dispatcher and Stripe fulfillment webhook routed every
+non-Finance purchase through Religion's subscriber decision and motor. Culture,
+Education, Communication, and Medicine therefore did not own the motor that
+fulfilled their own paid products. No production evidence established that this
+fallback was safe or sovereign.
+
+The repair removes that fallback. Culture, Education, Communication, and
+Medicine now resolve only to their own immutable subscriber-lane identity. Each
+lane has separate B10 decision and B14 authorization/command receipts, durable
+keys, send cap and dollar budget, provider action claim, Stripe fulfillment
+queue, independent Resend read observer, learning cause/outcome state, future-
+delivery suppression recovery, and local civilization valve. Medicine's
+product identity remains `medicine` while its owning runtime brain remains
+`health`; the join is explicit and cannot be borrowed by another domain. The
+common executable template repeats the same physiology while closing over the
+exact domain identity. It has no cross-domain chooser or shared runtime state
+and cannot move a cognition record, receipt, budget, outcome, or recovery
+between domains.
+
+Every new lane fails closed unless its own current cognition packet is safe,
+its own email and observer switches and budgets are configured, the global and
+local last-moment valves are open, and a fresh durable capability record proves
+an actual production Resend effect, independent readback, executor, observer,
+and recovery verification. The motor re-reads the exact durable B10 decision
+before dispatch rather than trusting a caller-supplied copy. A provider response
+without a provider email id is `AMBIGUOUS`, never fulfilled. Unsupported product
+domains are held as `domain-subscriber-motor-not-commissioned`; Religion is no
+longer their compatibility route. Negative independently read delivery outcomes
+may suppress only the same domain's future delivery, and no prior email recall
+is claimed.
+
+Paid subscriber identity and the message body remain in a held fulfillment task
+only while they are required for retry. On completion, definitive failure, or
+an ambiguous external result, the task removes the address and message and
+retains only hashed identities needed for audit and outcome joins.
+
+The code and isolated tests do not constitute production commissioning. During
+this tranche all new switches remain closed, no capability receipt is invented,
+and no Resend/xAI call, customer message, charge, or external marketing action
+is authorized. Religion retains its existing separate implementation. The next
+step for these four lanes is one-at-a-time production capability commissioning
+with owned-destination evidence, independent provider readback, recovery proof,
+and zero cross-domain mutations; only then may a domain's queued paid
+fulfillment run automatically.

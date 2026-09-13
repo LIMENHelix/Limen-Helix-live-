@@ -25,20 +25,28 @@ var religionDecision = require('../lib/religion-subscriber-decision');
 var religionExecutor = require('../lib/religion-subscriber-executor');
 var financeDecision = require('../lib/finance-subscriber-decision');
 var financeExecutor = require('../lib/finance-subscriber-executor');
+var softSubscriberLanes = require('../lib/soft-domain-subscriber-lanes');
 
 function motorFor(domain) {
-  if (String(domain || '').toLowerCase() === 'finance') {
+  domain = String(domain || '').toLowerCase();
+  if (domain === 'finance') {
     return { id: 'finance', decision: financeDecision, executor: financeExecutor,
       maxEnv: 'FINANCE_SUBSCRIBER_MAX_SENDS', costEnv: 'FINANCE_SUBSCRIBER_EMAIL_USD',
       budgetEnv: 'FINANCE_SUBSCRIBER_DAILY_BUDGET_USD', capEnv: 'FINANCE_SUBSCRIBER_DAILY_SEND_CAP' };
   }
-  // Compatibility path while the remaining product domains receive their own
-  // local subscriber motors. Religion remains the only owner of this path.
-  return { id: 'religion', decision: religionDecision, executor: religionExecutor,
-    maxEnv: 'SUBSCRIBER_DIGEST_MAX_SENDS', costEnv: 'RELIGION_SUBSCRIBER_EMAIL_USD',
-    budgetEnv: 'RELIGION_SUBSCRIBER_DAILY_BUDGET_USD', capEnv: 'RELIGION_SUBSCRIBER_DAILY_SEND_CAP' };
+  if (domain === 'religion') {
+    return { id: 'religion', decision: religionDecision, executor: religionExecutor,
+      maxEnv: 'SUBSCRIBER_DIGEST_MAX_SENDS', costEnv: 'RELIGION_SUBSCRIBER_EMAIL_USD',
+      budgetEnv: 'RELIGION_SUBSCRIBER_DAILY_BUDGET_USD', capEnv: 'RELIGION_SUBSCRIBER_DAILY_SEND_CAP' };
+  }
+  var lane = softSubscriberLanes.get(domain);
+  if (!lane) return null;
+  return { id: domain, decision: lane.decision, executor: lane.executor,
+    maxEnv: lane.config.envNames.maxSends, costEnv: lane.config.envNames.emailCostUsd,
+    budgetEnv: lane.config.envNames.dailyBudgetUsd, capEnv: lane.config.envNames.dailySendCap };
 }
 function maxSends(motor) {
+  if (!motor) return 0;
   var n = parseInt(process.env[motor.maxEnv], 10);
   if (!isFinite(n) && motor.id === 'finance') n = parseInt(process.env.SUBSCRIBER_DIGEST_MAX_SENDS, 10);
   if (!isFinite(n)) n = 5;
@@ -96,7 +104,12 @@ module.exports = async function handler(req, res) {
     for (var i = 0; i < active.length; i++) {
       var s = active[i];
       var motor = motorFor(s.domain);
-      var row = { email: s.email, domain: s.domain, rung: s.rung, motorDomain: motor.id, personal: null, action: null };
+      var row = { email: s.email, domain: s.domain, rung: s.rung, motorDomain: motor && motor.id || null, personal: null, action: null };
+      if (!motor) {
+        row.action = 'domain-subscriber-motor-not-commissioned';
+        row.blockers = ['no-exact-domain-subscriber-motor'];
+        skipped++; results.push(row); continue;
+      }
       var d = null;
       try { d = await digest.buildFor(s); } catch (e) { d = null; row.error = e.message; }
 
@@ -184,3 +197,4 @@ module.exports = async function handler(req, res) {
 // run AND consults the veto first, which is a separate structure that can cancel
 // it without this handler being changed or redeployed.
 module.exports = require('../lib/heartbeat').guard('subscriber-digest', module.exports);
+module.exports.motorFor = motorFor;

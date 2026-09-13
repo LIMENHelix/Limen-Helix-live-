@@ -35,6 +35,7 @@ const bindings = [
   { file: 'lib/law-automail-executor.js', effect: 'input.provider.create', valves: ['law:automail'] },
   { file: 'lib/population-real-estate-executor.js', effect: 'input.transport.send', valves: ['population:real-estate'] },
   { file: 'lib/religion-subscriber-executor.js', effect: 'transport.send', valves: ['religion:subscriber-email'] },
+  { file: 'lib/sovereign-subscriber-lane.js', guard: 'AdapterGuard).checkpoint', effect: 'input.transport.send', valves: ['communication:subscriber-email', 'culture:subscriber-email', 'education:subscriber-email', 'medicine:subscriber-email'] },
   { file: 'lib/trade-auction-executor.js', effect: 'i.marketplace.createListing', valves: ['trade:auction'] }
 ];
 
@@ -78,7 +79,7 @@ const bindings = [
     binding.valves.forEach(id => covered.add(id));
   });
   assert.deepEqual(Array.from(covered).sort(), Registry.LINES.map(row => row.id).sort(),
-    'all 21 sovereign external lane valves must reach a co-timed effect checkpoint');
+    'all sovereign external lane valves must reach a co-timed effect checkpoint');
 
-  console.log('civilization adapter guard: all 21 lane valves inhibit at the last moment before their external effect');
+  console.log('civilization adapter guard: all ' + Registry.LINES.length + ' lane valves inhibit at the last moment before their external effect');
 })().catch(error => { console.error(error && error.stack || error); process.exit(1); });

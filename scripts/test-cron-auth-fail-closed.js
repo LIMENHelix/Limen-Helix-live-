@@ -117,7 +117,8 @@ crons.forEach(function (c) {
     /Admin\.(reqKey|hasDomain)/.test(s) ||
     /ADMIN_KEY|BRAIN_WEIGHTS_TOKEN|SHADOW_TOKEN/.test(s) ||
     /require\(['"]\.\/subscriber-digest/.test(s);   // wrapper; delegate enforces
-  if (!guarded) ungated.push(c);
+  const sovereignSubscriberDelegate = /require\(['"]\.\.\/lib\/sovereign-subscriber-route-handlers/.test(s);
+  if (!guarded && !sovereignSubscriberDelegate) ungated.push(c);
 });
 const unexpected = ungated.filter(function (c) { return KNOWN_UNGATED.indexOf(c) === -1; });
 assert('no cron handler outside the reviewed set lacks a credential check',
