@@ -4,6 +4,7 @@ var Lanes = require('../lib/soft-domain-subscriber-lanes.js');
 var StripeWebhook = require('../handlers/stripe-webhook.js');
 var SubscriberDigest = require('../handlers/subscriber-digest.js');
 var Valves = require('../lib/civilization-valve-registry.js');
+var MotorCapability = require('../lib/product-domain-motor-capability.js');
 
 function clone(value) { return value == null ? value : JSON.parse(JSON.stringify(value)); }
 function Store() { this.values = new Map(); this.lists = new Map(); }
@@ -14,6 +15,7 @@ Store.prototype.setIfAbsent = async function (key, value) {
   if (this.values.has(key)) return false;
   this.values.set(key, clone(value)); return true;
 };
+Store.prototype.del = async function (key) { return this.values.delete(key) ? 1 : 0; };
 Store.prototype.lpush = async function (key, value) {
   var rows = this.lists.get(key) || []; rows.unshift(clone(value)); this.lists.set(key, rows); return rows.length;
 };
@@ -21,7 +23,18 @@ Store.prototype.ltrim = async function (key, start, end) {
   this.lists.set(key, (this.lists.get(key) || []).slice(start, end + 1)); return true;
 };
 Store.prototype.lrange = async function (key, start, end) {
-  return clone((this.lists.get(key) || []).slice(start, end + 1));
+  var rows = this.lists.get(key) || [];
+  var from = start < 0 ? Math.max(rows.length + start, 0) : start;
+  var through = end < 0 ? rows.length + end : end;
+  return clone(rows.slice(from, through + 1));
+};
+Store.prototype.lrem = async function (key, count, value) {
+  var rows = this.lists.get(key) || [], target = JSON.stringify(value), removed = 0, next = [];
+  rows.forEach(function (row) {
+    if ((count === 0 || removed < count) && JSON.stringify(row) === target) removed++;
+    else next.push(row);
+  });
+  this.lists.set(key, next); return removed;
 };
 
 function cognition(lane, now) {
@@ -63,21 +76,53 @@ function openEnv(lane) {
   return env;
 }
 async function commission(store, lane, now) {
-  await store.set(lane.config.keys.capability, {
-    schemaVersion: lane.config.schemas.capability,
-    capabilityId: lane.config.productDomain + '-capability-' + now,
+  await store.set(lane.config.keys.executorCapability, {
+    schemaVersion: MotorCapability.SCHEMA,
+    kind: MotorCapability.EXECUTOR,
+    status: 'VERIFIED',
+    capabilityId: lane.config.productDomain + '-executor-capability-' + now,
     productDomain: lane.config.productDomain,
     ownerDomain: lane.config.ownerDomain,
     lane: lane.config.lane,
     environment: 'production',
-    provider: 'resend',
-    externalEffectVerified: true,
-    independentReadbackVerified: true,
-    recoveryVerified: true,
-    executorVerified: true,
-    independentOutcomeObserverVerified: true,
-    rollbackVerified: true,
-    verifiedAt: now
+    motorContractId: lane.authorization.motorReceipt.contractId,
+    contractId: lane.config.schemas.command,
+    adapterId: 'resend-send',
+    verifierId: lane.config.productDomain + '-owned-destination-commissioner',
+    evidenceReceiptId: lane.config.productDomain + '-send-evidence-' + now,
+    verifiedAt: now - 1000,
+    expiresAt: now + 60 * 60 * 1000,
+    verificationEffectExecuted: true,
+    commissioningOnly: true,
+    irreversibleEffectDeclared: true,
+    liveMoney: false,
+    verificationSpendUsd: 0.001,
+    ownedDestinationVerified: true,
+    recipientConsentVerified: true,
+    permanentOneShotSlotVerified: true,
+    businessStateTransitionSuppressed: true,
+    futureSuppressionRecoveryVerified: true,
+    authorizationReceiptId: lane.config.productDomain + '-commission-auth-' + now,
+    suppressionReceiptId: lane.config.productDomain + '-commission-suppression-' + now
+  });
+  await store.set(lane.config.keys.observerCapability, {
+    schemaVersion: MotorCapability.SCHEMA,
+    kind: MotorCapability.OBSERVER,
+    status: 'VERIFIED',
+    capabilityId: lane.config.productDomain + '-observer-capability-' + now,
+    productDomain: lane.config.productDomain,
+    ownerDomain: lane.config.ownerDomain,
+    lane: lane.config.lane,
+    environment: 'production',
+    motorContractId: lane.authorization.motorReceipt.contractId,
+    contractId: lane.config.schemas.observation,
+    adapterId: 'resend-read',
+    independentOfAdapterId: 'resend-send',
+    verifierId: lane.config.productDomain + '-mail-event-verifier',
+    evidenceReceiptId: lane.config.productDomain + '-observer-evidence-' + now,
+    independentSourceVerified: true,
+    verifiedAt: now - 1000,
+    expiresAt: now + 60 * 60 * 1000
   });
 }
 
@@ -149,7 +194,7 @@ async function commission(store, lane, now) {
   assert.equal(foreign.status, 'HELD');
   assert.equal(foreign.reason, 'education-subscriber-no-released-exact-decisions');
 
-  var observation = await culture.observer.observe(store, executed, executed.items[0], {
+  var observedRows = await culture.observer.observePending(store, {
     apiKey: 'test-read-key',
     fetch: async function (url, options) {
       assert(url.endsWith('/re_culture_1'));
@@ -159,6 +204,7 @@ async function commission(store, lane, now) {
       } };
     }
   });
+  var observation = observedRows[0];
   assert.equal(observation.status, 'TERMINAL_OBSERVED');
   assert.equal(observation.productDomain, 'culture');
   assert.equal(observation.independentOfSendResponse, true);
@@ -172,10 +218,27 @@ async function commission(store, lane, now) {
   var recovery = await culture.recovery.recover({ store: store, command: executed,
     actionId: executed.items[0].actionId, observation: observation, now: now + 1 });
   assert.equal(recovery.status, 'FUTURE_DELIVERY_SUPPRESSED');
-  var suppression = await store.get(culture.executor.SUPPRESSION_KEY);
-  assert.equal(suppression[executed.items[0].emailHash].suppressed, true);
-  assert.equal(await store.get(education.executor.SUPPRESSION_KEY), null,
+  var suppression = await store.get(culture.executor.suppressionKey(executed.items[0].emailHash));
+  assert.equal(suppression.suppressed, true);
+  assert.equal(await store.get(education.executor.suppressionKey(executed.items[0].emailHash)), null,
     'Culture recovery may not mutate Education suppression');
+
+  var alternateCultureSubscriber = Object.assign(subscriber('culture'), { email: 'culture-two@example.test',
+    subscriptionId: 'sub_culture_two', customerId: 'cus_culture_two' });
+  var inhibitedCandidate = culture.decision.candidate(alternateCultureSubscriber, digest('culture', 'inhibited'));
+  var inhibitedDecision = await culture.decision.decide(store, inhibitedCandidate, now + 1, { cognition: cognition(culture, now + 1) });
+  var inhibitedError = new Error('valve closed'); inhibitedError.code = 'CIVILIZATION_ADAPTER_INHIBITED';
+  var inhibited = await culture.executor.execute({
+    store: store, specs: [{ candidate: inhibitedCandidate, decision: inhibitedDecision }], now: now + 1,
+    maxSends: 1, emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailySendCap: 2,
+    authorizationDeps: { env: openEnv(culture), cognition: cognition(culture, now + 1) },
+    adapterGuard: { checkpoint: async function () { throw inhibitedError; } },
+    transport: { send: async function () { throw new Error('provider must not run behind closed valve'); } }
+  });
+  assert.equal(inhibited.status, 'HELD_INHIBITED');
+  assert.equal(inhibited.providerCalls, 0);
+  assert.equal(await store.get(culture.executor.actionKey(inhibited.items[0].actionId)), null,
+    'inhibited action claim must be released for a later retry');
 
   var medicine = Lanes.get('medicine'), medicineStore = new Store();
   var medCandidate = medicine.decision.candidate(subscriber('medicine'), digest('medicine', 'no-provider-id'));
@@ -196,6 +259,7 @@ async function commission(store, lane, now) {
   var task = await fulfillmentLane.fulfillment.enqueueAndAttempt({
     store: fulfillmentStore, eventId: 'evt-education-1', kind: 'welcome',
     subscriber: subscriber('education'), message: digest('education', 'welcome'), now: now,
+    subscriptions: { getStrict: async function () { return subscriber('education'); } },
     decisionDeps: { cognition: cognition(fulfillmentLane, now) },
     authorizationDeps: { env: openEnv(fulfillmentLane), cognition: cognition(fulfillmentLane, now) },
     maxSends: 1, emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailySendCap: 1,
@@ -207,6 +271,23 @@ async function commission(store, lane, now) {
   assert.equal(storedTask.message, undefined, 'terminal fulfillment may not retain message body');
   assert.equal(storedTask.subscriber.email, undefined, 'terminal fulfillment may not retain customer email');
   assert(storedTask.retainedIdentity.emailHash && storedTask.retainedIdentity.contentHash);
+
+  var canceledStore = new Store(); await commission(canceledStore, fulfillmentLane, now);
+  var heldTask = await fulfillmentLane.fulfillment.enqueueAndAttempt({
+    store: canceledStore, eventId: 'evt-education-canceled', kind: 'welcome',
+    subscriber: subscriber('education'), message: digest('education', 'cancel-before-retry'), now: now,
+    subscriptions: { getStrict: async function () { return subscriber('education'); } },
+    decisionDeps: { cognition: cognition(fulfillmentLane, now) },
+    authorizationDeps: { env: {}, cognition: cognition(fulfillmentLane, now) }
+  });
+  assert.equal(heldTask.status, 'HELD');
+  var retried = await fulfillmentLane.fulfillment.retryRecent({ store: canceledStore,
+    subscriptions: { getStrict: async function () { return Object.assign(subscriber('education'), { active: false }); } } });
+  assert.equal(retried[0].status, 'CANCELED');
+  assert.equal(retried[0].providerCalls, 0);
+  var canceled = await canceledStore.get(fulfillmentLane.fulfillment.key(heldTask.taskId));
+  assert.equal(canceled.message, undefined);
+  assert.equal(canceled.subscriber.email, undefined);
 
   console.log('soft subscriber sovereignty: PASS (4 exact domain lanes, durable decisions and real capability proof required, cross-domain authority refused, terminal customer data minimized)');
 })().catch(function (error) { console.error(error); process.exit(1); });

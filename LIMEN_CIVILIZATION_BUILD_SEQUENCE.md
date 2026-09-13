@@ -3852,7 +3852,7 @@ resolving them, and could mark fulfillment complete without a provider call.
 Those failure modes are explicitly excluded. Runtime code and its tests are
 implemented and reviewed in the repository against current code truth.
 
-### Soft-five commercial sovereignty repair — implementation in progress 2026-09-13
+### Soft-five commercial sovereignty repair — merged and hardening 2026-09-13
 
 The shorthand agent rollup (`Culture/Religion 5·6`, `Communication 6·6`,
 `Education/Medicine 6·5`) is not authoritative operational evidence. A fresh
@@ -3864,7 +3864,7 @@ Education, Communication, and Medicine therefore did not own the motor that
 fulfilled their own paid products. No production evidence established that this
 fallback was safe or sovereign.
 
-The repair removes that fallback. Culture, Education, Communication, and
+PR #310 removed that fallback. Culture, Education, Communication, and
 Medicine now resolve only to their own immutable subscriber-lane identity. Each
 lane has separate B10 decision and B14 authorization/command receipts, durable
 keys, send cap and dollar budget, provider action claim, Stripe fulfillment
@@ -3894,7 +3894,21 @@ only while they are required for retry. On completion, definitive failure, or
 an ambiguous external result, the task removes the address and message and
 retains only hashed identities needed for audit and outcome joins.
 
-The code and isolated tests do not constitute production commissioning. During
+An independent post-merge review correctly found that the first implementation
+still needed operational hardening before any switch could open. The follow-up
+repair keeps adapter-inhibited work durable and retryable rather than recording
+it as a terminal failure; traverses explicit oldest-first fulfillment and
+outcome queues without silently dropping work beyond the newest one hundred;
+isolates subscriber suppression records by hashed identity; re-reads the
+authoritative Stripe subscription immediately before every fulfillment attempt;
+keeps the outcome-read timeout active through response-body parsing; and
+requires separate evidence-linked executor and independent-observer capability
+receipts rather than accepting self-asserted booleans. Subscriber outcomes are
+also returned to the owning Culture, Education, Communication, or Health brain
+as a separate learning lane. Lane evidence is never pooled to manufacture a
+learning-ready result.
+
+The code and tests do not constitute production commissioning. During
 this tranche all new switches remain closed, no capability receipt is invented,
 and no Resend/xAI call, customer message, charge, or external marketing action
 is authorized. Religion retains its existing separate implementation. The next
