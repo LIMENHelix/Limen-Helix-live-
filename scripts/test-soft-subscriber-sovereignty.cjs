@@ -12,6 +12,9 @@ Store.prototype.assertDurable = function () { return true; };
 Store.prototype.get = async function (key) { return this.values.has(key) ? clone(this.values.get(key)) : null; };
 Store.prototype.set = async function (key, value) { this.values.set(key, clone(value)); return true; };
 Store.prototype.setIfAbsent = async function (key, value) {
+  if (this.failLearningCauseOnce && key.indexOf(':learning-cause:') >= 0) {
+    this.failLearningCauseOnce = false; throw new Error('simulated learning-cause persistence failure');
+  }
   if (this.values.has(key)) return false;
   this.values.set(key, clone(value)); return true;
 };
@@ -235,6 +238,15 @@ async function commission(store, lane, now) {
   assert.equal(suppression.suppressed, true);
   assert.equal(await store.get(education.executor.suppressionKey(executed.items[0].emailHash)), null,
     'Culture recovery may not mutate Education suppression');
+  var partialRecovery = Object.assign({}, recovery, { status: 'SUPPRESSING', completedAt: null });
+  await store.set(culture.recovery.key(recovery.recoveryId), partialRecovery);
+  await store.del(culture.executor.suppressionKey(executed.items[0].emailHash));
+  var resumedRecovery = await culture.recovery.recover({ store: store, command: executed,
+    actionId: executed.items[0].actionId, observation: observation, now: now + 4 });
+  assert.equal(resumedRecovery.status, 'FUTURE_DELIVERY_SUPPRESSED');
+  assert.equal((await store.get(culture.executor.suppressionKey(executed.items[0].emailHash))).suppressed, true);
+  assert.equal(culture.observer.isResolved('opened'), true);
+  assert.equal(culture.observer.isResolved('clicked'), true);
 
   var alternateCultureSubscriber = Object.assign(subscriber('culture'), { email: 'culture-two@example.test',
     subscriptionId: 'sub_culture_two', customerId: 'cus_culture_two' });
@@ -250,8 +262,34 @@ async function commission(store, lane, now) {
   });
   assert.equal(inhibited.status, 'HELD_INHIBITED');
   assert.equal(inhibited.providerCalls, 0);
-  assert.equal(await store.get(culture.executor.actionKey(inhibited.items[0].actionId)), null,
-    'inhibited action claim must be released for a later retry');
+  var inhibitedClaim = await store.get(culture.executor.actionKey(inhibited.items[0].actionId));
+  assert.equal(inhibitedClaim.status, 'HELD_INHIBITED');
+  assert.equal(inhibitedClaim.providerCalled, false,
+    'inhibited action claim must remain durably retryable without claiming a provider call');
+
+  var preSendSubscriber = Object.assign(subscriber('culture'), { email: 'culture-three@example.test',
+    subscriptionId: 'sub_culture_three', customerId: 'cus_culture_three' });
+  var preSendCandidate = culture.decision.candidate(preSendSubscriber, digest('culture', 'pre-send-retry'));
+  var preSendDecision = await culture.decision.decide(store, preSendCandidate, now + 2, { cognition: cognition(culture, now + 2) });
+  store.failLearningCauseOnce = true; var preSendCalls = 0;
+  var preSendHeld = await culture.executor.execute({ store: store,
+    specs: [{ candidate: preSendCandidate, decision: preSendDecision }], now: now + 2,
+    maxSends: 1, emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailySendCap: 4,
+    authorizationDeps: { env: openEnv(culture), cognition: cognition(culture, now + 2) },
+    adapterGuard: { checkpoint: async function () { return { allowed: true }; } },
+    transport: { send: async function () { preSendCalls++; return { ok: true, id: 'must-not-send-yet' }; } }
+  });
+  assert.equal(preSendHeld.status, 'HELD_PRE_SEND'); assert.equal(preSendHeld.providerCalls, 0);
+  assert.equal(preSendCalls, 0);
+  var retryDecision = await culture.decision.decide(store, preSendCandidate, now + 3, { cognition: cognition(culture, now + 3) });
+  var preSendRetried = await culture.executor.execute({ store: store,
+    specs: [{ candidate: preSendCandidate, decision: retryDecision }], now: now + 3,
+    maxSends: 1, emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailySendCap: 4,
+    authorizationDeps: { env: openEnv(culture), cognition: cognition(culture, now + 3) },
+    adapterGuard: { checkpoint: async function () { return { allowed: true }; } },
+    transport: { send: async function () { preSendCalls++; return { ok: true, id: 're_culture_retry', providerCalled: true }; } }
+  });
+  assert.equal(preSendRetried.status, 'RECEIPTS_PERSISTED'); assert.equal(preSendCalls, 1);
 
   var medicine = Lanes.get('medicine'), medicineStore = new Store();
   var medCandidate = medicine.decision.candidate(subscriber('medicine'), digest('medicine', 'no-provider-id'));
