@@ -149,6 +149,31 @@ function compactLaneReadout(row) {
   };
 }
 
+function validateSubscriberReadout(domain, productDomain, row) {
+  if (!row || row.schemaVersion !== learning.EXTERNAL_LEARNING_SCHEMA || row.domain !== domain ||
+      row.productDomain !== productDomain || ['ELIGIBLE', 'ABSTAINED'].indexOf(row.status) < 0 ||
+      !Number.isInteger(row.resolvedCount) || row.resolvedCount < 0 || !row.learningGate ||
+      typeof row.learningGate.ready !== 'boolean' || !Number.isInteger(row.learningGate.distinctSources) ||
+      row.learningGate.distinctSources < 0 ||
+      row.learningGate.ready !== (row.resolvedCount >= 5 && row.learningGate.distinctSources >= 2)) {
+    throw new Error('domain-subscriber-learning-readout-invalid');
+  }
+  if (row.status === 'ABSTAINED') {
+    if (row.signal !== null) throw new Error('domain-subscriber-learning-readout-invalid');
+    return row;
+  }
+  var signal = row.signal;
+  if (!signal || signal.schemaVersion !== learning.EXTERNAL_LEARNING_SCHEMA || signal.ownerDomain !== domain ||
+      signal.productDomain !== productDomain || signal.lane !== 'subscriber-email' ||
+      signal.sourceKind !== 'independent-action-outcome' || !validSource(signal.sourceIdentity) ||
+      typeof signal.normalizedCredit !== 'number' || signal.normalizedCredit < 0 || signal.normalizedCredit > 1 ||
+      !signal.signalId || !signal.eventId || !signal.actionId || !signal.eventType || !signal.outcome ||
+      typeof signal.observedAt !== 'number' || !Number.isFinite(signal.observedAt)) {
+    throw new Error('domain-subscriber-learning-signal-invalid');
+  }
+  return row;
+}
+
 function mergeReadouts(domain, rows) {
   var eligible = rows.filter(function (row) { return row && row.status === 'ELIGIBLE' && row.signal; });
   var readyEligible = eligible.filter(function (row) { return row.learningGate && row.learningGate.ready; });
@@ -184,7 +209,7 @@ async function read(domain) {
   var productDomain = domain === 'health' ? 'medicine' : domain;
   var subscriberLane = softSubscriberLanes.get(productDomain);
   if (!subscriberLane) return primary;
-  var subscriber = await subscriberLane.learning.readForBrain(store);
+  var subscriber = validateSubscriberReadout(domain, productDomain, await subscriberLane.learning.readForBrain(store));
   return mergeReadouts(domain, [primary, subscriber]);
 }
 
@@ -217,3 +242,4 @@ module.exports.readPrimary = readPrimary;
 module.exports.mergeReadouts = mergeReadouts;
 module.exports.DOMAINS = DOMAINS.slice();
 module.exports.compactCompanyPatterns = compactCompanyPatterns;
+module.exports.validateSubscriberReadout = validateSubscriberReadout;

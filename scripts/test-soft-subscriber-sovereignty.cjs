@@ -24,6 +24,14 @@ Store.prototype.setIfAbsent = async function (key, value) {
   this.values.set(key, clone(value)); return true;
 };
 Store.prototype.del = async function (key) { return this.values.delete(key) ? 1 : 0; };
+Store.prototype.deleteIfValue = async function (key, value) {
+  if (!this.values.has(key) || JSON.stringify(this.values.get(key)) !== JSON.stringify(value)) return 0;
+  this.values.delete(key); return 1;
+};
+Store.prototype.setIfLockOwned = async function (lockKey, lockValue, key, value) {
+  if (!this.values.has(lockKey) || JSON.stringify(this.values.get(lockKey)) !== JSON.stringify(lockValue)) return false;
+  this.values.set(key, clone(value)); return true;
+};
 Store.prototype.lpush = async function (key, value) {
   var rows = this.lists.get(key) || []; rows.unshift(clone(value)); this.lists.set(key, rows); return rows.length;
 };
@@ -320,6 +328,52 @@ async function commission(store, lane, now) {
   });
   assert.equal(causeResumeSent.status, 'RECEIPTS_PERSISTED'); assert.equal(causeResumeCalls, 1);
 
+  var positiveFetches = 0, positiveItem = causeResumeSent.items[0];
+  var delivered = await culture.observer.observe(store, causeResumeSent, positiveItem, {
+    apiKey: 'test-read-key', now: now + 100,
+    fetch: async function () { positiveFetches++; return { ok: true, status: 200, json: async function () {
+      return { id: positiveItem.providerEmailId, last_event: 'delivered', created_at: new Date(now).toISOString() };
+    } }; }
+  });
+  assert.equal(delivered.followUpComplete, false);
+  assert.equal(culture.observer.isFinal(delivered), false,
+    'delivery must remain observable during the bounded late-complaint window');
+  var deferred = await culture.observer.observe(store, causeResumeSent, positiveItem, {
+    apiKey: 'test-read-key', now: now + 60 * 60 * 1000,
+    fetch: async function () { positiveFetches++; throw new Error('follow-up should be deferred'); }
+  });
+  assert.equal(deferred.status, 'OBSERVATION_DEFERRED'); assert.equal(positiveFetches, 1);
+  var complained = await culture.observer.observe(store, causeResumeSent, positiveItem, {
+    apiKey: 'test-read-key', now: now + 7 * 60 * 60 * 1000,
+    fetch: async function () { positiveFetches++; return { ok: true, status: 200, json: async function () {
+      return { id: positiveItem.providerEmailId, last_event: 'complained', created_at: new Date(now).toISOString() };
+    } }; }
+  });
+  assert.equal(complained.lastEvent, 'complained'); assert.equal(culture.observer.isFinal(complained), true);
+
+  var concurrentStore = new Store(), observationA = {
+    schemaVersion: culture.observer.SCHEMA, observationId: 'culture-concurrent-a', productDomain: 'culture',
+    ownerDomain: 'culture', lane: 'subscriber-email', actionId: 'culture-concurrent-action-a', providerEmailId: 're-concurrent-a',
+    lastEvent: 'delivered', observedAt: now + 10, liveMoney: false
+  };
+  var observationB = Object.assign({}, observationA, { observationId: 'culture-concurrent-b',
+    actionId: 'culture-concurrent-action-b', providerEmailId: 're-concurrent-b', observedAt: now + 11 });
+  await concurrentStore.set(culture.config.keys.learningCause(observationA.actionId), { actionId: observationA.actionId });
+  await concurrentStore.set(culture.config.keys.learningCause(observationB.actionId), { actionId: observationB.actionId });
+  var concurrent = await Promise.all([
+    culture.learning.recordObservation(concurrentStore, observationA),
+    culture.learning.recordObservation(concurrentStore, observationB)
+  ]);
+  assert.equal(concurrent.filter(function (row) { return row.ok; }).length, 1);
+  var heldIndex = concurrent[0].ok ? 1 : 0;
+  assert.match(concurrent[heldIndex].reason, /learning-update-in-progress/);
+  var replayedLearning = await culture.learning.recordObservation(concurrentStore, heldIndex ? observationB : observationA);
+  assert.equal(replayedLearning.ok, true);
+  var concurrentState = await concurrentStore.get(culture.learning.STATE_KEY);
+  assert.equal(concurrentState.resolvedCount, 2);
+  assert.equal(concurrentState.processedObservationIds.includes(observationA.observationId), true);
+  assert.equal(concurrentState.processedObservationIds.includes(observationB.observationId), true);
+
   var medicine = Lanes.get('medicine'), medicineStore = new Store();
   var medCandidate = medicine.decision.candidate(subscriber('medicine'), digest('medicine', 'no-provider-id'));
   var medDecision = await medicine.decision.decide(medicineStore, medCandidate, now, { cognition: cognition(medicine, now) });
@@ -336,10 +390,12 @@ async function commission(store, lane, now) {
 
   var fulfillmentStore = new Store(), fulfillmentLane = Lanes.get('education');
   await commission(fulfillmentStore, fulfillmentLane, now);
+  var educationSubscriber = subscriber('education');
+  await fulfillmentStore.set('subs:v1', Object.fromEntries([[educationSubscriber.email, educationSubscriber]]));
   var task = await fulfillmentLane.fulfillment.enqueueAndAttempt({
     store: fulfillmentStore, eventId: 'evt-education-1', kind: 'welcome',
-    subscriber: subscriber('education'), message: digest('education', 'welcome'), now: now,
-    subscriptions: { getStrict: async function () { return subscriber('education'); } },
+    subscriber: educationSubscriber, message: digest('education', 'welcome'), now: now,
+    subscriptions: { getStrict: async function () { return educationSubscriber; } },
     decisionDeps: { cognition: cognition(fulfillmentLane, now) },
     authorizationDeps: { env: openEnv(fulfillmentLane), cognition: cognition(fulfillmentLane, now) },
     maxSends: 1, emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailySendCap: 1,
@@ -353,16 +409,20 @@ async function commission(store, lane, now) {
   assert(storedTask.retainedIdentity.emailHash && storedTask.retainedIdentity.contentHash);
 
   var canceledStore = new Store(); await commission(canceledStore, fulfillmentLane, now);
+  var canceledSubscriber = subscriber('education');
+  await canceledStore.set('subs:v1', Object.fromEntries([[canceledSubscriber.email, canceledSubscriber]]));
   var heldTask = await fulfillmentLane.fulfillment.enqueueAndAttempt({
     store: canceledStore, eventId: 'evt-education-canceled', kind: 'welcome',
-    subscriber: subscriber('education'), message: digest('education', 'cancel-before-retry'), now: now,
-    subscriptions: { getStrict: async function () { return subscriber('education'); } },
+    subscriber: canceledSubscriber, message: digest('education', 'cancel-before-retry'), now: now,
+    subscriptions: { getStrict: async function () { return canceledSubscriber; } },
     decisionDeps: { cognition: cognition(fulfillmentLane, now) },
     authorizationDeps: { env: {}, cognition: cognition(fulfillmentLane, now) }
   });
   assert.equal(heldTask.status, 'HELD');
+  var inactiveSubscriber = Object.assign({}, canceledSubscriber, { active: false });
+  await canceledStore.set('subs:v1', Object.fromEntries([[inactiveSubscriber.email, inactiveSubscriber]]));
   var retried = await fulfillmentLane.fulfillment.retryRecent({ store: canceledStore,
-    subscriptions: { getStrict: async function () { return Object.assign(subscriber('education'), { active: false }); } } });
+    subscriptions: { getStrict: async function () { return inactiveSubscriber; } } });
   assert.equal(retried[0].status, 'CANCELED');
   assert.equal(retried[0].providerCalls, 0);
   var canceled = await canceledStore.get(fulfillmentLane.fulfillment.key(heldTask.taskId));
@@ -370,15 +430,18 @@ async function commission(store, lane, now) {
   assert.equal(canceled.subscriber.email, undefined);
 
   var malformedStore = new Store(), malformedCalls = 0; await commission(malformedStore, fulfillmentLane, now);
-  await malformedStore.set('subs:v1', []);
+  var malformedEmail = subscriber('education').email;
+  await malformedStore.set('subs:v1', Object.fromEntries([[malformedEmail, {
+    email: malformedEmail, domain: 'education', active: 'yes', subscriptionId: 'sub_education', customerId: 'cus_education'
+  }]]));
   var malformedHeld = await fulfillmentLane.fulfillment.enqueueAndAttempt({
     store: malformedStore, eventId: 'evt-education-malformed-catalog', kind: 'welcome',
     subscriber: subscriber('education'), message: digest('education', 'malformed-catalog'), now: now,
-    subscriptions: { getStrict: async function () { return subscriber('education'); } },
+    subscriptions: { getStrict: async function () { return { email: malformedEmail, domain: 'education', active: 'yes' }; } },
     transport: { send: async function () { malformedCalls++; return { ok: true, id: 'must-not-send' }; } }
   });
   assert.equal(malformedHeld.status, 'HELD');
-  assert.equal(malformedHeld.reason, 'education-subscriber-entitlement-catalog-malformed');
+  assert.equal(malformedHeld.reason, 'education-subscriber-entitlement-entry-malformed');
   assert.equal(malformedCalls, 0);
   var malformedTask = await malformedStore.get(fulfillmentLane.fulfillment.key(malformedHeld.taskId));
   assert(malformedTask.message && malformedTask.subscriber.email,
