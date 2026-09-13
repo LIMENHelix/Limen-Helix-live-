@@ -182,12 +182,17 @@ function createHandler(deps) {
   if (!out.ok) { res.statusCode = 502; return res.end(JSON.stringify({ ok: false, error: 'Domain AI glitched — try again.' })); }
 
   const parsed = parseReply(out.text);
+  // A structurally valid packet may still be neurologically ineligible to
+  // reason (for example, absent or stale cognition). The model may explain
+  // that condition, but it cannot steer/configure the browser brain until the
+  // server packet says this domain can reason.
+  const toolCalls = grounded.packet.readiness.canReason === true ? parsed.toolCalls : [];
   res.statusCode = 200;
   return res.end(JSON.stringify({
     ok: true,
     domain: domain,
     answer: parsed.answer,
-    toolCalls: parsed.toolCalls,
+    toolCalls: toolCalls,
     left: Math.max(0, DAILY_CAP - rl.n),
     grounding: {
       schemaVersion: grounded.packet.schemaVersion,

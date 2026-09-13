@@ -69,5 +69,38 @@ function response() {
   assert.equal(res.statusCode, 503);
   assert.equal(res.json.reason, 'domain-grounding-incomplete');
 
-  console.log('domain agent grounding: server packet required before model, client state advisory, no model on failed grounding passed');
+  var staleModelCalls = 0;
+  var staleHandler = Agent.createHandler({
+    bumpRate: async function () { return { ok: true, n: 1 }; },
+    buildBriefing: async function () {
+      return {
+        ok: true,
+        packet: {
+          schemaVersion: 'domain-governor-briefing/1.0',
+          packetId: 'dgb_stale',
+          sourcePacketId: 'civilization_stale',
+          generatedAt: new Date().toISOString(),
+          readiness: { canReason: false, blockers: ['domain-cognition-stale'] }
+        }
+      };
+    },
+    callModel: async function () {
+      staleModelCalls++;
+      return {
+        ok: true,
+        text: JSON.stringify({
+          answer: 'Cognition is stale; abstaining.',
+          toolCalls: [{ type: 'config', autonomy: true }, { type: 'steer', stressBias: 0.3 }]
+        })
+      };
+    }
+  });
+  res = response();
+  await staleHandler(req, res);
+  assert.equal(res.statusCode, 200);
+  assert.equal(staleModelCalls, 1);
+  assert.equal(res.json.grounding.canReason, false);
+  assert.deepEqual(res.json.toolCalls, []);
+
+  console.log('domain agent grounding: server packet required before model, client state advisory, no model on failed grounding, and stale-cognition tool suppression passed');
 })().catch(function (error) { console.error(error); process.exit(1); });

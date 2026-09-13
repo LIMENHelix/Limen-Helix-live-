@@ -80,5 +80,27 @@ function civilization(domain, now, overrides) {
   assert.equal(Governor.canonical('health'), 'medicine');
   assert.equal(Governor.domainLines('finance', {}).length, 2);
 
-  console.log('domain governor briefing: server grounding, separate brain/code/economics topology, aliases, freshness, and no narrative authority passed');
+  var treasuryRange = null;
+  var fakeStore = {
+    assertDurable: function () {},
+    get: async function () { return null; },
+    setIfAbsent: async function () { return true; },
+    set: async function () {},
+    lpush: async function () {},
+    ltrim: async function () {},
+    lrange: async function (key, start, end) {
+      if (key === 'civilization_treasury_receipt_log') treasuryRange = { start: start, end: end };
+      return [];
+    }
+  };
+  var withTreasury = await Governor.build('culture', {
+    now: now,
+    briefingBuilder: async function () { return civilization('culture', now); },
+    store: fakeStore,
+    env: {}
+  });
+  assert.equal(withTreasury.ok, true);
+  assert.deepEqual(treasuryRange, { start: 0, end: 9999 });
+
+  console.log('domain governor briefing: server grounding, separate brain/code/economics topology, full treasury projection, aliases, freshness, and no narrative authority passed');
 })().catch(function (error) { console.error(error); process.exit(1); });
