@@ -3896,7 +3896,7 @@ retains only hashed identities needed for audit and outcome joins.
 
 An independent post-merge review correctly found that the first implementation
 still needed operational hardening before any switch could open. The follow-up
-repair keeps adapter-inhibited work durable and retryable rather than recording
+repair in PR #311 keeps adapter-inhibited work durable and retryable rather than recording
 it as a terminal failure; traverses explicit oldest-first fulfillment and
 outcome queues without silently dropping work beyond the newest one hundred;
 isolates subscriber suppression records by hashed identity; re-reads the
