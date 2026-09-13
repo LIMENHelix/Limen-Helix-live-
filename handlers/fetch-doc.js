@@ -20,22 +20,15 @@
  *   is the only authorized read path for the gated source files.
  *
  * Auth contract:
- *   The site's only existing access mechanism is `assets/js/auth-gate.js`,
- *   which checks `sessionStorage.limen_access === 'granted'` and otherwise
- *   redirects the browser to the landing page. sessionStorage is purely
- *   client-side; it does NOT propagate to HTTP requests automatically. To
- *   honor that contract over HTTP, the viewer reads sessionStorage and
- *   forwards the value in an `X-LIMEN-Access` header on each fetch. This
- *   endpoint mirrors the same client-side check on the server side:
- *     - 401 if the header is missing
- *     - 403 if the header is present but not 'granted'
+ *   Operator-only. The caller must present the operator master key in the
+ *   x-limen-pass header (verified server-side via lib/admin-gate). The
+ *   header is read from the request, never from the URL (URLs are logged).
+ *   A missing or incorrect key is rejected with 403 before any allowlist
+ *   lookup or filesystem touch. There is no shared client-side literal:
+ *   a person enters the operator key and the client forwards it verbatim.
  *
- *   This is a soft pseudo-auth identical in trust posture to the rest of
- *   the site (the literal value 'granted' is in client-side JS, so anyone
- *   who reads /assets/js/auth-gate.js can set the header). It keeps casual
- *   browsers and search engines out; it is not a hardened secret. If the
- *   operator wants a true secret-bearer auth model later, this is the
- *   single chokepoint to upgrade.
+ *   Responses:
+ *     403 { ok: false, error: 'Admin-only endpoint. Sign in.' }
  *
  * Allowlist:
  *   Hardcoded below. MUST be kept in sync with the parallel allowlist in
@@ -46,7 +39,7 @@
  * Inputs:
  *   POST /api/fetch-doc
  *   Headers:
- *     X-LIMEN-Access: granted        (required)
+ *     x-limen-pass: <operator master key>   (required)
  *     Content-Type:  application/json
  *   Body:
  *     { "docKey": "<allowlist-key>" }
@@ -54,8 +47,7 @@
  * Responses:
  *   200 { ok: true,  docKey, content, charCount }
  *   400 { ok: false, error: 'INVALID_BODY' | 'MISSING_DOC_KEY' }
- *   401 { ok: false, error: 'AUTH_REQUIRED' }
- *   403 { ok: false, error: 'AUTH_INVALID' }
+ *   403 { ok: false, error: 'forbidden' }
  *   404 { ok: false, error: 'DOC_NOT_FOUND' | 'DOC_FILE_MISSING' }
  *   405 { ok: false, error: 'METHOD_NOT_ALLOWED' }
  *
@@ -74,12 +66,11 @@ var path = require('path');
 
 // ─── Auth ────────────────────────────────────────────────────────────
 
-var AUTH_HEADER_NAME = 'x-limen-access';   // Node lowercases header names
-var AUTH_VALUE       = 'granted';           // mirrors assets/js/auth-gate.js
+var adminGate = require('../lib/admin-gate');
 
 // ─── Allowlist (key → repo-relative path) ────────────────────────────
 //
-// MUST stay in sync with DOC_ALLOWLIST in assets/js/docs-viewer.js.
+// The allowlist lives here and only here; no client copy exists.
 //
 // DOCS-0.2-RESCUE: sources moved from /protected-docs/ to
 // /api/protected-docs/. Vercel's static layer does not serve the
@@ -93,8 +84,7 @@ var AUTH_VALUE       = 'granted';           // mirrors assets/js/auth-gate.js
 // Adding a new entry requires:
 //   (a) place the .md file under api/protected-docs/
 //   (b) add the key here
-//   (c) add the same key to assets/js/docs-viewer.js
-//   (d) confirm the includeFiles glob in vercel.json still covers it
+//   (c) confirm the includeFiles glob in vercel.json still covers it
 var DOC_ALLOWLIST = {
   'D3-E-NSF-RESEARCH': 'api/protected-docs/D3-E-NSF-RESEARCH.md',
   'D3-E-PLAN':         'api/protected-docs/D3-E-PLAN.md'
@@ -143,9 +133,6 @@ function _resolveDocPath(relPath) {
 
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
-  res.setHeader('Access-Control-Allow-Origin',  '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-LIMEN-Access');
 
   if (req.method === 'OPTIONS') { res.status(200).end(); return; }
 
@@ -155,19 +142,12 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  // Auth check — reject before any allowlist lookup or fs touch.
+  // Auth check — reject before any allowlist lookup or fs touch. The
+  // operator key travels in the x-limen-pass header only; query-string
+  // credentials are ignored because URLs are logged.
   var headers = req.headers || {};
-  var auth = headers[AUTH_HEADER_NAME];
-  if (typeof auth !== 'string' || auth.length === 0) {
-    res.status(401).json({ ok: false, error: 'AUTH_REQUIRED',
-      message: 'X-LIMEN-Access header is required.' });
-    return;
-  }
-  if (auth !== AUTH_VALUE) {
-    res.status(403).json({ ok: false, error: 'AUTH_INVALID',
-      message: 'X-LIMEN-Access header value is not accepted.' });
-    return;
-  }
+  var pass = headers['x-limen-pass'] || headers['X-Limen-Pass'] || '';
+  if (!adminGate.isMaster(pass)) return adminGate.deny(res);
 
   // Body parse — Vercel auto-parses JSON when Content-Type is application/json.
   var body = req.body;
