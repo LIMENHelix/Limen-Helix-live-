@@ -1,29 +1,32 @@
 /**
- * relay-storefront.js — the Relay storefront, and the catalogue behind it.
+ * relay-storefront.js — Relay Supply storefront + customer-safe catalogue.
  *
- * Reached through Relay's one door (handlers/relay.js):
- *   GET /api/relay                           the store page
- *   GET /api/relay?view=catalog    the catalogue the page reads
- *
- * The catalogue is the engine-published board for the house marketplace, sanitised
- * through marketplace.publicListings so source cost, source URL and the applied margin
- * never leave the server. That sanitiser is an allow-list, so a field added to a listing
- * later stays private until someone deliberately publishes it.
- *
- * Only listings that can actually be sold appear: active, in stock, and (for house
- * listings) still carrying a source we could buy them from. An item on the shelf that
- * cannot be sourced is a customer paying for something nobody can ship.
+ * Relay has two public businesses:
+ *   /relay                   Supply: Relay sources and ships, keeping the spread.
+ *   /marketplace-storefront  Marketplace: C2C sellers list and ship their own goods.
  */
-
 const fs = require('fs');
 const path = require('path');
 const store = require('../lib/relay-store');
 
-const HOUSE_MARKETPLACE = process.env.RELAY_MARKETPLACE_ID || 'mkt_relay';
 const HOUSE_SELLER = process.env.RELAY_HOUSE_SELLER_ID || 'usr_relay_house';
 
 function loadPage() {
-  return fs.readFileSync(path.join(__dirname, '../pages/relay-store.html'), 'utf8');
+  let html = fs.readFileSync(path.join(__dirname, '../pages/relay-store.html'), 'utf8');
+  // Keep the existing battle-tested page, but make its public identity match the business
+  // it actually implements. These are presentation-only substitutions: price/order logic
+  // stays in the server handlers and cannot be changed by this page.
+  html = html.replace('<title>Relay — secondhand &amp; surplus, shipped</title>', '<title>Relay Supply · sourced goods for people &amp; businesses</title>');
+  html = html.replace('>Relay<b>.</b><small>by LIMEN Helix</small>', '>Relay Supply<b>.</b><small>sourced by LIMEN Helix</small>');
+  html = html.replace('Secondhand &amp; surplus goods, sourced and shipped', 'Goods sourced to order for people and businesses');
+  html = html.replace("' in stock'", "' available to source'");
+  // Supplier freight is already included in every house listing price and checkout adds
+  // no shipping line. The old >$75 badge therefore contradicted the cart for cheaper items.
+  html = html.replace("(i.price > 75 ? '<span class=\"free\">Free shipping</span>' : '')", "'<span class=\"free\">Shipping included</span>'");
+  html = html.replace("(i.price > 75 ? ' · Free shipping' : '')", "' · Shipping included'");
+  // Give the customer a visible route to the other Relay business without mixing stores.
+  html = html.replace('<div class="wrap">', '<div class="wrap"><div style="font-size:.82rem;color:var(--soft);margin-bottom:12px">Buying from another person instead? <a href="/marketplace-storefront">Open Relay Marketplace →</a></div>');
+  return html;
 }
 
 module.exports = async function handler(req, res) {
@@ -34,7 +37,7 @@ module.exports = async function handler(req, res) {
   }
 
   let q = {};
-  try { q = Object.fromEntries(new URL(req.url, 'http://h').searchParams); } catch (e) {}
+  try { q = Object.fromEntries(new URL(req.url, 'http://h').searchParams); } catch (_) {}
 
   if (q.format === 'json') {
     res.setHeader('Content-Type', 'application/json');
@@ -45,17 +48,11 @@ module.exports = async function handler(req, res) {
       const sellable = raw.filter(function (l) {
         if (l.status !== 'active') return false;
         if ((l.quantity || 0) < 1) return false;
-        // A house listing exists only because the engine sourced it. No source means
-        // there is nothing to buy on the customer's behalf.
         if (l.sellerId === HOUSE_SELLER && !l.sourceUrl) return false;
         return true;
       });
       res.statusCode = 200;
-      return res.end(JSON.stringify({
-        ok: true,
-        count: sellable.length,
-        listings: store.publicListings(sellable)
-      }));
+      return res.end(JSON.stringify({ ok: true, count: sellable.length, listings: store.publicListings(sellable) }));
     } catch (e) {
       console.error('[relay-storefront] catalogue failed:', e.message);
       res.statusCode = 500;
@@ -73,6 +70,6 @@ module.exports = async function handler(req, res) {
     console.error('[relay-storefront] page load failed:', e.message);
     res.statusCode = 500;
     res.setHeader('Content-Type', 'application/json');
-    return res.end(JSON.stringify({ ok: false, error: 'Page load failed', message: e.message }));
+    return res.end(JSON.stringify({ ok: false, error: 'storefront unavailable' }));
   }
 };

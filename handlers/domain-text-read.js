@@ -3,8 +3,17 @@
  *
  *   GET /api/domain-text-read                → stored readings (open, no spend)
  *   GET /api/domain-text-read?domain=energy  → one stored reading
- *   GET /api/domain-text-read?run=1          → produce fresh readings (spends, token-gated)
+ *   GET /api/domain-text-read?run=1          → produce fresh readings (spends, authenticated)
  *   GET /api/domain-text-read?run=1&dry=1    → build the prompts, call nothing, show what would go
+ *
+ * AUTHENTICATION (2026-09). The run path spends, so it requires caller authentication:
+ * the Vercel cron identity (Authorization: Bearer <CRON_SECRET>) or the operator master
+ * key (x-limen-pass header, via lib/admin-gate). A configured BRAIN_WEIGHTS_TOKEN alone
+ * authorizes nobody — that check gated the environment, not the caller, and any visitor
+ * could spend. Without BRAIN_WEIGHTS_TOKEN the run path refuses even a correctly
+ * authenticated cron. Query-string credentials are deliberately ignored because URLs are
+ * logged. The dry path reveals nothing but counts (no prompt text, no headlines) and
+ * spends nothing, so it stays open.
  *
  * WHY (2026-07-29). handlers/domain-snapshot.js pulls 275 sources and ~490 real headlines every
  * cycle — Vatican News, USCIRF and Pew for religion; DOJ, SEC and CFPB for law — and the system
@@ -31,8 +40,10 @@
  * reasoning, and the small model is the right tool for it at a twentieth of the cost.
  */
 
+var crypto = require('node:crypto');
 var db = require('../lib/limen-db');
 var anthropic = require('../lib/anthropic-call');
+var adminGate = require('../lib/admin-gate');
 var DOMAIN_NAMES = require('../lib/domain-names');
 
 var MODEL = 'claude-haiku-4-5-20251001';
@@ -41,9 +52,40 @@ var MIN_HEADLINES = 3;           // below this there is nothing to read — abst
 var MAX_TOKENS = 700;
 var STORE_KEY = 'domain:textread';
 var HIST_CAP = 120;
-var TOKEN = process.env.BRAIN_WEIGHTS_TOKEN || '';   // same operator switch that gates durable learning
 
 var SNAPSHOT_URL = 'https://limenhelix.com/api/domain-snapshot?domain=religion';
+
+function readHeader(req, name) {
+  var headers = (req && req.headers) || {};
+  if (typeof headers.get === 'function') return headers.get(name) || '';
+  return headers[name] || headers[name.toLowerCase()] || '';
+}
+
+function sameSecret(candidate, expected) {
+  if (!candidate || !expected) return false;
+  try {
+    var a = Buffer.from(String(candidate));
+    var b = Buffer.from(String(expected));
+    return a.length === b.length && crypto.timingSafeEqual(a, b);
+  } catch (e) { return false; }
+}
+
+/**
+ * The run path spends, so the CALLER is authenticated, not just the environment.
+ * Either leg suffices: Vercel cron identity, or the operator master key through
+ * admin-gate. No query-string credentials, no fallback. BRAIN_WEIGHTS_TOKEN absent
+ * fails closed for every caller, including cron — the same rule as durable learning.
+ * Exported as a seam so the auth matrix is testable without spending.
+ */
+function authorizeSpend(req) {
+  // Read at call time, not module load: the fail-closed check must reflect the
+  // environment the request actually runs in, the same rule brain-weights-cron uses.
+  if (!process.env.BRAIN_WEIGHTS_TOKEN) return { ok: false, status: 403, reason: 'brain-weights-token-unset' };
+  var m = String(readHeader(req, 'authorization') || '').match(/^Bearer\s+(.+)$/i);
+  if (m && sameSecret(m[1], process.env.CRON_SECRET || '')) return { ok: true, mode: 'cron' };
+  if (adminGate.isMaster(String(readHeader(req, 'x-limen-pass') || ''))) return { ok: true, mode: 'operator' };
+  return { ok: false, status: 403, reason: 'cron-or-operator-credentials-required' };
+}
 
 function buildPrompt(domain, headlines) {
   var numbered = headlines.map(function (h, i) { return '[' + i + '] ' + h.text + '  (source: ' + h.source + ')'; }).join('\n');
@@ -167,10 +209,15 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ ok: true, stored: stored || null });
   }
 
-  // RUN PATH — spends. Gated on the same operator switch as durable learning.
+  // RUN PATH — spends. The caller must authenticate: Vercel cron identity or the
+  // operator master key. A configured token alone authorizes nobody.
   var dry = !!q.dry;
-  if (!dry && !TOKEN) {
-    return res.status(200).json({ ok: false, mode: 'compute-only', reason: 'BRAIN_WEIGHTS_TOKEN not set — refusing to spend' });
+  if (!dry) {
+    var auth = authorizeSpend(req);
+    if (!auth.ok) {
+      res._limenAuthRejected = true;
+      return res.status(auth.status).json({ ok: false, error: 'unauthorized', reason: auth.reason });
+    }
   }
   var byDomain;
   try { byDomain = await loadHeadlines(); }
@@ -201,4 +248,7 @@ module.exports = async function handler(req, res) {
   return res.status(200).json(Object.assign({ ok: true, mode: dry ? 'dry-run' : 'run' }, payload));
 };
 
-module.exports = require('../lib/heartbeat').wrap('domain-text-read', module.exports);
+module.exports._authorizeSpend = authorizeSpend;
+var domainTextReadHandler = module.exports;
+module.exports = require('../lib/heartbeat').wrap('domain-text-read', domainTextReadHandler);
+module.exports._authorizeSpend = domainTextReadHandler._authorizeSpend;

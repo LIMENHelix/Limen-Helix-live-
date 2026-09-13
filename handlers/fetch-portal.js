@@ -5,8 +5,12 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Missing domainId parameter' });
   }
 
-  // Reject path traversal
-  if (domainId.includes('/') || domainId.includes('..')) {
+  // Hard shape gate: the proxy may only ever read assets/data/domains/<id>.json
+  // from the LIMENHelix/Limen-Helix repo. Anything that is not a plain slug
+  // (letters, digits, underscore, hyphen) is rejected before any token spend —
+  // this covers path traversal, separators, control characters and overlong
+  // ids in one check.
+  if (!/^[A-Za-z0-9_-]{1,120}$/.test(domainId)) {
     return res.status(400).json({ error: 'Invalid domainId' });
   }
 
