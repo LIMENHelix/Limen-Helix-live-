@@ -3822,3 +3822,32 @@ progress; Job 8 has not begun; and Job 9 has partially implemented commercial
 surfaces but no fully externally autonomous domain. The next dependency is
 production commissioning and external outcome evidence, not another Finance
 packet-construction loop.
+
+### Domain-agent faculty and development authority — owner direction 2026-09-13
+
+Domain-facing AI agents are reasoning and language faculties recruited by the
+twenty sovereign domain brains. They are not page personalities, a Master Brain,
+or an independent source of authority. Before any provider call, a domain-agent
+turn must be reconstructed from current server evidence and that exact domain's
+local brain identity, P0–P10 registry, feeds and provenance, opportunities,
+business executor/observer/recovery paths, motor state, external valves, and
+economic projection. Browser-provided state remains display-advisory only. A
+missing or stale domain cognition record prevents substantive reasoning; model
+narrative can never create a decision, capability, budget, or motor receipt.
+
+Agents may propose attention, products, collaborations, and actions. Runtime
+effects remain the responsibility of each domain's existing B10 decision, B14
+motor, budget, provider checkpoint, durable receipt, independent observer,
+learning, and recovery path. Collaboration crosses domains through typed,
+identity-bound requests; it does not overwrite another domain's cognition or
+borrow another brain's authority. Once a lane is commissioned, these checks are
+automatic and do not create a per-action human approval queue.
+
+External conversational agents, including Grok/domain-governor bots, may supply
+observations and business requirements but do not author, merge, or deploy LIMEN
+runtime code. Their proposed PR #308 is not accepted as implementation evidence:
+its paper loop created production-labelled capabilities, internally asserted
+independent outcomes and rollback, accepted unhashed receipt identities without
+resolving them, and could mark fulfillment complete without a provider call.
+Those failure modes are explicitly excluded. Runtime code and its tests are
+implemented and reviewed in the repository against current code truth.

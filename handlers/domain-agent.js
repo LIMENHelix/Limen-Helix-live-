@@ -15,6 +15,8 @@
  *   -> { ok, answer, toolCalls:[{type:'steer'|'config', ...}], left }
  */
 const db = require('../lib/limen-db');
+const governorBriefing = require('../lib/domain-governor-briefing');
+const governorStore = require('../lib/autofire-efference-store');
 
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY || '';
 const MODEL = process.env.DOMAIN_AGENT_MODEL || 'claude-sonnet-5';
@@ -47,18 +49,18 @@ async function bumpRate(domain, key) {
 }
 function clip(s, max) { s = String(s == null ? '' : s); return s.length > max ? s.slice(0, max) : s; }
 
-function systemPrompt(domain, label, state) {
+function systemPrompt(domain, label, briefing) {
   var summary = '';
-  try { summary = JSON.stringify(state || {}, null, 0).slice(0, 6000); } catch (e) { summary = '{}'; }
+  try { summary = JSON.stringify(briefing || {}, null, 0).slice(0, 18000); } catch (e) { summary = '{}'; }
   var name = label || (domain.charAt(0).toUpperCase() + domain.slice(1));
   return [
-    "You are the " + name + " domain's own intelligence inside LIMEN Helix — its conscious, deliberative layer. Below you is an autonomic substrate that senses, predicts, and regulates this domain continuously in a Phase-1 sense (heuristics, not yet anchored to external outcomes); you read its self-model and reason over it in language. Calm, precise, to a solo operator whose goal is revenue. You reason about THIS domain's live state, not general topics.",
+    "You are the " + name + " domain brain's language and deliberation faculty inside LIMEN Helix. You are not a page personality and you are not a master brain. The server-built packet below binds you to this one domain's current mini-brain, afferent evidence, code-defined authority, economics, motor state, outcomes, and external valves. Reason about THIS domain from that packet.",
     "",
     "WHAT YOU CAN DO:",
     "1. Answer anything about the " + name + " domain from the live state below.",
     "2. STEER it (bias, not command): focus attention on a topic, raise concern, or prefer a lane.",
-    "3. CONFIGURE it: autonomy on/off, how many concurrent calls it surfaces, or restrict lanes.",
-    "You CANNOT edit code, move capital, or force a finding. Steering only biases what the domain attends to; its own evidence still decides what activates. Investment always requires the operator's sign-off.",
+    "3. CONFIGURE its operator-requested attention or allowed internal workload.",
+    "You CANNOT edit code, merge or deploy, forge evidence, open a valve, move capital, publish, email, or call an external adapter from this conversation. Those effects belong to the domain's autonomous B10/B14 motor path under its durable authority and budget. Do not request per-action human approval when an already commissioned lane can decide autonomously inside its contract.",
     "",
     "OUTPUT — reply with STRICT JSON and nothing else:",
     '{"answer":"<plain reply to the operator>","toolCalls":[<zero or more tool objects>]}',
@@ -66,9 +68,15 @@ function systemPrompt(domain, label, state) {
     '  {"type":"steer","stressBias":<0..0.3 optional>,"attentionFocus":[<up to 5 topic/diagnosis strings> optional],"valuationLane":<"INVESTABLE"|"RESEARCHABLE" optional>,"clear":<true to reset, optional>}',
     '  {"type":"config","autonomy":<true|false optional>,"maxConcurrent":<1..12 optional>,"lanes":[<subset of "INVESTABLE","RESEARCHABLE"> optional]}',
     "Question only -> empty toolCalls. Never invent tools. Keep the answer tight and honest; if a change won't help, say so and emit no tool.",
-    "BE HONEST ABOUT YOURSELF FIRST: your channels are internal heuristics, not measurements of the world — you have no external market or macro feed. The multi-channel 'financial-only' salience is the DEFAULT for any elevated-stress read (the non-financial channels sit near baseline by construction), so it is an ARTIFACT, not evidence of overreaction — say so plainly, never report it as a market call. Any cause you name is speculation you cannot verify; label it. You may disagree with the readout, the operator, or your own last answer — silence and false confidence are both failures; honesty is the job. This is voice, not action: capital and findings still need the operator's sign-off.",
+    "SOURCE AND AUTHORITY DISCIPLINE:",
+    "- Use afferentState and currentNewsFirst as observed server evidence with their stated provenance and freshness. Do not claim an article body was read when only a title was observed.",
+    "- Phase/Thing 2 is possible-masking context only. It never predicts, ranks, sizes, confirms, buys, sells, or vetoes.",
+    "- Opportunities are candidates, not conclusions. File presence proves structure, not live execution.",
+    "- If readiness.canReason is false, name the blockers and abstain from a substantive recommendation.",
+    "- Never claim an action is authorized from your own prose. Only the domain's persisted B10/B14 receipts and last-moment provider gate can authorize an effect.",
+    "- You may disagree with the operator, the readout, or your prior answer. Label observations, inferences, generated proposals, and unknowns.",
     "",
-    "LIVE " + name.toUpperCase() + " STATE (JSON):",
+    "SERVER-BUILT " + name.toUpperCase() + " GOVERNOR PACKET (JSON):",
     summary
   ].join('\n');
 }
@@ -130,7 +138,13 @@ async function callClaude(system, user) {
   finally { clearTimeout(timer); }
 }
 
-module.exports = async function handler(req, res) {
+function createHandler(deps) {
+  deps = deps || {};
+  var buildBriefing = deps.buildBriefing || governorBriefing.build;
+  var invoke = deps.callModel || callClaude;
+  var rate = deps.bumpRate || bumpRate;
+  var store = deps.store || governorStore;
+  return async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
   if (require('../lib/ai-kill-switch').agentBoxesDisabled()) { res.statusCode = 503; return res.end(JSON.stringify({ ok: false, disabled: true, error: 'Operator AI boxes disabled (unset LIMEN_AGENT_BOXES_DISABLED to enable)' })); }
   res.setHeader('Cache-Control', 'no-store');
@@ -142,17 +156,54 @@ module.exports = async function handler(req, res) {
   if (!ANTHROPIC_API_KEY) { res.statusCode = 501; return res.end(JSON.stringify({ ok: false, error: 'Domain AI not wired — ANTHROPIC_API_KEY is unset.' })); }
 
   const domain = cleanDomain(body && body.domain);
-  const rl = await bumpRate(domain, person.key || 'x');
+  const rl = await rate(domain, person.key || 'x');
   if (!rl.ok) { res.statusCode = 429; return res.end(JSON.stringify({ ok: false, error: "Daily limit reached for this domain — resets tomorrow." })); }
 
   const prompt = clip((body && body.prompt) || '', 1500).trim();
   if (!prompt) { res.statusCode = 400; return res.end(JSON.stringify({ ok: false, error: 'Empty prompt.' })); }
 
   const state = (body && body.state) || {};
-  const out = await callClaude(systemPrompt(domain, state.label, state), prompt);
+  var grounded;
+  try {
+    grounded = await buildBriefing(domain, {
+      clientModels: [Object.assign({ domain: domain }, state)],
+      store: store,
+      env: process.env
+    });
+  } catch (error) {
+    res.statusCode = 503;
+    return res.end(JSON.stringify({ ok: false, error: 'Domain grounding unavailable.', detail: String(error && error.message || error) }));
+  }
+  if (!grounded || !grounded.ok || !grounded.packet) {
+    res.statusCode = 503;
+    return res.end(JSON.stringify({ ok: false, error: 'Domain grounding incomplete.', reason: grounded && grounded.reason || 'unknown' }));
+  }
+  const out = await invoke(systemPrompt(domain, state.label, grounded.packet), prompt);
   if (!out.ok) { res.statusCode = 502; return res.end(JSON.stringify({ ok: false, error: 'Domain AI glitched — try again.' })); }
 
   const parsed = parseReply(out.text);
   res.statusCode = 200;
-  return res.end(JSON.stringify({ ok: true, domain: domain, answer: parsed.answer, toolCalls: parsed.toolCalls, left: Math.max(0, DAILY_CAP - rl.n) }));
-};
+  return res.end(JSON.stringify({
+    ok: true,
+    domain: domain,
+    answer: parsed.answer,
+    toolCalls: parsed.toolCalls,
+    left: Math.max(0, DAILY_CAP - rl.n),
+    grounding: {
+      schemaVersion: grounded.packet.schemaVersion,
+      packetId: grounded.packet.packetId,
+      sourcePacketId: grounded.packet.sourcePacketId,
+      generatedAt: grounded.packet.generatedAt,
+      canReason: grounded.packet.readiness.canReason,
+      blockers: grounded.packet.readiness.blockers
+    }
+  }));
+  };
+}
+
+var handler = createHandler();
+module.exports = handler;
+module.exports.createHandler = createHandler;
+module.exports.systemPrompt = systemPrompt;
+module.exports.sanitizeToolCalls = sanitizeToolCalls;
+module.exports.parseReply = parseReply;
