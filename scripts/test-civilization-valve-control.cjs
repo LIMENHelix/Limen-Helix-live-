@@ -17,14 +17,18 @@ function store() {
 }
 
 (async function () {
-  assert.equal(Registry.LINES.length, 21, 'each external lane has its own line; Finance currently has broker and subscriber lanes');
-  assert.equal(new Set(Registry.LINES.map(x => x.id)).size, 21, 'valve identities are unique');
+  assert.equal(Registry.LINES.length, 25, 'each external lane has its own line; five Soft domains now have separate subscriber lanes');
+  assert.equal(new Set(Registry.LINES.map(x => x.id)).size, Registry.LINES.length, 'valve identities are unique');
   assert.equal(Registry.get('finance:subscriber-email').ownerDomain, 'finance');
   assert.equal(Registry.forCandidate({ recommendedLane: 'research', domain: 'science' }), 'science:research-papers');
   assert.equal(Registry.forCandidate({ recommendedLane: 'research', domain: 'medicine' }), 'medicine:research-papers');
   assert.equal(Registry.forCandidate({ recommendedLane: 'investment', domain: 'finance' }), 'finance:broker-order');
   assert.equal(Registry.forRoute('trade-auction-cycle'), 'trade:auction');
   assert.equal(Registry.forRoute('finance-position-owner'), 'finance:broker-order');
+  ['culture', 'education', 'communication', 'medicine'].forEach(domain => {
+    assert.equal(Registry.forRoute(domain + '-revenue-fulfillment'), domain + ':subscriber-email');
+    assert.equal(Registry.get(domain + ':subscriber-email').productDomain, domain);
+  });
 
   const s = store();
   let gate = await Control.authorize('science:research-papers', s);
@@ -94,14 +98,14 @@ function store() {
     LIMEN_AUTONOMY_ENABLED: '1', LIMEN_AI_ENABLED: '1',
     LIMEN_SCIENCE_RESEARCH_DEVELOPMENTAL_ENABLED: '1'
   }, s);
-  assert.equal(snap.lines.length, 21);
+  assert.equal(snap.lines.length, Registry.LINES.length);
   assert.equal(snap.emergency.displayName, 'NUKE');
   assert.equal(snap.emergency.internalNeuralHomolog, false);
   assert.deepEqual(snap.emergency.preserves, ['persisted state', 'weights', 'ledgers', 'receipts', 'decision traces']);
   assert.deepEqual(snap.emergency.recoverySequence, Control.NUKE_STAGES);
-  assert.equal(snap.buildSummary.sourceChainsImplemented, 21);
+  assert.equal(snap.buildSummary.sourceChainsImplemented, Registry.LINES.length);
   assert.equal(snap.buildSummary.currentJob7Pilots, 3);
-  assert.equal(snap.buildSummary.sequencedAfterJobs7And8, 18);
+  assert.equal(snap.buildSummary.sequencedAfterJobs7And8, Registry.LINES.length - 3);
   assert.equal(snap.buildSummary.externallyAutonomous, 0);
   assert.equal(snap.lines.find(x => x.productDomain === 'science').effectiveEligibilityOpen, true);
   assert.equal(snap.lines.find(x => x.productDomain === 'science').build.sequence, 'JOB_7_CURRENT');
@@ -117,5 +121,5 @@ function store() {
   assert.equal(failed.reason, 'valve-control-unavailable-fail-closed');
   const controlRoute = await Control.authorizeActivity('civilization-valves', 'GET', { assertDurable() { throw new Error('down'); } });
   assert.equal(controlRoute.allowed, true, 'external operator NUKE route must remain reachable during control-store failure');
-  console.log('civilization valve control: 21 local lines, total NUKE suppression, preserved state, ordered re-entry, and post-NUKE recommission passed');
+  console.log('civilization valve control: ' + Registry.LINES.length + ' local lines, total NUKE suppression, preserved state, ordered re-entry, and post-NUKE recommission passed');
 })().catch(function (error) { console.error(error); process.exit(1); });

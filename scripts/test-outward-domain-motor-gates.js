@@ -13,6 +13,7 @@ var financeSubscriberExecutor = source('lib/finance-subscriber-executor.js');
 var stripeWebhook = source('handlers/stripe-webhook.js');
 var religionRevenue = source('lib/religion-revenue-fulfillment.js');
 var financeRevenue = source('lib/finance-revenue-fulfillment.js');
+var softSubscriber = source('lib/sovereign-subscriber-lane.js');
 var image = source('handlers/hero-image.js');
 var imageExecutor = source('lib/culture-hero-executor.js');
 var autopilot = source('handlers/autopilot.js');
@@ -60,9 +61,12 @@ var financeSubscriberEffectAt = financeSubscriberExecutor.indexOf('transport.sen
 assert(financeSubscriberExecutor.includes("require('./finance-subscriber-motor-authorization.js')"));
 assert(financeSubscriberGateAt >= 0 && financeSubscriberEffectAt > financeSubscriberGateAt);
 assert(financeSubscriberExecutor.slice(financeSubscriberGateAt, financeSubscriberEffectAt).includes('if (!motor || !motor.authorized)'));
-assert(stripeWebhook.includes("String(domain || '').toLowerCase() === 'finance' ? financeFulfillment : religionFulfillment"));
-assert(stripeWebhook.includes('welcomeMotor.enqueueAndAttempt({'));
-assert(stripeWebhook.includes('renewalMotor.enqueueAndAttempt({'));
+assert(stripeWebhook.includes("if (domain === 'finance') return financeFulfillment"));
+assert(stripeWebhook.includes("if (domain === 'religion') return religionFulfillment"));
+assert(stripeWebhook.includes('softSubscriberLanes.get(domain)'));
+assert(stripeWebhook.includes('return lane ? lane.fulfillment : null'));
+assert(stripeWebhook.includes('enqueueFulfillment(welcomeMotor'));
+assert(stripeWebhook.includes('enqueueFulfillment(renewalMotor'));
 assert(stripeWebhook.includes('subs.activateStrict({'));
 assert(stripeWebhook.includes('subs.deactivateStrict('));
 assert(!stripeWebhook.includes('crm.sendToLead'));
@@ -72,6 +76,11 @@ assert(religionRevenue.indexOf('Decision.decide(store, candidate') < religionRev
 assert(financeRevenue.includes("require('./finance-subscriber-decision.js')"));
 assert(financeRevenue.includes("require('./finance-subscriber-executor.js')"));
 assert(financeRevenue.indexOf('Decision.decide(store, candidate') < financeRevenue.indexOf('Executor.execute({'));
+var softGateAt = softSubscriber.indexOf("authorize(store, productDomain, LANE");
+var softEffectAt = softSubscriber.indexOf('input.transport.send(spec.candidate.email', softGateAt);
+assert(softGateAt >= 0 && softEffectAt > softGateAt);
+assert(softSubscriber.slice(softGateAt, softEffectAt).includes('if (!motor || !motor.authorized)'));
+assert(softSubscriber.includes("subscriberDomain !== productDomain"));
 
 console.log('outward domain motor gates: social, subscriber email, and hero image fail closed before effects');
 
