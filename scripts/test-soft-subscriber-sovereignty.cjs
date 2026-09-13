@@ -36,6 +36,15 @@ Store.prototype.lrem = async function (key, count, value) {
   });
   this.lists.set(key, next); return removed;
 };
+Store.prototype.lmove = async function (source, destination, whereFrom, whereTo) {
+  var sourceRows = this.lists.get(source) || [];
+  if (!sourceRows.length) return null;
+  var value = whereFrom === 'RIGHT' ? sourceRows.pop() : sourceRows.shift();
+  var destinationRows = source === destination ? sourceRows : (this.lists.get(destination) || []);
+  if (whereTo === 'RIGHT') destinationRows.push(value); else destinationRows.unshift(value);
+  this.lists.set(source, sourceRows); this.lists.set(destination, destinationRows);
+  return clone(value);
+};
 
 function cognition(lane, now) {
   return { ts: now, c: {
@@ -204,7 +213,9 @@ async function commission(store, lane, now) {
       } };
     }
   });
-  var observation = observedRows[0];
+  var observation = observedRows[0].observation;
+  assert.equal((await store.lrange(culture.observer.PENDING_KEY, 0, -1)).length, 1,
+    'terminal outcome remains pending until learning and recovery finish');
   assert.equal(observation.status, 'TERMINAL_OBSERVED');
   assert.equal(observation.productDomain, 'culture');
   assert.equal(observation.independentOfSendResponse, true);
@@ -218,6 +229,8 @@ async function commission(store, lane, now) {
   var recovery = await culture.recovery.recover({ store: store, command: executed,
     actionId: executed.items[0].actionId, observation: observation, now: now + 1 });
   assert.equal(recovery.status, 'FUTURE_DELIVERY_SUPPRESSED');
+  assert.equal(await culture.observer.acknowledge(store, observedRows[0].pendingRef), true);
+  assert.equal((await store.lrange(culture.observer.PENDING_KEY, 0, -1)).length, 0);
   var suppression = await store.get(culture.executor.suppressionKey(executed.items[0].emailHash));
   assert.equal(suppression.suppressed, true);
   assert.equal(await store.get(education.executor.suppressionKey(executed.items[0].emailHash)), null,

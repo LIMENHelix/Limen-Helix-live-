@@ -151,7 +151,9 @@ function compactLaneReadout(row) {
 
 function mergeReadouts(domain, rows) {
   var eligible = rows.filter(function (row) { return row && row.status === 'ELIGIBLE' && row.signal; });
-  var latest = eligible.slice().sort(function (a, b) {
+  var readyEligible = eligible.filter(function (row) { return row.learningGate && row.learningGate.ready; });
+  var candidates = readyEligible.length ? readyEligible : eligible;
+  var selected = candidates.slice().sort(function (a, b) {
     return Number(b.signal.observedAt || 0) - Number(a.signal.observedAt || 0);
   })[0] || null;
   var resolvedCount = rows.reduce(function (sum, row) { return sum + Number(row && row.resolvedCount || 0); }, 0);
@@ -160,19 +162,18 @@ function mergeReadouts(domain, rows) {
   return {
     schemaVersion: learning.EXTERNAL_LEARNING_SCHEMA,
     domain: domain,
-    status: latest ? 'ELIGIBLE' : 'ABSTAINED',
-    reason: latest ? null : 'domain-has-no-graded-external-action-outcome',
+    status: selected ? 'ELIGIBLE' : 'ABSTAINED',
+    reason: selected ? null : 'domain-has-no-graded-external-action-outcome',
     resolvedCount: resolvedCount,
     learningGate: {
-      ready: readyRows.length > 0,
+      ready: !!(selected && selected.learningGate && selected.learningGate.ready),
       minimumResolved: 5,
-      distinctSources: readyRows.reduce(function (max, row) {
-        return Math.max(max, Number(row.learningGate.distinctSources || 0));
-      }, 0),
+      distinctSources: Number(selected && selected.learningGate && selected.learningGate.distinctSources || 0),
       minimumDistinctSources: 2,
-      independentlyQualifiedLanes: readyRows.length
+      independentlyQualifiedLanes: readyRows.length,
+      selectedLane: selected && selected.signal && selected.signal.lane || null
     },
-    signal: latest ? latest.signal : null,
+    signal: selected ? selected.signal : null,
     companyPatterns: primary.companyPatterns,
     laneReadouts: rows.map(compactLaneReadout)
   };

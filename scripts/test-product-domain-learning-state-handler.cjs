@@ -133,6 +133,17 @@ async function invoke(handler, url, method) {
     assert.equal(culture.body.signal.lane, 'subscriber-email');
     assert.equal(culture.body.laneReadouts.length, 2);
 
+    var laneBound = handler.mergeReadouts('culture', [
+      { status: 'ELIGIBLE', resolvedCount: 5, learningGate: { ready: true, distinctSources: 2 },
+        signal: { signalId: 'qualified-old', lane: 'hero-image', observedAt: 100 } },
+      { status: 'ELIGIBLE', resolvedCount: 1, learningGate: { ready: false, distinctSources: 1 },
+        signal: { signalId: 'unqualified-new', lane: 'subscriber-email', observedAt: 200 } }
+    ]);
+    assert.equal(laneBound.learningGate.ready, true);
+    assert.equal(laneBound.signal.signalId, 'qualified-old',
+      'a newer immature lane may not borrow another lane readiness');
+    assert.equal(laneBound.learningGate.selectedLane, 'hero-image');
+
     var intelligence = await invoke(handler, '/api/product-domain-learning-state?domain=intelligence');
     assert.equal(intelligence.code, 200);
     assert.equal(intelligence.body.status, 'ELIGIBLE');
