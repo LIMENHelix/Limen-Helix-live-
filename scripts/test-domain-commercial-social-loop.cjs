@@ -82,11 +82,22 @@ function brain(domain, now, packetDomain) {
   vetoBrain.c.awareness.humanReviewRequired = true;
   assert.equal((await DomainDecision.decide(store, candidate, now,
     { cognition: { finance: vetoBrain } })).reason, 'subject-domain-human-review-veto');
+  var immuneBrain = brain('finance', now);
+  immuneBrain.c.immune.immuneState = 'alert';
+  assert.equal((await DomainDecision.decide(store, candidate, now,
+    { cognition: { finance: immuneBrain } })).reason, 'subject-domain-immune-veto');
 
   var cognition = { communication: brain('communication', now), finance: brain('finance', now) };
   var communicationRelease = await CommunicationDecision.decide(store, candidate, now, { cognition: cognition });
   assert.equal(communicationRelease.status, 'RELEASED');
   assert.equal(communicationRelease.sourceArtifactId, artifact.artifactId);
+  assert(communicationRelease.expiresAt <= domainRelease.expiresAt,
+    'Communication authority cannot outlive subject-domain authority');
+  var expiredNestedCandidate = Object.assign({}, candidate, {
+    domainDecisionReceipt: Object.assign({}, domainRelease, { expiresAt: now })
+  });
+  assert.equal(CommunicationDecision.validateReceipt(communicationRelease, expiredNestedCandidate, now), false,
+    'executor validation rechecks the nested subject-domain release');
   var sourceFailureStore = Object.create(store);
   sourceFailureStore.get = async function () { throw new Error('transient durable source read failure'); };
   var unavailableDecision = await CommunicationDecision.decide(sourceFailureStore, candidate, now, { cognition: cognition });

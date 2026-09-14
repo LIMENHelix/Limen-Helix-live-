@@ -35,12 +35,22 @@ function decisionReceipt(subjectDomain, body, now) {
 function spec(subjectDomain, body, now) { return { subjectDomain: subjectDomain, text: body, decisionReceipt: decisionReceipt(subjectDomain, body, now) }; }
 
 function artifactSpec(subjectDomain, body, artifactId, motorTime) {
-  var domainDecision = { decisionReceiptId: 'domain-' + artifactId, ownerDomain: subjectDomain };
   var value = {
     subjectDomain: subjectDomain, text: body, sourceArtifactId: artifactId,
     sourceIntentId: 'intent-' + artifactId, sourcePacketId: 'packet-' + artifactId,
-    candidateHash: 'candidate-' + artifactId, domainDecisionReceipt: domainDecision
+    candidateHash: 'candidate-' + artifactId
   };
+  var domainDecision = {
+    schemaVersion: 'domain-commercial-distribution-decision/1.0',
+    decisionReceiptId: 'domain-' + artifactId, status: 'RELEASED', released: true,
+    productDomain: subjectDomain, ownerDomain: subjectDomain, channelOwnerDomain: 'communication',
+    channel: 'communication:bluesky', sourceArtifactId: value.sourceArtifactId,
+    sourceIntentId: value.sourceIntentId, sourcePacketId: value.sourcePacketId,
+    candidateHash: value.candidateHash,
+    contentHash: crypto.createHash('sha256').update(JSON.stringify(body)).digest('hex'),
+    decidedAt: motorTime, expiresAt: motorTime + 600000
+  };
+  value.domainDecisionReceipt = domainDecision;
   value.decisionReceipt = Object.assign(decisionReceipt(subjectDomain, body, motorTime), {
     sourceArtifactId: value.sourceArtifactId, sourceIntentId: value.sourceIntentId,
     sourcePacketId: value.sourcePacketId, candidateHash: value.candidateHash,
@@ -169,6 +179,33 @@ function artifactSpec(subjectDomain, body, artifactId, motorTime) {
       uri: 'at://did/app.bsky.feed.post/rejected-retry', cid: 'rejected-retry-cid',
       url: 'https://bsky.app/post/rejected-retry' }; } } });
   assert.equal(rejectedRetry.status, 'POSTED', 'confirmed non-publication releases claims for a corrected retry');
+
+  var journalStore = new Store(), commandWriteFailures = 1;
+  var journalSet = journalStore.set;
+  journalStore.set = async function (key, value) {
+    if (key.indexOf(Executor.KEY_PREFIX) === 0 && value && value.status === 'FAILED' && commandWriteFailures-- > 0) {
+      throw new Error('transient command resolution write failure');
+    }
+    return journalSet.call(this, key, value);
+  };
+  var journalSpec = artifactSpec('culture', 'durable definitive result', 'culture-definitive-artifact', 8000);
+  var journalFailure = await Executor.execute({ store: journalStore, spec: journalSpec, now: 8000,
+    motorAuthorization: freshMotor,
+    adapterGuard: { checkpoint: async function () { return { allowed: true }; } },
+    platform: { postToBluesky: async function () { return { ok: false, providerCalled: true,
+      definitiveFailure: true, reason: 'provider returned 400' }; } } });
+  assert.equal(journalFailure.status, 'FAILED');
+  assert.equal((await journalStore.get(Executor.commandKey(
+    (await journalStore.get(Executor.artifactClaimKey('culture', 'culture-definitive-artifact'))).commandId))).status,
+  'DISPATCHING');
+  var journalClaims = [
+    { key: Executor.artifactClaimKey('culture', 'culture-definitive-artifact'),
+      value: await journalStore.get(Executor.artifactClaimKey('culture', 'culture-definitive-artifact')) },
+    { key: Executor.contentClaimKey('culture', 'durable definitive result'),
+      value: await journalStore.get(Executor.contentClaimKey('culture', 'durable definitive result')) }
+  ];
+  assert.equal(await Executor.recoverDefinitiveClaims(journalStore, journalClaims), true,
+    'durable definitive journal repairs an interrupted command transition and releases both claims');
 
   console.log('communication social executor: B10 authorization, pre-dispatch durable command, strict receipt readback, idempotency, and ambiguous-failure no-retry passed');
 })().catch(function (error) { console.error(error); process.exit(1); });

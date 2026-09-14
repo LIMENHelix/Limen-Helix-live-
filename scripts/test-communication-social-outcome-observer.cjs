@@ -128,5 +128,28 @@ function response() {
     'a POSTED command remains observable from its pre-dispatch pending index when final log append failed');
   assert.equal(pendingOnlyResponse.json.learning.communicationRecorded, 1);
 
+  var replayStore = new Store();
+  var replayCommand = Object.assign({}, strictCommand, {
+    sourceArtifactId: 'finance-artifact-replay', sourceIntentId: 'finance-intent-replay',
+    sourcePacketId: 'finance-packet-replay', domainDecisionReceiptId: 'finance-release-replay'
+  });
+  await replayStore.lpush('communication_social_command_log', replayCommand);
+  await replayStore.lpush(Observer.LOG_KEY, first.receipt);
+  var domainAttempts = 0;
+  var replayHandler = Handler.createHandler({
+    store: replayStore, cronAuth: { enforce: function () { return true; } },
+    social: { recentPosts: async function () { return []; } }, observer: Object.assign({}, Observer, {
+      reconcilePending: async function () { return { receipts: [], commands: [] }; },
+      observeRecent: async function () { return { ok: true, results: [], observed: 0 }; }
+    }),
+    learning: { recordObservation: async function () { return { ok: true, duplicate: true }; } },
+    domainLearning: { recordObservation: async function () { domainAttempts++; return { ok: true }; } }
+  });
+  var replayResponse = response();
+  await replayHandler({ method: 'GET', headers: {} }, replayResponse);
+  assert.equal(replayResponse.statusCode, 200);
+  assert.equal(domainAttempts, 1,
+    'an observation receipt is replayed from the durable log when the prior domain-learning write did not land');
+
   console.log('communication social outcome observer: public AppView identity, strict receipt readback, ambiguous-command reconciliation, engagement deltas, and cron-only writes passed');
 })().catch(function (error) { console.error(error); process.exit(1); });
