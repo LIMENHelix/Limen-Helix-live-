@@ -23,7 +23,7 @@ const CivilizationValveRegistry = require('../lib/civilization-valve-registry');
 
 // Bumped each migration commit so a deploy is probeable: any unknown /api/* path
 // returns this in the miss JSON (curl /api/__probe__ | grep the tag).
-const BUILD = 'phase-9';
+const BUILD = 'phase-10-commercial-artifacts';
 
 // name → handler module. Static requires so the tracer bundles them.
 const HANDLERS = {
@@ -86,6 +86,12 @@ const HANDLERS = {
   'finance-preview': require('../handlers/finance-preview'),
   'finance-paper-admission': require('../handlers/finance-paper-admission'),
   'brain-cognition-refresh': require('../handlers/brain-cognition-refresh'),
+  'domain-commercial-reflex': require('../handlers/domain-commercial-reflex'),
+  'domain-commercial-artifact-prep': require('../handlers/domain-commercial-artifact-prep'),
+  'domain-commercial-status': require('../handlers/domain-commercial-status'),
+  'domain-subscriber-fulfillment': require('../handlers/domain-subscriber-fulfillment'),
+  'domain-subscriber-outcome-observer': require('../handlers/domain-subscriber-outcome-observer'),
+  'domain-subscriber-recovery': require('../handlers/domain-subscriber-recovery'),
   'limen-civilization-handoff': require('../handlers/limen-civilization-handoff'),
   'capital-engine': require('../handlers/capital-engine'),
   'critique-artifact': require('../handlers/critique-artifact'),

@@ -5,6 +5,8 @@ var StripeWebhook = require('../handlers/stripe-webhook.js');
 var SubscriberDigest = require('../handlers/subscriber-digest.js');
 var Valves = require('../lib/civilization-valve-registry.js');
 var MotorCapability = require('../lib/product-domain-motor-capability.js');
+var SharedFulfillment = require('../handlers/domain-subscriber-fulfillment.js');
+var SharedObserver = require('../handlers/domain-subscriber-outcome-observer.js');
 
 function clone(value) { return value == null ? value : JSON.parse(JSON.stringify(value)); }
 function Store() { this.values = new Map(); this.lists = new Map(); }
@@ -176,7 +178,9 @@ async function commission(store, lane, now) {
 }
 
 (async function () {
-  var domains = ['culture', 'education', 'communication', 'medicine'];
+  var domains = ['agriculture', 'communication', 'culture', 'defense', 'economy', 'education',
+    'energy', 'environment', 'governance', 'industry', 'infrastructure', 'intelligence',
+    'law', 'medicine', 'population', 'science', 'technology', 'trade'];
   assert.deepEqual(Lanes.DOMAINS, domains);
 
   domains.forEach(function (domain) {
@@ -185,11 +189,23 @@ async function commission(store, lane, now) {
     assert.equal(lane.config.productDomain, domain);
     assert.equal(StripeWebhook.fulfillmentFor(domain), lane.fulfillment);
     assert.equal(SubscriberDigest.motorFor(domain).executor, lane.executor);
-    assert.equal(Valves.forRoute(domain + '-revenue-fulfillment'), domain + ':subscriber-email');
+    assert.equal(Valves.get(domain + ':subscriber-email').productDomain, domain);
   });
-  assert.equal(StripeWebhook.fulfillmentFor('law'), null, 'unsupported product may not inherit Religion fulfillment');
-  assert.equal(SubscriberDigest.motorFor('law'), null, 'unsupported product may not inherit Religion motor');
+  assert.equal(StripeWebhook.fulfillmentFor('law'), Lanes.get('law').fulfillment);
+  assert.equal(SubscriberDigest.motorFor('law').executor, Lanes.get('law').executor);
   assert.notEqual(StripeWebhook.fulfillmentFor('culture'), StripeWebhook.fulfillmentFor('religion'));
+
+  var emptyCycleStore = new Store();
+  var fulfillmentCycle = await SharedFulfillment.run({ store: emptyCycleStore, now: Date.now(),
+    domains: ['agriculture', 'law'] });
+  assert.equal(fulfillmentCycle.ok, true);
+  assert.equal(fulfillmentCycle.domains.length, 2);
+  assert.equal(fulfillmentCycle.providerCalls, 0);
+  var observerCycle = await SharedObserver.run({ store: emptyCycleStore, now: Date.now(),
+    domains: ['agriculture', 'law'], env: {} });
+  assert.equal(observerCycle.ok, true);
+  assert.equal(observerCycle.domains.length, 2);
+  assert.equal(observerCycle.providerReadAttempts, 0);
 
   var now = Date.now(), culture = Lanes.get('culture'), education = Lanes.get('education');
   var store = new Store(), cultureSubscriber = subscriber('culture');
@@ -810,5 +826,5 @@ async function commission(store, lane, now) {
     'an accepted irreversible send must remain completed if suppression arrives after dispatch');
   assert.equal(acceptedRace.providerEmailId, 're_education_accepted_race');
 
-  console.log('soft subscriber sovereignty: PASS (4 exact domain lanes, durable decisions and real capability proof required, cross-domain authority refused, terminal customer data minimized)');
+  console.log('sovereign subscriber autonomy: PASS (18 exact domain lanes plus custom Finance/Religion, durable decisions and real capability proof required, cross-domain authority refused, terminal customer data minimized)');
 })().catch(function (error) { console.error(error); process.exit(1); });

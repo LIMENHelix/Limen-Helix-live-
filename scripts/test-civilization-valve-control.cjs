@@ -17,7 +17,7 @@ function store() {
 }
 
 (async function () {
-  assert.equal(Registry.LINES.length, 25, 'each external lane has its own line; five Soft domains now have separate subscriber lanes');
+  assert.equal(Registry.LINES.length, 39, 'each external lane has its own line; all twenty domains have separate subscriber valves');
   assert.equal(new Set(Registry.LINES.map(x => x.id)).size, Registry.LINES.length, 'valve identities are unique');
   assert.equal(Registry.get('finance:subscriber-email').ownerDomain, 'finance');
   assert.equal(Registry.forCandidate({ recommendedLane: 'research', domain: 'science' }), 'science:research-papers');
@@ -28,6 +28,12 @@ function store() {
   ['culture', 'education', 'communication', 'medicine'].forEach(domain => {
     assert.equal(Registry.forRoute(domain + '-revenue-fulfillment'), domain + ':subscriber-email');
     assert.equal(Registry.get(domain + ':subscriber-email').productDomain, domain);
+  });
+  assert.equal(Registry.forRoute('domain-subscriber-fulfillment'), null, 'shared clocks cannot masquerade as one domain valve');
+  assert.equal(Registry.forRouteAll('domain-subscriber-fulfillment').length, 14);
+  ['agriculture', 'defense', 'economy', 'energy', 'environment', 'governance', 'industry',
+    'infrastructure', 'intelligence', 'law', 'population', 'science', 'technology', 'trade'].forEach(domain => {
+    assert(Registry.forRouteAll('domain-subscriber-fulfillment').includes(domain + ':subscriber-email'));
   });
 
   const s = store();

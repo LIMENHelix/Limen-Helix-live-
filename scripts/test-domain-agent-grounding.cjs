@@ -35,6 +35,11 @@ function response() {
           generatedAt: new Date().toISOString(),
           readiness: { canReason: true, blockers: [] },
           afferentState: { serverObservation: { stress: 0.2 }, clientProjection: { stress: 0.99, role: 'display-advisory-only' } },
+          commercialReflex: {
+            status: 'OBSERVED', role: 'same-domain-stress-to-business-work-order', selectsExternalEffect: false,
+            state: { productDomain: 'culture', status: 'PLANNED', workOrder: { selectedProgram: 'SHORT_VIDEO', renderContract: { status: 'EVIDENCE_FETCH_REQUIRED' } } },
+            latestArtifact: { artifactId: 'dca_culture_1', status: 'ARTIFACT_PREPARED', externalEffectAuthorized: false }
+          },
           truthPolicy: { modelNarrativeCannotGrantAuthority: true }
         }
       };
@@ -57,6 +62,9 @@ function response() {
   assert.match(captured.system, /SERVER-BUILT CULTURE GOVERNOR PACKET/);
   assert.match(captured.system, /not a master brain/);
   assert.match(captured.system, /CannotGrantAuthority/);
+  assert.match(captured.system, /same-domain-stress-to-business-work-order/);
+  assert.match(captured.system, /SHORT_VIDEO/);
+  assert.match(captured.system, /headline alone/);
   assert.doesNotMatch(captured.system, /you have no external market or macro feed/i);
 
   var failed = Agent.createHandler({

@@ -35,7 +35,14 @@ const bindings = [
   { file: 'lib/law-automail-executor.js', effect: 'input.provider.create', valves: ['law:automail'] },
   { file: 'lib/population-real-estate-executor.js', effect: 'input.transport.send', valves: ['population:real-estate'] },
   { file: 'lib/religion-subscriber-executor.js', effect: 'transport.send', valves: ['religion:subscriber-email'] },
-  { file: 'lib/sovereign-subscriber-lane.js', guard: 'AdapterGuard).checkpoint', effect: 'input.transport.send', valves: ['communication:subscriber-email', 'culture:subscriber-email', 'education:subscriber-email', 'medicine:subscriber-email'] },
+  { file: 'lib/sovereign-subscriber-lane.js', guard: 'AdapterGuard).checkpoint', effect: 'input.transport.send', valves: [
+    'agriculture:subscriber-email', 'communication:subscriber-email', 'culture:subscriber-email',
+    'defense:subscriber-email', 'economy:subscriber-email', 'education:subscriber-email',
+    'energy:subscriber-email', 'environment:subscriber-email', 'governance:subscriber-email',
+    'industry:subscriber-email', 'infrastructure:subscriber-email', 'intelligence:subscriber-email',
+    'law:subscriber-email', 'medicine:subscriber-email', 'population:subscriber-email',
+    'science:subscriber-email', 'technology:subscriber-email', 'trade:subscriber-email'
+  ] },
   { file: 'lib/trade-auction-executor.js', effect: 'i.marketplace.createListing', valves: ['trade:auction'] }
 ];
 
