@@ -66,6 +66,18 @@ async function invoke(handler, url, method) {
         sourceIdentity: { kind: 'resend-read-api-mail-server-event', value: 'email-' + n }
       }; })
     },
+    'soft_subscriber:culture:learning': {
+      schemaVersion: 'culture-subscriber-learning/1.0', domain: 'culture', productDomain: 'culture',
+      lane: 'subscriber-email', resolvedCount: 5, processedObservationIds: ['cs1', 'cs2', 'cs3', 'cs4', 'cs5'],
+      signals: [1, 2, 3, 4, 5].map(function (n) { return {
+        schemaVersion: 'product-domain-external-learning/1.0', signalId: 'culture-subscriber-signal-' + n,
+        eventId: 'culture-subscriber-observation-' + n, actionId: 'culture-subscriber-action-' + n,
+        ownerDomain: 'culture', productDomain: 'culture', lane: 'subscriber-email',
+        eventType: 'OUTCOME_SUBSCRIBER_DELIVERED', observedAt: 2000 + n,
+        outcome: 'delivered', normalizedCredit: 0.5, sourceKind: 'independent-action-outcome',
+        sourceIdentity: { kind: 'resend-read-api-mail-server-event', value: 'culture-email-' + n }
+      }; })
+    },
     'intelligence_autopilot_learning_state': {
       schemaVersion: 'intelligence-autopilot-learning/1.0', domain: 'intelligence', lane: 'autopilot', resolvedCount: 5,
       processedObservationIds: ['i1', 'i2', 'i3', 'i4', 'i5'],
@@ -112,6 +124,39 @@ async function invoke(handler, url, method) {
     assert.equal(religion.body.learningGate.ready, true);
     assert.equal(religion.body.signal.lane, 'subscriber-email');
     assert.equal(religion.body.signal.normalizedCredit, 0.5);
+
+    var culture = await invoke(handler, '/api/product-domain-learning-state?domain=culture');
+    assert.equal(culture.code, 200);
+    assert.equal(culture.body.status, 'ELIGIBLE');
+    assert.equal(culture.body.learningGate.ready, true);
+    assert.equal(culture.body.learningGate.independentlyQualifiedLanes, 1);
+    assert.equal(culture.body.signal.lane, 'subscriber-email');
+    assert.equal(culture.body.laneReadouts.length, 2);
+
+    values['soft_subscriber:culture:learning'].signals[4].normalizedCredit = 2;
+    var invalidSubscriberSignal = await invoke(handler, '/api/product-domain-learning-state?domain=culture');
+    assert.equal(invalidSubscriberSignal.code, 503);
+    assert.match(invalidSubscriberSignal.body.detail, /subscriber learning state malformed/);
+    values['soft_subscriber:culture:learning'].signals[4].normalizedCredit = 0.5;
+    assert.throws(function () { handler.validateSubscriberReadout('culture', 'culture', {
+      schemaVersion: 'product-domain-external-learning/1.0', domain: 'culture', productDomain: 'culture',
+      status: 'ELIGIBLE', resolvedCount: 5, learningGate: { ready: true, distinctSources: 2 },
+      signal: { schemaVersion: 'product-domain-external-learning/1.0', signalId: 'bad', eventId: 'bad',
+        actionId: 'bad', ownerDomain: 'research', productDomain: 'culture', lane: 'subscriber-email',
+        sourceKind: 'independent-action-outcome', sourceIdentity: { kind: 'x', value: 'y' },
+        normalizedCredit: 0.5, observedAt: 1 }
+    }); }, /domain-subscriber-learning-signal-invalid/);
+
+    var laneBound = handler.mergeReadouts('culture', [
+      { status: 'ELIGIBLE', resolvedCount: 5, learningGate: { ready: true, distinctSources: 2 },
+        signal: { signalId: 'qualified-old', lane: 'hero-image', observedAt: 100 } },
+      { status: 'ELIGIBLE', resolvedCount: 1, learningGate: { ready: false, distinctSources: 1 },
+        signal: { signalId: 'unqualified-new', lane: 'subscriber-email', observedAt: 200 } }
+    ]);
+    assert.equal(laneBound.learningGate.ready, true);
+    assert.equal(laneBound.signal.signalId, 'qualified-old',
+      'a newer immature lane may not borrow another lane readiness');
+    assert.equal(laneBound.learningGate.selectedLane, 'hero-image');
 
     var intelligence = await invoke(handler, '/api/product-domain-learning-state?domain=intelligence');
     assert.equal(intelligence.code, 200);

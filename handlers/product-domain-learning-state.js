@@ -22,6 +22,7 @@ var tradeLearning = require('../lib/trade-auction-learning.js');
 var communicationLearning = require('../lib/communication-social-learning.js');
 var cultureLearning = require('../lib/culture-hero-learning.js');
 var lawLearning = require('../lib/law-automail-learning.js');
+var softSubscriberLanes = require('../lib/soft-domain-subscriber-lanes.js');
 
 var DOMAINS = [
   'agriculture', 'communication', 'culture', 'defense', 'economy', 'education',
@@ -68,7 +69,7 @@ function compactCompanyPatterns(state) {
   }).slice(0, 50);
 }
 
-async function read(domain) {
+async function readPrimary(domain) {
   store.assertDurable();
   if (domain === 'defense') return defenseLearning.readForBrain(store);
   if (domain === 'governance') return governanceLearning.readForBrain(store);
@@ -135,6 +136,83 @@ async function read(domain) {
   };
 }
 
+function compactLaneReadout(row) {
+  return {
+    productDomain: row.productDomain || null,
+    lane: row.signal && row.signal.lane || row.lane || null,
+    status: row.status,
+    reason: row.reason || null,
+    resolvedCount: Number(row.resolvedCount || 0),
+    ready: !!(row.learningGate && row.learningGate.ready),
+    signalId: row.signal && row.signal.signalId || null,
+    observedAt: row.signal && row.signal.observedAt || null
+  };
+}
+
+function validateSubscriberReadout(domain, productDomain, row) {
+  if (!row || row.schemaVersion !== learning.EXTERNAL_LEARNING_SCHEMA || row.domain !== domain ||
+      row.productDomain !== productDomain || ['ELIGIBLE', 'ABSTAINED'].indexOf(row.status) < 0 ||
+      !Number.isInteger(row.resolvedCount) || row.resolvedCount < 0 || !row.learningGate ||
+      typeof row.learningGate.ready !== 'boolean' || !Number.isInteger(row.learningGate.distinctSources) ||
+      row.learningGate.distinctSources < 0 ||
+      row.learningGate.ready !== (row.resolvedCount >= 5 && row.learningGate.distinctSources >= 2)) {
+    throw new Error('domain-subscriber-learning-readout-invalid');
+  }
+  if (row.status === 'ABSTAINED') {
+    if (row.signal !== null) throw new Error('domain-subscriber-learning-readout-invalid');
+    return row;
+  }
+  var signal = row.signal;
+  if (!signal || signal.schemaVersion !== learning.EXTERNAL_LEARNING_SCHEMA || signal.ownerDomain !== domain ||
+      signal.productDomain !== productDomain || signal.lane !== 'subscriber-email' ||
+      signal.sourceKind !== 'independent-action-outcome' || !validSource(signal.sourceIdentity) ||
+      typeof signal.normalizedCredit !== 'number' || signal.normalizedCredit < 0 || signal.normalizedCredit > 1 ||
+      !signal.signalId || !signal.eventId || !signal.actionId || !signal.eventType || !signal.outcome ||
+      typeof signal.observedAt !== 'number' || !Number.isFinite(signal.observedAt)) {
+    throw new Error('domain-subscriber-learning-signal-invalid');
+  }
+  return row;
+}
+
+function mergeReadouts(domain, rows) {
+  var eligible = rows.filter(function (row) { return row && row.status === 'ELIGIBLE' && row.signal; });
+  var readyEligible = eligible.filter(function (row) { return row.learningGate && row.learningGate.ready; });
+  var candidates = readyEligible.length ? readyEligible : eligible;
+  var selected = candidates.slice().sort(function (a, b) {
+    return Number(b.signal.observedAt || 0) - Number(a.signal.observedAt || 0);
+  })[0] || null;
+  var resolvedCount = rows.reduce(function (sum, row) { return sum + Number(row && row.resolvedCount || 0); }, 0);
+  var readyRows = rows.filter(function (row) { return row && row.learningGate && row.learningGate.ready; });
+  var primary = rows[0] || abstained(domain, 'domain-has-no-graded-external-action-outcome', 0);
+  return {
+    schemaVersion: learning.EXTERNAL_LEARNING_SCHEMA,
+    domain: domain,
+    status: selected ? 'ELIGIBLE' : 'ABSTAINED',
+    reason: selected ? null : 'domain-has-no-graded-external-action-outcome',
+    resolvedCount: resolvedCount,
+    learningGate: {
+      ready: !!(selected && selected.learningGate && selected.learningGate.ready),
+      minimumResolved: 5,
+      distinctSources: Number(selected && selected.learningGate && selected.learningGate.distinctSources || 0),
+      minimumDistinctSources: 2,
+      independentlyQualifiedLanes: readyRows.length,
+      selectedLane: selected && selected.signal && selected.signal.lane || null
+    },
+    signal: selected ? selected.signal : null,
+    companyPatterns: primary.companyPatterns,
+    laneReadouts: rows.map(compactLaneReadout)
+  };
+}
+
+async function read(domain) {
+  var primary = await readPrimary(domain);
+  var productDomain = domain === 'health' ? 'medicine' : domain;
+  var subscriberLane = softSubscriberLanes.get(productDomain);
+  if (!subscriberLane) return primary;
+  var subscriber = validateSubscriberReadout(domain, productDomain, await subscriberLane.learning.readForBrain(store));
+  return mergeReadouts(domain, [primary, subscriber]);
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
   res.setHeader('cache-control', 'no-store');
@@ -160,5 +238,8 @@ module.exports = async function handler(req, res) {
 };
 
 module.exports.read = read;
+module.exports.readPrimary = readPrimary;
+module.exports.mergeReadouts = mergeReadouts;
 module.exports.DOMAINS = DOMAINS.slice();
 module.exports.compactCompanyPatterns = compactCompanyPatterns;
+module.exports.validateSubscriberReadout = validateSubscriberReadout;
