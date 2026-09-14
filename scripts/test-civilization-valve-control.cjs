@@ -66,6 +66,8 @@ function store() {
 
   await Control.advanceNuke('DIAGNOSTIC_READ_ONLY', 'test-master', s, Date.parse('2026-08-26T19:13:10Z'));
   assert.equal((await Control.authorizeActivity('audit-ledger', 'GET', s)).allowed, true);
+  assert.equal((await Control.authorizeActivity('domain-commercial-status', 'GET', s)).allowed, true);
+  assert.equal((await Control.authorizeActivity('domain-commercial-status', 'POST', s)).allowed, false);
   assert.equal((await Control.authorizeActivity('audit-ledger', 'POST', s)).allowed, false);
   assert.equal((await Control.authorizeActivity('brain-cognition-refresh', 'GET', s)).allowed, false);
 

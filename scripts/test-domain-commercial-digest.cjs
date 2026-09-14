@@ -4,10 +4,17 @@ var assert = require('node:assert/strict');
 var Digest = require('../lib/digest.js');
 var Contracts = require('../lib/domain-commercial-contracts.js');
 
-function store(value) {
+function store(value, stateOverride) {
+  var state = stateOverride === undefined ? {
+    schemaVersion: 'domain-commercial-reflex/1.0', productDomain: 'culture', ownerDomain: 'culture',
+    readbackVerified: true, lastPlannedIntentId: 'dci_digest'
+  } : stateOverride;
   return {
     assertDurable: function () {},
-    get: async function (key) { return key === Contracts.get('culture').artifactStateKey ? value : null; }
+    get: async function (key) {
+      if (key === Contracts.get('culture').stateKey) return state;
+      return key === Contracts.get('culture').artifactStateKey ? value : null;
+    }
   };
 }
 
@@ -16,6 +23,7 @@ function store(value) {
   var artifact = {
     schemaVersion: 'domain-commercial-artifact/1.0', artifactId: 'dca_digest',
     status: 'ARTIFACT_PREPARED', productDomain: 'culture', ownerDomain: 'culture',
+    intentId: 'dci_digest',
     subject: 'Culture signal brief', body: 'Current source-linked Culture artifact.',
     contentHash: 'sha256-culture-artifact', freshnessExpiresAt: now + 60000,
     externalEffectAuthorized: false
@@ -33,5 +41,12 @@ function store(value) {
   assert.equal(await Digest.latestCommercialArtifact('culture', foreignStore, now), null);
   assert.equal(await Digest.buildFor({ domain: 'culture', offer: 'p2', active: true },
     { store: foreignStore, now: now }), null);
+  var newerPlanStore = store(artifact, {
+    schemaVersion: 'domain-commercial-reflex/1.0', productDomain: 'culture', ownerDomain: 'culture',
+    readbackVerified: true, lastPlannedIntentId: 'dci_newer_unprepared'
+  });
+  assert.equal(await Digest.latestCommercialArtifact('culture', newerPlanStore, now), null);
+  assert.equal(await Digest.buildFor({ domain: 'culture', offer: 'p2', active: true },
+    { store: newerPlanStore, now: now }), null);
   console.log('domain commercial digest: exact-domain fresh artifact feeds paid domain-wide fulfillment PASS');
 })().catch(function (error) { console.error(error); process.exit(1); });

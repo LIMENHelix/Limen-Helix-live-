@@ -43,12 +43,14 @@
   from durable domain state; identical inputs reuse the same intent identity.
 - The latest planned intent identity survives temporary abstentions so a later
   distribution gate cannot mistake an older artifact for the most recent plan.
+- Paid delivery and Governor orientation require that latest identity and a
+  bounded work-order age; delayed preparation cannot expose older work as current.
 
 ## 4. Ports and adapters
 
 | Port | Contract | Implementation | Failure behavior |
 | --- | --- | --- | --- |
-| Queue | Immutable domain-local planned-state queue plus exact intent namespace | `domain_commercial:intent-queue:<domain>` and `domain_commercial:intent:<domain>:<id>` | Refuse on read-back failure; a newer abstention cannot erase queued work |
+| Queue | Immutable domain-local planned-state queue plus exact intent namespace | `domain_commercial:intent-queue:<domain>` and `domain_commercial:intent:<domain>:<id>` | Refuse on read-back failure; a newer abstention cannot erase queued work; acknowledge only after artifact read-back |
 | Worker | Source-linked signal-brief preparer | `domain-commercial-artifact` | No artifact on invalid/stale work order |
 | Verifier | Artifact identity/truth-boundary validator | Strict read-back and content hash | Headline remains attributed topic lead only |
 | State store | Strict durable JSON/CAS-capable store | `autofire-efference-store` | No process-memory fallback |

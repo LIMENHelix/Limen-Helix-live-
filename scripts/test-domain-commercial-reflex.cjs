@@ -34,6 +34,14 @@ function memory() {
     },
     lrange: async function (key, start, stop) {
       return JSON.parse(JSON.stringify((lists[key] || []).slice(start, stop + 1)));
+    },
+    lrem: async function (key, count, value) {
+      var target = JSON.stringify(value), removed = 0;
+      lists[key] = (lists[key] || []).filter(function (row) {
+        if ((count === 0 || removed < count) && JSON.stringify(row) === target) { removed++; return false; }
+        return true;
+      });
+      return removed;
     }
   };
 }
@@ -195,6 +203,8 @@ function response() {
   var racedArtifactCycle = await ArtifactHandler.run({ now: now + 180000, store: outageStore });
   assert.equal(racedArtifactCycle.rows.find(function (row) { return row.productDomain === 'finance'; }).status,
     'ARTIFACT_PREPARED', 'queued plan survives a newer mutable abstention state');
+  assert.equal((outageStore.lists[finance.contract.intentQueue] || []).length, 0,
+    'successfully prepared queued work is acknowledged');
 
   var staleEvidence = cognition('finance', now, 'stale-evidence');
   staleEvidence.c.serverPacket.truth.semanticEvidence.forEach(function (row) {
@@ -257,6 +267,9 @@ function response() {
   assert.equal(artifactCycle.boundaries.externalProviderCalled, false);
   assert.equal(new Set(artifactCycle.rows.map(function (row) { return row.artifactId; })).size, 20);
   assert.equal(Object.keys(allStore.values).filter(function (key) { return /^domain_commercial:artifact-state:/.test(key); }).length, 20);
+  assert.equal(Contracts.DOMAINS.filter(function (domain) {
+    return (allStore.lists[Contracts.get(domain).intentQueue] || []).length > 0;
+  }).length, 0);
 
   var handler = Handler.createHandler({
     now: now,

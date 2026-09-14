@@ -32,6 +32,10 @@ async function run(deps) {
       var state = await nextPlannedState(store, lane.contract, now);
       var result = Artifact.build(lane.contract, state, now);
       var persisted = await Artifact.persist(store, lane.contract, result);
+      if (persisted && persisted.status === 'ARTIFACT_PREPARED' && state && state.status === 'PLANNED') {
+        if (typeof store.lrem !== 'function') throw new Error('strict durable queue acknowledgement required');
+        await store.lrem(lane.contract.intentQueue, 0, state);
+      }
       rows.push({
         productDomain: lane.contract.productDomain,
         ownerDomain: lane.contract.ownerDomain,

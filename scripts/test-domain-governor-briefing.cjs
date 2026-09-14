@@ -169,6 +169,23 @@ function civilization(domain, now, overrides) {
   });
   assert.equal(expiredReflex.packet.commercialReflex.latestArtifact, null);
 
+  var staleStateStore = Object.assign({}, reflexStore, {
+    get: async function (key) {
+      if (key === cultureLane.contract.stateKey) return Object.assign({}, reflexState, {
+        evaluatedAt: now - Governor.MAX_COMMERCIAL_WORK_AGE_MS - 1,
+        intent: Object.assign({}, reflexState.intent, { plannedAt: now - Governor.MAX_COMMERCIAL_WORK_AGE_MS - 1 })
+      });
+      return null;
+    }
+  });
+  var staleCommercial = await Governor.build('culture', {
+    now: now, briefingBuilder: async function () { return civilization('culture', now); },
+    store: staleStateStore, env: {}
+  });
+  assert.equal(staleCommercial.packet.commercialReflex.status, 'UNOBSERVED');
+  assert.equal(staleCommercial.packet.commercialReflex.reason, 'domain-commercial-reflex-stale');
+  assert.equal(staleCommercial.packet.commercialReflex.state, null);
+
   var foreignReflexStore = Object.assign({}, fakeStore, {
     get: async function (key) {
       if (key !== cultureLane.contract.stateKey) return null;
