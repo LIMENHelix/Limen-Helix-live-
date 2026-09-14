@@ -17,7 +17,22 @@ async function nextPlannedState(store, contract, now) {
   // Migration compatibility only: deployments created before the durable
   // queue may still have one valid planned state at the observation key.
   var current = await store.get(contract.stateKey);
-  return current && current.status === 'PLANNED' ? current : null;
+  if (!current || current.status !== 'PLANNED' || !current.intent) return null;
+  // A successful preparation consumes the plan even though the mutable
+  // observation remains PLANNED for provenance.  Never let that compatibility
+  // observation manufacture a new freshness generation for consumed work.
+  var latest = await store.get(contract.artifactStateKey);
+  if (samePreparedIntent(latest, current, contract)) return null;
+  var history = typeof store.lrange === 'function' ? await store.lrange(contract.artifactLog, 0, 199) : [];
+  if (history.some(function (row) { return samePreparedIntent(row, current, contract); })) return null;
+  return current;
+}
+
+function samePreparedIntent(artifact, state, contract) {
+  return !!(artifact && state && state.intent &&
+    artifact.productDomain === contract.productDomain && artifact.ownerDomain === contract.ownerDomain &&
+    artifact.intentId === state.intent.intentId &&
+    (!artifact.status || artifact.status === 'ARTIFACT_PREPARED'));
 }
 
 function comparePlans(a, b) {
@@ -120,4 +135,5 @@ wrapped.run = run;
 wrapped.nextPlannedState = nextPlannedState;
 wrapped.acknowledgePreparedPlan = acknowledgePreparedPlan;
 wrapped.comparePlans = comparePlans;
+wrapped.samePreparedIntent = samePreparedIntent;
 module.exports = wrapped;

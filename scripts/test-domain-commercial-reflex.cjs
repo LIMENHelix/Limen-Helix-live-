@@ -212,6 +212,14 @@ function response() {
     'ARTIFACT_PREPARED', 'queued plan survives a newer mutable abstention state');
   assert.equal((outageStore.lists[finance.contract.intentQueue] || []).length, 0,
     'successfully prepared queued work is acknowledged');
+  var consumedFallback = await ArtifactHandler.nextPlannedState(outageStore, finance.contract,
+    now + Artifact.freshnessMs(beforeOutage.intent.cadence) + 1);
+  assert.equal(consumedFallback, null,
+    'the mutable PLANNED observation cannot renew an already prepared and acknowledged intent');
+  delete outageStore.values[finance.contract.artifactStateKey];
+  assert.equal(await ArtifactHandler.nextPlannedState(outageStore, finance.contract,
+    now + Artifact.freshnessMs(beforeOutage.intent.cadence) + 1), null,
+  'the durable artifact log also prevents consumed migration fallback replay');
 
   var backlogStore = memory();
   var backlogOld = finance.evaluate(cognition('finance', now - 120000, 'backlog-old'), null, now - 120000);
