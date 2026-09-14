@@ -39,6 +39,11 @@ Store.prototype.replaceIfValue = async function (key, expectedValue, value) {
   if (!this.values.has(key) || JSON.stringify(this.values.get(key)) !== JSON.stringify(expectedValue)) return false;
   this.values.set(key, clone(value)); return true;
 };
+Store.prototype.setIfLockAndValue = async function (lockKey, lockValue, compareKey, compareValue, key, value) {
+  if (!this.values.has(lockKey) || JSON.stringify(this.values.get(lockKey)) !== JSON.stringify(lockValue) ||
+      !this.values.has(compareKey) || JSON.stringify(this.values.get(compareKey)) !== JSON.stringify(compareValue)) return false;
+  this.values.set(key, clone(value)); return true;
+};
 Store.prototype.lpush = async function (key, value) {
   var rows = this.lists.get(key) || []; rows.unshift(clone(value)); this.lists.set(key, rows); return rows.length;
 };
@@ -364,6 +369,21 @@ async function commission(store, lane, now) {
   });
   assert.equal(concurrentHeld.status, 'HELD_PRE_SEND'); assert.equal(concurrentCalls, 0);
   assert.equal((await store.get(culture.executor.actionKey(concurrentDecision.actionId))).claimToken, 'active-token');
+  await store.set(culture.executor.actionKey(concurrentDecision.actionId), {
+    schemaVersion: culture.executor.SCHEMA, productDomain: 'culture', actionId: concurrentDecision.actionId,
+    commandId: 'abandoned-other-command', status: 'DISPATCHING', providerCalled: true,
+    claimToken: 'abandoned-token', claimedAt: Date.now() - 11 * 60 * 1000,
+    dispatchingAt: Date.now() - 11 * 60 * 1000
+  });
+  var abandoned = await culture.executor.execute({ store: store,
+    specs: [{ candidate: concurrentCandidate, decision: concurrentDecision }], now: now + 8,
+    maxSends: 1, emailCostUsd: 0.001, dailyBudgetUsd: 0.02, dailySendCap: 20,
+    authorizationDeps: { env: openEnv(culture), cognition: cognition(culture, now + 8) },
+    adapterGuard: { checkpoint: async function () { return { allowed: true }; } },
+    transport: { send: async function () { concurrentCalls++; return { ok: true, id: 'must-not-resend-abandoned' }; } }
+  });
+  assert.equal(abandoned.status, 'PARTIAL_AMBIGUOUS'); assert.equal(concurrentCalls, 0);
+  assert.equal((await store.get(culture.executor.actionKey(concurrentDecision.actionId))).status, 'AMBIGUOUS');
 
   var positiveFetches = 0, positiveItem = causeResumeSent.items[0];
   var delivered = await culture.observer.observe(store, causeResumeSent, positiveItem, {
@@ -387,6 +407,30 @@ async function commission(store, lane, now) {
     } }; }
   });
   assert.equal(complained.lastEvent, 'complained'); assert.equal(culture.observer.isFinal(complained), true);
+  var staleLearning = await culture.learning.recordObservation(store, delivered);
+  assert.equal(staleLearning.ok, false);
+  assert.equal(staleLearning.reason, 'culture-subscriber-observation-superseded');
+
+  var rotationStore = new Store(), rotationCommand = {
+    schemaVersion: culture.executor.SCHEMA, commandId: 'culture-rotation-command', productDomain: 'culture',
+    items: [{ actionId: 'culture-rotation-action', status: 'ACCEPTED', providerEmailId: 're-rotation', emailHash: 'rotation-hash' }]
+  };
+  var rotationRef = { commandId: rotationCommand.commandId, actionId: 'culture-rotation-action' };
+  await rotationStore.set(culture.executor.commandKey(rotationCommand.commandId), rotationCommand);
+  await rotationStore.lpush(culture.observer.PENDING_KEY, rotationRef);
+  var rotationSeen = {};
+  var firstRotation = await culture.observer.observeNext(rotationStore, {
+    apiKey: 'test-read-key', now: now,
+    fetch: async function () { return { ok: true, status: 200, json: async function () {
+      return { id: 're-rotation', last_event: 'delivered', created_at: new Date(now).toISOString() };
+    } }; }
+  }, rotationSeen);
+  assert(firstRotation.observation);
+  var revisitedRotation = await culture.observer.observeNext(rotationStore, { apiKey: 'test-read-key' }, rotationSeen);
+  assert.equal(revisitedRotation.revisitedRef, true);
+  assert.equal((await rotationStore.lrange(culture.observer.PENDING_KEY, 0, -1)).length, 1,
+    'a concurrent/revisited physical ref may not be deleted as a presumed duplicate');
+  await culture.observer.releaseLease(rotationStore, firstRotation.pendingRef, firstRotation.leaseToken);
 
   var concurrentStore = new Store(), observationA = {
     schemaVersion: culture.observer.SCHEMA, observationId: 'culture-concurrent-a', productDomain: 'culture',
@@ -397,6 +441,8 @@ async function commission(store, lane, now) {
     actionId: 'culture-concurrent-action-b', providerEmailId: 're-concurrent-b', observedAt: now + 11 });
   await concurrentStore.set(culture.config.keys.learningCause(observationA.actionId), { actionId: observationA.actionId });
   await concurrentStore.set(culture.config.keys.learningCause(observationB.actionId), { actionId: observationB.actionId });
+  await concurrentStore.set(culture.observer.key(observationA.providerEmailId), observationA);
+  await concurrentStore.set(culture.observer.key(observationB.providerEmailId), observationB);
   var concurrent = await Promise.all([
     culture.learning.recordObservation(concurrentStore, observationA),
     culture.learning.recordObservation(concurrentStore, observationB)
