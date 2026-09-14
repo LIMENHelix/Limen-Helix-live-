@@ -12,12 +12,36 @@ async function nextPlannedState(store, contract, now) {
     return state && state.schemaVersion === 'domain-commercial-reflex/1.0' && state.status === 'PLANNED' &&
       state.productDomain === contract.productDomain && state.ownerDomain === contract.ownerDomain && state.intent &&
       Artifact.validateReflex(contract, state, now) === null;
-  }).sort(function (a, b) { return Number(b.evaluatedAt || 0) - Number(a.evaluatedAt || 0); });
+  }).sort(comparePlans);
   if (eligible.length) return eligible[0];
   // Migration compatibility only: deployments created before the durable
   // queue may still have one valid planned state at the observation key.
   var current = await store.get(contract.stateKey);
   return current && current.status === 'PLANNED' ? current : null;
+}
+
+function comparePlans(a, b) {
+  var evaluated = Number(b && b.evaluatedAt || 0) - Number(a && a.evaluatedAt || 0);
+  if (evaluated) return evaluated;
+  var planned = Number(b && b.intent && b.intent.plannedAt || 0) - Number(a && a.intent && a.intent.plannedAt || 0);
+  if (planned) return planned;
+  return String(b && b.intent && b.intent.intentId || '').localeCompare(
+    String(a && a.intent && a.intent.intentId || ''));
+}
+
+async function acknowledgePreparedPlan(store, contract, preparedState) {
+  if (typeof store.lrange !== 'function' || typeof store.lrem !== 'function') {
+    throw new Error('strict durable queue acknowledgement required');
+  }
+  var queued = await store.lrange(contract.intentQueue, 0, 199);
+  var removable = queued.filter(function (state) {
+    return state && state.schemaVersion === 'domain-commercial-reflex/1.0' &&
+      state.productDomain === contract.productDomain && state.ownerDomain === contract.ownerDomain &&
+      comparePlans(state, preparedState) >= 0;
+  });
+  var removed = 0;
+  for (var i = 0; i < removable.length; i++) removed += Number(await store.lrem(contract.intentQueue, 0, removable[i]) || 0);
+  return removed;
 }
 
 async function run(deps) {
@@ -33,8 +57,11 @@ async function run(deps) {
       var result = Artifact.build(lane.contract, state, now);
       var persisted = await Artifact.persist(store, lane.contract, result);
       if (persisted && persisted.status === 'ARTIFACT_PREPARED' && state && state.status === 'PLANNED') {
-        if (typeof store.lrem !== 'function') throw new Error('strict durable queue acknowledgement required');
-        await store.lrem(lane.contract.intentQueue, 0, state);
+        // The newest successfully prepared plan supersedes older queued plans.
+        // Preserve only work that arrived later while this preparation ran.
+        // Otherwise an old backlog item can replace current customer inventory
+        // on the next cycle and suppress fulfillment until the queue drains.
+        await acknowledgePreparedPlan(store, lane.contract, state);
       }
       rows.push({
         productDomain: lane.contract.productDomain,
@@ -88,4 +115,6 @@ var wrapped = require('../lib/heartbeat').wrap('domain-commercial-artifact-prep'
 wrapped.createHandler = createHandler;
 wrapped.run = run;
 wrapped.nextPlannedState = nextPlannedState;
+wrapped.acknowledgePreparedPlan = acknowledgePreparedPlan;
+wrapped.comparePlans = comparePlans;
 module.exports = wrapped;

@@ -31,6 +31,8 @@ function store() {
   });
   assert.equal(Registry.forRoute('domain-subscriber-fulfillment'), null, 'shared clocks cannot masquerade as one domain valve');
   assert.equal(Registry.forRouteAll('domain-subscriber-fulfillment').length, 14);
+  assert.equal(Registry.forRoute('subscriber-digest'), null, 'shared digest clock cannot borrow Religion authority');
+  assert.equal(Registry.forRouteAll('subscriber-digest').length, 20);
   ['agriculture', 'defense', 'economy', 'energy', 'environment', 'governance', 'industry',
     'infrastructure', 'intelligence', 'law', 'population', 'science', 'technology', 'trade'].forEach(domain => {
     assert(Registry.forRouteAll('domain-subscriber-fulfillment').includes(domain + ':subscriber-email'));
