@@ -136,6 +136,49 @@ function brain(domain, now, packetDomain) {
   assert.equal(reafference.signal.engagementDelta, 3);
   assert.equal(reafference.signal.productDomain, domain);
 
+  var newerCommand = Object.assign({}, command, {
+    commandId: 'finance-command-newer', sourceArtifactId: 'finance-artifact-newer',
+    sourceIntentId: 'finance-intent-newer', commandedAt: command.commandedAt + 1000
+  });
+  assert.equal((await DomainLearning.recordCommand(store, newerCommand)).ok, true);
+  var newerObservation = Object.assign({}, observation.receipt, {
+    observationId: 'finance-observation-newer', observedAt: now + 3000,
+    postReceipt: { uri: 'at://did:plc:test/app.bsky.feed.post/finance2', cid: 'cid-finance-2' }
+  });
+  assert.equal((await DomainLearning.recordObservation(store, newerCommand, newerObservation)).ok, true);
+  var olderRefresh = Object.assign({}, observation.receipt, {
+    observationId: 'finance-observation-older-refresh', observedAt: now + 4000
+  });
+  assert.equal((await DomainLearning.recordObservation(store, command, olderRefresh)).ok, true);
+  assert.equal((await DomainLearning.readForBrain(store, domain)).signal.sourceArtifactId, 'finance-artifact-newer',
+    'a later observation of an older post cannot replace the newest artifact reafference');
+
+  var rankStore = new Store();
+  var rankedFinanceState = JSON.parse(JSON.stringify(state)); rankedFinanceState.priority = 0.99;
+  var rankedFinanceArtifact = JSON.parse(JSON.stringify(artifact)); rankedFinanceArtifact.artifactId = 'rank-finance';
+  var energyContract = Contracts.get('energy');
+  var energyState = JSON.parse(JSON.stringify(state));
+  energyState.productDomain = 'energy'; energyState.ownerDomain = 'energy'; energyState.priority = 0.2;
+  energyState.intent.intentId = 'energy-intent-rank'; energyState.intent.sourcePacketId = 'energy-packet-rank';
+  var energyArtifact = JSON.parse(JSON.stringify(artifact));
+  energyArtifact.productDomain = 'energy'; energyArtifact.ownerDomain = 'energy'; energyArtifact.artifactId = 'rank-energy';
+  energyArtifact.intentId = energyState.intent.intentId; energyArtifact.sourcePacketId = energyState.intent.sourcePacketId;
+  await rankStore.set(contract.stateKey, rankedFinanceState); await rankStore.set(contract.artifactStateKey, rankedFinanceArtifact);
+  await rankStore.set(energyContract.stateKey, energyState); await rankStore.set(energyContract.artifactStateKey, energyArtifact);
+  assert.equal((await Generator.generate({ store: rankStore, now: now })).domain, 'finance');
+  assert.equal((await Generator.generate({ store: rankStore, now: now, after: 'finance' })).domain, 'energy',
+    'refractory rotation prevents a high-salience domain monopolizing consecutive posts');
+
+  var inFlight = 0, maxInFlight = 0;
+  var parallelStore = new Store();
+  parallelStore.get = async function () {
+    inFlight++; maxInFlight = Math.max(maxInFlight, inFlight);
+    await new Promise(function (resolve) { setTimeout(resolve, 3); });
+    inFlight--; return null;
+  };
+  assert.equal((await Generator.available({ store: parallelStore, now: now })).length, 20);
+  assert(maxInFlight > 2, 'twenty independent domain reads run concurrently');
+
   var stale = Object.assign({}, artifact, { freshnessExpiresAt: now - 1 });
   await store.set(contract.stateKey, state);
   await store.set(contract.artifactStateKey, stale);

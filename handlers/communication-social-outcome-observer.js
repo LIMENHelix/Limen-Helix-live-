@@ -9,6 +9,26 @@ var Observer = require('../lib/communication-social-outcome-observer.js');
 var Learning = require('../lib/communication-social-learning.js');
 var DomainLearning = require('../lib/domain-commercial-social-learning.js');
 
+function commandPost(command) {
+  return command && command.status === 'POSTED' && command.receipt && command.receipt.readbackVerified === true &&
+    command.receipt.uri && command.receipt.cid
+    ? { uri: command.receipt.uri, cid: command.receipt.cid } : null;
+}
+
+function mergePosts(commands, reconciliation, bestEffort, limit) {
+  var seen = Object.create(null), rows = [];
+  function add(post) {
+    if (!post || !post.uri || !post.cid) return;
+    var id = post.uri + '\u0000' + post.cid;
+    if (seen[id]) return;
+    seen[id] = true; rows.push(post);
+  }
+  (commands || []).forEach(function (command) { add(commandPost(command)); });
+  ((reconciliation && reconciliation.receipts) || []).forEach(add);
+  (bestEffort || []).forEach(add);
+  return rows.slice(0, limit || 20);
+}
+
 function createHandler(deps) {
   deps = deps || {};
   var cronAuth = deps.cronAuth || CronAuth;
@@ -28,12 +48,12 @@ function createHandler(deps) {
       store.assertDurable();
       var pending = await store.lrange('communication_social_pending_log', 0, 99);
       var reconciliation = await observer.reconcilePending(store, pending, process.env.BLUESKY_HANDLE, Date.now(), { fetch: deps.fetch || global.fetch });
-      var posts = await social.recentPosts(20);
-      reconciliation.receipts.forEach(function (receipt) {
-        if (!posts.some(function (post) { return post && post.uri === receipt.uri; })) posts.unshift(receipt);
-      });
+      // The strict executor log is authoritative for successful writes. The
+      // social helper's historical log is intentionally best-effort and may be
+      // absent even when the durable command receipt exists.
+      var commands = await store.lrange('communication_social_command_log', 0, 99);
+      var posts = mergePosts(commands, reconciliation, await social.recentPosts(20), 20);
       var result = await observer.observeRecent(store, posts, Date.now(), { fetch: deps.fetch || global.fetch });
-      var commands = await store.lrange('communication_social_command_log', 0, 999);
       var learned = 0, domainLearned = 0, learningFailures = [];
       for (var i = 0; i < result.results.length; i++) {
         var receipt = result.results[i] && result.results[i].receipt;
@@ -65,3 +85,5 @@ function createHandler(deps) {
 var handler = createHandler();
 module.exports = require('../lib/heartbeat').wrap('communication-social-outcome-observer', handler);
 module.exports.createHandler = createHandler;
+module.exports.commandPost = commandPost;
+module.exports.mergePosts = mergePosts;

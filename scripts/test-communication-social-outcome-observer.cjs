@@ -89,5 +89,26 @@ function response() {
   assert.equal(accepted.json.observed, 1);
   assert.equal(handlerStore.log.length, 1);
 
+  var strictStore = new Store();
+  var strictCommand = Object.assign({}, learningCommand, {
+    schemaVersion: 'communication-social-command/1.0', status: 'POSTED',
+    receipt: { uri: post.uri, cid: post.cid, readbackVerified: true }
+  });
+  await strictStore.lpush('communication_social_command_log', strictCommand);
+  assert.equal((await Learning.recordCommand(strictStore, strictCommand)).ok, true);
+  var strictHandler = Handler.createHandler({
+    store: strictStore,
+    cronAuth: { enforce: function () { return true; } },
+    social: { recentPosts: async function () { return []; } },
+    observer: Observer,
+    fetch: responsePost(2)
+  });
+  var strictResponse = response();
+  await strictHandler({ method: 'GET', headers: {} }, strictResponse);
+  assert.equal(strictResponse.statusCode, 200);
+  assert.equal(strictResponse.json.observed, 1,
+    'durable POSTED command is observed even when the best-effort social log is empty');
+  assert.equal(Handler.mergePosts([strictCommand], { receipts: [] }, [], 20)[0].uri, post.uri);
+
   console.log('communication social outcome observer: public AppView identity, strict receipt readback, ambiguous-command reconciliation, engagement deltas, and cron-only writes passed');
 })().catch(function (error) { console.error(error); process.exit(1); });
