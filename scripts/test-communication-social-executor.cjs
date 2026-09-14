@@ -3,7 +3,11 @@
 
 var assert = require('node:assert/strict');
 var crypto = require('node:crypto');
-var Executor = require('../lib/communication-social-executor.js');
+var ExecutorModule = require('../lib/communication-social-executor.js');
+var Executor = Object.assign({}, ExecutorModule, { execute: function (input) {
+  var fixed = input.now;
+  return ExecutorModule.execute(Object.assign({ nowFn: function () { return fixed; } }, input));
+} });
 var Decision = require('../lib/communication-social-decision.js');
 var Strict = require('../lib/autofire-efference-store.js');
 var Learning = require('../lib/communication-social-learning.js');
@@ -195,17 +199,42 @@ function artifactSpec(subjectDomain, body, artifactId, motorTime) {
     platform: { postToBluesky: async function () { return { ok: false, providerCalled: true,
       definitiveFailure: true, reason: 'provider returned 400' }; } } });
   assert.equal(journalFailure.status, 'FAILED');
-  assert.equal((await journalStore.get(Executor.commandKey(
-    (await journalStore.get(Executor.artifactClaimKey('culture', 'culture-definitive-artifact'))).commandId))).status,
-  'DISPATCHING');
-  var journalClaims = [
-    { key: Executor.artifactClaimKey('culture', 'culture-definitive-artifact'),
-      value: await journalStore.get(Executor.artifactClaimKey('culture', 'culture-definitive-artifact')) },
-    { key: Executor.contentClaimKey('culture', 'durable definitive result'),
-      value: await journalStore.get(Executor.contentClaimKey('culture', 'durable definitive result')) }
-  ];
-  assert.equal(await Executor.recoverDefinitiveClaims(journalStore, journalClaims), true,
-    'durable definitive journal repairs an interrupted command transition and releases both claims');
+  var journalCommandId = (await journalStore.get(Executor.definitiveKey(
+    Array.from(journalStore.map.values()).find(function (row) { return row && row.definitiveFailure; }).commandId))).commandId;
+  assert.equal((await journalStore.get(Executor.commandKey(journalCommandId))).status, 'FAILED',
+    'fallback completes the command transition after the first resolution write fails');
+  assert.equal(await journalStore.get(Executor.artifactClaimKey('culture', 'culture-definitive-artifact')), null);
+  assert.equal(await journalStore.get(Executor.contentClaimKey('culture', 'durable definitive result')), null);
+
+  var journalWriteStore = new Store(), journalFailures = 1;
+  var journalWriteSet = journalWriteStore.set;
+  journalWriteStore.set = async function (key, value) {
+    if (key.indexOf(Executor.DEFINITIVE_PREFIX) === 0 && journalFailures-- > 0) {
+      throw new Error('transient definitive journal failure');
+    }
+    return journalWriteSet.call(this, key, value);
+  };
+  var journalWriteSpec = artifactSpec('education', 'journal fallback result', 'education-journal-artifact', 8500);
+  var journalWriteFailure = await Executor.execute({ store: journalWriteStore, spec: journalWriteSpec, now: 8500,
+    motorAuthorization: freshMotor,
+    adapterGuard: { checkpoint: async function () { return { allowed: true }; } },
+    platform: { postToBluesky: async function () { return { ok: false, providerCalled: true,
+      definitiveFailure: true, reason: 'provider returned 400' }; } } });
+  assert.equal(journalWriteFailure.status, 'FAILED');
+  assert.equal(await journalWriteStore.get(Executor.artifactClaimKey('education', 'education-journal-artifact')), null,
+    'in-memory definitive classification releases the artifact when the journal itself is transiently unavailable');
+  assert.equal(await journalWriteStore.get(Executor.contentClaimKey('education', 'journal fallback result')), null);
+
+  var expiryStore = new Store(), expiryCalls = 0;
+  var expirySpec = artifactSpec('law', 'expires during durable setup', 'law-expiring-artifact', 9000);
+  expirySpec.decisionReceipt.expiresAt = 9001;
+  expirySpec.domainDecisionReceipt.expiresAt = 9001;
+  var expiryResult = await ExecutorModule.execute({ store: expiryStore, spec: expirySpec, now: 9000,
+    nowFn: function () { return 9002; }, motorAuthorization: freshMotor,
+    adapterGuard: { checkpoint: async function () { return { allowed: true }; } },
+    platform: { postToBluesky: async function () { expiryCalls++; } } });
+  assert.equal(expiryResult.reason, 'communication-social-authority-expired-before-dispatch');
+  assert.equal(expiryCalls, 0, 'expired subject/Communication authority is rechecked at the provider boundary');
 
   console.log('communication social executor: B10 authorization, pre-dispatch durable command, strict receipt readback, idempotency, and ambiguous-failure no-retry passed');
 })().catch(function (error) { console.error(error); process.exit(1); });

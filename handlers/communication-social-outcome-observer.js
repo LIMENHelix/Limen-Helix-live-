@@ -12,7 +12,7 @@ var DomainLearning = require('../lib/domain-commercial-social-learning.js');
 function commandPost(command) {
   return command && command.status === 'POSTED' && command.receipt && command.receipt.readbackVerified === true &&
     command.receipt.uri && command.receipt.cid
-    ? { uri: command.receipt.uri, cid: command.receipt.cid } : null;
+    ? { uri: command.receipt.uri, cid: command.receipt.cid, commandId: command.commandId } : null;
 }
 
 function mergePosts(commands, reconciliation, bestEffort, limit) {
@@ -75,21 +75,24 @@ function createHandler(deps) {
         reconciliation.commands);
       var posts = mergePosts(commands, reconciliation, await social.recentPosts(20), 20);
       var result = await observer.observeRecent(store, posts, Date.now(), { fetch: deps.fetch || global.fetch });
-      // Observation receipts are the independent sensory record. Replay recent
-      // durable receipts until each learning ledger accepts their observation
-      // IDs; a later zero-delta poll must not erase an earlier unlearned delta.
+      // Unlearned observations live on an unbounded work queue, not in a rolling
+      // audit window. Each exact receipt remains until both learning ledgers
+      // acknowledge its identity.
       var observations = mergeObservationReceipts(result.results.map(function (row) { return row && row.receipt; }),
-        await store.lrange(Observer.LOG_KEY, 0, 99));
+        await store.lrange(Observer.LEARNING_PENDING_LOG_KEY, 0, -1));
       var learned = 0, domainLearned = 0, learningFailures = [];
       for (var i = 0; i < observations.length; i++) {
         var receipt = observations[i];
-        var command = commands.find(function (row) { return row && row.receipt && row.receipt.uri === receipt.postReceipt.uri && row.receipt.cid === receipt.postReceipt.cid; });
+        var command = commands.find(function (row) { return row &&
+          ((receipt.commandId && row.commandId === receipt.commandId) ||
+            (row.receipt && row.receipt.uri === receipt.postReceipt.uri && row.receipt.cid === receipt.postReceipt.cid)); });
         if (!command) continue;
         var learnedResult;
         try { learnedResult = await learning.recordObservation(store, command, receipt); }
         catch (error) { learnedResult = { ok: false, reason: String(error && error.message || error) }; }
         if (learnedResult && learnedResult.ok) { if (!learnedResult.duplicate) learned++; }
         else learningFailures.push({ observationId: receipt.observationId, reason: learnedResult && learnedResult.reason || 'communication-learning-failed' });
+        var domainAccepted = true;
         if (command.sourceArtifactId) {
           var domainResult;
           try { domainResult = await domainLearning.recordObservation(store, command, receipt); }
@@ -97,6 +100,10 @@ function createHandler(deps) {
           if (domainResult && domainResult.ok) { if (!domainResult.duplicate) domainLearned++; }
           else learningFailures.push({ observationId: receipt.observationId, subjectDomain: command.subjectDomain,
             reason: domainResult && domainResult.reason || 'subject-domain-learning-failed' });
+          domainAccepted = !!(domainResult && domainResult.ok);
+        }
+        if (learnedResult && learnedResult.ok && domainAccepted) {
+          await store.lrem(Observer.LEARNING_PENDING_LOG_KEY, 0, receipt);
         }
       }
       result.learning = { communicationRecorded: learned, subjectDomainRecorded: domainLearned, failures: learningFailures };

@@ -14,7 +14,15 @@ Store.prototype.set = async function (key, value) { this.map.set(key, JSON.parse
 Store.prototype.setIfAbsent = async function (key, value) { if (this.map.has(key)) return false; return this.set(key, value); };
 Store.prototype.lpush = async function (key, value) { this.log.unshift({ key: key, value: JSON.parse(JSON.stringify(value)) }); return this.log.length; };
 Store.prototype.ltrim = async function () { return true; };
-Store.prototype.lrange = async function (key, start, stop) { return this.log.filter(function (row) { return row.key === key; }).slice(start, stop + 1).map(function (row) { return row.value; }); };
+Store.prototype.lrange = async function (key, start, stop) {
+  var rows = this.log.filter(function (row) { return row.key === key; });
+  return rows.slice(start, stop < 0 ? undefined : stop + 1).map(function (row) { return row.value; });
+};
+Store.prototype.lrem = async function (key, _count, value) {
+  var before = this.log.length;
+  this.log = this.log.filter(function (row) { return row.key !== key || JSON.stringify(row.value) !== JSON.stringify(value); });
+  return before - this.log.length;
+};
 
 var post = { uri: 'at://did:plc:test/app.bsky.feed.post/r1', cid: 'bafy-test' };
 function responsePost(count) {
@@ -134,7 +142,8 @@ function response() {
     sourcePacketId: 'finance-packet-replay', domainDecisionReceiptId: 'finance-release-replay'
   });
   await replayStore.lpush('communication_social_command_log', replayCommand);
-  await replayStore.lpush(Observer.LOG_KEY, first.receipt);
+  await replayStore.lpush(Observer.LEARNING_PENDING_LOG_KEY,
+    Object.assign({}, first.receipt, { commandId: replayCommand.commandId }));
   var domainAttempts = 0;
   var replayHandler = Handler.createHandler({
     store: replayStore, cronAuth: { enforce: function () { return true; } },
