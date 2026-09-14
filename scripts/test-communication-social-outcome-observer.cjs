@@ -110,5 +110,23 @@ function response() {
     'durable POSTED command is observed even when the best-effort social log is empty');
   assert.equal(Handler.mergePosts([strictCommand], { receipts: [] }, [], 20)[0].uri, post.uri);
 
+  var pendingOnlyStore = new Store();
+  var pendingOnlyCommand = Object.assign({}, strictCommand, { commandId: 'pending-only-posted-command' });
+  await pendingOnlyStore.set('communication_social_command:' + pendingOnlyCommand.commandId, pendingOnlyCommand);
+  await pendingOnlyStore.lpush('communication_social_pending_log', Object.assign({}, pendingOnlyCommand, {
+    status: 'DISPATCHING', receipt: null
+  }));
+  assert.equal((await Learning.recordCommand(pendingOnlyStore, pendingOnlyCommand)).ok, true);
+  var pendingOnlyHandler = Handler.createHandler({
+    store: pendingOnlyStore, cronAuth: { enforce: function () { return true; } },
+    social: { recentPosts: async function () { return []; } }, observer: Observer, fetch: responsePost(2)
+  });
+  var pendingOnlyResponse = response();
+  await pendingOnlyHandler({ method: 'GET', headers: {} }, pendingOnlyResponse);
+  assert.equal(pendingOnlyResponse.statusCode, 200);
+  assert.equal(pendingOnlyResponse.json.observed, 1,
+    'a POSTED command remains observable from its pre-dispatch pending index when final log append failed');
+  assert.equal(pendingOnlyResponse.json.learning.communicationRecorded, 1);
+
   console.log('communication social outcome observer: public AppView identity, strict receipt readback, ambiguous-command reconciliation, engagement deltas, and cron-only writes passed');
 })().catch(function (error) { console.error(error); process.exit(1); });

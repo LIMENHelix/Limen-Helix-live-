@@ -29,6 +29,15 @@ function mergePosts(commands, reconciliation, bestEffort, limit) {
   return rows.slice(0, limit || 20);
 }
 
+function mergeCommands(primary, recovered) {
+  var seen = Object.create(null), rows = [];
+  (primary || []).concat(recovered || []).forEach(function (command) {
+    if (!command || !command.commandId || seen[command.commandId]) return;
+    seen[command.commandId] = true; rows.push(command);
+  });
+  return rows;
+}
+
 function createHandler(deps) {
   deps = deps || {};
   var cronAuth = deps.cronAuth || CronAuth;
@@ -51,7 +60,8 @@ function createHandler(deps) {
       // The strict executor log is authoritative for successful writes. The
       // social helper's historical log is intentionally best-effort and may be
       // absent even when the durable command receipt exists.
-      var commands = await store.lrange('communication_social_command_log', 0, 99);
+      var commands = mergeCommands(await store.lrange('communication_social_command_log', 0, 99),
+        reconciliation.commands);
       var posts = mergePosts(commands, reconciliation, await social.recentPosts(20), 20);
       var result = await observer.observeRecent(store, posts, Date.now(), { fetch: deps.fetch || global.fetch });
       var learned = 0, domainLearned = 0, learningFailures = [];
@@ -87,3 +97,4 @@ module.exports = require('../lib/heartbeat').wrap('communication-social-outcome-
 module.exports.createHandler = createHandler;
 module.exports.commandPost = commandPost;
 module.exports.mergePosts = mergePosts;
+module.exports.mergeCommands = mergeCommands;
