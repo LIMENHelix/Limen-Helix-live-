@@ -136,6 +136,7 @@ function response() {
   var restored = await finance.persist(store, first);
   assert.equal(restored.readbackVerified, true);
   assert.equal(restored.intent.intentId, first.intent.intentId);
+  assert.equal(restored.lastPlannedIntentId, first.intent.intentId);
   assert.equal(store.lists[finance.contract.intentQueue][0].intent.intentId, first.intent.intentId);
   var duplicate = await finance.persist(store, first);
   assert.equal(duplicate.intent.intentId, first.intent.intentId);
@@ -185,6 +186,7 @@ function response() {
     finance.evaluate(cognition('finance', now + 60000, 'outage-b', { live: 0 }), beforeOutage, now + 60000));
   assert.equal(outage.status, 'ABSTAINED');
   assert.equal(outage.lastPlannedAt, beforeOutage.lastPlannedAt);
+  assert.equal(outage.lastPlannedIntentId, beforeOutage.intent.intentId);
   assert.deepEqual(outage.plannedHistory, beforeOutage.plannedHistory);
   assert.equal(outage.evidenceFingerprint, beforeOutage.evidenceFingerprint);
   var recoveredInsideCadence = finance.evaluate(

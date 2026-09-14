@@ -41,6 +41,8 @@
   packet, evidence fingerprint and selected program before any rendering/effect.
 - Kill/resume rule: NUKE suppresses the scheduled cycle. Resume reconstructs
   from durable domain state; identical inputs reuse the same intent identity.
+- The latest planned intent identity survives temporary abstentions so a later
+  distribution gate cannot mistake an older artifact for the most recent plan.
 
 ## 4. Ports and adapters
 
