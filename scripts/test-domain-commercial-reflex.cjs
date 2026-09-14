@@ -162,6 +162,15 @@ function response() {
   var duplicate = await finance.persist(store, first);
   assert.equal(duplicate.intent.intentId, first.intent.intentId);
   assert.equal(Object.keys(store.values).filter(function (key) { return key.indexOf(finance.contract.intentPrefix) === 0; }).length, 1);
+  var tiedReflexStore = memory();
+  var tiedReflexA = JSON.parse(JSON.stringify(first));
+  tiedReflexA.intent.intentId = 'intent-equal-time-a'; tiedReflexA.lastPlannedIntentId = tiedReflexA.intent.intentId;
+  var tiedReflexZ = JSON.parse(JSON.stringify(first));
+  tiedReflexZ.intent.intentId = 'intent-equal-time-z'; tiedReflexZ.lastPlannedIntentId = tiedReflexZ.intent.intentId;
+  await finance.persist(tiedReflexStore, tiedReflexZ);
+  await finance.persist(tiedReflexStore, tiedReflexA);
+  assert.equal((await tiedReflexStore.get(finance.contract.stateKey)).intent.intentId, tiedReflexZ.intent.intentId,
+    'equal-time concurrent plans use intent identity as the deterministic state promotion tie-breaker');
   var older = finance.evaluate(cognition('finance', now - 60000, 'older'), null, now - 60000);
   var olderResult = await finance.persist(store, older);
   assert.equal(olderResult.intent.intentId, first.intent.intentId);
@@ -265,6 +274,20 @@ function response() {
     'an older partial-cleanup remainder cannot replace newer customer inventory');
   assert.equal((partialAckStore.lists[finance.contract.intentQueue] || []).length, 0,
     'a later cycle safely retires the superseded remainder');
+
+  var tiedStore = memory();
+  var tiedA = JSON.parse(JSON.stringify(restored));
+  tiedA.intent.intentId = 'intent-same-ms-a';
+  tiedA.intent.plannedAt = now;
+  var tiedZ = JSON.parse(JSON.stringify(restored));
+  tiedZ.intent.intentId = 'intent-same-ms-z';
+  tiedZ.intent.plannedAt = now;
+  var tiedNewer = Artifact.build(finance.contract, tiedZ, now + 2000);
+  var tiedOlderPreparedLater = Artifact.build(finance.contract, tiedA, now + 3000);
+  await Artifact.persist(tiedStore, finance.contract, tiedNewer);
+  await Artifact.persist(tiedStore, finance.contract, tiedOlderPreparedLater);
+  assert.equal((await tiedStore.get(finance.contract.artifactStateKey)).intentId, tiedZ.intent.intentId,
+    'the intent-id tie-breaker prevents an equal-timestamp older plan from replacing current inventory');
 
   var staleEvidence = cognition('finance', now, 'stale-evidence');
   staleEvidence.c.serverPacket.truth.semanticEvidence.forEach(function (row) {
