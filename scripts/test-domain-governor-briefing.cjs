@@ -116,6 +116,7 @@ function civilization(domain, now, overrides) {
     evaluatedAt: now - 1000,
     persistedAt: now - 900,
     readbackVerified: true,
+    lastPlannedIntentId: 'dci_culture_1',
     homology: { basalGangliaSelection: 'DISINHIBIT_INTERNAL_PREPARATION_ONLY' },
     intent: {
       intentId: 'dci_culture_1', status: 'PLANNED', selectedProgram: 'SHORT_VIDEO',
@@ -168,6 +169,28 @@ function civilization(domain, now, overrides) {
     store: expiredReflexStore, env: {}
   });
   assert.equal(expiredReflex.packet.commercialReflex.latestArtifact, null);
+
+  var supersededArtifactStore = Object.assign({}, reflexStore, {
+    get: async function (key) {
+      if (key === cultureLane.contract.stateKey) return Object.assign({}, reflexState, {
+        lastPlannedIntentId: 'dci_culture_newer_unprepared'
+      });
+      if (key === cultureLane.contract.artifactStateKey) return {
+        schemaVersion: 'domain-commercial-artifact/1.0', artifactId: 'dca_culture_old',
+        status: 'ARTIFACT_PREPARED', productDomain: 'culture', ownerDomain: 'culture',
+        intentId: 'dci_culture_1', subject: 'Old Culture brief', body: 'Old source-linked body',
+        contentHash: 'old-culture-hash', freshnessExpiresAt: now + 60000, externalEffectAuthorized: false
+      };
+      return null;
+    }
+  });
+  var supersededArtifact = await Governor.build('culture', {
+    now: now, briefingBuilder: async function () { return civilization('culture', now); },
+    store: supersededArtifactStore, env: {}
+  });
+  assert.equal(supersededArtifact.packet.commercialReflex.status, 'OBSERVED');
+  assert.equal(supersededArtifact.packet.commercialReflex.latestArtifact, null,
+    'governor cannot present an older artifact after a newer plan exists');
 
   var staleStateStore = Object.assign({}, reflexStore, {
     get: async function (key) {

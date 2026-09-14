@@ -206,6 +206,17 @@ function response() {
   assert.equal((outageStore.lists[finance.contract.intentQueue] || []).length, 0,
     'successfully prepared queued work is acknowledged');
 
+  var backlogStore = memory();
+  var backlogOld = finance.evaluate(cognition('finance', now - 120000, 'backlog-old'), null, now - 120000);
+  var backlogNew = finance.evaluate(cognition('finance', now - 60000, 'backlog-new'), null, now - 60000);
+  await finance.persist(backlogStore, backlogOld);
+  await finance.persist(backlogStore, backlogNew);
+  var backlogCycle = await ArtifactHandler.run({ now: now, store: backlogStore });
+  assert.equal(backlogCycle.rows.find(function (row) { return row.productDomain === 'finance'; }).intentId,
+    backlogNew.intent.intentId, 'newest queued plan is prepared first');
+  assert.equal((backlogStore.lists[finance.contract.intentQueue] || []).length, 0,
+    'older superseded plans are acknowledged with the prepared newest plan');
+
   var staleEvidence = cognition('finance', now, 'stale-evidence');
   staleEvidence.c.serverPacket.truth.semanticEvidence.forEach(function (row) {
     row.sourceUpdatedAt = new Date(now - Reflex.MAX_EVIDENCE_AGE_MS - 1).toISOString();
