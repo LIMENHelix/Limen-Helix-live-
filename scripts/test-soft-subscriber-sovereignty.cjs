@@ -32,6 +32,13 @@ Store.prototype.setIfLockOwned = async function (lockKey, lockValue, key, value)
   if (!this.values.has(lockKey) || JSON.stringify(this.values.get(lockKey)) !== JSON.stringify(lockValue)) return false;
   this.values.set(key, clone(value)); return true;
 };
+Store.prototype.replaceIfValue = async function (key, expectedValue, value) {
+  if (this.failDispatchClaimOnce && key.indexOf(':action:') >= 0 && value && value.status === 'DISPATCHING') {
+    this.failDispatchClaimOnce = false; throw new Error('simulated dispatch claim persistence failure');
+  }
+  if (!this.values.has(key) || JSON.stringify(this.values.get(key)) !== JSON.stringify(expectedValue)) return false;
+  this.values.set(key, clone(value)); return true;
+};
 Store.prototype.lpush = async function (key, value) {
   var rows = this.lists.get(key) || []; rows.unshift(clone(value)); this.lists.set(key, rows); return rows.length;
 };
@@ -189,6 +196,15 @@ async function commission(store, lane, now) {
   assert.equal(calls, 0, 'missing durable capability must hold before provider');
 
   await commission(store, culture, now);
+  var zeroEffectCapability = await store.get(culture.config.keys.executorCapability);
+  zeroEffectCapability.verificationEffectExecuted = false;
+  zeroEffectCapability.rollbackVerified = true;
+  zeroEffectCapability.verificationSpendUsd = 0;
+  await store.set(culture.config.keys.executorCapability, zeroEffectCapability);
+  var zeroEffectPair = await culture.authorization.verifyCapabilityPair(store, now);
+  assert.equal(zeroEffectPair.ok, false);
+  assert.equal(zeroEffectPair.reason, 'culture-subscriber-executed-effect-proof-required');
+  await commission(store, culture, now);
   var executed = await culture.executor.execute({
     store: store, specs: [{ candidate: cultureCandidate, decision: decision }], now: now,
     maxSends: 1, emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailySendCap: 2,
@@ -247,6 +263,7 @@ async function commission(store, lane, now) {
     actionId: executed.items[0].actionId, observation: observation, now: now + 1 });
   assert.equal(recovery.status, 'FUTURE_DELIVERY_SUPPRESSED');
   assert.equal(await culture.observer.acknowledge(store, observedRows[0].pendingRef), true);
+  assert.equal(await culture.observer.releaseLease(store, observedRows[0].pendingRef, observedRows[0].leaseToken), true);
   assert.equal((await store.lrange(culture.observer.PENDING_KEY, 0, -1)).length, 0);
   var suppression = await store.get(culture.executor.suppressionKey(executed.items[0].emailHash));
   assert.equal(suppression.suppressed, true);
@@ -327,6 +344,26 @@ async function commission(store, lane, now) {
     transport: { send: async function () { causeResumeCalls++; return { ok: true, id: 're_culture_cause_resume', providerCalled: true }; } }
   });
   assert.equal(causeResumeSent.status, 'RECEIPTS_PERSISTED'); assert.equal(causeResumeCalls, 1);
+
+  var concurrentSubscriber = Object.assign(subscriber('culture'), { email: 'culture-five@example.test',
+    subscriptionId: 'sub_culture_five', customerId: 'cus_culture_five' });
+  var concurrentCandidate = culture.decision.candidate(concurrentSubscriber, digest('culture', 'concurrent-claim'));
+  var concurrentDecision = await culture.decision.decide(store, concurrentCandidate, now + 7, { cognition: cognition(culture, now + 7) });
+  await store.set(culture.executor.actionKey(concurrentDecision.actionId), {
+    schemaVersion: culture.executor.SCHEMA, productDomain: 'culture', actionId: concurrentDecision.actionId,
+    commandId: 'active-other-command', status: 'PRE_SEND', providerCalled: false,
+    claimToken: 'active-token', claimedAt: Date.now()
+  });
+  var concurrentCalls = 0;
+  var concurrentHeld = await culture.executor.execute({ store: store,
+    specs: [{ candidate: concurrentCandidate, decision: concurrentDecision }], now: now + 7,
+    maxSends: 1, emailCostUsd: 0.001, dailyBudgetUsd: 0.02, dailySendCap: 20,
+    authorizationDeps: { env: openEnv(culture), cognition: cognition(culture, now + 7) },
+    adapterGuard: { checkpoint: async function () { return { allowed: true }; } },
+    transport: { send: async function () { concurrentCalls++; return { ok: true, id: 'must-not-send-concurrently' }; } }
+  });
+  assert.equal(concurrentHeld.status, 'HELD_PRE_SEND'); assert.equal(concurrentCalls, 0);
+  assert.equal((await store.get(culture.executor.actionKey(concurrentDecision.actionId))).claimToken, 'active-token');
 
   var positiveFetches = 0, positiveItem = causeResumeSent.items[0];
   var delivered = await culture.observer.observe(store, causeResumeSent, positiveItem, {
