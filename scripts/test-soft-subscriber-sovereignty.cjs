@@ -102,6 +102,11 @@ function subscriber(domain) {
   return { email: domain + '@example.test', domain: domain, active: true,
     rung: 'p2', subscriptionId: 'sub_' + domain, customerId: 'cus_' + domain };
 }
+async function putSubscriber(store, value) {
+  var catalog = await store.get('subs:v1') || {};
+  catalog[value.email.toLowerCase()] = value;
+  await store.set('subs:v1', catalog);
+}
 function digest(domain, suffix) {
   return { subject: domain + ' current brief ' + suffix, body: 'Source-grounded ' + domain + ' detail ' + suffix,
     key: domain + ':' + suffix };
@@ -184,7 +189,9 @@ async function commission(store, lane, now) {
   assert.notEqual(StripeWebhook.fulfillmentFor('culture'), StripeWebhook.fulfillmentFor('religion'));
 
   var now = Date.now(), culture = Lanes.get('culture'), education = Lanes.get('education');
-  var store = new Store(), cultureCandidate = culture.decision.candidate(subscriber('culture'), digest('culture', 'a'));
+  var store = new Store(), cultureSubscriber = subscriber('culture');
+  await putSubscriber(store, cultureSubscriber);
+  var cultureCandidate = culture.decision.candidate(cultureSubscriber, digest('culture', 'a'));
   assert(cultureCandidate);
   assert.equal(culture.decision.candidate(subscriber('education'), digest('culture', 'x')), null,
     'Culture must refuse another domain subscriber');
@@ -289,6 +296,7 @@ async function commission(store, lane, now) {
 
   var alternateCultureSubscriber = Object.assign(subscriber('culture'), { email: 'culture-two@example.test',
     subscriptionId: 'sub_culture_two', customerId: 'cus_culture_two' });
+  await putSubscriber(store, alternateCultureSubscriber);
   var inhibitedCandidate = culture.decision.candidate(alternateCultureSubscriber, digest('culture', 'inhibited'));
   var inhibitedDecision = await culture.decision.decide(store, inhibitedCandidate, now + 1, { cognition: cognition(culture, now + 1) });
   var inhibitedError = new Error('valve closed'); inhibitedError.code = 'CIVILIZATION_ADAPTER_INHIBITED';
@@ -309,6 +317,7 @@ async function commission(store, lane, now) {
   var lastMomentSubscriber = Object.assign(subscriber('culture'), { email: 'culture-suppressed@example.test',
     subscriptionId: 'sub_culture_suppressed', customerId: 'cus_culture_suppressed' });
   var lastMomentStore = new Store(); await commission(lastMomentStore, culture, now);
+  await putSubscriber(lastMomentStore, lastMomentSubscriber);
   var lastMomentCandidate = culture.decision.candidate(lastMomentSubscriber, digest('culture', 'last-moment-suppression'));
   var lastMomentDecision = await culture.decision.decide(lastMomentStore, lastMomentCandidate, now + 2,
     { cognition: cognition(culture, now + 2) });
@@ -331,6 +340,7 @@ async function commission(store, lane, now) {
 
   var preSendSubscriber = Object.assign(subscriber('culture'), { email: 'culture-three@example.test',
     subscriptionId: 'sub_culture_three', customerId: 'cus_culture_three' });
+  await putSubscriber(store, preSendSubscriber);
   var preSendCandidate = culture.decision.candidate(preSendSubscriber, digest('culture', 'pre-send-retry'));
   var preSendDecision = await culture.decision.decide(store, preSendCandidate, now + 2, { cognition: cognition(culture, now + 2) });
   store.failLearningCauseOnce = true; var preSendCalls = 0;
@@ -355,6 +365,7 @@ async function commission(store, lane, now) {
 
   var causeResumeSubscriber = Object.assign(subscriber('culture'), { email: 'culture-four@example.test',
     subscriptionId: 'sub_culture_four', customerId: 'cus_culture_four' });
+  await putSubscriber(store, causeResumeSubscriber);
   var causeResumeCandidate = culture.decision.candidate(causeResumeSubscriber, digest('culture', 'cause-resume'));
   var causeResumeDecision = await culture.decision.decide(store, causeResumeCandidate, now + 5, { cognition: cognition(culture, now + 5) });
   store.failDispatchClaimOnce = true; var causeResumeCalls = 0;
@@ -378,6 +389,7 @@ async function commission(store, lane, now) {
 
   var concurrentSubscriber = Object.assign(subscriber('culture'), { email: 'culture-five@example.test',
     subscriptionId: 'sub_culture_five', customerId: 'cus_culture_five' });
+  await putSubscriber(store, concurrentSubscriber);
   var concurrentCandidate = culture.decision.candidate(concurrentSubscriber, digest('culture', 'concurrent-claim'));
   var concurrentDecision = await culture.decision.decide(store, concurrentCandidate, now + 7, { cognition: cognition(culture, now + 7) });
   await store.set(culture.executor.actionKey(concurrentDecision.actionId), {
@@ -483,8 +495,9 @@ async function commission(store, lane, now) {
   assert.equal(concurrentState.processedObservationIds.includes(observationA.observationId), true);
   assert.equal(concurrentState.processedObservationIds.includes(observationB.observationId), true);
 
-  var medicine = Lanes.get('medicine'), medicineStore = new Store();
-  var medCandidate = medicine.decision.candidate(subscriber('medicine'), digest('medicine', 'no-provider-id'));
+  var medicine = Lanes.get('medicine'), medicineStore = new Store(), medicineSubscriber = subscriber('medicine');
+  await putSubscriber(medicineStore, medicineSubscriber);
+  var medCandidate = medicine.decision.candidate(medicineSubscriber, digest('medicine', 'no-provider-id'));
   var medDecision = await medicine.decision.decide(medicineStore, medCandidate, now, { cognition: cognition(medicine, now) });
   await commission(medicineStore, medicine, now);
   var ambiguous = await medicine.executor.execute({
@@ -609,6 +622,111 @@ async function commission(store, lane, now) {
   assert.equal(concurrentStoredTask.status, 'COMPLETED');
   assert.equal(concurrentStoredTask.message, undefined,
     'a delayed concurrent attempt may not restore minimized terminal customer content');
+
+  var legacyStore = new Store(); await commission(legacyStore, culture, now);
+  var legacySubscriber = Object.assign(subscriber('culture'), { email: 'culture-legacy-suppressed@example.test',
+    subscriptionId: 'sub_culture_legacy', customerId: 'cus_culture_legacy' });
+  await putSubscriber(legacyStore, legacySubscriber);
+  var legacyCandidate = culture.decision.candidate(legacySubscriber, digest('culture', 'legacy-suppression'));
+  var legacyDecision = await culture.decision.decide(legacyStore, legacyCandidate, now,
+    { cognition: cognition(culture, now) });
+  await legacyStore.set(culture.config.keys.legacySuppression, Object.fromEntries([[legacyCandidate.emailHash, {
+    suppressed: true, reason: 'legacy-complaint', at: now - 1000
+  }]]));
+  var legacyCalls = 0;
+  var legacyHeld = await culture.executor.execute({ store: legacyStore,
+    specs: [{ candidate: legacyCandidate, decision: legacyDecision }], now: now,
+    maxSends: 1, emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailySendCap: 1,
+    authorizationDeps: { env: openEnv(culture), cognition: cognition(culture, now) },
+    transport: { send: async function () { legacyCalls++; return { ok: true, id: 'must-not-send-legacy' }; } }
+  });
+  assert.equal(legacyHeld.reason, 'culture-subscriber-all-candidates-suppressed');
+  assert.equal(legacyCalls, 0);
+  assert.equal((await legacyStore.get(culture.executor.suppressionKey(legacyCandidate.emailHash))).suppressed, true,
+    'legacy suppression must be migrated before the new lookup can authorize delivery');
+
+  var historicalStore = new Store(), historicalCommand = {
+    schemaVersion: culture.config.schemas.command, commandId: 'culture-historical-command',
+    productDomain: 'culture', ownerDomain: 'culture', status: 'RECEIPTS_PERSISTED', commandedAt: now - 10000,
+    items: [{ actionId: 'culture-historical-action', status: 'ACCEPTED',
+      providerEmailId: 're_culture_historical', emailHash: 'historical-email-hash' }]
+  };
+  await historicalStore.set(culture.executor.commandKey(historicalCommand.commandId), historicalCommand);
+  await historicalStore.lpush(culture.executor.LOG_KEY, historicalCommand);
+  var historicalMigration = await culture.observer.reconcileLegacyPending(historicalStore);
+  assert.equal(historicalMigration.reconciledAcceptedActions, 1);
+  var historicalRefs = await historicalStore.lrange(culture.observer.PENDING_KEY, 0, -1);
+  assert.equal(historicalRefs.length, 1);
+  assert.equal(historicalRefs[0].actionId, 'culture-historical-action');
+  await culture.observer.reconcileLegacyPending(historicalStore);
+  assert.equal((await historicalStore.lrange(culture.observer.PENDING_KEY, 0, -1)).length, 1,
+    'completed legacy backfill may not duplicate provider observation work');
+
+  var entitlementStore = new Store(); await commission(entitlementStore, culture, now);
+  var entitlementSubscriber = Object.assign(subscriber('culture'), { email: 'culture-canceled-at-boundary@example.test',
+    subscriptionId: 'sub_culture_boundary', customerId: 'cus_culture_boundary' });
+  await putSubscriber(entitlementStore, entitlementSubscriber);
+  var entitlementCandidate = culture.decision.candidate(entitlementSubscriber, digest('culture', 'entitlement-boundary'));
+  var entitlementDecision = await culture.decision.decide(entitlementStore, entitlementCandidate, now,
+    { cognition: cognition(culture, now) });
+  var entitlementCalls = 0;
+  var entitlementHeld = await culture.executor.execute({ store: entitlementStore,
+    specs: [{ candidate: entitlementCandidate, decision: entitlementDecision }], now: now,
+    maxSends: 1, emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailySendCap: 1,
+    authorizationDeps: { env: openEnv(culture), cognition: cognition(culture, now) },
+    adapterGuard: { checkpoint: async function () {
+      await putSubscriber(entitlementStore, Object.assign({}, entitlementSubscriber, { active: false }));
+      return { allowed: true };
+    } },
+    transport: { send: async function () { entitlementCalls++; return { ok: true, id: 'must-not-send-canceled' }; } }
+  });
+  assert.equal(entitlementHeld.status, 'HELD_PRE_SEND');
+  assert.equal(entitlementHeld.providerCalls, 0);
+  assert.equal(entitlementCalls, 0, 'entitlement revoked at the provider boundary must prevent delivery');
+
+  var notReadyStore = new Store(); await commission(notReadyStore, culture, now);
+  var notReadySubscriber = Object.assign(subscriber('culture'), { email: 'culture-provider-not-ready@example.test',
+    subscriptionId: 'sub_culture_not_ready', customerId: 'cus_culture_not_ready' });
+  await putSubscriber(notReadyStore, notReadySubscriber);
+  var notReadyCandidate = culture.decision.candidate(notReadySubscriber, digest('culture', 'provider-not-ready'));
+  var notReadyDecision = await culture.decision.decide(notReadyStore, notReadyCandidate, now,
+    { cognition: cognition(culture, now) });
+  var notReady = await culture.executor.execute({ store: notReadyStore,
+    specs: [{ candidate: notReadyCandidate, decision: notReadyDecision }], now: now,
+    maxSends: 1, emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailySendCap: 1,
+    authorizationDeps: { env: openEnv(culture), cognition: cognition(culture, now) },
+    adapterGuard: { checkpoint: async function () { return { allowed: true }; } },
+    transport: { send: async function () { return { ok: false, error: 'provider config missing', notReady: true,
+      providerCalled: false, definitiveFailure: true }; } }
+  });
+  assert.equal(notReady.status, 'HELD_PRE_SEND');
+  assert.equal(notReady.providerCalls, 0, 'pre-provider configuration failure must remain retryable');
+
+  var suppressedTaskStore = new Store(); await commission(suppressedTaskStore, fulfillmentLane, now);
+  var suppressedTaskSubscriber = Object.assign(subscriber('education'), { email: 'education-suppressed@example.test',
+    subscriptionId: 'sub_education_suppressed', customerId: 'cus_education_suppressed' });
+  await putSubscriber(suppressedTaskStore, suppressedTaskSubscriber);
+  var suppressedTaskCandidate = fulfillmentLane.decision.candidate(suppressedTaskSubscriber,
+    digest('education', 'permanent-suppression'));
+  await suppressedTaskStore.set(fulfillmentLane.executor.suppressionKey(suppressedTaskCandidate.emailHash), {
+    suppressed: true, reason: 'complained', at: now - 1000
+  });
+  var suppressedTaskCalls = 0;
+  var suppressedTask = await fulfillmentLane.fulfillment.enqueueAndAttempt({
+    store: suppressedTaskStore, eventId: 'evt-education-suppressed-task', kind: 'welcome',
+    subscriber: suppressedTaskSubscriber, message: digest('education', 'permanent-suppression'), now: now,
+    subscriptions: { getStrict: async function () { return suppressedTaskSubscriber; } },
+    decisionDeps: { cognition: cognition(fulfillmentLane, now) },
+    authorizationDeps: { env: openEnv(fulfillmentLane), cognition: cognition(fulfillmentLane, now) },
+    maxSends: 1, emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailySendCap: 1,
+    transport: { send: async function () { suppressedTaskCalls++; return { ok: true, id: 'must-not-send-suppressed-task' }; } }
+  });
+  assert.equal(suppressedTask.status, 'CANCELED');
+  assert.equal(suppressedTaskCalls, 0);
+  var minimizedSuppressedTask = await suppressedTaskStore.get(fulfillmentLane.fulfillment.key(suppressedTask.taskId));
+  assert.equal(minimizedSuppressedTask.message, undefined);
+  assert.equal(minimizedSuppressedTask.subscriber.email, undefined,
+    'permanently suppressed tasks must not retain customer content in an endless retry queue');
 
   console.log('soft subscriber sovereignty: PASS (4 exact domain lanes, durable decisions and real capability proof required, cross-domain authority refused, terminal customer data minimized)');
 })().catch(function (error) { console.error(error); process.exit(1); });
