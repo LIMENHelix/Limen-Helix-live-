@@ -180,6 +180,25 @@ function brain(domain, now, packetDomain) {
   assert.equal((await Generator.generate({ store: rankStore, now: now, after: 'finance' })).domain, 'energy',
     'refractory rotation prevents a high-salience domain monopolizing consecutive posts');
 
+  var strandedStore = new Store();
+  await strandedStore.set(contract.stateKey, state); await strandedStore.set(contract.artifactStateKey, artifact);
+  var strandedCandidate = await Candidate.read(strandedStore, domain, now);
+  var strandedCommand = { schemaVersion: Executor.SCHEMA, commandId: 'stranded-definitive-command',
+    status: 'FAILED', providerCalled: false, subjectDomain: domain,
+    sourceArtifactId: artifact.artifactId, contentHash: Candidate.hash(strandedCandidate.text) };
+  var strandedArtifactClaim = { claimType: 'DOMAIN_COMMERCIAL_ARTIFACT', productDomain: domain,
+    sourceArtifactId: artifact.artifactId, commandId: strandedCommand.commandId };
+  var strandedContentClaim = { claimType: 'DOMAIN_COMMERCIAL_PUBLIC_CONTENT', productDomain: domain,
+    contentHash: strandedCommand.contentHash, commandId: strandedCommand.commandId };
+  await strandedStore.set(Executor.commandKey(strandedCommand.commandId), strandedCommand);
+  await strandedStore.set(Executor.artifactClaimKey(domain, artifact.artifactId), strandedArtifactClaim);
+  await strandedStore.set(Executor.contentClaimKey(domain, strandedCandidate.text), strandedContentClaim);
+  var recoveredCandidates = await Generator.available({ store: strandedStore, domain: domain, now: now });
+  assert.equal(recoveredCandidates[0].ok, true,
+    'upstream candidate selection clears claims tied to a definitive pre-provider failure');
+  assert.equal(await strandedStore.get(Executor.artifactClaimKey(domain, artifact.artifactId)), null);
+  assert.equal(await strandedStore.get(Executor.contentClaimKey(domain, strandedCandidate.text)), null);
+
   var inFlight = 0, maxInFlight = 0;
   var parallelStore = new Store();
   parallelStore.get = async function () {

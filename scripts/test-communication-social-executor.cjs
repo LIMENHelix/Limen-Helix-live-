@@ -150,5 +150,25 @@ function artifactSpec(subjectDomain, body, artifactId, motorTime) {
       uri: 'at://did/app.bsky.feed.post/cleanup', cid: 'cleanup-cid', url: 'https://bsky.app/post/cleanup' }; } } });
   assert.equal(cleanupRecovered.status, 'POSTED', 'next command reconciles a claim owned by a definitive pre-provider failure');
 
+  var rejectedStore = new Store(), rejectedMotor = 0;
+  var rejectedAuthorization = { authorize: async function () { rejectedMotor++; return { authorized: true,
+    productDomain: 'communication', ownerDomain: 'communication', lane: 'social', receiptId: 'rejected-' + rejectedMotor }; } };
+  var rejectedSpec = artifactSpec('technology', 'confirmed provider rejection', 'technology-rejected-artifact', 7000);
+  var rejected = await Executor.execute({ store: rejectedStore, spec: rejectedSpec, now: 7000,
+    motorAuthorization: rejectedAuthorization,
+    adapterGuard: { checkpoint: async function () { return { allowed: true }; } },
+    platform: { postToBluesky: async function () { return { ok: false, providerCalled: true,
+      definitiveFailure: true, reason: 'provider returned 400' }; } } });
+  assert.equal(rejected.status, 'FAILED');
+  assert.equal(await rejectedStore.get(Executor.artifactClaimKey('technology', 'technology-rejected-artifact')), null);
+  assert.equal(await rejectedStore.get(Executor.contentClaimKey('technology', 'confirmed provider rejection')), null);
+  var rejectedRetry = await Executor.execute({ store: rejectedStore, spec: rejectedSpec, now: 7001,
+    motorAuthorization: rejectedAuthorization,
+    adapterGuard: { checkpoint: async function () { return { allowed: true }; } },
+    platform: { postToBluesky: async function () { return { ok: true, providerCalled: true,
+      uri: 'at://did/app.bsky.feed.post/rejected-retry', cid: 'rejected-retry-cid',
+      url: 'https://bsky.app/post/rejected-retry' }; } } });
+  assert.equal(rejectedRetry.status, 'POSTED', 'confirmed non-publication releases claims for a corrected retry');
+
   console.log('communication social executor: B10 authorization, pre-dispatch durable command, strict receipt readback, idempotency, and ambiguous-failure no-retry passed');
 })().catch(function (error) { console.error(error); process.exit(1); });

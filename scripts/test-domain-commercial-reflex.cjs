@@ -245,6 +245,27 @@ function response() {
   assert.equal((backlogStore.lists[finance.contract.intentQueue] || []).length, 0,
     'older superseded plans are acknowledged with the prepared newest plan');
 
+  var partialAckStore = memory();
+  var partialOld = finance.evaluate(cognition('finance', now - 120000, 'partial-old'), null, now - 120000);
+  var partialNew = finance.evaluate(cognition('finance', now - 60000, 'partial-new'), null, now - 60000);
+  await finance.persist(partialAckStore, partialOld); await finance.persist(partialAckStore, partialNew);
+  var durableLrem = partialAckStore.lrem, lremCalls = 0;
+  partialAckStore.lrem = async function (key, count, value) {
+    lremCalls++;
+    if (lremCalls === 2) throw new Error('simulated partial acknowledgement failure');
+    return durableLrem(key, count, value);
+  };
+  var partialFirst = await ArtifactHandler.run({ now: now, store: partialAckStore });
+  assert.equal(partialFirst.rows.find(function (row) { return row.productDomain === 'finance'; }).status, 'FAILED');
+  var newestArtifact = await partialAckStore.get(finance.contract.artifactStateKey);
+  assert.equal(newestArtifact.intentId, partialNew.intent.intentId);
+  partialAckStore.lrem = durableLrem;
+  await ArtifactHandler.run({ now: now + 1000, store: partialAckStore });
+  assert.equal((await partialAckStore.get(finance.contract.artifactStateKey)).intentId, partialNew.intent.intentId,
+    'an older partial-cleanup remainder cannot replace newer customer inventory');
+  assert.equal((partialAckStore.lists[finance.contract.intentQueue] || []).length, 0,
+    'a later cycle safely retires the superseded remainder');
+
   var staleEvidence = cognition('finance', now, 'stale-evidence');
   staleEvidence.c.serverPacket.truth.semanticEvidence.forEach(function (row) {
     row.sourceUpdatedAt = new Date(now - Reflex.MAX_EVIDENCE_AGE_MS - 1).toISOString();
