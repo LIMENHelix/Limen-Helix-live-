@@ -19,6 +19,9 @@ Store.prototype.lpush = async function (key, value) {
   (this.lists[key] || (this.lists[key] = [])).unshift(JSON.parse(JSON.stringify(value))); return this.lists[key].length;
 };
 Store.prototype.ltrim = async function (key, start, stop) { this.lists[key] = (this.lists[key] || []).slice(start, stop + 1); return true; };
+Store.prototype.lrange = async function (key, start, stop) {
+  return JSON.parse(JSON.stringify((this.lists[key] || []).slice(start, stop + 1)));
+};
 
 function records(domain, now, program) {
   var contract = Contracts.get(domain);
@@ -56,7 +59,8 @@ function response() { return { statusCode: 0, headers: {}, setHeader: function (
   assert.equal(built.manifest.ownerDomain, 'finance');
   assert.equal(built.manifest.sourceArtifactId, pair.artifact.artifactId);
   assert.equal(built.manifest.beats.length, 4);
-  assert.match(built.manifest.beats[1].narration, /published this feed title/);
+  assert.match(built.manifest.beats[1].narration, /feed title:/);
+  assert(Video.wordCount(built.manifest.beats[1].narration) <= 21);
   assert.equal(built.manifest.truthBoundary.fullTextRead, false);
   assert.equal(built.manifest.truthBoundary.rendererMayNotAddWorldFacts, true);
   assert.equal(built.manifest.visualContract.prohibited.includes('literal depiction of the reported event'), true);
@@ -77,6 +81,34 @@ function response() { return { statusCode: 0, headers: {}, setHeader: function (
     'public narration must remain bound to the durable content hash');
   assert.match(finance.videoManifestStateKey, /:finance$/);
   assert.match(finance.videoManifestLog, /:finance$/);
+
+  var immutableStressState = JSON.parse(JSON.stringify(pair.state));
+  immutableStressState.homology.interoception.stress = 0.99;
+  assert.equal(Video.build(finance, immutableStressState, pair.artifact, now).manifest.publicContentHash,
+    built.manifest.publicContentHash, 'later mutable stress cannot rewrite an immutable artifact motor plan');
+
+  var unattributed = JSON.parse(JSON.stringify(pair.artifact));
+  unattributed.sourceLedger[0].publisher = 'Publisher not supplied';
+  assert.equal(Video.build(finance, pair.state, unattributed, now).reason, 'source-publisher-attribution-required');
+
+  var longSpeech = JSON.parse(JSON.stringify(pair.artifact));
+  longSpeech.sourceLedger[0].publisher = 'The Extremely Long International Publisher Organization News Service';
+  longSpeech.sourceLedger[0].title = Array(50).fill('substantive').join(' ');
+  assert(Video.wordCount(Video.build(finance, pair.state, longSpeech, now).manifest.beats[1].narration) <= 21,
+    'the fixed eight-second beat has a bounded spoken-word budget');
+
+  var partialStore = new Store(), logFailures = 1;
+  var durablePush = partialStore.lpush;
+  partialStore.lpush = async function (key, value) {
+    if (key === finance.videoManifestLog && logFailures-- > 0) throw new Error('simulated log append failure');
+    return durablePush.call(this, key, value);
+  };
+  await assert.rejects(Video.persist(partialStore, finance, built), /simulated log append failure/);
+  assert((await partialStore.get(finance.videoManifestStateKey)).manifestId === built.manifest.manifestId,
+    'immutable manifest and latest state survive a partial log failure');
+  await Video.persist(partialStore, finance, built);
+  assert.equal((await partialStore.lrange(finance.videoManifestLog, 0, 199))[0].manifestId,
+    built.manifest.manifestId, 'retry repairs the missing provenance log entry');
 
   var article = records('finance', now, 'PUBLIC_ARTICLE');
   assert.equal(Video.build(finance, article.state, article.artifact, now).reason,
