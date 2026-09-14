@@ -175,7 +175,7 @@ function brain(domain, now, packetDomain) {
     var aliasRelease = await DomainDecision.decide(store, aliasCandidate, now);
     aliasCandidate.domainDecisionReceipt = aliasRelease;
     var aliasCognition = { communication: brain('communication', now) };
-    aliasCognition[alias.owner] = brain(alias.owner, now, alias.product);
+    aliasCognition[alias.product] = brain(alias.owner, now, alias.product);
     var aliasDecision = await CommunicationDecision.decide(store, aliasCandidate, now, { cognition: aliasCognition });
     assert.equal(aliasDecision.status, 'RELEASED', alias.product + ' must validate owner/runtime brain alias');
   }
