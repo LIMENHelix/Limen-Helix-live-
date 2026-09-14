@@ -23,6 +23,7 @@ const productDomainMotorReceipt = require('../lib/product-domain-motor-receipt.j
 const productDomainMotorCapabilityOverlay = require('../lib/product-domain-motor-capability-overlay.js');
 const productDomainExternalValveOverlay = require('../lib/product-domain-external-valve-overlay.js');
 const productDomainLearningState = require('./product-domain-learning-state.js');
+const domainCommercialLanes = require('../lib/domain-commercial-lanes.js');
 const cronAuth = require('../lib/cron-auth.js');
 const cognitionProjection = require('../lib/brain-cognition-compact.js');
 const compactCognition = cognitionProjection.compact;
@@ -309,6 +310,11 @@ module.exports = async function handler(req, res) {
           var _ae = _st.domainAutoEmission || _st.energyAutoEmission || null;
           var _rm = _st.resourceMetabolism || null;
           var _dl = _st.domainActionLearning || null;
+          var _commercial = null;
+          try {
+            var _commercialLane = domainCommercialLanes.get(dom);
+            _commercial = _commercialLane ? await efferenceStore.get(_commercialLane.contract.stateKey) : null;
+          } catch (_) { _commercial = null; }
           c.brainOrgans = {
             plasticity: _pl ? {
               mode: val(_pl.mode), rewardActive: _pl.rewardActive === true,
@@ -328,7 +334,23 @@ module.exports = async function handler(req, res) {
               learningGate: val(_dl.learningGate),
               latestSignalId: val(_dl.signal && _dl.signal.signalId),
               companyPatternCount: arr(_dl.companyPatterns).length
-            } : null
+            } : null,
+            commercialReflex: _commercial ? {
+              schemaVersion: val(_commercial.schemaVersion),
+              status: val(_commercial.status),
+              reason: val(_commercial.reason),
+              priority: num(_commercial.priority),
+              selectedProgram: val(_commercial.intent && _commercial.intent.selectedProgram),
+              intentId: val(_commercial.intent && _commercial.intent.intentId),
+              cadence: val(_commercial.intent && _commercial.intent.cadence),
+              evaluatedAt: num(_commercial.evaluatedAt),
+              externalEffectAuthorized: false
+            } : {
+              schemaVersion: 'domain-commercial-reflex/1.0',
+              status: 'UNOBSERVED',
+              reason: 'domain-commercial-reflex-has-not-completed',
+              externalEffectAuthorized: false
+            }
           };
           c.stress = num(_st.stress);
           c.phase = val(_st.phaseLabel || _st.phase);

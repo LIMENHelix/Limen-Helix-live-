@@ -17,7 +17,7 @@ function store() {
 }
 
 (async function () {
-  assert.equal(Registry.LINES.length, 25, 'each external lane has its own line; five Soft domains now have separate subscriber lanes');
+  assert.equal(Registry.LINES.length, 39, 'each external lane has its own line; all twenty domains have separate subscriber valves');
   assert.equal(new Set(Registry.LINES.map(x => x.id)).size, Registry.LINES.length, 'valve identities are unique');
   assert.equal(Registry.get('finance:subscriber-email').ownerDomain, 'finance');
   assert.equal(Registry.forCandidate({ recommendedLane: 'research', domain: 'science' }), 'science:research-papers');
@@ -28,6 +28,14 @@ function store() {
   ['culture', 'education', 'communication', 'medicine'].forEach(domain => {
     assert.equal(Registry.forRoute(domain + '-revenue-fulfillment'), domain + ':subscriber-email');
     assert.equal(Registry.get(domain + ':subscriber-email').productDomain, domain);
+  });
+  assert.equal(Registry.forRoute('domain-subscriber-fulfillment'), null, 'shared clocks cannot masquerade as one domain valve');
+  assert.equal(Registry.forRouteAll('domain-subscriber-fulfillment').length, 14);
+  assert.equal(Registry.forRoute('subscriber-digest'), null, 'shared digest clock cannot borrow Religion authority');
+  assert.equal(Registry.forRouteAll('subscriber-digest').length, 20);
+  ['agriculture', 'defense', 'economy', 'energy', 'environment', 'governance', 'industry',
+    'infrastructure', 'intelligence', 'law', 'population', 'science', 'technology', 'trade'].forEach(domain => {
+    assert(Registry.forRouteAll('domain-subscriber-fulfillment').includes(domain + ':subscriber-email'));
   });
 
   const s = store();
@@ -60,6 +68,8 @@ function store() {
 
   await Control.advanceNuke('DIAGNOSTIC_READ_ONLY', 'test-master', s, Date.parse('2026-08-26T19:13:10Z'));
   assert.equal((await Control.authorizeActivity('audit-ledger', 'GET', s)).allowed, true);
+  assert.equal((await Control.authorizeActivity('domain-commercial-status', 'GET', s)).allowed, true);
+  assert.equal((await Control.authorizeActivity('domain-commercial-status', 'POST', s)).allowed, false);
   assert.equal((await Control.authorizeActivity('audit-ledger', 'POST', s)).allowed, false);
   assert.equal((await Control.authorizeActivity('brain-cognition-refresh', 'GET', s)).allowed, false);
 
@@ -69,6 +79,8 @@ function store() {
 
   await Control.advanceNuke('INTERNAL_COGNITION', 'test-master', s, Date.parse('2026-08-26T19:13:30Z'));
   assert.equal((await Control.authorizeActivity('brain-cognition-refresh', 'GET', s)).allowed, true);
+  assert.equal((await Control.authorizeActivity('domain-commercial-reflex', 'GET', s)).allowed, true);
+  assert.equal((await Control.authorizeActivity('domain-commercial-artifact-prep', 'GET', s)).allowed, true);
   assert.equal((await Control.authorizeActivity('finance-paper-cycle', 'GET', s)).allowed, false);
 
   await Control.advanceNuke('SANDBOX_MOTOR', 'test-master', s, Date.parse('2026-08-26T19:13:40Z'));

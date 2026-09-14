@@ -35,6 +35,22 @@
       "schedule": "10,40 * * * *"
     },
     {
+      "path": "/api/domain-commercial-reflex",
+      "schedule": "13,43 * * * *"
+    },
+    {
+      "path": "/api/domain-commercial-artifact-prep",
+      "schedule": "14,44 * * * *"
+    },
+    {
+      "path": "/api/domain-subscriber-fulfillment",
+      "schedule": "*/10 * * * *"
+    },
+    {
+      "path": "/api/domain-subscriber-outcome-observer",
+      "schedule": "1,11,21,31,41,51 * * * *"
+    },
+    {
       "path": "/api/finance-paper-cycle",
       "schedule": "16,46 * * * *"
     },
@@ -84,11 +100,11 @@
     },
     {
       "path": "/api/subscriber-digest?motorDomain=legacy",
-      "schedule": "30 13 * * *"
+      "schedule": "30 * * * *"
     },
     {
       "path": "/api/finance-subscriber-cycle",
-      "schedule": "34 13 * * *"
+      "schedule": "34 * * * *"
     },
     {
       "path": "/api/religion-subscriber-outcome-observer",

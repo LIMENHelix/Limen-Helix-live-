@@ -78,6 +78,26 @@ async function invoke(handler, url, method) {
         sourceIdentity: { kind: 'resend-read-api-mail-server-event', value: 'culture-email-' + n }
       }; })
     },
+    'soft_subscriber:science:learning': {
+      schemaVersion: 'science-subscriber-learning/1.0', domain: 'research', productDomain: 'science',
+      lane: 'subscriber-email', resolvedCount: 1, processedObservationIds: ['ss1'],
+      signals: [{ schemaVersion: 'product-domain-external-learning/1.0', signalId: 'science-subscriber-signal-1',
+        eventId: 'science-subscriber-observation-1', actionId: 'science-subscriber-action-1',
+        ownerDomain: 'research', productDomain: 'science', lane: 'subscriber-email',
+        eventType: 'OUTCOME_SUBSCRIBER_DELIVERED', observedAt: 3001, outcome: 'delivered',
+        normalizedCredit: 0.5, sourceKind: 'independent-action-outcome',
+        sourceIdentity: { kind: 'resend-read-api-mail-server-event', value: 'science-email-1' } }]
+    },
+    'soft_subscriber:trade:learning': {
+      schemaVersion: 'trade-subscriber-learning/1.0', domain: 'supplyChain', productDomain: 'trade',
+      lane: 'subscriber-email', resolvedCount: 1, processedObservationIds: ['ts1'],
+      signals: [{ schemaVersion: 'product-domain-external-learning/1.0', signalId: 'trade-subscriber-signal-1',
+        eventId: 'trade-subscriber-observation-1', actionId: 'trade-subscriber-action-1',
+        ownerDomain: 'supplyChain', productDomain: 'trade', lane: 'subscriber-email',
+        eventType: 'OUTCOME_SUBSCRIBER_DELIVERED', observedAt: 3002, outcome: 'delivered',
+        normalizedCredit: 0.5, sourceKind: 'independent-action-outcome',
+        sourceIdentity: { kind: 'resend-read-api-mail-server-event', value: 'trade-email-1' } }]
+    },
     'intelligence_autopilot_learning_state': {
       schemaVersion: 'intelligence-autopilot-learning/1.0', domain: 'intelligence', lane: 'autopilot', resolvedCount: 5,
       processedObservationIds: ['i1', 'i2', 'i3', 'i4', 'i5'],
@@ -100,12 +120,17 @@ async function invoke(handler, url, method) {
     var eligible = await invoke(handler, '/api/product-domain-learning-state?domain=research');
     assert.equal(eligible.code, 200);
     assert.equal(eligible.body.status, 'ELIGIBLE');
-    assert.equal(eligible.body.resolvedCount, 5);
+    assert.equal(eligible.body.resolvedCount, 6);
     assert.equal(eligible.body.signal.normalizedCredit, 1);
     assert.equal(eligible.body.signal.sourceKind, 'independent-action-outcome');
     assert.equal(eligible.body.learningGate.ready, true);
     assert.equal(eligible.body.learningGate.distinctSources, 2);
     assert.equal(eligible.body.commands, undefined);
+    assert.equal(eligible.body.laneReadouts.some(function (row) { return row.productDomain === 'science'; }), true);
+
+    var supplyChain = await invoke(handler, '/api/product-domain-learning-state?domain=supplyChain');
+    assert.equal(supplyChain.code, 200);
+    assert.equal(supplyChain.body.laneReadouts.some(function (row) { return row.productDomain === 'trade'; }), true);
 
     var absent = await invoke(handler, '/api/product-domain-learning-state?domain=agriculture');
     assert.equal(absent.code, 200);

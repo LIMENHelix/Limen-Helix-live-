@@ -47,7 +47,7 @@ var board = {
       declared: { schedule: '45 11 * * *', kind: 'outward', role: 'motor' },
       observed: { at: NOW - 7200000, ok: true }, valve: { open: true } },
     { job: 'subscriber-digest', cost: { cost: 'free' },
-      declared: { schedule: '30 13 * * *', kind: 'outward', role: 'motor' },
+      declared: { schedule: '30 * * * *', kind: 'outward', role: 'motor' },
       observed: { at: null, neverObserved: true }, valve: { open: true } },
     { job: 'social-cron', cost: { cost: 'free' },
       declared: { schedule: '0 0,2 * * *', kind: 'outward', role: 'motor' },

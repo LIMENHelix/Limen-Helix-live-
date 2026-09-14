@@ -206,7 +206,9 @@ function mergeReadouts(domain, rows) {
 
 async function read(domain) {
   var primary = await readPrimary(domain);
-  var productDomain = domain === 'health' ? 'medicine' : domain;
+  var productDomain = domain === 'health' ? 'medicine' :
+    domain === 'research' ? 'science' :
+    domain === 'supplyChain' ? 'trade' : domain;
   var subscriberLane = softSubscriberLanes.get(productDomain);
   if (!subscriberLane) return primary;
   var subscriber = validateSubscriberReadout(domain, productDomain, await subscriberLane.learning.readForBrain(store));

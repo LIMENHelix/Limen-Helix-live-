@@ -49,6 +49,8 @@ for (const match of page.matchAll(/<script>([\s\S]*?)<\/script>/g)) new Function
 
 for (const line of Registry.LINES) {
   assert.ok(line.source && line.actionRoute && line.destination && line.observerRoute && line.recoveryRoute, line.id + ' has a complete visible path');
-  if (line.actionRoute !== 'limen-worker-autofire') assert.equal(Registry.forRoute(line.actionRoute), line.id, line.id + ' route is runtime-valve bound');
+  if (line.actionRoute !== 'limen-worker-autofire') {
+    assert(Registry.forRouteAll(line.actionRoute).includes(line.id), line.id + ' route is runtime-valve bound');
+  }
 }
-console.log('civilization valve wiring: Admin link, real topology, 20 route identities, worker owner routing, and emergency control passed');
+console.log('civilization valve wiring: Admin link, real topology, all route identities including shared clocks, worker owner routing, and emergency control passed');
