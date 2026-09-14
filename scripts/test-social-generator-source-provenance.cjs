@@ -59,6 +59,7 @@ function install(store, domain, now, priority) {
   var economyContract = Contracts.get('economy');
   store.values[economyContract.stateKey] = Object.assign({}, store.values[economyContract.stateKey], {
     status: 'ABSTAINED', reason: 'no-meaningful-afferent-or-stress-change', intent: null,
+    lastPlannedIntentId: 'intent_economy',
     priority: undefined, homology: { interoception: { stress: 0.61, delta: 0 } }
   });
   assert.equal((await Generator.generate({ store: store, now: now, domain: 'economy' })).domain, 'economy');

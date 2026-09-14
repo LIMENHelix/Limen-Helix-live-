@@ -13,6 +13,10 @@ Store.prototype.assertDurable = function () { return true; };
 Store.prototype.get = async function (key) { return this.map.get(key) || null; };
 Store.prototype.set = async function (key, value) { this.map.set(key, JSON.parse(JSON.stringify(value))); return true; };
 Store.prototype.setIfAbsent = async function (key, value) { if (this.map.has(key)) return false; await this.set(key, value); return true; };
+Store.prototype.deleteIfValue = async function (key, value) {
+  if (!this.map.has(key) || JSON.stringify(this.map.get(key)) !== JSON.stringify(value)) return 0;
+  this.map.delete(key); return 1;
+};
 Store.prototype.lpush = async function (key, value) { this.log.unshift({ key: key, value: value }); return this.log.length; };
 Store.prototype.ltrim = async function () { return true; };
 
@@ -29,6 +33,21 @@ function decisionReceipt(subjectDomain, body, now) {
   };
 }
 function spec(subjectDomain, body, now) { return { subjectDomain: subjectDomain, text: body, decisionReceipt: decisionReceipt(subjectDomain, body, now) }; }
+
+function artifactSpec(subjectDomain, body, artifactId, motorTime) {
+  var domainDecision = { decisionReceiptId: 'domain-' + artifactId, ownerDomain: subjectDomain };
+  var value = {
+    subjectDomain: subjectDomain, text: body, sourceArtifactId: artifactId,
+    sourceIntentId: 'intent-' + artifactId, sourcePacketId: 'packet-' + artifactId,
+    candidateHash: 'candidate-' + artifactId, domainDecisionReceipt: domainDecision
+  };
+  value.decisionReceipt = Object.assign(decisionReceipt(subjectDomain, body, motorTime), {
+    sourceArtifactId: value.sourceArtifactId, sourceIntentId: value.sourceIntentId,
+    sourcePacketId: value.sourcePacketId, candidateHash: value.candidateHash,
+    domainDecisionReceiptId: domainDecision.decisionReceiptId
+  });
+  return value;
+}
 
 (async function () {
   assert.equal(Strict.assertKey(Executor.LOG_KEY), Executor.LOG_KEY);
@@ -85,6 +104,29 @@ function spec(subjectDomain, body, now) { return { subjectDomain: subjectDomain,
     platform: { postToBluesky: async function () { noDecisionCalls++; } }, now: 4000 });
   assert.equal(noDecision.reason, 'communication-social-b10-decision-required');
   assert.equal(noDecisionCalls, 0);
+
+  var claimStore = new Store(), motorCounter = 0;
+  var freshMotor = { authorize: async function () { motorCounter++; return { authorized: true,
+    productDomain: 'communication', ownerDomain: 'communication', lane: 'social', receiptId: 'claim-motor-' + motorCounter }; } };
+  var claimSpec = artifactSpec('law', 'retryable domain artifact', 'law-artifact-1', 5000);
+  var inhibitedError = new Error('valve closed'); inhibitedError.code = 'CIVILIZATION_ADAPTER_INHIBITED';
+  var inhibited = await Executor.execute({ store: claimStore, spec: claimSpec, now: 5000,
+    motorAuthorization: freshMotor,
+    adapterGuard: { checkpoint: async function () { throw inhibitedError; } },
+    platform: { postToBluesky: async function () { throw new Error('must not call'); } } });
+  assert.equal(inhibited.status, 'FAILED');
+  assert.equal(await claimStore.get(Executor.artifactClaimKey('law', 'law-artifact-1')), null);
+  assert.equal(await claimStore.get(Executor.contentClaimKey('law', 'retryable domain artifact')), null);
+  var retried = await Executor.execute({ store: claimStore, spec: claimSpec, now: 5001,
+    motorAuthorization: freshMotor,
+    adapterGuard: { checkpoint: async function () { return { allowed: true }; } },
+    platform: { postToBluesky: async function () { return { ok: true, providerCalled: true,
+      uri: 'at://did/app.bsky.feed.post/retry', cid: 'retry-cid', url: 'https://bsky.app/post/retry' }; } } });
+  assert.equal(retried.status, 'POSTED');
+  var equivalentSpec = artifactSpec('law', 'retryable domain artifact', 'law-artifact-2', 5002);
+  var contentDuplicate = await Executor.execute({ store: claimStore, spec: equivalentSpec, now: 5002,
+    motorAuthorization: freshMotor, platform: platform });
+  assert.equal(contentDuplicate.reason, 'domain-commercial-public-content-already-distributed-or-claimed');
 
   console.log('communication social executor: B10 authorization, pre-dispatch durable command, strict receipt readback, idempotency, and ambiguous-failure no-retry passed');
 })().catch(function (error) { console.error(error); process.exit(1); });

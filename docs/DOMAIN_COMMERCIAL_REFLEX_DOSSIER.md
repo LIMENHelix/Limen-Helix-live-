@@ -85,8 +85,10 @@
 ## 6. Operational controls
 
 - Idempotency: SHA-256 of domain + packet id + evidence fingerprint + program;
-  store-enforced `SET NX` and verified read-back. Public distribution also has
-  a permanent artifact claim, so a new motor receipt cannot repost old content.
+  store-enforced `SET NX` and verified read-back. Public distribution has
+  permanent artifact and domain/public-content claims. A definitive hold before
+  the Bluesky create call releases both; a confirmed or ambiguous dispatch
+  preserves them so a new intent cannot repost equivalent content.
 - Budgets: zero model/provider/spend budget for reflex and artifact preparation;
   subscriber transport has its own per-domain send cap, unit cost and daily
   budget variables.

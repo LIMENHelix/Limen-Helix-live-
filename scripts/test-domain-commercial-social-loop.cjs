@@ -9,12 +9,17 @@ var CommunicationDecision = require('../lib/communication-social-decision.js');
 var Executor = require('../lib/communication-social-executor.js');
 var Observer = require('../lib/communication-social-outcome-observer.js');
 var DomainLearning = require('../lib/domain-commercial-social-learning.js');
+var Generator = require('../lib/social-generator.js');
 
 function Store() { this.values = new Map(); this.logs = {}; }
 Store.prototype.assertDurable = function () { return true; };
 Store.prototype.get = async function (key) { return this.values.has(key) ? this.values.get(key) : null; };
 Store.prototype.set = async function (key, value) { this.values.set(key, JSON.parse(JSON.stringify(value))); return true; };
 Store.prototype.setIfAbsent = async function (key, value) { if (this.values.has(key)) return false; return this.set(key, value); };
+Store.prototype.deleteIfValue = async function (key, value) {
+  if (!this.values.has(key) || JSON.stringify(this.values.get(key)) !== JSON.stringify(value)) return 0;
+  this.values.delete(key); return 1;
+};
 Store.prototype.replaceIfValue = async function (key, current, value) {
   if (this.values.get(key) !== current) return false;
   return this.set(key, value);
@@ -28,12 +33,13 @@ Store.prototype.ltrim = async function (key, start, stop) {
   this.logs[key] = (this.logs[key] || []).slice(start, stop + 1); return true;
 };
 
-function brain(domain, now) {
+function brain(domain, now, packetDomain) {
+  packetDomain = packetDomain || domain;
   return { ts: now - 1000, c: {
     domain: domain, immune: { immuneState: 'clear' }, awareness: { humanReviewRequired: false },
     brainOrgans: { autonomousInternalEmission: { holdReason: null, emittedCount: 1 } },
     serverPacket: { schemaVersion: 'civilization-domain-packet/1.0', packetId: domain + ':current',
-      domainId: domain, sourceType: 'server-cognition-refresh', generatedAt: new Date(now - 1000).toISOString(),
+      domainId: packetDomain, sourceType: 'server-cognition-refresh', generatedAt: new Date(now - 1000).toISOString(),
       sourceIdentity: { producer: 'brain-cognition-refresh/1' },
       truth: { stressScore: 0.7, activeDiagnoses: ['pressure'], opportunities: [], feedHealth: { live: 2 } } }
   } };
@@ -98,8 +104,22 @@ function brain(domain, now) {
   var duplicate = await Executor.execute({ store: store, spec: spec, now: now + 1, motorAuthorization: motor,
     adapterGuard: { checkpoint: async function () { throw new Error('must not run'); } },
     platform: { postToBluesky: async function () { platformCalls++; } } });
-  assert.equal(duplicate.reason, 'domain-commercial-artifact-already-distributed-or-claimed');
+  assert.equal(duplicate.reason, 'domain-commercial-public-content-already-distributed-or-claimed');
   assert.equal(platformCalls, 1);
+
+  var equivalentState = JSON.parse(JSON.stringify(state));
+  equivalentState.intent.intentId = 'finance-intent-2';
+  equivalentState.lastPlannedIntentId = equivalentState.intent.intentId;
+  var equivalentArtifact = JSON.parse(JSON.stringify(artifact));
+  equivalentArtifact.artifactId = 'finance-artifact-2';
+  equivalentArtifact.intentId = equivalentState.intent.intentId;
+  await store.set(contract.stateKey, equivalentState);
+  await store.set(contract.artifactStateKey, equivalentArtifact);
+  var equivalentCandidate = await Candidate.read(store, domain, now + 2);
+  assert.equal(equivalentCandidate.ok, true);
+  assert.equal(equivalentCandidate.candidateHash, candidate.candidateHash);
+  var equivalentAvailable = await Generator.available({ store: store, domain: domain, now: now + 2 });
+  assert.equal(equivalentAvailable[0].reason, 'domain-commercial-public-content-already-distributed-or-claimed');
 
   var observation = await Observer.observeOne(store, { uri: posted.uri, cid: posted.cid }, now + 2000, {
     fetch: async function () { return { status: 200, json: async function () { return { posts: [{
@@ -117,7 +137,47 @@ function brain(domain, now) {
   assert.equal(reafference.signal.productDomain, domain);
 
   var stale = Object.assign({}, artifact, { freshnessExpiresAt: now - 1 });
+  await store.set(contract.stateKey, state);
   await store.set(contract.artifactStateKey, stale);
   assert.equal((await Candidate.read(store, domain, now)).reason, 'domain-commercial-artifact-stale');
+
+  var unavailableState = JSON.parse(JSON.stringify(state));
+  unavailableState.homology.interoception.stress = null;
+  var unavailableArtifact = JSON.parse(JSON.stringify(artifact));
+  unavailableArtifact.sourceStress = null;
+  assert.match(Candidate.render(contract, unavailableState, unavailableArtifact, now).text, /internal stress unavailable/);
+
+  var wrongLatest = JSON.parse(JSON.stringify(state));
+  wrongLatest.status = 'ABSTAINED'; wrongLatest.reason = 'no-meaningful-afferent-or-stress-change';
+  wrongLatest.intent = null; wrongLatest.evidenceFingerprint = 'same-evidence';
+  wrongLatest.lastPlannedIntentId = 'newer-unprepared-intent';
+  var olderArtifact = JSON.parse(JSON.stringify(artifact)); olderArtifact.evidenceFingerprint = 'same-evidence';
+  assert.equal(Candidate.render(contract, wrongLatest, olderArtifact, now).reason,
+    'artifact-no-longer-matches-latest-domain-plan');
+
+  for (var alias of [
+    { product: 'science', owner: 'research' },
+    { product: 'medicine', owner: 'health' },
+    { product: 'trade', owner: 'supplyChain' }
+  ]) {
+    var aliasContract = Contracts.get(alias.product);
+    var aliasState = JSON.parse(JSON.stringify(state));
+    aliasState.productDomain = alias.product; aliasState.ownerDomain = alias.owner;
+    aliasState.intent.intentId = alias.product + '-intent';
+    aliasState.intent.sourcePacketId = alias.product + '-source';
+    var aliasArtifact = JSON.parse(JSON.stringify(artifact));
+    aliasArtifact.artifactId = alias.product + '-artifact'; aliasArtifact.productDomain = alias.product;
+    aliasArtifact.ownerDomain = alias.owner; aliasArtifact.intentId = aliasState.intent.intentId;
+    aliasArtifact.sourcePacketId = aliasState.intent.sourcePacketId;
+    await store.set(aliasContract.stateKey, aliasState);
+    await store.set(aliasContract.artifactStateKey, aliasArtifact);
+    var aliasCandidate = await Candidate.read(store, alias.product, now);
+    var aliasRelease = await DomainDecision.decide(store, aliasCandidate, now);
+    aliasCandidate.domainDecisionReceipt = aliasRelease;
+    var aliasCognition = { communication: brain('communication', now) };
+    aliasCognition[alias.owner] = brain(alias.owner, now, alias.product);
+    var aliasDecision = await CommunicationDecision.decide(store, aliasCandidate, now, { cognition: aliasCognition });
+    assert.equal(aliasDecision.status, 'RELEASED', alias.product + ' must validate owner/runtime brain alias');
+  }
   console.log('domain commercial social loop: exact stress artifact, subject-domain release, Communication motor, one-shot claim, public outcome, and same-domain reafference passed');
 })().catch(function (error) { console.error(error); process.exit(1); });
