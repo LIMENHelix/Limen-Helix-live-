@@ -253,6 +253,20 @@ function response() {
   assert.equal((partialAckStore.lists[finance.contract.intentQueue] || []).length, 0,
     'a later cycle safely retires the superseded remainder');
 
+  var tiedStore = memory();
+  var tiedA = JSON.parse(JSON.stringify(restored));
+  tiedA.intent.intentId = 'intent-same-ms-a';
+  tiedA.intent.plannedAt = now;
+  var tiedZ = JSON.parse(JSON.stringify(restored));
+  tiedZ.intent.intentId = 'intent-same-ms-z';
+  tiedZ.intent.plannedAt = now;
+  var tiedNewer = Artifact.build(finance.contract, tiedZ, now + 2000);
+  var tiedOlderPreparedLater = Artifact.build(finance.contract, tiedA, now + 3000);
+  await Artifact.persist(tiedStore, finance.contract, tiedNewer);
+  await Artifact.persist(tiedStore, finance.contract, tiedOlderPreparedLater);
+  assert.equal((await tiedStore.get(finance.contract.artifactStateKey)).intentId, tiedZ.intent.intentId,
+    'the intent-id tie-breaker prevents an equal-timestamp older plan from replacing current inventory');
+
   var staleEvidence = cognition('finance', now, 'stale-evidence');
   staleEvidence.c.serverPacket.truth.semanticEvidence.forEach(function (row) {
     row.sourceUpdatedAt = new Date(now - Reflex.MAX_EVIDENCE_AGE_MS - 1).toISOString();
