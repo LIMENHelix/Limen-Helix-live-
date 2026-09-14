@@ -26,6 +26,26 @@ Store.prototype.lpush = async function (key, value) {
 };
 Store.prototype.ltrim = async function (key, start, stop) { this.lists[key] = (this.lists[key] || []).slice(start, stop + 1); return true; };
 Store.prototype.lrange = async function (key, start, stop) { var rows = this.lists[key] || []; return JSON.parse(JSON.stringify(rows.slice(start, stop < 0 ? undefined : stop + 1))); };
+Store.prototype.lrem = async function (key, count, value) {
+  var encoded = JSON.stringify(value), removed = 0;
+  this.lists[key] = (this.lists[key] || []).filter(function (row) {
+    if ((count === 0 || removed < count) && JSON.stringify(row) === encoded) { removed++; return false; }
+    return true;
+  });
+  return removed;
+};
+Store.prototype.indexListMemberIfValue = async function (lockKey, lockValue, listKey, value, stop, replacement) {
+  if (JSON.stringify(this.values[lockKey]) !== JSON.stringify(lockValue)) return false;
+  await this.lrem(listKey, 0, value); await this.lpush(listKey, value); await this.ltrim(listKey, 0, stop);
+  await this.set(lockKey, replacement); return true;
+};
+Store.prototype.setIfSourcesAndCurrent = async function (sourceKeyOne, sourceValueOne, sourceKeyTwo, sourceValueTwo,
+  key, expectedValue, value) {
+  if (JSON.stringify(this.values[sourceKeyOne]) !== JSON.stringify(sourceValueOne) ||
+      JSON.stringify(this.values[sourceKeyTwo]) !== JSON.stringify(sourceValueTwo) ||
+      JSON.stringify(this.values[key] == null ? null : this.values[key]) !== JSON.stringify(expectedValue)) return false;
+  return this.set(key, value);
+};
 
 function brain(runtimeDomain, packetDomain, now) {
   return { ts: now - 1000, c: { domain: runtimeDomain,
@@ -42,11 +62,11 @@ function source(domain, now) {
     productDomain: domain, ownerDomain: contract.ownerDomain, priority: 0.78, lastPlannedIntentId: intentId,
     evidenceFingerprint: domain + '-fingerprint', lastStress: 0.72,
     homology: { interoception: { stress: 0.72, delta: 0.08 } },
-    intent: { intentId: intentId, sourcePacketId: packetId, selectedProgram: 'SHORT_VIDEO' } };
+    intent: { intentId: intentId, sourcePacketId: packetId, selectedProgram: 'SHORT_VIDEO', plannedAt: now - 2000 } };
   var artifact = { schemaVersion: 'domain-commercial-artifact/1.0', status: 'ARTIFACT_PREPARED',
     artifactId: domain + '-video-artifact', productDomain: domain, ownerDomain: contract.ownerDomain,
     intentId: intentId, sourcePacketId: packetId, evidenceFingerprint: state.evidenceFingerprint,
-    targetProgram: 'SHORT_VIDEO', sourceStress: 0.72, contentHash: 'a'.repeat(64),
+    targetProgram: 'SHORT_VIDEO', sourceStress: 0.72, sourcePlannedAt: now - 2000, contentHash: 'a'.repeat(64),
     preparedAt: now - 1000, freshnessExpiresAt: now + 3600000, externalEffectAuthorized: false,
     sourceLedger: [{ sourceIdentity: { kind: 'url', value: 'https://example.com/' + domain },
       title: 'Publisher reports a current change in the ' + domain + ' domain', publisher: 'Example Wire',
@@ -87,6 +107,13 @@ function response() { return { statusCode: 0, headers: {}, setHeader: function (
   assert.equal(work.workOrder.publicContentHash, built.manifest.publicContentHash);
   assert.equal((await Bridge.claim(store, 'second-worker', now + 3)).status, 'NO_WORK',
     'an exact work order has one active renderer lease');
+  var wrongDuration = await Bridge.complete(store, 'thinkpad-media', {
+    commandId: command.commandId, leaseToken: work.leaseToken,
+    rendererId: 'limen-local-abstract-video/1', localPath: 'C:/LIMEN/rendered/' + command.commandId + '.mp4',
+    fileSha256: 'b'.repeat(64), byteLength: 120000, durationSeconds: 28,
+    narrationAltered: false, worldFactsAdded: false
+  }, now + 500);
+  assert.equal(wrongDuration.status, 'REFUSED', 'render duration must match the exact work order');
   var rendered = await Bridge.complete(store, 'thinkpad-media', {
     commandId: command.commandId, leaseToken: work.leaseToken,
     rendererId: 'limen-local-abstract-video/1', localPath: 'C:/LIMEN/rendered/' + command.commandId + '.mp4',
@@ -94,10 +121,14 @@ function response() { return { statusCode: 0, headers: {}, setHeader: function (
     narrationAltered: false, worldFactsAdded: false
   }, now + 1000);
   assert.equal(rendered.status, 'RENDERED_LOCAL'); assert.equal(rendered.uploadAuthorized, false);
+  assert.equal((await store.lrange(Command.PENDING_KEY, 0, -1)).length, 0,
+    'completed local render leaves no stale pending motor command');
   assert.equal((await store.get(Command.key(command.commandId))).providerCalled, false);
   assert.equal((await Bridge.complete(store, 'thinkpad-media', {
     commandId: command.commandId, leaseToken: work.leaseToken
   }, now + 1001)).duplicate, true, 'receipt retry is idempotent');
+  assert.equal((await store.lrange(Bridge.RECEIPT_LOG, 0, -1)).length, 1,
+    'render receipt provenance is indexed exactly once');
 
   var subjectVeto = brain('finance', 'finance', now); subjectVeto.c.immune.immuneState = 'alert';
   assert.equal((await Release.releaseSubject(store, 'finance', now,
