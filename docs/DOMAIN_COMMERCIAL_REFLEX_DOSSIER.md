@@ -46,7 +46,7 @@
 
 | Port | Contract | Implementation | Failure behavior |
 | --- | --- | --- | --- |
-| Queue | Domain-local intent namespace | `domain_commercial:intent:<domain>:<id>` | Refuse on read-back failure |
+| Queue | Immutable domain-local planned-state queue plus exact intent namespace | `domain_commercial:intent-queue:<domain>` and `domain_commercial:intent:<domain>:<id>` | Refuse on read-back failure; a newer abstention cannot erase queued work |
 | Worker | Source-linked signal-brief preparer | `domain-commercial-artifact` | No artifact on invalid/stale work order |
 | Verifier | Artifact identity/truth-boundary validator | Strict read-back and content hash | Headline remains attributed topic lead only |
 | State store | Strict durable JSON/CAS-capable store | `autofire-efference-store` | No process-memory fallback |

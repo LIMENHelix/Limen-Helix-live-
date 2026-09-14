@@ -25,9 +25,13 @@ function store(value) {
   assert.match(built.body, /Current source-linked Culture artifact/);
   assert.equal(built.key, artifact.contentHash);
   assert.equal(built.personal, false);
-  assert.equal(await Digest.latestCommercialArtifact('culture', store(Object.assign({}, artifact,
-    { freshnessExpiresAt: now })), now), null);
-  assert.equal(await Digest.latestCommercialArtifact('culture', store(Object.assign({}, artifact,
-    { productDomain: 'finance' })), now), null);
+  var expiredStore = store(Object.assign({}, artifact, { freshnessExpiresAt: now }));
+  assert.equal(await Digest.latestCommercialArtifact('culture', expiredStore, now), null);
+  assert.equal(await Digest.buildFor({ domain: 'culture', offer: 'p2', active: true },
+    { store: expiredStore, now: now }), null);
+  var foreignStore = store(Object.assign({}, artifact, { productDomain: 'finance' }));
+  assert.equal(await Digest.latestCommercialArtifact('culture', foreignStore, now), null);
+  assert.equal(await Digest.buildFor({ domain: 'culture', offer: 'p2', active: true },
+    { store: foreignStore, now: now }), null);
   console.log('domain commercial digest: exact-domain fresh artifact feeds paid domain-wide fulfillment PASS');
 })().catch(function (error) { console.error(error); process.exit(1); });

@@ -6,6 +6,20 @@ var Store = require('../lib/autofire-efference-store.js');
 var Lanes = require('../lib/domain-commercial-lanes.js');
 var Artifact = require('../lib/domain-commercial-artifact.js');
 
+async function nextPlannedState(store, contract, now) {
+  var queued = typeof store.lrange === 'function' ? await store.lrange(contract.intentQueue, 0, 49) : [];
+  var eligible = queued.filter(function (state) {
+    return state && state.schemaVersion === 'domain-commercial-reflex/1.0' && state.status === 'PLANNED' &&
+      state.productDomain === contract.productDomain && state.ownerDomain === contract.ownerDomain && state.intent &&
+      Artifact.validateReflex(contract, state, now) === null;
+  }).sort(function (a, b) { return Number(b.evaluatedAt || 0) - Number(a.evaluatedAt || 0); });
+  if (eligible.length) return eligible[0];
+  // Migration compatibility only: deployments created before the durable
+  // queue may still have one valid planned state at the observation key.
+  var current = await store.get(contract.stateKey);
+  return current && current.status === 'PLANNED' ? current : null;
+}
+
 async function run(deps) {
   deps = deps || {};
   var store = deps.store || Store;
@@ -15,7 +29,7 @@ async function run(deps) {
   for (var i = 0; i < Lanes.DOMAINS.length; i++) {
     var lane = Lanes.get(Lanes.DOMAINS[i]);
     try {
-      var state = await store.get(lane.contract.stateKey);
+      var state = await nextPlannedState(store, lane.contract, now);
       var result = Artifact.build(lane.contract, state, now);
       var persisted = await Artifact.persist(store, lane.contract, result);
       rows.push({
@@ -69,4 +83,5 @@ var handler = createHandler();
 var wrapped = require('../lib/heartbeat').wrap('domain-commercial-artifact-prep', handler);
 wrapped.createHandler = createHandler;
 wrapped.run = run;
+wrapped.nextPlannedState = nextPlannedState;
 module.exports = wrapped;

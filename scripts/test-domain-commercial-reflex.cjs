@@ -31,6 +31,9 @@ function memory() {
     },
     ltrim: async function (key, start, stop) {
       lists[key] = (lists[key] || []).slice(start, stop + 1); return true;
+    },
+    lrange: async function (key, start, stop) {
+      return JSON.parse(JSON.stringify((lists[key] || []).slice(start, stop + 1)));
     }
   };
 }
@@ -111,6 +114,7 @@ function response() {
     assert.ok(contract.allowedPrograms.includes('SHORT_VIDEO'));
     assert.ok(contract.offerRungs.length > 0);
     assert.match(contract.stateKey, new RegExp(':' + domain + '$'));
+    assert.match(contract.intentQueue, new RegExp(':' + domain + '$'));
     assert.match(contract.artifactStateKey, new RegExp(':' + domain + '$'));
   });
 
@@ -132,6 +136,7 @@ function response() {
   var restored = await finance.persist(store, first);
   assert.equal(restored.readbackVerified, true);
   assert.equal(restored.intent.intentId, first.intent.intentId);
+  assert.equal(store.lists[finance.contract.intentQueue][0].intent.intentId, first.intent.intentId);
   var duplicate = await finance.persist(store, first);
   assert.equal(duplicate.intent.intentId, first.intent.intentId);
   assert.equal(Object.keys(store.values).filter(function (key) { return key.indexOf(finance.contract.intentPrefix) === 0; }).length, 1);
@@ -172,6 +177,22 @@ function response() {
   var eligible = finance.evaluate(cognition('finance', elapsed, 'b'), restored, elapsed);
   assert.equal(eligible.status, 'PLANNED');
   assert.notEqual(eligible.intent.intentId, first.intent.intentId);
+
+  var outageStore = memory();
+  var beforeOutage = await finance.persist(outageStore,
+    finance.evaluate(cognition('finance', now, 'outage-a'), null, now));
+  var outage = await finance.persist(outageStore,
+    finance.evaluate(cognition('finance', now + 60000, 'outage-b', { live: 0 }), beforeOutage, now + 60000));
+  assert.equal(outage.status, 'ABSTAINED');
+  assert.equal(outage.lastPlannedAt, beforeOutage.lastPlannedAt);
+  assert.deepEqual(outage.plannedHistory, beforeOutage.plannedHistory);
+  assert.equal(outage.evidenceFingerprint, beforeOutage.evidenceFingerprint);
+  var recoveredInsideCadence = finance.evaluate(
+    cognition('finance', now + 120000, 'outage-c', { stress: 0.9 }), outage, now + 120000);
+  assert.equal(recoveredInsideCadence.reason, 'commercial-cadence-inhibited');
+  var racedArtifactCycle = await ArtifactHandler.run({ now: now + 180000, store: outageStore });
+  assert.equal(racedArtifactCycle.rows.find(function (row) { return row.productDomain === 'finance'; }).status,
+    'ARTIFACT_PREPARED', 'queued plan survives a newer mutable abstention state');
 
   var staleEvidence = cognition('finance', now, 'stale-evidence');
   staleEvidence.c.serverPacket.truth.semanticEvidence.forEach(function (row) {
@@ -222,6 +243,9 @@ function response() {
   assert.equal(cycle.boundaries.providerCalled, false);
   assert.equal(new Set(cycle.rows.map(function (row) { return row.intentId; })).size, 20);
   assert.equal(Object.keys(allStore.values).filter(function (key) { return /^domain_commercial:state:/.test(key); }).length, 20);
+  assert.equal(Contracts.DOMAINS.filter(function (domain) {
+    return (allStore.lists[Contracts.get(domain).intentQueue] || []).length > 0;
+  }).length, 20);
 
   var artifactCycle = await ArtifactHandler.run({ now: now + 2000, store: allStore });
   assert.equal(artifactCycle.ok, true);

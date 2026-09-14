@@ -49,10 +49,15 @@ function maxSends(motor) {
   if (!motor) return 0;
   var n = parseInt(process.env[motor.maxEnv], 10);
   if (!isFinite(n) && motor.id === 'finance') n = parseInt(process.env.SUBSCRIBER_DIGEST_MAX_SENDS, 10);
-  if (!isFinite(n)) n = 5;
+  if (!isFinite(n)) n = motor.id === 'religion' ? 5 : 0;
   return Math.max(0, Math.min(motor.executor.HARD_MAX_SENDS, n));
 }
 function numericEnv(name, fallback) { var n = parseFloat(process.env[name]); return isFinite(n) && n >= 0 ? n : fallback; }
+function dailySendCap(motor) {
+  if (!motor) return 0;
+  var fallback = motor.id === 'finance' || motor.id === 'religion' ? 5 : 0;
+  return numericEnv(motor.capEnv, fallback);
+}
 
 function cronHit(req) {
   var h = req.headers || {};
@@ -151,7 +156,7 @@ module.exports = async function handler(req, res) {
           store: motorStore, now: Date.now(), maxSends: maxSends(groupMotor),
           emailCostUsd: numericEnv(groupMotor.costEnv, null),
           dailyBudgetUsd: numericEnv(groupMotor.budgetEnv, null),
-          dailySendCap: numericEnv(groupMotor.capEnv, 5),
+          dailySendCap: dailySendCap(groupMotor),
           specs: group.map(function (x) { return { candidate: x.candidate, decision: x.decision }; }),
           transport: { send: function (email, subject, body, options) { return crm.sendToLead(email, subject, body, options); } }
         });
@@ -198,3 +203,5 @@ module.exports = async function handler(req, res) {
 // it without this handler being changed or redeployed.
 module.exports = require('../lib/heartbeat').guard('subscriber-digest', module.exports);
 module.exports.motorFor = motorFor;
+module.exports.maxSends = maxSends;
+module.exports.dailySendCap = dailySendCap;
