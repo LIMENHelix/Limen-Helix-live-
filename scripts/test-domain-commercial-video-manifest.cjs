@@ -26,6 +26,18 @@ Store.prototype.ltrim = async function (key, start, stop) { this.lists[key] = (t
 Store.prototype.lrange = async function (key, start, stop) {
   return JSON.parse(JSON.stringify((this.lists[key] || []).slice(start, stop + 1)));
 };
+Store.prototype.indexListMemberIfValue = async function (lockKey, lockValue, listKey, value, stop, replacement) {
+  if (JSON.stringify(this.values[lockKey]) !== JSON.stringify(lockValue)) return false;
+  var encoded = JSON.stringify(value), rows = this.lists[listKey] || [];
+  this.lists[listKey] = [JSON.parse(encoded)].concat(rows.filter(function (row) { return JSON.stringify(row) !== encoded; })).slice(0, stop + 1);
+  this.values[lockKey] = JSON.parse(JSON.stringify(replacement)); return true;
+};
+Store.prototype.setIfSourcesAndCurrent = async function (oneKey, oneValue, twoKey, twoValue, key, current, value) {
+  if (JSON.stringify(this.values[oneKey]) !== JSON.stringify(oneValue) ||
+      JSON.stringify(this.values[twoKey]) !== JSON.stringify(twoValue) ||
+      JSON.stringify(this.values[key] == null ? null : this.values[key]) !== JSON.stringify(current == null ? null : current)) return false;
+  return this.set(key, value);
+};
 
 function records(domain, now, program) {
   var contract = Contracts.get(domain);
@@ -36,12 +48,13 @@ function records(domain, now, program) {
     productDomain: domain, ownerDomain: contract.ownerDomain, priority: 0.78,
     lastPlannedIntentId: intentId, evidenceFingerprint: domain + '-evidence', lastStress: 0.68,
     homology: { interoception: { stress: 0.68, delta: 0.07 } },
-    intent: { intentId: intentId, sourcePacketId: packetId, selectedProgram: program || 'SHORT_VIDEO' }
+    intent: { intentId: intentId, sourcePacketId: packetId, selectedProgram: program || 'SHORT_VIDEO', plannedAt: now - 2000 }
   };
   var artifact = {
     schemaVersion: 'domain-commercial-artifact/1.0', artifactId: domain + '-video-artifact',
     status: 'ARTIFACT_PREPARED', externalEffectAuthorized: false,
     productDomain: domain, ownerDomain: contract.ownerDomain, intentId: intentId,
+    sourcePlannedAt: now - 2000,
     sourcePacketId: packetId, evidenceFingerprint: state.evidenceFingerprint,
     targetProgram: state.intent.selectedProgram, contentHash: 'a'.repeat(64), sourceStress: 0.68,
     preparedAt: now - 1000, freshnessExpiresAt: now + 3600000,
@@ -106,6 +119,20 @@ function response() { return { statusCode: 0, headers: {}, setHeader: function (
   legacyStress.publicContentHash = Video.hash(Video.publicPayload(legacyStress));
   assert.equal(Video.validManifest(finance, legacyStress, pair.state, pair.artifact, now), false,
     'self-consistent legacy narration cannot drift from artifact stress');
+  var rewrittenSource = JSON.parse(JSON.stringify(restored));
+  rewrittenSource.sourceLedger[0].publisher = 'Different Real Publisher';
+  rewrittenSource.sourceLedger[0].title = 'Different title that was never in the artifact';
+  rewrittenSource.beats = Video.expectedBeats(finance, pair.artifact, rewrittenSource.sourceLedger[0]);
+  rewrittenSource.publicContentHash = Video.hash(Video.publicPayload(rewrittenSource));
+  assert.equal(Video.validManifest(finance, rewrittenSource, pair.state, pair.artifact, now), false,
+    'self-consistent attribution cannot detach from the immutable artifact source');
+  var malformedBeat = JSON.parse(JSON.stringify(restored)); malformedBeat.beats[2] = null;
+  assert.equal(Video.validManifest(finance, malformedBeat, pair.state, pair.artifact, now), false,
+    'malformed stored beats fail closed without throwing');
+  var overlongBeat = JSON.parse(JSON.stringify(restored)); overlongBeat.beats[2].narration = Array(100).fill('word').join(' ');
+  overlongBeat.publicContentHash = Video.hash(Video.publicPayload(overlongBeat));
+  assert.equal(Video.validManifest(finance, overlongBeat, pair.state, pair.artifact, now), false,
+    'every narrated beat is bound to its immutable speech budget');
 
   var longSpeech = JSON.parse(JSON.stringify(pair.artifact));
   longSpeech.sourceLedger[0].publisher = 'The Extremely Long International Publisher Organization News Service';
@@ -118,10 +145,11 @@ function response() { return { statusCode: 0, headers: {}, setHeader: function (
     'scripts without whitespace receive a language-independent character budget');
 
   var partialStore = new Store(), logFailures = 1;
-  var durablePush = partialStore.lpush;
-  partialStore.lpush = async function (key, value) {
-    if (key === finance.videoManifestLog && logFailures-- > 0) throw new Error('simulated log append failure');
-    return durablePush.call(this, key, value);
+  await partialStore.set(finance.stateKey, pair.state); await partialStore.set(finance.artifactStateKey, pair.artifact);
+  var durableIndex = partialStore.indexListMemberIfValue;
+  partialStore.indexListMemberIfValue = async function () {
+    if (logFailures-- > 0) throw new Error('simulated log append failure');
+    return durableIndex.apply(this, arguments);
   };
   await assert.rejects(Video.persist(partialStore, finance, built), /simulated log append failure/);
   assert(await partialStore.get(finance.videoManifestPrefix + built.manifest.manifestId),
@@ -134,6 +162,7 @@ function response() { return { statusCode: 0, headers: {}, setHeader: function (
     built.manifest.manifestId, 'retry repairs the missing provenance log entry');
 
   var concurrentStore = new Store();
+  await concurrentStore.set(finance.stateKey, pair.state); await concurrentStore.set(finance.artifactStateKey, pair.artifact);
   var concurrent = await Promise.allSettled([
     Video.persist(concurrentStore, finance, built), Video.persist(concurrentStore, finance, built)
   ]);
@@ -141,6 +170,24 @@ function response() { return { statusCode: 0, headers: {}, setHeader: function (
   assert.equal((await concurrentStore.lrange(finance.videoManifestLog, 0, 199)).filter(function (row) {
     return row.manifestId === built.manifest.manifestId;
   }).length, 1, 'overlapping manifest workers share one exclusive provenance append');
+
+  var sourceRaceStore = new Store();
+  await sourceRaceStore.set(finance.stateKey, pair.state); await sourceRaceStore.set(finance.artifactStateKey, pair.artifact);
+  var sourceBoundSet = sourceRaceStore.setIfSourcesAndCurrent;
+  sourceRaceStore.setIfSourcesAndCurrent = async function (oneKey, oneValue, twoKey, twoValue, key, current, value) {
+    var advanced = JSON.parse(JSON.stringify(pair.state)); advanced.intent.intentId = 'newer-intent';
+    advanced.lastPlannedIntentId = 'newer-intent'; this.values[finance.stateKey] = advanced;
+    return sourceBoundSet.call(this, oneKey, oneValue, twoKey, twoValue, key, current, value);
+  };
+  var raced = await Video.persist(sourceRaceStore, finance, built);
+  assert.equal(raced.reason, 'source-plan-advanced-before-video-promotion');
+  assert.equal(await sourceRaceStore.get(finance.videoManifestStateKey), null,
+    'a source plan that advances during persistence cannot promote the stale manifest');
+
+  var tieNewer = JSON.parse(JSON.stringify(restored)), tieOlder = JSON.parse(JSON.stringify(restored));
+  tieNewer.sourceIntentId = 'z-newer'; tieOlder.sourceIntentId = 'a-older';
+  tieNewer.preparedAt = tieOlder.preparedAt = now;
+  assert(Video.comparePlans(tieNewer, tieOlder) > 0, 'intent identity totally orders equal preparation times');
 
   var article = records('finance', now, 'PUBLIC_ARTICLE');
   assert.equal(Video.build(finance, article.state, article.artifact, now).reason,
