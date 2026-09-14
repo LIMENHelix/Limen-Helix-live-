@@ -15,6 +15,10 @@ Store.prototype.replaceIfValue = async function (key, expected, value) {
   if (JSON.stringify(this.values[key]) !== JSON.stringify(expected)) return false;
   return this.set(key, value);
 };
+Store.prototype.deleteIfValue = async function (key, expected) {
+  if (JSON.stringify(this.values[key]) !== JSON.stringify(expected)) return 0;
+  delete this.values[key]; return 1;
+};
 Store.prototype.lpush = async function (key, value) {
   (this.lists[key] || (this.lists[key] = [])).unshift(JSON.parse(JSON.stringify(value))); return this.lists[key].length;
 };
@@ -90,12 +94,28 @@ function response() { return { statusCode: 0, headers: {}, setHeader: function (
   var unattributed = JSON.parse(JSON.stringify(pair.artifact));
   unattributed.sourceLedger[0].publisher = 'Publisher not supplied';
   assert.equal(Video.build(finance, pair.state, unattributed, now).reason, 'source-publisher-attribution-required');
+  var legacyUnattributed = JSON.parse(JSON.stringify(restored));
+  legacyUnattributed.sourceLedger[0].publisher = 'Publisher not supplied';
+  legacyUnattributed.beats[1].narration = 'Publisher not supplied published this feed title: Short title.';
+  legacyUnattributed.publicContentHash = Video.hash(Video.publicPayload(legacyUnattributed));
+  assert.equal(Video.validManifest(finance, legacyUnattributed, pair.state, pair.artifact, now), false,
+    'self-consistent legacy narration without attribution is invalid');
+  var legacyStress = JSON.parse(JSON.stringify(restored));
+  legacyStress.beats[0].narration = 'Finance watch. LIMEN internal domain stress is 99%.';
+  legacyStress.beats[0].onScreenText = 'Finance · internal stress 99%';
+  legacyStress.publicContentHash = Video.hash(Video.publicPayload(legacyStress));
+  assert.equal(Video.validManifest(finance, legacyStress, pair.state, pair.artifact, now), false,
+    'self-consistent legacy narration cannot drift from artifact stress');
 
   var longSpeech = JSON.parse(JSON.stringify(pair.artifact));
   longSpeech.sourceLedger[0].publisher = 'The Extremely Long International Publisher Organization News Service';
   longSpeech.sourceLedger[0].title = Array(50).fill('substantive').join(' ');
   assert(Video.wordCount(Video.build(finance, pair.state, longSpeech, now).manifest.beats[1].narration) <= 21,
     'the fixed eight-second beat has a bounded spoken-word budget');
+  var noWhitespaceSpeech = JSON.parse(JSON.stringify(pair.artifact));
+  noWhitespaceSpeech.sourceLedger[0].title = '界'.repeat(160);
+  assert(Array.from(Video.build(finance, pair.state, noWhitespaceSpeech, now).manifest.beats[1].narration).length <= 90,
+    'scripts without whitespace receive a language-independent character budget');
 
   var partialStore = new Store(), logFailures = 1;
   var durablePush = partialStore.lpush;
@@ -104,11 +124,23 @@ function response() { return { statusCode: 0, headers: {}, setHeader: function (
     return durablePush.call(this, key, value);
   };
   await assert.rejects(Video.persist(partialStore, finance, built), /simulated log append failure/);
-  assert((await partialStore.get(finance.videoManifestStateKey)).manifestId === built.manifest.manifestId,
-    'immutable manifest and latest state survive a partial log failure');
+  assert(await partialStore.get(finance.videoManifestPrefix + built.manifest.manifestId),
+    'immutable manifest survives a partial log failure');
+  assert.equal(await partialStore.get(finance.videoManifestStateKey), null,
+    'latest state is not promoted before immutable provenance is indexed');
   await Video.persist(partialStore, finance, built);
+  assert.equal((await partialStore.get(finance.videoManifestStateKey)).manifestId, built.manifest.manifestId);
   assert.equal((await partialStore.lrange(finance.videoManifestLog, 0, 199))[0].manifestId,
     built.manifest.manifestId, 'retry repairs the missing provenance log entry');
+
+  var concurrentStore = new Store();
+  var concurrent = await Promise.allSettled([
+    Video.persist(concurrentStore, finance, built), Video.persist(concurrentStore, finance, built)
+  ]);
+  assert(concurrent.some(function (row) { return row.status === 'fulfilled'; }));
+  assert.equal((await concurrentStore.lrange(finance.videoManifestLog, 0, 199)).filter(function (row) {
+    return row.manifestId === built.manifest.manifestId;
+  }).length, 1, 'overlapping manifest workers share one exclusive provenance append');
 
   var article = records('finance', now, 'PUBLIC_ARTICLE');
   assert.equal(Video.build(finance, article.state, article.artifact, now).reason,
