@@ -134,7 +134,7 @@ function civilization(domain, now, overrides) {
         schemaVersion: 'domain-commercial-artifact/1.0', artifactId: 'dca_culture_1',
         status: 'ARTIFACT_PREPARED', productDomain: 'culture', ownerDomain: 'culture',
         intentId: 'dci_culture_1', subject: 'Culture signal brief', body: 'Source-linked body',
-        contentHash: 'culture-hash', externalEffectAuthorized: false
+        contentHash: 'culture-hash', freshnessExpiresAt: now + 60000, externalEffectAuthorized: false
       };
       return null;
     }
@@ -151,6 +151,23 @@ function civilization(domain, now, overrides) {
   assert.equal(withReflex.packet.commercialReflex.state.workOrder.evidence[0].fullTextVerified, false);
   assert.equal(withReflex.packet.commercialReflex.state.externalEffectAuthorized, false);
   assert.equal(withReflex.packet.commercialReflex.latestArtifact.artifactId, 'dca_culture_1');
+
+  var expiredReflexStore = Object.assign({}, reflexStore, {
+    get: async function (key) {
+      if (key === cultureLane.contract.stateKey) return reflexState;
+      if (key === cultureLane.contract.artifactStateKey) return {
+        schemaVersion: 'domain-commercial-artifact/1.0', artifactId: 'dca_expired',
+        status: 'ARTIFACT_PREPARED', productDomain: 'culture', ownerDomain: 'culture',
+        freshnessExpiresAt: now - 1, externalEffectAuthorized: false
+      };
+      return null;
+    }
+  });
+  var expiredReflex = await Governor.build('culture', {
+    now: now, briefingBuilder: async function () { return civilization('culture', now); },
+    store: expiredReflexStore, env: {}
+  });
+  assert.equal(expiredReflex.packet.commercialReflex.latestArtifact, null);
 
   var foreignReflexStore = Object.assign({}, fakeStore, {
     get: async function (key) {

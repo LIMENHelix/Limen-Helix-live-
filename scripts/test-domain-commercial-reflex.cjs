@@ -153,6 +153,11 @@ function response() {
   assert.equal(preparedRestored.artifactId, prepared.artifact.artifactId);
   assert.equal((await store.get(finance.contract.artifactStateKey)).contentHash, prepared.artifact.contentHash);
   assert.equal((await Artifact.persist(store, finance.contract, prepared)).artifactId, prepared.artifact.artifactId);
+  var equivalentState = JSON.parse(JSON.stringify(restored));
+  equivalentState.intent.intentId = 'different-internal-intent-same-customer-content';
+  var equivalentArtifact = Artifact.build(finance.contract, equivalentState, now + 1000);
+  assert.equal(equivalentArtifact.artifact.contentHash, prepared.artifact.contentHash);
+  assert.notEqual(equivalentArtifact.artifact.artifactId, prepared.artifact.artifactId);
   var foreignState = Object.assign({}, restored, { productDomain: 'energy' });
   assert.equal(Artifact.build(finance.contract, foreignState, now + 1000).reason, 'domain-commercial-identity-mismatch');
 
@@ -160,8 +165,33 @@ function response() {
   assert.equal(second.status, 'ABSTAINED');
   assert.equal(second.reason, 'no-meaningful-afferent-or-stress-change');
   var changed = finance.evaluate(cognition('finance', now + 120000, 'b'), restored, now + 120000);
-  assert.equal(changed.status, 'PLANNED');
-  assert.notEqual(changed.intent.intentId, first.intent.intentId);
+  assert.equal(changed.status, 'ABSTAINED');
+  assert.equal(changed.reason, 'commercial-cadence-inhibited');
+  assert.equal(changed.pendingEvidenceFingerprint != null, true);
+  var elapsed = now + Reflex.cadenceIntervalMs(first.intent.cadence) + 1;
+  var eligible = finance.evaluate(cognition('finance', elapsed, 'b'), restored, elapsed);
+  assert.equal(eligible.status, 'PLANNED');
+  assert.notEqual(eligible.intent.intentId, first.intent.intentId);
+
+  var staleEvidence = cognition('finance', now, 'stale-evidence');
+  staleEvidence.c.serverPacket.truth.semanticEvidence.forEach(function (row) {
+    row.sourceUpdatedAt = new Date(now - Reflex.MAX_EVIDENCE_AGE_MS - 1).toISOString();
+  });
+  assert.equal(finance.evaluate(staleEvidence, null, now).reason, 'owning-domain-has-no-admitted-topic-leads');
+  var futureEvidence = cognition('finance', now, 'future-evidence');
+  futureEvidence.c.serverPacket.truth.semanticEvidence.forEach(function (row) {
+    row.sourceUpdatedAt = new Date(now + Reflex.MAX_FUTURE_EVIDENCE_SKEW_MS + 1).toISOString();
+  });
+  assert.equal(finance.evaluate(futureEvidence, null, now).reason, 'owning-domain-has-no-admitted-topic-leads');
+
+  var capPrior = Object.assign({}, restored, {
+    evidenceFingerprint: 'old-fingerprint', lastStress: 0.2,
+    lastPlannedAt: now - 3 * 60 * 60 * 1000,
+    plannedHistory: [now - 23 * 60 * 60 * 1000, now - 10 * 60 * 60 * 1000, now - 3 * 60 * 60 * 1000]
+  });
+  var capped = finance.evaluate(cognition('finance', now, 'cap', { stress: 0.9 }), capPrior, now);
+  assert.equal(capped.status, 'ABSTAINED');
+  assert.equal(capped.reason, 'commercial-daily-artifact-cap-reached');
 
   assert.equal(finance.evaluate(cognition('finance', now, 'c', { live: 0 }), null, now).reason,
     'owning-domain-live-feeds-unavailable');
