@@ -44,6 +44,9 @@ Store.prototype.setIfLockAndValue = async function (lockKey, lockValue, compareK
       !this.values.has(compareKey) || JSON.stringify(this.values.get(compareKey)) !== JSON.stringify(compareValue)) return false;
   this.values.set(key, clone(value)); return true;
 };
+Store.prototype.ensureListMember = async function (key, value) {
+  await this.lrem(key, 0, value); return this.lpush(key, value);
+};
 Store.prototype.lpush = async function (key, value) {
   var rows = this.lists.get(key) || []; rows.unshift(clone(value)); this.lists.set(key, rows); return rows.length;
 };
@@ -303,6 +306,29 @@ async function commission(store, lane, now) {
   assert.equal(inhibitedClaim.providerCalled, false,
     'inhibited action claim must remain durably retryable without claiming a provider call');
 
+  var lastMomentSubscriber = Object.assign(subscriber('culture'), { email: 'culture-suppressed@example.test',
+    subscriptionId: 'sub_culture_suppressed', customerId: 'cus_culture_suppressed' });
+  var lastMomentStore = new Store(); await commission(lastMomentStore, culture, now);
+  var lastMomentCandidate = culture.decision.candidate(lastMomentSubscriber, digest('culture', 'last-moment-suppression'));
+  var lastMomentDecision = await culture.decision.decide(lastMomentStore, lastMomentCandidate, now + 2,
+    { cognition: cognition(culture, now + 2) });
+  var lastMomentCalls = 0;
+  var lastMomentHeld = await culture.executor.execute({ store: lastMomentStore,
+    specs: [{ candidate: lastMomentCandidate, decision: lastMomentDecision }], now: now + 2,
+    maxSends: 1, emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailySendCap: 4,
+    authorizationDeps: { env: openEnv(culture), cognition: cognition(culture, now + 2) },
+    adapterGuard: { checkpoint: async function () {
+      await lastMomentStore.set(culture.executor.suppressionKey(lastMomentCandidate.emailHash), {
+        suppressed: true, reason: 'test-last-moment-suppression'
+      });
+      return { allowed: true };
+    } },
+    transport: { send: async function () { lastMomentCalls++; return { ok: true, id: 'must-not-send-suppressed' }; } }
+  });
+  assert.equal(lastMomentHeld.status, 'HELD_INHIBITED');
+  assert.equal(lastMomentHeld.providerCalls, 0);
+  assert.equal(lastMomentCalls, 0, 'suppression written at the adapter boundary must prevent provider dispatch');
+
   var preSendSubscriber = Object.assign(subscriber('culture'), { email: 'culture-three@example.test',
     subscriptionId: 'sub_culture_three', customerId: 'cus_culture_three' });
   var preSendCandidate = culture.decision.candidate(preSendSubscriber, digest('culture', 'pre-send-retry'));
@@ -529,6 +555,60 @@ async function commission(store, lane, now) {
   var malformedTask = await malformedStore.get(fulfillmentLane.fulfillment.key(malformedHeld.taskId));
   assert(malformedTask.message && malformedTask.subscriber.email,
     'malformed entitlement storage must preserve paid work for repair and retry');
+
+  var replayStore = new Store(); await commission(replayStore, fulfillmentLane, now);
+  var replaySubscriber = subscriber('education');
+  await replayStore.set('subs:v1', Object.fromEntries([[replaySubscriber.email, replaySubscriber]]));
+  var replayInput = {
+    store: replayStore, eventId: 'evt-education-reconcile-ref', kind: 'welcome',
+    subscriber: replaySubscriber, message: digest('education', 'reconcile-ref'), now: now,
+    subscriptions: { getStrict: async function () { return replaySubscriber; } },
+    decisionDeps: { cognition: cognition(fulfillmentLane, now) },
+    authorizationDeps: { env: {}, cognition: cognition(fulfillmentLane, now) }
+  };
+  var replayHeld = await fulfillmentLane.fulfillment.enqueueAndAttempt(replayInput);
+  assert.equal(replayHeld.status, 'HELD');
+  replayStore.lists.set(fulfillmentLane.config.keys.fulfillmentPending, []);
+  await fulfillmentLane.fulfillment.enqueueAndAttempt(replayInput);
+  await fulfillmentLane.fulfillment.enqueueAndAttempt(replayInput);
+  var replayRefs = await replayStore.lrange(fulfillmentLane.config.keys.fulfillmentPending, 0, -1);
+  assert.equal(replayRefs.length, 1, 'every nonterminal replay must restore exactly one pending reference');
+  assert.equal(replayRefs[0].taskId, replayHeld.taskId);
+
+  var concurrentTaskStore = new Store(); await commission(concurrentTaskStore, fulfillmentLane, now);
+  var concurrentSubscriber = Object.assign(subscriber('education'), { email: 'education-concurrent@example.test',
+    subscriptionId: 'sub_education_concurrent', customerId: 'cus_education_concurrent' });
+  await concurrentTaskStore.set('subs:v1', Object.fromEntries([[concurrentSubscriber.email, concurrentSubscriber]]));
+  var releaseProvider, providerEntered;
+  var enteredProvider = new Promise(function (resolve) { providerEntered = resolve; });
+  var heldProvider = new Promise(function (resolve) { releaseProvider = resolve; });
+  var concurrentProviderCalls = 0;
+  var concurrentTaskInput = {
+    store: concurrentTaskStore, eventId: 'evt-education-concurrent-task', kind: 'welcome',
+    subscriber: concurrentSubscriber, message: digest('education', 'concurrent-task'), now: now,
+    subscriptions: { getStrict: async function () { return concurrentSubscriber; } },
+    decisionDeps: { cognition: cognition(fulfillmentLane, now) },
+    authorizationDeps: { env: openEnv(fulfillmentLane), cognition: cognition(fulfillmentLane, now) },
+    maxSends: 1, emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailySendCap: 1,
+    adapterGuard: { checkpoint: async function () { return { allowed: true }; } },
+    transport: { send: async function () {
+      concurrentProviderCalls++; providerEntered(); await heldProvider;
+      return { ok: true, id: 're_education_concurrent', providerCalled: true };
+    } }
+  };
+  var winningAttempt = fulfillmentLane.fulfillment.enqueueAndAttempt(concurrentTaskInput);
+  await enteredProvider;
+  var losingAttempt = await fulfillmentLane.fulfillment.enqueueAndAttempt(concurrentTaskInput);
+  assert.equal(losingAttempt.status, 'HELD');
+  assert.equal(losingAttempt.reason, 'education-revenue-fulfillment-attempt-in-progress');
+  releaseProvider();
+  var completedAttempt = await winningAttempt;
+  assert.equal(completedAttempt.status, 'COMPLETED');
+  assert.equal(concurrentProviderCalls, 1);
+  var concurrentStoredTask = await concurrentTaskStore.get(fulfillmentLane.fulfillment.key(completedAttempt.taskId));
+  assert.equal(concurrentStoredTask.status, 'COMPLETED');
+  assert.equal(concurrentStoredTask.message, undefined,
+    'a delayed concurrent attempt may not restore minimized terminal customer content');
 
   console.log('soft subscriber sovereignty: PASS (4 exact domain lanes, durable decisions and real capability proof required, cross-domain authority refused, terminal customer data minimized)');
 })().catch(function (error) { console.error(error); process.exit(1); });
