@@ -79,6 +79,8 @@ function store() {
 
   await Control.advanceNuke('INTERNAL_COGNITION', 'test-master', s, Date.parse('2026-08-26T19:13:30Z'));
   assert.equal((await Control.authorizeActivity('brain-cognition-refresh', 'GET', s)).allowed, true);
+  assert.equal((await Control.authorizeActivity('domain-commercial-reflex', 'GET', s)).allowed, true);
+  assert.equal((await Control.authorizeActivity('domain-commercial-artifact-prep', 'GET', s)).allowed, true);
   assert.equal((await Control.authorizeActivity('finance-paper-cycle', 'GET', s)).allowed, false);
 
   await Control.advanceNuke('SANDBOX_MOTOR', 'test-master', s, Date.parse('2026-08-26T19:13:40Z'));

@@ -180,6 +180,13 @@ function response() {
   assert.equal(preparedRestored.artifactId, prepared.artifact.artifactId);
   assert.equal((await store.get(finance.contract.artifactStateKey)).contentHash, prepared.artifact.contentHash);
   assert.equal((await Artifact.persist(store, finance.contract, prepared)).artifactId, prepared.artifact.artifactId);
+  var renewedAt = now + Artifact.freshnessMs(restored.intent.cadence) + 1;
+  var renewed = Artifact.build(finance.contract, restored, renewedAt);
+  assert.notEqual(renewed.artifact.artifactId, prepared.artifact.artifactId,
+    'an expired partial artifact attempt receives a new deterministic freshness identity');
+  assert.equal(renewed.artifact.contentHash, prepared.artifact.contentHash,
+    'freshness renewal never changes customer content identity');
+  assert(renewed.artifact.freshnessExpiresAt > renewedAt);
   var equivalentState = JSON.parse(JSON.stringify(restored));
   equivalentState.intent.intentId = 'different-internal-intent-same-customer-content';
   var equivalentArtifact = Artifact.build(finance.contract, equivalentState, now + 1000);
