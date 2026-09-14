@@ -73,7 +73,9 @@ async function run(deps) {
       var persisted = await Artifact.persist(store, lane.contract, result);
       if (persisted && persisted.status === 'ARTIFACT_PREPARED' && state && state.status === 'PLANNED' &&
           persisted.productDomain === lane.contract.productDomain && persisted.ownerDomain === lane.contract.ownerDomain &&
-          persisted.intentId === state.intent.intentId && Number.isFinite(Number(persisted.freshnessExpiresAt)) &&
+          (persisted.intentId === state.intent.intentId ||
+            Number(persisted.sourcePlannedAt) > Number(state.intent.plannedAt)) &&
+          Number.isFinite(Number(persisted.freshnessExpiresAt)) &&
           Number(persisted.freshnessExpiresAt) > now) {
         // The newest successfully prepared plan supersedes older queued plans.
         // Preserve only work that arrived later while this preparation ran.
