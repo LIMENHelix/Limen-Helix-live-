@@ -88,6 +88,7 @@ const HANDLERS = {
   'brain-cognition-refresh': require('../handlers/brain-cognition-refresh'),
   'domain-commercial-reflex': require('../handlers/domain-commercial-reflex'),
   'domain-commercial-artifact-prep': require('../handlers/domain-commercial-artifact-prep'),
+  'domain-video-manifest-prep': require('../handlers/domain-video-manifest-prep'),
   'domain-commercial-status': require('../handlers/domain-commercial-status'),
   'domain-subscriber-fulfillment': require('../handlers/domain-subscriber-fulfillment'),
   'domain-subscriber-outcome-observer': require('../handlers/domain-subscriber-outcome-observer'),
