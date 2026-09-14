@@ -91,7 +91,8 @@ function artifactSpec(subjectDomain, body, artifactId, motorTime) {
     store: failedStore, spec: spec('law', 'one shot', 3000), motorAuthorization: motor,
     platform: { postToBluesky: async function () { failedCalls++; return { ok: false, reason: 'provider-failed' }; } }, now: 3000
   });
-  assert.equal(failure.status, 'FAILED');
+  assert.equal(failure.status, 'DISPATCHING');
+  assert.equal((await failedStore.get(Executor.commandKey(failure.commandId))).ambiguous, true);
   var noRetry = await Executor.execute({
     store: failedStore, spec: spec('law', 'one shot', 3000), motorAuthorization: motor,
     platform: { postToBluesky: async function () { failedCalls++; } }, now: 3000
@@ -127,6 +128,27 @@ function artifactSpec(subjectDomain, body, artifactId, motorTime) {
   var contentDuplicate = await Executor.execute({ store: claimStore, spec: equivalentSpec, now: 5002,
     motorAuthorization: freshMotor, platform: platform });
   assert.equal(contentDuplicate.reason, 'domain-commercial-public-content-already-distributed-or-claimed');
+
+  var cleanupStore = new Store(), deleteFailures = 1, cleanupMotor = 0;
+  cleanupStore.deleteIfValue = async function (key, value) {
+    if (deleteFailures-- > 0) throw new Error('transient redis delete failure');
+    return Store.prototype.deleteIfValue.call(this, key, value);
+  };
+  var cleanupAuthorization = { authorize: async function () { cleanupMotor++; return { authorized: true,
+    productDomain: 'communication', ownerDomain: 'communication', lane: 'social', receiptId: 'cleanup-' + cleanupMotor }; } };
+  var cleanupSpec = artifactSpec('finance', 'recover cleanup claim', 'finance-cleanup-artifact', 6000);
+  var cleanupHeld = await Executor.execute({ store: cleanupStore, spec: cleanupSpec, now: 6000,
+    motorAuthorization: cleanupAuthorization,
+    adapterGuard: { checkpoint: async function () { throw inhibitedError; } }, platform: platform });
+  assert.equal(cleanupHeld.status, 'FAILED');
+  assert(await cleanupStore.get(Executor.contentClaimKey('finance', 'recover cleanup claim')),
+    'a simulated transient delete leaves one claim for recovery');
+  var cleanupRecovered = await Executor.execute({ store: cleanupStore, spec: cleanupSpec, now: 6001,
+    motorAuthorization: cleanupAuthorization,
+    adapterGuard: { checkpoint: async function () { return { allowed: true }; } },
+    platform: { postToBluesky: async function () { return { ok: true, providerCalled: true,
+      uri: 'at://did/app.bsky.feed.post/cleanup', cid: 'cleanup-cid', url: 'https://bsky.app/post/cleanup' }; } } });
+  assert.equal(cleanupRecovered.status, 'POSTED', 'next command reconciles a claim owned by a definitive pre-provider failure');
 
   console.log('communication social executor: B10 authorization, pre-dispatch durable command, strict receipt readback, idempotency, and ambiguous-failure no-retry passed');
 })().catch(function (error) { console.error(error); process.exit(1); });

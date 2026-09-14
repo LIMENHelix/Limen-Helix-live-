@@ -73,14 +73,25 @@ function brain(domain, now, packetDomain) {
   assert.equal(candidate.ok, true);
   assert.equal(candidate.selectedProgram, 'INVESTMENT_REVIEW');
   assert(candidate.text.includes('internal stress 70% (+9 pts)'));
-  var domainRelease = await DomainDecision.decide(store, candidate, now);
+  var domainRelease = await DomainDecision.decide(store, candidate, now,
+    { cognition: { finance: brain('finance', now) } });
   assert.equal(domainRelease.status, 'RELEASED');
   candidate.domainDecisionReceipt = domainRelease;
+
+  var vetoBrain = brain('finance', now);
+  vetoBrain.c.awareness.humanReviewRequired = true;
+  assert.equal((await DomainDecision.decide(store, candidate, now,
+    { cognition: { finance: vetoBrain } })).reason, 'subject-domain-human-review-veto');
 
   var cognition = { communication: brain('communication', now), finance: brain('finance', now) };
   var communicationRelease = await CommunicationDecision.decide(store, candidate, now, { cognition: cognition });
   assert.equal(communicationRelease.status, 'RELEASED');
   assert.equal(communicationRelease.sourceArtifactId, artifact.artifactId);
+  var sourceFailureStore = Object.create(store);
+  sourceFailureStore.get = async function () { throw new Error('transient durable source read failure'); };
+  var unavailableDecision = await CommunicationDecision.decide(sourceFailureStore, candidate, now, { cognition: cognition });
+  assert.equal(unavailableDecision.status, 'NO_ACTION');
+  assert.equal(unavailableDecision.reason, 'communication-b10-unavailable');
 
   var motorNumber = 0;
   var motor = { authorize: async function () { motorNumber++; return { authorized: true,
@@ -215,7 +226,8 @@ function brain(domain, now, packetDomain) {
     await store.set(aliasContract.stateKey, aliasState);
     await store.set(aliasContract.artifactStateKey, aliasArtifact);
     var aliasCandidate = await Candidate.read(store, alias.product, now);
-    var aliasRelease = await DomainDecision.decide(store, aliasCandidate, now);
+    var aliasRelease = await DomainDecision.decide(store, aliasCandidate, now,
+      { cognition: Object.fromEntries([[alias.product, brain(alias.owner, now, alias.product)]]) });
     aliasCandidate.domainDecisionReceipt = aliasRelease;
     var aliasCognition = { communication: brain('communication', now) };
     aliasCognition[alias.product] = brain(alias.owner, now, alias.product);
