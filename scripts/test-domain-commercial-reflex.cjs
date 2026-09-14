@@ -149,6 +149,15 @@ function response() {
   var duplicate = await finance.persist(store, first);
   assert.equal(duplicate.intent.intentId, first.intent.intentId);
   assert.equal(Object.keys(store.values).filter(function (key) { return key.indexOf(finance.contract.intentPrefix) === 0; }).length, 1);
+  var tiedReflexStore = memory();
+  var tiedReflexA = JSON.parse(JSON.stringify(first));
+  tiedReflexA.intent.intentId = 'intent-equal-time-a'; tiedReflexA.lastPlannedIntentId = tiedReflexA.intent.intentId;
+  var tiedReflexZ = JSON.parse(JSON.stringify(first));
+  tiedReflexZ.intent.intentId = 'intent-equal-time-z'; tiedReflexZ.lastPlannedIntentId = tiedReflexZ.intent.intentId;
+  await finance.persist(tiedReflexStore, tiedReflexZ);
+  await finance.persist(tiedReflexStore, tiedReflexA);
+  assert.equal((await tiedReflexStore.get(finance.contract.stateKey)).intent.intentId, tiedReflexZ.intent.intentId,
+    'equal-time concurrent plans use intent identity as the deterministic state promotion tie-breaker');
   var older = finance.evaluate(cognition('finance', now - 60000, 'older'), null, now - 60000);
   var olderResult = await finance.persist(store, older);
   assert.equal(olderResult.intent.intentId, first.intent.intentId);
