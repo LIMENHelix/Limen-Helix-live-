@@ -283,6 +283,8 @@ async function commission(store, lane, now) {
   assert.equal(await culture.observer.acknowledge(store, observedRows[0].pendingRef), true);
   assert.equal(await culture.observer.releaseLease(store, observedRows[0].pendingRef, observedRows[0].leaseToken), true);
   assert.equal((await store.lrange(culture.observer.PENDING_KEY, 0, -1)).length, 0);
+  assert.equal((await store.get(culture.learning.STATE_KEY)).processedObservationIds.includes(observation.observationId), false,
+    'dedupe identity may be pruned only after its physical pending reference is acknowledged');
   var suppression = await store.get(culture.executor.suppressionKey(executed.items[0].emailHash));
   assert.equal(suppression.suppressed, true);
   assert.equal(await store.get(education.executor.suppressionKey(executed.items[0].emailHash)), null,
@@ -522,6 +524,11 @@ async function commission(store, lane, now) {
   var retainedDuplicate = await culture.learning.recordObservation(dedupeStore, retainedObservation);
   assert.equal(retainedDuplicate.ok, true); assert.equal(retainedDuplicate.duplicate, true,
     'a positive observation must remain deduplicated throughout its seven-day follow-up window');
+  var delayedRetainedObservation = Object.assign({}, retainedObservation, { observedAt: now + 9 * 24 * 60 * 60 * 1000 });
+  await dedupeStore.set(culture.observer.key(retainedObservation.providerEmailId), delayedRetainedObservation);
+  var outageDelayedDuplicate = await culture.learning.recordObservation(dedupeStore, delayedRetainedObservation);
+  assert.equal(outageDelayedDuplicate.duplicate, true,
+    'observer outages may not expire dedupe while the pending reference remains unacknowledged');
   assert.equal((await dedupeStore.get(culture.learning.STATE_KEY)).resolvedCount, 2001);
 
   var medicine = Lanes.get('medicine'), medicineStore = new Store(), medicineSubscriber = subscriber('medicine');
