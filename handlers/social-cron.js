@@ -25,6 +25,7 @@ var social = require('../lib/social-post');
 var motorStore = require('../lib/autofire-efference-store');
 var socialExecutor = require('../lib/communication-social-executor');
 var socialDecision = require('../lib/communication-social-decision');
+var domainDistribution = require('../lib/domain-commercial-distribution-decision');
 
 var LAST_KEY = 'social:lastDomain:v1';
 
@@ -65,7 +66,7 @@ module.exports = async function handler(req, res) {
       var rateAll = await social.rateStatus('bluesky');
       var lastAll = null;
       try { lastAll = await db.get(LAST_KEY); } catch (e) { lastAll = null; }
-      var posts = await gen.previewAll();
+      var posts = await gen.previewAll({ store: motorStore, now: Date.now() });
       return T.send(res, {
         ok: true, published: false, mode: 'preview-all',
         generatedAt: new Date().toISOString(),
@@ -80,7 +81,8 @@ module.exports = async function handler(req, res) {
     var last = null;
     try { last = await db.get(LAST_KEY); } catch (e) { last = null; }
 
-    var post = await gen.generate({ after: last && last.domain, domain: q.domain });
+    var post = await gen.generate({ after: last && last.domain, domain: q.domain,
+      store: motorStore, now: Date.now() });
     if (post.ok === false) {
       return T.send(res, { ok: false, published: false, reason: post.reason, tried: post.tried, skipped: post.skipped });
     }
@@ -104,13 +106,27 @@ module.exports = async function handler(req, res) {
       return T.send(res, preview);
     }
 
-    // Cron/admin identity can request evaluation, but only the Communication
-    // brain owns the public social effector. Its fresh restored motor receipt
-    // must independently release this lane before Bluesky authentication.
+    // The subject domain first releases this exact artifact for this exact
+    // public route. Communication then independently owns channel safety and
+    // the public social effector. Neither domain can impersonate the other.
+    var domainRelease = await domainDistribution.decide(motorStore, post, Date.now());
+    if (!domainRelease || domainRelease.status !== 'RELEASED') {
+      preview.published = false;
+      preview.domainHeld = true;
+      preview.reason = domainRelease && domainRelease.reason || 'subject-domain-distribution-held';
+      return T.send(res, preview);
+    }
+    post.domainDecisionReceipt = domainRelease;
     var decision = await socialDecision.decide(motorStore, {
       subjectDomain: post.domain,
       text: post.text,
-      sourceIdentity: post.sourceIdentity
+      sourceIdentity: post.sourceIdentity,
+      sourceArtifactId: post.sourceArtifactId,
+      sourceIntentId: post.sourceIntentId,
+      sourcePacketId: post.sourcePacketId,
+      candidateHash: post.candidateHash,
+      selectedProgram: post.selectedProgram,
+      domainDecisionReceipt: domainRelease
     }, Date.now());
     if (!decision || decision.status !== 'RELEASED') {
       preview.published = false;
@@ -121,7 +137,10 @@ module.exports = async function handler(req, res) {
     }
     var r = await socialExecutor.execute({
       store: motorStore,
-      spec: { subjectDomain: post.domain, text: post.text, decisionReceipt: decision },
+      spec: { subjectDomain: post.domain, text: post.text, decisionReceipt: decision,
+        sourceArtifactId: post.sourceArtifactId, sourceIntentId: post.sourceIntentId,
+        sourcePacketId: post.sourcePacketId, candidateHash: post.candidateHash,
+        selectedProgram: post.selectedProgram, domainDecisionReceipt: domainRelease },
       now: Date.now()
     });
     if (!r || r.status === 'HELD') {

@@ -24,6 +24,7 @@ const productDomainMotorCapabilityOverlay = require('../lib/product-domain-motor
 const productDomainExternalValveOverlay = require('../lib/product-domain-external-valve-overlay.js');
 const productDomainLearningState = require('./product-domain-learning-state.js');
 const domainCommercialLanes = require('../lib/domain-commercial-lanes.js');
+const domainCommercialSocialLearning = require('../lib/domain-commercial-social-learning.js');
 const cronAuth = require('../lib/cron-auth.js');
 const cognitionProjection = require('../lib/brain-cognition-compact.js');
 const compactCognition = cognitionProjection.compact;
@@ -311,9 +312,11 @@ module.exports = async function handler(req, res) {
           var _rm = _st.resourceMetabolism || null;
           var _dl = _st.domainActionLearning || null;
           var _commercial = null;
+          var _commercialSocial = null;
           try {
             var _commercialLane = domainCommercialLanes.get(dom);
             _commercial = _commercialLane ? await efferenceStore.get(_commercialLane.contract.stateKey) : null;
+            _commercialSocial = _commercialLane ? await domainCommercialSocialLearning.readForBrain(efferenceStore, dom) : null;
           } catch (_) { _commercial = null; }
           c.brainOrgans = {
             plasticity: _pl ? {
@@ -344,6 +347,15 @@ module.exports = async function handler(req, res) {
               intentId: val(_commercial.intent && _commercial.intent.intentId),
               cadence: val(_commercial.intent && _commercial.intent.cadence),
               evaluatedAt: num(_commercial.evaluatedAt),
+              publicSocialOutcome: _commercialSocial ? {
+                status: val(_commercialSocial.status),
+                resolvedCount: num(_commercialSocial.resolvedCount),
+                learningGate: val(_commercialSocial.learningGate),
+                latestSignalId: val(_commercialSocial.signal && _commercialSocial.signal.signalId),
+                normalizedCredit: num(_commercialSocial.signal && _commercialSocial.signal.normalizedCredit),
+                engagementDelta: num(_commercialSocial.signal && _commercialSocial.signal.engagementDelta),
+                observedAt: num(_commercialSocial.signal && _commercialSocial.signal.observedAt)
+              } : null,
               externalEffectAuthorized: false
             } : {
               schemaVersion: 'domain-commercial-reflex/1.0',

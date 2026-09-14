@@ -7,6 +7,7 @@ var Store = require('../lib/autofire-efference-store.js');
 var Social = require('../lib/social-post.js');
 var Observer = require('../lib/communication-social-outcome-observer.js');
 var Learning = require('../lib/communication-social-learning.js');
+var DomainLearning = require('../lib/domain-commercial-social-learning.js');
 
 function createHandler(deps) {
   deps = deps || {};
@@ -33,7 +34,7 @@ function createHandler(deps) {
       });
       var result = await observer.observeRecent(store, posts, Date.now(), { fetch: deps.fetch || global.fetch });
       var commands = await store.lrange('communication_social_command_log', 0, 999);
-      var learned = 0, learningFailures = [];
+      var learned = 0, domainLearned = 0, learningFailures = [];
       for (var i = 0; i < result.results.length; i++) {
         var receipt = result.results[i] && result.results[i].receipt;
         if (!receipt || receipt.status !== 'OBSERVED') continue;
@@ -42,8 +43,14 @@ function createHandler(deps) {
         var learnedResult = await Learning.recordObservation(store, command, receipt);
         if (learnedResult && learnedResult.ok) { if (!learnedResult.duplicate) learned++; }
         else learningFailures.push({ observationId: receipt.observationId, reason: learnedResult && learnedResult.reason || 'communication-learning-failed' });
+        if (command.sourceArtifactId) {
+          var domainResult = await DomainLearning.recordObservation(store, command, receipt);
+          if (domainResult && domainResult.ok) { if (!domainResult.duplicate) domainLearned++; }
+          else learningFailures.push({ observationId: receipt.observationId, subjectDomain: command.subjectDomain,
+            reason: domainResult && domainResult.reason || 'subject-domain-learning-failed' });
+        }
       }
-      result.learning = { recorded: learned, failures: learningFailures };
+      result.learning = { communicationRecorded: learned, subjectDomainRecorded: domainLearned, failures: learningFailures };
       if (learningFailures.length) result.ok = false;
       result.reconciliation = reconciliation;
       res.statusCode = result.ok ? 200 : 207;

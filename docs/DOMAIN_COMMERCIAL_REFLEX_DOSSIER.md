@@ -32,10 +32,12 @@
 
 - Durable states: `ABSTAINED → PLANNED → ARTIFACT_PREPARED → AUTHORIZED →
   DISPATCHING → RECEIPTED → OBSERVED → LEARNED`; `QUARANTINED` is terminal.
-- Allowed transitions: only the deterministic driver advances a stored state.
-  This slice implements `ABSTAINED`, `PLANNED` and `ARTIFACT_PREPARED`.
-  Existing subscriber motors implement later edges, but each new domain remains
-  inhibited until its exact production capability and switches are proven.
+- Allowed transitions: only deterministic drivers advance stored state. Domain
+  preparation implements `ABSTAINED`, `PLANNED` and `ARTIFACT_PREPARED`.
+  Bluesky distribution now adds an artifact-specific subject-domain decision,
+  Communication channel decision, one-shot claim, provider receipt, independent
+  AppView observation and same-domain learning. Other effect lanes remain
+  inhibited until their exact production capability and switches are proven.
 - Terminal states: `LEARNED`, `QUARANTINED`, and an expired unexecuted intent.
 - Write-ahead decision record: `domain-commercial-intent/1.0`, keyed by domain,
   packet, evidence fingerprint and selected program before any rendering/effect.
@@ -52,6 +54,11 @@
 | --- | --- | --- | --- |
 | Queue | Immutable domain-local planned-state queue plus exact intent namespace | `domain_commercial:intent-queue:<domain>` and `domain_commercial:intent:<domain>:<id>` | Refuse on read-back failure; a newer abstention cannot erase queued work; acknowledge only after artifact read-back |
 | Worker | Source-linked signal-brief preparer | `domain-commercial-artifact` | No artifact on invalid/stale work order |
+| Public projection | Domain artifact to bounded teaser | `domain-commercial-social-candidate` | No hard-coded marketing fallback |
+| Subject authority | One artifact, one channel, one time window | `domain-commercial-distribution-decision` | Communication cannot self-author domain content |
+| Channel motor | Communication-owned Bluesky executor | Existing durable social motor | Domain cannot bypass channel safety |
+| External observer | Bluesky public AppView | Independent social outcome observer | Provider write receipt is not outcome |
+| Domain reafference | Subject-domain social learning | `domain-commercial-social-learning` | Outcome cannot cross domain identity |
 | Verifier | Artifact identity/truth-boundary validator | Strict read-back and content hash | Headline remains attributed topic lead only |
 | State store | Strict durable JSON/CAS-capable store | `autofire-efference-store` | No process-memory fallback |
 | Governance gate | Domain motor + runtime valve | Existing B10/B14 and civilization valves | External effect held |
@@ -62,7 +69,9 @@
 ## 5. Governance
 
 - Operator dial: existing global NUKE and per-lane external valves.
-- Contract ceiling: internal preparation only in this slice.
+- Contract ceiling: internal preparation for all programs; for Bluesky only, an
+  exact subject-domain artifact release and independent Communication release
+  may jointly authorize one reversible public post. No capital authority.
 - Scoped verifier trust: source identities are admitted as topic leads, never
   as verified full-text claims.
 - Reversibility rule: planning is reversible; publishing, email and financial
@@ -76,7 +85,8 @@
 ## 6. Operational controls
 
 - Idempotency: SHA-256 of domain + packet id + evidence fingerprint + program;
-  store-enforced `SET NX` and verified read-back.
+  store-enforced `SET NX` and verified read-back. Public distribution also has
+  a permanent artifact claim, so a new motor receipt cannot repost old content.
 - Budgets: zero model/provider/spend budget for reflex and artifact preparation;
   subscriber transport has its own per-domain send cap, unit cost and daily
   budget variables.
@@ -101,7 +111,8 @@
 - Bypass negative tests: direct mismatched cognition is refused and headline
   evidence is marked `topic-lead-only/fullTextVerified:false`.
 - Receipt verification: intent and state are read after write; every cycle
-  writes a bounded domain-scoped receipt.
+  writes a bounded domain-scoped receipt. Bluesky outcomes are read from public
+  AppView and recorded separately for Communication and the subject domain.
 - Claimed shape/level: `UNSCORED`. Prepared artifacts are now test-proven, but
   the complete harness cannot be scored until an external provider effect and
   independent consequence complete for each commissioned lane.
@@ -118,10 +129,24 @@ Finance and Religion retain custom implementations; the other eighteen have
 separate domain modules over common transport physiology. Production effect
 capabilities remain evidence-gated by domain.
 
+The public social slice is now:
+
+`domain stress + feed novelty → exact commercial artifact → subject-domain
+distribution release → Communication B10/B14 release → Bluesky receipt →
+public AppView observation → Communication learning + same-domain learning`.
+
+This is dual-key transport, not a Master Brain. The subject domain controls the
+content decision; Communication controls only its channel.
+
+Independent engagement re-enters the next subject-domain cognition packet as
+reafference. It may influence later format/distribution policy only after five
+resolved observations across at least two distinct artifacts; it can never be
+used as evidence that a source claim or investment thesis is true.
+
 ## Deliberately deferred
 
 - Full-text factual expansion and model-rendered long-form artifacts.
-- YouTube/Bluesky automation from these artifacts.
+- YouTube/video rendering and upload from these artifacts.
 - Production commissioning evidence for the newly instantiated subscriber lanes.
 - Checkout eligibility based on prepared fulfillment inventory.
 - Live investing and any capital movement.

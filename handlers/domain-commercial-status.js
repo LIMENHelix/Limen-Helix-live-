@@ -4,6 +4,7 @@
 var Gate = require('../lib/admin-gate.js');
 var Store = require('../lib/autofire-efference-store.js');
 var Lanes = require('../lib/domain-commercial-lanes.js');
+var SocialLearning = require('../lib/domain-commercial-social-learning.js');
 
 function query(req) {
   try { return new URL(req.url, 'http://local').searchParams; }
@@ -72,13 +73,15 @@ function createHandler(deps) {
         var selected = Lanes.get(domains[i]);
         var pair = await Promise.all([
           store.get(selected.contract.stateKey),
-          store.get(selected.contract.artifactStateKey)
+          store.get(selected.contract.artifactStateKey),
+          SocialLearning.readForBrain(store, domains[i])
         ]);
         var artifact = pair[1];
         var validArtifact = artifact && artifact.schemaVersion === 'domain-commercial-artifact/1.0' &&
           artifact.productDomain === selected.contract.productDomain && artifact.ownerDomain === selected.contract.ownerDomain &&
           artifact.status === 'ARTIFACT_PREPARED' && artifact.externalEffectAuthorized === false;
-        rows.push({ domain: domains[i], state: compact(pair[0]), artifact: validArtifact ? artifact : null });
+        rows.push({ domain: domains[i], state: compact(pair[0]), artifact: validArtifact ? artifact : null,
+          publicSocialOutcome: pair[2] });
       }
       res.statusCode = 200;
       return res.end(JSON.stringify({
