@@ -498,6 +498,32 @@ async function commission(store, lane, now) {
   assert.equal(concurrentState.processedObservationIds.includes(observationA.observationId), true);
   assert.equal(concurrentState.processedObservationIds.includes(observationB.observationId), true);
 
+  var dedupeStore = new Store(), retainedObservation = Object.assign({}, observationA, {
+    observationId: 'culture-retained-positive', actionId: 'culture-retained-action',
+    providerEmailId: 're-retained-positive', observedAt: now, followUpUntil: now + 7 * 24 * 60 * 60 * 1000,
+    followUpComplete: false, status: 'PENDING_OBSERVED', lastEvent: 'delivered'
+  });
+  var newObservation = Object.assign({}, observationA, {
+    observationId: 'culture-new-positive', actionId: 'culture-new-action',
+    providerEmailId: 're-new-positive', observedAt: now + 1, followUpUntil: now + 7 * 24 * 60 * 60 * 1000,
+    followUpComplete: false, status: 'PENDING_OBSERVED', lastEvent: 'opened'
+  });
+  var legacyIds = [retainedObservation.observationId];
+  for (var legacyIndex = 1; legacyIndex < 2000; legacyIndex++) legacyIds.push('legacy-observation-' + legacyIndex);
+  await dedupeStore.set(culture.learning.STATE_KEY, { schemaVersion: culture.config.schemas.learning,
+    domain: 'culture', productDomain: 'culture', lane: 'subscriber-email', resolvedCount: 2000,
+    signals: [], processedObservationIds: legacyIds, lastOutcomeAt: now - 1 });
+  await dedupeStore.set(culture.config.keys.learningCause(retainedObservation.actionId), { actionId: retainedObservation.actionId });
+  await dedupeStore.set(culture.config.keys.learningCause(newObservation.actionId), { actionId: newObservation.actionId });
+  await dedupeStore.set(culture.observer.key(retainedObservation.providerEmailId), retainedObservation);
+  await dedupeStore.set(culture.observer.key(newObservation.providerEmailId), newObservation);
+  var newLearned = await culture.learning.recordObservation(dedupeStore, newObservation);
+  assert.equal(newLearned.ok, true); assert.equal(newLearned.duplicate, false);
+  var retainedDuplicate = await culture.learning.recordObservation(dedupeStore, retainedObservation);
+  assert.equal(retainedDuplicate.ok, true); assert.equal(retainedDuplicate.duplicate, true,
+    'a positive observation must remain deduplicated throughout its seven-day follow-up window');
+  assert.equal((await dedupeStore.get(culture.learning.STATE_KEY)).resolvedCount, 2001);
+
   var medicine = Lanes.get('medicine'), medicineStore = new Store(), medicineSubscriber = subscriber('medicine');
   await putSubscriber(medicineStore, medicineSubscriber);
   var medCandidate = medicine.decision.candidate(medicineSubscriber, digest('medicine', 'no-provider-id'));
