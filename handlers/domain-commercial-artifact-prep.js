@@ -56,7 +56,10 @@ async function run(deps) {
       var state = await nextPlannedState(store, lane.contract, now);
       var result = Artifact.build(lane.contract, state, now);
       var persisted = await Artifact.persist(store, lane.contract, result);
-      if (persisted && persisted.status === 'ARTIFACT_PREPARED' && state && state.status === 'PLANNED') {
+      if (persisted && persisted.status === 'ARTIFACT_PREPARED' && state && state.status === 'PLANNED' &&
+          persisted.productDomain === lane.contract.productDomain && persisted.ownerDomain === lane.contract.ownerDomain &&
+          persisted.intentId === state.intent.intentId && Number.isFinite(Number(persisted.freshnessExpiresAt)) &&
+          Number(persisted.freshnessExpiresAt) > now) {
         // The newest successfully prepared plan supersedes older queued plans.
         // Preserve only work that arrived later while this preparation ran.
         // Otherwise an old backlog item can replace current customer inventory
