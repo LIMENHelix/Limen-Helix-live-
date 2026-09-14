@@ -140,6 +140,19 @@ function response() {
   assert.equal(first.homology.motorCortex, 'WRITE_AHEAD_INTENT');
   assert.equal(first.homology.reafference, 'AWAITING_INDEPENDENT_EXTERNAL_OUTCOME');
 
+  var outcomeCognition = cognition('finance', now, 'outcome');
+  outcomeCognition.c.brainOrgans.commercialReflex = {
+    publicSocialOutcome: { status: 'ELIGIBLE', resolvedCount: 5,
+      learningGate: { ready: true, distinctArtifacts: 2 }, normalizedCredit: 0.2,
+      engagementDelta: 0, latestSignalId: 'dcs_outcome_1', observedAt: now - 500 }
+  };
+  var withOutcome = finance.evaluate(outcomeCognition, null, now);
+  assert.equal(withOutcome.status, 'PLANNED');
+  assert.equal(withOutcome.intent.adaptationContext.policyChangeEligible, true);
+  assert.equal(withOutcome.intent.adaptationContext.publicSocialOutcome.latestSignalId, 'dcs_outcome_1');
+  assert.equal(withOutcome.homology.reafference.source, 'independent-public-appview');
+  assert.equal(withOutcome.homology.reafference.eligibleForPolicyChange, true);
+
   var store = memory();
   var restored = await finance.persist(store, first);
   assert.equal(restored.readbackVerified, true);

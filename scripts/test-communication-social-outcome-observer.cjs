@@ -14,7 +14,15 @@ Store.prototype.set = async function (key, value) { this.map.set(key, JSON.parse
 Store.prototype.setIfAbsent = async function (key, value) { if (this.map.has(key)) return false; return this.set(key, value); };
 Store.prototype.lpush = async function (key, value) { this.log.unshift({ key: key, value: JSON.parse(JSON.stringify(value)) }); return this.log.length; };
 Store.prototype.ltrim = async function () { return true; };
-Store.prototype.lrange = async function (key, start, stop) { return this.log.filter(function (row) { return row.key === key; }).slice(start, stop + 1).map(function (row) { return row.value; }); };
+Store.prototype.lrange = async function (key, start, stop) {
+  var rows = this.log.filter(function (row) { return row.key === key; });
+  return rows.slice(start, stop < 0 ? undefined : stop + 1).map(function (row) { return row.value; });
+};
+Store.prototype.lrem = async function (key, _count, value) {
+  var before = this.log.length;
+  this.log = this.log.filter(function (row) { return row.key !== key || JSON.stringify(row.value) !== JSON.stringify(value); });
+  return before - this.log.length;
+};
 
 var post = { uri: 'at://did:plc:test/app.bsky.feed.post/r1', cid: 'bafy-test' };
 function responsePost(count) {
@@ -88,6 +96,69 @@ function response() {
   assert.equal(accepted.statusCode, 200);
   assert.equal(accepted.json.observed, 1);
   assert.equal(handlerStore.log.length, 1);
+
+  var strictStore = new Store();
+  var strictCommand = Object.assign({}, learningCommand, {
+    schemaVersion: 'communication-social-command/1.0', status: 'POSTED',
+    receipt: { uri: post.uri, cid: post.cid, readbackVerified: true }
+  });
+  await strictStore.lpush('communication_social_command_log', strictCommand);
+  assert.equal((await Learning.recordCommand(strictStore, strictCommand)).ok, true);
+  var strictHandler = Handler.createHandler({
+    store: strictStore,
+    cronAuth: { enforce: function () { return true; } },
+    social: { recentPosts: async function () { return []; } },
+    observer: Observer,
+    fetch: responsePost(2)
+  });
+  var strictResponse = response();
+  await strictHandler({ method: 'GET', headers: {} }, strictResponse);
+  assert.equal(strictResponse.statusCode, 200);
+  assert.equal(strictResponse.json.observed, 1,
+    'durable POSTED command is observed even when the best-effort social log is empty');
+  assert.equal(Handler.mergePosts([strictCommand], { receipts: [] }, [], 20)[0].uri, post.uri);
+
+  var pendingOnlyStore = new Store();
+  var pendingOnlyCommand = Object.assign({}, strictCommand, { commandId: 'pending-only-posted-command' });
+  await pendingOnlyStore.set('communication_social_command:' + pendingOnlyCommand.commandId, pendingOnlyCommand);
+  await pendingOnlyStore.lpush('communication_social_pending_log', Object.assign({}, pendingOnlyCommand, {
+    status: 'DISPATCHING', receipt: null
+  }));
+  assert.equal((await Learning.recordCommand(pendingOnlyStore, pendingOnlyCommand)).ok, true);
+  var pendingOnlyHandler = Handler.createHandler({
+    store: pendingOnlyStore, cronAuth: { enforce: function () { return true; } },
+    social: { recentPosts: async function () { return []; } }, observer: Observer, fetch: responsePost(2)
+  });
+  var pendingOnlyResponse = response();
+  await pendingOnlyHandler({ method: 'GET', headers: {} }, pendingOnlyResponse);
+  assert.equal(pendingOnlyResponse.statusCode, 200);
+  assert.equal(pendingOnlyResponse.json.observed, 1,
+    'a POSTED command remains observable from its pre-dispatch pending index when final log append failed');
+  assert.equal(pendingOnlyResponse.json.learning.communicationRecorded, 1);
+
+  var replayStore = new Store();
+  var replayCommand = Object.assign({}, strictCommand, {
+    sourceArtifactId: 'finance-artifact-replay', sourceIntentId: 'finance-intent-replay',
+    sourcePacketId: 'finance-packet-replay', domainDecisionReceiptId: 'finance-release-replay'
+  });
+  await replayStore.lpush('communication_social_command_log', replayCommand);
+  await replayStore.lpush(Observer.LEARNING_PENDING_LOG_KEY,
+    Object.assign({}, first.receipt, { commandId: replayCommand.commandId }));
+  var domainAttempts = 0;
+  var replayHandler = Handler.createHandler({
+    store: replayStore, cronAuth: { enforce: function () { return true; } },
+    social: { recentPosts: async function () { return []; } }, observer: Object.assign({}, Observer, {
+      reconcilePending: async function () { return { receipts: [], commands: [] }; },
+      observeRecent: async function () { return { ok: true, results: [], observed: 0 }; }
+    }),
+    learning: { recordObservation: async function () { return { ok: true, duplicate: true }; } },
+    domainLearning: { recordObservation: async function () { domainAttempts++; return { ok: true }; } }
+  });
+  var replayResponse = response();
+  await replayHandler({ method: 'GET', headers: {} }, replayResponse);
+  assert.equal(replayResponse.statusCode, 200);
+  assert.equal(domainAttempts, 1,
+    'an observation receipt is replayed from the durable log when the prior domain-learning write did not land');
 
   console.log('communication social outcome observer: public AppView identity, strict receipt readback, ambiguous-command reconciliation, engagement deltas, and cron-only writes passed');
 })().catch(function (error) { console.error(error); process.exit(1); });
