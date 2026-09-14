@@ -9,7 +9,10 @@ var MotorCapability = require('../lib/product-domain-motor-capability.js');
 function clone(value) { return value == null ? value : JSON.parse(JSON.stringify(value)); }
 function Store() { this.values = new Map(); this.lists = new Map(); }
 Store.prototype.assertDurable = function () { return true; };
-Store.prototype.get = async function (key) { return this.values.has(key) ? clone(this.values.get(key)) : null; };
+Store.prototype.get = async function (key) {
+  if (this.failGetKeyOnce === key) { this.failGetKeyOnce = null; throw new Error('simulated durable read failure'); }
+  return this.values.has(key) ? clone(this.values.get(key)) : null;
+};
 Store.prototype.set = async function (key, value) {
   if (this.failDispatchClaimOnce && key.indexOf(':action:') >= 0 && value && value.status === 'DISPATCHING') {
     this.failDispatchClaimOnce = false; throw new Error('simulated dispatch claim persistence failure');
@@ -702,6 +705,27 @@ async function commission(store, lane, now) {
   assert.equal(notReady.status, 'HELD_PRE_SEND');
   assert.equal(notReady.providerCalls, 0, 'pre-provider configuration failure must remain retryable');
 
+  var readFailureStore = new Store(); await commission(readFailureStore, culture, now);
+  var readFailureSubscriber = Object.assign(subscriber('culture'), { email: 'culture-read-failure@example.test',
+    subscriptionId: 'sub_culture_read_failure', customerId: 'cus_culture_read_failure' });
+  await putSubscriber(readFailureStore, readFailureSubscriber);
+  var readFailureCandidate = culture.decision.candidate(readFailureSubscriber, digest('culture', 'read-failure'));
+  var readFailureDecision = await culture.decision.decide(readFailureStore, readFailureCandidate, now,
+    { cognition: cognition(culture, now) });
+  readFailureStore.failGetKeyOnce = 'subs:v1'; var readFailureCalls = 0;
+  var readFailureHeld = await culture.executor.execute({ store: readFailureStore,
+    specs: [{ candidate: readFailureCandidate, decision: readFailureDecision }], now: now,
+    maxSends: 1, emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailySendCap: 1,
+    authorizationDeps: { env: openEnv(culture), cognition: cognition(culture, now) },
+    adapterGuard: { checkpoint: async function () { return { allowed: true }; } },
+    transport: { send: async function () { readFailureCalls++; return { ok: true, id: 'must-not-send-read-failure' }; } }
+  });
+  assert.equal(readFailureHeld.status, 'HELD_PRE_SEND');
+  assert.equal(readFailureHeld.providerCalls, 0);
+  assert.equal(readFailureCalls, 0);
+  var readFailureClaim = await readFailureStore.get(culture.executor.actionKey(readFailureDecision.actionId));
+  if (readFailureClaim) assert.notEqual(readFailureClaim.status, 'DISPATCHING');
+
   var suppressedTaskStore = new Store(); await commission(suppressedTaskStore, fulfillmentLane, now);
   var suppressedTaskSubscriber = Object.assign(subscriber('education'), { email: 'education-suppressed@example.test',
     subscriptionId: 'sub_education_suppressed', customerId: 'cus_education_suppressed' });
@@ -727,6 +751,31 @@ async function commission(store, lane, now) {
   assert.equal(minimizedSuppressedTask.message, undefined);
   assert.equal(minimizedSuppressedTask.subscriber.email, undefined,
     'permanently suppressed tasks must not retain customer content in an endless retry queue');
+
+  var acceptedRaceStore = new Store(); await commission(acceptedRaceStore, fulfillmentLane, now);
+  var acceptedRaceSubscriber = Object.assign(subscriber('education'), { email: 'education-accepted-race@example.test',
+    subscriptionId: 'sub_education_accepted_race', customerId: 'cus_education_accepted_race' });
+  await putSubscriber(acceptedRaceStore, acceptedRaceSubscriber);
+  var acceptedRaceCandidate = fulfillmentLane.decision.candidate(acceptedRaceSubscriber,
+    digest('education', 'accepted-suppression-race'));
+  var acceptedRace = await fulfillmentLane.fulfillment.enqueueAndAttempt({
+    store: acceptedRaceStore, eventId: 'evt-education-accepted-race', kind: 'welcome',
+    subscriber: acceptedRaceSubscriber, message: digest('education', 'accepted-suppression-race'), now: now,
+    subscriptions: { getStrict: async function () { return acceptedRaceSubscriber; } },
+    decisionDeps: { cognition: cognition(fulfillmentLane, now) },
+    authorizationDeps: { env: openEnv(fulfillmentLane), cognition: cognition(fulfillmentLane, now) },
+    maxSends: 1, emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailySendCap: 1,
+    adapterGuard: { checkpoint: async function () { return { allowed: true }; } },
+    transport: { send: async function () {
+      await acceptedRaceStore.set(fulfillmentLane.executor.suppressionKey(acceptedRaceCandidate.emailHash), {
+        suppressed: true, reason: 'concurrent-older-message-complaint', at: now
+      });
+      return { ok: true, id: 're_education_accepted_race', providerCalled: true };
+    } }
+  });
+  assert.equal(acceptedRace.status, 'COMPLETED',
+    'an accepted irreversible send must remain completed if suppression arrives after dispatch');
+  assert.equal(acceptedRace.providerEmailId, 're_education_accepted_race');
 
   console.log('soft subscriber sovereignty: PASS (4 exact domain lanes, durable decisions and real capability proof required, cross-domain authority refused, terminal customer data minimized)');
 })().catch(function (error) { console.error(error); process.exit(1); });
