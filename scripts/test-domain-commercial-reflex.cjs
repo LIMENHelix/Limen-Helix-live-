@@ -124,6 +124,8 @@ function response() {
     assert.match(contract.stateKey, new RegExp(':' + domain + '$'));
     assert.match(contract.intentQueue, new RegExp(':' + domain + '$'));
     assert.match(contract.artifactStateKey, new RegExp(':' + domain + '$'));
+    assert.match(contract.videoManifestStateKey, new RegExp(':' + domain + '$'));
+    assert.match(contract.videoManifestLog, new RegExp(':' + domain + '$'));
   });
 
   var finance = Lanes.get('finance');

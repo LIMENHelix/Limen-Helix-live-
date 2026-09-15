@@ -28,9 +28,14 @@ assert.notEqual(regulationsIdentity, H._regulationsGovIdentity({
 }, today));
 assert.equal(H._regulationsGovIdentity({ data: [{}], meta: { totalElements: 1 } }, today), null);
 
+var noaaExpectedPeriod = H._noaaClimateAtAGlancePeriod(new Date());
+var noaaExpectedPeriodKey = noaaExpectedPeriod.year + '-' +
+  String(noaaExpectedPeriod.month).padStart(2, '0');
+var noaaData = { '2024': { departure: 0.61 }, '2025': { departure: 0.38 }, '2026': { departure: 0.61 } };
+noaaData[String(noaaExpectedPeriod.year)] = { departure: 0.61 };
 var noaa = {
   description: { title: 'Global July departures', units: 'Degrees Celsius', base_period: '1991-2020' },
-  data: { '2024': { departure: 0.61 }, '2025': { departure: 0.38 }, '2026': { departure: 0.61 } }
+  data: noaaData
 };
 assert.deepEqual(H._noaaClimateAtAGlancePeriod(new Date('2026-08-25T12:00:00Z')), { year: 2026, month: 7 });
 var noaaSelected = H._selectNOAAClimateAtAGlance(noaa, { year: 2026, month: 7 });
@@ -121,7 +126,13 @@ function response(body, headers) {
 
     var noaaReading = await H._fetchNOAAClimate();
     assert.equal(noaaReading.value, 0.61);
-    assert.match(noaaReading.sourceUpdatedAt, /^noaa-cag-global:v1\|period:2026-07\|/);
+    assert.equal(noaaReading.sourceUpdatedAt,
+      'noaa-cag-global:v1|period:' + noaaExpectedPeriodKey + '|base:1991-2020|departure-c:0.61');
+    assert.ok(urls.some(function (url) {
+      return url.indexOf('climate-at-a-glance/global/time-series/globe/land_ocean/1/' +
+        noaaExpectedPeriod.month + '/' + (noaaExpectedPeriod.year - 2) + '-' +
+        noaaExpectedPeriod.year + '.json') >= 0;
+    }), 'NOAA request targets the same current period the provenance reports');
 
     var patentReading = await H._fetchPatents();
     assert.equal(patentReading.value, 34);
