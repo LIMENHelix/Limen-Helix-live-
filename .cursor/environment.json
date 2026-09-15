@@ -1,0 +1,17 @@
+{
+  "name": "LIMEN Helix",
+  "install": "npm ci",
+  "chromeExecutablePath": "/usr/local/bin/google-chrome",
+  "terminals": [
+    {
+      "name": "dev-server",
+      "command": "node scripts/dev-server.js"
+    }
+  ],
+  "ports": [
+    {
+      "name": "web",
+      "port": 3000
+    }
+  ]
+}
