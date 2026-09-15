@@ -22,6 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Inter:wght@400;450;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/domain-front.css" />
+<link rel="stylesheet" href="/assets/css/homestead-desk.css" />
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Economy Watch · LIMEN Helix","description":"Track the forces moving jobs, prices, and growth, where you live and nationwide.","url":"https://limenhelix.com/economy","inLanguage":"en-US","isPartOf":{"@type":"WebSite","name":"LIMEN Helix","url":"https://limenhelix.com"},"primaryImageOfPage":{"@type":"ImageObject","contentUrl":"https://limenhelix.com/assets/img/economy.jpg"},"publisher":{"@type":"Organization","name":"LIMEN Helix Transformation Sciences","url":"https://limenhelix.com"},"about":{"@type":"Thing","name":"Economy"},"keywords":"Cost-of-living tracker, Local jobs & wages, Recession signal meter"}</script>
 </head>
 <body>
@@ -78,6 +79,7 @@ void main(){
         <button type="submit" id="capBtn">Watch this</button>
       </form>
       <div class="cap-note" id="capNote">Free. We email you when this domain moves. No spam, unsubscribe anytime.</div>
+      <p class="hs-hero-link" id="homesteadHeroLink"><a href="/economy/homestead">Homestead Desk · sell before auction</a><span> Free educational read. Not legal advice.</span></p>
     </div>
     <div class="photocred" id="photocred" style="display:none"></div>
   </div>
@@ -274,6 +276,46 @@ void main(){
       </div>
     </section>
 
+    <section id="homesteadDesk" class="hs-card" style="margin:18px 0">
+      <div class="hs-kicker">Homestead Desk</div>
+      <h2>Sell before auction</h2>
+      <p class="hs-plain">Free Homestead Read: ZIP or street to an educational stage clock. We do not invent auction dates. Not legal or financial advice.</p>
+      <div class="hs-grid">
+        <div>
+          <label for="hsQ">ZIP or street address</label>
+          <input id="hsQ" type="text" placeholder="64111 or 1200 Main St, Kansas City, MO" autocomplete="street-address">
+        </div>
+        <div>
+          <label for="hsNotice">What did you receive?</label>
+          <select id="hsNotice">
+            <option value="unsure">Not sure / just looking</option>
+            <option value="none">Nothing filed that I know of</option>
+            <option value="late">Late notices / collection calls</option>
+            <option value="nod">Notice of Default (or equivalent)</option>
+            <option value="sale">Sale / auction notice</option>
+            <option value="sold">I think it already sold</option>
+          </select>
+        </div>
+      </div>
+      <button class="hs-btn" id="hsGo" type="button">Read this place →</button>
+      <div id="hsOut"></div>
+      <p style="margin-top:14px"><a href="/economy/homestead">Open the full Homestead Desk →</a></p>
+      <div class="hs-card" id="deskWaitlist" style="margin:16px 0 0">
+        <h2>Watch this ZIP - free</h2>
+        <p class="hs-plain">Desk Alerts (~$19 / mo) are not live. We will not charge until we can send them. The $4 Economy Watch is live today.</p>
+        <label for="hsName">Name</label>
+        <input id="hsName" type="text" placeholder="your name" maxlength="200" autocomplete="name">
+        <div style="margin-top:10px"><label for="hsEmail">Email</label>
+        <input id="hsEmail" type="email" placeholder="you@email.com" maxlength="200" autocomplete="email"></div>
+        <label style="display:flex;gap:8px;align-items:flex-start;margin-top:10px;font-size:13px;text-transform:none;letter-spacing:0">
+          <input type="checkbox" id="hsConsent" checked style="width:auto;margin-top:3px"> I agree to be contacted about Homestead Desk.
+        </label>
+        <button class="hs-btn" id="hsWaitBtn" type="button">Watch this ZIP - free</button>
+        <div class="hs-waitstat" id="hsWaitStat"></div>
+      </div>
+      <div class="hs-disc">Educational information only. Not legal, financial, tax, or emergency advice. Confirm every date with the county. Crisis: 988 or 211.</div>
+    </section>
+
     <section id="checkoutSection">
       <div class="card" id="watchCheckout">
         <h2>Start this domain watch</h2>
@@ -317,5 +359,17 @@ void main(){
 </div>
 
 <script src="/assets/js/domain-front-app.js"></script>
+<script src="/assets/js/homestead-desk.js"></script>
+<script src="/assets/js/homestead-chat.js"></script>
+<script>
+(function () {
+  if (window.LIMEN_HOMESTEAD) {
+    window.LIMEN_HOMESTEAD.boot({
+      injectHero: false,
+      waitlist: { interest: 'homestead-desk-waitlist', sourcePage: '/economy' }
+    });
+  }
+})();
+</script>
 </body>
 </html>
