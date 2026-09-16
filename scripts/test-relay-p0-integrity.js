@@ -286,6 +286,45 @@ function firstTwoReadsGate(fake, key) {
   assert('the stale writer was answered the row as committed',
     rB && rB.fulfillment && rB.fulfillment.state === 'purchased');
 
+  console.log('S10b: equal-rank partial repairs merge line progress instead of erasing it');
+  const l10a = await store.createListing({ title: 'line A', price: 20 });
+  const l10b = await store.createListing({ title: 'line B', price: 20 });
+  const o10b = await store.createOrder({ lines: [
+    { listingId: l10a.id, qty: 1, unitPrice: 20 },
+    { listingId: l10b.id, qty: 1, unitPrice: 20 }
+  ] });
+  await store.updateOrder(o10b.id, { status: 'paid', fulfillment: { state: 'failed', lines: [
+    { listingId: l10a.id, state: 'failed' },
+    { listingId: l10b.id, state: 'failed' }
+  ] } });
+  firstTwoReadsGate(f8, ORDERS);
+  await Promise.all([
+    store.updateOrder(o10b.id, { fulfillment: { state: 'partial', lines: [
+      { listingId: l10a.id, state: 'purchased', sourceOrderId: 'cj_a' },
+      { listingId: l10b.id, state: 'failed' }
+    ] } }),
+    store.updateOrder(o10b.id, { fulfillment: { state: 'partial', lines: [
+      { listingId: l10a.id, state: 'failed' },
+      { listingId: l10b.id, state: 'purchased', sourceOrderId: 'cj_b' }
+    ] } })
+  ]);
+  const merged10b = await store.getOrder(o10b.id);
+  assert('both independently purchased lines survive',
+    merged10b.fulfillment.lines.every(function (line) { return line.state === 'purchased'; }),
+    JSON.stringify(merged10b.fulfillment));
+  assert('the fresh CAS view promotes the completed order',
+    merged10b.fulfillment.state === 'purchased' && merged10b.status === 'shipped',
+    JSON.stringify({ status: merged10b.status, fulfillment: merged10b.fulfillment.state }));
+
+  console.log('S10c: payment-review cannot be cleared by a stale paid writer');
+  const o10c = await store.createOrder({ lines: [{ listingId: l10a.id, qty: 1, unitPrice: 20 }] });
+  await store.updateOrder(o10c.id, { status: 'awaiting-payment' });
+  await store.updateOrder(o10c.id, { status: 'payment-review', reviewReason: 'duplicate charge' });
+  await store.updateOrder(o10c.id, { status: 'paid', stripeSessionId: 'stale_exact_result' });
+  const held10c = await store.getOrder(o10c.id);
+  assert('the safety hold dominates ordinary paid', held10c.status === 'payment-review', held10c.status);
+  assert('and its reason remains visible', held10c.reviewReason === 'duplicate charge', held10c.reviewReason);
+
   // ── S11: CJ readback normalization (mocked at fetch, like the CJ tests) ──
   console.log('S11: getOrderDetail binds exactly, or it is not a match');
   process.env.CJ_API_KEY = 'test-key-not-real';
@@ -454,6 +493,12 @@ function firstTwoReadsGate(fake, key) {
   assert('the reservation is still reserved', unkRow.state === 'reserved', unkRow.state);
   assert('and marked for reconciliation', !!unkRow.reconciliationPending &&
     unkRow.cjOrderNumber === 'ordU-lstU', JSON.stringify(unkRow.reconciliationPending));
+  const throughExecute = await buyX.execute({ orderId: 'ordU', listingId: 'lstU', sourceId: 'vU',
+    sourceMarketplace: 'cj', sourceUrl: 'https://www.cjdropshipping.com/product/-p-U.html',
+    maxCost: 20, quantity: 1, shippingAddress: ADDR, decisionId: 'd_unk' });
+  assert('the public execute wrapper preserves reconciliationPending',
+    throughExecute.ok === false && throughExecute.reconciliationPending === true && throughExecute.transient === true,
+    JSON.stringify(throughExecute));
 
   console.log('S16: definitive absence permits a fresh placement; failure then releases cleanly');
   useFake();
@@ -534,7 +579,7 @@ function firstTwoReadsGate(fake, key) {
     sourceUrl: 'https://www.cjdropshipping.com/product/-p-18.html', sourceCost: 20
   });
   const o18 = await store.createOrder({
-    lines: [{ listingId: l18.id, qty: 1, unitPrice: 40, sourceCost: 20 }]
+    lines: [{ listingId: l18.id, qty: 2, unitPrice: 40, sourceCost: 20 }]
   });
   await store.updateOrder(o18.id, { status: 'paid', paidAt: new Date().toISOString() });
   await store.updateOrder(o18.id, { fulfillment: { state: 'failed', lines: [
@@ -542,15 +587,17 @@ function firstTwoReadsGate(fake, key) {
   ] } });
   seedLedger([{
     id: 'd_rec', day: new Date().toISOString().slice(0, 10), ts: new Date().toISOString(),
-    state: 'reserved', amount: 20, marketplace: 'cj', orderId: o18.id, listingId: l18.id,
+    state: 'reserved', amount: 40, marketplace: 'cj', orderId: o18.id, listingId: l18.id,
     cjAttemptedAt: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
     cjOrderNumber: o18.id + '-' + l18.id
   }]);
+  let reconcileExpected = null;
   require.cache[cjPath].exports = Object.assign({}, realCjMod, {
     configured: function () { return true; },
-    getOrderDetail: async function (orderNumber) {
-      return { found: true, orderNumber: orderNumber, cjOrderId: 'CJ-REC', amountUsd: 20,
-        products: [{ vid: 'v18', quantity: 1 }] };
+    getOrderDetail: async function (orderNumber, expected) {
+      reconcileExpected = expected;
+      return { found: true, orderNumber: orderNumber, cjOrderId: 'CJ-REC', amountUsd: 40,
+        products: [{ vid: 'v18', quantity: 2 }] };
     }
   });
   delete require.cache[require.resolve('../lib/relay-engine')];
@@ -562,6 +609,9 @@ function firstTwoReadsGate(fake, key) {
   const recRow = ledgerRows().find(function (r) { return r.id === 'd_rec'; });
   assert('the row is settled with the provider identity',
     recRow.state === 'settled' && recRow.sourceOrderId === 'CJ-REC', JSON.stringify(recRow));
+  assert('background readback binds the real cart quantity',
+    reconcileExpected && reconcileExpected.vid === 'v18' && reconcileExpected.quantity === 2,
+    JSON.stringify(reconcileExpected));
   const repaired = await store.getOrder(o18.id);
   assert('the order line is repaired to purchased',
     repaired.fulfillment.lines[0].state === 'purchased' &&
@@ -617,6 +667,96 @@ function firstTwoReadsGate(fake, key) {
   assert('nothing settles and nothing releases',
     pass4.results.length === 1 && pass4.results[0].held === true, JSON.stringify(pass4));
   assert('the reservation is still held', ledgerRows()[0].state === 'reserved', ledgerRows()[0].state);
+
+  console.log('S20b: a failed ledger settlement cannot repair or ship the order');
+  useFake();
+  await setConfig();
+  const l20b = await store.createListing({ title: 'settlement fence', price: 40,
+    sourceMarketplace: 'cj', sourceId: 'v20b', sourceUrl: 'https://www.cjdropshipping.com/product/-p-20b.html', sourceCost: 20 });
+  const o20b = await store.createOrder({ lines: [{ listingId: l20b.id, qty: 1, unitPrice: 40, sourceCost: 20 }] });
+  await store.updateOrder(o20b.id, { status: 'paid', fulfillment: { state: 'failed', lines: [
+    { listingId: l20b.id, state: 'failed', reconciliationPending: true }
+  ] } });
+  seedLedger([{ id: 'd20b', day: new Date().toISOString().slice(0, 10), ts: new Date().toISOString(),
+    state: 'reserved', amount: 20, marketplace: 'cj', orderId: o20b.id, listingId: l20b.id,
+    cjAttemptedAt: new Date(Date.now() - 60 * 60 * 1000).toISOString(), cjOrderNumber: o20b.id + '-' + l20b.id }]);
+  require.cache[cjPath].exports.getOrderDetail = async function (orderNumber) {
+    return { found: true, orderNumber: orderNumber, cjOrderId: 'CJ-20B', amountUsd: 20 };
+  };
+  const realSettle = autonomy.settle;
+  autonomy.settle = async function () { return { ok: false, error: 'forced settlement failure' }; };
+  const settleFence = await eng20.reconcileCjAttempts();
+  autonomy.settle = realSettle;
+  const unchanged20b = await store.getOrder(o20b.id);
+  assert('the reconciliation reports settlement failure',
+    settleFence.results[0] && settleFence.results[0].settlementFailed === true, JSON.stringify(settleFence));
+  assert('the line is not falsely repaired', unchanged20b.fulfillment.lines[0].state === 'failed',
+    JSON.stringify(unchanged20b.fulfillment));
+  assert('and the order is not marked shipped', unchanged20b.status === 'paid', unchanged20b.status);
+
+  console.log('S20c: off mode still reconciles a provider order without placing one');
+  useFake();
+  await setConfig({ mode: 'off' });
+  const l20c = await store.createListing({ title: 'off reconcile', price: 40,
+    sourceMarketplace: 'cj', sourceId: 'v20c', sourceUrl: 'https://www.cjdropshipping.com/product/-p-20c.html', sourceCost: 20 });
+  const o20c = await store.createOrder({ lines: [{ listingId: l20c.id, qty: 1, unitPrice: 40, sourceCost: 20 }] });
+  await store.updateOrder(o20c.id, { status: 'paid', fulfillment: { state: 'failed', lines: [
+    { listingId: l20c.id, state: 'failed', reconciliationPending: true }
+  ] } });
+  seedLedger([{ id: 'd20c', day: new Date().toISOString().slice(0, 10), ts: new Date().toISOString(),
+    state: 'reserved', amount: 20, marketplace: 'cj', orderId: o20c.id, listingId: l20c.id,
+    cjAttemptedAt: new Date(Date.now() - 60 * 60 * 1000).toISOString(), cjOrderNumber: o20c.id + '-' + l20c.id }]);
+  let offPlaceCalls = 0;
+  require.cache[cjPath].exports.getOrderDetail = async function (orderNumber) {
+    return { found: true, orderNumber: orderNumber, cjOrderId: 'CJ-OFF', amountUsd: 20 };
+  };
+  require.cache[cjPath].exports.placeOrder = async function () { offPlaceCalls++; return { ok: true }; };
+  const offCycle = await eng20.runCycle();
+  const offOrder = await store.getOrder(o20c.id);
+  assert('the cycle remains inhibited for new work', offCycle.skipped === true && offCycle.mode === 'off', JSON.stringify(offCycle));
+  assert('but the old ambiguous purchase is reconciled',
+    offCycle.cjAttemptsReconciled.length === 1 && ledgerRows()[0].state === 'settled' && offOrder.status === 'shipped',
+    JSON.stringify({ cycle: offCycle.cjAttemptsReconciled, ledger: ledgerRows()[0], status: offOrder.status }));
+  assert('and reconciliation made no new supplier order', offPlaceCalls === 0, String(offPlaceCalls));
+
+  console.log('S20d: definitive absence clears a partial line for a safe retry');
+  useFake();
+  await setConfig();
+  const l20d1 = await store.createListing({ title: 'already bought', price: 40,
+    sourceMarketplace: 'cj', sourceId: 'v20d1', sourceUrl: 'https://www.cjdropshipping.com/product/-p-20d1.html', sourceCost: 20 });
+  const l20d2 = await store.createListing({ title: 'absent retry', price: 40,
+    sourceMarketplace: 'cj', sourceId: 'v20d2', sourceUrl: 'https://www.cjdropshipping.com/product/-p-20d2.html', sourceCost: 20 });
+  const o20d = await store.createOrder({ shippingAddress: ADDR, lines: [
+    { listingId: l20d1.id, qty: 1, unitPrice: 40, sourceCost: 20 },
+    { listingId: l20d2.id, qty: 1, unitPrice: 40, sourceCost: 20 }
+  ] });
+  await store.updateOrder(o20d.id, { status: 'paid', fulfillment: { state: 'partial', lines: [
+    { listingId: l20d1.id, ok: true, state: 'purchased', sourceOrderId: 'CJ-DONE', margin: 20 },
+    { listingId: l20d2.id, ok: false, state: 'failed', reconciliationPending: true, decisionId: 'd20d' }
+  ] } });
+  seedLedger([{ id: 'd20d', day: new Date().toISOString().slice(0, 10), ts: new Date().toISOString(),
+    state: 'reserved', amount: 20, marketplace: 'cj', orderId: o20d.id, listingId: l20d2.id,
+    cjAttemptedAt: new Date(Date.now() - 60 * 60 * 1000).toISOString(), cjOrderNumber: o20d.id + '-' + l20d2.id }]);
+  require.cache[cjPath].exports.getOrderDetail = async function (orderNumber) {
+    return { found: false, orderNumber: orderNumber };
+  };
+  const absent20d = await eng20.reconcileCjAttempts();
+  const retryable20d = await store.getOrder(o20d.id);
+  const retryLine20d = retryable20d.fulfillment.lines.find(function (line) { return line.listingId === l20d2.id; });
+  assert('the absent reservation is released only after order repair',
+    absent20d.results[0].released === true && ledgerRows()[0].state === 'released', JSON.stringify(absent20d));
+  assert('the failed line no longer claims an unknown provider outcome',
+    retryLine20d.state === 'failed' && retryLine20d.reconciliationPending === false, JSON.stringify(retryLine20d));
+
+  console.log('S20e: an unreadable ledger is reported as a failed reconciliation scan');
+  strict._setClient({
+    get: async function () { throw new Error('redis unavailable'); },
+    eval: async function () { throw new Error('redis unavailable'); }
+  });
+  const unreadable20e = await eng20.reconcileCjAttempts();
+  assert('the scan does not masquerade as an empty success',
+    unreadable20e.ok === false && /unreadable|unavailable/.test(String(unreadable20e.error)),
+    JSON.stringify(unreadable20e));
 
   // restore the real seams
   require.cache[cjPath] = { id: cjPath, filename: cjPath, loaded: true, exports: realCjMod };
