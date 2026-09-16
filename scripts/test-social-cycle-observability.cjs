@@ -35,4 +35,11 @@ var failed = SocialCron.emitOutcome('execution', 'FAILED', {
 assert.equal(failed.ok, false);
 assert.equal(failed.rows[0].reason, 'noncanonical-value-redacted');
 
+var ambiguous = SocialCron.emitOutcome('execution', 'DISPATCHING', {
+  reason: 'provider-outcome-ambiguous'
+}, { domain: 'law', selectedProgram: 'PUBLIC_ARTICLE' }, function () {});
+assert.deepEqual(ambiguous.statuses, { DISPATCHING: 1 });
+assert.equal(ambiguous.rows[0].domain, 'law');
+assert.equal(ambiguous.rows[0].selectedProgram, 'PUBLIC_ARTICLE');
+
 console.log('social cycle observability: release, hold, and failure reasons are visible without content or secrets');

@@ -179,7 +179,7 @@ module.exports = async function handler(req, res) {
       preview.reason = r.reason;
       preview.rateLimited = !!r.rateLimited;
       preview.blocked = !!r.blocked;
-      return sendObserved(res, preview, undefined, 'execution', 'FAILED', post);
+      return sendObserved(res, preview, undefined, 'execution', r.status || 'FAILED', post);
     }
 
     try { await db.set(LAST_KEY, { domain: post.domain, at: new Date().toISOString(), uri: r.uri }); } catch (e) {}
@@ -192,7 +192,7 @@ module.exports = async function handler(req, res) {
     return sendObserved(res, preview, undefined, 'execution', 'PUBLISHED', post);
   } catch (e) {
     return sendObserved(res, { ok: false, reason: e.message || 'handler error' }, 500,
-      'execution', 'FAILED', null);
+      'execution', 'FAILED', post || null);
   }
 };
 
