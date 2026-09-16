@@ -4002,3 +4002,54 @@ domain's cadence and artifact cap, then let the existing subject-domain and
 Communication gates decide and observe a real release. Public-social outcome
 records for all twenty domains still had zero resolved observations at this
 checkpoint; they must not be treated as learned commercial success.
+
+### Governor bot retirement and Hugging Face cost lane — 2026-09-16
+
+A fresh code audit found no fleet of twenty live Grok governors inside LIMEN.
+The production domain console loads one generic, domain-bound Governor surface
+and sends it to one `/api/domain-agent` route. That route rebuilds the request
+from the selected domain's current server packet before inference. Nineteen old
+copy-pasted browser files were unreachable, called nineteen nonexistent API
+routes, and carried no production authority. The bespoke Energy-only agent
+handler was also unreachable after the generic surface replaced it. Those dead
+copies and the Energy-only route are retired; a regression test now requires
+one generic Governor surface for all twenty sovereign brains.
+
+This does not merge the brains. The inference provider is a stateless language
+faculty. Domain identity, P0–P10 state, mutable cognition, economics, decision,
+authority, command, receipt, outcome, and recovery remain owned by the selected
+domain. The model cannot score its own domain, open a valve, move money, publish,
+or deploy. External Grok bots are therefore unnecessary as domain controllers.
+Separate xAI image, voice, retrieval, and critique adapters remain distinct
+motor/tool lanes and were not removed by this cleanup.
+
+The generic faculty now supports either Anthropic or Hugging Face through an
+explicit provider adapter. Hugging Face calls use the same server grounding,
+global/runtime spend inhibition, dollar reservation, per-domain daily cap,
+bounded output, strict JSON response request, and secret-safe response surface.
+There is no silent provider fallback and no hard-coded Hugging Face model; model
+choice is a commissioning decision that must pass the domain-governor evaluation
+set before activation.
+
+The connected Hugging Face organization currently contains one private dataset,
+`LIMEN-Helix/venture-evals`, with one synthetic seed record. It contains no
+deployed model, Space, endpoint, or operating Governor. The installed local token
+can read that dataset but has no global `Inference Providers` permission, so no
+live Hugging Face inference was called or represented as proven. Commissioning
+requires a replacement fine-grained token with that permission plus explicit
+`DOMAIN_AGENT_PROVIDER=hf`, `DOMAIN_AGENT_HF_MODEL`, and `HF_TOKEN` deployment
+configuration. Optional `DOMAIN_AGENT_HF_BILL_TO=LIMEN-Helix` attributes usage to
+the organization when its billing and token scope support that path.
+
+The Android/robot concept remains admissible only as a later peripheral motor
+and independent observer: microphone, speaker, display, presence, notification,
+provider readback, and physical outcome telemetry. It is not a brain host and
+does not replace the twenty internal domain loops. Digital source-to-product-to-
+sale-to-outcome loops must earn and reconcile first; then one to three devices
+can be commissioned before any twenty-device fleet.
+
+This tranche removes dead control surfaces and opens a cheaper inference option;
+it does not itself prove income or external autonomy. The dependency remains
+fresh, source-grounded, domain-owned sellable inventory followed by one observed
+release, purchase, fulfillment, receipt, and outcome returning to the same
+Governor.
