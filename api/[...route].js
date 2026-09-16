@@ -23,7 +23,7 @@ const CivilizationValveRegistry = require('../lib/civilization-valve-registry');
 
 // Bumped each migration commit so a deploy is probeable: any unknown /api/* path
 // returns this in the miss JSON (curl /api/__probe__ | grep the tag).
-const BUILD = 'phase-10-domain-video-render-bridge';
+const BUILD = 'phase-10-domain-video-private-upload-bridge';
 
 // name → handler module. Static requires so the tracer bundles them.
 const HANDLERS = {
@@ -91,6 +91,7 @@ const HANDLERS = {
   'domain-video-manifest-prep': require('../handlers/domain-video-manifest-prep'),
   'communication-video-cycle': require('../handlers/communication-video-cycle'),
   'communication-video-work': require('../handlers/communication-video-work'),
+  'communication-video-upload-work': require('../handlers/communication-video-upload-work'),
   'domain-commercial-status': require('../handlers/domain-commercial-status'),
   'domain-subscriber-fulfillment': require('../handlers/domain-subscriber-fulfillment'),
   'domain-subscriber-outcome-observer': require('../handlers/domain-subscriber-outcome-observer'),
