@@ -13,6 +13,8 @@ Routes:
   POST /api/limen/score    validated three-path distress alert for a CIK
 """
 
+import contextlib
+import io
 import os
 import sys
 from pathlib import Path
@@ -266,11 +268,18 @@ def score(req: ScoreRequest):
         "debt_long_quarters":    len(dl),
     }
 
-    # FRED delta — best-effort (proceed with empty dict if unreachable)
+    # FRED delta — best-effort (proceed with empty dict if unreachable).
+    # The locked kernel's HTTPError text includes response.url, and FRED puts
+    # the API key in that query string. Keep the validated kernel byte-identical
+    # while preventing its diagnostic print from copying credentials into the
+    # serverless log stream.
     try:
-        fred_delta = lbt.fetch_fred()
+        with contextlib.redirect_stdout(io.StringIO()):
+            fred_delta = lbt.fetch_fred()
     except Exception:
         fred_delta = {}
+    if not fred_delta:
+        print("FRED fetch unavailable; request details withheld")
 
     # Run validated pipeline: features → phases → trajectory → composite
     df = lbt.compute_all_features(data, fred_delta)
