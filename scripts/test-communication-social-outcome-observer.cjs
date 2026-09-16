@@ -26,7 +26,14 @@ Store.prototype.lrem = async function (key, _count, value) {
 
 var post = { uri: 'at://did:plc:test/app.bsky.feed.post/r1', cid: 'bafy-test' };
 function responsePost(count) {
-  return async function () {
+  return async function (url) {
+    if (String(url).includes('app.bsky.feed.getAuthorFeed')) {
+      return { status: 200, json: async function () { return { feed: [{ post: {
+        uri: post.uri, cid: post.cid, replyCount: 1, repostCount: 2, likeCount: count, quoteCount: 4,
+        indexedAt: '2026-08-25T02:01:30.470Z',
+        record: { text: 'public post text', createdAt: '2026-08-25T02:01:00.000Z' }
+      } }] }; } };
+    }
     return { status: 200, json: async function () { return { posts: [{ uri: post.uri, cid: post.cid, replyCount: 1, repostCount: 2, likeCount: count, quoteCount: 4, indexedAt: '2026-08-25T02:01:30.470Z' }] }; } };
   };
 }
@@ -85,6 +92,7 @@ function response() {
     cronAuth: { enforce: function (req, res) { if (req.headers.authorization === 'Bearer cron') return true; res.statusCode = 401; res.end('{}'); return false; } },
     social: { recentPosts: async function () { return [post]; } },
     observer: Observer,
+    handle: 'limenhelix.bsky.social',
     fetch: responsePost(1)
   });
   var denied = response();
@@ -95,7 +103,29 @@ function response() {
   await handler({ method: 'GET', headers: { authorization: 'Bearer cron' } }, accepted);
   assert.equal(accepted.statusCode, 200);
   assert.equal(accepted.json.observed, 1);
-  assert.equal(handlerStore.log.length, 1);
+  assert.equal((await handlerStore.lrange(Observer.LOG_KEY, 0, -1)).length, 1);
+  assert.equal(accepted.json.externalObservations.observed, 1);
+  assert.equal(accepted.json.externalObservations.eligibleForLearning, false);
+
+  var externalStore = new Store();
+  var knownCommand = { receipt: { uri: post.uri, cid: post.cid } };
+  var externalPost = { uri: 'at://did:plc:test/app.bsky.feed.post/external', cid: 'external-cid',
+    replyCount: 0, repostCount: 1, likeCount: 2, quoteCount: 0,
+    record: { text: 'posted outside the LIMEN motor', createdAt: '2026-09-15T16:55:53.000Z' } };
+  var external = await Observer.observeExternalFeed(externalStore, 'limenhelix.bsky.social', [knownCommand], 5000, {
+    fetch: async function () { return { status: 200, json: async function () {
+      return { feed: [{ post: Object.assign({}, post, { record: { text: 'known', createdAt: '2026-08-25T02:01:00.000Z' } }) },
+        { post: externalPost }] };
+    } }; }
+  });
+  assert.equal(external.inspected, 2);
+  assert.equal(external.observedExternal, 1);
+  assert.equal(external.receipts[0].status, 'OBSERVED_EXTERNAL');
+  assert.equal(external.receipts[0].attribution, 'UNJOINED');
+  assert.equal(external.receipts[0].eligibleForExecutionProof, false);
+  assert.equal(external.receipts[0].eligibleForLearning, false);
+  assert.equal(external.receipts[0].text, undefined);
+  assert.equal((await externalStore.lrange(Observer.LEARNING_PENDING_LOG_KEY, 0, -1)).length, 0);
 
   var strictStore = new Store();
   var strictCommand = Object.assign({}, learningCommand, {
