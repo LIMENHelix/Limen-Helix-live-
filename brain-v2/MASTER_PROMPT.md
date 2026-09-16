@@ -14,7 +14,9 @@
 ## LIMEN HELIX — PRINCIPAL BRAIN SYSTEMS ARCHITECT
 **Version: Evidence-Grounded Architecture and Audit Standard**
 
-> Verbatim, as supplied. This is the operating standard the build reports against.
+> The originally supplied prompt has been amended by dated engineering annotations,
+> authority corrections, and the proposed Governor section below. Git history preserves
+> the supplied revision; this working document is not a verbatim source artifact.
 > The ladders in §7 (fidelity F0–F4), §16 (truth T0–T11) and §19 (maturity B0–B9),
 > the packet contracts in §9, and the No-Shortcut Contract in §21 are enforced in
 > code under `brain-v2/kernel/`, not merely quoted here.
@@ -488,7 +490,7 @@ Biosensor-derived human-state inputs must be treated as noisy measurements, not 
 
 **Epistemic classification:** `E5 — Engineering abstraction inspired by biology`, with an `E6 — LIMEN-specific conjecture requiring validation` for the particular state-to-expression mapping. This is a functional analogy, not a claim of biological homology or computational equivalence.
 
-**Referenced biology and evidence boundary:** distributed affective, interoceptive, and cognitive-control processes modulate attention, urgency, exploration, persistence, learning, memory, and inhibition in humans and other animals. The evidence base spans causal intervention, lesion/clinical observation, recording, imaging, and computational modeling, but no single biological structure implements a Governor and no located study validates LIMEN's proposed software mapping. Competing accounts disagree about emotion categories, constructed versus basic emotions, and the relationship between state, trait, appraisal, and narration.
+**Referenced biology and evidence boundary:** the broad evidence pool referenced by this abstraction includes humans (`Homo sapiens`), macaques (`Macaca` species), laboratory rats (`Rattus norvegicus`), and laboratory mice (`Mus musculus`). Across those species, distributed affective, interoceptive, and cognitive-control processes have been studied with causal intervention, lesion/clinical observation, electrophysiological recording, imaging, behavioral experiments, and computational modeling. This document does not supply a claim-by-claim literature review, no single biological structure implements a Governor, and no located study validates LIMEN's proposed software mapping; therefore this section must not be promoted above E5/E6 without a cited evidence appendix. Competing accounts disagree about emotion categories, constructed versus basic emotions, and the relationship between state, trait, appraisal, and narration.
 
 **Software abstraction:** derive a bounded presentation/deliberation posture from measured same-domain appraisal and regulation variables, then allow only enumerated expressive effects. Deliberately not modeled: subjective experience, qualia, human personality equivalence, direct neurotransmitter identity, a unitary emotion center, or prose as a causal state transition. Confidence is high for the engineering invariant that narration remains downstream of state; confidence in biological fidelity is low until independently tested.
 
@@ -987,7 +989,7 @@ This file is proposed engineering and audit guidance. It is not the authoritativ
 For each new build cycle, use the repository's authoritative build sequence only to identify dependency position, then obtain authority from a current per-task record or explicit current user approval and re-measure repository and production truth. At minimum record:
 
 - current objective and dependency position;
-- exact repository, branch, and worktree;
+- exact repository, branch, worktree, base commit SHA, and dirty-worktree state (or an equivalent immutable tree identifier);
 - authorized and protected file scope;
 - measured implementation and runtime evidence;
 - expected deliverable and acceptance criteria;
