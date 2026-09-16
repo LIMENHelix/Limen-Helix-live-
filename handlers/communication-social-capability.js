@@ -2,6 +2,7 @@
 
 var Store = require('../lib/autofire-efference-store.js');
 var Verifier = require('../lib/communication-social-capability-verifier.js');
+var CycleObservability = require('../lib/autonomy-cycle-observability.js');
 
 function tokenOf(req) {
   var headers = req.headers || {};
@@ -33,6 +34,12 @@ function createHandler(deps) {
       result.authMode = cron ? 'cron-one-shot-write' : 'operator-read';
       result.commissioningOnly = true;
       result.liveMoney = false;
+      if (cron) CycleObservability.emit('communication-social-capability', {
+        ok: result.ok === true,
+        evaluatedAt: Date.now(),
+        rows: [{ productDomain: 'communication', stage: 'capability-commissioning',
+          status: result.status, reason: result.reason || null }]
+      }, deps.cycleLogger);
       return send(res, 200, result);
     } catch (error) {
       return send(res, 503, {
