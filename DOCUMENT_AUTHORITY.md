@@ -1,7 +1,7 @@
 ---
 authority: MEASURED_SNAPSHOT
 measured_at: 2026-09-16
-measured_at_commit: 47915ef168f8628adeb60b6662af681e43dc44e0
+measured_at_commit: 7c35f93cc1ca245cba197d9f659a8d45133dafc4
 scope: authority class and provenance for every consequential tracked Markdown file
 inventory: 123 tracked .md (47 root, 33 docs/, 9 brain-v2/, 25 .claude/, 9 remainder)
 recorded_by: engineering agent (Codex)
