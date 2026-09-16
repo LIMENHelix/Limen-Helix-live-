@@ -28,5 +28,8 @@ var line = null;
 Observability.emit('communication-video-cycle', result, function (value) { line = value; });
 assert.match(line, /^\[autonomy-cycle\] /);
 assert.doesNotMatch(line, /must-not-appear|api_key|provider\.invalid/);
+assert.doesNotThrow(function () {
+  Observability.emit('communication-video-cycle', result, function () { throw new Error('log drain unavailable'); });
+}, 'telemetry failure must not inhibit the autonomy cycle');
 
 console.log('autonomy cycle observability: per-domain gates visible without secret-bearing values');
