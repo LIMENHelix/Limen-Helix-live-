@@ -239,6 +239,25 @@ function brain(domain, now, packetDomain) {
   assert.equal(Candidate.render(contract, wrongLatest, olderArtifact, now).reason,
     'artifact-no-longer-matches-latest-domain-plan');
 
+  var rateHeldArtifact = JSON.parse(JSON.stringify(artifact));
+  rateHeldArtifact.evidenceFingerprint = 'rate-held-evidence';
+  for (var continuityReason of ['commercial-cadence-inhibited', 'commercial-daily-artifact-cap-reached']) {
+    var rateHeldState = JSON.parse(JSON.stringify(state));
+    rateHeldState.status = 'ABSTAINED'; rateHeldState.reason = continuityReason;
+    rateHeldState.intent = null; rateHeldState.evidenceFingerprint = rateHeldArtifact.evidenceFingerprint;
+    rateHeldState.pendingEvidenceFingerprint = 'newer-input-preserved-for-next-plan';
+    rateHeldState.lastPlannedIntentId = rateHeldArtifact.intentId;
+    assert.equal(Candidate.render(contract, rateHeldState, rateHeldArtifact, now).ok, true,
+      continuityReason + ' regulates new production without erasing fresh inventory');
+  }
+  var safetyHeldState = JSON.parse(JSON.stringify(state));
+  safetyHeldState.status = 'ABSTAINED'; safetyHeldState.reason = 'owning-domain-human-review-veto';
+  safetyHeldState.intent = null; safetyHeldState.evidenceFingerprint = rateHeldArtifact.evidenceFingerprint;
+  safetyHeldState.lastPlannedIntentId = rateHeldArtifact.intentId;
+  assert.equal(Candidate.render(contract, safetyHeldState, rateHeldArtifact, now).reason,
+    'artifact-no-longer-matches-latest-domain-plan',
+    'a safety abstention cannot inherit distribution eligibility from an older plan');
+
   for (var alias of [
     { product: 'science', owner: 'research' },
     { product: 'medicine', owner: 'health' },
