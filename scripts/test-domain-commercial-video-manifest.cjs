@@ -204,6 +204,9 @@ function response() { return { statusCode: 0, headers: {}, setHeader: function (
   var cycle = await Handler.run({ store: allStore, now: now });
   assert.equal(cycle.ok, true); assert.equal(cycle.domains, 20); assert.equal(cycle.prepared, 1);
   assert.equal(cycle.abstained, 19); assert.equal(cycle.failed, 0);
+  assert.equal(cycle.rows[0].selectedProgram, 'SHORT_VIDEO');
+  assert.equal(cycle.rows[1].selectedProgram, 'PUBLIC_ARTICLE',
+    'an inhibited manifest still reports the source artifact program without exposing content');
   assert.equal(cycle.boundaries.modelCalled, false); assert.equal(cycle.boundaries.uploaderCalled, false);
 
   var handler = Handler.createHandler({ store: allStore, now: now,
