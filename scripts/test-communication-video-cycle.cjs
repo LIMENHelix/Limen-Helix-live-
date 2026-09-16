@@ -9,7 +9,9 @@ var Release = require('../lib/domain-commercial-video-release.js');
 var Command = require('../lib/communication-video-command.js');
 var Cycle = require('../handlers/communication-video-cycle.js');
 var Bridge = require('../lib/communication-video-render-bridge.js');
+var Upload = require('../lib/communication-video-upload-bridge.js');
 var WorkHandler = require('../handlers/communication-video-work.js');
+var UploadHandler = require('../handlers/communication-video-upload-work.js');
 
 function Store() { this.values = Object.create(null); this.lists = Object.create(null); }
 Store.prototype.assertDurable = function () { return true; };
@@ -230,6 +232,181 @@ function renderBody(commandId, leaseToken, extra) {
   }, now + 1001)).duplicate, true, 'receipt retry is idempotent');
   assert.equal((await store.lrange(Bridge.RECEIPT_LOG, 0, -1)).length, 1,
     'render receipt provenance is indexed exactly once');
+  assert.equal((await store.lrange(Bridge.UPLOAD_PENDING_LOG, 0, -1)).length, 1,
+    'verified local render enters the separate upload motor queue');
+
+  var uploadHeld = await Upload.claim(store, 'thinkpad-media', now + 1002,
+    { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '0' });
+  assert.equal(uploadHeld.status, 'HELD');
+  assert.equal(uploadHeld.externalEffectAuthorized, false);
+  var guard = { checkpoint: async function (_store, valveId, effect) {
+    assert.equal(valveId, 'communication:youtube');
+    assert.equal(effect, 'youtube-private-video-upload');
+    return { allowed: true, valveId: valveId, effect: effect, receiptId: 'valve-open' };
+  } };
+  var upload = await Upload.claim(store, 'thinkpad-media', now + 1003,
+    { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' }, { adapterGuard: guard, cognition: cognition });
+  assert.equal(upload.status, 'WORK_AVAILABLE');
+  assert.equal(upload.scope.uploadToYouTube, true);
+  assert.equal(upload.scope.privacyStatus, 'private');
+  assert.equal(upload.scope.publishPublicly, false);
+  assert.equal(upload.scope.providerPreflightRequired, true);
+  assert.equal(upload.externalEffectAuthorized, false,
+    'a queue claim is not provider-call authority');
+  assert.equal(upload.fileSha256, 'b'.repeat(64));
+  assert.equal((await Upload.claim(store, 'second-worker', now + 1004,
+    { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' }, { adapterGuard: guard, cognition: cognition })).status, 'NO_WORK');
+  var preflight = await Upload.preflight(store, 'thinkpad-media', {
+    commandId: command.commandId, leaseToken: upload.leaseToken
+  }, now + 1005, { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' },
+  { adapterGuard: guard, cognition: cognition });
+  assert.equal(preflight.status, 'PROVIDER_CALL_AUTHORIZED');
+  assert.equal(preflight.privacyStatus, 'private');
+  var recoveredPreflight = await Upload.preflight(store, 'thinkpad-media', {
+    commandId: command.commandId, leaseToken: upload.leaseToken
+  }, now + 1006, { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' },
+  { adapterGuard: guard, cognition: cognition });
+  assert.equal(recoveredPreflight.providerPermitToken, preflight.providerPermitToken,
+    'an armed command recovers the exact permit after a lost preflight response');
+  assert.equal(recoveredPreflight.authorizationId, preflight.authorizationId);
+  var receiptBody = {
+    commandId: command.commandId, leaseToken: upload.leaseToken,
+    authorizationId: preflight.authorizationId, providerPermitToken: preflight.providerPermitToken,
+    fileSha256: upload.fileSha256, videoId: 'ytVideo_123',
+    privacyStatus: 'private', title: upload.metadata.title,
+    description: upload.metadata.description, tags: [], categoryId: '27', uploadStatus: 'uploaded',
+    readbackVerified: true, quotaUnitsCharged: 1601,
+    uploadedAt: now + 1500, providerCalled: true, spendUsd: 0
+  };
+  var wrongUpload = await Upload.complete(store, 'thinkpad-media',
+    Object.assign({}, receiptBody, { title: 'Uploader rewrote the title' }), now + 1500);
+  assert.equal(wrongUpload.status, 'REFUSED', 'uploader cannot rewrite domain-selected metadata');
+  assert.equal(await store.get(Upload.receiptKey(command.commandId)), null);
+  var failedProvider = await Upload.complete(store, 'thinkpad-media',
+    Object.assign({}, receiptBody, { uploadStatus: 'failed' }), now + 1500);
+  assert.equal(failedProvider.status, 'REFUSED',
+    'a failed provider status cannot be recorded as an uploaded video');
+  var uploaded = await Upload.complete(store, 'thinkpad-media', receiptBody, now + 1501);
+  assert.equal(uploaded.status, 'UPLOADED_PRIVATE');
+  assert.equal(uploaded.publiclyVisible, false);
+  assert.equal(uploaded.independentOutcomeObserved, false);
+  assert.equal((await store.lrange(Bridge.UPLOAD_PENDING_LOG, 0, -1)).length, 0,
+    'terminal provider receipt removes the exact upload queue item');
+  assert.equal((await store.lrange(Upload.RECEIPT_LOG, 0, -1)).length, 1);
+  assert.equal((await Upload.complete(store, 'thinkpad-media',
+    { commandId: command.commandId }, now + 1502)).duplicate, true,
+    'provider receipt retry is idempotent');
+  assert.equal((await Bridge.complete(store, 'thinkpad-media', {
+    commandId: command.commandId, leaseToken: work.leaseToken
+  }, now + 1503)).duplicate, true, 'late render receipt retry is idempotent after upload');
+  assert.equal((await store.get(Command.key(command.commandId))).status, 'UPLOADED_PRIVATE',
+    'late render retry cannot downgrade an uploaded command');
+  assert.equal((await store.lrange(Bridge.UPLOAD_PENDING_LOG, 0, -1)).length, 0,
+    'late render retry cannot recreate the upload queue entry');
+
+  var terminal = await store.get(Command.key(command.commandId));
+  var durableReceipt = await store.get(Upload.receiptKey(command.commandId));
+  var armedBeforeTerminal = Object.assign({}, terminal, {
+    status: 'PROVIDER_CALL_AUTHORIZED', uploadLease: null,
+    platformReceiptId: null, platformReceipt: null, completedPrivateUploadAt: null
+  });
+  await store.set(Command.key(command.commandId), armedBeforeTerminal);
+  await store.lpush(Bridge.UPLOAD_PENDING_LOG, Bridge.uploadPendingItem(armedBeforeTerminal, armedBeforeTerminal.renderReceipt));
+  var repairedTerminal = await Upload.complete(store, 'thinkpad-media',
+    { commandId: command.commandId }, now + 1504);
+  assert.equal(repairedTerminal.duplicate, true);
+  assert.equal((await store.get(Command.key(command.commandId))).status, 'UPLOADED_PRIVATE',
+    'a durable provider receipt repairs a crash before terminal transition');
+  assert.equal((await store.lrange(Bridge.UPLOAD_PENDING_LOG, 0, -1)).length, 0,
+    'durable provider receipt recovery removes the stale exact queue item');
+  assert.equal((await store.get(Upload.receiptKey(command.commandId))).receiptId, durableReceipt.receiptId);
+
+  var justInTime = await setupCommand(now);
+  var justRender = await Bridge.claim(justInTime.store, 'thinkpad-media', now + 10);
+  await Bridge.complete(justInTime.store, 'thinkpad-media',
+    renderBody(justInTime.command.commandId, justRender.leaseToken), now + 20);
+  var justClaim = await Upload.claim(justInTime.store, 'thinkpad-media', now + 30,
+    { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' }, { cognition: justInTime.cognition });
+  var vetoCognition = clone(justInTime.cognition);
+  vetoCognition.communication.c.immune.immuneState = 'alert';
+  var vetoedPreflight = await Upload.preflight(justInTime.store, 'thinkpad-media', {
+    commandId: justInTime.command.commandId, leaseToken: justClaim.leaseToken
+  }, now + 40, { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' },
+  { adapterGuard: guard, cognition: vetoCognition });
+  assert.equal(vetoedPreflight.reason, 'upload-preflight-current-authority-held',
+    'current dual-brain vetoes are reread after claim and immediately before provider authorization');
+  var closedGuard = { checkpoint: async function () { throw new Error('runtime-valve-closed'); } };
+  await assert.rejects(Upload.preflight(justInTime.store, 'thinkpad-media', {
+    commandId: justInTime.command.commandId, leaseToken: justClaim.leaseToken
+  }, now + 41, { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' },
+  { adapterGuard: closedGuard, cognition: justInTime.cognition }), /runtime-valve-closed/);
+  assert.equal(await justInTime.store.get(Upload.authKey(justInTime.command.commandId)), null,
+    'a preflight valve hold persists no provider authorization');
+  var reopenedPreflight = await Upload.preflight(justInTime.store, 'thinkpad-media', {
+    commandId: justInTime.command.commandId, leaseToken: justClaim.leaseToken
+  }, now + 42, { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' },
+  { adapterGuard: guard, cognition: justInTime.cognition });
+  assert.equal(reopenedPreflight.status, 'PROVIDER_CALL_AUTHORIZED',
+    'a never-dispatched valve hold does not permanently suppress a later valid preflight');
+
+  var writeFailure = await setupCommand(now);
+  var writeRender = await Bridge.claim(writeFailure.store, 'thinkpad-media', now + 10);
+  await Bridge.complete(writeFailure.store, 'thinkpad-media',
+    renderBody(writeFailure.command.commandId, writeRender.leaseToken), now + 20);
+  var writeClaim = await Upload.claim(writeFailure.store, 'thinkpad-media', now + 30,
+    { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' }, { cognition: writeFailure.cognition });
+  var normalSetIfAbsent = writeFailure.store.setIfAbsent.bind(writeFailure.store);
+  writeFailure.store.setIfAbsent = async function (key, value) {
+    if (key === Upload.authKey(writeFailure.command.commandId)) throw new Error('authorization-store-down');
+    return normalSetIfAbsent(key, value);
+  };
+  await assert.rejects(Upload.preflight(writeFailure.store, 'thinkpad-media', {
+    commandId: writeFailure.command.commandId, leaseToken: writeClaim.leaseToken
+  }, now + 40, { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' },
+  { adapterGuard: guard, cognition: writeFailure.cognition }), /authorization-store-down/);
+  assert.equal((await writeFailure.store.get(Command.key(writeFailure.command.commandId))).status,
+    'DISPATCHING_PRIVATE_UPLOAD', 'authorization persistence failure must not strand an armed command');
+  writeFailure.store.setIfAbsent = normalSetIfAbsent;
+  assert.equal((await Upload.preflight(writeFailure.store, 'thinkpad-media', {
+    commandId: writeFailure.command.commandId, leaseToken: writeClaim.leaseToken
+  }, now + 41, { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' },
+  { adapterGuard: guard, cognition: writeFailure.cognition })).status, 'PROVIDER_CALL_AUTHORIZED');
+
+  var expiredPermit = await setupCommand(now);
+  var expiredRender = await Bridge.claim(expiredPermit.store, 'thinkpad-media', now + 10);
+  await Bridge.complete(expiredPermit.store, 'thinkpad-media',
+    renderBody(expiredPermit.command.commandId, expiredRender.leaseToken), now + 20);
+  var expiredClaim = await Upload.claim(expiredPermit.store, 'thinkpad-media', now + 30,
+    { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' }, { cognition: expiredPermit.cognition });
+  var expiredPreflight = await Upload.preflight(expiredPermit.store, 'thinkpad-media', {
+    commandId: expiredPermit.command.commandId, leaseToken: expiredClaim.leaseToken
+  }, now + 40, { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' },
+  { adapterGuard: guard, cognition: expiredPermit.cognition });
+  var lateReceipt = Object.assign({}, receiptBody, {
+    commandId: expiredPermit.command.commandId, leaseToken: expiredClaim.leaseToken,
+    authorizationId: expiredPreflight.authorizationId,
+    providerPermitToken: expiredPreflight.providerPermitToken,
+    uploadedAt: expiredPreflight.expiresAt
+  });
+  assert.equal((await Upload.complete(expiredPermit.store, 'thinkpad-media', lateReceipt,
+    expiredPreflight.expiresAt)).reason, 'youtube-platform-receipt-invalid',
+  'a receipt received outside the complete provider permit interval must be rejected');
+  assert.equal(await expiredPermit.store.get(Upload.receiptKey(expiredPermit.command.commandId)), null);
+
+  var staleUnarmed = await setupCommand(now);
+  var staleRender = await Bridge.claim(staleUnarmed.store, 'thinkpad-media', now + 10);
+  await Bridge.complete(staleUnarmed.store, 'thinkpad-media',
+    renderBody(staleUnarmed.command.commandId, staleRender.leaseToken), now + 20);
+  var staleClaim = await Upload.claim(staleUnarmed.store, 'thinkpad-media', now + 30,
+    { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' }, { cognition: staleUnarmed.cognition });
+  var reclaimed = await Upload.claim(staleUnarmed.store, 'thinkpad-media',
+    Number(staleClaim.leaseExpiresAt) + 1, { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' },
+    { cognition: staleUnarmed.cognition });
+  assert.equal(reclaimed.status, 'WORK_AVAILABLE');
+  assert.notEqual(reclaimed.leaseToken, staleClaim.leaseToken,
+    'an expired claim with no provider permit is safely recoverable');
+  assert.equal((await staleUnarmed.store.get(Command.key(staleUnarmed.command.commandId))).externalEffectAuthorized,
+    false, 'unarmed lease recovery cannot grant provider authority');
 
   var subjectVeto = brain('finance', 'finance', now); subjectVeto.c.immune.immuneState = 'alert';
   assert.equal((await Release.releaseSubject(store, 'finance', now,
@@ -256,6 +433,33 @@ function renderBody(commandId, leaseToken, extra) {
     'x-limen-media-worker': 'secret', 'x-limen-worker-id': 'thinkpad-media'
   } }, noWork);
   assert.equal(noWork.statusCode, 200); assert.equal(JSON.parse(noWork.body).status, 'NO_WORK');
+  var uploadHandler = UploadHandler.createHandler({ store: store, now: now + 1600,
+    env: { MEDIA_WORKER_TOKEN: 'secret', COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' },
+    adapterGuard: guard });
+  var uploadDenied = response();
+  await uploadHandler({ method: 'GET', headers: { 'x-limen-worker-id': 'thinkpad-media' } }, uploadDenied);
+  assert.equal(uploadDenied.statusCode, 401);
+  var failureHandler = UploadHandler.createHandler({ store: store, now: now + 1600,
+    env: { MEDIA_WORKER_TOKEN: 'secret', COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' },
+    bridge: {
+      claim: async function () { throw new Error('claim-failure'); },
+      complete: async function () { throw new Error('receipt-persistence-failure'); }
+    }
+  });
+  var claimFailure = response();
+  await failureHandler({ method: 'GET', headers: {
+    'x-limen-media-worker': 'secret', 'x-limen-worker-id': 'thinkpad-media'
+  } }, claimFailure);
+  assert.equal(JSON.parse(claimFailure.body).providerCalled, false,
+    'failed work claim truthfully proves no provider call was issued');
+  var receiptFailure = response();
+  await failureHandler({ method: 'POST', headers: {
+    'x-limen-media-worker': 'secret', 'x-limen-worker-id': 'thinkpad-media'
+  }, body: { commandId: command.commandId } }, receiptFailure);
+  var unresolved = JSON.parse(receiptFailure.body);
+  assert.equal(unresolved.providerCalled, null,
+    'a failed receipt return cannot erase an already-issued provider call');
+  assert.equal(unresolved.providerCallStatus, 'UNKNOWN_RECEIPT_RECONCILIATION_REQUIRED');
 
   // Blocker 3: completion revalidates exact authority; a lease cannot outlive it.
   var expiry = await setupCommand(now);

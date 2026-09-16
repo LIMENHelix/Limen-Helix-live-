@@ -17,7 +17,7 @@ function store() {
 }
 
 (async function () {
-  assert.equal(Registry.LINES.length, 39, 'each external lane has its own line; all twenty domains have separate subscriber valves');
+  assert.equal(Registry.LINES.length, 40, 'each external lane has its own line; all twenty domains have separate subscriber valves');
   assert.equal(new Set(Registry.LINES.map(x => x.id)).size, Registry.LINES.length, 'valve identities are unique');
   assert.equal(Registry.get('finance:subscriber-email').ownerDomain, 'finance');
   assert.equal(Registry.forCandidate({ recommendedLane: 'research', domain: 'science' }), 'science:research-papers');
