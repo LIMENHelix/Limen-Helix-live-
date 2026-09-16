@@ -4117,3 +4117,27 @@ ambiguous-response inhibition, valve denial, and operator-read versus cron-write
 authorization. Production deployment, live commissioning evidence, a real
 source-selected post, independent outcome observation, and same-domain learning
 remain unproven at this checkpoint and must be observed in that order.
+
+### Commercial artifact freshness metabolism — 2026-09-16
+
+The first production manifest after Communication commissioning deployed found
+eleven otherwise usable domain artifacts expired while their owning reflexes
+were still correctly inhibiting new content under cadence or daily production
+caps. Raising those caps would erase the metabolic control; leaving the
+artifacts expired would starve every distribution motor.
+
+Artifact preparation can now renew only the distribution envelope of the exact
+last accepted artifact when the current domain state is one of the three
+non-safety continuity abstentions, domain/owner/evidence/intent identities still
+match, the immutable source plan is at most 48 hours old, and the original
+freshness window is valid. Renewal copies the prior customer bytes, source
+ledger, program, stress, offer, and content hash exactly; it creates no new
+commercial plan and does not bypass the content-production cap. Human-review,
+feed, cognition, metabolism, identity, and every other safety abstention remain
+ineligible. No provider, model, spend, or external effect is involved.
+
+Focused tests prove deterministic renewal, byte/content-hash continuity,
+one-time promotion of the new freshness generation, no per-cycle churn,
+identity mismatch rejection, safety-veto rejection, and the 48-hour evidence
+ceiling. Production regeneration and downstream distribution are not claimed
+until observed.

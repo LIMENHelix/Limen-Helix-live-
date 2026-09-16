@@ -70,7 +70,16 @@ async function run(deps) {
     var lane = Lanes.get(Lanes.DOMAINS[i]);
     try {
       var state = await nextPlannedState(store, lane.contract, now);
-      var result = Artifact.build(lane.contract, state, now);
+      var result;
+      if (state) {
+        result = Artifact.build(lane.contract, state, now);
+      } else {
+        var renewalInputs = await Promise.all([
+          store.get(lane.contract.stateKey),
+          store.get(lane.contract.artifactStateKey)
+        ]);
+        result = Artifact.renew(lane.contract, renewalInputs[0], renewalInputs[1], now);
+      }
       var persisted = await Artifact.persist(store, lane.contract, result);
       if (persisted && persisted.status === 'ARTIFACT_PREPARED' && state && state.status === 'PLANNED' &&
           persisted.productDomain === lane.contract.productDomain && persisted.ownerDomain === lane.contract.ownerDomain &&
