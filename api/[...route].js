@@ -362,6 +362,15 @@ const PREPARATION_POST_ROUTES = new Set([
   'trade-auction-cycle'
 ]);
 
+// This mixed worker route owns two POST phases. Provider preflight performs
+// its own just-in-time communication:youtube checkpoint after re-reading both
+// brains; receipt completion only records/reconciles an effect that may already
+// have happened. Keeping POST outside the coarse route valve lets a durable
+// receipt close an ambiguous provider outcome even when the upload valve closes.
+const INTERNALLY_GATED_OR_RECOVERY_POST_ROUTES = new Set([
+  'communication-video-upload-work'
+]);
+
 function runtimeValveHold(name, req) {
   const valveId = CivilizationValveRegistry.forRoute(name);
   if (!valveId) return null;
@@ -370,6 +379,7 @@ function runtimeValveHold(name, req) {
   // the outward effect. Keep preparation available while the efferent valve is
   // closed. Every other method/route combination remains inhibited.
   if (method === 'POST' && PREPARATION_POST_ROUTES.has(name)) return null;
+  if (method === 'POST' && INTERNALLY_GATED_OR_RECOVERY_POST_ROUTES.has(name)) return null;
   return CivilizationValve.authorize(valveId).then(function (result) {
     return result.allowed ? null : result;
   });

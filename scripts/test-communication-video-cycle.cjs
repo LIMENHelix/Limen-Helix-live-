@@ -262,6 +262,13 @@ function renderBody(commandId, leaseToken, extra) {
   { adapterGuard: guard, cognition: cognition });
   assert.equal(preflight.status, 'PROVIDER_CALL_AUTHORIZED');
   assert.equal(preflight.privacyStatus, 'private');
+  var recoveredPreflight = await Upload.preflight(store, 'thinkpad-media', {
+    commandId: command.commandId, leaseToken: upload.leaseToken
+  }, now + 1006, { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' },
+  { adapterGuard: guard, cognition: cognition });
+  assert.equal(recoveredPreflight.providerPermitToken, preflight.providerPermitToken,
+    'an armed command recovers the exact permit after a lost preflight response');
+  assert.equal(recoveredPreflight.authorizationId, preflight.authorizationId);
   var receiptBody = {
     commandId: command.commandId, leaseToken: upload.leaseToken,
     authorizationId: preflight.authorizationId, providerPermitToken: preflight.providerPermitToken,
@@ -341,6 +348,50 @@ function renderBody(commandId, leaseToken, extra) {
   { adapterGuard: guard, cognition: justInTime.cognition });
   assert.equal(reopenedPreflight.status, 'PROVIDER_CALL_AUTHORIZED',
     'a never-dispatched valve hold does not permanently suppress a later valid preflight');
+
+  var writeFailure = await setupCommand(now);
+  var writeRender = await Bridge.claim(writeFailure.store, 'thinkpad-media', now + 10);
+  await Bridge.complete(writeFailure.store, 'thinkpad-media',
+    renderBody(writeFailure.command.commandId, writeRender.leaseToken), now + 20);
+  var writeClaim = await Upload.claim(writeFailure.store, 'thinkpad-media', now + 30,
+    { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' }, { cognition: writeFailure.cognition });
+  var normalSetIfAbsent = writeFailure.store.setIfAbsent.bind(writeFailure.store);
+  writeFailure.store.setIfAbsent = async function (key, value) {
+    if (key === Upload.authKey(writeFailure.command.commandId)) throw new Error('authorization-store-down');
+    return normalSetIfAbsent(key, value);
+  };
+  await assert.rejects(Upload.preflight(writeFailure.store, 'thinkpad-media', {
+    commandId: writeFailure.command.commandId, leaseToken: writeClaim.leaseToken
+  }, now + 40, { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' },
+  { adapterGuard: guard, cognition: writeFailure.cognition }), /authorization-store-down/);
+  assert.equal((await writeFailure.store.get(Command.key(writeFailure.command.commandId))).status,
+    'DISPATCHING_PRIVATE_UPLOAD', 'authorization persistence failure must not strand an armed command');
+  writeFailure.store.setIfAbsent = normalSetIfAbsent;
+  assert.equal((await Upload.preflight(writeFailure.store, 'thinkpad-media', {
+    commandId: writeFailure.command.commandId, leaseToken: writeClaim.leaseToken
+  }, now + 41, { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' },
+  { adapterGuard: guard, cognition: writeFailure.cognition })).status, 'PROVIDER_CALL_AUTHORIZED');
+
+  var expiredPermit = await setupCommand(now);
+  var expiredRender = await Bridge.claim(expiredPermit.store, 'thinkpad-media', now + 10);
+  await Bridge.complete(expiredPermit.store, 'thinkpad-media',
+    renderBody(expiredPermit.command.commandId, expiredRender.leaseToken), now + 20);
+  var expiredClaim = await Upload.claim(expiredPermit.store, 'thinkpad-media', now + 30,
+    { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' }, { cognition: expiredPermit.cognition });
+  var expiredPreflight = await Upload.preflight(expiredPermit.store, 'thinkpad-media', {
+    commandId: expiredPermit.command.commandId, leaseToken: expiredClaim.leaseToken
+  }, now + 40, { COMMUNICATION_VIDEO_UPLOAD_ENABLED: '1' },
+  { adapterGuard: guard, cognition: expiredPermit.cognition });
+  var lateReceipt = Object.assign({}, receiptBody, {
+    commandId: expiredPermit.command.commandId, leaseToken: expiredClaim.leaseToken,
+    authorizationId: expiredPreflight.authorizationId,
+    providerPermitToken: expiredPreflight.providerPermitToken,
+    uploadedAt: expiredPreflight.expiresAt
+  });
+  assert.equal((await Upload.complete(expiredPermit.store, 'thinkpad-media', lateReceipt,
+    expiredPreflight.expiresAt)).reason, 'youtube-platform-receipt-invalid',
+  'a receipt received outside the complete provider permit interval must be rejected');
+  assert.equal(await expiredPermit.store.get(Upload.receiptKey(expiredPermit.command.commandId)), null);
 
   var staleUnarmed = await setupCommand(now);
   var staleRender = await Bridge.claim(staleUnarmed.store, 'thinkpad-media', now + 10);
