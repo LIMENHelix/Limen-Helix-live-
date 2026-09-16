@@ -91,11 +91,21 @@
   function _compactCognition(cog) {
     if (!cog || typeof cog !== 'object') return null;
     var m = cog.model || {}, im = cog.immune || {}, aw = cog.awareness || {}, co = cog.conscience || {}, it = cog.intuition || {};
+    var reg = (m.regulation && typeof m.regulation === 'object') ? m.regulation : {};
+    var pe = (m.predictionError && typeof m.predictionError === 'object') ? m.predictionError.total : m.predictionError;
     return {
       domain: cog.domain || null,
-      model: { cycle: _num(m.cycle), predictionError: _num(m.predictionError), predictedStress: _num(m.predictedStress), regulation: _val((m.regulation && typeof m.regulation === 'object') ? m.regulation.state : m.regulation) },
+      model: {
+        cycle: _num(m.cycle), predictionError: _num(pe), predictedStress: _num(m.predictedStress),
+        regulation: _val((m.regulation && typeof m.regulation === 'object') ? m.regulation.state : m.regulation),
+        regulationControl: {
+          gain: _num(reg.gain), inhibition: _num(reg.inhibition), outputScale: _num(reg.outputScale),
+          starving: reg.starving === true, flooding: reg.flooding === true, looping: reg.looping === true,
+          stale: reg.stale === true, overconfident: reg.overconfident === true, surprised: reg.surprised === true
+        }
+      },
       immune: { immuneState: _val(im.immuneState), severity: _num(im.severity), antigenCount: _arr(im.antigens).length, quarantines: _val(im.quarantines), blockedFromTraversal: _val(im.blockedFromTraversal) },
-      awareness: { selfNarrative: _val(aw.selfNarrative), humanReviewRequired: !!aw.humanReviewRequired },
+      awareness: { selfState: _val(aw.selfState), selfNarrative: _val(aw.selfNarrative), humanReviewRequired: Array.isArray(aw.humanReviewRequired) ? aw.humanReviewRequired.length > 0 : aw.humanReviewRequired === true, knownCount: _arr(aw.knowns).length, uncertaintyCount: _arr(aw.uncertainties || aw.unknowns).length },
       conscience: { conscienceState: _val(co.conscienceState), artifactReadinessDecision: _val(co.artifactReadinessDecision), blockedClaims: _arr(co.blockedClaims).slice(0, 4) },
       intuition: { hunches: _arr(it.hunches).slice(0, 3) }
     };
@@ -108,7 +118,7 @@
     // so lightweight consumers (vitals, the master console fallback) see them without loading
     // 20 live brains. Additive; older readers ignore the new fields.
     var it = (state.interoception && typeof state.interoception === 'object') ? state.interoception : (cog && cog.interoception) || null;
-    c.interoception = it ? { salience: _val(it.salience), attend: _val(it.attend), divergence: _num(it.divergence), channelCount: _num(it.channelCount), integrated: _num(it.integrated) } : null;
+    c.interoception = it ? { salience: _val(it.salience), attend: _val(it.attend), divergence: _num(it.divergence), uncertainty: _num(it.uncertainty), channelCount: _num(it.channelCount), integrated: _num(it.integrated) } : null;
     c.stress = _num(state.stress);
     c.phase = _val(state.phaseLabel || state.phase);
     // (1) localStorage — instant, same-device, offline
