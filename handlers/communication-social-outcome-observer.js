@@ -73,6 +73,16 @@ function createHandler(deps) {
       // absent even when the durable command receipt exists.
       var commands = mergeCommands(await store.lrange('communication_social_command_log', 0, 99),
         reconciliation.commands);
+      // Public posts created by another uploader are real effects, but they are
+      // not LIMEN motor proof. Observe and quarantine their identity so the
+      // system can see them without inventing a command receipt or learning
+      // credit for an action it did not execute.
+      var publicHandle = deps.handle || process.env.BLUESKY_HANDLE;
+      var external = publicHandle
+        ? await observer.observeExternalFeed(store, publicHandle,
+          commands, Date.now(), { fetch: deps.fetch || global.fetch })
+        : { ok: true, inspected: 0, observedExternal: 0, newlyObservedExternal: 0,
+          reason: 'public-handle-unavailable' };
       var posts = mergePosts(commands, reconciliation, await social.recentPosts(20), 20);
       var result = await observer.observeRecent(store, posts, Date.now(), { fetch: deps.fetch || global.fetch });
       // Unlearned observations live on an unbounded work queue, not in a rolling
@@ -109,6 +119,11 @@ function createHandler(deps) {
       result.learning = { communicationRecorded: learned, subjectDomainRecorded: domainLearned, failures: learningFailures };
       if (learningFailures.length) result.ok = false;
       result.reconciliation = reconciliation;
+      result.externalObservations = {
+        status: 'OBSERVED_EXTERNAL', inspected: external.inspected,
+        observed: external.observedExternal, newlyObserved: external.newlyObservedExternal,
+        eligibleForExecutionProof: false, eligibleForLearning: false
+      };
       res.statusCode = result.ok ? 200 : 207;
       return res.end(JSON.stringify(result));
     } catch (error) {
