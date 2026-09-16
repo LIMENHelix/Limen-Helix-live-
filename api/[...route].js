@@ -89,6 +89,7 @@ const HANDLERS = {
   'domain-commercial-reflex': require('../handlers/domain-commercial-reflex'),
   'domain-commercial-artifact-prep': require('../handlers/domain-commercial-artifact-prep'),
   'domain-video-manifest-prep': require('../handlers/domain-video-manifest-prep'),
+  'communication-social-capability': require('../handlers/communication-social-capability'),
   'communication-video-cycle': require('../handlers/communication-video-cycle'),
   'communication-video-work': require('../handlers/communication-video-work'),
   'communication-video-upload-work': require('../handlers/communication-video-upload-work'),

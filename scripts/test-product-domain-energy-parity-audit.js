@@ -6,7 +6,7 @@ var fs = require('node:fs');
 var path = require('node:path');
 var report = require('../lib/product-domain-energy-parity-audit.js').audit();
 
-assert.equal(report.schemaVersion, 'product-domain-energy-parity-audit/1.3');
+assert.equal(report.schemaVersion, 'product-domain-energy-parity-audit/1.4');
 assert.equal(report.summary.separateBrains, 20);
 assert.equal(report.summary.commonPhysiologyImplemented, 20);
 assert.equal(report.summary.brainV2LocalSpineComplete, 20);
@@ -39,9 +39,16 @@ assert(report.domains.every(function (d) { return d.brainV2LocalSpineGaps.length
 assert(report.domains.every(function (d) { return d.domainLocalDepthGaps.length === 0; }));
 assert.equal(report.referencePosture.activeInference, 'SHADOW_ADVISORY_NO_LIVE_CONSUMER');
 assert.equal(report.referencePosture.outcome, 'DOMAIN_LOCAL_ACTION_OUTCOME_INPUT_PRESENT; SOURCE_ELIGIBILITY_REMAINS_DOMAIN_SPECIFIC');
-assert(report.domains.every(function (d) {
-  return d.commonPhysiologyImplemented && d.separateBrainFile && d.outwardGaps.length === 4;
+assert.equal(report.referencePosture.externalAuthority, 'DOMAIN_CONFIGURED; RUNTIME_CAPABILITY_AND_VALVE_GATED');
+assert(report.domains.every(function (d) { return d.commonPhysiologyImplemented && d.separateBrainFile; }));
+assert(report.domains.filter(function (d) { return d.productDomain !== 'communication'; }).every(function (d) {
+  return d.outwardGaps.length === 4;
 }));
+var communication = report.domains.find(function (d) { return d.productDomain === 'communication'; });
+assert.deepEqual(communication.outwardGaps, [
+  'production-executor-unverified',
+  'independent-outcome-observer-unverified'
+]);
 
 var refreshSource = fs.readFileSync(path.join(__dirname, '..', 'handlers', 'brain-cognition-refresh.js'), 'utf8');
 var baseAt = refreshSource.indexOf("'assets/js/domain-brains/domain-brain-base.js'");

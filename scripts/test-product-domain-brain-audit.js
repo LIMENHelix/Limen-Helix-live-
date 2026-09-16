@@ -15,16 +15,28 @@ assert.equal(report.authorityParityComplete, 20,
   JSON.stringify(report.domains.filter(function (row) { return row.authorityGaps.length; })));
 assert(report.domains.every(function (row) {
   return row.bytes > 100000 && row.constructor && row.identityMatches && row.parts.authoritySurface &&
-    row.parts.resourceMetabolism && row.resourceAuthority.externalAction === false;
+    row.parts.resourceMetabolism;
 }));
+assert.equal(report.domains.filter(function (row) {
+  return row.resourceAuthority.externalAction === true;
+}).length, 1);
+assert.equal(report.domains.find(function (row) {
+  return row.product === 'communication';
+}).resourceAuthority.externalAction, true);
 assert.equal(new Set(report.domains.map(function (row) { return row.resourceAuthority.policyId; })).size, 20);
 assert.equal(new Set(report.domains.map(function (row) { return row.motorAuthority.contractId; })).size, 20);
 assert.equal(new Set(report.domains.map(function (row) { return row.motorAuthority.budgetId; })).size, 20);
 assert(report.domains.every(function (row) {
   return row.parts.motorReadiness && row.motorAuthority.lane === row.resourceAuthority.sandboxLane &&
-    row.motorAuthority.external === false && row.motorAuthority.executorVerified === false &&
+    row.motorAuthority.executorVerified === false &&
     row.motorAuthority.outcomeObserverVerified === false;
 }));
+assert.equal(report.domains.filter(function (row) {
+  return row.motorAuthority.external === true;
+}).length, 1);
+assert.equal(report.domains.find(function (row) {
+  return row.product === 'communication';
+}).motorAuthority.external, true);
 assert.deepEqual(Array.from(new Set(report.domains.map(function (row) {
   return row.resourceAuthority.sandboxLane;
 }))).sort(), LaneContract.list().sort());

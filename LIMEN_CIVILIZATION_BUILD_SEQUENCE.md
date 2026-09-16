@@ -4080,3 +4080,40 @@ in the new worktree, and all three affected signed-inbound loop tests passed
 after the locked dependencies were installed. Production deployment and one
 observed public release remain required before this repair counts as external
 autonomy or income.
+
+### Communication live-motor commissioning tranche — 2026-09-16
+
+The inventory continuity repair exposed the next honest gate: Communication's
+product brain is structurally complete, but its external social eligibility was
+still statically off and no writer could produce the separately required
+production-executor and independent-outcome-observer capabilities. A normal
+content post could therefore never authorize itself, even when a current
+subject-domain artifact and both B10 decisions were present.
+
+Communication is now configured as externally eligible while both verification
+facts remain false in its own source. The server-side capability overlay is the
+only path that may set those facts on an ephemeral brain instance, and it does
+so only from a matching, unexpired executor/observer capability pair. This is
+configuration, not standing permission: the subject-domain decision,
+Communication decision, budget, rate limit, provider gate, and last-moment
+`communication:social` valve remain mandatory for every real publication.
+
+A separate `communication:social-commissioning` line implements the bootstrap
+proof without selecting commercial content. When its dedicated environment
+gate and runtime valve are open, it may publish one fixed non-commercial marker
+to the owned Bluesky account, verify public presence through the independent
+AppView host, delete the marker, and verify public absence. Only the complete
+create → independent presence → rollback → independent absence chain within the
+five-minute exposure ceiling can mint the six-hour executor and observer
+leases. Ambiguous dispatch is reconciled from the public author feed and is
+never retried; multiple matches quarantine; late cleanup cannot mint a
+capability. The completed durable proof may renew an expired lease without
+replaying the public marker. Every real dispatch still rechecks provider access
+and the runtime valve.
+
+Local focused tests prove one effect, independent observation, deletion,
+zero-residual observation, lease renewal without replay, exposure expiry,
+ambiguous-response inhibition, valve denial, and operator-read versus cron-write
+authorization. Production deployment, live commissioning evidence, a real
+source-selected post, independent outcome observation, and same-domain learning
+remain unproven at this checkpoint and must be observed in that order.
