@@ -53,9 +53,8 @@ PARKED (business layer, deferred by domains-first hold) - STALE (retired lane) -
 |---|---|---|---|---|
 | `lib/ai-orchestrator.js` | internal | Yes, bug-free, graceful fallbacks | budget gate + kill-switch | CORE |
 | `lib/ai-kill-switch.js` | internal | Yes (it is the gate) | n/a | CORE |
-| `handlers/domain-agent.js` | `/api/domain-agent` 403 | Yes (sonnet-5) | passcode + daily cap / agentBoxes | CORE |
+| `handlers/domain-agent.js` | `/api/domain-agent` 403 | Yes (explicit HF or Anthropic provider) | passcode + daily cap + spend gate | CORE |
 | `handlers/master-agent.js` | `/api/master-agent` 403 | Yes (sonnet-5) | passcode + daily cap / agentBoxes | CORE |
-| `handlers/energy-agent.js` | `/api/energy-agent` 403 | Yes (haiku-4.5) | passcode + daily cap / agentBoxes | CORE |
 | `handlers/music-coach.js` | `/api/music-coach` 503 | Yes (haiku-4.5) | Drew/master passcode / aiDisabled | RELEVANT (DMAD venture) |
 | `handlers/hook-studio.js` | `/api/hook-studio` 503 | Yes (sonnet-4-6) | passcode / aiDisabled | RELEVANT (DMAD venture) |
 | `handlers/trigger-pattern-author.js` | `/api/trigger-pattern-author` 403 | Yes (AUTHOR_PATTERN) | isMaster + cron / orchestrator | RELEVANT (brain-building) |
@@ -74,7 +73,6 @@ PARKED (business layer, deferred by domains-first hold) - STALE (retired lane) -
 | `assets/js/limen/multi-pass-runner.js` | client -> expand-artifact-claude | Yes (multi-pass) | server gate | STALE (retired-lane driver) |
 | `lib/refresh-pipeline.js` | NO caller (only a stale comment) | Would run but unreachable | n/a | DEAD (orphan; retired-lane) |
 | `assets/js/domain-agent-box.js` | client -> domain-agent | Yes | UI passcode | CORE |
-| `assets/js/energy-agent-box.js` | client -> energy-agent | Yes | UI passcode | CORE |
 | `assets/js/master-brain/master-consciousness-box.js` | client -> master-agent | Yes | UI passcode | CORE |
 | `assets/js/master-brain/unified-consciousness-panel.js` | client, no AI call ($0) | Yes (deterministic synthesis) | n/a | CORE |
 

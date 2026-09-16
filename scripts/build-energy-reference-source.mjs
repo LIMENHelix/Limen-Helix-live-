@@ -58,7 +58,6 @@ const GROUPS = [
     ['assets/js/energy-execution-panels.js', 'SPECIFIC (dormant)'],
     ['assets/js/energy-claim-flow.js', 'SPECIFIC (legacy orphan)'],
     ['assets/js/energy-claim-ledger.js', 'SPECIFIC (legacy orphan)'],
-    ['assets/js/energy-agent-box.js', 'SPECIFIC (orphan; generic domain-agent-box is used)'],
   ]],
   ['SERVER / HANDLERS / SHARED LIB', [
     ['lib/company-phase-scorer.js', 'SHARED — scores all domains'],
@@ -70,7 +69,6 @@ const GROUPS = [
     ['handlers/limen-worker-snapshot.js', 'SHARED — the server node-grounding loops all domains'],
     ['handlers/master-agent.js', 'SHARED (cross-domain AI)'],
     ['handlers/domain-agent.js', 'SHARED (per-domain AI box backend)'],
-    ['handlers/energy-agent.js', 'SPECIFIC (bespoke; optional — generic domain-agent covers it)'],
     ['handlers/energy-entry.js', 'SPECIFIC (public Bill X-Ray backend)'],
     ['handlers/energy-news.js', 'SPECIFIC'],
     ['handlers/energy-markets.js', 'SPECIFIC (ticker quotes)'],

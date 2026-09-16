@@ -7,9 +7,9 @@
  * points) and CONFIG (autonomy / capital envelope). It CANNOT edit code, move capital,
  * or force a finding — toolCalls are applied client-side by the brain's clamped methods.
  *
- * Cost discipline: admin-gated (anon = 403, no model call), Sonnet 5 by default, short
- * max_tokens, ONE call per message, per-domain-per-day Redis cap, kill-switch. Consciousness
- * is recruited on demand (operator prompt) — the deterministic substrate runs for free.
+ * Cost discipline: admin-gated (anon = 403, no model call), one explicitly selected
+ * provider, short output, ONE call per message, per-domain-per-day Redis cap, spend gate.
+ * Deliberation is recruited on demand — the deterministic substrate runs for free.
  *
  * POST /api/domain-agent { domain, passcode, prompt, state }
  *   -> { ok, answer, toolCalls:[{type:'steer'|'config', ...}], left }
@@ -17,12 +17,8 @@
 const db = require('../lib/limen-db');
 const governorBriefing = require('../lib/domain-governor-briefing');
 const governorStore = require('../lib/autofire-efference-store');
+const domainAgentProvider = require('../lib/domain-agent-provider');
 
-const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY || '';
-const MODEL = process.env.DOMAIN_AGENT_MODEL || 'claude-sonnet-5';
-const ENDPOINT = 'https://api.anthropic.com/v1/messages';
-const VERSION = '2023-06-01';
-const MAX_TOKENS = parseInt(process.env.DOMAIN_AGENT_MAX_TOKENS || '1024', 10);
 const DAILY_CAP = parseInt(process.env.DOMAIN_AGENT_DAILY_CAP || '300', 10);
 
 function readBody(req) {
@@ -118,35 +114,13 @@ function parseReply(text) {
   return { answer: answer, toolCalls: toolCalls };
 }
 
-async function callClaude(system, user) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 45000);
-  // Sonnet 5: adaptive thinking is on by default; keep it summarized-off (omitted) and modest effort for a chat box.
-  const _agBody = { model: MODEL, max_tokens: MAX_TOKENS, output_config: { effort: 'low' }, system: system, messages: [{ role: 'user', content: user }] };
-  // Budget gate. Refusal here is a normal stop (out of budget / operator pause), not an
-  // upstream failure, so it reports its own reason rather than an HTTP error.
-  const _agGuard = await require('../lib/anthropic-call').guard(_agBody, 'domain-agent');
-  if (!_agGuard.ok) return { ok: false, refused: true, detail: _agGuard.reason };
-  try {
-    const r = await fetch(ENDPOINT, {
-      method: 'POST', signal: controller.signal,
-      headers: { 'content-type': 'application/json', 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': VERSION },
-      body: JSON.stringify(_agBody)
-    });
-    const j = await r.json();
-    await require('../lib/anthropic-call').close(_agGuard, j);
-    if (!r.ok) return { ok: false, detail: j };
-    var text = '';
-    if (Array.isArray(j.content)) { for (var i = 0; i < j.content.length; i++) { if (j.content[i] && j.content[i].type === 'text') { text = j.content[i].text; break; } } }
-    return { ok: true, text: text };
-  } catch (e) { return { ok: false, detail: String(e && e.message || e) }; }
-  finally { clearTimeout(timer); }
-}
-
 function createHandler(deps) {
   deps = deps || {};
+  var env = deps.env || process.env;
   var buildBriefing = deps.buildBriefing || governorBriefing.build;
-  var invoke = deps.callModel || callClaude;
+  var invoke = deps.callModel || function (system, user) {
+    return domainAgentProvider.call({ system: system, user: user, env: env });
+  };
   var rate = deps.bumpRate || bumpRate;
   var store = deps.store || governorStore;
   return async function handler(req, res) {
@@ -158,7 +132,11 @@ function createHandler(deps) {
   const body = await readBody(req);
   const person = authorize(body && body.passcode);
   if (!person) { res.statusCode = 403; return res.end(JSON.stringify({ ok: false, error: 'Operator passcode required.' })); }
-  if (!ANTHROPIC_API_KEY) { res.statusCode = 501; return res.end(JSON.stringify({ ok: false, error: 'Domain AI not wired — ANTHROPIC_API_KEY is unset.' })); }
+  var providerConfig = domainAgentProvider.resolve(env);
+  if (!deps.callModel && !providerConfig.ok) {
+    res.statusCode = 501;
+    return res.end(JSON.stringify({ ok: false, error: 'Domain language faculty is not commissioned.', reason: providerConfig.reason }));
+  }
 
   const domain = cleanDomain(body && body.domain);
   const rl = await rate(domain, person.key || 'x');
@@ -184,7 +162,7 @@ function createHandler(deps) {
     return res.end(JSON.stringify({ ok: false, error: 'Domain grounding incomplete.', reason: grounded && grounded.reason || 'unknown' }));
   }
   const out = await invoke(systemPrompt(domain, state.label, grounded.packet), prompt);
-  if (!out.ok) { res.statusCode = 502; return res.end(JSON.stringify({ ok: false, error: 'Domain AI glitched — try again.' })); }
+  if (!out.ok) { res.statusCode = 502; return res.end(JSON.stringify({ ok: false, error: 'Domain language faculty unavailable.', reason: out.disabled ? 'spend-gate-closed' : 'provider-unavailable' })); }
 
   const parsed = parseReply(out.text);
   // A structurally valid packet may still be neurologically ineligible to
@@ -199,6 +177,7 @@ function createHandler(deps) {
     answer: parsed.answer,
     toolCalls: toolCalls,
     left: Math.max(0, DAILY_CAP - rl.n),
+    provider: out.provider ? { name: out.provider, model: out.model || null, route: out.route || null } : null,
     grounding: {
       schemaVersion: grounded.packet.schemaVersion,
       packetId: grounded.packet.packetId,

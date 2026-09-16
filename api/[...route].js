@@ -105,7 +105,6 @@ const HANDLERS = {
   'energy-entry': require('../handlers/energy-entry'),
   'energy-markets': require('../handlers/energy-markets'),
   'energy-news': require('../handlers/energy-news'),
-  'energy-agent': require('../handlers/energy-agent'),
   'domain-agent': require('../handlers/domain-agent'),
   'master-agent': require('../handlers/master-agent'),
   'culture-markets': require('../handlers/culture-markets'),
