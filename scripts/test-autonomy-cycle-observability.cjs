@@ -3,6 +3,14 @@
 var assert = require('node:assert/strict');
 var Observability = require('../lib/autonomy-cycle-observability.js');
 
+assert.equal(
+  Observability.token('No domain has a fresh source-linked commercial artifact ready for public distribution.'),
+  'no-domain-has-fresh-source-linked-commercial-artifact-ready-for-public-distribution',
+  'the expected social abstention must remain visible as a canonical secret-safe reason'
+);
+assert.equal(Observability.token('constructor'), 'constructor',
+  'prototype property names must remain ordinary canonical tokens');
+
 var result = {
   ok: true,
   evaluatedAt: 1234,
