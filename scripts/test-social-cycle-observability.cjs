@@ -111,6 +111,45 @@ assert.equal(vetoed.secretBearingFieldsIncluded, false);
     { domain: 'science', reason: 'science-veto' }
   ]);
 
+  var channelAttempts = [];
+  var publishable = await SocialCron.selectPublishableCandidate([
+    { domain: 'energy', text: 'energy' },
+    { domain: 'intelligence', text: 'intelligence' },
+    { domain: 'finance', text: 'finance' }
+  ], {}, 1000, async function (_store, candidate) {
+    return candidate.domain === 'energy'
+      ? { status: 'NO_ACTION', reason: 'subject-domain-immune-veto' }
+      : { status: 'RELEASED', decisionReceiptId: candidate.domain + '-subject' };
+  }, async function (_store, candidate) {
+    channelAttempts.push(candidate.subjectDomain);
+    return candidate.subjectDomain === 'intelligence'
+      ? { status: 'NO_ACTION', reason: 'communication-b10-held',
+        blockers: ['subject-brain-no-salient-condition'] }
+      : { status: 'RELEASED', decisionReceiptId: 'finance-channel' };
+  });
+  assert.equal(publishable.ok, true);
+  assert.equal(publishable.post.domain, 'finance');
+  assert.equal(publishable.channelDecision.decisionReceiptId, 'finance-channel');
+  assert.deepEqual(publishable.subjectHeld,
+    [{ domain: 'energy', reason: 'subject-domain-immune-veto' }]);
+  assert.deepEqual(publishable.channelHeld,
+    [{ domain: 'intelligence', reason: 'subject-brain-no-salient-condition' }]);
+  assert.deepEqual(channelAttempts, ['intelligence', 'finance']);
+
+  var channelWide = await SocialCron.selectPublishableCandidate([
+    { domain: 'finance', text: 'finance' }, { domain: 'science', text: 'science' }
+  ], {}, 1000, async function (_store, candidate) {
+    return { status: 'RELEASED', decisionReceiptId: candidate.domain + '-subject' };
+  }, async function () {
+    return { status: 'NO_ACTION', reason: 'communication-b10-held',
+      blockers: ['communication-immune-veto'] };
+  });
+  assert.equal(channelWide.ok, false);
+  assert.equal(channelWide.terminal, true);
+  assert.equal(channelWide.post.domain, 'finance');
+  assert.equal(SocialCron.subjectSpecificChannelHold(channelWide.channelDecision), false,
+    'a channel-wide immune veto must stop the entire motor cycle');
+
   var observed = null;
   var called = await heartbeat.observeVeto({
     onVeto: function (gate, req) { observed = { gate: gate, req: req }; }

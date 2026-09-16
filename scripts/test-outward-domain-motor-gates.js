@@ -38,10 +38,12 @@ var automailRunner = source('scripts/automail-run.js');
 
 assert(social.includes("require('../lib/communication-social-executor')"));
 assert(social.includes("require('../lib/communication-social-decision')"));
-var socialDecisionAt = social.indexOf('socialDecision.decide(motorStore');
+var socialDecisionAt = social.indexOf('selectPublishableCandidate(selection.ready, motorStore');
 var socialExecutorAt = social.indexOf('socialExecutor.execute({');
 assert(socialDecisionAt >= 0 && socialExecutorAt > socialDecisionAt);
-assert(social.slice(socialDecisionAt, socialExecutorAt).includes("decision.status !== 'RELEASED'"));
+assert(social.slice(socialDecisionAt, socialExecutorAt).includes('socialDecision.decide'));
+assert(social.slice(socialDecisionAt, socialExecutorAt).includes('if (!releaseSelection.ok)'));
+assert(social.slice(socialDecisionAt, socialExecutorAt).includes('releaseSelection.channelDecision'));
 assert(social.indexOf('socialExecutor.execute({') < social.indexOf('preview.published = true'));
 assert(image.includes("require('../lib/culture-hero-decision')"));
 assert(image.includes("require('../lib/culture-hero-executor')"));

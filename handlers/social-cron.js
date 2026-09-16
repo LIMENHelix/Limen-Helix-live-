@@ -53,6 +53,12 @@ var SAFE_DECISION_BLOCKERS = new Set([
   'subject-live-feeds-unavailable', 'subject-brain-no-salient-condition',
   'decision-persistence-or-input-unavailable'
 ]);
+var SUBJECT_SPECIFIC_CHANNEL_BLOCKERS = new Set([
+  'candidate-identity-missing', 'candidate-text-over-platform-limit',
+  'candidate-verification-link-missing', 'candidate-live-source-identity-invalid-or-stale',
+  'subject-brain-state-missing-or-stale', 'subject-live-feeds-unavailable',
+  'subject-brain-no-salient-condition'
+]);
 
 function safeDecisionBlocker(value) {
   var blocker = typeof value === 'string' ? value : '';
@@ -86,6 +92,55 @@ async function selectSubjectCandidate(candidates, store, now, decide) {
       reason: release && release.reason || 'subject-domain-distribution-held' });
   }
   return { ok: false, held: held };
+}
+
+function subjectSpecificChannelHold(decision) {
+  var blockers = decision && Array.isArray(decision.blockers) ? decision.blockers : [];
+  return blockers.length > 0 && blockers.every(function (blocker) {
+    return SUBJECT_SPECIFIC_CHANNEL_BLOCKERS.has(blocker);
+  });
+}
+
+// Carry the same bounded fairness through both pre-motor gates. A hold tied to
+// one subject may defer that subject and try the next candidate. A
+// Communication-wide hold remains terminal because it applies to the channel,
+// not merely to the current artifact.
+async function selectPublishableCandidate(candidates, store, now, subjectDecide, channelDecide) {
+  var subjectHeld = [], channelHeld = [];
+  for (var i = 0; i < candidates.length; i++) {
+    var candidate = candidates[i];
+    var domainRelease = await subjectDecide(store, candidate, now);
+    if (!domainRelease || domainRelease.status !== 'RELEASED') {
+      subjectHeld.push({ domain: candidate.domain,
+        reason: domainRelease && domainRelease.reason || 'subject-domain-distribution-held' });
+      continue;
+    }
+    candidate.domainDecisionReceipt = domainRelease;
+    var channelDecision = await channelDecide(store, {
+      subjectDomain: candidate.domain,
+      text: candidate.text,
+      sourceIdentity: candidate.sourceIdentity,
+      sourceArtifactId: candidate.sourceArtifactId,
+      sourceIntentId: candidate.sourceIntentId,
+      sourcePacketId: candidate.sourcePacketId,
+      candidateHash: candidate.candidateHash,
+      selectedProgram: candidate.selectedProgram,
+      domainDecisionReceipt: domainRelease
+    }, now);
+    if (channelDecision && channelDecision.status === 'RELEASED') {
+      return { ok: true, post: candidate, domainRelease: domainRelease,
+        channelDecision: channelDecision, subjectHeld: subjectHeld, channelHeld: channelHeld };
+    }
+    var channelReason = safeDecisionBlocker(channelDecision && channelDecision.blockers &&
+      channelDecision.blockers[0]) || channelDecision && channelDecision.reason || 'communication-b10-held';
+    channelHeld.push({ domain: candidate.domain, reason: channelReason });
+    if (!subjectSpecificChannelHold(channelDecision)) {
+      return { ok: false, terminal: true, post: candidate, domainRelease: domainRelease,
+        channelDecision: channelDecision, subjectHeld: subjectHeld, channelHeld: channelHeld };
+    }
+  }
+  return { ok: false, terminal: false, post: candidates[0] || null,
+    subjectHeld: subjectHeld, channelHeld: channelHeld };
 }
 
 function emitOutcome(stage, status, payload, source, logger) {
@@ -149,17 +204,23 @@ module.exports = async function handler(req, res) {
       'candidate-selection', 'NO_ACTION', null);
     }
 
-    currentStage = 'subject-decision';
-    var subjectSelection = await selectSubjectCandidate(selection.ready, motorStore, Date.now(),
-      domainDistribution.decide);
-    if (!subjectSelection.ok) {
-      post = selection.ready[0];
-      return finish({ ok: true, published: false, domainHeld: true,
-        reason: subjectSelection.held[0] && subjectSelection.held[0].reason || 'subject-domain-distribution-held',
-        subjectHeld: subjectSelection.held, tried: selection.tried, skipped: selection.skipped },
-      undefined, 'subject-decision', 'HELD', post);
+    currentStage = 'decision';
+    var releaseSelection = await selectPublishableCandidate(selection.ready, motorStore, Date.now(),
+      domainDistribution.decide, socialDecision.decide);
+    if (!releaseSelection.ok) {
+      post = releaseSelection.post || selection.ready[0];
+      var heldRows = releaseSelection.channelHeld.length
+        ? releaseSelection.channelHeld : releaseSelection.subjectHeld;
+      return finish({ ok: true, published: false,
+        domainHeld: releaseSelection.subjectHeld.length > 0,
+        brainHeld: releaseSelection.channelHeld.length > 0,
+        reason: heldRows[heldRows.length - 1] && heldRows[heldRows.length - 1].reason ||
+          'all-ready-domains-held',
+        subjectHeld: releaseSelection.subjectHeld, channelHeld: releaseSelection.channelHeld,
+        tried: selection.tried, skipped: selection.skipped }, undefined,
+      releaseSelection.channelHeld.length ? 'channel-decision' : 'subject-decision', 'HELD', post);
     }
-    post = subjectSelection.post;
+    post = releaseSelection.post;
     post.tried = selection.tried;
     post.skipped = selection.skipped;
 
@@ -185,28 +246,11 @@ module.exports = async function handler(req, res) {
     // The subject domain first releases this exact artifact for this exact
     // public route. Communication then independently owns channel safety and
     // the public social effector. Neither domain can impersonate the other.
-    var domainRelease = subjectSelection.release;
-    preview.subjectHeld = subjectSelection.held;
+    var domainRelease = releaseSelection.domainRelease;
+    var decision = releaseSelection.channelDecision;
+    preview.subjectHeld = releaseSelection.subjectHeld;
+    preview.channelHeld = releaseSelection.channelHeld;
     post.domainDecisionReceipt = domainRelease;
-    currentStage = 'channel-decision';
-    var decision = await socialDecision.decide(motorStore, {
-      subjectDomain: post.domain,
-      text: post.text,
-      sourceIdentity: post.sourceIdentity,
-      sourceArtifactId: post.sourceArtifactId,
-      sourceIntentId: post.sourceIntentId,
-      sourcePacketId: post.sourcePacketId,
-      candidateHash: post.candidateHash,
-      selectedProgram: post.selectedProgram,
-      domainDecisionReceipt: domainRelease
-    }, Date.now());
-    if (!decision || decision.status !== 'RELEASED') {
-      preview.published = false;
-      preview.brainHeld = true;
-      preview.reason = decision && decision.reason || 'communication-b10-held';
-      preview.decisionBlockers = decision && decision.blockers || [];
-      return finish(preview, undefined, 'channel-decision', 'HELD', post);
-    }
     currentStage = 'execution';
     var r = await socialExecutor.execute({
       store: motorStore,
@@ -260,4 +304,6 @@ var guarded = require('../lib/heartbeat').guard('social-cron', module.exports, {
 guarded.emitOutcome = emitOutcome;
 guarded.safeDecisionBlocker = safeDecisionBlocker;
 guarded.selectSubjectCandidate = selectSubjectCandidate;
+guarded.subjectSpecificChannelHold = subjectSpecificChannelHold;
+guarded.selectPublishableCandidate = selectPublishableCandidate;
 module.exports = guarded;
