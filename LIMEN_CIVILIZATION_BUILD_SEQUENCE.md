@@ -3951,3 +3951,54 @@ provenance, confidence, predictions, thresholds, budgets, authority, motor
 selection, or provider gates. Missing or stale cognition yields `unavailable`,
 not a fabricated demeanor. The twenty local brains remain sovereign; only the
 transport and rendering contract is common.
+
+### Production autonomy checkpoint through PR #325 — measured 2026-09-16
+
+The next measured constraint is commercial inventory and eligibility, not a
+missing shared brain, a Finance packet loop, or a disabled YouTube uploader.
+All twenty cognition refreshes were present during this checkpoint. The
+commercial reflex evaluated all twenty domains and abstained for named local
+reasons: thirteen daily artifact caps, three cadence inhibitions, three domains
+without admitted topic leads, and Economy without admitted semantic evidence.
+Artifact preparation then correctly abstained because no new durable planned
+reflex required another artifact. Seventeen existing prepared artifacts were
+all `PUBLIC_ARTICLE`; none was a current `SHORT_VIDEO`. The local private-video
+worker therefore continued to return `NO_WORK` without calling the provider.
+
+PR #320 removed secret-bearing provider error detail from FRED production logs.
+PRs #321 and #322 added secret-safe reason telemetry for commercial reflex,
+artifact preparation, video-manifest preparation, and the Communication video
+cycle, including the selected program needed to distinguish an idle video motor
+from stranded work. PR #324 extended that causal visibility to the scheduled
+public-social path: candidate selection, subject-domain decision,
+Communication decision, last-moment provider gate, execution, publication, and
+operator-valve veto each emit one bounded outcome. Ambiguous provider dispatch
+remains `DISPATCHING`, response-transport failure cannot create a contradictory
+second result, and observer failure cannot become a motor dependency.
+
+The first production social cycle after PR #324 returned HTTP 200 with
+`NO_ACTION` at `candidate-selection`. The generator has only one aggregate
+reason on that branch: no domain had a fresh source-linked commercial artifact
+ready for public distribution. The initial secret-safe log redacted that human
+sentence because it was not canonical; PR #325 maps exactly that known sentence
+to a fixed canonical reason while continuing to redact arbitrary free-form or
+provider text. No public post or provider call is claimed from this cycle.
+
+PR #323 reconciled `brain-v2/MASTER_PROMPT.md` with the owner-confirmed
+no-homunculus topology. A Governor is the owning domain brain's language and
+deliberation faculty. Its demeanor may be a deterministic downstream phenotype
+of that same brain's measured control state, but it is not an independent page
+persona and cannot manufacture facts, authority, budget, motor selection, or
+provider release. Shared derivation rules and immutable source observations are
+permitted; mutable appraisal, prediction, memory, permission, economics,
+decision, receipt, and outcome state remain separate in all twenty brains.
+
+This checkpoint does not prove external autonomy or income. It proves that the
+current scheduler can now distinguish a legitimate abstention from a missed
+cron, valve veto, subject-brain hold, channel-brain hold, provider hold,
+ambiguous dispatch, failure, or confirmed publication. The next dependency is
+to restore fresh, source-grounded, domain-owned sellable inventory under each
+domain's cadence and artifact cap, then let the existing subject-domain and
+Communication gates decide and observe a real release. Public-social outcome
+records for all twenty domains still had zero resolved observations at this
+checkpoint; they must not be treated as learned commercial success.
