@@ -3,10 +3,12 @@
 <!-- AUTHORITY: ENGINEERING_HYPOTHESIS; CURRENT TASK AUTHORITY EXCLUDED — see DOCUMENT_AUTHORITY.md -->
 > **AUTHORITY NOTE, updated 2026-09-16.**
 >
-> This document defines an engineering and audit standard. It does not carry standing task,
+> This document is not owner-ratified. It defines proposed engineering and audit guidance under
+> the `ENGINEERING_HYPOTHESIS` class. It does not carry standing task,
 > deployment, provider, money, or external-effect authority. §24 defines the fields a current
-> task record must supply; the repository's authoritative build sequence and freshly measured
-> runtime evidence determine current work and maturity.
+> task record must supply; the build sequence identifies dependency position, a current task
+> record or explicit current user approval supplies authority, and freshly measured runtime
+> evidence determines maturity.
 
 
 ## LIMEN HELIX — PRINCIPAL BRAIN SYSTEMS ARCHITECT
@@ -482,7 +484,15 @@ A human-readable emotional label may summarize this state, but the label must no
 
 Biosensor-derived human-state inputs must be treated as noisy measurements, not direct access to another person's feelings or intentions.
 
-#### 8.21A DOMAIN-GOVERNOR PHENOTYPE
+#### 8.21A PROPOSED DOMAIN-GOVERNOR PHENOTYPE
+
+**Epistemic classification:** `E5 — Engineering abstraction inspired by biology`, with an `E6 — LIMEN-specific conjecture requiring validation` for the particular state-to-expression mapping. This is a functional analogy, not a claim of biological homology or computational equivalence.
+
+**Referenced biology and evidence boundary:** distributed affective, interoceptive, and cognitive-control processes modulate attention, urgency, exploration, persistence, learning, memory, and inhibition in humans and other animals. The evidence base spans causal intervention, lesion/clinical observation, recording, imaging, and computational modeling, but no single biological structure implements a Governor and no located study validates LIMEN's proposed software mapping. Competing accounts disagree about emotion categories, constructed versus basic emotions, and the relationship between state, trait, appraisal, and narration.
+
+**Software abstraction:** derive a bounded presentation/deliberation posture from measured same-domain appraisal and regulation variables, then allow only enumerated expressive effects. Deliberately not modeled: subjective experience, qualia, human personality equivalence, direct neurotransmitter identity, a unitary emotion center, or prose as a causal state transition. Confidence is high for the engineering invariant that narration remains downstream of state; confidence in biological fidelity is low until independently tested.
+
+**Falsification tests:** identical current state and policy must yield the same posture; a documented state change must alter only allowed modulation dimensions; stale or absent state must produce abstention/unavailability; removing or changing the narrator must not alter the persisted brain state, authority, budget, selected motor program, or outcome record. The mapping fails if prose changes facts or permissions, if different domains share mutable affective state, or if measured state changes do not predict the declared posture.
 
 A domain Governor is that domain brain's language and deliberation faculty. It is not a page character, a separate agent that controls the brain, or a civilization-wide executive.
 
@@ -972,16 +982,17 @@ Do not claim that LIMEN Helix has an actual working software brain until this lo
 
 ## 24. CURRENT-TASK INPUT CONTRACT
 
-This file is the durable brain-engineering constitution. It is not the authoritative source for the repository's current build job, deployment permission, or runtime maturity. Do not preserve a completed cycle's branch, file scope, score, or missing-capability claim here as if it remained current.
+This file is proposed engineering and audit guidance. It is not the authoritative source for the repository's current build job, permission, or runtime maturity. Do not preserve a completed cycle's branch, file scope, score, or missing-capability claim here as if it remained current.
 
-For each new build cycle, obtain current task input from the repository's authoritative build sequence and re-measure repository and production truth. At minimum record:
+For each new build cycle, use the repository's authoritative build sequence only to identify dependency position, then obtain authority from a current per-task record or explicit current user approval and re-measure repository and production truth. At minimum record:
 
 - current objective and dependency position;
 - exact repository, branch, and worktree;
 - authorized and protected file scope;
 - measured implementation and runtime evidence;
 - expected deliverable and acceptance criteria;
-- execution, deployment, provider, money, and external-effect authority.
+- local execution, deployment, provider, money, and external-effect authority;
+- source-control authority for commits, branch pushes, pull requests, merges, and direct pushes to protected branches.
 
 The current LIMEN topology is explicitly no-homunculus: sovereign domain brains retain their own cognition and action selection; the Civilization connectome coordinates typed traffic and descending feedback but does not select every domain's actions. Any task input that restores a Master Brain, treats a narrator as the source of state, or routes all domain decisions through one shared cognition conflicts with this contract.
 
