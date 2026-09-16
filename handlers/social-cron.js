@@ -26,6 +26,7 @@ var motorStore = require('../lib/autofire-efference-store');
 var socialExecutor = require('../lib/communication-social-executor');
 var socialDecision = require('../lib/communication-social-decision');
 var domainDistribution = require('../lib/domain-commercial-distribution-decision');
+var CycleObservability = require('../lib/autonomy-cycle-observability');
 
 var LAST_KEY = 'social:lastDomain:v1';
 
@@ -52,6 +53,27 @@ function authorized(req) {
   if (!configured.length) return false;          // no key configured anywhere = closed, not open
   if (supplied && configured.indexOf(supplied) !== -1) return true;
   return cronHit(req);
+}
+
+function emitOutcome(stage, status, payload, source, logger) {
+  payload = payload && typeof payload === 'object' ? payload : {};
+  source = source && typeof source === 'object' ? source : {};
+  return CycleObservability.emit('communication-social-cycle', {
+    ok: status !== 'FAILED',
+    evaluatedAt: Date.now(),
+    rows: [{
+      productDomain: source.domain || payload.domain || 'communication',
+      stage: stage,
+      status: status,
+      reason: payload.reason || payload.error || null,
+      selectedProgram: source.selectedProgram || payload.selectedProgram || null
+    }]
+  }, logger);
+}
+
+function sendObserved(res, payload, httpStatus, stage, status, source) {
+  emitOutcome(stage, status, payload, source);
+  return T.send(res, payload, httpStatus);
 }
 
 module.exports = async function handler(req, res) {
@@ -84,7 +106,8 @@ module.exports = async function handler(req, res) {
     var post = await gen.generate({ after: last && last.domain, domain: q.domain,
       store: motorStore, now: Date.now() });
     if (post.ok === false) {
-      return T.send(res, { ok: false, published: false, reason: post.reason, tried: post.tried, skipped: post.skipped });
+      return sendObserved(res, { ok: false, published: false, reason: post.reason,
+        tried: post.tried, skipped: post.skipped }, undefined, 'candidate-selection', 'NO_ACTION', post);
     }
 
     var rate = await social.rateStatus('bluesky');
@@ -103,7 +126,7 @@ module.exports = async function handler(req, res) {
     if (!wantPost) {
       preview.published = false;
       preview.note = 'Preview only. Add &post=1 to publish. Publishing is never the default.';
-      return T.send(res, preview);
+      return sendObserved(res, preview, undefined, 'preview', 'PREVIEWED', post);
     }
 
     // The subject domain first releases this exact artifact for this exact
@@ -114,7 +137,7 @@ module.exports = async function handler(req, res) {
       preview.published = false;
       preview.domainHeld = true;
       preview.reason = domainRelease && domainRelease.reason || 'subject-domain-distribution-held';
-      return T.send(res, preview);
+      return sendObserved(res, preview, undefined, 'subject-decision', 'HELD', post);
     }
     post.domainDecisionReceipt = domainRelease;
     var decision = await socialDecision.decide(motorStore, {
@@ -133,7 +156,7 @@ module.exports = async function handler(req, res) {
       preview.brainHeld = true;
       preview.reason = decision && decision.reason || 'communication-b10-held';
       preview.decisionBlockers = decision && decision.blockers || [];
-      return T.send(res, preview);
+      return sendObserved(res, preview, undefined, 'channel-decision', 'HELD', post);
     }
     var r = await socialExecutor.execute({
       store: motorStore,
@@ -149,14 +172,14 @@ module.exports = async function handler(req, res) {
       preview.reason = r && r.reason || 'communication-social-motor-held';
       preview.motorReceiptId = r && r.motorReceiptId || null;
       preview.motorBlockers = r && r.motorBlockers || [];
-      return T.send(res, preview);
+      return sendObserved(res, preview, undefined, 'provider-gate', 'HELD', post);
     }
     if (!r.ok) {
       preview.published = false;
       preview.reason = r.reason;
       preview.rateLimited = !!r.rateLimited;
       preview.blocked = !!r.blocked;
-      return T.send(res, preview);
+      return sendObserved(res, preview, undefined, 'execution', 'FAILED', post);
     }
 
     try { await db.set(LAST_KEY, { domain: post.domain, at: new Date().toISOString(), uri: r.uri }); } catch (e) {}
@@ -166,13 +189,16 @@ module.exports = async function handler(req, res) {
     preview.url = r.url;
     preview.uri = r.uri;   // keep this: it is what deleteBlueskyPost needs to undo the post
     preview.rate = { usedToday: r.used, capPerDay: r.cap, remaining: Math.max(0, r.cap - r.used) };
-    return T.send(res, preview);
+    return sendObserved(res, preview, undefined, 'execution', 'PUBLISHED', post);
   } catch (e) {
-    return T.send(res, { ok: false, reason: e.message || 'handler error' }, 500);
+    return sendObserved(res, { ok: false, reason: e.message || 'handler error' }, 500,
+      'execution', 'FAILED', null);
   }
 };
 
 // Outward-acting: this sends something into the world on a timer. Records every
 // run AND consults the veto first, which is a separate structure that can cancel
 // it without this handler being changed or redeployed.
-module.exports = require('../lib/heartbeat').guard('social-cron', module.exports);
+var guarded = require('../lib/heartbeat').guard('social-cron', module.exports);
+guarded.emitOutcome = emitOutcome;
+module.exports = guarded;
