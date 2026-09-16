@@ -71,19 +71,15 @@ function emitOutcome(stage, status, payload, source, logger) {
   }, logger);
 }
 
-function sendObserved(res, payload, httpStatus, stage, status, source) {
-  emitOutcome(stage, status, payload, source);
-  return T.send(res, payload, httpStatus);
-}
-
 module.exports = async function handler(req, res) {
   var q = req.query || {};
   var post = null;
   var currentStage = 'candidate-selection';
   var outcomeEmitted = false;
   function finish(payload, httpStatus, stage, status, source) {
+    emitOutcome(stage, status, payload, source);
     outcomeEmitted = true;
-    return sendObserved(res, payload, httpStatus, stage, status, source);
+    return T.send(res, payload, httpStatus);
   }
   try {
     if (!authorized(req)) {
