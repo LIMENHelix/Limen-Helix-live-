@@ -4053,3 +4053,30 @@ it does not itself prove income or external autonomy. The dependency remains
 fresh, source-grounded, domain-owned sellable inventory followed by one observed
 release, purchase, fulfillment, receipt, and outcome returning to the same
 Governor.
+
+### Commercial inventory continuity repair — 2026-09-16
+
+Fresh production logs after Relay P0 exposed a timing defect between the
+commercial reflex and its distribution surfaces. Sixteen domains still held
+fresh prepared artifacts, but their next normal reflex evaluation returned a
+cadence or daily-cap abstention. Candidate validation accepted only an actively
+planned reflex or a no-change abstention, so the production-rate control erased
+distribution eligibility for otherwise current inventory. Social and video
+therefore reported no usable work even though preparation had succeeded.
+
+The continuity rule now treats `commercial-cadence-inhibited` and
+`commercial-daily-artifact-cap-reached` like the existing no-change condition
+only when the artifact fingerprint and immutable last-planned intent both still
+match. These are production-metabolism holds on *new* artifacts, not safety
+vetoes on a fresh artifact already prepared by that same domain. Every other
+abstention remains inhibitory; identity, freshness, current cognition, immune,
+human-review, subject-domain release, Communication release, provider, and
+valve checks are unchanged and still re-run before an external effect.
+
+Focused social, video-manifest, commercial-reflex, and repository checks pass.
+The complete 292-file unit run passed 287 tests and skipped two external-corpus
+checks; its only three initial failures were missing local `svix` dependencies
+in the new worktree, and all three affected signed-inbound loop tests passed
+after the locked dependencies were installed. Production deployment and one
+observed public release remain required before this repair counts as external
+autonomy or income.
