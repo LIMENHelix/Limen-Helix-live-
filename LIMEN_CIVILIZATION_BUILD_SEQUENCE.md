@@ -4141,3 +4141,20 @@ one-time promotion of the new freshness generation, no per-cycle churn,
 identity mismatch rejection, safety-veto rejection, and the 48-hour evidence
 ceiling. Production regeneration and downstream distribution are not claimed
 until observed.
+
+Production subsequently renewed fourteen domain artifacts in one scheduled
+cycle. The remaining six abstentions were explicit: one current state was not a
+non-safety continuity state, three lacked the required state/artifact pair, and
+two exceeded the renewal evidence constraints. This proves the freshness
+metabolism for the fourteen eligible domains; it does not prove their external
+distribution or customer outcome.
+
+The first scheduled Communication commissioning attempt returned before the
+create effect: Bluesky remained at zero of eight daily posts and no marker or
+public residue appeared. Initial telemetry collapsed the cause to
+`commissioning-post-failed`. The adapter now records a safe provider stage and
+HTTP status without provider text or credentials, counts a session/auth request
+as a provider call, and permits a bounded retry only when no create effect can
+exist. Known no-effect failures cool down for one hour; ambiguous create
+results still never retry. This diagnostic correction must deploy and classify
+the exact pre-create failure before Communication capability is claimed.
