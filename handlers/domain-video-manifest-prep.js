@@ -5,6 +5,7 @@ var CronAuth = require('../lib/cron-auth.js');
 var Store = require('../lib/autofire-efference-store.js');
 var Lanes = require('../lib/domain-commercial-lanes.js');
 var VideoManifest = require('../lib/domain-commercial-video-manifest.js');
+var CycleObservability = require('../lib/autonomy-cycle-observability.js');
 
 async function one(store, domain, now) {
   var lane = Lanes.get(domain);
@@ -32,10 +33,12 @@ async function run(deps) {
   var rows = await Promise.all(Lanes.DOMAINS.map(function (domain) { return one(store, domain, now); }));
   var prepared = rows.filter(function (row) { return row.status === 'VIDEO_MANIFEST_PREPARED'; }).length;
   var failed = rows.filter(function (row) { return row.status === 'FAILED'; }).length;
-  return { ok: failed === 0, schemaVersion: 'domain-video-manifest-prep-cycle/1.0', evaluatedAt: now,
+  var result = { ok: failed === 0, schemaVersion: 'domain-video-manifest-prep-cycle/1.0', evaluatedAt: now,
     domains: rows.length, prepared: prepared, abstained: rows.length - prepared - failed, failed: failed, rows: rows,
     boundaries: { modelCalled: false, rendererCalled: false, uploaderCalled: false,
       providerCalled: false, externalEffectAuthorized: false, liveMoney: false } };
+  CycleObservability.emit('domain-video-manifest-prep', result, deps.cycleLogger);
+  return result;
 }
 
 function createHandler(deps) {

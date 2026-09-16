@@ -5,6 +5,7 @@ var CronAuth = require('../lib/cron-auth.js');
 var Store = require('../lib/autofire-efference-store.js');
 var Lanes = require('../lib/domain-commercial-lanes.js');
 var Artifact = require('../lib/domain-commercial-artifact.js');
+var CycleObservability = require('../lib/autonomy-cycle-observability.js');
 
 async function nextPlannedState(store, contract, now) {
   var queued = typeof store.lrange === 'function' ? await store.lrange(contract.intentQueue, 0, 49) : [];
@@ -100,7 +101,7 @@ async function run(deps) {
   }
   var prepared = rows.filter(function (row) { return row.status === 'ARTIFACT_PREPARED'; }).length;
   var failed = rows.filter(function (row) { return row.status === 'FAILED'; }).length;
-  return {
+  var result = {
     ok: failed === 0,
     schemaVersion: 'domain-commercial-artifact-prep-cycle/1.0',
     evaluatedAt: now,
@@ -112,6 +113,8 @@ async function run(deps) {
     boundaries: { modelCalled: false, externalProviderCalled: false, externalEffectAuthorized: false,
       liveMoney: false, durableArtifactOnly: true }
   };
+  CycleObservability.emit('domain-commercial-artifact-prep', result, deps.cycleLogger);
+  return result;
 }
 
 function createHandler(deps) {
