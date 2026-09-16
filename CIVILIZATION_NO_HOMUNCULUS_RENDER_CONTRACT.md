@@ -2,6 +2,9 @@
 
 **Status:** owner-authoritative architectural constraint
 **Recorded:** 2026-08-27
+**Authority class:** `OWNER_CONFIRMED`
+**Approved by:** Chris Hubbel (owner)
+**Approval record:** Reconfirmed in the current owner task on 2026-09-16: domain brains remain sovereign, the connectome coordinates typed traffic, and no Master Brain selects domain actions.
 **Applies to:** `/civilization`, related diagrams, operator surfaces, bridge code, and architecture language
 
 This record captures the approved architecture decision. It does **not** claim that a current or revised render has passed visual inspection. A render passes only after it is inspected against every criterion below.

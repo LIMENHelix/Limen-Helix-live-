@@ -25,6 +25,7 @@ const bindings = [
   { file: 'lib/tradier-b14.js', guard: 'AdapterGuard.checkpoint', effect: 'broker.placeOrder(orderRequest)', valves: ['economy:investments', 'energy:investments', 'finance:broker-order', 'technology:investments'] },
   { file: 'lib/agriculture-homestead-executor.js', effect: 'input.transport.send', valves: ['agriculture:homestead'] },
   { file: 'lib/communication-social-executor.js', effect: 'platform.postToBluesky', valves: ['communication:social'] },
+  { file: 'lib/communication-video-upload-bridge.js', guard: 'AdapterGuard).checkpoint', effect: "var authorizationId = 'cvua_'", valves: ['communication:youtube'] },
   { file: 'lib/culture-hero-executor.js', effect: 'provider.generate', valves: ['culture:hero-image'] },
   { file: 'lib/defense-publication-executor.js', effect: '.publish(store, candidate', valves: ['defense:publication'] },
   { file: 'lib/finance-subscriber-executor.js', effect: 'transport.send', valves: ['finance:subscriber-email'] },

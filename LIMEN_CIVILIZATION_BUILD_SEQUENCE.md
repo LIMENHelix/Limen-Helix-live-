@@ -3916,3 +3916,140 @@ step for these four lanes is one-at-a-time production capability commissioning
 with owned-destination evidence, independent provider readback, recovery proof,
 and zero cross-domain mutations; only then may a domain's queued paid
 fulfillment run automatically.
+
+### Communication private-video motor and state-derived Governors — 2026-09-16
+
+PR #317 closes the local-render-to-private-YouTube motor boundary without
+granting public-publication authority. A subject domain selects a current,
+source-grounded short-video artifact from its own stress and cognition;
+Communication independently selects the channel. A local worker may claim only
+that exact command, verify the rendered byte hash, obtain a short-lived
+just-in-time permit after both brains and the `communication:youtube` valve are
+re-read, upload with `privacyStatus=private`, and return the exact provider
+readback. The provider receipt is durable and replayable after a lost core
+acknowledgment without retrying YouTube. Receipt reconciliation remains
+available after the upload valve closes because it records an effect that may
+already have happened; the provider preflight itself retains its co-timed valve
+checkpoint. A permit received outside its complete server-timed interval is
+rejected. Public promotion and an independent YouTube outcome observer remain
+uncommissioned and must not be inferred from the private provider receipt.
+
+The local ThinkPad motor is installed as a two-minute, non-overlapping scheduled
+task. Its first production cycles returned durable `NO_WORK` results for both
+render and upload, demonstrating autonomous abstention rather than content
+fabrication or an unauthorized provider call. A future eligible command may
+produce at most one render and one private upload in a cycle under the same
+gates.
+
+The Governor-facing language faculty now receives a deterministic posture
+derived from the owning domain brain's own current prediction error, predicted
+stress, regulation controls, immune state, interoception, self-state, and
+self-narrative. This is presentation and deliberation modulation, not a shared
+personality engine: it can shape tone, attention emphasis, deliberation tempo,
+exploration breadth, and response persistence, but cannot change facts,
+provenance, confidence, predictions, thresholds, budgets, authority, motor
+selection, or provider gates. Missing or stale cognition yields `unavailable`,
+not a fabricated demeanor. The twenty local brains remain sovereign; only the
+transport and rendering contract is common.
+
+### Production autonomy checkpoint through PR #325 — measured 2026-09-16
+
+The next measured constraint is commercial inventory and eligibility, not a
+missing shared brain, a Finance packet loop, or a disabled YouTube uploader.
+All twenty cognition refreshes were present during this checkpoint. The
+commercial reflex evaluated all twenty domains and abstained for named local
+reasons: thirteen daily artifact caps, three cadence inhibitions, three domains
+without admitted topic leads, and Economy without admitted semantic evidence.
+Artifact preparation then correctly abstained because no new durable planned
+reflex required another artifact. Seventeen existing prepared artifacts were
+all `PUBLIC_ARTICLE`; none was a current `SHORT_VIDEO`. The local private-video
+worker therefore continued to return `NO_WORK` without calling the provider.
+
+PR #320 removed secret-bearing provider error detail from FRED production logs.
+PRs #321 and #322 added secret-safe reason telemetry for commercial reflex,
+artifact preparation, video-manifest preparation, and the Communication video
+cycle, including the selected program needed to distinguish an idle video motor
+from stranded work. PR #324 extended that causal visibility to the scheduled
+public-social path: candidate selection, subject-domain decision,
+Communication decision, last-moment provider gate, execution, publication, and
+operator-valve veto each emit one bounded outcome. Ambiguous provider dispatch
+remains `DISPATCHING`, response-transport failure cannot create a contradictory
+second result, and observer failure cannot become a motor dependency.
+
+The first production social cycle after PR #324 returned HTTP 200 with
+`NO_ACTION` at `candidate-selection`. The generator has only one aggregate
+reason on that branch: no domain had a fresh source-linked commercial artifact
+ready for public distribution. The initial secret-safe log redacted that human
+sentence because it was not canonical; PR #325 maps exactly that known sentence
+to a fixed canonical reason while continuing to redact arbitrary free-form or
+provider text. No public post or provider call is claimed from this cycle.
+
+PR #323 reconciled `brain-v2/MASTER_PROMPT.md` with the owner-confirmed
+no-homunculus topology. A Governor is the owning domain brain's language and
+deliberation faculty. Its demeanor may be a deterministic downstream phenotype
+of that same brain's measured control state, but it is not an independent page
+persona and cannot manufacture facts, authority, budget, motor selection, or
+provider release. Shared derivation rules and immutable source observations are
+permitted; mutable appraisal, prediction, memory, permission, economics,
+decision, receipt, and outcome state remain separate in all twenty brains.
+
+This checkpoint does not prove external autonomy or income. It proves that the
+current scheduler can now distinguish a legitimate abstention from a missed
+cron, valve veto, subject-brain hold, channel-brain hold, provider hold,
+ambiguous dispatch, failure, or confirmed publication. The next dependency is
+to restore fresh, source-grounded, domain-owned sellable inventory under each
+domain's cadence and artifact cap, then let the existing subject-domain and
+Communication gates decide and observe a real release. Public-social outcome
+records for all twenty domains still had zero resolved observations at this
+checkpoint; they must not be treated as learned commercial success.
+
+### Governor bot retirement and Hugging Face cost lane — 2026-09-16
+
+A fresh code audit found no fleet of twenty live Grok governors inside LIMEN.
+The production domain console loads one generic, domain-bound Governor surface
+and sends it to one `/api/domain-agent` route. That route rebuilds the request
+from the selected domain's current server packet before inference. Nineteen old
+copy-pasted browser files were unreachable, called nineteen nonexistent API
+routes, and carried no production authority. The bespoke Energy-only agent
+handler was also unreachable after the generic surface replaced it. Those dead
+copies and the Energy-only route are retired; a regression test now requires
+one generic Governor surface for all twenty sovereign brains.
+
+This does not merge the brains. The inference provider is a stateless language
+faculty. Domain identity, P0–P10 state, mutable cognition, economics, decision,
+authority, command, receipt, outcome, and recovery remain owned by the selected
+domain. The model cannot score its own domain, open a valve, move money, publish,
+or deploy. External Grok bots are therefore unnecessary as domain controllers.
+Separate xAI image, voice, retrieval, and critique adapters remain distinct
+motor/tool lanes and were not removed by this cleanup.
+
+The generic faculty now supports either Anthropic or Hugging Face through an
+explicit provider adapter. Hugging Face calls use the same server grounding,
+global/runtime spend inhibition, dollar reservation, per-domain daily cap,
+bounded output, strict JSON response request, and secret-safe response surface.
+There is no silent provider fallback and no hard-coded Hugging Face model; model
+choice is a commissioning decision that must pass the domain-governor evaluation
+set before activation.
+
+The connected Hugging Face organization currently contains one private dataset,
+`LIMEN-Helix/venture-evals`, with one synthetic seed record. It contains no
+deployed model, Space, endpoint, or operating Governor. The installed local token
+can read that dataset but has no global `Inference Providers` permission, so no
+live Hugging Face inference was called or represented as proven. Commissioning
+requires a replacement fine-grained token with that permission plus explicit
+`DOMAIN_AGENT_PROVIDER=hf`, `DOMAIN_AGENT_HF_MODEL`, and `HF_TOKEN` deployment
+configuration. Optional `DOMAIN_AGENT_HF_BILL_TO=LIMEN-Helix` attributes usage to
+the organization when its billing and token scope support that path.
+
+The Android/robot concept remains admissible only as a later peripheral motor
+and independent observer: microphone, speaker, display, presence, notification,
+provider readback, and physical outcome telemetry. It is not a brain host and
+does not replace the twenty internal domain loops. Digital source-to-product-to-
+sale-to-outcome loops must earn and reconcile first; then one to three devices
+can be commissioned before any twenty-device fleet.
+
+This tranche removes dead control surfaces and opens a cheaper inference option;
+it does not itself prove income or external autonomy. The dependency remains
+fresh, source-grounded, domain-owned sellable inventory followed by one observed
+release, purchase, fulfillment, receipt, and outcome returning to the same
+Governor.

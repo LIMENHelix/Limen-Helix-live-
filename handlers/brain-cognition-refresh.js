@@ -301,7 +301,7 @@ module.exports = async function handler(req, res) {
           if (_motorReceipt.ok) motorReceiptsStored++;
           else motorReceiptFailures.push({ domain: dom, error: _motorReceipt.error, detail: _motorReceipt.detail });
           var _it = (_st.interoception && typeof _st.interoception === 'object') ? _st.interoception : (_st.cognition && _st.cognition.interoception) || null;
-          c.interoception = _it ? { salience: val(_it.salience), attend: val(_it.attend), divergence: num(_it.divergence), channelCount: num(_it.channelCount), integrated: num(_it.integrated) } : null;
+          c.interoception = _it ? { salience: val(_it.salience), attend: val(_it.attend), divergence: num(_it.divergence), uncertainty: num(_it.uncertainty), channelCount: num(_it.channelCount), integrated: num(_it.integrated) } : null;
           // Runtime proof for the later Energy-reference organs. These are
           // observation fields only; they grant no provider, broker, posting,
           // spending, or other external authority.
@@ -405,8 +405,9 @@ module.exports = async function handler(req, res) {
           var r = await redisSet(PREFIX + dom, { c: c, ts: Date.now() }, TTL);
           if (r && r.ok) stored++;
           else storageFailures.push({ domain: dom, stage: 'cognition-store', status: r && r.status || null, error: String(r && r.error || 'REDIS_SET_FAILED').slice(0, 240) });
-          // predictionError is an OBJECT {total, novelty, stressError, ...} on the raw cognition
-          // (compactCognition() null'd it via num()). Read the scalar .total for γ.
+          // predictionError may be an OBJECT {total, novelty, stressError, ...} on the raw
+          // cognition. The compact record now preserves .total, while γ deliberately reads
+          // the raw value here so its established measurement path remains unchanged.
           var _cog = b.state && b.state.cognition;
           var _peObj = _cog && _cog.model && _cog.model.predictionError;
           var _pe = (_peObj && typeof _peObj === 'object') ? _peObj.total : (typeof _peObj === 'number' ? _peObj : null);

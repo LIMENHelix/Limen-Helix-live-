@@ -7,7 +7,7 @@
  * effector. The deliberative ("conscious") layer over the deterministic substrate.
  *
  * TWO MODES, auto-selected:
- *  - AI (Sonnet 5): passcode entered AND billing on -> POST /api/domain-agent.
+ *  - AI (commissioned provider): passcode entered AND billing on -> POST /api/domain-agent.
  *  - LOCAL (free): no passcode, or the API is unavailable -> deterministic fallback.
  * With a passcode it tries the LLM first and falls back to local on any failure, so it
  * upgrades automatically the moment billing is on.

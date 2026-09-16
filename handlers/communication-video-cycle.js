@@ -7,6 +7,7 @@ var Store = require('../lib/autofire-efference-store.js');
 var Lanes = require('../lib/domain-commercial-lanes.js');
 var Release = require('../lib/domain-commercial-video-release.js');
 var Command = require('../lib/communication-video-command.js');
+var CycleObservability = require('../lib/autonomy-cycle-observability.js');
 
 async function one(store, domain, now, deps) {
   var subject = await Release.releaseSubject(store, domain, now, deps);
@@ -31,7 +32,7 @@ async function run(deps) {
   var rows = await Promise.all(Lanes.DOMAINS.map(function (domain) { return one(store, domain, now, deps); }));
   var commanded = rows.filter(function (row) { return row.status === 'AWAITING_LOCAL_RENDERER'; }).length;
   var failed = rows.filter(function (row) { return row.status === 'FAILED'; }).length;
-  return { ok: failed === 0, schemaVersion: 'communication-video-cycle/1.0', evaluatedAt: now,
+  var result = { ok: failed === 0, schemaVersion: 'communication-video-cycle/1.0', evaluatedAt: now,
     domains: rows.length, commanded: commanded, abstained: rows.length - commanded - failed, failed: failed, rows: rows,
     homology: { afferent: 'twenty-domain-feed-and-stress-state',
       subjectB10: 'exact-domain-short-video-selection', channelB10: 'communication-video-channel-selection',
@@ -39,6 +40,8 @@ async function run(deps) {
       reafference: 'AWAITING_INDEPENDENT_YOUTUBE_OUTCOME' },
     boundaries: { modelCalled: false, rendererCalled: false, uploaderCalled: false,
       providerCalled: false, externalEffectAuthorized: false, liveMoney: false } };
+  CycleObservability.emit('communication-video-cycle', result, deps.cycleLogger);
+  return result;
 }
 
 function createHandler(deps) {

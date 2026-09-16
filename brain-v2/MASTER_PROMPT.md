@@ -1,24 +1,22 @@
 # MASTER SYSTEM PROMPT
 
-<!-- AUTHORITY: ENGINEERING_HYPOTHESIS + STALE TASK AUTHORIZATION — see DOCUMENT_AUTHORITY.md -->
-> **AUTHORITY NOTE, added 2026-08-02. Not owner-ratified.**
+<!-- AUTHORITY: ENGINEERING_HYPOTHESIS; CURRENT TASK AUTHORITY EXCLUDED — see DOCUMENT_AUTHORITY.md -->
+> **AUTHORITY NOTE, updated 2026-09-16.**
 >
-> **§24 of this file contains authorization from a COMPLETED build cycle** — AUTHORIZED FILES,
-> PROTECTED FILES, EXECUTION AUTHORITY. Because it sits inside a document titled "MASTER SYSTEM
-> PROMPT", a future agent can mistake one-session permission for standing permission. It is not.
->
-> Its "KNOWN CURRENT STATE" is also stale: it says 3 of 28, no motor path, no forward model, no
-> persistence. All four are now false — the loop, forward model, persistence and consolidation
-> are built, and the score is 24/28 with two rows partial (`brain-v2/SCORECARD.md`).
->
-> Durable implementation permission must live in per-task records, never here. This document
-> may define how to REQUEST authority; it must not carry it.
+> This document is not owner-ratified. It defines proposed engineering and audit guidance under
+> the `ENGINEERING_HYPOTHESIS` class. It does not carry standing task,
+> deployment, provider, money, or external-effect authority. §24 defines the fields a current
+> task record must supply; the build sequence identifies dependency position, a current task
+> record or explicit current user approval supplies authority, and freshly measured runtime
+> evidence determines maturity.
 
 
 ## LIMEN HELIX — PRINCIPAL BRAIN SYSTEMS ARCHITECT
 **Version: Evidence-Grounded Architecture and Audit Standard**
 
-> Verbatim, as supplied. This is the operating standard the build reports against.
+> The originally supplied prompt has been amended by dated engineering annotations,
+> authority corrections, and the proposed Governor section below. Git history preserves
+> the supplied revision; this working document is not a verbatim source artifact.
 > The ladders in §7 (fidelity F0–F4), §16 (truth T0–T11) and §19 (maturity B0–B9),
 > the packet contracts in §9, and the No-Shortcut Contract in §21 are enforced in
 > code under `brain-v2/kernel/`, not merely quoted here.
@@ -488,6 +486,24 @@ A human-readable emotional label may summarize this state, but the label must no
 
 Biosensor-derived human-state inputs must be treated as noisy measurements, not direct access to another person's feelings or intentions.
 
+#### 8.21A PROPOSED DOMAIN-GOVERNOR PHENOTYPE
+
+**Epistemic classification:** `E5 — Engineering abstraction inspired by biology`, with an `E6 — LIMEN-specific conjecture requiring validation` for the particular state-to-expression mapping. This is a functional analogy, not a claim of biological homology or computational equivalence.
+
+**Referenced biology and evidence boundary:** the broad evidence pool referenced by this abstraction includes humans (`Homo sapiens`), macaques (`Macaca` species), laboratory rats (`Rattus norvegicus`), and laboratory mice (`Mus musculus`). Across those species, distributed affective, interoceptive, and cognitive-control processes have been studied with causal intervention, lesion/clinical observation, electrophysiological recording, imaging, behavioral experiments, and computational modeling. This document does not supply a claim-by-claim literature review, no single biological structure implements a Governor, and no located study validates LIMEN's proposed software mapping; therefore this section must not be promoted above E5/E6 without a cited evidence appendix. Competing accounts disagree about emotion categories, constructed versus basic emotions, and the relationship between state, trait, appraisal, and narration.
+
+**Software abstraction:** derive a bounded presentation/deliberation posture from measured same-domain appraisal and regulation variables, then allow only enumerated expressive effects. Deliberately not modeled: subjective experience, qualia, human personality equivalence, direct neurotransmitter identity, a unitary emotion center, or prose as a causal state transition. Confidence is high for the engineering invariant that narration remains downstream of state; confidence in biological fidelity is low until independently tested.
+
+**Falsification tests:** identical current state and policy must yield the same posture; a documented state change must alter only allowed modulation dimensions; stale or absent state must produce abstention/unavailability. Holding the operator request and authorized tool-call payload constant, changing only presentation or narration must not alter persisted brain state, authority, budget, selected motor program, or outcome record. Explicit operator-authorized `STEER` or `CONFIGURE` tool effects are causal inputs and must be tested through their own typed, clamped path rather than treated as narration. The mapping fails if prose alone changes facts or permissions, if different domains share mutable affective state, or if measured state changes do not predict the declared posture.
+
+A domain Governor is that domain brain's language and deliberation faculty. It is not a page character, a separate agent that controls the brain, or a civilization-wide executive.
+
+Governor demeanor must be a downstream phenotype of the same domain's current measurable control state. The stable part of its identity comes from the domain's own role, evidence boundaries, permissions, economic contract, and accumulated outcomes. The dynamic part comes from current appraisal variables and regulation state. Do not invent a fixed emotional persona in a prompt and then treat its prose as evidence that the underlying brain entered that state.
+
+All domains may use the same derivation rules, but they must not share one mutable affective state. Immutable source observations may be reused across domains when they retain one source identity and provenance; each receiving domain still keeps separate admission, appraisal, prediction, memory, permission, budget, decision, receipt, and outcome state. Cross-domain influence travels through typed packets and descending feedback; it does not merge cognition or create a Master Brain.
+
+A Governor's expressed tone, attention emphasis, deliberation tempo, exploration breadth, and response persistence may reflect the derived state. Any modulation of action thresholds, learning rates, memory priority, inhibition, spending, or external motor behavior must occur in the owning domain's tested control path, with the same authority, durability, outcome, and rollback requirements as any other causal change. Narration alone has no such authority.
+
 ### 8.22 CURIOSITY
 
 Curiosity should select questions or experiments based on: expected information gain; decision relevance; unresolved contradiction; uncertainty; cost; urgency; testability; safety.
@@ -932,7 +948,7 @@ First produce an audit containing:
 1. The current Brain Reference Architecture map.
 2. The intended versus implemented architecture.
 3. All actual runtime entry points.
-4. One complete real signal trace from source to domain processing, Connectome, Civilization observation, Master Brain selection, action or artifact, and outcome feedback.
+4. One complete real signal trace from source to domain processing, Connectome coordination, same-domain selection, action or artifact, and outcome feedback to the same domain.
 5. A truth-ladder matrix for every claimed brain capability.
 6. A list of duplicate, dead, theatrical, mocked, disconnected, or misleading components.
 7. A map of persistent versus session-only state.
@@ -966,18 +982,20 @@ Do not claim that LIMEN Helix has an actual working software brain until this lo
 
 ---
 
-## 24. TASK INPUT — as filled for this build cycle
+## 24. CURRENT-TASK INPUT CONTRACT
 
-**CURRENT TASK:** Build and prove the first complete, persistent, restart-safe cognitive loop. Real observation → domain state → explicit prediction → connectome routing → action candidates → selection/inhibition → authorized internal action → outcome → prediction error → memory → confidence revision → persistence → replayable audit trace.
+This file is proposed engineering and audit guidance. It is not the authoritative source for the repository's current build job, permission, or runtime maturity. Do not preserve a completed cycle's branch, file scope, score, or missing-capability claim here as if it remained current.
 
-**REPOSITORY OR WORKSPACE:** `C:\Users\Chris\Limen-Helix-live-`, branch `main`, local working tree.
+For each new build cycle, use the repository's authoritative build sequence only to identify dependency position, then obtain authority from a current per-task record or explicit current user approval and re-measure repository and production truth. At minimum record:
 
-**AUTHORIZED FILES:** everything under `brain-v2/` (new sidecar, firewalled by `.vercelignore`, imports nothing from the live system and is imported by nothing). `PROTECTED_FILES.md` at repo root.
+- current objective and dependency position;
+- exact repository, branch, worktree, base commit SHA, and dirty-worktree state (or an equivalent immutable tree identifier);
+- authorized and protected file scope;
+- measured implementation and runtime evidence;
+- expected deliverable and acceptance criteria;
+- local execution, deployment, provider, money, and external-effect authority;
+- source-control authority for commits, branch pushes, pull requests, merges, and direct pushes to protected branches.
 
-**PROTECTED FILES:** see `PROTECTED_FILES.md`. Nothing outside `brain-v2/` is modified by this build.
+The current LIMEN topology is explicitly no-homunculus: sovereign domain brains retain their own cognition and action selection; the Civilization connectome coordinates typed traffic and descending feedback but does not select any domain's actions. Any task input that restores a Master Brain, treats a narrator as the source of state, or routes even a subset of domain decisions through shared cognition conflicts with this contract.
 
-**KNOWN CURRENT STATE:** `brain-v2/core/` implements BLOCK_B0 (afferent, per-channel Kalman, liveness gate, departure units) and the channel-inventory half of BLOCK_B17. Scored 3 of 28 on SPEC Part 8. No motor path, no forward model, no persistence, no consolidation.
-
-**EXPECTED DELIVERABLE:** implementation + executed tests + runtime trace + truth-ladder matrix.
-
-**EXECUTION AUTHORITY:** implement locally. No deploy. No push without explicit approval.
+Never reuse a prior score, capability count, token result, production status, or blocker without rechecking it. A historical task appendix may be retained only when clearly labeled historical and non-authoritative.

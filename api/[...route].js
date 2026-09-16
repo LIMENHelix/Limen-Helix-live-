@@ -23,7 +23,7 @@ const CivilizationValveRegistry = require('../lib/civilization-valve-registry');
 
 // Bumped each migration commit so a deploy is probeable: any unknown /api/* path
 // returns this in the miss JSON (curl /api/__probe__ | grep the tag).
-const BUILD = 'phase-10-domain-video-render-bridge';
+const BUILD = 'phase-10-domain-video-private-upload-bridge';
 
 // name → handler module. Static requires so the tracer bundles them.
 const HANDLERS = {
@@ -91,6 +91,7 @@ const HANDLERS = {
   'domain-video-manifest-prep': require('../handlers/domain-video-manifest-prep'),
   'communication-video-cycle': require('../handlers/communication-video-cycle'),
   'communication-video-work': require('../handlers/communication-video-work'),
+  'communication-video-upload-work': require('../handlers/communication-video-upload-work'),
   'domain-commercial-status': require('../handlers/domain-commercial-status'),
   'domain-subscriber-fulfillment': require('../handlers/domain-subscriber-fulfillment'),
   'domain-subscriber-outcome-observer': require('../handlers/domain-subscriber-outcome-observer'),
@@ -104,7 +105,6 @@ const HANDLERS = {
   'energy-entry': require('../handlers/energy-entry'),
   'energy-markets': require('../handlers/energy-markets'),
   'energy-news': require('../handlers/energy-news'),
-  'energy-agent': require('../handlers/energy-agent'),
   'domain-agent': require('../handlers/domain-agent'),
   'master-agent': require('../handlers/master-agent'),
   'culture-markets': require('../handlers/culture-markets'),
@@ -361,6 +361,15 @@ const PREPARATION_POST_ROUTES = new Set([
   'trade-auction-cycle'
 ]);
 
+// This mixed worker route owns two POST phases. Provider preflight performs
+// its own just-in-time communication:youtube checkpoint after re-reading both
+// brains; receipt completion only records/reconciles an effect that may already
+// have happened. Keeping POST outside the coarse route valve lets a durable
+// receipt close an ambiguous provider outcome even when the upload valve closes.
+const INTERNALLY_GATED_OR_RECOVERY_POST_ROUTES = new Set([
+  'communication-video-upload-work'
+]);
+
 function runtimeValveHold(name, req) {
   const valveId = CivilizationValveRegistry.forRoute(name);
   if (!valveId) return null;
@@ -369,6 +378,7 @@ function runtimeValveHold(name, req) {
   // the outward effect. Keep preparation available while the efferent valve is
   // closed. Every other method/route combination remains inhibited.
   if (method === 'POST' && PREPARATION_POST_ROUTES.has(name)) return null;
+  if (method === 'POST' && INTERNALLY_GATED_OR_RECOVERY_POST_ROUTES.has(name)) return null;
   return CivilizationValve.authorize(valveId).then(function (result) {
     return result.allowed ? null : result;
   });

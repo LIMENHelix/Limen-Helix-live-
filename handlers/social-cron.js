@@ -26,6 +26,7 @@ var motorStore = require('../lib/autofire-efference-store');
 var socialExecutor = require('../lib/communication-social-executor');
 var socialDecision = require('../lib/communication-social-decision');
 var domainDistribution = require('../lib/domain-commercial-distribution-decision');
+var CycleObservability = require('../lib/autonomy-cycle-observability');
 
 var LAST_KEY = 'social:lastDomain:v1';
 
@@ -54,8 +55,32 @@ function authorized(req) {
   return cronHit(req);
 }
 
+function emitOutcome(stage, status, payload, source, logger) {
+  payload = payload && typeof payload === 'object' ? payload : {};
+  source = source && typeof source === 'object' ? source : {};
+  return CycleObservability.emit('communication-social-cycle', {
+    ok: status !== 'FAILED',
+    evaluatedAt: Date.now(),
+    rows: [{
+      productDomain: source.domain || payload.domain || 'communication',
+      stage: stage,
+      status: status,
+      reason: payload.reason || payload.error || null,
+      selectedProgram: source.selectedProgram || payload.selectedProgram || null
+    }]
+  }, logger);
+}
+
 module.exports = async function handler(req, res) {
   var q = req.query || {};
+  var post = null;
+  var currentStage = 'candidate-selection';
+  var outcomeEmitted = false;
+  function finish(payload, httpStatus, stage, status, source) {
+    emitOutcome(stage, status, payload, source);
+    outcomeEmitted = true;
+    return T.send(res, payload, httpStatus);
+  }
   try {
     if (!authorized(req)) {
       return T.send(res, { ok: false, error: 'Not authorized. Pass ?key= (SOCIAL_CRON_KEY) or call from the Vercel scheduler.' }, 401);
@@ -81,10 +106,11 @@ module.exports = async function handler(req, res) {
     var last = null;
     try { last = await db.get(LAST_KEY); } catch (e) { last = null; }
 
-    var post = await gen.generate({ after: last && last.domain, domain: q.domain,
+    post = await gen.generate({ after: last && last.domain, domain: q.domain,
       store: motorStore, now: Date.now() });
     if (post.ok === false) {
-      return T.send(res, { ok: false, published: false, reason: post.reason, tried: post.tried, skipped: post.skipped });
+      return finish({ ok: false, published: false, reason: post.reason,
+        tried: post.tried, skipped: post.skipped }, undefined, 'candidate-selection', 'NO_ACTION', post);
     }
 
     var rate = await social.rateStatus('bluesky');
@@ -103,20 +129,22 @@ module.exports = async function handler(req, res) {
     if (!wantPost) {
       preview.published = false;
       preview.note = 'Preview only. Add &post=1 to publish. Publishing is never the default.';
-      return T.send(res, preview);
+      return finish(preview, undefined, 'preview', 'PREVIEWED', post);
     }
 
     // The subject domain first releases this exact artifact for this exact
     // public route. Communication then independently owns channel safety and
     // the public social effector. Neither domain can impersonate the other.
+    currentStage = 'subject-decision';
     var domainRelease = await domainDistribution.decide(motorStore, post, Date.now());
     if (!domainRelease || domainRelease.status !== 'RELEASED') {
       preview.published = false;
       preview.domainHeld = true;
       preview.reason = domainRelease && domainRelease.reason || 'subject-domain-distribution-held';
-      return T.send(res, preview);
+      return finish(preview, undefined, 'subject-decision', 'HELD', post);
     }
     post.domainDecisionReceipt = domainRelease;
+    currentStage = 'channel-decision';
     var decision = await socialDecision.decide(motorStore, {
       subjectDomain: post.domain,
       text: post.text,
@@ -133,8 +161,9 @@ module.exports = async function handler(req, res) {
       preview.brainHeld = true;
       preview.reason = decision && decision.reason || 'communication-b10-held';
       preview.decisionBlockers = decision && decision.blockers || [];
-      return T.send(res, preview);
+      return finish(preview, undefined, 'channel-decision', 'HELD', post);
     }
+    currentStage = 'execution';
     var r = await socialExecutor.execute({
       store: motorStore,
       spec: { subjectDomain: post.domain, text: post.text, decisionReceipt: decision,
@@ -149,14 +178,14 @@ module.exports = async function handler(req, res) {
       preview.reason = r && r.reason || 'communication-social-motor-held';
       preview.motorReceiptId = r && r.motorReceiptId || null;
       preview.motorBlockers = r && r.motorBlockers || [];
-      return T.send(res, preview);
+      return finish(preview, undefined, 'provider-gate', 'HELD', post);
     }
     if (!r.ok) {
       preview.published = false;
       preview.reason = r.reason;
       preview.rateLimited = !!r.rateLimited;
       preview.blocked = !!r.blocked;
-      return T.send(res, preview);
+      return finish(preview, undefined, 'execution', r.status || 'FAILED', post);
     }
 
     try { await db.set(LAST_KEY, { domain: post.domain, at: new Date().toISOString(), uri: r.uri }); } catch (e) {}
@@ -166,13 +195,23 @@ module.exports = async function handler(req, res) {
     preview.url = r.url;
     preview.uri = r.uri;   // keep this: it is what deleteBlueskyPost needs to undo the post
     preview.rate = { usedToday: r.used, capPerDay: r.cap, remaining: Math.max(0, r.cap - r.used) };
-    return T.send(res, preview);
+    return finish(preview, undefined, 'execution', 'PUBLISHED', post);
   } catch (e) {
-    return T.send(res, { ok: false, reason: e.message || 'handler error' }, 500);
+    if (outcomeEmitted) throw e;
+    return finish({ ok: false, reason: e.message || 'handler error' }, 500,
+      currentStage, 'FAILED', post);
   }
 };
 
 // Outward-acting: this sends something into the world on a timer. Records every
 // run AND consults the veto first, which is a separate structure that can cancel
 // it without this handler being changed or redeployed.
-module.exports = require('../lib/heartbeat').guard('social-cron', module.exports);
+var guarded = require('../lib/heartbeat').guard('social-cron', module.exports, {
+  onVeto: function (gate) {
+    emitOutcome('valve', 'HELD', {
+      reason: gate && gate.reason || 'social-cron-valve-veto'
+    }, null);
+  }
+});
+guarded.emitOutcome = emitOutcome;
+module.exports = guarded;

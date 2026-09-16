@@ -5,6 +5,7 @@ var CronAuth = require('../lib/cron-auth.js');
 var Store = require('../lib/autofire-efference-store.js');
 var Lanes = require('../lib/domain-commercial-lanes.js');
 var VideoManifest = require('../lib/domain-commercial-video-manifest.js');
+var CycleObservability = require('../lib/autonomy-cycle-observability.js');
 
 async function one(store, domain, now) {
   var lane = Lanes.get(domain);
@@ -14,12 +15,16 @@ async function one(store, domain, now) {
     var persisted = await VideoManifest.persist(store, lane.contract, result);
     return { productDomain: domain, ownerDomain: lane.contract.ownerDomain,
       status: persisted.status, reason: persisted.reason || null,
+      // Safe diagnostic context for the cycle summary.  An artifact may be
+      // rejected before a manifest exists, but its code-defined program still
+      // tells operators whether this lane was ever asking for video work.
+      selectedProgram: pair[1] && pair[1].targetProgram || null,
       manifestId: persisted.manifestId || persisted.manifest && persisted.manifest.manifestId || null,
       sourceArtifactId: persisted.sourceArtifactId || persisted.manifest && persisted.manifest.sourceArtifactId || null,
       rendererCalled: false, uploaderCalled: false, externalEffectAuthorized: false };
   } catch (error) {
     return { productDomain: domain, ownerDomain: lane.contract.ownerDomain, status: 'FAILED',
-      reason: String(error && error.message || error).slice(0, 240), manifestId: null,
+      reason: String(error && error.message || error).slice(0, 240), selectedProgram: null, manifestId: null,
       sourceArtifactId: null, rendererCalled: false, uploaderCalled: false, externalEffectAuthorized: false };
   }
 }
@@ -32,10 +37,12 @@ async function run(deps) {
   var rows = await Promise.all(Lanes.DOMAINS.map(function (domain) { return one(store, domain, now); }));
   var prepared = rows.filter(function (row) { return row.status === 'VIDEO_MANIFEST_PREPARED'; }).length;
   var failed = rows.filter(function (row) { return row.status === 'FAILED'; }).length;
-  return { ok: failed === 0, schemaVersion: 'domain-video-manifest-prep-cycle/1.0', evaluatedAt: now,
+  var result = { ok: failed === 0, schemaVersion: 'domain-video-manifest-prep-cycle/1.0', evaluatedAt: now,
     domains: rows.length, prepared: prepared, abstained: rows.length - prepared - failed, failed: failed, rows: rows,
     boundaries: { modelCalled: false, rendererCalled: false, uploaderCalled: false,
       providerCalled: false, externalEffectAuthorized: false, liveMoney: false } };
+  CycleObservability.emit('domain-video-manifest-prep', result, deps.cycleLogger);
+  return result;
 }
 
 function createHandler(deps) {

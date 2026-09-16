@@ -69,6 +69,45 @@ THRESH_A = 1.1
 THRESH_B = 1.5
 THRESH_C = 1.5
 
+
+def _fetch_fred_quiet():
+    """Reproduce the locked fetch adapter without logging credential-bearing URLs."""
+    try:
+        response = lbt.requests.get(
+            "https://api.stlouisfed.org/fred/series/observations",
+            params={
+                "series_id": "FEDFUNDS",
+                "api_key": os.environ.get("FRED_API_KEY") or lbt.FRED_KEY,
+                "file_type": "json",
+                "observation_start": "2014-01-01",
+            },
+            timeout=30,
+        )
+        response.raise_for_status()
+        observations = response.json().get("observations", [])
+    except Exception:
+        return {}
+
+    monthly = {}
+    for observation in observations:
+        try:
+            dt = lbt.datetime.strptime(observation["date"], "%Y-%m-%d")
+            monthly[dt] = float(observation["value"])
+        except (KeyError, TypeError, ValueError):
+            pass
+    if not monthly:
+        return {}
+
+    quarterly = {}
+    for dt in sorted(monthly):
+        quarterly.setdefault(lbt.date_to_quarter(dt), []).append(monthly[dt])
+    quarterly_means = {quarter: lbt.np.mean(values) for quarter, values in quarterly.items()}
+    ordered = sorted(quarterly_means)
+    return {
+        ordered[index]: quarterly_means[ordered[index]] - quarterly_means[ordered[index - 1]]
+        for index in range(1, len(ordered))
+    }
+
 # ─── Operating Envelope (v1.0.1) — objective gates ───────────────────
 # Per the LIMEN Phase Kernel Operating Envelope Statement v1.0.1, the
 # "validated" verdict is legitimate ONLY inside a narrow envelope. This
@@ -266,11 +305,12 @@ def score(req: ScoreRequest):
         "debt_long_quarters":    len(dl),
     }
 
-    # FRED delta — best-effort (proceed with empty dict if unreachable)
-    try:
-        fred_delta = lbt.fetch_fred()
-    except Exception:
-        fred_delta = {}
+    # FRED delta — best-effort (proceed with empty dict if unreachable). The
+    # validated source remains byte-identical; its CLI-oriented fetcher prints
+    # HTTPError URLs, so production uses the equivalent request-local adapter.
+    fred_delta = _fetch_fred_quiet()
+    if not fred_delta:
+        print("FRED fetch unavailable; request details withheld")
 
     # Run validated pipeline: features → phases → trajectory → composite
     df = lbt.compute_all_features(data, fred_delta)

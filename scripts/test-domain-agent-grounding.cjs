@@ -35,6 +35,12 @@ function response() {
           generatedAt: new Date().toISOString(),
           readiness: { canReason: true, blockers: [] },
           afferentState: { serverObservation: { stress: 0.2 }, clientProjection: { stress: 0.99, role: 'display-advisory-only' } },
+          governorPosture: {
+            state: 'surprised',
+            source: 'same-domain-brain-control-state',
+            modulation: { tone: 'curious-qualified', exploration: 'elevated' },
+            authority: { role: 'presentation-and-deliberation-modulation-only', mayNotChange: ['facts', 'authority', 'motor-selection'] }
+          },
           commercialReflex: {
             status: 'OBSERVED', role: 'same-domain-stress-to-business-work-order', selectsExternalEffect: false,
             state: { productDomain: 'culture', status: 'PLANNED', workOrder: { selectedProgram: 'SHORT_VIDEO', renderContract: { status: 'EVIDENCE_FETCH_REQUIRED' } } },
@@ -61,6 +67,10 @@ function response() {
   assert.equal(builds, 1);
   assert.match(captured.system, /SERVER-BUILT CULTURE GOVERNOR PACKET/);
   assert.match(captured.system, /not a master brain/);
+  assert.match(captured.system, /state-dependent demeanor/);
+  assert.match(captured.system, /same-domain-brain-control-state/);
+  assert.match(captured.system, /must never change facts, provenance, confidence/);
+  assert.match(captured.system, /Do not roleplay emotions/);
   assert.match(captured.system, /CannotGrantAuthority/);
   assert.match(captured.system, /same-domain-stress-to-business-work-order/);
   assert.match(captured.system, /SHORT_VIDEO/);

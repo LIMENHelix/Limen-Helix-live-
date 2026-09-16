@@ -46,9 +46,13 @@ function cognition(domain, stress, evidence) {
     c: {
       stress,
       phase: 'P7A',
-      model: { regulation: 'stable' },
-      immune: { immuneState: 'active' },
-      interoception: { salience: 'primary-only', attend: 'stress', divergence: 0.3, channelCount: 3 },
+      model: {
+        regulation: 'surprised', predictionError: 0.44, predictedStress: 0.58,
+        regulationControl: { gain: 0.8, inhibition: 0.2, outputScale: 0.8, surprised: true }
+      },
+      immune: { immuneState: 'active', severity: 0.7 },
+      awareness: { selfState: 'guarded', selfNarrative: domain + ' is reassessing.', humanReviewRequired: true, knownCount: 2, uncertaintyCount: 1 },
+      interoception: { salience: 'primary-only', attend: 'stress', divergence: 0.3, uncertainty: 0.35, channelCount: 3, integrated: 0.39 },
       serverPacket: {
         schemaVersion: 'civilization-server-packet/1.0',
         packetId: domain + ':packet:1',
@@ -100,6 +104,12 @@ function cognition(domain, stress, evidence) {
 
   const finance = packet.domains.find(row => row.domain === 'finance');
   assert.equal(finance.serverObservation.stress, 0.42, 'server observation must win over the client display projection');
+  assert.equal(finance.cognition.predictionError, 0.44);
+  assert.equal(finance.cognition.predictedStress, 0.58);
+  assert.equal(finance.cognition.regulationControl.surprised, true);
+  assert.equal(finance.cognition.awareness.selfState, 'guarded');
+  assert.equal(finance.cognition.awareness.selfNarrative, 'finance is reassessing.');
+  assert.equal(finance.cognition.awareness.role, 'downstream summary of this domain brain state; not evidence or authority');
   assert.equal(finance.clientProjection.stressDriftFromServer, 0.48);
   assert.equal(finance.phaseContext.maskingAssessment, 'POSSIBLE_MASKING');
   assert.equal(finance.phaseContext.possibleMasking, true);

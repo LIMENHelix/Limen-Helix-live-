@@ -12,6 +12,7 @@ var CronAuth = require('../lib/cron-auth.js');
 var Redis = require('../lib/redis-kv.js');
 var Store = require('../lib/autofire-efference-store.js');
 var Lanes = require('../lib/domain-commercial-lanes.js');
+var CycleObservability = require('../lib/autonomy-cycle-observability.js');
 
 async function run(deps) {
   deps = deps || {};
@@ -58,7 +59,7 @@ async function run(deps) {
   var planned = rows.filter(function (row) { return row.status === 'PLANNED'; }).length;
   var abstained = rows.filter(function (row) { return row.status === 'ABSTAINED'; }).length;
   var failed = rows.filter(function (row) { return row.status === 'FAILED'; }).length;
-  return {
+  var result = {
     ok: failed === 0,
     schemaVersion: 'domain-commercial-reflex-cycle/1.0',
     evaluatedAt: now,
@@ -75,6 +76,8 @@ async function run(deps) {
       writeAheadIntentOnly: true
     }
   };
+  CycleObservability.emit('domain-commercial-reflex', result, deps.cycleLogger);
+  return result;
 }
 
 function createHandler(deps) {
