@@ -1,10 +1,10 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-02
-measured_at_commit: 1e4c4ef6
+measured_at: 2026-09-16
+measured_at_commit: 7c35f93cc1ca245cba197d9f659a8d45133dafc4
 scope: authority class and provenance for every consequential tracked Markdown file
-inventory: 102 tracked .md (31 root, 32 docs/, 6 brain-v2/, 25 .claude/, remainder api/ assets/ scripts/)
-recorded_by: engineering agent (Claude)
+inventory: 123 tracked .md (47 root, 33 docs/, 9 brain-v2/, 25 .claude/, 9 remainder)
+recorded_by: engineering agent (Codex)
 approved_by: null
 ---
 
@@ -63,7 +63,8 @@ unseparated; that is a defect to fix in the document, not a ninth class.
 
 | path | class | issue |
 |---|---|---|
-| `brain-v2/MASTER_PROMPT.md` | `STALE_OR_CONFLICTED` | §24 embeds a COMPLETED build cycle as live authority: AUTHORIZED FILES, PROTECTED FILES, EXECUTION AUTHORITY. Its "KNOWN CURRENT STATE" says 3 of 28, no motor path, no forward model, no persistence — all four now false. A future agent can read old one-session permission as standing permission. **Task authorization must move to per-task records.** |
+| `brain-v2/MASTER_PROMPT.md` | `ENGINEERING_HYPOTHESIS` | **Stale §24 task authority resolved 2026-09-16:** the completed-cycle file scope, runtime claims, and execution authority were removed. The file now requires a current task record or explicit current user approval and separately records source-control authority. Governor phenotype language is explicitly E5/E6 and remains proposed, not owner-ratified. Use as engineering/audit guidance, never as a mandate or permission grant. |
+| `CIVILIZATION_NO_HOMUNCULUS_RENDER_CONTRACT.md` | `OWNER_CONFIRMED` | Owner-authored at commit `f2efab32b7805d50c43db5e67e03eda67114d917` and explicitly reconfirmed in the current owner task on 2026-09-16. Governs topology and render semantics only; it grants no provider, money, deployment, or per-lane motor authority. |
 | `brain-v2/SPEC.md` | `ENGINEERING_HYPOTHESIS` | Claims to be "verbatim, as supplied by the neurologist reviewer" with no reviewer identity, credentials, immutable original, date, signature, or owner acceptance. Several invariants are project doctrine rather than biology — INV-6's four orthogonal neuromodulators (cf. Avery & Krichmar 2017 on extensive cross-interaction), INV-9's error-only ascent (cf. Shipp 2016: a theory against incompletely mapped microcircuitry), INV-12 self-labels "Project doctrine". **The implemented mechanisms and their measured results stand regardless.** |
 | `brain-v2/SCORECARD.md` | `MEASURED_RUNTIME_FACT` | reproducible: `node brain-v2/test/loop-acceptance.js`. Carries its own withdrawal history (26/28 and 25/28 both withdrawn). Good provenance. |
 | `brain-v2/CONTRACT.md` | `ENGINEERING_HYPOTHESIS` | unreviewed |
