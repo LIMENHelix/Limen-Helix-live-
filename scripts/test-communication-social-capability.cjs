@@ -116,6 +116,53 @@ function response() {
   assert.equal(disabled.status, 'HELD');
   assert.equal(disabled.reason, 'communication-social-commissioning-disabled');
 
+  assert.equal(Verifier.failedReason({ providerCalled: true, providerStage: 'authentication' }),
+    'commissioning-provider-authentication-failed');
+  assert.equal(Verifier.failedReason({ providerCalled: false, blocked: true }),
+    'commissioning-posting-blocked');
+  assert.equal(Verifier.failedReason({ providerCalled: false, rateLimited: true }),
+    'commissioning-rate-limited');
+
+  var preflightStore = new Store();
+  await preflightStore.set(Motor.receiptKey('communication'), motor(now));
+  var preflightCalls = 0;
+  var preflightDeps = {
+    env: { COMMUNICATION_SOCIAL_COMMISSIONING_ENABLED: '1' },
+    adapterGuard: { checkpoint: async function () { return { allowed: true }; } },
+    postToBluesky: async function () {
+      preflightCalls++;
+      return { ok: false, providerCalled: true, providerStage: 'authentication',
+        providerStatus: 401, definitiveFailure: true, externalEffectMayExist: false };
+    },
+    sleep: async function () {}, pollAttempts: 2, pollDelayMs: 0
+  };
+  var preflight = await Verifier.commission(preflightStore, now, preflightDeps);
+  assert.equal(preflight.status, 'FAILED');
+  assert.equal(preflight.reason, 'commissioning-provider-authentication-failed');
+  assert.equal(preflight.commissioning.providerCalled, true);
+  assert.equal(preflight.commissioning.providerStage, 'authentication');
+  assert.equal(preflight.commissioning.providerStatus, 401);
+  assert.equal(preflight.commissioning.externalEffectMayExist, false);
+  var cooling = await Verifier.commission(preflightStore, now + 1000, preflightDeps);
+  assert.equal(cooling.status, 'HELD');
+  assert.equal(cooling.reason, 'commissioning-no-effect-retry-cooldown');
+  assert.equal(preflightCalls, 1, 'known no-effect failures retry only after the cooldown');
+
+  var legacyStore = new Store();
+  await legacyStore.set(Motor.receiptKey('communication'), motor(now));
+  await legacyStore.set(Verifier.SLOT_KEY, {
+    schemaVersion: Verifier.SCHEMA, commissioningId: 'legacy-failure', status: 'FAILED',
+    productDomain: 'communication', ownerDomain: 'communication', lane: 'social',
+    motorReceiptId: 'communication-motor-receipt', textHash: Verifier.hash(Verifier.TEXT),
+    claimedAt: now - 1000, completedAt: now - 500, attemptCount: 1,
+    reason: 'commissioning-post-failed', providerCalled: false, liveMoney: false
+  });
+  var legacy = await Verifier.commission(legacyStore, now, preflightDeps);
+  assert.equal(legacy.status, 'FAILED');
+  assert.equal(legacy.reason, 'commissioning-provider-authentication-failed');
+  assert.equal(legacy.commissioning.attemptCount, 2);
+  assert.equal(preflightCalls, 2, 'legacy generic no-effect failure receives one immediate classified retry');
+
   var ambiguousStore = new Store();
   await ambiguousStore.set(Motor.receiptKey('communication'), motor(now));
   var ambiguousCalls = 0;
