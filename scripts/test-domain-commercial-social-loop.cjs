@@ -87,9 +87,14 @@ function brain(domain, now, packetDomain) {
   assert.equal((await DomainDecision.decide(store, candidate, now,
     { cognition: { finance: immuneBrain } })).reason, 'subject-domain-immune-veto');
 
-  var cognition = { communication: brain('communication', now), finance: brain('finance', now) };
+  var communicationBrain = brain('communication', now);
+  communicationBrain.c.brainOrgans.autonomousInternalEmission.holdReason = 'brake-dampen';
+  communicationBrain.c.brainOrgans.autonomousInternalEmission.emittedCount = 0;
+  var cognition = { communication: communicationBrain, finance: brain('finance', now) };
   var communicationRelease = await CommunicationDecision.decide(store, candidate, now, { cognition: cognition });
   assert.equal(communicationRelease.status, 'RELEASED');
+  assert.equal(communicationRelease.selectionAuthority, 'subject-domain-distribution-receipt');
+  assert(communicationRelease.selectionReasons.includes('communication-channel-safety-cleared'));
   assert.equal(communicationRelease.sourceArtifactId, artifact.artifactId);
   assert(communicationRelease.expiresAt <= domainRelease.expiresAt,
     'Communication authority cannot outlive subject-domain authority');
