@@ -15,12 +15,16 @@ async function one(store, domain, now) {
     var persisted = await VideoManifest.persist(store, lane.contract, result);
     return { productDomain: domain, ownerDomain: lane.contract.ownerDomain,
       status: persisted.status, reason: persisted.reason || null,
+      // Safe diagnostic context for the cycle summary.  An artifact may be
+      // rejected before a manifest exists, but its code-defined program still
+      // tells operators whether this lane was ever asking for video work.
+      selectedProgram: pair[1] && pair[1].targetProgram || null,
       manifestId: persisted.manifestId || persisted.manifest && persisted.manifest.manifestId || null,
       sourceArtifactId: persisted.sourceArtifactId || persisted.manifest && persisted.manifest.sourceArtifactId || null,
       rendererCalled: false, uploaderCalled: false, externalEffectAuthorized: false };
   } catch (error) {
     return { productDomain: domain, ownerDomain: lane.contract.ownerDomain, status: 'FAILED',
-      reason: String(error && error.message || error).slice(0, 240), manifestId: null,
+      reason: String(error && error.message || error).slice(0, 240), selectedProgram: null, manifestId: null,
       sourceArtifactId: null, rendererCalled: false, uploaderCalled: false, externalEffectAuthorized: false };
   }
 }
