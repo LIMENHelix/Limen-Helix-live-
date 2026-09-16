@@ -11,6 +11,11 @@ function civilization(domain, now, overrides) {
     cognition: {
       present: true, observedAt: new Date(now).toISOString(), stale: false,
       packetId: 'packet-' + domain, feedHealth: { configured: 2, live: 2 },
+      stress: 0.2, predictedStress: 0.24, predictionError: 0.12,
+      regulation: 'stable', regulationControl: { gain: 0.8, inhibition: 0.2, outputScale: 0.8 },
+      immune: 'clear', immuneSeverity: 0.05,
+      awareness: { selfState: 'stable', selfNarrative: 'Culture is stable.', humanReviewRequired: false },
+      interoception: { salience: 'stable', divergence: 0.1, uncertainty: 0.1 },
       semanticEvidence: { status: 'OBSERVED', headlines: [] }
     },
     investmentNewsReview: { status: 'NOT_APPLICABLE' },
@@ -43,7 +48,12 @@ function civilization(domain, now, overrides) {
   assert.equal(ready.packet.operationalLoop.sourceChainComplete, true);
   assert(ready.packet.operationalLoop.codePaths.executor.includes('handlers/hero-image.js'));
   assert.equal(ready.packet.afferentState.clientProjection.role, 'display-advisory-only');
+  assert.equal(ready.packet.governorPosture.state, 'steady');
+  assert.equal(ready.packet.governorPosture.localBrainState.selfNarrative, 'Culture is stable.');
+  assert.equal(ready.packet.governorPosture.authority.role, 'presentation-and-deliberation-modulation-only');
+  assert(ready.packet.governorPosture.authority.mayNotChange.includes('budget'));
   assert.equal(ready.packet.truthPolicy.clientProjectionAdvisoryOnly, true);
+  assert.equal(ready.packet.truthPolicy.governorPostureCannotGrantAuthority, true);
   assert.equal(ready.packet.truthPolicy.paperEvidenceIsNotProductionCapability, true);
   assert.equal(ready.packet.readiness.canReason, true);
   assert.equal(ready.packet.readiness.canDispatchExternal, false);
@@ -77,6 +87,8 @@ function civilization(domain, now, overrides) {
   });
   assert.equal(stale.packet.readiness.canReason, false);
   assert(stale.packet.readiness.blockers.includes('domain-cognition-stale'));
+  assert.equal(stale.packet.governorPosture.state, 'unavailable');
+  assert.equal(stale.packet.governorPosture.reason, 'domain-cognition-stale');
 
   assert.equal((await Governor.build('not-a-domain', { briefingBuilder: async function () { throw new Error('must not run'); } })).reason, 'unknown-product-domain');
   assert.equal(Governor.canonical('health'), 'medicine');

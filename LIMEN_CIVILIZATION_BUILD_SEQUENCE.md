@@ -3916,3 +3916,38 @@ step for these four lanes is one-at-a-time production capability commissioning
 with owned-destination evidence, independent provider readback, recovery proof,
 and zero cross-domain mutations; only then may a domain's queued paid
 fulfillment run automatically.
+
+### Communication private-video motor and state-derived Governors — 2026-09-16
+
+PR #317 closes the local-render-to-private-YouTube motor boundary without
+granting public-publication authority. A subject domain selects a current,
+source-grounded short-video artifact from its own stress and cognition;
+Communication independently selects the channel. A local worker may claim only
+that exact command, verify the rendered byte hash, obtain a short-lived
+just-in-time permit after both brains and the `communication:youtube` valve are
+re-read, upload with `privacyStatus=private`, and return the exact provider
+readback. The provider receipt is durable and replayable after a lost core
+acknowledgment without retrying YouTube. Receipt reconciliation remains
+available after the upload valve closes because it records an effect that may
+already have happened; the provider preflight itself retains its co-timed valve
+checkpoint. A permit received outside its complete server-timed interval is
+rejected. Public promotion and an independent YouTube outcome observer remain
+uncommissioned and must not be inferred from the private provider receipt.
+
+The local ThinkPad motor is installed as a two-minute, non-overlapping scheduled
+task. Its first production cycles returned durable `NO_WORK` results for both
+render and upload, demonstrating autonomous abstention rather than content
+fabrication or an unauthorized provider call. A future eligible command may
+produce at most one render and one private upload in a cycle under the same
+gates.
+
+The Governor-facing language faculty now receives a deterministic posture
+derived from the owning domain brain's own current prediction error, predicted
+stress, regulation controls, immune state, interoception, self-state, and
+self-narrative. This is presentation and deliberation modulation, not a shared
+personality engine: it can shape tone, attention emphasis, deliberation tempo,
+exploration breadth, and response persistence, but cannot change facts,
+provenance, confidence, predictions, thresholds, budgets, authority, motor
+selection, or provider gates. Missing or stale cognition yields `unavailable`,
+not a fabricated demeanor. The twenty local brains remain sovereign; only the
+transport and rendering contract is common.
