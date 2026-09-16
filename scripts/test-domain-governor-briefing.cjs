@@ -87,6 +87,8 @@ function civilization(domain, now, overrides) {
   });
   assert.equal(stale.packet.readiness.canReason, false);
   assert(stale.packet.readiness.blockers.includes('domain-cognition-stale'));
+  assert.equal(stale.packet.governorPosture.state, 'unavailable');
+  assert.equal(stale.packet.governorPosture.reason, 'domain-cognition-stale');
 
   assert.equal((await Governor.build('not-a-domain', { briefingBuilder: async function () { throw new Error('must not run'); } })).reason, 'unknown-product-domain');
   assert.equal(Governor.canonical('health'), 'medicine');

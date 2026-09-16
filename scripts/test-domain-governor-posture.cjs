@@ -50,6 +50,14 @@ assert.equal(surprised.modulation.attentionWidth, 'broadened');
 assert.equal(surprised.modulation.exploration, 'elevated');
 assert.equal(surprised.appraisal.rewardExpectation, null, 'unobserved appraisal channels must not be invented');
 
+var regulationStateSurprised = Posture.derive(Object.assign({}, steadyInput, {
+  predictionError: 0.3,
+  regulation: 'surprised',
+  regulationControl: { gain: 0.8, inhibition: 0.2, outputScale: 0.8 }
+}), 0.35);
+assert.equal(regulationStateSurprised.state, 'surprised',
+  'the domain brain regulation state must drive posture even without a duplicate control flag');
+
 var overloaded = Posture.derive(Object.assign({}, steadyInput, {
   regulation: 'flooding',
   regulationControl: { gain: 1, inhibition: 0.7, outputScale: 0.3, flooding: true }
@@ -61,5 +69,9 @@ var unavailable = Posture.derive({ present: false, stale: true }, 0.9);
 assert.equal(unavailable.state, 'unavailable', 'server stress cannot impersonate a missing local brain state');
 assert.equal(unavailable.reason, 'domain-cognition-absent');
 assert.equal(unavailable.appraisal.threat, null);
+
+var freshnessUnavailable = Posture.derive(steadyInput, 0.9, false);
+assert.equal(freshnessUnavailable.state, 'unavailable');
+assert.equal(freshnessUnavailable.reason, 'domain-cognition-stale');
 
 console.log('domain governor posture: deterministic local neurology modulates demeanor without receiving motor authority');
