@@ -4158,3 +4158,58 @@ as a provider call, and permits a bounded retry only when no create effect can
 exist. Known no-effect failures cool down for one hour; ambiguous create
 results still never retry. This diagnostic correction must deploy and classify
 the exact pre-create failure before Communication capability is claimed.
+
+### All-domain motor and Communication commissioning checkpoint — 2026-09-16
+
+PR #333 (`12ef1004`) deployed the safe diagnostic correction. The next
+production heartbeat classified the stored no-effect failure as
+`commissioning-provider-authentication-http-401-retry-cooldown`. Surrounding
+whitespace is now removed from the app-password environment value before
+authentication, so the remaining provider block is a credential/account
+pairing rejected by Bluesky, not Redis, scheduling, B10, or the post adapter.
+No create call followed failed authentication and no commissioning marker was
+published.
+
+The public Bluesky author feed independently showed a burst of LIMEN posts on
+2026-09-15 while LIMEN's own durable post ledger still ended on 2026-08-25.
+Those posts therefore cannot be claimed as effects of the in-brain motor. PR
+#335 (`1f9e6cce`) now records unmatched public posts as
+`OBSERVED_EXTERNAL` with `UNJOINED` attribution, identity, content hash,
+timestamp, and engagement counters. They are explicitly ineligible for
+execution proof or learning until a matching durable LIMEN command exists; the
+observer does not retain their post text.
+
+The live Communication cognition record was fresh and healthy: immune state
+clear, no human-review veto, eleven live feeds, and one opportunity. Its low
+Communication stress correctly produced `brake-dampen` and zero locally emitted
+actions, but that local content-generation brake was also vetoing a Finance
+artifact already selected by Finance. PR #334 (`3825c69e`) removed that
+duplicate authority. An exact subject-domain distribution receipt is now the
+basal-ganglia selection for a routed commercial artifact; Communication still
+owns channel cognition freshness, immune and human-review vetoes, feed health,
+identity, rate/budget controls, provider access, motor authorization, rollback,
+and independent observation. Communication's local brake and emission count
+still govern content originated by Communication itself.
+
+The fresh code audits now supersede the old partial-plumbing counts:
+
+- `20/20` separate product-domain brains pass the common core and authority
+  checks.
+- `19/20` are domain-local extension implementations and Energy retains its
+  five custom local implementations; no generic Energy-port implementation was
+  found.
+- `20/20` declare and implement a domain-bound executor, durable action receipt,
+  independent outcome observer, domain-authorized rollback, and complete source
+  chain.
+- `0/20` executor/observer pairs are yet production-verified by their owning
+  domain, so `0/20` qualify as externally autonomous. Communication is the only
+  externally enabled domain at this checkpoint; the other nineteen remain
+  inhibited pending lane-by-lane commissioning.
+
+The full suite after the subject-owned selection repair passed `293`, skipped
+one external-corpus test, and failed zero. The next dependency is narrow: replace
+the rejected `BLUESKY_APP_PASSWORD` for `limenhelix.bsky.social`, then allow the
+bounded create → independent presence → delete → independent absence proof to
+mint the temporary Communication capability pair. Only after that proof may a
+natural subject-selected post run and return an outcome to the same subject
+domain. This checkpoint does not claim income or external autonomy.
