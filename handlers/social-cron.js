@@ -70,6 +70,24 @@ function authorized(req) {
   return cronHit(req);
 }
 
+// A valid veto belongs to the subject brain, but it must not monopolize the
+// shared Communication motor. Try the already-ranked candidates in this one
+// cycle until one subject releases its exact artifact. No provider is called,
+// no veto is weakened, and every held subject remains held.
+async function selectSubjectCandidate(candidates, store, now, decide) {
+  var held = [];
+  for (var i = 0; i < candidates.length; i++) {
+    var candidate = candidates[i];
+    var release = await decide(store, candidate, now);
+    if (release && release.status === 'RELEASED') {
+      return { ok: true, post: candidate, release: release, held: held };
+    }
+    held.push({ domain: candidate.domain,
+      reason: release && release.reason || 'subject-domain-distribution-held' });
+  }
+  return { ok: false, held: held };
+}
+
 function emitOutcome(stage, status, payload, source, logger) {
   payload = payload && typeof payload === 'object' ? payload : {};
   source = source && typeof source === 'object' ? source : {};
@@ -122,12 +140,28 @@ module.exports = async function handler(req, res) {
     var last = null;
     try { last = await db.get(LAST_KEY); } catch (e) { last = null; }
 
-    post = await gen.generate({ after: last && last.domain, domain: q.domain,
+    var selection = await gen.candidates({ after: last && last.domain, domain: q.domain,
       store: motorStore, now: Date.now() });
-    if (post.ok === false) {
-      return finish({ ok: false, published: false, reason: post.reason,
-        tried: post.tried, skipped: post.skipped }, undefined, 'candidate-selection', 'NO_ACTION', post);
+    if (!selection.ready.length) {
+      return finish({ ok: false, published: false,
+        reason: 'No domain has a fresh source-linked commercial artifact ready for public distribution.',
+        tried: selection.tried, skipped: selection.skipped }, undefined,
+      'candidate-selection', 'NO_ACTION', null);
     }
+
+    currentStage = 'subject-decision';
+    var subjectSelection = await selectSubjectCandidate(selection.ready, motorStore, Date.now(),
+      domainDistribution.decide);
+    if (!subjectSelection.ok) {
+      post = selection.ready[0];
+      return finish({ ok: true, published: false, domainHeld: true,
+        reason: subjectSelection.held[0] && subjectSelection.held[0].reason || 'subject-domain-distribution-held',
+        subjectHeld: subjectSelection.held, tried: selection.tried, skipped: selection.skipped },
+      undefined, 'subject-decision', 'HELD', post);
+    }
+    post = subjectSelection.post;
+    post.tried = selection.tried;
+    post.skipped = selection.skipped;
 
     var rate = await social.rateStatus('bluesky');
     var preview = {
@@ -151,14 +185,8 @@ module.exports = async function handler(req, res) {
     // The subject domain first releases this exact artifact for this exact
     // public route. Communication then independently owns channel safety and
     // the public social effector. Neither domain can impersonate the other.
-    currentStage = 'subject-decision';
-    var domainRelease = await domainDistribution.decide(motorStore, post, Date.now());
-    if (!domainRelease || domainRelease.status !== 'RELEASED') {
-      preview.published = false;
-      preview.domainHeld = true;
-      preview.reason = domainRelease && domainRelease.reason || 'subject-domain-distribution-held';
-      return finish(preview, undefined, 'subject-decision', 'HELD', post);
-    }
+    var domainRelease = subjectSelection.release;
+    preview.subjectHeld = subjectSelection.held;
     post.domainDecisionReceipt = domainRelease;
     currentStage = 'channel-decision';
     var decision = await socialDecision.decide(motorStore, {
@@ -231,4 +259,5 @@ var guarded = require('../lib/heartbeat').guard('social-cron', module.exports, {
 });
 guarded.emitOutcome = emitOutcome;
 guarded.safeDecisionBlocker = safeDecisionBlocker;
+guarded.selectSubjectCandidate = selectSubjectCandidate;
 module.exports = guarded;

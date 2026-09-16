@@ -85,6 +85,32 @@ assert.equal(vetoed.rows[0].reason, 'maintenance');
 assert.equal(vetoed.secretBearingFieldsIncluded, false);
 
 (async function () {
+  var selections = [];
+  var selected = await SocialCron.selectSubjectCandidate([
+    { domain: 'energy' }, { domain: 'finance' }, { domain: 'science' }
+  ], {}, 1000, async function (_store, candidate) {
+    selections.push(candidate.domain);
+    return candidate.domain === 'finance'
+      ? { status: 'RELEASED', decisionReceiptId: 'finance-release' }
+      : { status: 'NO_ACTION', reason: 'subject-domain-immune-veto' };
+  });
+  assert.equal(selected.ok, true);
+  assert.equal(selected.post.domain, 'finance');
+  assert.equal(selected.release.decisionReceiptId, 'finance-release');
+  assert.deepEqual(selected.held, [{ domain: 'energy', reason: 'subject-domain-immune-veto' }]);
+  assert.deepEqual(selections, ['energy', 'finance']);
+
+  var allHeld = await SocialCron.selectSubjectCandidate([
+    { domain: 'energy' }, { domain: 'science' }
+  ], {}, 1000, async function (_store, candidate) {
+    return { status: 'NO_ACTION', reason: candidate.domain + '-veto' };
+  });
+  assert.equal(allHeld.ok, false);
+  assert.deepEqual(allHeld.held, [
+    { domain: 'energy', reason: 'energy-veto' },
+    { domain: 'science', reason: 'science-veto' }
+  ]);
+
   var observed = null;
   var called = await heartbeat.observeVeto({
     onVeto: function (gate, req) { observed = { gate: gate, req: req }; }
