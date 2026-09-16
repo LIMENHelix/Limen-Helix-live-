@@ -14,6 +14,20 @@ function send(res, code, body) {
   res.setHeader('cache-control', 'no-store');
   return res.end(JSON.stringify(body));
 }
+var SAFE_PROVIDER_STATUSES = new Set([400, 401, 403, 408, 409, 425, 429, 500, 502, 503, 504]);
+function telemetryReason(result) {
+  var reason = result && result.reason || null;
+  var commissioning = result && result.commissioning || {};
+  var status = Number(commissioning.providerStatus);
+  var authFailure = reason === 'commissioning-provider-authentication-failed' ||
+    (reason === 'commissioning-no-effect-retry-cooldown' &&
+      commissioning.reason === 'commissioning-provider-authentication-failed');
+  if (authFailure && SAFE_PROVIDER_STATUSES.has(status)) {
+    return 'commissioning-provider-authentication-http-' + status +
+      (reason === 'commissioning-no-effect-retry-cooldown' ? '-retry-cooldown' : '');
+  }
+  return reason;
+}
 function createHandler(deps) {
   deps = deps || {};
   var store = deps.store || Store;
@@ -38,7 +52,7 @@ function createHandler(deps) {
         ok: result.ok === true,
         evaluatedAt: Date.now(),
         rows: [{ productDomain: 'communication', stage: 'capability-commissioning',
-          status: result.status, reason: result.reason || null }]
+          status: result.status, reason: telemetryReason(result) }]
       }, deps.cycleLogger);
       return send(res, 200, result);
     } catch (error) {
@@ -53,3 +67,4 @@ function createHandler(deps) {
 var handler = createHandler();
 module.exports = require('../lib/heartbeat.js').guard('communication-social-capability', handler);
 module.exports.createHandler = createHandler;
+module.exports.telemetryReason = telemetryReason;

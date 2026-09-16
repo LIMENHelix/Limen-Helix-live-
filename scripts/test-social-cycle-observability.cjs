@@ -3,6 +3,8 @@
 
 var assert = require('node:assert/strict');
 var SocialCron = require('../handlers/social-cron.js');
+var SocialCapability = require('../handlers/communication-social-capability.js');
+var SocialPost = require('../lib/social-post.js');
 var heartbeat = require('../lib/heartbeat.js');
 
 var lines = [];
@@ -29,6 +31,37 @@ assert.equal(lines.length, 1);
 assert(!lines[0].includes('customer content'));
 assert(!lines[0].includes('source headline'));
 assert(!lines[0].includes('secret-value'));
+
+var decisionHeld = SocialCron.emitOutcome('channel-decision', 'HELD', {
+  reason: 'communication-b10-held',
+  decisionBlockers: ['communication-b10-no-action-selected']
+}, { domain: 'finance', selectedProgram: 'INVESTMENT_REVIEW' }, function () {});
+assert.deepEqual(decisionHeld.reasons, { 'communication-b10-no-action-selected': 1 });
+assert.equal(decisionHeld.rows[0].selectedProgram, 'INVESTMENT_REVIEW');
+assert.equal(SocialCron.safeDecisionBlocker('communication-b10-brake-held:secret-shaped-value'),
+  'communication-b10-brake-held');
+assert.equal(SocialCron.safeDecisionBlocker('unknown-secret-shaped-value'), null);
+
+assert.equal(SocialCapability.telemetryReason({
+  reason: 'commissioning-no-effect-retry-cooldown',
+  commissioning: { reason: 'commissioning-provider-authentication-failed', providerStatus: 401 }
+}), 'commissioning-provider-authentication-http-401-retry-cooldown');
+assert.equal(SocialCapability.telemetryReason({
+  reason: 'commissioning-no-effect-retry-cooldown',
+  commissioning: { reason: 'commissioning-provider-authentication-failed', providerStatus: 418 }
+}), 'commissioning-no-effect-retry-cooldown');
+
+var priorHandle = process.env.BLUESKY_HANDLE;
+var priorPassword = process.env.BLUESKY_APP_PASSWORD;
+process.env.BLUESKY_HANDLE = '  @LimenHelix.Bsky.Social  ';
+process.env.BLUESKY_APP_PASSWORD = '  example-app-password\r\n';
+assert.deepEqual(SocialPost.creds(), {
+  handle: 'limenhelix.bsky.social', password: 'example-app-password'
+});
+if (priorHandle === undefined) delete process.env.BLUESKY_HANDLE;
+else process.env.BLUESKY_HANDLE = priorHandle;
+if (priorPassword === undefined) delete process.env.BLUESKY_APP_PASSWORD;
+else process.env.BLUESKY_APP_PASSWORD = priorPassword;
 
 var failed = SocialCron.emitOutcome('execution', 'FAILED', {
   reason: 'free form provider failure: https://example.com/?token=secret'
