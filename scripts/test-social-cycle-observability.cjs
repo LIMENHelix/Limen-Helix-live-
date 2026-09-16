@@ -3,6 +3,7 @@
 
 var assert = require('node:assert/strict');
 var SocialCron = require('../handlers/social-cron.js');
+var heartbeat = require('../lib/heartbeat.js');
 
 var lines = [];
 var summary = SocialCron.emitOutcome('subject-decision', 'HELD', {
@@ -42,4 +43,29 @@ assert.deepEqual(ambiguous.statuses, { DISPATCHING: 1 });
 assert.equal(ambiguous.rows[0].domain, 'law');
 assert.equal(ambiguous.rows[0].selectedProgram, 'PUBLIC_ARTICLE');
 
-console.log('social cycle observability: release, hold, and failure reasons are visible without content or secrets');
+var vetoed = SocialCron.emitOutcome('valve', 'HELD', {
+  reason: 'maintenance'
+}, null, function () {});
+assert.deepEqual(vetoed.statuses, { HELD: 1 });
+assert.equal(vetoed.rows[0].stage, 'valve');
+assert.equal(vetoed.rows[0].reason, 'maintenance');
+assert.equal(vetoed.secretBearingFieldsIncluded, false);
+
+(async function () {
+  var observed = null;
+  var called = await heartbeat.observeVeto({
+    onVeto: function (gate, req) { observed = { gate: gate, req: req }; }
+  }, { open: false, reason: 'maintenance' }, { query: { key: 'must-not-be-logged' } });
+  assert.equal(called, true);
+  assert.equal(observed.gate.reason, 'maintenance');
+
+  var swallowed = await heartbeat.observeVeto({
+    onVeto: function () { throw new Error('observer failed'); }
+  }, { open: false }, {});
+  assert.equal(swallowed, false);
+
+  console.log('social cycle observability: release, hold, veto, and failure reasons are visible without content or secrets');
+})().catch(function (error) {
+  console.error(error);
+  process.exitCode = 1;
+});
