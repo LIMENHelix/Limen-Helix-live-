@@ -195,6 +195,9 @@ function brain(domain, now, packetDomain) {
   assert.equal((await Generator.generate({ store: rankStore, now: now })).domain, 'finance');
   assert.equal((await Generator.generate({ store: rankStore, now: now, after: 'finance' })).domain, 'energy',
     'refractory rotation prevents a high-salience domain monopolizing consecutive posts');
+  var rankedBatch = await Generator.candidates({ store: rankStore, now: now });
+  assert.deepEqual(rankedBatch.ready.map(function (row) { return row.domain; }), ['finance', 'energy'],
+    'the scheduler can inspect every ready subject in salience order without rereading the stores');
 
   var strandedStore = new Store();
   await strandedStore.set(contract.stateKey, state); await strandedStore.set(contract.artifactStateKey, artifact);
