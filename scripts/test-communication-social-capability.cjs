@@ -138,8 +138,9 @@ function response() {
     pollAttempts: 1
   }); }, /valve closed/);
 
-  var calls = { commission: 0, audit: 0 };
+  var calls = { commission: 0, audit: 0, telemetry: [] };
   var handler = Handler.createHandler({ store: store, env: { CRON_SECRET: 'cron', BRAIN_SHADOW_TOKEN: 'brain' },
+    cycleLogger: function (line) { calls.telemetry.push(line); },
     verifier: {
       commission: async function () { calls.commission++; return { ok: true, status: 'VERIFIED' }; },
       audit: async function () { calls.audit++; return { readOnly: true }; }
@@ -147,6 +148,9 @@ function response() {
   var cronRes = response();
   await handler({ method: 'GET', headers: { authorization: 'Bearer cron' } }, cronRes);
   assert.equal(cronRes.statusCode, 200); assert.equal(calls.commission, 1);
+  assert.equal(calls.telemetry.length, 1);
+  assert.match(calls.telemetry[0], /"cycle":"communication-social-capability"/);
+  assert.match(calls.telemetry[0], /"status":"VERIFIED"/);
   var auditRes = response();
   await handler({ method: 'GET', headers: { 'x-brain-token': 'brain' } }, auditRes);
   assert.equal(auditRes.statusCode, 200); assert.equal(calls.audit, 1);
