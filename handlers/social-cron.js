@@ -44,6 +44,21 @@ function cronHit(req) {
 }
 
 var KEY_VARS = ['SOCIAL_CRON_KEY', 'ADMIN_MASTER', 'ADMIN_MASTER_KEY', 'SALES_ADMIN_KEY', 'LEAD_ADMIN_KEY'];
+var SAFE_DECISION_BLOCKERS = new Set([
+  'candidate-identity-missing', 'candidate-text-over-platform-limit',
+  'candidate-verification-link-missing', 'candidate-live-source-identity-invalid-or-stale',
+  'communication-brain-state-missing-or-stale', 'subject-brain-state-missing-or-stale',
+  'communication-immune-veto', 'communication-human-review-veto',
+  'communication-b10-no-action-selected', 'communication-live-feeds-unavailable',
+  'subject-live-feeds-unavailable', 'subject-brain-no-salient-condition',
+  'decision-persistence-or-input-unavailable'
+]);
+
+function safeDecisionBlocker(value) {
+  var blocker = typeof value === 'string' ? value : '';
+  if (blocker.indexOf('communication-b10-brake-held:') === 0) return 'communication-b10-brake-held';
+  return SAFE_DECISION_BLOCKERS.has(blocker) ? blocker : null;
+}
 
 function authorized(req) {
   var q = req.query || {};
@@ -65,7 +80,8 @@ function emitOutcome(stage, status, payload, source, logger) {
       productDomain: source.domain || payload.domain || 'communication',
       stage: stage,
       status: status,
-      reason: payload.reason || payload.error || null,
+      reason: safeDecisionBlocker(Array.isArray(payload.decisionBlockers) && payload.decisionBlockers[0]) ||
+        payload.reason || payload.error || null,
       selectedProgram: source.selectedProgram || payload.selectedProgram || null
     }]
   }, logger);
@@ -214,4 +230,5 @@ var guarded = require('../lib/heartbeat').guard('social-cron', module.exports, {
   }
 });
 guarded.emitOutcome = emitOutcome;
+guarded.safeDecisionBlocker = safeDecisionBlocker;
 module.exports = guarded;
