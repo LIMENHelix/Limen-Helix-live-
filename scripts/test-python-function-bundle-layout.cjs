@@ -2,6 +2,7 @@
 'use strict';
 
 const assert = require('node:assert/strict');
+const childProcess = require('node:child_process');
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -78,5 +79,24 @@ assert.equal(fs.readFileSync(path.join(root, 'api', '.python-version'), 'utf8').
 const ignore = fs.readFileSync(path.join(root, '.vercelignore'), 'utf8');
 assert.match(ignore, /^node_modules\/$/m,
   'CLI source deployments must not upload the local dependency tree');
+const ignoreFile = path.join(root, '.vercelignore').replaceAll('\\', '/');
+function ignored(paths) {
+  const result = childProcess.spawnSync('git', [
+    '-c', 'core.excludesFile=' + ignoreFile,
+    'check-ignore', '--no-index', '--stdin',
+  ], { cwd: root, encoding: 'utf8', input: paths.join('\n') + '\n' });
+  assert.ok(result.status === 0 || result.status === 1,
+    'git must be able to evaluate .vercelignore semantics: ' + String(result.stderr || '').trim());
+  return String(result.stdout || '').trim().split(/\r?\n/).filter(Boolean);
+}
+const runtimeAuditModules = [
+  'python_runtime/helix_app/audit/__init__.py',
+  'python_runtime/helix_app/audit/reconciliation_log.py',
+];
+assert.deepEqual(ignored(runtimeAuditModules), [],
+  'the effective source-upload rules must retain every imported runtime audit module');
+assert.deepEqual(ignored(['python_runtime/helix_app/audit/reconciliation_log.jsonl']),
+  ['python_runtime/helix_app/audit/reconciliation_log.jsonl'],
+  'generated request audit history must remain outside deployment archives');
 
 console.log('python function layout: one ASGI bundle, external kernel modules, preserved public rewrites');

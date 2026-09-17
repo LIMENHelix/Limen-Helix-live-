@@ -43,10 +43,11 @@ assets/data/companies/_pre-redensify/
 # directly to the browser; nothing reads from this folder at runtime.
 assets/printed/
 
-# Diagnostic artifacts and audit logs (not endpoints).
+# Diagnostic artifacts and repository-only API audit logs. The Helix audit
+# package under python_runtime is executable runtime code and must ship.
 diagnostic/
 api/audit/
-python_runtime/helix_app/audit/
+python_runtime/helix_app/audit/*.jsonl
 
 # Python bytecode caches
 api/__pycache__/
