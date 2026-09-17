@@ -19,7 +19,7 @@ function has(rel, re) { return re.test(read(rel)); }
 function walk(dir) {
   const out = [];
   for (const name of fs.readdirSync(dir)) {
-    if (['node_modules', '.git', '.next'].includes(name)) continue;
+    if (['node_modules', '.git', '.next', '.vercel'].includes(name)) continue;
     const full = path.join(dir, name);
     const stat = fs.statSync(full);
     if (stat.isDirectory()) out.push(...walk(full));

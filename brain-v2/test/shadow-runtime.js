@@ -308,7 +308,7 @@ var firstReport, secondReport, firstState;
     path.join('scripts', 'brain-audit', 'redis-archive-smoke.js'),
     '.vercelignore'
   ];
-  var SKIP_DIRS = ['node_modules', '.git', 'brain-v2/fixtures', 'brain-v2/state'];
+  var SKIP_DIRS = ['node_modules', '.git', '.vercel', 'brain-v2/fixtures', 'brain-v2/state'];
   var hits = [];
   (function walk(dir) {
     var entries;

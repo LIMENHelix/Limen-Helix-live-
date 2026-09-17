@@ -29,7 +29,7 @@ pointing DDGS_API_URL at it.
 import os
 
 # Vercel's filesystem is read-only outside /tmp; ddgs deps (fake-useragent
-# et al.) may try to touch cache dirs under HOME. Same guard as api/limen.py.
+# et al.) may try to touch cache dirs under HOME. Same guard as limen_app.py.
 os.environ.setdefault("HOME", "/tmp")
 os.environ.setdefault("XDG_CACHE_HOME", "/tmp")
 

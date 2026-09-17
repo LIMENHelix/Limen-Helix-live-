@@ -20,7 +20,7 @@ retained earnings, EBIT) — the ratio features the kernel lacks. Read-only;
 imports the kernel's fetch only.
 """
 import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'api', 'helix_app', 'thing1'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'python_runtime', 'helix_app', 'thing1'))
 import limen_backtest as lb  # noqa: E402
 
 # concept -> candidate XBRL tags (first that resolves wins); kind: instant|duration

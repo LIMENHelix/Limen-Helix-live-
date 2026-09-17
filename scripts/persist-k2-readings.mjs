@@ -6,7 +6,7 @@
  * Per the architectural reframe (2026-05-29): rendering must NOT gate on K1.
  * Every portal carries a `kernelReadings` slot, and surfaces read whichever
  * kernel has the strongest signal. This script populates kernelReadings.k2
- * across the corpus, post the gate-relaxation in api/helix_app/index.py +
+ * across the corpus, post the gate-relaxation in python_runtime/helix_app/index.py +
  * phase_engine.py (deployed once main is pushed).
  *
  * Schema written to each portal:

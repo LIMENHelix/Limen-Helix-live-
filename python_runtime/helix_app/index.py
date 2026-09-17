@@ -58,7 +58,8 @@ from audit import build_log_entry as _build_audit_entry, emit as _emit_audit
 # When auto-population yields no signal, coupling stays in intrinsic_only
 # mode and the response narrative declares it honestly.
 
-_CB_PATH = pathlib.Path(__file__).resolve().parents[1] / "assets" / "data" / "command-board-data.json"
+_PROJECT_ROOT = pathlib.Path(__file__).resolve().parents[2]
+_CB_PATH = _PROJECT_ROOT / "assets" / "data" / "command-board-data.json"
 # Fallback path — Vercel bundle root differs from working dir; try a
 # couple of candidate locations.
 _CB_PATH_CANDIDATES = [
@@ -71,7 +72,7 @@ _CB_CACHE_AT: float = 0.0
 _CB_CACHE_TTL_SECONDS = 600  # 10 min — refresh per cold start typical
 
 _MANIFEST_PATH_CANDIDATES = [
-    pathlib.Path(__file__).resolve().parents[1] / "assets" / "data" / "companies-manifest.json",
+    _PROJECT_ROOT / "assets" / "data" / "companies-manifest.json",
     pathlib.Path("assets/data/companies-manifest.json"),
     pathlib.Path("/var/task/assets/data/companies-manifest.json"),
 ]
@@ -79,7 +80,7 @@ _MANIFEST_CACHE: dict | None = None
 _MANIFEST_CACHE_AT: float = 0.0
 
 _PORTAL_DIR_CANDIDATES = [
-    pathlib.Path(__file__).resolve().parents[1] / "assets" / "data" / "companies",
+    _PROJECT_ROOT / "assets" / "data" / "companies",
     pathlib.Path("assets/data/companies"),
     pathlib.Path("/var/task/assets/data/companies"),
 ]
@@ -1388,7 +1389,7 @@ async def _score_safe(cik: str, requested_report_type: str, request_body: dict |
     #      means coupling stays in intrinsic_only mode.
     # See:
     #   memory: limen_thing2_polyvagal_coupling.md
-    #   kernel: api/helix_app/thing2/phase_engine.py
+#   kernel: python_runtime/helix_app/thing2/phase_engine.py
     #            ::_compute_polyvagal_bias  / ::_apply_coupling
     polyvagal_context = None
     polyvagal_source = "none"

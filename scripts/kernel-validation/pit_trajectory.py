@@ -17,7 +17,7 @@ masking cases (BBBY, DNR) once restatements are removed?
 import sys, os, time
 from datetime import datetime
 sys.path.insert(0, os.path.dirname(__file__))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'api', 'helix_app', 'thing1'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'python_runtime', 'helix_app', 'thing1'))
 import limen_backtest as lb       # noqa: E402
 from validate_v3 import build_df  # noqa: E402  (kernel/lookahead df builder)
 

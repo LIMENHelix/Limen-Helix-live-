@@ -330,8 +330,8 @@ console.log('D1e: no dedicated api/ function shadows the catch-all');
  *
  * BOTH LAYOUTS COUNT. Flat `api/brain-shadow.<ext>` and directory-index
  * `api/brain-shadow/index.<ext>` map to the same `/api/brain-shadow` path, and this
- * repository already uses the directory-index form (`api/helix_app/index.py`). Checking
- * only the flat layout would leave the directory form as an unguarded way in.
+ * directory-index functions are valid Vercel routes too. Checking only the flat layout
+ * would leave the directory form as an unguarded way in.
  */
 var SHADOW_EXTS = ['js', 'mjs', 'cjs', 'ts', 'tsx', 'py', 'go', 'rb'];
 function shadowFiles(dir, key) {

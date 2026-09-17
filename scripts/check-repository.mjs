@@ -126,8 +126,9 @@ try {
     for (const m of block.matchAll(/^\s*'([a-z0-9-]+)'\s*:/gim)) registered.add(m[1]);
   } catch { /* no catch-all: fall through to the per-file check below */ }
 
-  /* Both runtimes count. Twelve Python handlers live under api/ (helix.py,
-     limen.py, ddgs-search.py and friends). None is a cron target today, but
+  /* Both runtimes count. Python routes share the single api/python.py ASGI
+     entry point; implementation modules live outside api/ so Vercel does not
+     duplicate their scientific dependencies. It is not a cron target today, but
      resolving only .js would report a future Python cron as missing, and a check
      that cries wolf is a check somebody turns off. */
   const files = new Set([

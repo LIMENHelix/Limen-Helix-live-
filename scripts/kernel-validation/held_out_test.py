@@ -17,7 +17,7 @@ LB>=0.50 | Falls LB<0.50.  THING-3 CRITERION: requires P7 (non-P3) to HOLD.
 import sys, os, math, json
 import urllib.request
 sys.path.insert(0, os.path.dirname(__file__))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'api', 'helix_app', 'thing1'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'python_runtime', 'helix_app', 'thing1'))
 import limen_backtest as lb           # noqa: E402
 import phase_kernels as pk            # noqa: E402
 from pit_trajectory import clean_df   # noqa: E402

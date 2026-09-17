@@ -9,7 +9,7 @@ const root = path.join(__dirname, '..');
 const page = fs.readFileSync(path.join(root, 'kernel-comparison.html'), 'utf8');
 const board = fs.readFileSync(path.join(root, 'assets', 'js', 'kernel-comparison.js'), 'utf8');
 const report = fs.readFileSync(path.join(root, 'helix-report.html'), 'utf8');
-const api = fs.readFileSync(path.join(root, 'api', 'helix_app', 'index.py'), 'utf8');
+const api = fs.readFileSync(path.join(root, 'python_runtime', 'helix_app', 'index.py'), 'utf8');
 
 assert.match(page, /data-filter="kernel"[^>]*>[^<]*T0 QUALIFIED/);
 assert.match(page, /data-filter="partial"[^>]*>[^<]*T0 PARTIAL/);

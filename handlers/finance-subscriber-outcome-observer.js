@@ -5,13 +5,19 @@ var Executor = require('../lib/finance-subscriber-executor.js');
 var Observer = require('../lib/finance-subscriber-outcome-observer.js');
 var Learning = require('../lib/finance-subscriber-learning.js');
 var Recovery = require('../lib/finance-subscriber-recovery.js');
+var SubscriberPolicy = require('../lib/subscriber-email-policy.js');
 function createHandler(deps) {
   deps = deps || {}; var store = deps.store || Store, observer = deps.observer || Observer, cronAuth = deps.cronAuth || CronAuth;
   return async function handler(req, res) {
     res.setHeader('content-type', 'application/json'); res.setHeader('cache-control', 'no-store');
     if (String(req.method || 'GET').toUpperCase() !== 'GET') { res.statusCode = 405; res.setHeader('Allow', 'GET'); return res.end(JSON.stringify({ ok: false, error: 'GET only' })); }
     if (!cronAuth.enforce(req, res)) return;
-    if (String(process.env.FINANCE_SUBSCRIBER_OUTCOME_OBSERVER_ENABLED || '') !== '1') {
+    var policy = SubscriberPolicy.resolve(process.env, {
+      enabled: 'FINANCE_SUBSCRIBER_EMAIL_ENABLED', observerEnabled: 'FINANCE_SUBSCRIBER_OUTCOME_OBSERVER_ENABLED',
+      maxSends: 'FINANCE_SUBSCRIBER_MAX_SENDS', emailCostUsd: 'FINANCE_SUBSCRIBER_EMAIL_USD',
+      dailyBudgetUsd: 'FINANCE_SUBSCRIBER_DAILY_BUDGET_USD', dailySendCap: 'FINANCE_SUBSCRIBER_DAILY_SEND_CAP'
+    });
+    if (!policy.observerEnabled) {
       res.statusCode = 200; return res.end(JSON.stringify({ ok: true, status: 'HELD', reason: 'finance-subscriber-outcome-observer-switch-closed', sendEndpointCalled: false, liveMoney: false }));
     }
     try {

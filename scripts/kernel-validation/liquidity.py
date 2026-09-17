@@ -17,7 +17,7 @@ a low static level. Metrics (point-in-time, filed<=cutoff):
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'api', 'helix_app', 'thing1'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'python_runtime', 'helix_app', 'thing1'))
 import limen_backtest as lb       # noqa: E402
 import altman                     # noqa: E402
 from pit_trajectory import extract_pit  # noqa: E402

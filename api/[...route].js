@@ -4,8 +4,8 @@
  * WHY: collapse ~57 Vercel functions into ONE, so includeFiles bundles once
  * (≈1.6GB/deploy → one bundle). Vercel forwards every /api/* path that has NO
  * dedicated static function file to this catch-all. Static files take precedence
- * (api/<name>.js while it still exists, and the Python api/limen.py / api/helix.py
- * / api/ping.py), so a route flips to Hono ONLY once its static file is removed —
+ * (api/<name>.js while it still exists, plus the unified api/python.py runtime),
+ * so a route flips to Hono ONLY once its static file is removed —
  * which makes the migration fully incremental and reversible (git mv back).
  *
  * HOW: we use Hono's RegExpRouter purely as the path matcher and invoke each
@@ -97,6 +97,7 @@ const HANDLERS = {
   'domain-subscriber-fulfillment': require('../handlers/domain-subscriber-fulfillment'),
   'domain-subscriber-outcome-observer': require('../handlers/domain-subscriber-outcome-observer'),
   'domain-subscriber-recovery': require('../handlers/domain-subscriber-recovery'),
+  'subscriber-email-capability': require('../handlers/subscriber-email-capability'),
   'limen-civilization-handoff': require('../handlers/limen-civilization-handoff'),
   'capital-engine': require('../handlers/capital-engine'),
   'critique-artifact': require('../handlers/critique-artifact'),

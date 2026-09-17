@@ -19,7 +19,7 @@ Also reports the restatement RATE (fraction of periods whose value changed).
 """
 import sys, os, time
 sys.path.insert(0, os.path.dirname(__file__))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'api', 'helix_app', 'thing1'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'python_runtime', 'helix_app', 'thing1'))
 import limen_backtest as lb  # noqa: E402
 
 ALT_CONCEPTS = {

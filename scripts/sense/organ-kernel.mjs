@@ -35,8 +35,8 @@ export const order = 50;
 const FILES = {
   v4: path.join(ROOT, 'limen-helix-api', 'limen_v4_kernel.js'),
   backtest: path.join(ROOT, 'limen-helix-api', 'limen_backtest_kernel.js'),
-  helixApp: path.join(ROOT, 'api', 'helix_app', 'index.py'),
-  phaseEngine: path.join(ROOT, 'api', 'helix_app', 'thing2', 'phase_engine.py'),
+  helixApp: path.join(ROOT, 'python_runtime', 'helix_app', 'index.py'),
+  phaseEngine: path.join(ROOT, 'python_runtime', 'helix_app', 'thing2', 'phase_engine.py'),
   k3Relational: path.join(ROOT, 'scripts', 'lib', 'k3-relational-kernel.mjs'),
   manifest: path.join(ROOT, 'assets', 'data', 'companies-manifest.json')
 };
@@ -173,11 +173,12 @@ export function sense() {
   if (cikCollisions.length > 0) attention.push({ issue: 'Accidental CIK duplicates in companies-manifest', severity: 'high', count: cikCollisions.length, action: 'dedup — same-CIK entries with no segment marker (true duplicates)', organ: id });
   if (cikSegments.length > 0) attention.push({ issue: 'Segment breakouts sharing a parent CIK (intentional)', severity: 'low', count: cikSegments.length, action: 'informational — distinct named divisions of one SEC filer (a division has no own CIK); e.g. ' + (cikSegments[0].names || []).join(' + '), organ: id });
   /**
-   * api/helix_app/ holds .py files. The immune workflow checks out `api/` so they should be
-   * present, but a .py under a JS tree is exactly the kind of path a future cone edit drops.
+   * python_runtime/helix_app/ holds the non-entrypoint .py files. Keeping them outside api/
+   * prevents Vercel from packaging every module as a separate function, but it also means
+   * sparse-checkout workflows must include python_runtime/ explicitly.
    * State the ambiguity in the action rather than asserting the kernel was deleted.
    */
-  if (!present.helixApp || !present.phaseEngine) attention.push({ issue: 'Python kernel files not found', severity: 'high', count: Object.values(present).filter(v => !v).length, action: 'restore api/helix_app/ — but FIRST confirm this is not a checkout gap: api/ is in the immune-system.yml sparse list, so if this appears only in CI, check the cone before assuming deletion', organ: id });
+  if (!present.helixApp || !present.phaseEngine) attention.push({ issue: 'Python kernel files not found', severity: 'high', count: Object.values(present).filter(v => !v).length, action: 'restore python_runtime/helix_app/ — but FIRST confirm this is not a sparse-checkout gap before assuming deletion', organ: id });
 
   // Score reflects only ACTIVE kernels. K1 is the validated kernel. K2 (Thing 2 polyvagal)
   // K2 is a RESERVED interpretive slot and does not penalize the score while empty.

@@ -18,7 +18,7 @@ find the first DISTRESS-dominant quarter; classify the 1-2 quarters BEFORE it:
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'api', 'helix_app', 'thing1'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'python_runtime', 'helix_app', 'thing1'))
 import limen_backtest as lb           # noqa: E402
 import arbitration                    # noqa: E402
 import snr_envelope                   # noqa: E402

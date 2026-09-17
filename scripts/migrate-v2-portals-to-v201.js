@@ -31,7 +31,7 @@ const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');
 const SINGLE = args.find(a => !a.startsWith('--'));
 
-// Canonical PHASE_META labels (mirrors api/helix_app/thing2/phase_engine.py:121-135)
+// Canonical PHASE_META labels (mirrors python_runtime/helix_app/thing2/phase_engine.py:121-135)
 const PHASE_LABEL = {
   p0:  'P0 · SOURCE',
   p1:  'P1 · RUPTURE',
