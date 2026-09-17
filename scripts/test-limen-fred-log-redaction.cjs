@@ -3,8 +3,8 @@
 var assert = require('node:assert/strict');
 var fs = require('node:fs');
 
-var wrapper = fs.readFileSync('api/limen.py', 'utf8');
-var locked = fs.readFileSync('api/helix_app/thing1/limen_backtest.py', 'utf8');
+var wrapper = fs.readFileSync('python_runtime/limen_app.py', 'utf8');
+var locked = fs.readFileSync('python_runtime/helix_app/thing1/limen_backtest.py', 'utf8');
 
 assert.match(wrapper, /def _fetch_fred_quiet\(\):/,
   'the production wrapper must provide a request-local secret-safe fetch adapter');

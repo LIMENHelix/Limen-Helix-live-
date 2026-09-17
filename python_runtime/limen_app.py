@@ -1,8 +1,8 @@
 """
-api/limen.py — Top-level Vercel Python function exposing the validated
+python_runtime/limen_app.py — LIMEN validated scorer application module.
 LIMEN three-path composite distress kernel.
 
-Imports the locked validated source (api/helix_app/thing1/limen_backtest.py,
+Imports the locked validated source (python_runtime/helix_app/thing1/limen_backtest.py,
 sha256 3ce4a652…82d20) without modifying it. Heavy validation-only deps
 (matplotlib + sklearn) are stubbed at sys.modules to avoid lambda bloat.
 Path.mkdir is patched to tolerate Vercel's read-only filesystem at
@@ -46,6 +46,9 @@ Path.mkdir = _safe_mkdir
 _HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(_HERE, "helix_app", "thing1"))
 
+from statsmodels_compat import install as _install_statsmodels_compat  # noqa: E402
+
+_install_statsmodels_compat()
 import limen_backtest as lbt  # noqa: E402
 
 Path.mkdir = _orig_mkdir  # restore for any downstream user code

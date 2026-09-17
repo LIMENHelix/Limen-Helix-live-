@@ -15,7 +15,7 @@ FLAT for healthy companies? Trend measured by Kendall's tau over rolling windows
 import sys, os
 import numpy as np
 sys.path.insert(0, os.path.dirname(__file__))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'api', 'helix_app', 'thing1'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'python_runtime', 'helix_app', 'thing1'))
 import limen_backtest as lb           # noqa: E402
 from pit_trajectory import extract_pit  # noqa: E402
 

@@ -9,7 +9,7 @@ name: Sync canonical (lean) → full
 # files that legitimately differ between the repos:
 #   - index.html / vercel.json / package.json / treatment-discovery.html (full has its own)
 #   - assets/data/** (full holds the 85MB cube + audit data lean lacks — must survive)
-#   - api/lead.js (lean-only), api/helix_app/** (python kernel — do not auto-touch)
+#   - api/lead.js (lean-only), python_runtime/** (python kernel — do not auto-touch)
 #   - any full-only file (preserved, since we only copy lean→full without --delete)
 #
 # REQUIRES a one-time secret: FULL_REPO_TOKEN (a PAT/fine-grained token with
@@ -56,7 +56,7 @@ jobs:
           #    full-only files (there are none here) and assets/data are untouched.
           rsync -a lean/assets/js/ full/assets/js/
           # 2. shared api JS only — top-level *.js (minus lean-only lead.js) + lib/*.js.
-          #    Never touches api/helix_app (python kernel) or api/__pycache__,
+          #    Never touches python_runtime (python kernel) or api/__pycache__,
           #    and never deletes full-only endpoints (k3 / td-residual / print-from-residual).
           find lean/api -maxdepth 1 -name '*.js' ! -name 'lead.js' -exec cp -f {} full/api/ \;
           if [ -d lean/api/lib ]; then

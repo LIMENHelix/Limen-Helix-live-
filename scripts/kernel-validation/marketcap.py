@@ -89,7 +89,7 @@ def mve_to_liabilities(facts, ticker, cutoff):
 if __name__ == "__main__":
     import limen_backtest as lb
     import time
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'api', 'helix_app', 'thing1'))
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'python_runtime', 'helix_app', 'thing1'))
     tests = [("YUM", "0001041061", None, "buyback neg-equity, healthy"),
              ("ORLY", "0000898173", None, "buyback neg-equity, healthy"),
              ("AZO", "0000866787", None, "buyback neg-equity, healthy"),

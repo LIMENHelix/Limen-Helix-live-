@@ -16,7 +16,7 @@ import sys, os
 from datetime import datetime
 from collections import defaultdict
 sys.path.insert(0, os.path.dirname(__file__))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'api', 'helix_app', 'thing1'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'python_runtime', 'helix_app', 'thing1'))
 import limen_backtest as lb           # noqa: E402
 
 

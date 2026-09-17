@@ -18,7 +18,7 @@ XBRL loss-contingency tags (footnote-level):
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'api', 'helix_app', 'thing1'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'python_runtime', 'helix_app', 'thing1'))
 import altman  # noqa: E402
 
 LC_TAGS = [

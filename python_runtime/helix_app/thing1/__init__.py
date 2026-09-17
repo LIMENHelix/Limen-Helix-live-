@@ -96,18 +96,24 @@ def _ensure_optional_dep_shims() -> list:
     trajectory -> composite alert) never executes them: sklearn.metrics is
     used only in run_backtest/write_summary/plot_roc_pr (PR-AUC reporting)
     and matplotlib only in plot_company/plot_roc_pr. Those packages are not
-    in api/requirements.txt and would add ~200MB to the function. Since the
+    in the production dependency lock and would add ~200MB to the function. Since the
     locked file cannot be edited, when they are absent we register inert
     stand-in modules so the import succeeds; any actual call into a shimmed
-    symbol raises. numpy / pandas / statsmodels / requests — everything the
-    scoring path executes — are real installed dependencies.
+    symbol raises. numpy / pandas / requests are installed dependencies. The
+    locked file's two statsmodels calls are supplied by statsmodels_compat.py,
+    which is numerically checked against statsmodels and avoids shipping scipy.
 
     Returns the list of shimmed module names (empty if real packages exist).
     """
     import sys
     import types
 
+    from .statsmodels_compat import install as install_statsmodels_compat
+
     shimmed = []
+
+    install_statsmodels_compat()
+    shimmed.append("statsmodels-compatible-numpy")
 
     def _refuse(*_a, **_k):
         raise RuntimeError(

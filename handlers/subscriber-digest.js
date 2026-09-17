@@ -26,6 +26,7 @@ var religionExecutor = require('../lib/religion-subscriber-executor');
 var financeDecision = require('../lib/finance-subscriber-decision');
 var financeExecutor = require('../lib/finance-subscriber-executor');
 var softSubscriberLanes = require('../lib/soft-domain-subscriber-lanes');
+var subscriberPolicy = require('../lib/subscriber-email-policy');
 
 function motorFor(domain) {
   domain = String(domain || '').toLowerCase();
@@ -45,18 +46,23 @@ function motorFor(domain) {
     maxEnv: lane.config.envNames.maxSends, costEnv: lane.config.envNames.emailCostUsd,
     budgetEnv: lane.config.envNames.dailyBudgetUsd, capEnv: lane.config.envNames.dailySendCap };
 }
+function policyFor(motor) {
+  if (!motor) return { enabled: false, observerEnabled: false, maxSends: 0,
+    emailCostUsd: null, dailyBudgetUsd: null, dailySendCap: 0 };
+  return subscriberPolicy.resolve(process.env, {
+    enabled: motor.id.toUpperCase() + '_SUBSCRIBER_EMAIL_ENABLED',
+    observerEnabled: motor.id.toUpperCase() + '_SUBSCRIBER_OUTCOME_OBSERVER_ENABLED',
+    maxSends: motor.maxEnv, emailCostUsd: motor.costEnv,
+    dailyBudgetUsd: motor.budgetEnv, dailySendCap: motor.capEnv
+  });
+}
 function maxSends(motor) {
   if (!motor) return 0;
-  var n = parseInt(process.env[motor.maxEnv], 10);
-  if (!isFinite(n) && motor.id === 'finance') n = parseInt(process.env.SUBSCRIBER_DIGEST_MAX_SENDS, 10);
-  if (!isFinite(n)) n = motor.id === 'religion' ? 5 : 0;
+  var n = policyFor(motor).maxSends;
   return Math.max(0, Math.min(motor.executor.HARD_MAX_SENDS, n));
 }
-function numericEnv(name, fallback) { var n = parseFloat(process.env[name]); return isFinite(n) && n >= 0 ? n : fallback; }
 function dailySendCap(motor) {
-  if (!motor) return 0;
-  var fallback = motor.id === 'finance' || motor.id === 'religion' ? 5 : 0;
-  return numericEnv(motor.capEnv, fallback);
+  return motor ? policyFor(motor).dailySendCap : 0;
 }
 
 function cronHit(req) {
@@ -152,10 +158,11 @@ module.exports = async function handler(req, res) {
       var ids = Object.keys(groups);
       for (var g = 0; g < ids.length; g++) {
         var group = groups[ids[g]], groupMotor = group[0].motor;
+        var policy = policyFor(groupMotor);
         var batch = await groupMotor.executor.execute({
           store: motorStore, now: Date.now(), maxSends: maxSends(groupMotor),
-          emailCostUsd: numericEnv(groupMotor.costEnv, null),
-          dailyBudgetUsd: numericEnv(groupMotor.budgetEnv, null),
+          emailCostUsd: policy.emailCostUsd,
+          dailyBudgetUsd: policy.dailyBudgetUsd,
           dailySendCap: dailySendCap(groupMotor),
           specs: group.map(function (x) { return { candidate: x.candidate, decision: x.decision }; }),
           transport: { send: function (email, subject, body, options) { return crm.sendToLead(email, subject, body, options); } }
@@ -205,3 +212,4 @@ module.exports = require('../lib/heartbeat').guard('subscriber-digest', module.e
 module.exports.motorFor = motorFor;
 module.exports.maxSends = maxSends;
 module.exports.dailySendCap = dailySendCap;
+module.exports.policyFor = policyFor;

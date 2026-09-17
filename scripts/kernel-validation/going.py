@@ -21,7 +21,7 @@ outcome (recovered vs bankrupt)?
 import sys, os
 import numpy as np
 sys.path.insert(0, os.path.dirname(__file__))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'api', 'helix_app', 'thing1'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'python_runtime', 'helix_app', 'thing1'))
 import limen_backtest as lb           # noqa: E402
 import flows                          # noqa: E402
 

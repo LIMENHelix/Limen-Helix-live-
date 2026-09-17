@@ -63,6 +63,10 @@
       "schedule": "1,11,21,31,41,51 * * * *"
     },
     {
+      "path": "/api/subscriber-email-capability",
+      "schedule": "8,23,38,53 * * * *"
+    },
+    {
       "path": "/api/finance-paper-cycle",
       "schedule": "16,46 * * * *"
     },
@@ -272,13 +276,30 @@
     }
   ],
   "functions": {
-    "api/**": {
+    "api/**/*.js": {
       "excludeFiles": "{assets/**,*.html,_*.js,*.json,scripts/**}",
-      "includeFiles": "{api/protected-docs/**,api/helix_app/**,assets/data/*.json,assets/js/domain-brains/**,assets/js/limen-plasticity.js,assets/js/limen-k4-selfconsistency.js,assets/js/orb-briefing.js}",
+      "includeFiles": "{api/protected-docs/**,assets/data/*.json,assets/js/domain-brains/**,assets/js/limen-plasticity.js,assets/js/limen-k4-selfconsistency.js,assets/js/orb-briefing.js}",
+      "maxDuration": 800
+    },
+    "api/python.py": {
+      "excludeFiles": "{{.claude,brain-v2,node_modules,scripts,test}/**,api/**/*.js,api/protected-docs/**,assets/!(data)/**,assets/data/!(companies|command-board-data.json|companies-manifest.json){,/**},*.{html,js,cjs,mjs,json,md,pdf,docx,zip,csv}}",
+      "includeFiles": "{python_runtime/**,assets/data/command-board-data.json,assets/data/companies-manifest.json,assets/data/companies/**}",
       "maxDuration": 800
     }
   },
   "rewrites": [
+    {
+      "source": "/api/ddgs-search",
+      "destination": "/api/python"
+    },
+    {
+      "source": "/api/limen",
+      "destination": "/api/python"
+    },
+    {
+      "source": "/api/helix",
+      "destination": "/api/python"
+    },
     {
       "source": "/sales-enrollments",
       "destination": "/sales-stage"
@@ -341,11 +362,15 @@
     },
     {
       "source": "/api/ddgs-search/(.*)",
-      "destination": "/api/ddgs-search"
+      "destination": "/api/python"
     },
     {
       "source": "/api/limen/(.*)",
-      "destination": "/api/limen"
+      "destination": "/api/python"
+    },
+    {
+      "source": "/api/helix/(.*)",
+      "destination": "/api/python"
     }
   ],
   "redirects": [

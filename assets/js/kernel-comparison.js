@@ -152,7 +152,7 @@ function trajColor(t) {
   return '#5ab5a0';
 }
 // Phase verbiage — Thing 2's native PHASE_META.label vocabulary, byte-for-byte
-// from api/helix_app/thing2/phase_engine.py:121 (mirrored in helix-report.html:243).
+// from python_runtime/helix_app/thing2/phase_engine.py:121 (mirrored in helix-report.html:243).
 // Single source string per phase across Thing 1, Thing 2, Command Board, Helix
 // Report. Verdict register (TERMINAL_DIVERGENCE etc.) is reserved for alert rows
 // where Thing 1 has confirmed via the validated kernel — see _isValidatedAlert(d).

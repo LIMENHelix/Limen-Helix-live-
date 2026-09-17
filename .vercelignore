@@ -1,3 +1,7 @@
+# Local dependencies are rebuilt by Vercel.  Without this explicit rule the
+# CLI uploader includes them because .vercelignore replaces .gitignore.
+node_modules/
+
 # Exclude deep domain JSONs (L4+ = 4+ underscore segments)
 # L1-L3 domain JSONs ARE deployed (3,710 files)
 # L4+ served via /api/fetch-portal fallback
@@ -42,13 +46,14 @@ assets/printed/
 # Diagnostic artifacts and audit logs (not endpoints).
 diagnostic/
 api/audit/
-api/helix_app/audit/
+python_runtime/helix_app/audit/
 
 # Python bytecode caches
 api/__pycache__/
-api/helix_app/__pycache__/
-api/helix_app/thing1/__pycache__/
-api/helix_app/thing2/__pycache__/
+python_runtime/__pycache__/
+python_runtime/helix_app/__pycache__/
+python_runtime/helix_app/thing1/__pycache__/
+python_runtime/helix_app/thing2/__pycache__/
 
 # Backup file patterns
 *.before-*

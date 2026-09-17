@@ -14,7 +14,7 @@ a company compressing margin with its sector is not fracturing).
 import sys, os
 import numpy as np
 sys.path.insert(0, os.path.dirname(__file__))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'api', 'helix_app', 'thing1'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'python_runtime', 'helix_app', 'thing1'))
 import limen_backtest as lb           # noqa: E402
 import phase_signals as ps             # noqa: E402
 import fca_gate                         # noqa: E402
