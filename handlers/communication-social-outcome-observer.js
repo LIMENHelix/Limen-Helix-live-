@@ -64,34 +64,32 @@ function createHandler(deps) {
       return res.end(JSON.stringify({ ok: false, error: 'GET only' }));
     }
     if (!cronAuth.enforce(req, res)) return;
+    var stage = 'strict-store';
     try {
       store.assertDurable();
+      stage = 'pending-command-read';
       var pending = await store.lrange('communication_social_pending_log', 0, 99);
+      stage = 'pending-command-reconciliation';
       var reconciliation = await observer.reconcilePending(store, pending, process.env.BLUESKY_HANDLE, Date.now(), { fetch: deps.fetch || global.fetch });
       // The strict executor log is authoritative for successful writes. The
       // social helper's historical log is intentionally best-effort and may be
       // absent even when the durable command receipt exists.
+      stage = 'command-log-read';
       var commands = mergeCommands(await store.lrange('communication_social_command_log', 0, 99),
         reconciliation.commands);
-      // Public posts created by another uploader are real effects, but they are
-      // not LIMEN motor proof. Observe and quarantine their identity so the
-      // system can see them without inventing a command receipt or learning
-      // credit for an action it did not execute.
-      var publicHandle = deps.handle || process.env.BLUESKY_HANDLE;
-      var external = publicHandle
-        ? await observer.observeExternalFeed(store, publicHandle,
-          commands, Date.now(), { fetch: deps.fetch || global.fetch })
-        : { ok: true, inspected: 0, observedExternal: 0, newlyObservedExternal: 0,
-          reason: 'public-handle-unavailable' };
+      stage = 'owned-post-merge';
       var posts = mergePosts(commands, reconciliation, await social.recentPosts(20), 20);
+      stage = 'owned-outcome-observation';
       var result = await observer.observeRecent(store, posts, Date.now(), { fetch: deps.fetch || global.fetch });
       // Unlearned observations live on an unbounded work queue, not in a rolling
       // audit window. Each exact receipt remains until both learning ledgers
       // acknowledge its identity.
+      stage = 'learning-pending-read';
       var observations = mergeObservationReceipts(result.results.map(function (row) { return row && row.receipt; }),
         await store.lrange(Observer.LEARNING_PENDING_LOG_KEY, 0, -1));
       var learned = 0, domainLearned = 0, learningFailures = [];
       for (var i = 0; i < observations.length; i++) {
+        stage = 'owned-outcome-learning';
         var receipt = observations[i];
         var command = commands.find(function (row) { return row &&
           ((receipt.commandId && row.commandId === receipt.commandId) ||
@@ -119,16 +117,39 @@ function createHandler(deps) {
       result.learning = { communicationRecorded: learned, subjectDomainRecorded: domainLearned, failures: learningFailures };
       if (learningFailures.length) result.ok = false;
       result.reconciliation = reconciliation;
+      // Public posts created by another uploader are visible context, never
+      // LIMEN motor proof. Reconcile them only after owned outcomes have been
+      // observed and learned, and bound the work so context bookkeeping cannot
+      // starve reafference or time out the function.
+      stage = 'external-context-observation';
+      var publicHandle = deps.handle || process.env.BLUESKY_HANDLE;
+      var external;
+      try {
+        external = publicHandle
+          ? await observer.observeExternalFeed(store, publicHandle,
+            commands, Date.now(), { fetch: deps.fetch || global.fetch })
+          : { ok: true, inspected: 0, observedExternal: 0, newlyObservedExternal: 0,
+            reason: 'public-handle-unavailable' };
+      } catch (_) {
+        external = { ok: false, inspected: 0, observedExternal: 0, newlyObservedExternal: 0,
+          reason: 'external-context-observation-unavailable' };
+      }
       result.externalObservations = {
         status: 'OBSERVED_EXTERNAL', inspected: external.inspected,
         observed: external.observedExternal, newlyObserved: external.newlyObservedExternal,
+        boundedNewPerRun: external.boundedNewPerRun || null,
+        reason: external.reason || null,
         eligibleForExecutionProof: false, eligibleForLearning: false
       };
       res.statusCode = result.ok ? 200 : 207;
       return res.end(JSON.stringify(result));
     } catch (error) {
+      console.error('[communication-social-observer-failed] ' + JSON.stringify({
+        stage: stage, errorName: error && error.name || 'Error', secretBearingFieldsIncluded: false
+      }));
       res.statusCode = 503;
-      return res.end(JSON.stringify({ ok: false, error: 'communication-social-observer-unavailable', detail: String(error && error.message || error), liveMoney: false }));
+      return res.end(JSON.stringify({ ok: false, error: 'communication-social-observer-unavailable',
+        stage: stage, liveMoney: false }));
     }
   };
 }
