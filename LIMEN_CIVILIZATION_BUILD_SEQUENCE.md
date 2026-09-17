@@ -4213,3 +4213,66 @@ bounded create → independent presence → delete → independent absence proof
 mint the temporary Communication capability pair. Only after that proof may a
 natural subject-selected post run and return an outcome to the same subject
 domain. This checkpoint does not claim income or external autonomy.
+
+### First live social motor and reafference proof — 2026-09-16
+
+The refreshed Bluesky app password authenticated in Production. Communication's
+bounded commissioning route created its fixed non-commercial marker, observed
+that exact identity through the independent public AppView, deleted it, and
+observed public absence. The completed evidence minted the six-hour
+Communication executor and independent-observer capability pair; later
+heartbeats renewed the lease from the durable proof without replaying the
+marker. The marker was absent from the public feed after commissioning.
+
+PR #337 (`aca163da`) changed normal social selection from sparse fixed hours to
+every fifteen minutes while retaining the eight-post daily cap and every B10,
+provider, receipt, valve, and rollback gate. PR #338 (`edadb046`) changed the
+independent observer to fifteen-minute offsets so reafference follows the motor
+within one cadence window. Production then exposed two valid but liveness-
+blocking candidate holds: Energy's subject immune veto and Intelligence's
+subject-specific no-salience hold. PR #339 (`f9853fc8`) and PR #340 (`6a4f6494`)
+made the scheduler continue through other already-ranked candidates in the same
+cycle. Subject vetoes remain fully inhibitory; Communication-wide cognition,
+immune, human-review, feed, persistence, provider, rate, and valve holds remain
+terminal; at most one external effect can occur per cycle.
+
+The remaining motor-readiness hold was configuration, not cognition: Production
+had no explicit `SOCIAL_POSTING_ENABLED` declaration. The adapter's historical
+default was permissive, while the newer brain valve correctly treated an absent
+switch as closed. Production now declares the existing switch as `1`; no cap,
+budget, decision, or safety condition was bypassed. The next cognition refresh
+persisted Communication's motor as externally ready from its own valve plus the
+verified capability pair.
+
+Four normal scheduler cycles then produced public, source-selected posts with
+durable commands and exact public identities:
+
+- Finance at 17:15 CDT;
+- Defense at 17:45 CDT;
+- Communication at 18:15 CDT;
+- Intelligence at 19:15 CDT.
+
+The first outcome-observer attempts returned HTTP 503 because unjoined external
+feed reconciliation ran before owned-command observation and repeatedly rewrote
+up to fifty context records. PR #341 (`82e795b3`) moved owned-command outcomes
+and learning first, made external context first-write-only and bounded to five
+new records per run, and kept those unjoined records ineligible for execution
+proof or learning. The scheduled 20:06 CDT observer then completed HTTP 200.
+Communication durably recorded four independent AppView outcomes. The normal
+20:10 cognition refresh returned one exact same-domain signal to each originating
+brain:
+
+- Finance: `ELIGIBLE`, resolved 1, no-change credit 0.5;
+- Defense: `ELIGIBLE`, resolved 1, engagement delta +1, credit 1.0;
+- Communication: `ELIGIBLE`, resolved 1, no-change credit 0.5;
+- Intelligence: `ELIGIBLE`, resolved 1, no-change credit 0.5.
+
+This is the first production proof of source → sovereign domain decision →
+shared Communication motor → durable provider receipt → independent public
+outcome → reafference to the same domain brain. It proves the live social motor
+and four one-cycle domain social loops. It does **not** prove a sale, income,
+conversion, learning-gate maturity, or full-domain autonomy. Each domain's
+social learning gate still requires at least five resolved outcomes across at
+least two distinct artifacts. The authoritative dependency now moves to
+conversion-bearing product distribution and paid fulfillment while this social
+loop continues collecting bounded outcomes under its existing cap.
