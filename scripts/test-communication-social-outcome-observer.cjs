@@ -126,6 +126,27 @@ function response() {
   assert.equal(external.receipts[0].eligibleForLearning, false);
   assert.equal(external.receipts[0].text, undefined);
   assert.equal((await externalStore.lrange(Observer.LEARNING_PENDING_LOG_KEY, 0, -1)).length, 0);
+  var externalAgain = await Observer.observeExternalFeed(externalStore, 'limenhelix.bsky.social', [knownCommand], 6000, {
+    fetch: async function () { return { status: 200, json: async function () {
+      return { feed: [{ post: externalPost }] };
+    } }; }
+  });
+  assert.equal(externalAgain.observedExternal, 0,
+    'already quarantined external context is not rewritten on every observer run');
+
+  var boundedStore = new Store();
+  var boundedFeed = Array.from({ length: 8 }, function (_value, index) {
+    return { post: Object.assign({}, externalPost, {
+      uri: 'at://did:plc:test/app.bsky.feed.post/external-' + index,
+      cid: 'external-cid-' + index
+    }) };
+  });
+  var bounded = await Observer.observeExternalFeed(boundedStore, 'limenhelix.bsky.social', [], 7000, {
+    maxNew: 3,
+    fetch: async function () { return { status: 200, json: async function () { return { feed: boundedFeed }; } }; }
+  });
+  assert.equal(bounded.observedExternal, 3);
+  assert.equal(bounded.boundedNewPerRun, 3);
 
   var strictStore = new Store();
   var strictCommand = Object.assign({}, learningCommand, {
