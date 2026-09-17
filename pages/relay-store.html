@@ -19,6 +19,12 @@
   .logo{font-weight:700;font-size:1.2rem;letter-spacing:-.02em;cursor:pointer;color:var(--ink);line-height:1.05}
   .logo b{color:var(--accent)}
   .logo small{display:block;font-size:.5rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-top:1px}
+  .companion-store{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;padding:18px 20px;background:#f5f4ea;border-bottom:1px solid #deddd4;color:#272d25}
+  .companion-store p{margin:0;font-size:.9rem;line-height:1.6}
+  .companion-store small{display:block;font-size:.75rem;color:#59604e}
+  .companion-store a{display:inline-block;padding:11px 18px;border-radius:6px;background:#272d25;color:#faf8f2;font-weight:600;text-decoration:none;white-space:nowrap}
+  .companion-store a:hover{background:#414b37}
+  .companion-store a:focus-visible{outline:3px solid #737f4c;outline-offset:3px}
   footer{border-top:1px solid var(--line);background:#fff;color:var(--faint);font-size:.78rem;text-align:center;padding:22px 20px;margin-top:40px}
   footer b{color:var(--soft);font-weight:600}
   footer a{color:var(--soft)}
@@ -110,6 +116,11 @@
   <div class="search"><input id="q" placeholder="Search the shelf, or describe what you want…" onkeyup="if(event.key==='Enter')doSearch()" /><button onclick="doSearch()">Search</button></div>
   <button class="cartbtn" onclick="openCart()">Cart<span class="badge" id="cartBadge" style="display:none">0</span></button>
 </header>
+
+<section class="companion-store" aria-label="Shop Relay Supply">
+  <div><p><strong>More everyday finds from Relay Supply.</strong><br>Coffee &amp; Custard · Clothing · Sensory &amp; Comfort · Home &amp; Seasonal</p><small>Our companion store has a separate cart and checkout.</small></div>
+  <a href="https://0abp5n-dy.myshopify.com/">Shop Relay Supply ↗</a>
+</section>
 
 <div class="subbar">
   <div class="filters" id="filters"></div>
