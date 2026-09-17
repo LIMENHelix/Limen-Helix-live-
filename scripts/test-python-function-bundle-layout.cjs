@@ -19,7 +19,16 @@ const apiPython = walkPython(path.join(root, 'api')).map((file) => path.relative
 assert.deepEqual(apiPython, ['api/python.py'],
   'api/ must expose exactly one Python function; internal modules belong in python_runtime/');
 
+const entry = fs.readFileSync(path.join(root, 'api', 'python.py'), 'utf8');
+assert.match(entry, /from python_runtime\.helix_app\.index import app/,
+  'the entry point must use a package import so Vercel traces nested Helix modules');
+assert.match(entry, /from python_runtime\.limen_app import app as limen_app/,
+  'the LIMEN scorer must be statically traceable from the entry point');
+assert.match(entry, /from python_runtime\.ddgs_app import app as ddgs_app/,
+  'the search adapter must be statically traceable from the entry point');
+
 for (const relative of [
+  'python_runtime/helix_app/__init__.py',
   'python_runtime/helix_app/index.py',
   'python_runtime/helix_app/thing1/limen_backtest.py',
   'python_runtime/helix_app/thing1/statsmodels_compat.py',

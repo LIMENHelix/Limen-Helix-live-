@@ -42,14 +42,14 @@ def _safe_mkdir(self, *a, **k):
 Path.mkdir = _safe_mkdir
 
 
-# ─── 3. Add the locked kernel directory to sys.path and import ───
+# ─── 3. Import the locked kernel through its deployable package ───
 _HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(_HERE, "helix_app", "thing1"))
 
-from statsmodels_compat import install as _install_statsmodels_compat  # noqa: E402
+from python_runtime.helix_app.thing1.statsmodels_compat import install as _install_statsmodels_compat  # noqa: E402
 
 _install_statsmodels_compat()
-import limen_backtest as lbt  # noqa: E402
+from python_runtime.helix_app.thing1 import limen_backtest as lbt  # noqa: E402
 
 Path.mkdir = _orig_mkdir  # restore for any downstream user code
 
