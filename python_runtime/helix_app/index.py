@@ -19,7 +19,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from thing2 import (
+from python_runtime.helix_app.thing2 import (
     ALL_PHASES,
     LIMEN,
     PHASE_META,
@@ -27,12 +27,12 @@ from thing2 import (
     get_dominant_phase,
     run_pipeline,
 )
-from thing2 import KERNEL_ID as THING2_KERNEL_ID
-from thing2 import KERNEL_RUNTIME as THING2_KERNEL_RUNTIME
-from thing2 import KERNEL_VERSION as THING2_KERNEL_VERSION
+from python_runtime.helix_app.thing2 import KERNEL_ID as THING2_KERNEL_ID
+from python_runtime.helix_app.thing2 import KERNEL_RUNTIME as THING2_KERNEL_RUNTIME
+from python_runtime.helix_app.thing2 import KERNEL_VERSION as THING2_KERNEL_VERSION
 
-import thing1 as thing1_pkg
-from audit import build_log_entry as _build_audit_entry, emit as _emit_audit
+from python_runtime.helix_app import thing1 as thing1_pkg
+from python_runtime.helix_app.audit import build_log_entry as _build_audit_entry, emit as _emit_audit
 
 # ─── Polyvagal context — server-side auto-population ────────────────
 #

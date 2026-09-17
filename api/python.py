@@ -14,12 +14,13 @@ _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _RUNTIME = os.path.join(_ROOT, "python_runtime")
 _HELIX = os.path.join(_RUNTIME, "helix_app")
 
+sys.path.insert(0, _ROOT)
 sys.path.insert(0, _RUNTIME)
 sys.path.insert(0, _HELIX)
 
-from index import app  # noqa: E402
-from ddgs_app import app as ddgs_app  # noqa: E402
-from limen_app import app as limen_app  # noqa: E402
+from python_runtime.helix_app.index import app  # noqa: E402
+from python_runtime.ddgs_app import app as ddgs_app  # noqa: E402
+from python_runtime.limen_app import app as limen_app  # noqa: E402
 
 
 # Merge the route tables into one ASGI application and therefore one dependency
