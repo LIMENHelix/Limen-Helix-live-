@@ -1,55 +1,43 @@
-/**
- * api/relay-margin — Relay's markup, stored in LIMEN's db so the cockpit controls it.
- *
- * GET  /api/relay-margin                       → { margin }   (public read)
- * GET  /api/relay-margin?set=0.40&key=SECRET   → sets margin, returns { ok, margin }
- *
- * RESTORED 2026-08-30. Commit 5a0d0ea4 replaced this API with a page-server, which
- * deleted the only way to read or write the margin, and then a follow-up pointed that
- * page-server at a path that does not exist, so the route returned 500. Two things were
- * broken by that: the slider on /relay-margin could neither load nor save, and
- * relay-engine had no margin to price against. The page is served as a static file at
- * /relay-margin, so this route is the API again, which is what every caller expects.
- *
- * Write is gated by RELAY_MARGIN_KEY. No committed fallback: writes fail closed when
- * the env var is unset.
- */
-
-var db = require('../lib/limen-db');
-
-var KEY = 'relay_margin';
-var DEFAULT = 0.35;
-var SECRET = process.env.RELAY_MARGIN_KEY || '';
-
-function sendJSON(res, code, obj) {
+// CJ Sourced Finds only. Shopify has its own prices and supplier terms.
+const crypto = require('node:crypto');
+const pricing = require('../lib/relay-pricing-settings');
+function send(res, code, value) {
   res.statusCode = code;
   res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify(obj));
-}
-
-module.exports = async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Cache-Control', 'no-store');
-  if ((req.method || 'GET') === 'OPTIONS') { res.statusCode = 204; return res.end(); }
-
-  var q = {};
-  try { q = Object.fromEntries(new URL(req.url, 'http://h').searchParams); } catch (e) {}
-
-  // ── write (gated) ──
-  if (q.set != null) {
-    if (!SECRET || q.key !== SECRET) return sendJSON(res, 403, { error: 'forbidden' });
-    var m = parseFloat(q.set);
-    if (!isFinite(m) || m < 0 || m > 5) {
-      return sendJSON(res, 400, { error: 'margin must be 0-5 (e.g. 0.35 = 35%)' });
+  return res.end(JSON.stringify(value));
+}
+function authorized(pass) {
+  if (typeof pass !== 'string' || !pass) return false;
+  return [process.env.RELAY_MARGIN_KEY, process.env.RELAY_ADMIN_KEY,
+    process.env.ADMIN_MASTER || process.env.ADMIN_MASTER_KEY].some(function (expected) {
+    if (!expected) return false;
+    const a = Buffer.from(pass), b = Buffer.from(expected);
+    return a.length === b.length && crypto.timingSafeEqual(a, b);
+  });
+}
+async function bodyOf(req) {
+  if (req.body && typeof req.body === 'object') return req.body;
+  if (typeof req.body === 'string') return JSON.parse(req.body);
+  let raw = '';
+  for await (const chunk of req) { raw += chunk; if (raw.length > 8192) throw new Error('Request too large'); }
+  return JSON.parse(raw || '{}');
+}
+module.exports = async function handler(req, res) {
+  const method = (req.method || 'GET').toUpperCase();
+  const q = new URL(req.url, 'http://local').searchParams;
+  if (method === 'GET' && q.has('set')) return send(res, 405, {ok:false,error:'Reload this page. Saving now requires an authenticated POST.'});
+  if (method !== 'GET' && method !== 'POST') return send(res, 405, {ok:false,error:'Method not allowed'});
+  try {
+    if (method === 'GET') return send(res, 200, await pricing.current());
+    const body = await bodyOf(req);
+    if (!authorized(body.passcode)) return send(res, 403, {ok:false,error:'Enter your Relay admin key or LIMEN operator passcode.'});
+    if (typeof body.margin !== 'number' || !Number.isFinite(body.margin) || body.margin < 0.05 || body.margin > 1.5) {
+      return send(res, 400, {ok:false,error:'Markup must be between 5% and 150%.'});
     }
-    try { await db.set(KEY, m); } catch (e) { return sendJSON(res, 500, { error: 'store failed' }); }
-    return sendJSON(res, 200, { ok: true, margin: m });
+    if (body.action !== 'preview' && body.action !== 'save') return send(res, 400, {ok:false,error:'Unknown action'});
+    return send(res, 200, await pricing.change(body.margin, body.reprice === true, body.action === 'save'));
+  } catch (_) {
+    return send(res, 503, {ok:false,error:'Pricing could not be confirmed. Reload before retrying; no success has been reported.'});
   }
-
-  // ── read ──
-  var cur = null;
-  try { cur = await db.get(KEY); } catch (e) {}
-  var margin = (typeof cur === 'number' && isFinite(cur)) ? cur : DEFAULT;
-  return sendJSON(res, 200, { margin: margin, source: (typeof cur === 'number') ? 'db' : 'default' });
 };
