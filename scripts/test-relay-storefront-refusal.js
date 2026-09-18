@@ -61,6 +61,10 @@ const CATALOG = [
 
 const srv = http.createServer(function (req, res) {
   const u = new URL(req.url, 'http://h');
+  if (u.pathname === '/assets/js/relay-sourced-presentation.js') {
+    res.writeHead(200, { 'Content-Type': 'text/javascript' });
+    return res.end(fs.readFileSync(path.join(ROOT, 'assets/js/relay-sourced-presentation.js'), 'utf8'));
+  }
   if (u.pathname === '/') {
     res.writeHead(200, { 'Content-Type': 'text/html' });
     return res.end(fs.readFileSync(path.join(ROOT, 'pages/relay-store.html'), 'utf8'));

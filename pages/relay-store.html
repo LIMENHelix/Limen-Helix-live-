@@ -6,8 +6,8 @@
 <title>Relay — secondhand &amp; surplus, shipped</title>
 <style>
   :root{
-    --bg:#f7f8fa; --card:#ffffff; --ink:#0f172a; --soft:#64748b; --faint:#94a3b8;
-    --line:#e6e9ef; --accent:#2563eb; --accent-dk:#1d4ed8; --green:#15803d; --star:#f59e0b;
+    --bg:#f7f5ed; --card:#ffffff; --ink:#272d25; --soft:#63685d; --faint:#72786b;
+    --line:#dcded2; --accent:#505d3e; --accent-dk:#343f29; --green:#37613b; --star:#a76b2e;
     --warn:#b45309; --warnbg:#fffbeb; --warnline:#f0b429;
     --shadow:0 1px 2px rgba(15,23,42,.05);
   }
@@ -108,20 +108,23 @@
   .msg .unavail{text-align:left;margin-top:8px;padding:8px 10px;border:1px solid #f1d4d4;
     border-radius:8px;background:#fff8f8}
   .msg .unavail .hint{font-size:.8rem;color:var(--soft);margin-top:3px}
+  .source-intro{max-width:1200px;padding:30px 20px 8px;margin:auto}.source-intro h1{font:42px/1.1 Georgia,serif;margin:12px 0}.source-intro p{color:var(--soft);max-width:710px;font-size:13px}.source-intro>a{font-size:12px;text-underline-offset:4px}.variant{font-size:12px;line-height:1.5;color:var(--soft)}.product-open{border:0;background:none;color:inherit;text-align:left;padding:0;font:inherit;cursor:pointer}.product-open:focus-visible{outline:3px solid #a76b2e;outline-offset:3px}.supplier-description{white-space:pre-line;font-size:13px;line-height:1.7;color:var(--soft)}.detail-gallery img{display:block;max-width:100%;height:auto;margin:12px auto}.detail-note{font-size:12px;color:var(--soft)}.subbar .filters{flex-wrap:wrap;overflow:visible}.search input{min-width:0}.logo{text-decoration:none}
+  @media(max-width:600px){header{height:auto;padding:16px;flex-wrap:wrap;gap:12px}.search{order:3;flex-basis:100%;max-width:none}.cartbtn{margin-left:auto}.subbar{padding:12px 16px}.subbar .right{margin-left:0}.source-intro h1{font-size:35px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.wrap{padding:0 12px}.pbody{padding:10px}.pprice{font-size:1rem}.pprice .free{display:block;margin-left:0}.mbox{padding:18px}.row2{grid-template-columns:1fr}.companion-store{padding:16px}}
 </style>
 </head>
 <body>
 <header>
-  <div class="logo" onclick="setCat('all')">Relay<b>.</b><small>by LIMEN Helix</small></div>
+  <a class="logo" href="/relay">Relay Supply<b>.</b><small>by LIMEN Helix</small></a>
   <div class="search"><input id="q" placeholder="Search the shelf, or describe what you want…" onkeyup="if(event.key==='Enter')doSearch()" /><button onclick="doSearch()">Search</button></div>
-  <button class="cartbtn" onclick="openCart()">Cart<span class="badge" id="cartBadge" style="display:none">0</span></button>
+  <button class="cartbtn" onclick="openCart()">Sourced cart<span class="badge" id="cartBadge" style="display:none">0</span></button>
 </header>
 
 <section class="companion-store" aria-label="Shop Relay Supply">
-  <div><p><strong>More everyday finds from Relay Supply.</strong><br>Coffee &amp; Custard · Clothing · Sensory &amp; Comfort · Home &amp; Seasonal</p><small>Our companion store has a separate cart and checkout.</small></div>
+  <div><p><strong>Visit the main Relay Supply shop.</strong><br>Coffee &amp; Custard · Clothing · Sensory &amp; Comfort · Home &amp; Seasonal</p><small>The main shop and Sourced Finds have separate carts, checkouts and sale terms.</small></div>
   <a href="/shop">Shop Relay Supply ↗</a>
 </section>
 
+<section class="source-intro"><a href="/relay">← Relay Supply home</a><h1>Sourced Finds</h1><p>Practical finds for home and everyday life, sourced through CJ Dropshipping. Each listing is for the specific option shown. Open an item for its supplier description and any available sizing details before adding it to your sourced cart.</p></section>
 <div class="subbar">
   <div class="filters" id="filters"></div>
   <div class="right">
@@ -158,6 +161,7 @@
   <a href="/api/relay?view=policy">Sale terms</a>
 </footer>
 
+<script src="/assets/js/relay-sourced-presentation.js"></script>
 <script>
 /* Ported from the original Relay storefront (C:\Users\Chris\broker\index.html), which
    read a demo catalogue from a separate project and checked out with no shipping
@@ -204,7 +208,7 @@ function loadPolicy() {
 
 function loadShelf() {
   fetch('/api/relay?view=catalog').then(function (r) { return r.json(); }).then(function (j) {
-    CATALOG = (j.listings || []);
+    CATALOG = (j.listings || []).map(function(i) { return Object.assign({}, i, { category: RelayPresentation.category(i) }); });
     EL('feedstat').textContent = CATALOG.length ? '● ' + CATALOG.length + ' in stock' : '';
     if (!CATALOG.length) {
       EL('grid').innerHTML = '<div class="state">The shelf is empty right now.' +
@@ -221,7 +225,7 @@ function loadShelf() {
 function renderFilters() {
   var cats = ['all'].concat(CATALOG.map(function (i) { return i.category; })
     .filter(function (v, i, a) { return v && a.indexOf(v) === i; }).sort());
-  EL('filters').innerHTML = cats.slice(0, 9).map(function (c) {
+  EL('filters').innerHTML = cats.map(function (c) {
     return '<button class="' + (c === CAT ? 'active' : '') + '" onclick="setCat(\'' + esc(c) + '\')">' +
       (c === 'all' ? 'All' : esc(c)) + '</button>';
   }).join('');
@@ -278,9 +282,11 @@ function render() {
   else if (sort === 'new') rows.sort(function (a, b) { return new Date(b.ts) - new Date(a.ts); });
   EL('resultCount').textContent = rows.length + ' items';
   EL('grid').innerHTML = rows.length ? rows.map(function (i) {
+    var p = RelayPresentation.parts(i);
     return '<div class="card" onclick="openProduct(\'' + esc(i.id) + '\')">' + tile(i) +
-      '<div class="pbody"><div class="ptitle">' + esc(i.title) + '</div>' +
-        '<div class="rate">' + esc(i.condition || 'used') + '</div>' +
+      '<div class="pbody"><button class="ptitle product-open" onclick="event.stopPropagation();openProduct(\'' + esc(i.id) + '\')">' + esc(p.title) + '</button>' +
+        '<div class="variant">' + (p.variant ? 'Listed option: ' + esc(p.variant) : 'Open for product details') + '</div>' +
+        '<div class="rate">' + esc(i.category) + '</div>' +
         '<div class="pprice">' + money(i.price) + (i.price > 75 ? '<span class="free">Free shipping</span>' : '') + '</div>' +
         '<button class="add" onclick="event.stopPropagation();addToCart(\'' + esc(i.id) + '\')">Add to cart</button>' +
       '</div></div>';
@@ -335,11 +341,14 @@ function renderCart() {
     '<button class="checkout" onclick="checkout()">Checkout</button>';
 }
 function openCart() { renderCart(); EL('ov').classList.add('show'); EL('drawer').classList.add('show'); }
-function closeAll() { EL('ov').classList.remove('show'); EL('drawer').classList.remove('show'); EL('modal').classList.remove('show'); }
+function closeAll() { OPEN_PRODUCT = null; EL('ov').classList.remove('show'); EL('drawer').classList.remove('show'); EL('modal').classList.remove('show'); }
 
 /* ── product ── */
+var OPEN_PRODUCT = null;
 function openProduct(id) {
   var i = find(id); if (!i) return;
+  OPEN_PRODUCT = id;
+  var parts = RelayPresentation.parts(i);
   var img = (i.images && i.images[0]) || '';
   EL('mbox').innerHTML =
     '<button class="mx" onclick="closeAll()">&times;</button>' +
@@ -347,16 +356,32 @@ function openProduct(id) {
       (img
         ? '<div style="width:200px;height:200px;background:#fff center/contain no-repeat;border:1px solid var(--line);border-radius:10px;background-image:url(' + esc(img) + ')"></div>'
         : '<div style="width:200px;height:200px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;justify-content:center"><span class="mono">' + esc(initial(i.title)) + '</span></div>') +
-      '<div style="flex:1;min-width:220px"><h2 style="margin:0 0 6px;font-size:1.25rem">' + esc(i.title) + '</h2>' +
+      '<div style="flex:1;min-width:220px"><h2 style="margin:0 0 6px;font-size:1.25rem">' + esc(parts.title) + '</h2>' +
+        '<p class="variant" id="listedVariant">' + (parts.variant ? 'Listed option: ' + esc(parts.variant) : 'See supplier details for the listed option.') + '</p>' +
         '<div style="font-size:1.7rem;font-weight:700;margin:6px 0">' + money(i.price) + '</div>' +
         '<div style="font-size:.78rem;color:var(--soft)">' + esc(i.condition || 'used') + ' · ' + esc(i.category || 'other') +
           (i.price > 75 ? ' · Free shipping' : '') + '</div></div>' +
     '</div>' +
     '<p style="color:var(--soft);font-size:.92rem;line-height:1.55;margin:16px 0">' + esc(i.description || '') + '</p>' +
+    '<section id="supplierDetails" aria-live="polite"><p class="detail-note">Loading supplier description and sizing details…</p></section>' +
+    '<p class="detail-note">This listing is for one specific option. Images may show other options; only the listed option is included. Check compatibility and measurements before ordering.</p>' +
     '<div style="display:flex;gap:10px">' +
       '<button class="checkout" style="background:#fff;border:1px solid var(--accent);color:var(--accent)" onclick="addToCart(\'' + esc(i.id) + '\');closeAll()">Add to cart</button>' +
       '<button class="checkout" onclick="addToCart(\'' + esc(i.id) + '\');checkout()">Buy now</button></div>';
   EL('ov').classList.add('show'); EL('modal').classList.add('show');
+  fetch('/api/relay?view=product-details&id=' + encodeURIComponent(id)).then(function(r) { if(!r.ok) throw new Error(); return r.json(); }).then(function(j) {
+    if (OPEN_PRODUCT !== id || !EL('supplierDetails')) return;
+    if (!j.ok || j.listingId !== id || !j.details) throw new Error();
+    var d = j.details;
+    if (d.variant) EL('listedVariant').textContent = 'Included option: ' + d.variant;
+    EL('supplierDetails').innerHTML = '<h3 style="font-size:15px">Supplier product details</h3>' +
+      (d.material ? '<p class="detail-note"><b>Material:</b> ' + esc(d.material) + '</p>' : '') +
+      (d.description ? '<div class="supplier-description">' + esc(d.description) + '</div>' : '<p class="detail-note">A written supplier description is not available for this item.</p>') +
+      ((d.detailImages || []).length ? '<details><summary>View supplier photos &amp; sizing information</summary><div class="detail-gallery">' + d.detailImages.map(function(src) { return '<img loading="lazy" src="' + esc(src) + '" alt="Supplier product information; check the included option above">'; }).join('') + '</div></details>' : '') +
+      '<p class="detail-note">If a measurement or size guide is missing, <a href="https://0abp5n-dy.myshopify.com/pages/contact">contact Relay Supply</a> before ordering. We do not estimate missing measurements.</p>';
+  }).catch(function() {
+    if (OPEN_PRODUCT === id && EL('supplierDetails')) EL('supplierDetails').innerHTML = '<p class="detail-note">Additional supplier details are unavailable right now. Please <a href="https://0abp5n-dy.myshopify.com/pages/contact">contact Relay Supply</a> to confirm any missing size, material or compatibility information before ordering.</p>';
+  });
 }
 
 /* ── checkout: address + final-sale confirmation, then one real order ── */

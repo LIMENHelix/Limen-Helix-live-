@@ -288,6 +288,7 @@
     }
   },
   "rewrites": [
+    { "source": "/relay", "destination": "/pages/relay-home.html" },
     {
       "source": "/api/ddgs-search",
       "destination": "/api/python"
@@ -374,6 +375,7 @@
     }
   ],
   "redirects": [
+    { "source": "/relay-sourced", "destination": "/api/relay?view=store", "permanent": false },
     {
       "source": "/shop",
       "destination": "https://0abp5n-dy.myshopify.com/",
@@ -383,11 +385,6 @@
       "source": "/shop/",
       "destination": "https://0abp5n-dy.myshopify.com/",
       "permanent": false
-    },
-    {
-      "source": "/relay",
-      "destination": "/api/relay",
-      "statusCode": 308
     },
     {
       "source": "/fractal-connectome",

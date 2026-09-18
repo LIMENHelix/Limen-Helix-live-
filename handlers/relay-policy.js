@@ -25,7 +25,7 @@ function page(p) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relay — Sale Terms</title>
+<title>Relay Sourced Finds — Sale Terms</title>
 <style>
   :root { --ink:#0f172a; --mut:#64748b; --line:#e2e8f0; --bg:#ffffff; --warn:#b45309; --warnbg:#fffbeb; }
   @media (prefers-color-scheme: dark) {
@@ -50,8 +50,9 @@ function page(p) {
 </head>
 <body>
 <div class="wrap">
-  <p class="eyebrow">Relay &middot; by LIMEN Helix</p>
-  <h1>Sale terms</h1>
+  <p class="eyebrow">Relay Supply &middot; by LIMEN Helix</p>
+  <h1>Sourced Finds sale terms</h1>
+  <p>These terms apply to the <a href="/relay-sourced">Sourced Finds store</a>. Orders placed in our <a href="/shop">main Shopify shop</a> use that shop's policies. For help, <a href="https://0abp5n-dy.myshopify.com/pages/contact">contact Relay Supply</a> with your order number and where you checked out.</p>
   <p class="headline">${esc(p.headline)}</p>
   ${terms}
   <p class="meta">
