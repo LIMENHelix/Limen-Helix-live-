@@ -293,20 +293,17 @@ for (const rel of emitters) {
 }
 assert('no Relay URL points at an unrouted path', dead.length === 0, dead.join('; '));
 
-// The public front door must REDIRECT, not rewrite. A Vercel rewrite hands the catch-all
-// the ORIGINAL path, so /relay arrived at the Hono router as "/relay" and was refused
-// with {"error":"route not handled by Hono entry","path":"/relay"} - the rewrite fired
-// correctly and still 404'd. Making it work as a rewrite would mean teaching the shared
-// router a second path for Relay, which is not Relay's file to edit. A 308 sends the
-// browser to /api/relay, which the router already owns.
+// The landing page is static, so its rewrite does not enter the shared Hono router.
+// The CJ storefront still redirects to the existing API door: rewriting a non-API
+// path to Hono would retain the original path and be refused by that shared router.
 const vercelCfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8'));
-const relayRedirect = (vercelCfg.redirects || []).find(function (r) { return r.source === '/relay'; });
-assert('/relay redirects to the Relay door', !!relayRedirect && relayRedirect.destination === '/api/relay',
-  relayRedirect ? relayRedirect.destination : 'no /relay redirect');
-assert('and it is a permanent redirect', !!relayRedirect && relayRedirect.statusCode === 308);
-assert('no stale /relay rewrite remains',
-  !(vercelCfg.rewrites || []).some(function (r) { return r.source === '/relay'; }),
-  'a rewrite and a redirect on the same source is ambiguous');
+const relayHome = (vercelCfg.rewrites || []).find(r => r.source === '/relay');
+const relaySource = (vercelCfg.redirects || []).find(r => r.source === '/relay-sourced');
+assert('/relay serves the static Relay entrance', !!relayHome && relayHome.destination === '/pages/relay-home');
+assert('Sourced Finds redirects to the existing Relay door', !!relaySource && relaySource.destination === '/api/relay?view=store');
+assert('no conflicting landing redirect or sourced API rewrite',
+  !(vercelCfg.redirects || []).some(r => r.source === '/relay') &&
+  !(vercelCfg.rewrites || []).some(r => r.source === '/relay-sourced'));
 
 // ── F8 ──────────────────────────────────────────────────────────────────────
 console.log('F8: the bridge fails soft on the ledger, hard on the charge');

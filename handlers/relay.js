@@ -8,7 +8,8 @@
  * is enough. Everything Relay serves is dispatched from here on ?view=, so Relay can grow
  * new surfaces forever without another line landing in shared code.
  *
- *   GET  /api/relay                          the storefront
+ *   GET  /api/relay                          Relay Supply home (also /relay)
+ *   GET  /api/relay?view=store               existing CJ storefront (/relay-sourced)
  *   GET  /api/relay?view=catalog             customer-safe catalogue JSON
  *   GET  /api/relay?view=policy              sale terms page  (&format=json for the data)
  *   GET  /api/relay?view=control             operator console (needs RELAY_ADMIN_KEY)
@@ -39,6 +40,9 @@ const tick = require('./relay-autonomous-scraper');
 const cartCheckout = require('./relay-cart-checkout');
 const demandSearch = require('./relay-demand-search');
 const demandPurchase = require('./relay-demand-purchase');
+const home = require('./relay-home');
+const shopifyCatalog = require('./relay-shopify-catalog');
+const productDetails = require('./relay-product-details');
 
 function send(res, code, type, body) {
   res.statusCode = code;
@@ -68,7 +72,15 @@ module.exports = async function handler(req, res) {
 
   try {
     switch (view) {
+      case 'home':
+        return await home(req, res);
+      case 'shopify':
+        return await shopifyCatalog(req, res);
+      case 'product-details':
+        return await productDetails(req, res);
       case '':
+        // Also covers browsers which cached the previous /relay -> /api/relay 308.
+        return await (q.format === 'json' ? storefront : home)(req, res);
       case 'store':
       case 'storefront':
       case 'catalog':
