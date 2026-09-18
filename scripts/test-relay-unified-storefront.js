@@ -59,7 +59,7 @@ async function run() {
   res=response(); await details({method:'GET',url:'/api/relay?id=valid'},res); assert.equal(res.statusCode,200); assert.equal(calls,1); assert.doesNotMatch(res.body,/sourceCost|sourceUrl|private/);
   res=response(); await details({method:'GET',url:'/api/relay?id=valid'},res); assert.equal(calls,1);
   const config=JSON.parse(fs.readFileSync(path.join(root,'vercel.json'),'utf8'));
-  assert.equal(config.rewrites.find(r=>r.source==='/relay').destination,'/pages/relay-home.html');
+  assert.equal(config.rewrites.find(r=>r.source==='/relay').destination,'/pages/relay-home');
   assert.equal(config.redirects.find(r=>r.source==='/relay-sourced').destination,'/api/relay?view=store');
   assert.equal(config.redirects.find(r=>r.source==='/shop').destination,'https://0abp5n-dy.myshopify.com/');
   console.log('PASS: read-only feeds, product sanitization, variant integrity, unavailable data fallback, private-data boundary and route configuration');

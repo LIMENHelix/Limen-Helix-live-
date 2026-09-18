@@ -299,7 +299,7 @@ assert('no Relay URL points at an unrouted path', dead.length === 0, dead.join('
 const vercelCfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8'));
 const relayHome = (vercelCfg.rewrites || []).find(r => r.source === '/relay');
 const relaySource = (vercelCfg.redirects || []).find(r => r.source === '/relay-sourced');
-assert('/relay serves the static Relay entrance', !!relayHome && relayHome.destination === '/pages/relay-home.html');
+assert('/relay serves the static Relay entrance', !!relayHome && relayHome.destination === '/pages/relay-home');
 assert('Sourced Finds redirects to the existing Relay door', !!relaySource && relaySource.destination === '/api/relay?view=store');
 assert('no conflicting landing redirect or sourced API rewrite',
   !(vercelCfg.redirects || []).some(r => r.source === '/relay') &&
