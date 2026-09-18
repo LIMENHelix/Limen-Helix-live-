@@ -26,6 +26,9 @@ async function run() {
   assert.equal(normalized.sourceCost,undefined);
   assert.equal(categories.category({title:'LED Strip Lights — Black-90cm',category:'other'}),'Lighting');
   assert.equal(categories.category({title:'Pet Grooming Brush — Blue',category:'other'}),'Pet care');
+  assert.equal(categories.category({title:'Perpetual Calendar Decorative Desk Organizer'}),'Storage & organization');
+  assert.equal(categories.category({title:'PET Refrigerator Food Storage Containers'}),'Kitchen');
+  assert.equal(categories.category({title:'Watch Jewelry Storage Box'}),'Storage & organization');
   assert.equal(categories.category({title:'Unknown item',category:'other'}),'Everyday finds');
   assert.deepEqual(categories.parts({title:'T-shirt — Black-XL'}),{title:'T-shirt',variant:'Black-XL'});
   const raw = { handle:'safe-tee',title:'Tee',vendor:'Supplier',images:[{src:'https://cdn.shopify.com/tee.jpg'}],variants:[{available:true,price:'20'},{available:false,price:'1'}],options:[{name:'Size',values:['XL']}],cost:2 };
