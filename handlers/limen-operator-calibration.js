@@ -20,7 +20,7 @@
  *  GET  /api/limen-operator-calibration?type=audit&limit=50
  *    Returns recent calibration events (self_report + refusal_log).
  *
- *  POST is auth-gated via LIMEN_OPERATOR_TOKEN bearer.
+ *  POST is auth-gated via LIMEN_OPERATOR_TOKEN bearer; fails closed (503) when unset.
  *  GET is open for dashboards but does NOT return raw packets to
  *  unauthenticated callers — falls back to coarse summary.
  *
@@ -62,7 +62,7 @@ const _mem = {
 };
 
 function checkAuth(req) {
-  if (!AUTH_ON) return { ok: true, mode: 'disabled' };
+  if (!AUTH_ON) return { ok: false, unavailable: true, reason: 'mutation-auth-unconfigured' };
   const header = req.headers && (req.headers.authorization || req.headers.Authorization);
   if (!header) return { ok: false, reason: 'missing-bearer' };
   const m = /^Bearer\s+(.+)$/i.exec(String(header).trim());
@@ -249,7 +249,7 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'content-type, authorization');
-  res.setHeader('x-auth-mode', AUTH_ON ? 'enforced' : 'disabled');
+  res.setHeader('x-auth-mode', AUTH_ON ? 'enforced' : 'fail-closed');
   if (req.method === 'OPTIONS') {
     res.statusCode = 204;
     return res.end();
@@ -259,7 +259,7 @@ module.exports = async function handler(req, res) {
     if (req.method === 'POST') {
       const auth = checkAuth(req);
       if (!auth.ok) {
-        res.statusCode = 401;
+        res.statusCode = auth.unavailable ? 503 : 401;
         res.setHeader('content-type', 'application/json');
         res.setHeader('WWW-Authenticate', 'Bearer realm="limen-operator-calibration"');
         return res.end(JSON.stringify({ ok: false, error: 'unauthorized', reason: auth.reason }));
@@ -317,7 +317,7 @@ module.exports = async function handler(req, res) {
       if (type === 'audit') {
         const auth = checkAuth(req);
         if (!auth.ok) {
-          res.statusCode = 401;
+          res.statusCode = auth.unavailable ? 503 : 401;
           res.setHeader('WWW-Authenticate', 'Bearer realm="limen-operator-calibration"');
           return res.end(JSON.stringify({ ok: false, error: 'unauthorized', reason: auth.reason }));
         }

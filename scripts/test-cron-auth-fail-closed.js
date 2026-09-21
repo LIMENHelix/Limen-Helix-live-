@@ -95,13 +95,11 @@ assert('CRON_SECRET is always required non-empty before it authorises',
 // x-vercel-cron, a spoofed x-vercel-signature, no headers and a wrong bearer all return
 // 401, while the correct bearer gets past auth.
 console.log('C3: no NEW cron handler ships without a credential check');
-const KNOWN_UNGATED = [
-  'feed-record',                    // writes a feed snapshot, no spend path
-  'limen-worker-ingest',            // ingest only
-  'limen-worker-score',             // scoring only
-  'limen-worker-snapshot',          // snapshot only
-  'limen-worker-stress-refresh'     // recompute only
-];
+// Security containment wave 2 (PR-003) gated the last five: feed-record's write
+// mode, feed-resolve's emit mode, and the four limen-worker-* handlers all
+// enforce lib/cron-auth now. The pinned set stays EMPTY: any cron handler that
+// ships without a credential check fails here.
+const KNOWN_UNGATED = [];
 const ungated = [];
 crons.forEach(function (c) {
   const f = path.join(ROOT, 'handlers', c + '.js');

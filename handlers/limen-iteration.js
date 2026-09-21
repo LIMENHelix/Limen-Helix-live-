@@ -15,7 +15,7 @@
  *   the cache shape + endpoint contract in place so Phase 1 can plug in.
  *
  *   POST is auth-gated by LIMEN_OPERATOR_TOKEN (mirrors H6 from
- *   /api/limen-engine-output).
+ *   /api/limen-engine-output) and fails closed (503) when it is unset.
  *
  * GET /api/limen-iteration
  *   ?iterId=<id>                    → single record
@@ -43,7 +43,7 @@ const OPERATOR_TOKEN = process.env.LIMEN_OPERATOR_TOKEN || '';
 const AUTH_ON = !!OPERATOR_TOKEN;
 
 function checkAuth(req) {
-  if (!AUTH_ON) return { ok: true, mode: 'disabled' };
+  if (!AUTH_ON) return { ok: false, unavailable: true, reason: 'mutation-auth-unconfigured' };
   const header = req.headers && (req.headers.authorization || req.headers.Authorization);
   if (!header) return { ok: false, reason: 'missing-bearer' };
   const m = /^Bearer\s+(.+)$/i.exec(String(header).trim());
@@ -79,7 +79,7 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'content-type, authorization');
-  res.setHeader('x-auth-mode', AUTH_ON ? 'enforced' : 'disabled');
+  res.setHeader('x-auth-mode', AUTH_ON ? 'enforced' : 'fail-closed');
   if (req.method === 'OPTIONS') {
     res.statusCode = 204;
     return res.end();
@@ -88,7 +88,7 @@ module.exports = async function handler(req, res) {
   if (req.method === 'POST') {
     const auth = checkAuth(req);
     if (!auth.ok) {
-      res.statusCode = 401;
+      res.statusCode = auth.unavailable ? 503 : 401;
       res.setHeader('content-type', 'application/json');
       res.setHeader('WWW-Authenticate', 'Bearer realm="limen-iteration"');
       return res.end(JSON.stringify({ ok: false, error: 'unauthorized', reason: auth.reason }));

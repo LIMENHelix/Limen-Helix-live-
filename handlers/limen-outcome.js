@@ -45,18 +45,23 @@ const REDIS_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
 const HAS_REDIS = !!(REDIS_URL && REDIS_TOKEN);
 
 // H6 — Operator auth gate (POST only; GET stays open for dashboards).
-// Mirrors api/limen-engine-output.js.
+// Mirrors api/limen-engine-output.js: fails closed (503) when no server
+// credential is configured. The accepted bearer is the operator token, falling
+// back to CRON_SECRET when no separate operator token exists — the same
+// server-held credential the learning gate below already trusts, so a
+// CRON_SECRET-only deployment keeps a working server-to-server caller. When
+// neither is set every caller is rejected.
 const OPERATOR_TOKEN = process.env.LIMEN_OPERATOR_TOKEN || '';
-const AUTH_ON = !!OPERATOR_TOKEN;
 const LEARNING_TOKEN = OPERATOR_TOKEN || process.env.CRON_SECRET || '';
+const AUTH_ON = !!LEARNING_TOKEN;
 function checkAuth(req) {
-  if (!AUTH_ON) return { ok: true, mode: 'disabled' };
+  if (!AUTH_ON) return { ok: false, unavailable: true, reason: 'mutation-auth-unconfigured' };
   const header = req.headers && (req.headers.authorization || req.headers.Authorization);
   if (!header) return { ok: false, reason: 'missing-bearer' };
   const m = /^Bearer\s+(.+)$/i.exec(String(header).trim());
   if (!m) return { ok: false, reason: 'malformed-bearer' };
-  if (m[1] !== OPERATOR_TOKEN) return { ok: false, reason: 'token-mismatch' };
-  return { ok: true, mode: 'operator' };
+  if (m[1] !== LEARNING_TOKEN) return { ok: false, reason: 'token-mismatch' };
+  return { ok: true, mode: OPERATOR_TOKEN ? 'operator' : 'cron-secret' };
 }
 
 const EVENT_TYPES = new Set([
@@ -434,7 +439,7 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'content-type, authorization');
-  res.setHeader('x-auth-mode', AUTH_ON ? 'enforced' : 'disabled');
+  res.setHeader('x-auth-mode', AUTH_ON ? 'enforced' : 'fail-closed');
   res.setHeader('x-learning-auth-mode', LEARNING_TOKEN ? 'enforced' : 'fail-closed');
   if (req.method === 'OPTIONS') {
     res.statusCode = 204;
@@ -472,7 +477,7 @@ module.exports = async function handler(req, res) {
       }
       const auth = checkAuth(req);
       if (!auth.ok) {
-        res.statusCode = 401;
+        res.statusCode = auth.unavailable ? 503 : 401;
         res.setHeader('content-type', 'application/json');
         res.setHeader('WWW-Authenticate', 'Bearer realm="limen-outcome"');
         return res.end(JSON.stringify({ ok: false, error: 'unauthorized', reason: auth.reason }));

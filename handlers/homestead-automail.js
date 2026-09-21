@@ -8,7 +8,9 @@
  * GET  ?key=  -> { armed, cap, mailedTotal, lastRunMs, mailedKeys[], hasLobKey }
  * POST { key, armed?:bool, cap?:int }              -> operator toggles the switch
  * POST { key, run:{ mailed:[keys], count } }        -> executor records a run (dedupe + count)
- * Admin-only (LEAD_ADMIN_KEY). LOB key never leaves the server.
+ * Admin-only (LEAD_ADMIN_KEY; x-limen-pass header or ?key=/body key during the
+ * URL-key transition). LOB key never leaves the server. The whole surface sits
+ * behind the heartbeat 'automail' valve — a shut valve vetoes every action.
  */
 var db = require('../lib/limen-db');
 var motorStore = require('../lib/autofire-efference-store');
@@ -19,6 +21,8 @@ var CFG_FIELDS = ['fromName', 'fromLine1', 'fromCity', 'fromState', 'fromZip', '
 
 function j(res, c, o) { res.statusCode = c; res.setHeader('content-type', 'application/json'); res.setHeader('Cache-Control', 'private, no-store'); res.end(JSON.stringify(o)); }
 function readBody(req) { return new Promise(function (r) { var b = ''; req.on('data', function (c) { b += c; if (b.length > 2e6) req.destroy(); }); req.on('end', function () { try { r(JSON.parse(b || '{}')); } catch (e) { r({}); } }); req.on('error', function () { r({}); }); }); }
+// x-limen-pass header accepted as an alternative to ?key= (URL keys land in logs).
+function hdrKey(req) { try { return String(req.headers['x-limen-pass'] || req.headers['X-Limen-Pass'] || ''); } catch (e) { return ''; } }
 
 var tc = function (s) { return String(s || '').toLowerCase().replace(/\b\w/g, function (c) { return c.toUpperCase(); }); };
 function fmtDate(s) { var m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s || ''); var mo = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; return m ? mo[+m[1] - 1] + ' ' + (+m[2]) + ', ' + m[3] : (s || 'soon'); }
@@ -46,7 +50,7 @@ function splitStreetCity(line) {
   if (end >= toks.length) return { street: line, city: '' };
   return { street: toks.slice(0, end).join(' '), city: toks.slice(end).join(' ') };
 }
-async function lobSend(o, LOB, FROM, PHONE, NAME) {
+async function lobSend(o, LOB, FROM, PHONE, NAME, idempotencyKey) {
   var au = 'Basic ' + Buffer.from(LOB + ':').toString('base64'), ow = o.owner || {}, f = new URLSearchParams();
   var line1 = ow.mailAddr || o.street || '', city = ow.mailCity || o.city || '';
   if (!city && line1) { var sc = splitStreetCity(line1); if (sc.city) { line1 = sc.street; city = sc.city; } }
@@ -55,7 +59,11 @@ async function lobSend(o, LOB, FROM, PHONE, NAME) {
   f.set('to[address_city]', city); f.set('to[address_state]', ow.mailState || 'FL'); f.set('to[address_zip]', String(ow.mailZip || o.zip || '').slice(0, 5));
   f.set('from[name]', FROM.name); f.set('from[address_line1]', FROM.line1); f.set('from[address_city]', FROM.city); f.set('from[address_state]', FROM.state); f.set('from[address_zip]', FROM.zip);
   f.set('file', letterHTML(o, PHONE, NAME)); f.set('color', 'false'); f.set('use_type', 'marketing');
-  try { var r = await fetch('https://api.lob.com/v1/letters', { method: 'POST', headers: { Authorization: au, 'Content-Type': 'application/x-www-form-urlencoded' }, body: f.toString() }); var jr = await r.json(); return { ok: r.ok, id: jr.id, err: jr.error }; }
+  var headers = { Authorization: au, 'Content-Type': 'application/x-www-form-urlencoded' };
+  // Retries and double-clicks must not become two physical letters: the caller
+  // passes a deterministic key, and Lob replays the original response for it.
+  if (idempotencyKey) headers['Idempotency-Key'] = String(idempotencyKey);
+  try { var r = await fetch('https://api.lob.com/v1/letters', { method: 'POST', headers: headers, body: f.toString() }); var jr = await r.json(); return { ok: r.ok, id: jr.id, err: jr.error }; }
   catch (e) { return { ok: false, err: String(e && e.message || e) }; }
 }
 async function lobCreate(candidate, LOB, FROM, idempotencyKey) {
@@ -79,7 +87,7 @@ module.exports = async function handler(req, res) {
   var q = {}; try { q = Object.fromEntries(new URL(req.url, 'http://h').searchParams); } catch (e) {}
   var method = (req.method || 'GET').toUpperCase();
   var body = method === 'POST' ? await readBody(req) : {};
-  var key = q.key || body.key;
+  var key = q.key || body.key || hdrKey(req);
   if (!ADMIN || key !== ADMIN) return j(res, 403, { ok: false, error: 'Admin key required. Not public.' });
 
   var st = (await db.get(STATE)) || { armed: false, cap: 20, mailedTotal: 0, lastRunMs: null };
@@ -104,7 +112,8 @@ module.exports = async function handler(req, res) {
     if (!t.line1) return j(res, 400, { ok: false, error: 'Test recipient line1 required.' });
     var sample = { county: t.county || 'Sample', street: t.line1, city: t.city || '', saleDate: '08/15/2026',
       owner: { name: t.name || 'Test Recipient', mailAddr: t.line1, mailCity: t.city || '', mailState: t.state || TFROM.state, mailZip: t.zip || '' } };
-    var tr = await lobSend(sample, TLOB, TFROM, CPHONE, CNAME);
+    var tr = await lobSend(sample, TLOB, TFROM, CPHONE, CNAME,
+      'homestead-test-' + String(t.line1).toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 120));
     return j(res, 200, { ok: tr.ok, id: tr.id, err: tr.err, mode: 'test-live' });
   }
 
@@ -122,7 +131,7 @@ module.exports = async function handler(req, res) {
     if (!(od.owner && od.owner.mailAddr)) return j(res, 200, { ok: false, error: 'No mailing address for this owner.' });
     var omailed = (await db.get(MAILED)) || {};
     if (omailed[dk]) return j(res, 200, { ok: true, already: true, mode: 'already-mailed' });
-    var orr = await lobSend(od, OLOB, OFROM, CPHONE, CNAME);
+    var orr = await lobSend(od, OLOB, OFROM, CPHONE, CNAME, 'homestead-mailone-' + dk);
     if (orr.ok) { omailed[dk] = Date.now(); await db.set(MAILED, omailed); st.mailedTotal = (st.mailedTotal || 0) + 1; st.lastRunMs = Date.now(); await db.set(STATE, st); }
     return j(res, 200, { ok: orr.ok, id: orr.id, err: orr.err, mode: 'mailed-one' });
   }
@@ -262,3 +271,10 @@ module.exports = async function handler(req, res) {
     hasReturnAddr: !!fromCfg().line1, config: conf
   });
 };
+
+// The /control "Auto-mail" lever writes hb:valve:automail; only a guard wrap makes
+// that lever real. A shut valve vetoes every action here (send, mailone, test,
+// arm-toggle) with a 200 acted:false — the same contract as social-cron and
+// subscriber-digest. allowed() fails open if the ledger is unreadable (see
+// lib/heartbeat.js header for why that is the deliberate direction).
+module.exports = require('../lib/heartbeat').guard('automail', module.exports);

@@ -79,6 +79,7 @@ function _loadCB() {
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
+  if (!require('../lib/cron-auth').enforce(req, res)) return;
   var t0 = Date.now();
   try {
     var loaded = await _loadPortals();

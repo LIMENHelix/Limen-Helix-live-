@@ -30,6 +30,12 @@ function readBody(req) {
     req.on('error', function () { resolve({}); });
   });
 }
+// The key may travel as an x-limen-pass header instead of a ?key= URL param
+// (query strings land in proxy logs and browser history). Both are accepted
+// during the transition; new callers should use the header.
+function hdrKey(req) {
+  try { return String(req.headers['x-limen-pass'] || req.headers['X-Limen-Pass'] || ''); } catch (e) { return ''; }
+}
 
 module.exports = async function handler(req, res) {
   var ADMIN = process.env.LEAD_ADMIN_KEY || '';
@@ -37,7 +43,7 @@ module.exports = async function handler(req, res) {
   var method = (req.method || 'GET').toUpperCase();
 
   if (method === 'GET') {
-    if (ADMIN && q.key !== ADMIN) return j(res, 403, { ok: false, error: 'Admin key required. Not public.' });
+    if (!ADMIN || (q.key !== ADMIN && hdrKey(req) !== ADMIN)) return j(res, 403, { ok: false, error: 'Admin key required. Not public.' });
     var deals = (await db.get('realauction:deals')) || [];
     var meta = (await db.get('realauction:meta')) || null;
     return j(res, 200, { ok: true, count: deals.length, meta: meta, deals: deals });
@@ -45,8 +51,8 @@ module.exports = async function handler(req, res) {
 
   if (method === 'POST') {
     var body = await readBody(req);
-    var key = (body && body.key) || q.key;
-    if (ADMIN && key !== ADMIN) return j(res, 403, { ok: false, error: 'Admin key required. Not public.' });
+    var key = (body && body.key) || q.key || hdrKey(req);
+    if (!ADMIN || key !== ADMIN) return j(res, 403, { ok: false, error: 'Admin key required. Not public.' });
     var incoming = body && body.deals;
     if (!Array.isArray(incoming)) return j(res, 400, { ok: false, error: 'deals[] required' });
     var replace = body.replace === true || q.replace === '1';
