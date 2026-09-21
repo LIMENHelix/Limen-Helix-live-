@@ -1,0 +1,45 @@
+name: post-deploy smoke
+
+# Runs AFTER a production deploy reports success, not on push: the point is to
+# prove the deployed bundle serves, which no pre-merge check can know. The script
+# is read-only (GET status assertions, no credentials — see its header), so a
+# flaky red here is a signal problem, never a production-safety problem.
+#
+# WHY deployment_status AND NOT deployment: the deployment event fires when the
+# deploy STARTS; hitting the site then races the rollout. deployment_status with
+# state=success fires when Vercel declares it live, and the script's own retry
+# loop absorbs edge-propagation lag after that.
+
+on:
+  deployment_status:
+  # Manual escape hatch: re-check production on demand from the Actions tab.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    # Production only. Vercel names the environment "production" on older
+    # integrations and "Production – <project>" on newer ones. startsWith in
+    # GitHub Actions expressions is already case-insensitive (there is no
+    # lower() function — adding one is an invalid-workflow error), so the
+    # plain prefix match covers both spellings. Preview deploys never trigger.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       startsWith(github.event.deployment.environment, 'production'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v5
+
+      # No npm ci: the smoke script uses only Node built-ins (fetch), so the job
+      # stays fast and has no supply-chain surface beyond the runner itself.
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Smoke production
+        run: node scripts/post-deploy-smoke.mjs
