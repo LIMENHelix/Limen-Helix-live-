@@ -21,12 +21,14 @@ permissions:
 jobs:
   smoke:
     # Production only. Vercel names the environment "production" on older
-    # integrations and "Production – <project>" on newer ones, so match the
-    # prefix case-insensitively. Preview deployments never trigger this job.
+    # integrations and "Production – <project>" on newer ones. startsWith in
+    # GitHub Actions expressions is already case-insensitive (there is no
+    # lower() function — adding one is an invalid-workflow error), so the
+    # plain prefix match covers both spellings. Preview deploys never trigger.
     if: >-
       github.event_name == 'workflow_dispatch' ||
       (github.event.deployment_status.state == 'success' &&
-       startsWith(lower(github.event.deployment.environment), 'production'))
+       startsWith(github.event.deployment.environment, 'production'))
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
