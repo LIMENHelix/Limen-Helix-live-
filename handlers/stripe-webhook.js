@@ -12,6 +12,13 @@
  *   customer.subscription.deleted     → stop delivery
  *   invoice.payment_failed            → stop delivery (they stopped paying)
  *   customer.subscription.updated     → follow Stripe's status; past_due/unpaid stops delivery
+ *   invoice.paid                      → defensive alias of invoice.payment_succeeded (Stripe
+ *                                       endpoints send either or both; the shared charge-keyed
+ *                                       dedup makes the pair book one renewal, not two)
+ *   charge.refunded                   → reverse the booking, alert the operator (refunds are
+ *                                       operator-initiated in the dashboard; code never refunds)
+ *   charge.dispute.created/.closed    → record the dispute, alert the operator; never touches
+ *                                       the customer record
  *
  * RAW BODY IS REQUIRED. The signature is computed over the exact bytes Stripe sent, so this
  * reads the stream itself and never lets anything parse it first. api/[...route].js passes
@@ -42,6 +49,10 @@ var treasuryBridge = require('../lib/treasury-stripe-bridge');
 /* Durable idempotency: handled-event and charge-booked claims in Redis, fail-closed.
    Replaces the 400-entry seen list, whose eviction replayed non-idempotent writers. */
 var incomeBook = require('../lib/stripe-income-book');
+/* Refund/dispute intake: reversals against the same claim store, operator alerts on the
+   subscribers admin JSON. The code never initiates refunds; it reconciles the ones the
+   operator (or a cardholder's bank) made happen. */
+var reversals = require('../lib/stripe-reversals');
 
 var SITE = process.env.PUBLIC_SITE_URL || 'https://limenhelix.com';
 
@@ -276,25 +287,57 @@ module.exports = async function handler(req, res) {
       out.income = await stripe.recordWebhook(raw, sig);
     }
 
-    else if (evt.type === 'invoice.payment_succeeded') {
+    else if (evt.type === 'invoice.payment_succeeded' || evt.type === 'invoice.paid') {
+      /* invoice.paid is a DEFENSIVE ALIAS of invoice.payment_succeeded: Stripe endpoints
+         send either or both for the same invoice, each under its own event id, so the
+         event claim cannot dedup them. Everything in this branch that moves money or
+         sends email is therefore keyed on the CHARGE (shared by both events), never on
+         the event id. */
+      if (evt.type === 'invoice.paid') out.aliasedFrom = 'invoice.paid';
       // Renewals only. billing_reason 'subscription_create' is the FIRST payment, and the
       // welcome email already carries that receipt; sending a second one would be noise.
       var reason = String(obj.billing_reason || '');
       out.billingReason = reason;
       if (reason === 'subscription_cycle') {
+        var renewalKey = 'sub-renewal:' + (obj.charge || obj.payment_intent || obj.id);
         var who = null;
         try {
           var email = obj.customer_email || (obj.customer_details && obj.customer_details.email) || null;
           if (email) who = await subs.getStrict(email, motorStore);
         } catch (e) {}
+        /* Leave the charge→domain/subscriber attribution for the refund/dispute intake,
+           which sees only the charge id. Written for unmatched invoices too: their money
+           still moved, and a later refund of it should reconcile rather than fall into
+           the unmatched list. */
+        if (obj.charge) {
+          await reversals.recordChargeAttribution(obj.charge, {
+            domain: (who && who.domain) || null,
+            subscriptionId: obj.subscription || null,
+            customerId: obj.customer || null
+          });
+        }
         if (who && who.active) {
-          var renewalMotor = fulfillmentFor(who.domain);
-          var renewal = await enqueueFulfillment(renewalMotor, { store: motorStore, eventId: evt.id, kind: 'renewal', subscriber: who,
-            message: renewalReceipt(who, obj.amount_paid != null ? obj.amount_paid : obj.total, obj.hosted_invoice_url), now: Date.now() });
-          out.receiptSent = renewal.status === 'COMPLETED'; out.receiptStatus = renewal.status;
-          out.receiptTaskId = renewal.taskId || null; out.receiptReason = renewal.reason || null;
-          await recordSubscriptionRevenue(who.domain, obj.amount_paid || 0, false,
-            'sub-renewal:' + (obj.charge || obj.payment_intent || obj.id));
+          /* The receipt email is guarded by its own charge-keyed claim: without it the
+             invoice.paid/invoice.payment_succeeded pair would email the subscriber twice
+             for one renewal. */
+          var notifyClaim = await incomeBook.claimCharge('renewal-notify', renewalKey, { kind: 'renewal-receipt' });
+          if (notifyClaim.claimed) {
+            try {
+              var renewalMotor = fulfillmentFor(who.domain);
+              var renewal = await enqueueFulfillment(renewalMotor, { store: motorStore, eventId: evt.id, kind: 'renewal', subscriber: who,
+                message: renewalReceipt(who, obj.amount_paid != null ? obj.amount_paid : obj.total, obj.hosted_invoice_url), now: Date.now() });
+              out.receiptSent = renewal.status === 'COMPLETED'; out.receiptStatus = renewal.status;
+              out.receiptTaskId = renewal.taskId || null; out.receiptReason = renewal.reason || null;
+              await incomeBook.completeCharge('renewal-notify', renewalKey, { kind: 'renewal-receipt', status: renewal.status });
+            } catch (notifyErr) {
+              try { await incomeBook.releaseCharge('renewal-notify', renewalKey); } catch (_) {}
+              throw notifyErr;
+            }
+          } else {
+            out.receiptSent = false;
+            out.receiptDuplicate = true;
+          }
+          await recordSubscriptionRevenue(who.domain, obj.amount_paid || 0, false, renewalKey);
         } else {
           out.receiptSent = false;
           out.note = 'No active subscriber matched this invoice, so no receipt was sent.';
@@ -309,10 +352,14 @@ module.exports = async function handler(req, res) {
          * Outside the `who.active` branch on purpose: an unmatched invoice still moved
          * money, and the bridge logs it as unbooked with a named reason rather than
          * dropping it, so the shortfall is countable instead of invisible.
+         *
+         * Idempotency is keyed on the CHARGE (not the event id) so the invoice.paid
+         * alias of this same renewal lands on the same single treasury receipt.
          */
         var renewalBooked = await treasuryBridge.bookCapturedSale({
           store: motorStore, domain: who && who.domain,
-          grossCents: obj.amount_paid, eventId: evt.id
+          grossCents: obj.amount_paid, eventId: evt.id,
+          idempotencyKey: 'stripe-sale-captured:' + renewalKey
         });
         out.treasuryBooked = renewalBooked.booked;
         if (renewalBooked.receiptId) out.treasuryReceiptId = renewalBooked.receiptId;
@@ -343,6 +390,21 @@ module.exports = async function handler(req, res) {
 
     else if (evt.type === 'payment_intent.succeeded') {
       out.income = await stripe.recordWebhook(raw, sig);
+      out.handled = true;
+    }
+
+    else if (evt.type === 'charge.refunded') {
+      /* Operator-initiated refund (subscriptions are final sale; code never refunds).
+         Reconcile the books against the original booking, deactivate on a full refund,
+         alert the operator. Idempotent per refund id; unknown charges become a recorded
+         exception, never a fabricated entry. Throws → 500 → Stripe retries. */
+      out.reversal = await reversals.recordRefund(evt, { store: motorStore });
+      out.handled = true;
+    }
+
+    else if (evt.type === 'charge.dispute.created' || evt.type === 'charge.dispute.closed') {
+      /* A dispute is recorded and alerted, never acted on against the customer. */
+      out.dispute = await reversals.recordDispute(evt, { store: motorStore });
       out.handled = true;
     }
 
