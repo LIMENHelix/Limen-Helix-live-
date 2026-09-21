@@ -18,7 +18,11 @@
  * native Node req/res with no Fetch shim precisely so this works.
  *
  * IDEMPOTENT. Stripe retries until it gets a 2xx, so the same event arrives more than once.
- * Processed event ids are remembered and replays are acknowledged without acting twice.
+ * Processed event ids are claimed durably in Redis (limen:stripe:handled:v1:<id>, 30 days)
+ * and income books claim the charge id (limen:stripe:charge-booked:<id>, 90 days), so a
+ * redelivery of any previously-processed event — however long ago — books nothing twice.
+ * Claim storage failures answer 500 on purpose: Stripe retries, and an unreadable claim
+ * never becomes a double booking. See lib/stripe-income-book.js.
  *
  * Set STRIPE_WEBHOOK_SECRET from the endpoint's signing secret in the Stripe dashboard.
  */
@@ -35,9 +39,10 @@ var leadPipeline = require('../lib/lead-pipeline-bridge');
    the sole receipt it can write moves money INTO a domain's pending bucket, and the ledger
    behind it holds no payout adapter. Never throws, so accounting cannot fail activation. */
 var treasuryBridge = require('../lib/treasury-stripe-bridge');
+/* Durable idempotency: handled-event and charge-booked claims in Redis, fail-closed.
+   Replaces the 400-entry seen list, whose eviction replayed non-idempotent writers. */
+var incomeBook = require('../lib/stripe-income-book');
 
-var SEEN_KEY = 'stripe:events:seen:v1';
-var SEEN_CAP = 400;
 var SITE = process.env.PUBLIC_SITE_URL || 'https://limenhelix.com';
 
 function fulfillmentFor(domain) {
@@ -77,29 +82,22 @@ function readRaw(req) {
   });
 }
 
-async function alreadyHandled(id) {
-  if (!id) return false;
-  try {
-    var seen = await db.get(SEEN_KEY);
-    return Array.isArray(seen) && seen.indexOf(id) !== -1;
-  } catch (e) { return false; }
-}
-async function markHandled(id) {
-  if (!id) return;
-  try {
-    var seen = await db.get(SEEN_KEY);
-    if (!Array.isArray(seen)) seen = [];
-    seen.unshift(id);
-    await db.set(SEEN_KEY, seen.slice(0, SEEN_CAP));
-  } catch (e) {}
-}
-
 /**
  * Book subscription cash into the Sales engine. The initial checkout is one
  * enrollment; later invoices add revenue without pretending the same person
  * enrolled again.
+ *
+ * claimKey makes the write durable-idempotent: the claim is taken BEFORE the
+ * aggregate is touched, so a webhook redelivery (even one that outlived every
+ * cache) adds zero cents. A claim storage failure throws — the handler's 500
+ * lets Stripe retry, which is safe; a silently lost claim is how cash books twice.
  */
-async function recordSubscriptionRevenue(domain, cents, isNewEnrollment) {
+async function recordSubscriptionRevenue(domain, cents, isNewEnrollment, claimKey) {
+  var claim = null;
+  if (claimKey) {
+    claim = await incomeBook.claimCharge('sales-agg', claimKey, { kind: 'subscription-revenue', cents: cents || 0 });
+    if (!claim.claimed) return { duplicate: true };
+  }
   try {
     var agg = await db.get('sales:agg');
     if (!agg || typeof agg !== 'object') agg = {};
@@ -117,7 +115,11 @@ async function recordSubscriptionRevenue(domain, cents, isNewEnrollment) {
       d.revenueCents = (d.revenueCents || 0) + (cents || 0);
       await db.set('sales:leads:by-domain', bd);
     }
-  } catch (e) {}
+    if (claim) await incomeBook.completeCharge('sales-agg', claimKey, { kind: 'subscription-revenue', cents: cents || 0, booked: true });
+    return { booked: true };
+  } catch (e) {
+    if (claim) { try { await incomeBook.releaseCharge('sales-agg', claimKey); } catch (_) {} throw e; }
+  }
 }
 
 /** Stripe returns the answers to custom_fields as an array; pull the one we asked for. */
@@ -197,15 +199,21 @@ module.exports = async function handler(req, res) {
   var evt;
   try { evt = JSON.parse(raw); } catch (e) { return send(res, { ok: false, error: 'invalid json' }, 400); }
 
-  if (await alreadyHandled(evt.id)) {
-    return send(res, { ok: true, duplicate: true, id: evt.id });
-  }
-
   var obj = (evt.data && evt.data.object) || {};
   var meta = obj.metadata || {};
   var out = { ok: true, id: evt.id, type: evt.type, handled: false };
 
   try {
+    /* DURABLE DEDUP, claimed before any side effect. A storage failure lands in the
+       catch below and answers 500 — Stripe retries, and a claim that cannot be read
+       never becomes a second booking. */
+    if (evt.id) {
+      var claim = await incomeBook.claimEvent(evt.id, evt.type);
+      if (!claim.claimed) {
+        return send(res, { ok: true, duplicate: true, id: evt.id, result: (claim.record && claim.record.result) || null });
+      }
+    }
+
     if (evt.type === 'checkout.session.completed') {
       // Only our own subscription checkouts. Other products on this Stripe account (the Relay
       // storefront books through the same rail) must not create LIMEN subscribers.
@@ -225,7 +233,8 @@ module.exports = async function handler(req, res) {
         if (!act.ok) out.activateError = act.reason;
 
         if (act.ok) {
-          await recordSubscriptionRevenue(meta.domain, obj.amount_total || 0, true);
+          await recordSubscriptionRevenue(meta.domain, obj.amount_total || 0, true,
+            'sub-checkout:' + (obj.subscription || obj.payment_intent || obj.id));
           var pipeline = await leadPipeline.enroll({ eventId: evt.id, name: obj.customer_details && obj.customer_details.name,
             email: email, domain: meta.domain, rung: meta.rung, revenueCents: obj.amount_total || 0,
             subscriptionId: obj.subscription, source: 'stripe-checkout-completed' });
@@ -263,7 +272,8 @@ module.exports = async function handler(req, res) {
       // Book the income to the finance ledger regardless of which product it was.
       // DIFFERENT BOOK from the treasury above: dollars against `metadata.streamId` for
       // the side-venture capital ledger, not cents against a product domain. Both run.
-      try { await stripe.recordWebhook(raw, sig); } catch (e) {}
+      // Idempotent on the charge id; storage failures throw so Stripe retries (500 below).
+      out.income = await stripe.recordWebhook(raw, sig);
     }
 
     else if (evt.type === 'invoice.payment_succeeded') {
@@ -283,7 +293,8 @@ module.exports = async function handler(req, res) {
             message: renewalReceipt(who, obj.amount_paid != null ? obj.amount_paid : obj.total, obj.hosted_invoice_url), now: Date.now() });
           out.receiptSent = renewal.status === 'COMPLETED'; out.receiptStatus = renewal.status;
           out.receiptTaskId = renewal.taskId || null; out.receiptReason = renewal.reason || null;
-          await recordSubscriptionRevenue(who.domain, obj.amount_paid || 0, false);
+          await recordSubscriptionRevenue(who.domain, obj.amount_paid || 0, false,
+            'sub-renewal:' + (obj.charge || obj.payment_intent || obj.id));
         } else {
           out.receiptSent = false;
           out.note = 'No active subscriber matched this invoice, so no receipt was sent.';
@@ -331,13 +342,16 @@ module.exports = async function handler(req, res) {
     }
 
     else if (evt.type === 'payment_intent.succeeded') {
-      try { await stripe.recordWebhook(raw, sig); } catch (e) {}
+      out.income = await stripe.recordWebhook(raw, sig);
       out.handled = true;
     }
 
-    await markHandled(evt.id);
+    if (evt.id) await incomeBook.completeEvent(evt.id, { handled: out.handled, type: evt.type });
     return send(res, out);
   } catch (e) {
+    /* Hand the event claim back so the retry this 500 triggers can reprocess; the
+       charge-level claims make every book write safe to attempt again. */
+    if (evt.id) { try { await incomeBook.releaseEvent(evt.id); } catch (_) {} }
     // 500 makes Stripe retry, which is what we want for a transient storage failure.
     return send(res, { ok: false, id: evt.id, error: e.message || 'handler error' }, 500);
   }

@@ -2081,7 +2081,7 @@ function invoke(handler, req) {
 
   // ── T35 ─────────────────────────────────────────────────────────────────
   // Relay is not the only thing that can book one of its payments. Every link it creates
-  // carries streamId 'relay-order', and /api/capital-engine?action=stripe-webhook hands
+  // carries streamId 'relay-order', and /api/stripe-webhook hands
   // checkout.session.completed to stripe-rail.recordWebhook, which writes an income event.
   // If that webhook is live, reporting here as well books the same dollar twice and
   // inflates net income and lendable surplus downstream.
