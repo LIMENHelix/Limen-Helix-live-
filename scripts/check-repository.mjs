@@ -19,12 +19,19 @@
  *      a handler that no longer exists fails silently forever — Vercel reports
  *      the invocation, the function 404s, and nothing tells you.
  *
+ *   4. BOOT. Every server function module is really require()d (scripts/
+ *      test-boot-catchall.js). Parsing (check 1) proves a file is well-formed;
+ *      only loading proves its require graph resolves and nothing throws at
+ *      module scope — and the Hono catch-all loads them all at boot, so one
+ *      load-time throw 500s the whole /api surface. A broken handler used to
+ *      deploy silently; now it breaks here.
+ *
  * PERFORMANCE NOTE. This parses with acorn in-process rather than spawning
  * `node --check` per file. Spawning is ~40x slower here and a previous attempt
  * at the same sweep had to be abandoned partway. acorn is already a devDependency.
  */
 
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { readFileSync, statSync } from 'node:fs';
 import { parse } from 'acorn';
 import path from 'node:path';
@@ -171,6 +178,22 @@ try {
   failures.push({ f: 'assets/data/canonical-nodes.json', why: 'could not read or parse: ' + e.message });
 }
 
+// ── 4. Every server function module actually boots ─────────────────────────
+/* Runs the real boot test as a child process rather than requiring the modules
+   from here: the boot test force-sets a sanitized env and pulls in ~330 modules
+   of module-scope state, none of which belongs inside this checker's process.
+   The same file runs standalone under test:unit, so a failure shows up in both
+   gates with one implementation. */
+let bootReported = null;
+{
+  const r = spawnSync(process.execPath, ['scripts/test-boot-catchall.js'], { encoding: 'utf8' });
+  bootReported = ((r.stdout || '').trim().split('\n').filter(Boolean)[0]) || null;
+  if (r.status !== 0) {
+    const detail = ((r.stderr || '') + '\n' + (r.stdout || '')).trim().split('\n').slice(-12).join('\n      ');
+    failures.push({ f: 'scripts/test-boot-catchall.js', why: 'boot test failed (exit ' + r.status + ')\n      ' + detail });
+  }
+}
+
 // ── report ─────────────────────────────────────────────────────────────────
 if (!QUIET) {
   console.log('repository check');
@@ -178,6 +201,7 @@ if (!QUIET) {
   console.log('  json parsed       : ' + jsonOk + (jsonSkipped ? '  (' + jsonSkipped + ' skipped over the size cap)' : ''));
   console.log('  cron targets      : ' + cronChecked);
   console.log('  canonical nodes   : ' + (canonicalTotal === null ? 'UNREADABLE' : canonicalTotal + ' (_meta.total enforced)'));
+  console.log('  boot              : ' + (bootReported || 'FAILED'));
   if (notes.length && notes.length <= 12) notes.forEach(n => console.log('  note: ' + n));
   else if (notes.length) console.log('  note: ' + notes.length + ' files skipped over the size cap');
 }

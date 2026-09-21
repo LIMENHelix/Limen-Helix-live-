@@ -1,8 +1,9 @@
 name: repository check
 
 # Runs the same two things a person would run locally:
-#   npm run check     every tracked JS and JSON parses, every cron resolves
-#   npm run test:unit all 38 Node tests, each in its own process
+#   npm run check     every tracked JS and JSON parses, every cron resolves,
+#                     and every server function module boots (require, not parse)
+#   npm run test:unit every tracked Node test, each in its own process
 #
 # WHY THIS EXISTS. Two of those tests had been failing for months without anyone
 # noticing, because there was no way to run them as a set. Production moved to a
@@ -13,6 +14,12 @@ on:
   push:
     branches: [main]
   pull_request:
+  # Weekly bit-rot tripwire (PR-004): main can break without any PR touching it —
+  # a runner image changes, a dependency republishes, a fixture rots. Without a
+  # schedule the suite only runs when someone pushes, so "green" quietly becomes
+  # "last run weeks ago". Mondays, off the top of the hour.
+  schedule:
+    - cron: '17 6 * * 1'
   workflow_dispatch:
 
 # A second push to the same branch cancels the first: no point finishing a run
