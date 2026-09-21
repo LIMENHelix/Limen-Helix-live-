@@ -129,11 +129,13 @@ async function mirrorShow(channel, won, cost, dealSize, trigger) {
 }
 
 // Generic funnel mirror for the later transitions (shows>enrollments,
-// enrollments>referrals). shows>enrollments with won books deal revenue in the
-// engine (applyEvent tracks __enroll by dealSize).
-async function mirrorTx(transitionId, from, to, unit, won, cost, dealSize, trigger) {
+// enrollments>referrals). A won shows>enrollments close carrying typedRevenueCents
+// books it as OPERATOR-ESTIMATE revenue (labeled, never mixed with rail cash),
+// replacing the configured deal-value guess for that deal; a close without a
+// typed figure falls back to the __enroll-by-dealSize estimate.
+async function mirrorTx(transitionId, from, to, unit, won, cost, dealSize, trigger, typedRevenueCents) {
   var agg = (await db.get(K.salesAgg)) || E.emptyAgg();
-  E.applyEvent(agg, { transitionId: transitionId, from: from, to: to, unit: unit, won: !!won, costCents: cost || 0, dealSize: dealSize || 'medium', trigger: trigger || 'trust' });
+  E.applyEvent(agg, { transitionId: transitionId, from: from, to: to, unit: unit, won: !!won, costCents: cost || 0, dealSize: dealSize || 'medium', trigger: trigger || 'trust', typedRevenueCents: typedRevenueCents || 0 });
   await db.set(K.salesAgg, agg);
   try { var meta = (await db.get(K.salesMeta)) || {}; meta.realEvents = (meta.realEvents || 0) + 1; meta.dataMode = (meta.simEvents > 0) ? 'mixed' : 'real'; await db.set(K.salesMeta, meta); } catch (e) {}
 }
@@ -466,10 +468,13 @@ module.exports = async function handler(req, res) {
       var won = body.won !== false;
       var dealSize = DEAL_SIZES.indexOf(body.dealSize) !== -1 ? body.dealSize : 'medium';
       var lever = CLOSE_LEVERS.indexOf(body.lever) !== -1 ? body.lever : 'closing';
-      if (won) { stCl.status = 'enrolled'; stCl.enrolledAt = new Date().toISOString(); stCl.dealSize = dealSize; stCl.revenueCents = parseInt(body.revenueCents, 10) || 0; stCl.closeLever = lever; }
+      // Typed close revenue is an OPERATOR ESTIMATE, not cash. It is labeled as such
+      // here and mirrored into the funnel as typedRevenueCents, so it can never be
+      // summed with payment-rail cash as if both were realized money.
+      if (won) { stCl.status = 'enrolled'; stCl.enrolledAt = new Date().toISOString(); stCl.dealSize = dealSize; stCl.revenueCents = parseInt(body.revenueCents, 10) || 0; stCl.revenueSource = stCl.revenueCents > 0 ? 'operator-estimate' : null; stCl.closeLever = lever; }
       else { stCl.status = 'lost'; }
       stCl.updatedTs = new Date().toISOString();
-      if (!stCl.closeMirrored) { await mirrorTx('shows>enrollments', 'shows', 'enrollments', lever, won, 0, dealSize, body.trigger); stCl.closeMirrored = true; }
+      if (!stCl.closeMirrored) { await mirrorTx('shows>enrollments', 'shows', 'enrollments', lever, won, 0, dealSize, body.trigger, won ? stCl.revenueCents : 0); stCl.closeMirrored = true; }
       await db.set(K.state + clid, stCl);
       return j(res, 200, { ok: true, status: stCl.status, dealSize: won ? dealSize : null, revenueCents: won ? stCl.revenueCents : 0 });
     }

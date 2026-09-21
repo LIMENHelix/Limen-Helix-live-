@@ -20,20 +20,6 @@ const path = require('node:path');
 
 const DATA_FILE = path.join(__dirname, '..', 'assets', 'data', 'capital-engine.json');
 
-// raw-body reader (Stripe signature needs the exact bytes). Falls back to a
-// re-stringified parsed body if the platform already consumed the stream.
-function _readRaw(req) {
-  return new Promise(function (resolve) {
-    if (typeof req.body === 'string') return resolve(req.body);
-    if (req.body && typeof req.body === 'object' && Object.keys(req.body).length) return resolve(JSON.stringify(req.body));
-    let data = '';
-    try {
-      req.on('data', function (c) { data += c; });
-      req.on('end', function () { resolve(data); });
-      req.on('error', function () { resolve(data); });
-    } catch (e) { resolve(''); }
-  });
-}
 function _findStream(contract, id) { return (contract.streams || []).find(function (s) { return s.id === id; }) || null; }
 
 function _readContract() {
@@ -176,7 +162,8 @@ module.exports = async function handler(req, res) {
   if (action === 'ledger') {
     const ledger = require('../lib/finance-ledger');
     const autonomic = require('../lib/finance-autonomic');
-    return res.status(200).json({ ok: true, summary: await ledger.summary(), health: await autonomic.health(), approvals: await autonomic.approvals(20), events: await ledger.events(50) });
+    const incomeBook = require('../lib/stripe-income-book');
+    return res.status(200).json({ ok: true, summary: await ledger.summary(), health: await autonomic.health(), approvals: await autonomic.approvals(20), events: await ledger.events(50), stripeIncome: await incomeBook.stats() });
   }
 
   // ── QUEUE: content queue + published log (operator view) ───────────
@@ -214,14 +201,13 @@ module.exports = async function handler(req, res) {
     return res.status(200).json(await stripe.createPaymentLink({ name: b.name, amount: Number(b.amount), streamId: b.stream, currency: b.currency }));
   }
 
-  // ── STRIPE WEBHOOK: verify + record income to ledger ───────────────
+  // ── STRIPE WEBHOOK: REMOVED. This parallel booker could record the same income
+  // /api/stripe-webhook already booked, with no dedup between them. Stripe income now
+  // books only through /api/stripe-webhook → stripe-rail.recordWebhook →
+  // lib/stripe-income-book (one charge, one entry, durable claims). 410 so any
+  // endpoint still pointing here fails loudly instead of silently double-booking. ──
   if (action === 'stripe-webhook') {
-    if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'webhook requires POST' });
-    const stripe = require('../lib/stripe-rail');
-    const raw = await _readRaw(req);
-    const sig = req.headers['stripe-signature'];
-    const result = await stripe.recordWebhook(raw, sig);
-    return res.status(result.ok ? 200 : 400).json(result);
+    return res.status(410).json({ ok: false, error: 'gone', detail: 'removed parallel booker; register Stripe webhooks on /api/stripe-webhook only' });
   }
 
   // ── TICK: run one autonomic cycle (audit → heal → build) ───────────
@@ -259,5 +245,5 @@ module.exports = async function handler(req, res) {
     return res.status(200).json(await aud.scoreLanes(card));
   }
 
-  return res.status(400).json({ ok: false, error: 'unknown action: ' + action, valid: ['streams', 'status', 'route', 'orchestrate', 'ledger', 'queue', 'produce', 'publish', 'checkout', 'stripe-webhook', 'tick', 'articles', 'subscribe', 'score-lanes'] });
+  return res.status(400).json({ ok: false, error: 'unknown action: ' + action, valid: ['streams', 'status', 'route', 'orchestrate', 'ledger', 'queue', 'produce', 'publish', 'checkout', 'tick', 'articles', 'subscribe', 'score-lanes'] });
 };
