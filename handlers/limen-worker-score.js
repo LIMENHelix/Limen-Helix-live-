@@ -20,6 +20,7 @@ var companyScorer = require('../lib/company-phase-scorer');
 
 
 module.exports = async function handler(req, res) {
+  if (!require('../lib/cron-auth').enforce(req, res)) return;
   try {
     var snap = await db.get('console_snapshot');
     var domains = (snap && snap.domains) || {};

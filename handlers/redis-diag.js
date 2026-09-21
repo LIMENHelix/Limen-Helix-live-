@@ -1,13 +1,15 @@
 /**
  * api/redis-diag.js — Upstash Redis REST diagnostic
  *
- * GET /api/redis-diag?probe=1
+ * GET /api/redis-diag?probe=1   (operator master key required — admin-gated,
+ * fail-closed; it reports live infrastructure detail and runs writes against
+ * the store, so it is not a public surface)
  *
  * Surfaces what's wrong with the Upstash configuration without leaking
  * the token. Reports:
  *   - whether env vars are set
  *   - URL protocol + hostname (truncated so token in URL isn't leaked)
- *   - token length + first/last 4 chars
+ *   - token length (NEVER any token characters)
  *   - direct fetch result on PING + SET + GET commands
  *   - HTTP status + response body excerpt on failure
  */
@@ -15,6 +17,9 @@
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('content-type', 'application/json');
+
+  var _g = require('../lib/admin-gate');
+  if (!_g.isMaster(_g.reqKey(req))) return _g.deny(res);
 
   const url = req.url || '';
   if (url.indexOf('probe=1') === -1) {
@@ -33,8 +38,6 @@ module.exports = async function handler(req, res) {
     url_protocol: REST_URL.split(':')[0] || null,
     url_hostname: (() => { try { return new URL(REST_URL).hostname; } catch (e) { return 'INVALID_URL: ' + e.message; } })(),
     url_pathname: (() => { try { return new URL(REST_URL).pathname; } catch (e) { return null; } })(),
-    token_prefix: REST_TOKEN.slice(0, 4),
-    token_suffix: REST_TOKEN.slice(-4),
     token_has_whitespace: /\s/.test(REST_TOKEN),
     url_has_whitespace: /\s/.test(REST_URL),
     url_has_trailing_slash: REST_URL.endsWith('/')

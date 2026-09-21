@@ -16,7 +16,8 @@
  *
  *   No auth (read-only operator surface). State mutations (mark FIRED
  *   or DISMISSED) flow through PATCH /api/limen-autoqueue?cik=...&lane=...
- *   which IS auth-gated when LIMEN_OPERATOR_TOKEN is set.
+ *   which is gated by LIMEN_OPERATOR_TOKEN and FAILS CLOSED (503) when it
+ *   is unset — an unconfigured endpoint rejects, it does not admit.
  */
 
 var db = require('../lib/limen-db');
@@ -26,7 +27,7 @@ var OPERATOR_TOKEN = process.env.LIMEN_OPERATOR_TOKEN || '';
 var AUTH_ON = !!OPERATOR_TOKEN;
 
 function checkAuth(req) {
-  if (!AUTH_ON) return { ok: true };
+  if (!AUTH_ON) return { ok: false, unavailable: true, reason: 'mutation-auth-unconfigured' };
   var header = req.headers && (req.headers.authorization || req.headers.Authorization);
   if (!header) return { ok: false, reason: 'missing-bearer' };
   var m = /^Bearer\s+(.+)$/i.exec(String(header).trim());
@@ -39,7 +40,7 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, PATCH, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'content-type, authorization');
-  res.setHeader('x-auth-mode', AUTH_ON ? 'enforced' : 'disabled');
+  res.setHeader('x-auth-mode', AUTH_ON ? 'enforced' : 'fail-closed');
   if (req.method === 'OPTIONS') {
     res.statusCode = 204;
     return res.end();
@@ -82,7 +83,7 @@ module.exports = async function handler(req, res) {
       // Mark an entry as FIRED or DISMISSED (operator action).
       var auth = checkAuth(req);
       if (!auth.ok) {
-        res.statusCode = 401;
+        res.statusCode = auth.unavailable ? 503 : 401;
         res.setHeader('content-type', 'application/json');
         res.setHeader('WWW-Authenticate', 'Bearer realm="limen-autoqueue"');
         return res.end(JSON.stringify({ ok: false, error: 'unauthorized', reason: auth.reason }));

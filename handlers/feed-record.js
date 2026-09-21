@@ -284,6 +284,9 @@ module.exports = async function handler(req, res) {
   }
 
   // ── WRITE MODE (cron): fetch live snapshot, append one row per domain ──
+  // State-mutating: CRON_SECRET bearer required, fail-closed. The read paths
+  // above stay open — they only read what public feeds already published.
+  if (!require('../lib/cron-auth').enforce(req, res)) return;
   var snap;
   try {
     var resp = await fetch(SNAPSHOT_URL);

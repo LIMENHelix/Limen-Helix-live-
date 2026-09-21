@@ -10,7 +10,7 @@
  * POST /api/limen-self-pulse
  *   { cik, lane, salience, [from], [to], [direction], [note] }
  *
- *   Auth-gated when LIMEN_OPERATOR_TOKEN is set in env.
+ *   Auth-gated by LIMEN_OPERATOR_TOKEN; fails closed (503) when unset.
  *
  *   Lane must be one of: investment | research
  *   Salience defaults to HIGH (so autofire picks it up).
@@ -35,7 +35,7 @@ var VALID_LANES = ['investment', 'research']; // patent/grant/sba/franchise lane
 var VALID_SALIENCE = ['HIGH', 'MEDIUM', 'LOW'];
 
 function checkAuth(req) {
-  if (!AUTH_ON) return { ok: true };
+  if (!AUTH_ON) return { ok: false, unavailable: true, reason: 'mutation-auth-unconfigured' };
   var h = req.headers && (req.headers.authorization || req.headers.Authorization);
   if (!h) return { ok: false, reason: 'missing-bearer' };
   var m = /^Bearer\s+(.+)$/i.exec(String(h).trim());
@@ -48,7 +48,7 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'content-type, authorization');
-  res.setHeader('x-auth-mode', AUTH_ON ? 'enforced' : 'disabled');
+  res.setHeader('x-auth-mode', AUTH_ON ? 'enforced' : 'fail-closed');
   if (req.method === 'OPTIONS') {
     res.statusCode = 204;
     return res.end();
@@ -65,7 +65,7 @@ module.exports = async function handler(req, res) {
       body: { cik: '0000000999', lane: 'investment | research', salience: 'HIGH', from: '(optional)', to: '(optional)', note: '(optional)' },
       validLanes: VALID_LANES,
       validSalience: VALID_SALIENCE,
-      authMode: AUTH_ON ? 'enforced' : 'disabled'
+      authMode: AUTH_ON ? 'enforced' : 'fail-closed'
     }));
   }
 
@@ -78,7 +78,7 @@ module.exports = async function handler(req, res) {
   // Auth
   var auth = checkAuth(req);
   if (!auth.ok) {
-    res.statusCode = 401;
+    res.statusCode = auth.unavailable ? 503 : 401;
     res.setHeader('content-type', 'application/json');
     res.setHeader('WWW-Authenticate', 'Bearer realm="limen-self-pulse"');
     return res.end(JSON.stringify({ ok: false, error: 'unauthorized', reason: auth.reason }));

@@ -46,7 +46,7 @@ function getPropagator() {
 }
 
 function checkAuth(req) {
-  if (!AUTH_ON) return { ok: true, mode: 'disabled' };
+  if (!AUTH_ON) return { ok: false, unavailable: true, reason: 'mutation-auth-unconfigured' };
   const header = req.headers && (req.headers.authorization || req.headers.Authorization);
   if (!header) return { ok: false, reason: 'missing-bearer' };
   const m = /^Bearer\s+(.+)$/i.exec(String(header).trim());
@@ -109,7 +109,7 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'content-type, authorization');
-  res.setHeader('x-auth-mode', AUTH_ON ? 'enforced' : 'disabled');
+  res.setHeader('x-auth-mode', AUTH_ON ? 'enforced' : 'fail-closed');
   if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
   if (req.method !== 'GET') {
     res.statusCode = 405;
@@ -126,7 +126,7 @@ module.exports = async function handler(req, res) {
     if (compute) {
       const auth = checkAuth(req);
       if (!auth.ok) {
-        res.statusCode = 401;
+        res.statusCode = auth.unavailable ? 503 : 401;
         res.setHeader('content-type', 'application/json');
         res.setHeader('WWW-Authenticate', 'Bearer realm="limen-stress-propagation"');
         return res.end(JSON.stringify({ ok: false, error: 'unauthorized', reason: auth.reason }));

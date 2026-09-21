@@ -181,6 +181,7 @@ function _stripHtml(s) {
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
+  if (!require('../lib/cron-auth').enforce(req, res)) return;
   var start = Date.now();
 
   // Fetch all RSS feeds

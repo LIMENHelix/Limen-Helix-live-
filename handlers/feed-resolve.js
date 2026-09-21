@@ -81,6 +81,8 @@ module.exports = async function handler(req, res) {
   // store it durably. Tab-independent + token-independent (forecasts come from recorded truth,
   // not user input), so the resolver accrues on its own. Idempotent per hour. ──
   if (m === 'GET' && q.emit) {
+    // Emit writes the durable forecast ledger: CRON_SECRET bearer, fail-closed.
+    if (!require('../lib/cron-auth').enforce(req, res)) return;
     try {
       var idx = (await db.get('feedhist:index')) || [];
       var nowE = Date.now(), bucketE = Math.floor(nowE / HOUR_MS);
