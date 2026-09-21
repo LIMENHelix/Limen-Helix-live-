@@ -12,12 +12,14 @@
  *       delivery; a partial refund reverses proportionally and never deactivates
  *   (c) a refund for a charge this system never booked becomes a recorded exception
  *       on the unmatched list — no crash, no fabricated entry
- *   (d) a dispute is recorded with amount/reason/due date and alerted ONCE under
+ *   (e) a dispute is recorded with amount/reason/due date and alerted ONCE under
  *       replay; the customer record is never touched
- *   (e) dispute.closed (won) updates the record and attempts the release, idempotently
- *   (f) invoice.paid and invoice.payment_succeeded for the SAME renewal charge book
+ *   (f) dispute.closed (won) updates the record and attempts the release, idempotently
+ *   (g) invoice.paid and invoice.payment_succeeded for the SAME renewal charge book
  *       one renewal (one receipt email claim, one sales:agg add, one treasury receipt)
- *   (g) a claim-store outage fails CLOSED: 500 to Stripe, zero writes, and the retry
+ *   (h) a LOST dispute stays explicitly unresolved: recorded, alerted once, and no
+ *       compensating transaction in any book — pinned, not merely implied
+ *   (i) a claim-store outage fails CLOSED: 500 to Stripe, zero writes, and the retry
  *       after recovery books the reversal exactly once (claim was released)
  *
  * Same fake-but-faithful Upstash harness as test-stripe-income-single-book.js so the
@@ -521,29 +523,99 @@ async function main() {
     assert.equal((await accountFor('culture')).pendingCashCents, cultureBefore, 'renewal money fully reversed');
   });
 
-  // ── (h) fail closed: store outage → 500, zero writes, retry books once ────
-  await check('(h) a storage outage answers 500 and writes nothing; the retry after recovery reverses once', async function () {
-    var book = evt('evt_h_book', 'checkout.session.completed', {
-      id: 'cs_h_book', mode: 'payment', payment_intent: 'pi_h1', amount_total: 700,
+  // ── (h) a LOST dispute stays explicitly unresolved — no compensating movement ──
+  await check('(h) dispute.closed lost: recorded as unresolved, zero compensating entries anywhere', async function () {
+    var sub = { email: 'buyer-h@example.test', domain: 'infrastructure', subscriptionId: 'sub_h1', customerId: 'cus_h1', amountCents: 800 };
+    var bought = await invoke(stripeWebhook, streamReq(checkoutSession('evt_h_buy', sub)));
+    assert.equal(bought.body.activated, true, JSON.stringify(bought.body));
+    var ren = await invoke(stripeWebhook, streamReq(renewalInvoice('evt_h_ren', 'invoice.payment_succeeded',
+      { chargeId: 'ch_h1', customerId: 'cus_h1', subscriptionId: 'sub_h1', email: sub.email, amountCents: 800 })));
+    assert.equal(ren.status, 200, JSON.stringify(ren.body), 'setup: renewal writes the charge attribution');
+
+    var dueBy = Math.floor(Date.now() / 1000) + 7 * 86400;
+    var created = await invoke(stripeWebhook, streamReq(evt('evt_h_dp', 'charge.dispute.created', {
+      id: 'dp_h1', object: 'dispute', charge: 'ch_h1', amount: 800, currency: 'usd',
+      reason: 'product_not_received', status: 'needs_response',
+      evidence_details: { due_by: dueBy, has_evidence: true }
+    })));
+    assert.equal(created.body.dispute.recorded, true, JSON.stringify(created.body));
+
+    var ledgerBefore = await db.lrange('finance:ledger', 0, 4999);
+    var aggBefore = (await subRevenue()).revenueCents;
+    var treasuryBefore = (await accountFor('infrastructure')).pendingCashCents;
+
+    var closed = evt('evt_h_dp_lost', 'charge.dispute.closed', {
+      id: 'dp_h1', object: 'dispute', charge: 'ch_h1', amount: 800, currency: 'usd',
+      reason: 'product_not_received', status: 'lost'
+    });
+    var r = await invoke(stripeWebhook, streamReq(closed));
+    assert.equal(r.status, 200, JSON.stringify(r.body));
+    assert.equal(r.body.dispute.recorded, true);
+    assert.equal(r.body.dispute.status, 'lost');
+
+    var disputes = (await db.get(reversals.DISPUTES_KEY)) || {};
+    assert.equal(disputes.dp_h1.status, 'lost', 'the record carries the loss explicitly');
+    assert.equal(disputes.dp_h1.reason, 'product_not_received', 'created-phase fields survive');
+    assert.equal(disputes.dp_h1.dueBy, new Date(dueBy * 1000).toISOString());
+    assert(disputes.dp_h1.createdAt && disputes.dp_h1.createdAt !== disputes.dp_h1.updatedAt,
+      'the record shows both phases, not an overwrite');
+
+    /* THE PIN: a lost dispute must never silently generate a compensating transaction.
+       The named refusal is the whole story — no treasury call, no ledger reversal, no
+       sales:agg adjustment, no entitlement change. */
+    assert.equal(r.body.dispute.treasuryBooked, false);
+    assert.equal(r.body.dispute.treasuryReason, 'dispute-lost-no-automatic-reversal',
+      'the reason names the deliberate non-action, got: ' + r.body.dispute.treasuryReason);
+
+    var ledgerAfter = await db.lrange('finance:ledger', 0, 4999);
+    assert.equal(ledgerAfter.length, ledgerBefore.length, 'finance:ledger gained no entry from the loss');
+    assert.equal(ledgerAfter.filter(function (e) {
+      return e && e.meta && e.meta.reversal === true && e.meta.chargeId === 'ch_h1';
+    }).length, 0, 'no reversal entry for the lost charge');
+    assert.equal((await subRevenue()).revenueCents, aggBefore, 'sales:agg revenue untouched by the loss');
+    assert.equal((await accountFor('infrastructure')).pendingCashCents, treasuryBefore, 'treasury pending untouched by the loss');
+
+    var subsLib = require('../lib/subscriptions');
+    var who = await subsLib.getStrict('buyer-h@example.test', motorStore);
+    assert.equal(who.active, true, 'the subscriber record is untouched: a dispute never cancels');
+
+    var ca = (await alerts('dispute-closed')).filter(function (a) { return a.disputeId === 'dp_h1'; });
+    assert.equal(ca.length, 1, 'the loss is alerted exactly once');
+    assert.equal(ca[0].status, 'lost');
+    assert.equal(ca[0].treasuryReason, 'dispute-lost-no-automatic-reversal', 'the alert carries the named non-action');
+
+    var replay = await invoke(stripeWebhook, streamReq(closed));
+    assert.equal(replay.body.duplicate, true, 'replay dedups at the dispute claim');
+    assert.equal((await alerts('dispute-closed')).filter(function (a) { return a.disputeId === 'dp_h1'; }).length, 1,
+      'replay does not re-alert');
+    assert.equal((await db.lrange('finance:ledger', 0, 4999)).length, ledgerBefore.length,
+      'replay still writes nothing');
+    assert.equal((await subRevenue()).revenueCents, aggBefore, 'replay still adjusts nothing');
+  });
+
+  // ── (i) fail closed: store outage → 500, zero writes, retry books once ────
+  await check('(i) a storage outage answers 500 and writes nothing; the retry after recovery reverses once', async function () {
+    var book = evt('evt_i_book', 'checkout.session.completed', {
+      id: 'cs_i_book', mode: 'payment', payment_intent: 'pi_i1', amount_total: 700,
       currency: 'usd', metadata: { streamId: 'wmc-tips' }
     });
     var booked = await invoke(stripeWebhook, streamReq(book));
     assert.equal(booked.body.income.recorded, true, 'setup: income booked');
 
-    var refund = evt('evt_h_ref', 'charge.refunded', {
-      id: 'ch_h1', object: 'charge', payment_intent: 'pi_h1', amount: 700, amount_refunded: 700,
-      currency: 'usd', refunds: { data: [{ id: 're_h1', amount: 700, currency: 'usd', status: 'succeeded' }] }
+    var refund = evt('evt_i_ref', 'charge.refunded', {
+      id: 'ch_i1', object: 'charge', payment_intent: 'pi_i1', amount: 700, amount_refunded: 700,
+      currency: 'usd', refunds: { data: [{ id: 're_i1', amount: 700, currency: 'usd', status: 'succeeded' }] }
     });
     REDIS_DOWN = true;
     var down = await invoke(stripeWebhook, streamReq(refund));
     assert.equal(down.status, 500, 'an unreadable claim store must fail closed');
-    assert.equal((await reversalEntries('re_h1')).length, 0, 'zero reversal writes during the outage');
+    assert.equal((await reversalEntries('re_i1')).length, 0, 'zero reversal writes during the outage');
 
     REDIS_DOWN = false;
     var up = await invoke(stripeWebhook, streamReq(refund));
     assert.equal(up.status, 200, JSON.stringify(up.body));
     assert.equal(up.body.reversal.refunds[0].booked, true, 'Stripe retry after recovery completes the reversal');
-    assert.equal((await reversalEntries('re_h1')).length, 1, 'exactly once: the failed attempt released its claim');
+    assert.equal((await reversalEntries('re_i1')).length, 1, 'exactly once: the failed attempt released its claim');
   });
 
   // ── operator surface: the subscribers admin JSON carries the reversal view ──
