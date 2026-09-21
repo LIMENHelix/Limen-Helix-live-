@@ -15,6 +15,9 @@ var T = require('../lib/tool-fetch');
 var subs = require('../lib/subscriptions');
 var db = require('../lib/limen-db');
 var digest = require('../lib/digest');
+/* Refund/dispute intake records, surfaced read-only so the operator console can see
+   reversed money and open disputes without a new channel. */
+var reversals = require('../lib/stripe-reversals');
 
 var KEY_VARS = ['SOCIAL_CRON_KEY', 'ADMIN_MASTER', 'ADMIN_MASTER_KEY', 'SALES_ADMIN_KEY', 'LEAD_ADMIN_KEY'];
 
@@ -48,6 +51,9 @@ module.exports = async function handler(req, res) {
       if (Array.isArray(raw)) intents = raw.slice(0, 25);
     } catch (e) {}
 
+    var reversalSummary = null;
+    try { reversalSummary = await reversals.operatorSummary(); } catch (e) { reversalSummary = { ok: false, error: e.message || 'unreadable' }; }
+
     return T.send(res, {
       ok: true,
       generatedAt: new Date().toISOString(),
@@ -55,6 +61,7 @@ module.exports = async function handler(req, res) {
         active: stats.active, cancelled: stats.cancelled, total: stats.total,
         mrrCents: stats.mrrCents, byDomain: stats.byDomain
       } : null,
+      reversals: reversalSummary,
       personalisedDomains: digest.PERSONAL_DOMAINS,
       subscribers: list.map(function (s) {
         return {
