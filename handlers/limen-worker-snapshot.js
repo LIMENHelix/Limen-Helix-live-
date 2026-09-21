@@ -54,6 +54,7 @@ function isStressPromotionEligible(pk) { return STRESS_PROMOTION_DOMAINS.indexOf
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
+  if (!require('../lib/cron-auth').enforce(req, res)) return;
   var start = Date.now();
 
   // ── Phase 25: Priority-aware parallel company scoring ──

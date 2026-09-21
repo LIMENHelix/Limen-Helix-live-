@@ -7,17 +7,19 @@ var db = require('../lib/limen-db');
 var TTL = 60 * 60 * 24 * 40;
 function j(res, c, o) { res.statusCode = c; res.setHeader('content-type', 'application/json'); res.setHeader('Cache-Control', 'private, no-store'); res.end(JSON.stringify(o)); }
 function readBody(req) { return new Promise(function (r) { var b = ''; req.on('data', function (c) { b += c; if (b.length > 8e6) req.destroy(); }); req.on('end', function () { try { r(JSON.parse(b || '{}')); } catch (e) { r({}); } }); req.on('error', function () { r({}); }); }); }
+// x-limen-pass header accepted as an alternative to ?key= (URL keys land in logs).
+function hdrKey(req) { try { return String(req.headers['x-limen-pass'] || req.headers['X-Limen-Pass'] || ''); } catch (e) { return ''; } }
 module.exports = async function handler(req, res) {
   var ADMIN = process.env.LEAD_ADMIN_KEY || '';
   var q = {}; try { q = Object.fromEntries(new URL(req.url, 'http://h').searchParams); } catch (e) {}
   var method = (req.method || 'GET').toUpperCase();
   if (method === 'GET') {
-    if (ADMIN && q.key !== ADMIN) return j(res, 403, { ok: false, error: 'Admin key required.' });
+    if (!ADMIN || (q.key !== ADMIN && hdrKey(req) !== ADMIN)) return j(res, 403, { ok: false, error: 'Admin key required.' });
     return j(res, 200, { ok: true, count: ((await db.get('energy:distress')) || []).length, meta: (await db.get('energy:distress:meta')) || null, deals: (await db.get('energy:distress')) || [] });
   }
   if (method === 'POST') {
     var body = await readBody(req);
-    if (ADMIN && (body.key || q.key) !== ADMIN) return j(res, 403, { ok: false, error: 'Admin key required.' });
+    if (!ADMIN || ((body.key || q.key || hdrKey(req)) !== ADMIN)) return j(res, 403, { ok: false, error: 'Admin key required.' });
     if (!Array.isArray(body.deals)) return j(res, 400, { ok: false, error: 'deals[] required' });
     var meta = body.meta || { updatedMs: Date.now() }; meta.total = body.deals.length;
     await db.set('energy:distress', body.deals, TTL);

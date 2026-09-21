@@ -171,7 +171,7 @@ not the 96 the last pulse reported. The drop is organs finally seeing the whole 
 
 | item | state |
 |---|---|
-| **Gate A** | `limen-worker-autoqueue`, `autofire`, `multipass`, `sleep-cycle` paused since 2026-06-01. The propagator IS wired into lane salience via `lib/limen-policy.js`; it drives nothing because these are paused. Restore instruction is in `ops/crons-paused-2026-06-01-pre-gate-a.json`. Operator decision, not a fix |
+| **Gate A** | STALE ROW, corrected 2026-09-20 (PR-003): this said `limen-worker-autoqueue`, `autofire`, `multipass`, `sleep-cycle` were paused since 2026-06-01. They were restored to `vercel.json` on 2026-08-20 (`a1ae803d`) and have been live since; `limen-worker-autoqueue`, `limen-worker-autofire` and `limen-worker-sleep-cycle` are active crons today. The propagator wiring note stands; the "paused" state did not. |
 | **Portal regen** | The manual bounded drain is fail-closed and 3 portals have passed across two batches; autonomous scheduling remains deliberately unwired. Anthropic credits are exhausted, so the live path uses the already-configured metered xAI fallback. Batch 2 exposed and closed singular-auditor shape and shallow-prose gaps before publication. **167 eligible portals remain**, and generated relationship source claims are not independently verified. |
 | **AI-authored heals** | Not built. The PR gate that would contain them IS built and live (`.github/workflows/immune-system.yml`, phase B). Adding an LLM to the daily pulse trades the loop's deterministic guarantee for coverage — operator call |
 

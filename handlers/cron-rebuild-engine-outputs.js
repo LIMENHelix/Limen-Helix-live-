@@ -100,12 +100,10 @@ async function graduateHeldPatterns() {
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   if (req.method === 'OPTIONS') return res.status(200).end();
-  // Vercel Cron fires GET; gate it so the rebuild can't be triggered casually.
-  // Operator POST also allowed (manual rebuild).
-  var isCron = req.method === 'GET' && (process.env.CRON_SECRET
-    ? (req.headers['authorization'] === 'Bearer ' + process.env.CRON_SECRET)
-    : (/vercel-cron/i.test(req.headers['user-agent'] || '') || req.headers['x-vercel-cron'] != null));
-  if (req.method !== 'POST' && !isCron) return res.status(405).json({ error: 'Vercel cron GET or operator POST' });
+  // Vercel Cron fires GET with a CRON_SECRET bearer; no other credential authorizes
+  // a run. Fails closed (503) when CRON_SECRET is unset.
+  if (req.method === 'GET' && !require('../lib/cron-auth').enforce(req, res)) return;
+  if (req.method !== 'POST' && req.method !== 'GET') return res.status(405).json({ error: 'Vercel cron GET or operator POST' });
   // Operator POST forces a full engine-output rebuild — admin-gate it.
   if (req.method === 'POST') {
     var _g = require('../lib/admin-gate');

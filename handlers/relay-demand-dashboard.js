@@ -6,6 +6,11 @@
  * - orders: all orders with hidden source details
  * - today: today's summary + breakdown by source
  * - pending: orders awaiting fulfillment
+ *
+ * ADMIN-ONLY (RELAY_ADMIN_KEY via x-relay-key header, mirroring
+ * relay-autonomous-control; ?key= accepted during the URL-key transition).
+ * Fails closed when the key is unset: this surface carries customer PII
+ * (shipping addresses), supplier costs and margins — never public.
  */
 
 const db = require('../lib/limen-db');
@@ -13,6 +18,13 @@ const db = require('../lib/limen-db');
 module.exports = async (req, res) => {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const ADMIN = process.env.RELAY_ADMIN_KEY || '';
+  const supplied = (req.query && req.query.key) ||
+    (req.headers && (req.headers['x-relay-key'] || req.headers['X-Relay-Key'])) || '';
+  if (!ADMIN || supplied !== ADMIN) {
+    return res.status(403).json({ ok: false, error: 'Admin key required. Not public.' });
   }
 
   try {

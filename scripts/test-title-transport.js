@@ -27,6 +27,8 @@
 var handler = require('../handlers/feed-record');
 var db = require('../lib/limen-db');
 
+process.env.CRON_SECRET = process.env.CRON_SECRET || 'cron-tkn';
+
 var failures = 0, tests = 0;
 function assert(name, cond, detail) {
   tests++;
@@ -39,9 +41,11 @@ function call(url) {
     var res = {
       setHeader: function () {}, statusCode: 200,
       status: function (c) { res.statusCode = c; return res; },
-      json: function (b) { resolve({ status: res.statusCode, json: b }); }
+      json: function (b) { resolve({ status: res.statusCode, json: b }); },
+      end: function (p) { var j = null; try { j = JSON.parse(p); } catch (e) {} resolve({ status: res.statusCode, json: j }); }
     };
-    handler({ method: 'GET', url: url, headers: {} }, res);
+    // The write path now requires the cron bearer (fail-closed); read paths stay open.
+    handler({ method: 'GET', url: url, headers: { authorization: 'Bearer cron-tkn' } }, res);
   });
 }
 

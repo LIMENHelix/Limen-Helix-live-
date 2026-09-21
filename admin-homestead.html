@@ -400,7 +400,7 @@ function mailOneDeal(key,btn){
 }
 // ---- autonomous auto-mail arm switch ----
 function loadArm(){
-  fetch('/api/homestead-automail?key='+encodeURIComponent(KEY)).then(function(r){return r.json();}).then(function(s){ if(s.ok) renderArm(s); }).catch(function(){});
+  fetch('/api/homestead-automail',{headers:{'x-limen-pass':KEY}}).then(function(r){return r.json();}).then(function(s){ if(s.ok) renderArm(s); }).catch(function(){});
 }
 function renderArm(s){
   var bar=$('#armbar'); bar.style.display='flex';

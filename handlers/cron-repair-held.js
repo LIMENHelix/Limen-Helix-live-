@@ -29,12 +29,10 @@ const MAX_REPAIR_ATTEMPTS = 2;   // give up after N tries; leave to corpus-drift
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   if (req.method === 'OPTIONS') return res.status(200).end();
-  // Cron auth: when CRON_SECRET is set, REQUIRE it (Vercel auto-attaches it) so a spoofed
-  // x-vercel-cron header cannot trigger paid AI; fall back to the header only if it is unset.
-  var isCron = req.method === 'GET' && (process.env.CRON_SECRET
-    ? (req.headers['authorization'] === 'Bearer ' + process.env.CRON_SECRET)
-    : (/vercel-cron/i.test(req.headers['user-agent'] || '') || req.headers['x-vercel-cron'] != null));
-  if (req.method !== 'POST' && !isCron) return res.status(405).json({ error: 'Vercel cron GET or operator POST' });
+  // Cron auth: Vercel attaches CRON_SECRET as a bearer on scheduled GETs; no other
+  // credential authorizes a run. Fails closed (503) when CRON_SECRET is unset.
+  if (req.method === 'GET' && !require('../lib/cron-auth').enforce(req, res)) return;
+  if (req.method !== 'POST' && req.method !== 'GET') return res.status(405).json({ error: 'Vercel cron GET or operator POST' });
   // Operator POST triggers paid Claude authoring — admin-gate it (the cron path is authorized above).
   if (req.method === 'POST') {
     var _g = require('../lib/admin-gate');
