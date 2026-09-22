@@ -27,6 +27,7 @@ var financeDecision = require('../lib/finance-subscriber-decision');
 var financeExecutor = require('../lib/finance-subscriber-executor');
 var softSubscriberLanes = require('../lib/soft-domain-subscriber-lanes');
 var subscriberPolicy = require('../lib/subscriber-email-policy');
+var deliveryHealth = require('../lib/subscriber-delivery-health');
 
 function motorFor(domain) {
   domain = String(domain || '').toLowerCase();
@@ -187,6 +188,34 @@ module.exports = async function handler(req, res) {
       }
     }
 
+    // Delivery health (PR-007): every real run records, per motor domain, whether
+    // anything actually went out or the domain said nothing. The silence watchdog
+    // inside the domain-subscriber-outcome-observer cron reads this to turn
+    // "paid but unserved" into an exception. Fail-soft: health recording must
+    // never change what the digest itself does. Dry runs send nothing, so they
+    // record nothing.
+    var healthWrites = [];
+    if (reallySend) {
+      var perDomain = {};
+      for (var ri = 0; ri < results.length; ri++) {
+        var rr = results[ri], rd = rr.motorDomain;
+        if (!rd) continue;
+        var acc = perDomain[rd] || (perDomain[rd] = { delivered: 0, silent: 0, activeCount: 0 });
+        acc.activeCount++;
+        if (rr.action === 'sent-receipt-persisted' || rr.action === 'accepted-mark-sent-pending') acc.delivered++;
+        else if (rr.action === 'nothing-to-say') acc.silent++;
+      }
+      var hdKeys = Object.keys(perDomain);
+      for (var hi = 0; hi < hdKeys.length; hi++) {
+        try {
+          var wr = await deliveryHealth.recordRun(hdKeys[hi], Object.assign({ now: Date.now() }, perDomain[hdKeys[hi]]));
+          healthWrites.push({ domain: hdKeys[hi], ok: wr.ok !== false, clearedExceptions: wr.clearedExceptions });
+        } catch (he) {
+          healthWrites.push({ domain: hdKeys[hi], ok: false, error: he.message || 'health-write-failed' });
+        }
+      }
+    }
+
     return T.send(res, {
       ok: true,
       mode: reallySend ? 'send' : 'dry-run',
@@ -197,6 +226,7 @@ module.exports = async function handler(req, res) {
       batchStatus: batches.length ? batches.map(function (b) { return b.motorDomain + ':' + b.status; }).join(',') : (reallySend ? 'NO_RELEASED_ACTIONS' : null),
       motorBatches: batches,
       providerCalls: batches.reduce(function (sum, b) { return sum + b.providerCalls; }, 0),
+      deliveryHealth: healthWrites.length ? healthWrites : null,
       personalisedDomains: digest.PERSONAL_DOMAINS,
       results: results
     });

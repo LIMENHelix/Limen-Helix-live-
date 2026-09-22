@@ -18,6 +18,9 @@ var digest = require('../lib/digest');
 /* Refund/dispute intake records, surfaced read-only so the operator console can see
    reversed money and open disputes without a new channel. */
 var reversals = require('../lib/stripe-reversals');
+/* Delivery health + silence exceptions (PR-007): whether paying subscribers are
+   actually receiving anything, and which domains have gone silently unserved. */
+var deliveryHealth = require('../lib/subscriber-delivery-health');
 
 var KEY_VARS = ['SOCIAL_CRON_KEY', 'ADMIN_MASTER', 'ADMIN_MASTER_KEY', 'SALES_ADMIN_KEY', 'LEAD_ADMIN_KEY'];
 
@@ -54,6 +57,9 @@ module.exports = async function handler(req, res) {
     var reversalSummary = null;
     try { reversalSummary = await reversals.operatorSummary(); } catch (e) { reversalSummary = { ok: false, error: e.message || 'unreadable' }; }
 
+    var deliverySummary = null;
+    try { deliverySummary = await deliveryHealth.operatorSummary(); } catch (e) { deliverySummary = { ok: false, error: e.message || 'unreadable' }; }
+
     return T.send(res, {
       ok: true,
       generatedAt: new Date().toISOString(),
@@ -62,6 +68,7 @@ module.exports = async function handler(req, res) {
         mrrCents: stats.mrrCents, byDomain: stats.byDomain
       } : null,
       reversals: reversalSummary,
+      deliveryHealth: deliverySummary,
       personalisedDomains: digest.PERSONAL_DOMAINS,
       subscribers: list.map(function (s) {
         return {
