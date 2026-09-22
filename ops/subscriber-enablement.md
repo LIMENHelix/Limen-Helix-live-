@@ -65,7 +65,7 @@ whether usable evidence exists.
 **Production runs server-side** — every credential the chain needs is a Vercel
 Sensitive env (write-only; `vercel env pull` returns them empty by design), so
 the local script cannot run outside production. The route runs the identical
-chain (`runCommissioning` in `scripts/commission-subscriber-lane.cjs`) with the
+chain (`runCommissioning` in `lib/commission-subscriber-lane.js`) with the
 envs the production runtime already holds:
 
 ```
