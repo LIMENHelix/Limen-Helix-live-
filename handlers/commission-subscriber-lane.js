@@ -5,11 +5,13 @@
  *
  * The ONE-SHOT subscriber-lane commissioning proof, executed server-side where
  * the encrypted envs actually decrypt. The local script
- * (scripts/commission-subscriber-lane.cjs) cannot run outside production:
+ * (scripts/commission-subscriber-lane.cjs, a thin wrapper over
+ * lib/commission-subscriber-lane.js) cannot run outside production:
  * every credential it needs is a Vercel Sensitive env — write-only, so
  * `vercel env pull` returns them empty by design. This route runs the SAME
- * chain (it literally calls the script's runCommissioning) with the envs the
- * production runtime already holds:
+ * chain via the lib module (scripts/** is excluded from the api function
+ * bundle — requiring it from a handler crashed the catch-all at boot,
+ * incident 2026-09-22) with the envs the production runtime already holds:
  *
  *   intelligence-autopilot-decision → executor (ONE real email via crm-send →
  *   Resend, durable suppression) → outcome-observer (independent Resend READ
@@ -35,7 +37,7 @@
  */
 
 var Gate = require('../lib/admin-gate');
-var Script = require('../scripts/commission-subscriber-lane.cjs');
+var Script = require('../lib/commission-subscriber-lane.js');
 var Store = require('../lib/autofire-efference-store.js');
 
 function send(res, code, body) {
