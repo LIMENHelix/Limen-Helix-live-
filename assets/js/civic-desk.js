@@ -42,6 +42,10 @@
   }
 
   function banner(hostId) {
+    /* checkout-result.js is the one implementation of this banner on every front;
+       delegate when it is loaded, keep the legacy copy as the fallback. */
+    var shared = root.LIMEN_CHECKOUT_RESULT;
+    if (shared && typeof shared.banner === 'function') return shared.banner(hostId);
     var el = document.getElementById(hostId);
     if (!el) return;
     var q = qs();

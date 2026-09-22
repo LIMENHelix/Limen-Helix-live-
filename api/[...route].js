@@ -170,6 +170,8 @@ const HANDLERS = {
   'communication-social-outcome-observer': require('../handlers/communication-social-outcome-observer'),
   'communication-social-recovery': require('../handlers/communication-social-recovery'),
   'checkout': require('../handlers/checkout'),
+  'customer-portal': require('../handlers/customer-portal'),
+  'relay-order': require('../handlers/relay-order'),
   'stripe-webhook': require('../handlers/stripe-webhook'),
   'subscriber-digest': require('../handlers/subscriber-digest'),
   'finance-subscriber-cycle': require('../handlers/finance-subscriber-cycle'),

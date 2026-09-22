@@ -173,7 +173,9 @@ function welcomeEmail(sub, offer, paidCents) {
       'Your first briefing arrives on the next run. Every figure in it comes from the federal ' +
       'source named beside it, and you can check any of them yourself at ' + SITE + '/' + sub.domain + '\n\n' +
       'If a source has nothing new, we send nothing rather than padding it out.\n\n' +
-      'To cancel, reply to this email and we will stop the subscription.\n'
+      'To manage or cancel your subscription, go to ' + SITE + '/cancel and open your ' +
+      'Stripe Customer Portal. Cancellation takes effect at the end of the current paid ' +
+      'period; nothing further is charged.\n'
   };
 }
 
@@ -191,7 +193,8 @@ function renewalReceipt(sub, cents, invoiceUrl) {
       '---------------\n\n' +
       (invoiceUrl ? ('Full invoice: ' + invoiceUrl + '\n\n') : '') +
       'Nothing to do. Your briefings continue as normal.\n\n' +
-      'To cancel, reply to this email and we will stop the subscription.\n'
+      'To manage or cancel your subscription, go to ' + SITE + '/cancel and open your ' +
+      'Stripe Customer Portal.\n'
   };
 }
 
