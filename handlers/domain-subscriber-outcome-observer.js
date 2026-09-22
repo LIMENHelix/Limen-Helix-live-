@@ -6,6 +6,7 @@ var Factory = require('../lib/sovereign-subscriber-route-handlers.js');
 var Store = require('../lib/autofire-efference-store.js');
 var Lanes = require('../lib/sovereign-domain-subscriber-lanes.js');
 var Fulfillment = require('./domain-subscriber-fulfillment.js');
+var Silence = require('../lib/subscriber-delivery-health.js');
 
 function responseCapture() {
   return { statusCode: 200, headers: {}, setHeader: function (key, value) { this.headers[key] = value; },
@@ -32,9 +33,23 @@ async function run(deps) {
         status: 'FAILED', providerReadAttempts: 0, learned: 0, reason: String(error && error.message || error) });
     }
   }
+  // Silence watchdog (PR-007): same cron, one extra pass over EVERY domain with an
+  // active subscriber — not only today's rotation — comparing the digest-recorded
+  // delivery health against SUBSCRIBER_SILENCE_DAYS. A store outage records an
+  // explicit UNKNOWN state here and in the health store rather than reading as
+  // silence; it never raises an exception it cannot ground. The pass is reported
+  // on the payload but does not change `ok`: an open silence exception is a
+  // finding, not an observer malfunction.
+  var silence = null;
+  try {
+    silence = await Silence.check({ store: store, now: now, env: deps.env });
+  } catch (error) {
+    silence = { ok: false, status: 'UNKNOWN', reason: String(error && error.message || error), raised: [], cleared: [] };
+  }
   return { ok: rows.every(function (row) { return row.status !== 'FAILED'; }),
     schemaVersion: 'domain-subscriber-outcome-observer-cycle/1.0', evaluatedAt: now,
     rotationWidth: 7, domains: rows,
+    silence: silence,
     providerReadAttempts: rows.reduce(function (sum, row) { return sum + Number(row.providerReadAttempts || 0); }, 0),
     learned: rows.reduce(function (sum, row) { return sum + Number(row.learned || 0); }, 0) };
 }
