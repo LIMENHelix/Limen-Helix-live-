@@ -19,6 +19,11 @@ const stripe = require('../lib/stripe-rail');
 const idempotency = require('../lib/relay-c2c-idempotency');
 const journal = require('../lib/relay-c2c-audit');
 
+const SITE = process.env.PUBLIC_SITE_URL || 'https://limenhelix.com';
+/* After payment the buyer lands on our own confirmation page, which reads the order
+   reference back from this session id. Stripe substitutes {CHECKOUT_SESSION_ID}. */
+const ORDER_CONFIRMATION_URL = SITE + '/relay-order?session_id={CHECKOUT_SESSION_ID}';
+
 function sendJSON(res, code, obj) {
   res.statusCode = code;
   res.setHeader('Content-Type', 'application/json');
@@ -164,6 +169,7 @@ module.exports = async function handler(req, res) {
       amount: subtotal,
       streamId: 'relay-c2c-order',
       currency: 'usd',
+      afterCompletionUrl: ORDER_CONFIRMATION_URL,
       metadata: {
         relayC2C: '1', orderId: order.id, marketplace: marketplaceId,
         seller: listing.sellerId, buyer: buyerId, listingId: listing.id,
