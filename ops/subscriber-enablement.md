@@ -104,8 +104,14 @@ Green output: `"ok": true`, `intelligenceCapability.status: "VERIFIED"`,
 `projection.verified: 19` (or fewer with named `held` rows, e.g. a missing
 religion motor receipt — that does not block finance).
 
-**Bounce or failed observation** → no capability pair, every lane stays HELD.
-That is the correct failure state; fix the address/domain and re-check.
+**Terminal observation is the proof.** The observer contract is
+`delivered-or-terminal-failure`: a bounce observed through the independent
+Resend read API still completes the chain (decision → send → independent
+terminal observation → durable suppression). Measured 2026-09-22: the live
+commissioning send bounced (address-side) and the projection still VERIFIED
+19/19. **A transport-level failure** (provider rejects the send, no terminal
+event, observation times out) → no capability pair, every lane stays HELD.
+That is the correct failure state; fix the transport and re-check.
 
 ## 4. Beachhead lane envs — finance (worked example)
 
