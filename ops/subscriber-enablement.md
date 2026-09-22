@@ -60,26 +60,35 @@ whether usable evidence exists.
 | `INTELLIGENCE_AUTOPILOT_DAILY_BUDGET_USD` | `0.01` |
 | `INTELLIGENCE_AUTOPILOT_DAILY_EMAIL_CAP` | `1` |
 
-## 3. Commissioning command
+## 3. Commissioning execution
 
-Run locally with production env present (`UPSTASH_REDIS_REST_URL`,
-`UPSTASH_REDIS_REST_TOKEN`, `RESEND_API_KEY`, and the section-2 vars). The
-script runs the existing production chain only — no new send path:
+**Production runs server-side** — every credential the chain needs is a Vercel
+Sensitive env (write-only; `vercel env pull` returns them empty by design), so
+the local script cannot run outside production. The route runs the identical
+chain (`runCommissioning` in `scripts/commission-subscriber-lane.cjs`) with the
+envs the production runtime already holds:
 
 ```
 # 1. Dry-run first: full chain in memory, stubbed provider, nothing sent,
 #    nothing persisted, the permanent one-shot slot untouched.
-node scripts/commission-subscriber-lane.cjs --address=<owned consented email>
+curl -X POST 'https://limenhelix.com/api/commission-subscriber-lane?key=<ADMIN_MASTER>' \
+  -H 'content-type: application/json' -d '{"consent":true,"dryRun":true}'
 
-# 2. Live: exactly ONE real email to that address.
-node scripts/commission-subscriber-lane.cjs --address=<same email> --live --consent
+# 2. Live: exactly ONE real email to the configured commissioning address.
+curl -X POST 'https://limenhelix.com/api/commission-subscriber-lane?key=<ADMIN_MASTER>' \
+  -H 'content-type: application/json' -d '{"consent":true}'
 ```
 
-Live mode refuses unless: the address equals
-`INTELLIGENCE_AUTOPILOT_COMMISSIONING_EMAIL`, `--consent` attests ownership,
-the store is durable, and the Resend transport is ready. A replay is held by
-design (the developmental slot is permanent and the address is durably
-suppressed after one send).
+Authority shape (all required, fail-closed): master key + `{"consent":true}`
+attestation + `INTELLIGENCE_AUTOPILOT_DEVELOPMENTAL_ENABLED=1` (the pre-set
+switch, enforced by preflight) + the permanent one-shot suppression slot. The
+address is read from `INTELLIGENCE_AUTOPILOT_COMMISSIONING_EMAIL` server-side —
+never accepted from the request, never returned (the response carries
+`addressConfigured` instead; every occurrence of the address string is scrubbed
+from the payload, including inside error text).
+
+The local script remains for development against non-sensitive environments:
+`node scripts/commission-subscriber-lane.cjs --address=<addr> [--live --consent]`.
 
 What happens, using only existing modules:
 `intelligence-autopilot-decision` (B10 release against fresh brain state) →
