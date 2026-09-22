@@ -54,5 +54,14 @@ function heldMotor() { return { authorize: async function () { return { authoriz
   var otherDecision = await Decision.decide(store, other, now + 3, { cognition: { intelligence: brain(now + 3) } });
   var denied = await Developmental.authorize(store, other, otherDecision, env, now + 3);
   assert.equal(denied.authorized, false); assert.equal(denied.reason, 'intelligence-autopilot-developmental-owned-recipient-mismatch');
+  // Calm-but-healthy state (no emission this cycle): the one-shot commissioning candidate
+  // releases on the remaining blockers (DEFECT_LEDGER #27); the autopilot path still holds.
+  function calmBrain(t) { var b = brain(t); b.c.brainOrgans.autonomousInternalEmission.emittedCount = 0; return b; }
+  var commissioningCandidate = Decision.candidate({ leadId: 'commissioning:calm', email: email, domain: 'intelligence', consent: true },
+    { kind: 'commissioning', channel: 'email', transition: 'internal>motor-proof' }, { subject: 's', body: 'b' });
+  var calmCommissioning = await Decision.decide(store, commissioningCandidate, now + 4, { cognition: { intelligence: calmBrain(now + 4) } });
+  assert.equal(calmCommissioning.status, 'RELEASED');
+  var calmAutopilot = await Decision.decide(store, candidate, now + 5, { cognition: { intelligence: calmBrain(now + 5) } });
+  assert.equal(calmAutopilot.status, 'NO_ACTION'); assert.deepEqual(calmAutopilot.blockers, ['intelligence-b10-no-action-selected']);
   console.log('intelligence owned-destination developmental commissioning and independent capability promotion: PASS');
 })().catch(function (error) { console.error(error); process.exit(1); });
