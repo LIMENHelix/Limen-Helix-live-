@@ -24,7 +24,7 @@
     <div id="orderLine">Reading your order reference…</div>
   </div>
   <p>What happens next: a receipt from Stripe arrives at the email address you gave at checkout, and your order moves into fulfillment. Keep your order reference — it is how we trace your order if you write to us.</p>
-  <p class="dim">Questions about an order: <a href="mailto:support@limenhelix.com">support@limenhelix.com</a> · <a href="/refunds">Refund policy</a></p>
+  <p class="dim">Questions about an order: <a href="mailto:chris@limenhelix.com">chris@limenhelix.com</a> · <a href="/refunds">Refund policy</a></p>
   <p class="dim"><a href="/">← LIMEN Helix</a></p>
 </div>
 <script>
@@ -55,7 +55,7 @@
     .catch(function () {
       /* FAIL-SOFT: the payment stands whether or not this page can read the session back.
          The buyer's receipt email is the durable proof; this page is a courtesy. */
-      line.textContent = 'Your payment was received. We could not read the order reference back just now — your Stripe receipt email is your confirmation, and support@limenhelix.com can trace the order from it.';
+      line.textContent = 'Your payment was received. We could not read the order reference back just now — your Stripe receipt email is your confirmation, and chris@limenhelix.com can trace the order from it.';
     });
 })();
 </script>

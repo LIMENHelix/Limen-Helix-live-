@@ -58,7 +58,7 @@
     <div id="status" role="status"></div>
   </form>
 
-  <p class="dim">Billing questions, or a subscription this form cannot find: <a href="mailto:support@limenhelix.com">support@limenhelix.com</a> · <a href="/refunds">Refund policy</a> · <a href="/terms">Terms</a></p>
+  <p class="dim">Billing questions, or a subscription this form cannot find: <a href="mailto:chris@limenhelix.com">chris@limenhelix.com</a> · <a href="/refunds">Refund policy</a> · <a href="/terms">Terms</a></p>
 </div>
 <script>
 (function () {
@@ -87,11 +87,11 @@
       }
       btn.disabled = false;
       status.className = 'err';
-      status.textContent = (r.body && r.body.error) || 'Something went wrong. Try again, or email support@limenhelix.com.';
+      status.textContent = (r.body && r.body.error) || 'Something went wrong. Try again, or email chris@limenhelix.com.';
     }).catch(function () {
       btn.disabled = false;
       status.className = 'err';
-      status.textContent = 'Network error — try again, or email support@limenhelix.com.';
+      status.textContent = 'Network error — try again, or email chris@limenhelix.com.';
     });
   });
 })();

@@ -59,7 +59,7 @@ check('the legal pages exist and carry the locked operator parameters', function
   ['privacy.html', 'terms.html', 'refunds.html'].forEach(function (p) {
     var html = read(p);
     assert.ok(html.indexOf('LIMEN Helix Transformational Sciences LLC') !== -1, p + ' must name the entity');
-    assert.ok(html.indexOf('support@limenhelix.com') !== -1, p + ' must name the support contact');
+    assert.ok(html.indexOf('chris@limenhelix.com') !== -1, p + ' must name the support contact');
   });
 });
 
@@ -88,7 +88,7 @@ check('cancel.html posts to the portal route and explains period-end cancellatio
   var html = read('cancel.html');
   assert.ok(html.indexOf('/api/customer-portal') !== -1, 'posts to the portal route');
   assert.ok(/end of the current paid period/.test(html));
-  assert.ok(html.indexOf('support@limenhelix.com') !== -1);
+  assert.ok(html.indexOf('chris@limenhelix.com') !== -1);
 });
 
 check('the welcome and renewal emails point at the portal, not at a reply nobody reads', function () {
