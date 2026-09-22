@@ -539,6 +539,8 @@ async function main() {
       evidence_details: { due_by: dueBy, has_evidence: true }
     })));
     assert.equal(created.body.dispute.recorded, true, JSON.stringify(created.body));
+    var createdPhase = ((await db.get(reversals.DISPUTES_KEY)) || {}).dp_h1 || {};
+    assert.ok(createdPhase.createdAt, 'setup: created-phase timestamp exists');
 
     var ledgerBefore = await db.lrange('finance:ledger', 0, 4999);
     var aggBefore = (await subRevenue()).revenueCents;
@@ -557,8 +559,9 @@ async function main() {
     assert.equal(disputes.dp_h1.status, 'lost', 'the record carries the loss explicitly');
     assert.equal(disputes.dp_h1.reason, 'product_not_received', 'created-phase fields survive');
     assert.equal(disputes.dp_h1.dueBy, new Date(dueBy * 1000).toISOString());
-    assert(disputes.dp_h1.createdAt && disputes.dp_h1.createdAt !== disputes.dp_h1.updatedAt,
-      'the record shows both phases, not an overwrite');
+    assert.equal(disputes.dp_h1.createdAt, createdPhase.createdAt,
+      'createdAt survives the close — the record is an update, not an overwrite');
+    assert.ok(disputes.dp_h1.closedAt, 'the close is marked explicitly (clock-resolution-proof)');
 
     /* THE PIN: a lost dispute must never silently generate a compensating transaction.
        The named refusal is the whole story — no treasury call, no ledger reversal, no
