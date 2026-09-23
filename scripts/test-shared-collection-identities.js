@@ -62,8 +62,12 @@ function textResponse(body) {
     var usgsReading = await H._fetchUSGSEarthquakes();
     assert.equal(usgsReading.sourceUpdatedAt, H._usgsEarthquakeIdentity(usgs));
 
+    // Fresh dateAdded: the fetcher counts vulnerabilities from the last 30 days, so a
+    // hardcoded fixture date is a time bomb (the 2026-08-24 fixture aged out on 2026-09-23).
+    var freshVuln = { dateAdded: new Date(Date.now() - 5 * 86400000).toISOString().slice(0, 10),
+      knownRansomwareCampaignUse: 'Known' };
     global.fetch = function () {
-      return Promise.resolve(response({ vulnerabilities: cisa.vulnerabilities,
+      return Promise.resolve(response({ vulnerabilities: [freshVuln],
         catalogVersion: cisa.catalogVersion, dateReleased: null, count: 1 }));
     };
     var unstamped = await H._fetchCISAKEV();
