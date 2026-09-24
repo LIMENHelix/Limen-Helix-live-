@@ -31,6 +31,10 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const SRC = path.join(ROOT, 'domain-front.html');
 const SITE = 'https://limenhelix.com';
+const CALCSTACK = JSON.parse(fs.readFileSync(
+  path.join(ROOT, 'assets', 'data', 'calcstack-domain-tools.json'), 'utf8'
+));
+const CALCSTACK_MARKER = '<!-- CALCSTACK:DOMAIN-TOOL — replaced per route by scripts/gen-domain-fronts.cjs -->';
 
 const html = fs.readFileSync(SRC, 'utf8');
 
@@ -69,6 +73,28 @@ function ogImage(route) {
 
 const esc = (s) => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+function calcstackMarkup(route) {
+  const tool = CALCSTACK.domains[route];
+  if (!tool) throw new Error('no CalcStack domain-tool mapping for generated route "' + route + '"');
+  const catalog = CALCSTACK._meta.catalogUrl;
+  const heading = tool.slug ? 'Run the numbers - free' : 'CalcStack tools for this domain';
+  const introduction = tool.slug
+    ? 'From CalcStack, the sister toolkit: a free calculator that runs entirely in your browser. No signup, nothing uploaded.'
+    : 'This domain does not have a dedicated CalcStack calculator yet. The gap is recorded here instead of substituting an unrelated tool.';
+  const embed = tool.slug
+    ? `    <iframe src="${esc(CALCSTACK._meta.embedBaseUrl + tool.slug)}" width="100%" height="680" style="border:0;border-radius:12px;background:#fff" loading="lazy" title="${esc(tool.title)} - CalcStack"></iframe>\n`
+    : `    <div class="sub">${esc(tool.gap)}</div>\n`;
+  return `  <!-- CALCSTACK:BEGIN — generated from assets/data/calcstack-domain-tools.json -->
+  <section id="calcstackSection" data-calcstack-domain="${esc(route)}">
+    <div class="card">
+      <h2>${esc(heading)}</h2>
+      <div class="sub">${esc(introduction)}</div>
+${embed}      <div class="disc">Explore the full toolkit at <a href="${esc(catalog)}">calcstack.app</a>.</div>
+    </div>
+  </section>
+  <!-- CALCSTACK:END -->`;
+}
 
 function head(route, c) {
   const url = SITE + '/' + route;
@@ -139,6 +165,9 @@ const PRODUCTIZED_FRONTS = new Set([
 const routes = Object.keys(CONFIG);
 const written = [];
 const skipped = [];
+if (bodyMarkup.split(CALCSTACK_MARKER).length !== 2) {
+  throw new Error('domain-front.html must contain exactly one CalcStack domain-tool marker');
+}
 for (const route of routes) {
   if (PRODUCTIZED_FRONTS.has(route)) {
     skipped.push(route);
@@ -147,7 +176,9 @@ for (const route of routes) {
   const c = CONFIG[route];
   // The shared markup's Subscribe link is domain-less; stamp the route in so the static
   // href (and the checkout-CTA test) carries the domain the page sells.
-  const body = bodyMarkup.replace('/api/checkout?start=1&amp;', '/api/checkout?start=1&amp;domain=' + route + '&amp;');
+  const body = bodyMarkup
+    .replace('/api/checkout?start=1&amp;', '/api/checkout?start=1&amp;domain=' + route + '&amp;')
+    .replace(CALCSTACK_MARKER, calcstackMarkup(route));
   const out = head(route, c) + body +
     '\n<script src="/assets/js/checkout-result.js"></script>\n<script src="/assets/js/domain-front-app.js"></script>\n</body>\n</html>\n';
   fs.writeFileSync(path.join(ROOT, route + '.html'), out);
