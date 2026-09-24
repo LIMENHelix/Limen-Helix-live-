@@ -26,7 +26,12 @@ var FIXTURES = {
   'law-tools': { rows: [{ title: 'A proposed rule', daysLeft: 3, closes: '2026-09-30' }] },
   'education-tools': { rows: [{ name: 'Test University', state: 'KS' }] },
   'religion-tools': { rows: [{ name: 'Test Charity', state: 'MO' }] },
-  'environment-tools': { aqi: 42, band: 'Good', place: 'Here', state: 'KS', say: 'Air is fine.' }
+  'environment-tools': { aqi: 42, band: 'Good', place: 'Here', state: 'KS', say: 'Air is fine.' },
+  'agriculture-tools': { drought: { rows: [{ state: 'KS', name: 'Kansas', crops: 'wheat', band: 'severe', d2: 66.1, changeD2: 2.5, validStart: '2026-09-22' }] } },
+  'industry-tools': { rows: [{ component: 'AIR BAGS', parkIt: false }] },
+  'population-tools': { ok: true, name: 'Jackson County, MO', netMigration: 1234 },
+  'science-tools': { fiscalYear: 2026, rows: [{ name: 'MIT', amount: 123456 }] },
+  'governance-tools': { rows: [{ name: 'Boeing Co', amount: 620000000 }] }
 };
 function stubGet(path) {
   var stem = path.split('?')[0];
@@ -34,7 +39,9 @@ function stubGet(path) {
 }
 
 var WATCH = { medicine: 'albuterol', technology: 'widget', intelligence: 'example', finance: 'test',
-  law: 'rule', education: 'test', religion: 'test', environment: '64111' };
+  law: 'rule', education: 'test', religion: 'test', environment: '64111',
+  agriculture: 'kansas', industry: '2021 honda accord', population: 'Jackson', science: 'MIT', governance: 'boeing' };
+var NEW_PERSONAL = ['agriculture', 'industry', 'population', 'science', 'governance'];
 var ALL = ['agriculture', 'communication', 'culture', 'defense', 'economy', 'education', 'energy',
   'environment', 'finance', 'governance', 'industry', 'infrastructure', 'intelligence', 'law',
   'medicine', 'population', 'religion', 'science', 'technology', 'trade'];
@@ -71,6 +78,18 @@ var ALL = ['agriculture', 'communication', 'culture', 'defense', 'economy', 'edu
   var dw = await Digest.buildFor({ domain: 'trade', offer: 'p2', active: true }, { get: stubGet, now: Date.now() });
   assert.match(dw.body, /domain-wide trade read/);
   assert.equal(dw.personal, false);
+  // the five new personal builders filter by the watch value
+  var ag = await Digest.buildFor({ domain: 'agriculture', watch: 'kansas', offer: 'p2', active: true }, { get: stubGet, now: Date.now() });
+  assert.equal(ag.personal, true); assert.match(ag.body, /Kansas drought read/);
+  var veh = await Digest.buildFor({ domain: 'industry', watch: '2021 honda accord', offer: 'p2', active: true }, { get: stubGet, now: Date.now() });
+  assert.equal(veh.personal, true); assert.match(veh.body, /AIR BAGS/);
+  // unparseable watch on a new-personal domain falls back to the disclosed domain-wide read
+  var wv = await Digest.buildFor({ domain: 'industry', watch: 'my car', offer: 'p2', active: true }, { get: stubGet, now: Date.now() });
+  assert.equal(wv.personal, false); assert.match(wv.body, /domain-wide industry read/);
+  // original eight keep the hard rule: personal source down => nothing, no substitution
+  var medDown = await Digest.buildFor({ domain: 'medicine', watch: 'albuterol', offer: 'p2', active: true },
+    { get: async function () { return null; }, now: Date.now() });
+  assert.equal(medDown, null);
   // personal stays personal
   var p = await Digest.buildFor({ domain: 'finance', watch: 'test', offer: 'p2', active: true }, { get: stubGet, now: Date.now() });
   assert.equal(p.personal, true);
