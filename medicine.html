@@ -88,6 +88,37 @@ void main(){
       <div class="fact" id="wowFact"></div>
       <div class="dots" id="wowDots"></div>
     </div>
+    <!-- GENERIC LIVE (any domain with its own <key>-live feed: economy, law, …) -->
+    <section id="liveSection" style="display:none">
+      <div class="card">
+        <h2><span class="livedot"></span> <span id="liveHeadline">Live read</span> <span class="updated" id="liveUpdated"></span></h2>
+        <div class="sub" id="liveSub"></div>
+        <div class="stats" id="liveStats"><div class="muted">Reading live data…</div></div>
+        <div class="disc" id="liveCite"></div>
+      </div>
+      <div id="liveSections"></div>
+      <div class="card" id="liveFeedCard" style="display:none">
+        <h2><span class="livedot"></span> The feed <span class="updated">live</span></h2>
+        <div class="sub" id="liveFeedSub">The latest, straight from the source. Fresh every few minutes.</div>
+        <div id="liveFeed"></div>
+      </div>
+      <div class="card" id="liveTodoCard" style="display:none">
+        <h2>What to do with this</h2>
+        <div class="sub">Turn the signal into a move.</div>
+        <div class="todo" id="liveTodo"></div>
+        <div class="disc">General information to help you act, not financial, legal, or emergency advice. For decisions with real stakes, confirm with a professional and with official sources.</div>
+      </div>
+    </section>
+
+    <!-- LIMEN read: current phase -->
+    <section id="phaseSection" style="display:none">
+      <div class="card">
+        <h2>Where the environment stands: the LIMEN Helix read</h2>
+        <div class="sub">LIMEN Helix reads every live feed below as one system and places it on a phase cycle. This is the phase it is in right now, and what that means.</div>
+        <div id="phaseBody"><div class="muted">Reading the system…</div></div>
+      </div>
+    </section>
+
     <!-- LIVE GOVERNMENT ALERTS (environment) -->
     <section id="govSection" style="display:none">
       <div class="card">
