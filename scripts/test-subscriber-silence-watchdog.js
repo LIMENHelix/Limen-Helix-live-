@@ -26,6 +26,10 @@ process.env.UPSTASH_REDIS_REST_URL = 'https://fake-upstash.pr007.test';
 process.env.UPSTASH_REDIS_REST_TOKEN = 'pr007-token';
 process.env.CRON_SECRET = 'pr007-cron-secret';
 process.env.ADMIN_MASTER = 'pr007-admin-key';
+// The digest's domain-wide live reads (THE TWENTY #1) fetch the site's own API.
+// Point that at a dead port so the nothing-to-say premise is hermetic instead of
+// depending on whether the live site happens to answer in CI.
+process.env.PUBLIC_SITE_URL = 'http://127.0.0.1:9';
 
 // ── Fake Upstash Redis ──────────────────────────────────────────────────────
 var STORE = new Map();
