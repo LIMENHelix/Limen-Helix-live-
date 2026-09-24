@@ -1106,15 +1106,6 @@ if (C.live === 'env') {
   loadEnvLive();
 }
 
-// population: "where America is moving" migration tool
-if (C.live === 'pop') {
-  EL('hero').className = 'hero photo';
-  EL('heroBg').style.backgroundImage = "url('/assets/img/population.webp')";
-  EL('popSection').style.display = '';
-  EL('toolsCard').style.display = 'none';
-  loadPopLive();
-}
-
 // Per-domain hero photo (2026-07-24): every domain uses /assets/img/<route>.jpg if it exists,
 // else keeps the phase-colored fractal. Probe with an Image() so a missing file never 404s the
 // hero — onload only fires on a real image. env + population keep their explicit images above.
@@ -1782,11 +1773,6 @@ function wireBuyButtons(host) {
   host.addEventListener('click', function (ev) {
     var btn = ev.target && ev.target.closest ? ev.target.closest('.pbuy') : null;
     if (!btn) return;
-    // Real /api/checkout?start=1 links already start a session. Leave those alone
-    // unless this is a JS Subscribe button that only has data-rung.
-    if (btn.tagName === 'A' && btn.getAttribute('href') && btn.getAttribute('href').indexOf('/api/checkout') === 0) {
-      return;
-    }
     ev.preventDefault();
 
     // P10 is priced per engagement, so there is no amount to charge. Send them to the
@@ -1870,14 +1856,6 @@ function renderPhaseLadder() {
   }
 }
 renderPhaseLadder();
-(function wireStaticCheckout() {
-  var a = EL('watchCheckoutLink');
-  if (!a || !DID) return;
-  var href = a.getAttribute('href') || '';
-  if (href.indexOf('domain=') === -1) {
-    a.setAttribute('href', '/api/checkout?start=1&domain=' + encodeURIComponent(DID) + '&rung=p2');
-  }
-})();
 // ── ATTRIBUTION ────────────────────────────────────────────────────────────
 // Where a visitor came from is only in the URL on the FIRST page they land on. Capture it
 // once and keep it for the session, or every lead from a social post attributes to nothing

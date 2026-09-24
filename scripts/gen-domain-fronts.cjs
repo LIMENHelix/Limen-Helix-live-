@@ -145,7 +145,11 @@ for (const route of routes) {
     continue;
   }
   const c = CONFIG[route];
-  const out = head(route, c) + bodyMarkup + '\n<script src="/assets/js/domain-front-app.js"></script>\n</body>\n</html>\n';
+  // The shared markup's Subscribe link is domain-less; stamp the route in so the static
+  // href (and the checkout-CTA test) carries the domain the page sells.
+  const body = bodyMarkup.replace('/api/checkout?start=1&amp;', '/api/checkout?start=1&amp;domain=' + route + '&amp;');
+  const out = head(route, c) + body +
+    '\n<script src="/assets/js/checkout-result.js"></script>\n<script src="/assets/js/domain-front-app.js"></script>\n</body>\n</html>\n';
   fs.writeFileSync(path.join(ROOT, route + '.html'), out);
   written.push({ route, bytes: out.length, title: c.name });
 }

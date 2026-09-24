@@ -59,7 +59,7 @@ ok('generator skips religion and education', /PRODUCTIZED_FRONTS/.test(gen) && /
 ok('checkout start=1 still documented', /start=1/.test(checkoutSrc));
 ok('soft-desk helper does not start Stripe', !/createSubscriptionCheckout/.test(soft) && /start=1/.test(soft));
 
-ok('other domain fronts untouched (economy still generated shell)', /id="checkoutSection"/.test(economy) && /WHERE AMERICA IS MOVING/.test(economy));
+ok('other domain fronts untouched (economy still generated shell)', /id="checkoutSection"/.test(economy) && /id="wowFact"/.test(economy));
 ok('other domain fronts untouched (finance still generated shell)', /id="checkoutSection"/.test(finance));
 ok('no second Stripe account mentioned', !/second Stripe|new Stripe account|killswitch Stripe/i.test(culture + religion + education));
 
