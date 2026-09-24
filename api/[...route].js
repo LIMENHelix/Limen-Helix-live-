@@ -171,6 +171,7 @@ const HANDLERS = {
   'communication-social-recovery': require('../handlers/communication-social-recovery'),
   'checkout': require('../handlers/checkout'),
   'customer-portal': require('../handlers/customer-portal'),
+  'keepable': require('../handlers/keepable'),
   'relay-order': require('../handlers/relay-order'),
   'stripe-webhook': require('../handlers/stripe-webhook'),
   'subscriber-digest': require('../handlers/subscriber-digest'),

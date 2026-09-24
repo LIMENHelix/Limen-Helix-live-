@@ -173,6 +173,14 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
   <div class="card" id="result">
     <h2>Your Bill X-Ray</h2>
     <div id="resultBody"></div>
+    <div id="keepableBox" style="margin-top:14px;border-top:1px solid var(--line,rgba(255,255,255,.1));padding-top:12px">
+      <div class="sub" style="margin-bottom:8px">Keep it: email yourself this X-Ray (the numbers, recomputed and sent — nothing else leaves).</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <input id="keepEmail" type="email" placeholder="you@example.com" style="flex:1;min-width:200px">
+        <button class="btn" id="keepSend">Email me this →</button>
+      </div>
+      <div class="muted" id="keepNote" style="margin-top:6px;font-size:13px"></div>
+    </div>
     <label class="chk" style="margin-top:14px">
       <input type="checkbox" id="contribute" checked>
       <span>Help others under your utility: share this reading <b>anonymously</b> (region only — first 3 ZIP digits, no name, email, or address). Builds a free utility-pressure map.</span>
@@ -314,6 +322,22 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
 
   $('analyze').addEventListener('click', analyze);
   $('clearHist').addEventListener('click', function () { if (confirm('Clear your saved history on this device?')) { save([]); renderHistory(); } });
+
+  // keepable: email the X-Ray. The server recomputes from these inputs; no rendered HTML leaves.
+  $('keepSend').addEventListener('click', function () {
+    var email = $('keepEmail').value.trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { $('keepNote').textContent = 'Enter a valid email.'; return; }
+    $('keepSend').disabled = true; $('keepNote').textContent = 'Sending…';
+    fetch('/api/keepable', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ email: email, domain: 'energy', tool: 'bill-xray', data: {
+        utility: $('utility').value.trim(), zip: $('zip').value.trim(), month: $('month').value,
+        bill: $('bill').value, kwh: $('kwh').value, gas: $('gas').value || null } })
+    }).then(function (r) { return r.json(); }).then(function (j) {
+      $('keepNote').textContent = j && j.ok ? 'Sent — check your inbox.' : (j && j.error) || 'Could not send just now.';
+      $('keepSend').disabled = false;
+    }).catch(function () { $('keepNote').textContent = 'Could not send just now.'; $('keepSend').disabled = false; });
+  });
 
   function analyze() {
     $('err').textContent = '';
