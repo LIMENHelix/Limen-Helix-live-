@@ -29,24 +29,26 @@ function store(value, stateOverride) {
     externalEffectAuthorized: false
   };
   assert.equal((await Digest.latestCommercialArtifact('culture', store(artifact), now)).artifactId, 'dca_digest');
-  var built = await Digest.buildFor({ domain: 'culture', offer: 'p2', active: true }, { store: store(artifact), now: now });
+  // Live source down (stubbed null) → the artifact fallback feeds the domain-wide digest.
+  var down = { get: async function () { return null; } };
+  var built = await Digest.buildFor({ domain: 'culture', offer: 'p2', active: true }, { store: store(artifact), now: now, get: down.get });
   assert.match(built.body, /Current source-linked Culture artifact/);
   assert.equal(built.key, artifact.contentHash);
   assert.equal(built.personal, false);
   var expiredStore = store(Object.assign({}, artifact, { freshnessExpiresAt: now }));
   assert.equal(await Digest.latestCommercialArtifact('culture', expiredStore, now), null);
   assert.equal(await Digest.buildFor({ domain: 'culture', offer: 'p2', active: true },
-    { store: expiredStore, now: now }), null);
+    { store: expiredStore, now: now, get: down.get }), null);
   var foreignStore = store(Object.assign({}, artifact, { productDomain: 'finance' }));
   assert.equal(await Digest.latestCommercialArtifact('culture', foreignStore, now), null);
   assert.equal(await Digest.buildFor({ domain: 'culture', offer: 'p2', active: true },
-    { store: foreignStore, now: now }), null);
+    { store: foreignStore, now: now, get: down.get }), null);
   var newerPlanStore = store(artifact, {
     schemaVersion: 'domain-commercial-reflex/1.0', productDomain: 'culture', ownerDomain: 'culture',
     readbackVerified: true, lastPlannedIntentId: 'dci_newer_unprepared'
   });
   assert.equal(await Digest.latestCommercialArtifact('culture', newerPlanStore, now), null);
   assert.equal(await Digest.buildFor({ domain: 'culture', offer: 'p2', active: true },
-    { store: newerPlanStore, now: now }), null);
+    { store: newerPlanStore, now: now, get: down.get }), null);
   console.log('domain commercial digest: exact-domain fresh artifact feeds paid domain-wide fulfillment PASS');
 })().catch(function (error) { console.error(error); process.exit(1); });
