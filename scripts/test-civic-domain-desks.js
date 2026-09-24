@@ -105,7 +105,7 @@ ok('Soft 3 education still has Scorecard desk + Watch p2',
 ok('soft-desk.js comment still Soft-only',
   /culture, religion, education/.test(soft) && !/intelligence/.test(soft));
 ok('economy still generated shell (Homestead/Economy work not touched)',
-  /id="checkoutSection"/.test(economy) && /WHERE AMERICA IS MOVING/.test(economy));
+  /id="checkoutSection"/.test(economy) && /id="wowFact"/.test(economy));
 
 ok('generator skips civic four',
   /PRODUCTIZED_FRONTS/.test(gen)
