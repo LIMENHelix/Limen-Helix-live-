@@ -156,6 +156,13 @@ function response() {
   assert.equal(first.canonicalHomologyShadow.currentDecision, 'PLANNED');
   assert.equal(first.canonicalHomologyShadow.shadowDecision, 'ABSTAINED');
   assert.equal(first.canonicalHomologyShadow.wouldChange, true);
+  assert.equal(first.businessRegulationShadow.mode, 'SHADOW_ONLY');
+  assert.equal(first.businessRegulationShadow.phase, 'P4');
+  assert.equal(first.businessRegulationShadow.businessPosture, 'SUPPORT');
+  assert.equal(first.businessRegulationShadow.stressBand, 'elevated');
+  assert.equal(first.businessRegulationShadow.status, 'BLOCKED');
+  assert.equal(first.businessRegulationShadow.externalEffectAuthorized, false);
+  assert.equal(first.intent.businessRegulationShadow.externalEffectAuthorized, false);
 
   var outcomeCognition = cognition('finance', now, 'outcome');
   outcomeCognition.c.brainOrgans.commercialReflex = {

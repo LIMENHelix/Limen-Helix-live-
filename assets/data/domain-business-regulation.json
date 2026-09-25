@@ -1,0 +1,173 @@
+{
+  "schemaVersion": "domain-business-stress-regulation/1.0",
+  "_meta": {
+    "namespace": "businessStressRegulation",
+    "phaseNamespace": "domainCyclePhase",
+    "capitalNamespace": "businessCapitalBand",
+    "mode": "SHADOW_ONLY",
+    "meaning": "A deterministic policy for translating a domain's sensed P0-P10 cycle phase and continuous stress into a business operating posture. It does not select a venture, promote a capital band, grant authority or authorize an external effect.",
+    "compositionRule": "The phase posture and numeric stress overlay compose by taking the more restrictive result. Stress may narrow or pause behavior; it can never create authority, capital or a company.",
+    "fundingRule": "Only measured and reconciled surplus, a separately ratified Finance contract, or explicit owner capital may fund a higher businessCapitalBand.",
+    "governanceRule": "External effects remain ineligible unless contract ratification, fresh independent verification, four-layer runtime health, an operator ceiling and verified reversibility all pass at the effect gate.",
+    "statusOrder": ["HALTED", "BLOCKED", "PROPOSE_ONLY", "ELIGIBLE_FOR_GATE"]
+  },
+  "stressBands": [
+    {
+      "id": "unknown",
+      "label": "Unmeasured",
+      "minInclusive": null,
+      "maxInclusive": null,
+      "restriction": "PROPOSE_ONLY",
+      "businessResponse": "Measure before acting; preserve the last verified posture.",
+      "newCommitments": "HOLD"
+    },
+    {
+      "id": "regulated",
+      "label": "Regulated",
+      "minInclusive": 0,
+      "maxExclusive": 0.4,
+      "restriction": "BOUNDED_REVERSIBLE",
+      "businessResponse": "Continue verified work inside existing budgets and contracts.",
+      "newCommitments": "GATE_ELIGIBLE"
+    },
+    {
+      "id": "elevated",
+      "label": "Elevated",
+      "minInclusive": 0.4,
+      "maxExclusive": 0.7,
+      "restriction": "STABILIZE_ONLY",
+      "businessResponse": "Increase observation, reduce discretionary scope and protect delivery quality.",
+      "newCommitments": "REQUIRE_STABILIZATION_PROOF"
+    },
+    {
+      "id": "high",
+      "label": "High",
+      "minInclusive": 0.7,
+      "maxExclusive": 0.85,
+      "restriction": "STABILIZE_ONLY",
+      "businessResponse": "Freeze expansion, preserve cash and customers, and work only reversible recovery steps.",
+      "newCommitments": "HOLD"
+    },
+    {
+      "id": "acute",
+      "label": "Acute",
+      "minInclusive": 0.85,
+      "maxInclusive": 1,
+      "restriction": "HALT_NEW_EFFECTS",
+      "businessResponse": "Trip the circuit breaker for new spend, contracts, publication and physical acts; observe and recover.",
+      "newCommitments": "HALT"
+    }
+  ],
+  "phases": [
+    {
+      "phase": "P0",
+      "title": "Source",
+      "cycleState": "holding",
+      "businessPosture": "OBSERVE",
+      "effectCeiling": "OBSERVE_ONLY",
+      "capitalPromotion": "HOLD",
+      "businessResponse": "Inventory the field, expose a useful free read and identify a measurable unmet need without forming a company by default.",
+      "exitEvidence": "A repeatable signal and named beneficiary are independently observed."
+    },
+    {
+      "phase": "P1",
+      "title": "First Distinction",
+      "cycleState": "breaking",
+      "businessPosture": "VALIDATE",
+      "effectCeiling": "PROPOSE_ONLY",
+      "capitalPromotion": "HOLD",
+      "businessResponse": "Separate one opportunity from background noise and test one reversible offer or referral path.",
+      "exitEvidence": "The opportunity recurs, the source remains fresh and a user action is measured."
+    },
+    {
+      "phase": "P2",
+      "title": "Rhythm",
+      "cycleState": "holding",
+      "businessPosture": "REPEAT",
+      "effectCeiling": "BOUNDED_REVERSIBLE",
+      "capitalPromotion": "EVIDENCE_ELIGIBLE",
+      "businessResponse": "Turn the verified signal into a repeatable monitor, calculator, subscription or low-risk transaction loop.",
+      "exitEvidence": "Delivery, cost, settlement and customer outcome repeat within a fixed budget."
+    },
+    {
+      "phase": "P3",
+      "title": "Fracture",
+      "cycleState": "breaking",
+      "businessPosture": "DIAGNOSE",
+      "effectCeiling": "STABILIZE_ONLY",
+      "capitalPromotion": "HOLD",
+      "businessResponse": "Stop promotion, locate the broken assumption or operating constraint, and preserve evidence for repair.",
+      "exitEvidence": "The failure is reproduced, bounded and paired with a reversible repair plan."
+    },
+    {
+      "phase": "P4",
+      "title": "Scaffolding",
+      "cycleState": "driving",
+      "businessPosture": "SUPPORT",
+      "effectCeiling": "STABILIZE_ONLY",
+      "capitalPromotion": "SEPARATE_FUNDING_REQUIRED",
+      "businessResponse": "Apply temporary service capacity, Finance support or owner capital under a separate contract; do not call borrowed support self-sufficiency.",
+      "exitEvidence": "Support costs, rollback, owner and expiry are explicit and the lane survives withdrawal testing."
+    },
+    {
+      "phase": "P5",
+      "title": "Endurance",
+      "cycleState": "driving",
+      "businessPosture": "OPERATE",
+      "effectCeiling": "BOUNDED_REVERSIBLE",
+      "capitalPromotion": "RECONCILED_SURPLUS_ONLY",
+      "businessResponse": "Operate the proven lane from collected revenue and verified capacity while measuring independent customer outcomes.",
+      "exitEvidence": "The lane covers its real costs and remains useful without temporary support."
+    },
+    {
+      "phase": "P6",
+      "title": "Order",
+      "cycleState": "holding",
+      "businessPosture": "COORDINATE",
+      "effectCeiling": "BOUNDED_REVERSIBLE",
+      "capitalPromotion": "RECONCILED_SURPLUS_ONLY",
+      "businessResponse": "Coordinate proven domain businesses through shared standards, contracts and APIs without merging their authority or cognition.",
+      "exitEvidence": "Cross-domain service levels, accounting and rollback work under independent verification."
+    },
+    {
+      "phase": "P7",
+      "title": "Separation",
+      "cycleState": "breaking",
+      "businessPosture": "CONTAIN",
+      "effectCeiling": "STABILIZE_ONLY",
+      "capitalPromotion": "HOLD",
+      "businessResponse": "Isolate the failing venture or dependency, stop cross-subsidy and preserve customers, cash, records and recoverable assets.",
+      "exitEvidence": "The separated boundary is durable and neither side depends on hidden transfers."
+    },
+    {
+      "phase": "P8",
+      "title": "Conscience",
+      "cycleState": "driving",
+      "businessPosture": "CORRECT",
+      "effectCeiling": "STABILIZE_ONLY",
+      "capitalPromotion": "HOLD",
+      "businessResponse": "Audit the regulator itself; correct, refund, unwind or revise through independently verified recovery paths.",
+      "exitEvidence": "The correction is observed outside the worker that proposed it and the learning rule is recorded."
+    },
+    {
+      "phase": "P9",
+      "title": "Threshold",
+      "cycleState": "breaking",
+      "businessPosture": "CIRCUIT_BREAK",
+      "effectCeiling": "HALT_NEW_EFFECTS",
+      "capitalPromotion": "HALT",
+      "businessResponse": "Halt new commitments, discretionary spend and irreversible acts; protect people, cash, data and legal position while the outcome remains open.",
+      "exitEvidence": "A distinct verifier observes resolution or a controlled path away from the threshold."
+    },
+    {
+      "phase": "P10",
+      "title": "Renewal",
+      "cycleState": "holding",
+      "businessPosture": "REOPEN_PROGRESSIVELY",
+      "effectCeiling": "PROPOSE_ONLY",
+      "capitalPromotion": "REBASE_THEN_PROVE",
+      "businessResponse": "Treat the new baseline as new evidence: reopen from the smallest reversible loop and re-earn operating and capital privileges.",
+      "exitEvidence": "The new baseline repeats, reconciles and survives rollback testing; prior maturity is not inherited automatically."
+    }
+  ]
+}

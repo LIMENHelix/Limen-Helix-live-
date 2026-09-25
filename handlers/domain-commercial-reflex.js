@@ -47,6 +47,16 @@ async function run(deps) {
           wouldChange: persisted.canonicalHomologyShadow.wouldChange === true,
           blockers: persisted.canonicalHomologyShadow.blockers
         } : null,
+        businessRegulationShadow: persisted.businessRegulationShadow ? {
+          mode: persisted.businessRegulationShadow.mode,
+          phase: persisted.businessRegulationShadow.phase,
+          businessPosture: persisted.businessRegulationShadow.businessPosture,
+          stressBand: persisted.businessRegulationShadow.stressBand,
+          status: persisted.businessRegulationShadow.status,
+          reasons: persisted.businessRegulationShadow.reasons,
+          gateAdmissionEligible: false,
+          externalEffectAuthorized: false
+        } : null,
         externalEffectAuthorized: false
       });
     } catch (error) {
@@ -60,6 +70,7 @@ async function run(deps) {
         intentId: null,
         packetId: null,
         canonicalHomologyShadow: null,
+        businessRegulationShadow: null,
         externalEffectAuthorized: false
       });
     }
@@ -86,6 +97,15 @@ async function run(deps) {
       eligible: shadowEligible,
       wouldChange: shadowWouldChange,
       evaluated: rows.filter(function (row) { return row.canonicalHomologyShadow; }).length,
+      enforcementActive: false
+    },
+    businessRegulationShadow: {
+      mode: 'SHADOW_ONLY',
+      evaluated: rows.filter(function (row) { return row.businessRegulationShadow; }).length,
+      blocked: rows.filter(function (row) {
+        return row.businessRegulationShadow && row.businessRegulationShadow.status === 'BLOCKED';
+      }).length,
+      gateEligible: 0,
       enforcementActive: false
     },
     rows: rows,
