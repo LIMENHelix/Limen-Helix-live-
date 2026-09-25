@@ -1,8 +1,8 @@
 ---
 artifact: transmutation-r2a-control-proof
 date: 2026-09-25
-implementation_status: R2A_READY_FOR_EXACT_SHA_VERIFICATION
-authority: measured repository evidence; production remains unmeasured until deployment
+implementation_status: R2A_PRODUCTION_VERIFIED
+authority: measured repository and exact-SHA production evidence
 ---
 
 # R2a staged control and shadow observability proof
@@ -89,12 +89,41 @@ repository check passed
 The single skip is the known external corpus prerequisite in
 `brain-v2/test/corpus-foundation.js`; it is not reported as a pass.
 
-## Production boundary
+## Measured exact-SHA production evidence
 
-Production evidence is **UNMEASURED** until this exact commit is deployed and both of these are
-observed:
+PR `#376` merged as `d8d6afce0af7a4e4b6fbccea90e1095b0333355c`. The repository check,
+Vercel production deployment, and post-deploy smoke all completed successfully against that exact
+SHA.
 
-- a Python sensing/scoring request returns the expected control-class/stage headers or a bounded
-  staged denial; and
-- a scheduled domain-commercial reflex log includes the safe shadow aggregate with
-  `enforcementActive:false`.
+Live production probes after deployment returned:
+
+```text
+GET /api/limen/health
+HTTP/1.1 200 OK
+X-Limen-Control-Class: diagnostic
+
+GET /api/helix/edgar/facts/1601548
+HTTP/1.1 200 OK
+X-Limen-Control-Class: sensing
+X-Limen-Nuke-Stage: OPEN
+
+GET /api/helix/score/1601548
+HTTP/1.1 200 OK
+X-Limen-Control-Class: cognition
+X-Limen-Nuke-Stage: OPEN
+```
+
+The first post-deploy scheduled commercial cycle at `2026-09-25T03:43:45Z` evaluated all 20
+domains and emitted the bounded aggregate:
+
+```json
+{
+  "mode": "SHADOW_ONLY",
+  "eligible": 0,
+  "wouldChange": 0,
+  "evaluated": 20,
+  "enforcementActive": false
+}
+```
+
+The cycle reported `ABSTAINED:20`; no canonical homology enforcement was activated.

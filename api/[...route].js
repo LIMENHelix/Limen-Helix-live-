@@ -49,8 +49,6 @@ const HANDLERS = {
   'relay-demand-webhook': require('../handlers/relay-demand-webhook'),
   'relay-demand-dashboard': require('../handlers/relay-demand-dashboard'),
   'relay-marketplace-page': require('../handlers/relay-marketplace-page'),
-  'relay-grok-image': require('../handlers/relay-grok-image'),
-  'relay-image-search': require('../handlers/relay-image-search'),
   'relay-checkout-page': require('../handlers/relay-checkout-page'),
   'relay-admin-dashboard': require('../handlers/relay-admin-dashboard'),
   'relay-admin-page': require('../handlers/relay-admin-page'),

@@ -372,14 +372,6 @@ console.log('F8: the bridge fails soft on the ledger, hard on the charge');
   const SPENDS = /XAI_API_KEY|GROK_API_KEY|api\.x\.ai|SERPAPI|serpapi|OPENAI_API_KEY|ANTHROPIC_API_KEY|GOOGLE_API_KEY/;
   const GATED = /RELAY_ADMIN_KEY|RELAY_MARGIN_KEY|CRON_SECRET|x-relay-key|cron-auth|admin-gate|verifySignature|STRIPE_WEBHOOK_SECRET/;
 
-  // PINNED. These reach a paid API and are NOT gated today. relay-grok-image is wired to
-  // the storefront's own image button (pages/relay.html), so gating it with an admin key
-  // would break a customer-facing feature the operator asked for — it needs a rate limit,
-  // not a password, and that is named work rather than something to bolt on here.
-  // relay-image-search has no caller at all and is a deletion candidate.
-  // The list may SHRINK. It may not grow: a new name here fails the build.
-  const KNOWN_UNGATED_SPENDERS = ['relay-grok-image', 'relay-image-search'];
-
   const ungatedSpenders = [];
   for (const name of routed) {
     const f = path.join(ROOT, 'handlers', name + '.js');
@@ -389,12 +381,12 @@ console.log('F8: the bridge fails soft on the ledger, hard on the charge');
     if (GATED.test(src)) continue;
     ungatedSpenders.push(name);
   }
-  const unexpected = ungatedSpenders.filter(n => KNOWN_UNGATED_SPENDERS.indexOf(n) === -1);
-  assert('no NEW spend-capable Relay endpoint is reachable without a credential',
-    unexpected.length === 0, unexpected.join(', '));
-  assert('the pinned ungated list has not grown',
-    ungatedSpenders.length <= KNOWN_UNGATED_SPENDERS.length,
-    ungatedSpenders.join(', '));
+  assert('no spend-capable Relay endpoint is reachable without a credential',
+    ungatedSpenders.length === 0, ungatedSpenders.join(', '));
+  assert('unused anonymous paid-provider endpoints stay deleted',
+    !fs.existsSync(path.join(ROOT, 'handlers/relay-grok-image.js')) &&
+    !fs.existsSync(path.join(ROOT, 'handlers/relay-image-search.js')) &&
+    routed.indexOf('relay-grok-image') === -1 && routed.indexOf('relay-image-search') === -1);
   assert('the deleted anonymous fulfilment endpoint stays deleted',
     !fs.existsSync(path.join(ROOT, 'handlers/relay-autonomous-fulfillment.js')) &&
     routed.indexOf('relay-autonomous-fulfillment') === -1);
