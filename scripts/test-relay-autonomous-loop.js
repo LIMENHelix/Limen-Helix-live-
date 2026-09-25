@@ -46,6 +46,21 @@ var BLOCK_NETWORK = async function (u) {
 };
 global.fetch = BLOCK_NETWORK;
 
+// This suite exercises Relay's sourcing behavior below the provider authority seam.
+// Give it a hermetic zero-cost authority fixture; scripts/test-relay-paid-provider.cjs
+// separately proves that the real adapter delegates to the global kill + atomic meter.
+var relayPaidProviderPath = require.resolve('../lib/relay-paid-provider');
+require.cache[relayPaidProviderPath] = {
+  id: relayPaidProviderPath,
+  filename: relayPaidProviderPath,
+  loaded: true,
+  exports: {
+    reserveImage: async function () { return { ok: true, id: 'test-image', estUsd: 0 }; },
+    reserveSearch: async function () { return { ok: true, id: 'test-search', estUsd: 0 }; },
+    settle: async function () { return { ok: true }; }
+  }
+};
+
 // The hourly rate limit (3 orders / $60) is REAL and it is the production default. Almost
 // every fixture below predates it and spends more than $60 an hour by design, because it
 // is testing margins, freight or reconciliation rather than pacing. Raising the baseline
@@ -324,6 +339,15 @@ function invoke(handler, req) {
   var cyc = await engine.runCycle();
   assert('skips instead of running', cyc.skipped === true, JSON.stringify(cyc).slice(0, 140));
   assert('and says why', /off/.test(cyc.reason || ''), cyc.reason);
+
+  console.log('T13b: the sovereign Relay valve blocks new motor work');
+  await db.set('relay:autonomy', { mode: 'auto' });
+  var held = await engine.runCycle({
+    motorAuthorization: { ok: true, allowed: false, valveId: 'trade:relay-sourcing', reason: 'domain-runtime-valve-closed' }
+  });
+  assert('closed local valve is a measured skip', held.skipped === true && held.valveId === 'trade:relay-sourcing', JSON.stringify(held).slice(0, 180));
+  assert('closed local valve names its refusal', held.reason === 'domain-runtime-valve-closed', held.reason);
+  await db.set('relay:autonomy', { mode: 'off' });
 
   // ── T14 ─────────────────────────────────────────────────────────────────
   // Failing closed is only half the proof. With a provider answering, the pipeline

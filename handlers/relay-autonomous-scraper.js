@@ -19,6 +19,7 @@
 
 const engine = require('../lib/relay-engine');
 const autonomy = require('../lib/relay-autonomy');
+const Valve = require('../lib/civilization-valve-control');
 
 function j(res, code, obj) {
   res.statusCode = code;
@@ -27,7 +28,7 @@ function j(res, code, obj) {
   res.end(JSON.stringify(obj));
 }
 
-module.exports = async function handler(req, res) {
+async function handler(req, res) {
   let u;
   try { u = new URL(req.url, 'http://x'); } catch (e) { u = { searchParams: new URLSearchParams('') }; }
 
@@ -65,13 +66,17 @@ module.exports = async function handler(req, res) {
   }
 
   try {
+    const motorAuthorization = await Valve.authorize('trade:relay-sourcing');
     const report = await engine.runCycle({
       concept: u.searchParams.get('concept') || undefined,
-      force: u.searchParams.get('force') === '1'
+      force: u.searchParams.get('force') === '1',
+      motorAuthorization: motorAuthorization
     });
     return j(res, 200, { ok: report.ok, surface: 'relay-autonomous-scraper', report: report });
   } catch (e) {
     console.error('[relay-autonomous-scraper] cycle failed:', e.message);
     return j(res, 500, { ok: false, error: e.message });
   }
-};
+}
+
+module.exports = require('../lib/heartbeat').wrap('relay-autonomous-scraper', handler);

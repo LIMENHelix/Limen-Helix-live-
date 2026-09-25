@@ -45,7 +45,8 @@ const bindings = [
     'law:subscriber-email', 'medicine:subscriber-email', 'population:subscriber-email',
     'science:subscriber-email', 'technology:subscriber-email', 'trade:subscriber-email'
   ] },
-  { file: 'lib/trade-auction-executor.js', effect: 'i.marketplace.createListing', valves: ['trade:auction'] }
+  { file: 'lib/trade-auction-executor.js', effect: 'i.marketplace.createListing', valves: ['trade:auction'] },
+  { file: 'lib/relay-paid-provider.js', guard: 'AdapterGuard.checkpoint', effect: 'boundary.reserve', valves: ['trade:relay-sourcing'] }
 ];
 
 (async function () {
