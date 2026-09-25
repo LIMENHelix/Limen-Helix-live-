@@ -295,7 +295,7 @@
   </svg>
   </a>
 
-  <a class="domain-directory" href="/pages" aria-label="Open the directory of twenty LIMEN Helix domains and apps">20 Domains &amp; Apps <span aria-hidden="true">→</span></a>
+  <a class="domain-directory" href="#" id="directoryEntry" aria-label="Authorized access to LIMEN Helix domains and apps">20 Domains &amp; Apps <span aria-hidden="true">→</span></a>
 
   <!-- SOCIAL LINKS. Icon geometry is the standard Simple Icons glyph set, inlined so nothing
        is fetched from a third party. Each emblem carries its real brand colours.
@@ -1107,6 +1107,8 @@
   // The front-page wordmark is an operator entry point. Never route directly into the atlas.
   var operatorEntry = document.getElementById('operatorEntry');
   if (operatorEntry) operatorEntry.addEventListener('click', show);
+  var directoryEntry = document.getElementById('directoryEntry');
+  if (directoryEntry) directoryEntry.addEventListener('click', show);
 
   // Arriving already bounced by a gate? Open the prompt rather than making them find it.
   try {
