@@ -42,14 +42,16 @@ assert.equal(Regulation.stressPolicy(null).id, 'unknown');
 assert.equal(Regulation.normalizePhase('phase 10 renewal'), 'P10');
 assert.equal(Regulation.normalizePhase('p11'), null);
 
+var now = Date.parse('2026-09-25T16:00:00Z');
 var health = {
   status: 'pass',
+  observedAt: new Date(now - 1000).toISOString(),
   layers: { process: 'pass', scheduler: 'pass', execution: 'pass', governance: 'pass' }
 };
 var eligible = Regulation.evaluate({
   phase: 'P2', stress: 0.2, runtimeHealth: health, contractRatified: true,
   verifierFresh: true, reversible: true, rollbackRefVerified: true,
-  actionClass: 'STANDARD', capitalPromotion: false
+  actionClass: 'STANDARD', capitalPromotion: false, now: now
 });
 assert.equal(eligible.status, 'ELIGIBLE_FOR_GATE');
 assert.equal(eligible.gateAdmissionEligible, true);
@@ -60,27 +62,27 @@ var missingHealth = Regulation.evaluate({ phase: 'P2', stress: 0.2 });
 assert.equal(missingHealth.status, 'BLOCKED');
 assert.ok(missingHealth.reasons.includes('four-layer-runtime-health-not-fresh-pass'));
 
-var halted = Regulation.evaluate({ phase: 'P5', stress: 0.2, operatorHalt: true, runtimeHealth: health });
+var halted = Regulation.evaluate({ phase: 'P5', stress: 0.2, operatorHalt: true, runtimeHealth: health, now: now });
 assert.equal(halted.status, 'HALTED');
 assert.equal(halted.gateAdmissionEligible, false);
 
 var acute = Regulation.evaluate({
   phase: 'P5', stress: 0.9, runtimeHealth: health, contractRatified: true,
-  verifierFresh: true, reversible: true, rollbackRefVerified: true, actionClass: 'STABILIZATION'
+  verifierFresh: true, reversible: true, rollbackRefVerified: true, actionClass: 'STABILIZATION', now: now
 });
 assert.equal(acute.status, 'BLOCKED');
 assert.ok(acute.reasons.includes('acute-stress-circuit-breaker'));
 
 var fracture = Regulation.evaluate({
   phase: 'P3', stress: 0.2, runtimeHealth: health, contractRatified: true,
-  verifierFresh: true, reversible: true, rollbackRefVerified: true, actionClass: 'STANDARD'
+  verifierFresh: true, reversible: true, rollbackRefVerified: true, actionClass: 'STANDARD', now: now
 });
 assert.equal(fracture.status, 'PROPOSE_ONLY');
 assert.equal(fracture.phaseEffectCeiling, 'STABILIZE_ONLY');
 
 var irreversible = Regulation.evaluate({
   phase: 'P5', stress: 0.2, runtimeHealth: health, contractRatified: true,
-  verifierFresh: true, reversible: false, rollbackRefVerified: false, actionClass: 'STANDARD'
+  verifierFresh: true, reversible: false, rollbackRefVerified: false, actionClass: 'STANDARD', now: now
 });
 assert.equal(irreversible.status, 'PROPOSE_ONLY');
 assert.ok(irreversible.reasons.includes('reversibility-missing-or-unverified'));
@@ -88,9 +90,43 @@ assert.ok(irreversible.reasons.includes('reversibility-missing-or-unverified'));
 var unfunded = Regulation.evaluate({
   phase: 'P5', stress: 0.2, runtimeHealth: health, contractRatified: true,
   verifierFresh: true, reversible: true, rollbackRefVerified: true,
-  actionClass: 'STANDARD', capitalPromotion: true, reconciledFunding: false
+  actionClass: 'STANDARD', capitalPromotion: true, reconciledFunding: false, now: now
 });
 assert.equal(unfunded.status, 'PROPOSE_ONLY');
 assert.ok(unfunded.reasons.includes('capital-promotion-lacks-reconciled-funding'));
+
+var acuteUnratified = Regulation.evaluate({
+  phase: 'P2', stress: 0.9, runtimeHealth: health, contractRatified: false,
+  verifierFresh: false, reversible: true, rollbackRefVerified: true,
+  actionClass: 'STANDARD', now: now
+});
+assert.equal(acuteUnratified.status, 'BLOCKED', 'a missing contract must not downgrade an acute block');
+assert.ok(acuteUnratified.reasons.includes('acute-stress-circuit-breaker'));
+
+var unknownStress = Regulation.evaluate({
+  phase: 'P2', stress: null, runtimeHealth: health, contractRatified: true,
+  verifierFresh: true, reversible: true, rollbackRefVerified: true,
+  actionClass: 'STANDARD', now: now
+});
+assert.equal(unknownStress.status, 'PROPOSE_ONLY');
+assert.ok(unknownStress.reasons.includes('stress-unmeasured-or-invalid'));
+
+var threshold = Regulation.evaluate({
+  phase: 'P9', stress: 0.2, runtimeHealth: health, contractRatified: true,
+  verifierFresh: true, reversible: true, rollbackRefVerified: true,
+  actionClass: 'STANDARD', now: now
+});
+assert.equal(threshold.status, 'BLOCKED');
+assert.ok(threshold.reasons.includes('phase-circuit-breaker'));
+
+var staleHealth = JSON.parse(JSON.stringify(health));
+staleHealth.observedAt = new Date(now - raw._meta.runtimeHealthMaxAgeMs - 1).toISOString();
+var stale = Regulation.evaluate({
+  phase: 'P2', stress: 0.2, runtimeHealth: staleHealth, contractRatified: true,
+  verifierFresh: true, reversible: true, rollbackRefVerified: true,
+  actionClass: 'STANDARD', now: now
+});
+assert.equal(stale.status, 'BLOCKED');
+assert.ok(stale.reasons.includes('four-layer-runtime-health-not-fresh-pass'));
 
 console.log('domain business regulation: canonical P0-P10 + stress overlay + fail-closed governance: PASS');
