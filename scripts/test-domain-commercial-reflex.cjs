@@ -70,6 +70,17 @@ function cognition(domain, now, suffix, opts) {
         domainId: domain,
         sourceType: 'server-cognition-refresh',
         generatedAt: new Date(now - 1000).toISOString(),
+        homologyContext: opts.homologyContext || {
+          schemaVersion: 'civilization-homology-context/1.0',
+          status: 'OBSERVATIONAL',
+          contextOnly: true,
+          identity: { domainId: domain, companies: [] },
+          phase: { value: 'p4', evidence: [] },
+          regulation: { state: 'UNOBSERVED', regulatedVariable: null },
+          brainNodes: [],
+          mappings: {},
+          recovery: { status: 'UNOBSERVED' }
+        },
         truth: {
           stressScore: opts.stress == null ? 0.64 : opts.stress,
           phase: opts.phase || 'p4',
@@ -141,6 +152,10 @@ function response() {
   assert.equal(first.homology.basalGangliaSelection, 'DISINHIBIT_INTERNAL_PREPARATION_ONLY');
   assert.equal(first.homology.motorCortex, 'WRITE_AHEAD_INTENT');
   assert.equal(first.homology.reafference, 'AWAITING_INDEPENDENT_EXTERNAL_OUTCOME');
+  assert.equal(first.canonicalHomologyShadow.mode, 'SHADOW_ONLY');
+  assert.equal(first.canonicalHomologyShadow.currentDecision, 'PLANNED');
+  assert.equal(first.canonicalHomologyShadow.shadowDecision, 'ABSTAINED');
+  assert.equal(first.canonicalHomologyShadow.wouldChange, true);
 
   var outcomeCognition = cognition('finance', now, 'outcome');
   outcomeCognition.c.brainOrgans.commercialReflex = {
@@ -337,9 +352,16 @@ function response() {
   assert.equal(cycle.domains, 20);
   assert.equal(cycle.planned, 20);
   assert.equal(cycle.failed, 0);
+  assert.deepEqual(cycle.canonicalHomologyShadow, {
+    mode: 'SHADOW_ONLY', eligible: 0, wouldChange: 20, evaluated: 20, enforcementActive: false
+  });
   assert.equal(cycle.boundaries.providerCalled, false);
   assert.equal(new Set(cycle.rows.map(function (row) { return row.intentId; })).size, 20);
   assert.equal(Object.keys(allStore.values).filter(function (key) { return /^domain_commercial:state:/.test(key); }).length, 20);
+  assert.equal(Contracts.DOMAINS.filter(function (domain) {
+    var state = allStore.values[Contracts.get(domain).stateKey];
+    return state && state.canonicalHomologyShadow && state.canonicalHomologyShadow.wouldChange === true;
+  }).length, 20);
   assert.equal(Contracts.DOMAINS.filter(function (domain) {
     return (allStore.lists[Contracts.get(domain).intentQueue] || []).length > 0;
   }).length, 20);

@@ -62,12 +62,19 @@ ok('packet preserves context through the handoff and case record', function () {
     companies: [{ name: 'Example Bank', ticker: 'EXB', cik: '3' }], updated: 1
   }, { snapshotId: source.snapshotId, fetchedAt: Date.parse(source.retrievedAt) }, source.refreshId, source.retrievedAt, {
     phaseEvidence: [{ source: 'company-phase-scorer', phase: 'p0' }],
-    bridgePattern: { patternId: 'capital-preservation', businessSignature: 'credit-recovery' }
+    bridgePattern: { patternId: 'capital-preservation', businessSignature: 'credit-recovery' },
+    cognitionInputEvidence: {
+      schemaVersion: 'brain-cognition-snapshot-input/1.0', status: 'OBSERVED',
+      phaseAuthority: 'console_snapshot.domain.phase', consoleGeneratedAt: Date.parse(source.retrievedAt),
+      consoleAgeMs: 1000, readOnly: true
+    }
   });
   var h = packet.toHandoff(p, 'investments', { id: 'opp-h', title: 'Observe' });
   assert.equal(p.homologyContext.schemaVersion, homology.SCHEMA);
   assert.equal(h.homologyContext.schemaVersion, homology.SCHEMA);
   assert.equal(h.caseRecord.evidence.homologyContext.schemaVersion, homology.SCHEMA);
+  assert.equal(p.homologyContext.provenance.cognitionInput.phaseAuthority, 'console_snapshot.domain.phase');
+  assert.equal(h.homologyContext.provenance.cognitionInput.readOnly, true);
   assert.equal(h.caseRecord.reviewChecklist.find(function (x) { return x.item.indexOf('homology') >= 0; }).status, 'PRESENT_CONTEXT_ONLY');
   assert.deepEqual(h.caseRecord.evidence.mappingCoverage, {
     neurology_to_business_homology: false,

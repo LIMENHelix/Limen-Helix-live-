@@ -40,6 +40,13 @@ async function run(deps) {
         selectedProgram: persisted.intent && persisted.intent.selectedProgram || null,
         intentId: persisted.intent && persisted.intent.intentId || null,
         packetId: persisted.packetId || null,
+        canonicalHomologyShadow: persisted.canonicalHomologyShadow ? {
+          mode: persisted.canonicalHomologyShadow.mode,
+          eligible: persisted.canonicalHomologyShadow.eligible === true,
+          shadowDecision: persisted.canonicalHomologyShadow.shadowDecision,
+          wouldChange: persisted.canonicalHomologyShadow.wouldChange === true,
+          blockers: persisted.canonicalHomologyShadow.blockers
+        } : null,
         externalEffectAuthorized: false
       });
     } catch (error) {
@@ -52,6 +59,7 @@ async function run(deps) {
         selectedProgram: null,
         intentId: null,
         packetId: null,
+        canonicalHomologyShadow: null,
         externalEffectAuthorized: false
       });
     }
@@ -59,6 +67,12 @@ async function run(deps) {
   var planned = rows.filter(function (row) { return row.status === 'PLANNED'; }).length;
   var abstained = rows.filter(function (row) { return row.status === 'ABSTAINED'; }).length;
   var failed = rows.filter(function (row) { return row.status === 'FAILED'; }).length;
+  var shadowEligible = rows.filter(function (row) {
+    return row.canonicalHomologyShadow && row.canonicalHomologyShadow.eligible === true;
+  }).length;
+  var shadowWouldChange = rows.filter(function (row) {
+    return row.canonicalHomologyShadow && row.canonicalHomologyShadow.wouldChange === true;
+  }).length;
   var result = {
     ok: failed === 0,
     schemaVersion: 'domain-commercial-reflex-cycle/1.0',
@@ -67,6 +81,13 @@ async function run(deps) {
     planned: planned,
     abstained: abstained,
     failed: failed,
+    canonicalHomologyShadow: {
+      mode: 'SHADOW_ONLY',
+      eligible: shadowEligible,
+      wouldChange: shadowWouldChange,
+      evaluated: rows.filter(function (row) { return row.canonicalHomologyShadow; }).length,
+      enforcementActive: false
+    },
     rows: rows,
     boundaries: {
       modelCalled: false,

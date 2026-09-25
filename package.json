@@ -19,8 +19,9 @@
   },
   "scripts": {
     "check": "node scripts/check-repository.mjs",
+    "check:harness": "node scripts/check-harness-map.js",
     "test:unit": "node scripts/run-tests.mjs",
-    "test": "npm run check && npm run test:unit",
+    "test": "npm run check && npm run check:harness && npm run test:unit",
     "harness:graph": "node scripts/build-harness-graph.js",
     "harness:test": "node scripts/test-db-touch.js"
   }
