@@ -316,16 +316,18 @@ for (const rel of emitters) {
 }
 assert('no Relay URL points at an unrouted path', dead.length === 0, dead.join('; '));
 
-// The landing page is static, so its rewrite does not enter the shared Hono router.
-// The CJ storefront still redirects to the existing API door: rewriting a non-API
-// path to Hono would retain the original path and be refused by that shared router.
+// The main Relay entrance delegates to the canonical Shopify storefront. The local
+// landing file remains in the repository as a reversible fallback, but it is not a
+// second public catalog. The CJ storefront remains a separate Relay business and
+// still redirects to the existing API door.
 const vercelCfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8'));
-const relayHome = (vercelCfg.rewrites || []).find(r => r.source === '/relay');
+const relayHome = (vercelCfg.redirects || []).find(r => r.source === '/relay');
 const relaySource = (vercelCfg.redirects || []).find(r => r.source === '/relay-sourced');
-assert('/relay serves the static Relay entrance', !!relayHome && relayHome.destination === '/pages/relay-home');
+assert('/relay redirects temporarily to the canonical Relay Shopify storefront',
+  !!relayHome && relayHome.destination === 'https://0abp5n-dy.myshopify.com/' && relayHome.permanent === false);
 assert('Sourced Finds redirects to the existing Relay door', !!relaySource && relaySource.destination === '/api/relay?view=store');
-assert('no conflicting landing redirect or sourced API rewrite',
-  !(vercelCfg.redirects || []).some(r => r.source === '/relay') &&
+assert('no conflicting Relay landing rewrite or sourced API rewrite',
+  !(vercelCfg.rewrites || []).some(r => r.source === '/relay') &&
   !(vercelCfg.rewrites || []).some(r => r.source === '/relay-sourced'));
 
 // ── F8 ──────────────────────────────────────────────────────────────────────
