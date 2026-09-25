@@ -156,6 +156,13 @@ function response() {
   assert.equal(first.canonicalHomologyShadow.currentDecision, 'PLANNED');
   assert.equal(first.canonicalHomologyShadow.shadowDecision, 'ABSTAINED');
   assert.equal(first.canonicalHomologyShadow.wouldChange, true);
+  assert.equal(first.businessRegulationShadow.mode, 'SHADOW_ONLY');
+  assert.equal(first.businessRegulationShadow.phase, 'P4');
+  assert.equal(first.businessRegulationShadow.businessPosture, 'SUPPORT');
+  assert.equal(first.businessRegulationShadow.stressBand, 'elevated');
+  assert.equal(first.businessRegulationShadow.status, 'BLOCKED');
+  assert.equal(first.businessRegulationShadow.externalEffectAuthorized, false);
+  assert.equal(first.intent.businessRegulationShadow.externalEffectAuthorized, false);
 
   var outcomeCognition = cognition('finance', now, 'outcome');
   outcomeCognition.c.brainOrgans.commercialReflex = {
@@ -355,6 +362,9 @@ function response() {
   assert.deepEqual(cycle.canonicalHomologyShadow, {
     mode: 'SHADOW_ONLY', eligible: 0, wouldChange: 20, evaluated: 20, enforcementActive: false
   });
+  assert.deepEqual(cycle.businessRegulationShadow, {
+    mode: 'SHADOW_ONLY', evaluated: 20, blocked: 20, halted: 0, gateEligible: 0, enforcementActive: false
+  });
   assert.equal(cycle.boundaries.providerCalled, false);
   assert.equal(new Set(cycle.rows.map(function (row) { return row.intentId; })).size, 20);
   assert.equal(Object.keys(allStore.values).filter(function (key) { return /^domain_commercial:state:/.test(key); }).length, 20);
@@ -365,6 +375,18 @@ function response() {
   assert.equal(Contracts.DOMAINS.filter(function (domain) {
     return (allStore.lists[Contracts.get(domain).intentQueue] || []).length > 0;
   }).length, 20);
+
+  var haltedRecords = Object.create(null);
+  Contracts.DOMAINS.forEach(function (domain) {
+    haltedRecords['limen:brain:cognition:' + domain] = cognition(domain, now, 'halted', { humanReviewRequired: true });
+  });
+  var haltedCycle = await Handler.run({
+    now: now,
+    store: memory(),
+    redisGet: async function (key) { return haltedRecords[key] || null; }
+  });
+  assert.equal(haltedCycle.businessRegulationShadow.halted, 20);
+  assert.equal(haltedCycle.businessRegulationShadow.blocked, 0);
 
   var artifactCycle = await ArtifactHandler.run({ now: now + 2000, store: allStore });
   assert.equal(artifactCycle.ok, true);

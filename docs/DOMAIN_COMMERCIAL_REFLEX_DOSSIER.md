@@ -45,6 +45,9 @@
   from durable domain state; identical inputs reuse the same intent identity.
 - The latest planned intent identity survives temporary abstentions so a later
   distribution gate cannot mistake an older artifact for the most recent plan.
+- Every evaluation now emits a deterministic `businessRegulationShadow` that
+  maps the canonical P0-P10 cycle phase plus continuous stress to a business
+  posture. It is attached to the write-ahead intent but cannot authorize it.
 - Paid delivery and Governor orientation require that latest identity and a
   bounded work-order age; delayed preparation cannot expose older work as current.
 
@@ -98,6 +101,9 @@
   through the protected status route; external motors stay inhibited.
 - Health: process heartbeat, cron schedule, per-domain persisted state and
   downstream provider/observer health remain separate facts.
+- Business-regulation shadow: missing four-layer health, contract ratification,
+  verifier freshness or rollback proof fails closed. P0-P10/stress may narrow a
+  posture but cannot create authority, funding or a company.
 - Anomalies: duplicate intent, cross-domain identity, stale cognition, source
   outage, semantic identity mismatch, lost read-back and unchanged-input churn.
 
@@ -109,7 +115,8 @@
 - Chaos/replay: repeat the same packet, cross-wire a brain, remove durability,
   remove feeds, inhibit metabolism and set human-review veto.
 - Gate traces: the intent says `externalEffectAuthorized:false` and includes
-  the required next state and efference copy.
+  the required next state, efference copy and fail-closed business-regulation
+  shadow.
 - Bypass negative tests: direct mismatched cognition is refused and headline
   evidence is marked `topic-lead-only/fullTextVerified:false`.
 - Receipt verification: intent and state are read after write; every cycle

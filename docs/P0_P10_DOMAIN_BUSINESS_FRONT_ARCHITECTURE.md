@@ -4,7 +4,11 @@
 
 **Machine source:** `assets/data/domain-business-ladders.json`
 
+**Stress-regulation source:** `assets/data/domain-business-regulation.json`
+
 **Front renderer:** `assets/js/domain-business-ladder.js`
+
+**Deterministic evaluator:** `lib/domain-business-regulation.js`
 
 ## Decision
 
@@ -18,6 +22,47 @@ The labels deliberately share the owner's P0-P10 grammar while the namespaces pr
 laundering the other. A domain at P3 does not automatically need a P3 business. Stress does not
 create authority, capital entitlement or a company. A business is an optional regulatory
 intervention selected from established evidence and separately admitted by the owning domain.
+
+A third namespace now carries the link between them:
+
+- `businessStressRegulation` answers: given the sensed cycle phase and continuous stress, what
+  operating posture should every candidate business adopt?
+
+The composition is intentionally one-way. `domainCyclePhase` and numeric stress may restrict a
+business posture. They may never promote `businessCapitalBand`, ratify a contract, fund a budget or
+authorize an effect.
+
+## P0-P10 business regulation strategy
+
+P0-P10 is a cycle, not an eleven-step severity scale. P9 is the threshold/circuit-break state; P10
+is a new baseline that must re-earn privileges. The phase posture composes with the continuous
+stress band by taking the more restrictive result.
+
+| Sensed phase | Business posture | What the domain businesses do | Capital rule |
+|---|---|---|---|
+| P0 Source | Observe | Inventory the field and expose a useful free read; forming a company is optional. | Hold |
+| P1 First Distinction | Validate | Separate one measurable opportunity and test one reversible offer/referral. | Hold |
+| P2 Rhythm | Repeat | Build a repeatable monitor, calculator, subscription or low-risk transaction loop. | Evidence eligible, never automatic |
+| P3 Fracture | Diagnose | Stop promotion and locate the broken assumption or operating constraint. | Hold |
+| P4 Scaffolding | Support | Apply temporary service capacity or separately contracted Finance/owner support. | Separate funding required |
+| P5 Endurance | Operate | Run the proven lane from collected revenue and measured capacity. | Reconciled surplus only |
+| P6 Order | Coordinate | Coordinate proven domain businesses through standards, contracts and APIs. | Reconciled surplus only |
+| P7 Separation | Contain | Isolate the failing venture/dependency and stop hidden cross-subsidy. | Hold |
+| P8 Conscience | Correct | Audit the regulator itself; correct, refund, unwind or revise with independent outcome proof. | Hold |
+| P9 Threshold | Circuit break | Halt new commitments, discretionary spend and irreversible acts; protect cash, data and people. | Halt |
+| P10 Renewal | Reopen progressively | Treat the new baseline as new evidence and restart from the smallest reversible loop. | Rebase, then prove |
+
+Continuous stress overlays the phase:
+
+- 0-39% regulated: existing verified work can remain gate-eligible.
+- 40-69% elevated: reduce discretionary scope and require stabilization proof.
+- 70-84% high: freeze expansion and allow only reversible recovery work.
+- 85-100% acute: halt new spend, contracts, publication and physical acts.
+- unmeasured: propose-only; preserve the last verified posture.
+
+This matrix regulates every venture in the 20-by-5 ladder. It does not mean all 100 candidate
+ventures should exist. Each domain may build, invest in, partner with or decline a venture based on
+evidence and its separate authority boundary.
 
 ## Fractal capital rule
 
@@ -98,6 +143,23 @@ The renderer is additive and read-only:
 - it fails quiet if its static registry cannot be read, so the live domain page continues to work;
 - each card states evidence and the next gate, including designed and licensed-only candidates;
 - CalcStack remains the mathematical P0-P1 traffic layer and does not become a diagnosis engine.
+- every front exposes the shared Domains & Apps directory plus its portal/engine and clearly marked
+  operator console;
+- every front exposes the same eleven-row stress-regulation policy and numeric stress overlay;
+- the policy surface is not a live phase claim and never calls an effect route.
+
+## Runtime adoption state
+
+The commercial reflex now records a `businessRegulationShadow` alongside each domain decision and
+write-ahead intent. This is a deterministic, zero-provider-call observation. It is deliberately
+`SHADOW_ONLY`: the current server packet does not yet carry a ratified business contract, fresh
+independent verifier qualification, four-layer runtime-health proof and verified rollback reference.
+Therefore the shadow fails closed and reports no external authority or spend.
+
+Promotion from shadow to enforcement requires an inventory of every publishing, payment, contract,
+brokerage, email and physical motor path. Each path must consume one gate decision or a short-lived
+gate token. Until that proof exists, the public contract and runtime telemetry may guide proposals
+but may not claim end-to-end enforcement.
 
 ## Implementation order after this slice
 
@@ -121,3 +183,5 @@ The renderer is additive and read-only:
 - A higher band never claims funding from projected revenue.
 - Live money, contracts, regulated advice and physical acts remain behind their own authority and
   reversibility gates.
+- Missing/stale four-layer health, ratification, verifier freshness or rollback proof fails closed.
+- Stress can only narrow or pause behavior; it can never grant authority, capital or a company.

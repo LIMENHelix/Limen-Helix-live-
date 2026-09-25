@@ -54,7 +54,7 @@
     // points at the gated internal connectome. The PUBLIC route to the same view is
     // /atlas, linked directly from the public pages.
     { label: 'CONNECTOME',         href: '/connectome' },
-    { label: '⊞ SITE MAP',         href: '/pages' }
+    { label: '⊞ DOMAINS & APPS',   href: '/pages' }
   ];
 
   // ─── State display map (mirrors biosensor-bridge.js) ────────────────────

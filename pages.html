@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>LIMEN HELIX &middot; SITE MAP</title>
+<title>LIMEN HELIX &middot; DOMAINS &amp; APPS</title>
+<meta name="description" content="Open every LIMEN Helix public domain app, its portal engine, opportunities and operator console from one accessible directory.">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace;min-height:100%}
@@ -59,7 +60,11 @@ a{color:inherit;text-decoration:none}
   color:rgba(201,169,78,0.7);background:rgba(201,169,78,0.04);transition:all 0.15s;
 }
 .sm-tag:hover{color:#fff;border-color:rgba(201,169,78,0.45);background:rgba(201,169,78,0.12)}
-.sm-tag-console{color:#C9A94E;border-color:rgba(201,169,78,0.3)}
+.sm-tag-public{color:#a8f2df;border-color:rgba(53,224,196,.38);background:rgba(53,224,196,.06)}
+.sm-tag-engine{color:#b9dfff;border-color:rgba(113,181,235,.34)}
+.sm-tag-operator{color:#C9A94E;border-color:rgba(201,169,78,0.3)}
+.sm-legend{font-size:.44rem;line-height:1.65;color:rgba(200,195,184,.56);max-width:88ch;margin:10px 0 0}
+.sm-legend b{color:#d8d1c2}
 .sm-empty{font-size:0.45rem;color:rgba(200,195,184,0.4);padding:24px}
 </style>
 </head>
@@ -69,10 +74,11 @@ a{color:inherit;text-decoration:none}
 <script src="assets/js/limen-topbar.js"></script>
 
 <div class="sm-head">
-  <div class="sm-crumb"><a href="/civilization">CIVILIZATION</a> &nbsp;&rsaquo;&nbsp; SITE MAP</div>
-  <div class="sm-title">SITE MAP</div>
+  <div class="sm-crumb"><a href="/">LIMEN HELIX</a> &nbsp;&rsaquo;&nbsp; DOMAINS &amp; APPS</div>
+  <h1 class="sm-title">DOMAINS &amp; APPS</h1>
   <div class="sm-sub" id="smCount"></div>
-  <div class="sm-search"><input type="text" id="smSearch" placeholder="Filter..." autocomplete="off"></div>
+  <p class="sm-legend"><b>Public App</b> is the visitor-facing domain desk. <b>Portal / Engine</b> opens the domain's deeper evidence surface. <b>Operator Console</b> is the control and inspection surface; links are visible, while privileged actions remain server-protected.</p>
+  <div class="sm-search"><label for="smSearch" class="sm-crumb">FILTER DOMAINS AND TOOLS</label><br><input type="search" id="smSearch" placeholder="Type a domain or tool" autocomplete="off"></div>
 </div>
 
 <div class="sm-wrap" id="smWrap"></div>
@@ -95,7 +101,7 @@ a{color:inherit;text-decoration:none}
     { label: 'System Vitals',          url: '/vitals' }
   ];
 
-  // ── The 20 domains. Console + Portal are universal routes (?domain=X). ──
+  // ── The 20 domains. Public + Console + Portal are universal routes. ──
   // opps = a dedicated {domain}-opportunities.html exists (else use global /opportunities).
   var DOMAINS = [
     { d: 'agriculture',    opps: true },
@@ -140,12 +146,14 @@ a{color:inherit;text-decoration:none}
     for (var i = 0; i < DOMAINS.length; i++) {
       var x = DOMAINS[i];
       if (!matches(f, x.d)) continue;
-      var tags = '<a class="sm-tag sm-tag-console" href="/domain-console?domain=' + x.d + '">Console</a>';
-      tags += '<a class="sm-tag" href="/portal?domain=' + x.d + '">Portal</a>';
+      var name = cap(x.d);
+      var tags = '<a class="sm-tag sm-tag-public" href="/' + x.d + '" aria-label="Open the ' + name + ' public app">Public App</a>';
+      tags += '<a class="sm-tag sm-tag-engine" href="/portal?domain=' + x.d + '" aria-label="Open the ' + name + ' portal and engine">Portal / Engine</a>';
+      tags += '<a class="sm-tag sm-tag-operator" href="/domain-console?domain=' + x.d + '" aria-label="Open the ' + name + ' operator console">Operator Console</a>';
       if (x.opps) tags += '<a class="sm-tag" href="/' + x.d + '-opportunities">Opportunities</a>';
-      domRows += '<div class="sm-domain"><span class="sm-domain-name">' + cap(x.d) + '</span>' + tags + '</div>';
+      domRows += '<div class="sm-domain"><span class="sm-domain-name">' + name + '</span>' + tags + '</div>';
     }
-    if (domRows) html += '<div class="sm-section"><div class="sm-section-name">The 20 Domains</div>' + domRows + '</div>';
+    if (domRows) html += '<section class="sm-section" aria-labelledby="domainAppsHeading"><h2 class="sm-section-name" id="domainAppsHeading">The 20 Domains &amp; Apps</h2>' + domRows + '</section>';
 
     // Core section
     var coreCards = '';
@@ -160,7 +168,7 @@ a{color:inherit;text-decoration:none}
     wrap.innerHTML = html || '<div class="sm-empty">Nothing matches &ldquo;' + esc(f) + '&rdquo;.</div>';
   }
 
-  document.getElementById('smCount').textContent = DOMAINS.length + ' domains · ' + CORE.length + ' cockpit pages';
+  document.getElementById('smCount').textContent = DOMAINS.length + ' public apps · ' + DOMAINS.length + ' portal engines · ' + DOMAINS.length + ' operator consoles · ' + CORE.length + ' shared tools';
   document.getElementById('smSearch').addEventListener('input', function () { render(this.value); });
   render('');
 })();

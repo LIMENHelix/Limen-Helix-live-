@@ -7,8 +7,10 @@ var vm = require('node:vm');
 
 var ROOT = path.join(__dirname, '..');
 var DATA = path.join(ROOT, 'assets', 'data', 'domain-business-ladders.json');
+var REGULATION = path.join(ROOT, 'assets', 'data', 'domain-business-regulation.json');
 var SCRIPT = path.join(ROOT, 'assets', 'js', 'domain-business-ladder.js');
 var config = JSON.parse(fs.readFileSync(DATA, 'utf8'));
+var regulation = JSON.parse(fs.readFileSync(REGULATION, 'utf8'));
 var domains = config.domains;
 var domainIds = Object.keys(domains).sort();
 var expectedDomains = [
@@ -59,7 +61,11 @@ var renderer = fs.readFileSync(SCRIPT, 'utf8');
 assert.ok(renderer.indexOf('data-phase-namespace') !== -1, 'renderer must publish the namespace distinction');
 assert.ok(renderer.indexOf('current LIMEN cycle phase') !== -1,
   'renderer must not present capital bands as live domain phase');
-assert.ok(renderer.indexOf("fetch(DATA_URL") !== -1, 'renderer must read the one machine registry');
+assert.ok(renderer.indexOf('fetch(DATA_URL') !== -1, 'renderer must read the capital registry');
+assert.ok(renderer.indexOf('fetch(REGULATION_URL') !== -1, 'renderer must read the stress-regulation registry');
+assert.equal(regulation._meta.namespace, 'businessStressRegulation');
+assert.equal(regulation._meta.phaseNamespace, 'domainCyclePhase');
+assert.equal(regulation._meta.capitalNamespace, 'businessCapitalBand');
 ['/api/checkout', '/api/civilization-valves', '/api/civilization-treasury', '/api/agriculture-homestead-cycle'].forEach(function (route) {
   assert.equal(renderer.indexOf(route), -1, 'read-only renderer must not call effect or money route ' + route);
 });
