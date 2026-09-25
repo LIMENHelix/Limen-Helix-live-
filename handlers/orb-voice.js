@@ -13,9 +13,10 @@
  * THE SHAPE OF THE RISK IS NOT THE UNIT PRICE, IT IS THAT THIS IS A PUBLIC ENDPOINT HOLDING
  * A PAID KEY. Three guards, in order of how much they actually protect:
  *
- *   1. A DAILY CHARACTER CEILING, and it FAILS CLOSED. If the ledger cannot be read, this
- *      refuses rather than assuming there is room. A worst case costs the ceiling, not the
- *      account. This is the only guard that bounds a determined caller.
+ *   1. The global AI kill switch plus an ATOMIC daily dollar reservation. If the durable
+ *      ledger cannot be read or written, this refuses before xAI is called. A worst case
+ *      costs the local ceiling, not the account. This is the guard that bounds a determined
+ *      caller even across concurrent serverless instances.
  *   2. GET responses are CDN-cacheable by URL and the URL contains the exact text, so the
  *      same sentence in the same voice is synthesised once and served from the edge after
  *      that. This is what makes ordinary traffic nearly free rather than linear.
@@ -39,50 +40,22 @@ try {
   }
 } catch (e) { /* keep the hardcoded floor; never take the router down over a voice list */ }
 
-var db = require('../lib/limen-db');
 var crypto = require('crypto');
+var paidProvider = require('../lib/paid-provider-boundary');
 
 var MAX_CHARS = 1400;            // one meeting turn is ~400-700; this is headroom, not a target
 var MIN_CHARS = 8;
-var DAILY_CHAR_CEILING = 400000; // ~$6.00/day at the $15/M listed rate
-var LEDGER_PREFIX = 'orb:voice:chars:';
+var USD_PER_MILLION_CHARS = 15;
+var DEFAULT_DAILY_CAP_USD = 6;
 
 // Per-instance memo. Serverless instances are short-lived, so this only catches bursts on one
 // warm instance — the CDN is what does the real deduplication. Bounded so it cannot grow.
 var memo = new Map();
 var MEMO_MAX = 40;
 
-function today() { return new Date().toISOString().slice(0, 10); }
-
-/* Reserve BEFORE the call, not after. Settling afterwards means a burst of concurrent
-   requests all read the same pre-call total and every one of them passes. */
-async function reserve(chars) {
-  /* THE TRY/CATCH THAT WOULD HAVE BEEN A LIE. lib/limen-db.get() does not throw when redis
-     is gone — it falls back to a per-instance memory store and returns null. So a catch here
-     would never fire, and the "daily ceiling" would quietly become a per-lambda ceiling that
-     resets on every cold start, which is no ceiling at all. Ask the backend directly: with no
-     redis there is no shared ledger, so there is no ceiling, so this refuses. Fail closed
-     means closed, not closed-unless-inconvenient. */
-  if (typeof db.getBackend === 'function' && db.getBackend() !== 'redis')
-    return { ok: false, reason: 'no durable ledger' };
-
-  var key = LEDGER_PREFIX + today();
-  var used;
-  try {
-    used = await db.get(key);
-  } catch (e) {
-    return { ok: false, reason: 'ledger unreachable' };   // fail CLOSED
-  }
-  if (used === null || used === undefined) used = 0;
-  used = Number(used) || 0;
-  if (used + chars > DAILY_CHAR_CEILING)
-    return { ok: false, reason: 'daily ceiling', used: used };
-  try {
-    await db.set(key, used + chars, 60 * 60 * 30);          // ~30h, so a day rolls off on its own
-  } catch (e) {
-    return { ok: false, reason: 'ledger unwritable' };      // fail CLOSED
-  }
-  return { ok: true, used: used + chars };
+function dailyCapUsd() {
+  var configured = Number(process.env.LIMEN_ORB_VOICE_DAILY_CAP_USD);
+  return Number.isFinite(configured) && configured > 0 ? configured : DEFAULT_DAILY_CAP_USD;
 }
 
 function readBody(req) {
@@ -149,9 +122,17 @@ module.exports = async function handler(req, res) {
 
   if (memo.has(hash)) { sendAudio(memo.get(hash), true); return; }
 
-  var budget = await reserve(text.length);
+  var estimatedUsd = text.length * USD_PER_MILLION_CHARS / 1000000;
+  var budget = await paidProvider.reserve({
+    kind: 'external',
+    costUsd: estimatedUsd,
+    label: 'Orb voice / xAI TTS',
+    scope: 'atlas:orb-voice',
+    scopeDailyCapUsd: dailyCapUsd(),
+    idempotencyKey: 'atlas:orb-voice:' + hash
+  });
   if (!budget.ok) {
-    res.status(429).json({ ok: false, error: 'voice budget: ' + budget.reason });
+    res.status(budget.disabled ? 503 : 429).json({ ok: false, error: 'voice budget: ' + budget.reason });
     return;
   }
 
@@ -164,10 +145,12 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({ voice: voice, language: 'en', text: text, format: 'mp3' })
     });
   } catch (e) {
+    await paidProvider.settle(budget, { costUsd: estimatedUsd });
     res.status(502).json({ ok: false, error: 'tts unreachable' });
     return;
   }
   if (!r.ok) {
+    await paidProvider.settle(budget, { costUsd: estimatedUsd });
     var detail = '';
     try { detail = (await r.text()).slice(0, 200); } catch (e) {}
     res.status(502).json({ ok: false, error: 'tts ' + r.status, detail: detail });
@@ -176,11 +159,21 @@ module.exports = async function handler(req, res) {
 
   var buf;
   try { buf = Buffer.from(await r.arrayBuffer()); }
-  catch (e) { res.status(502).json({ ok: false, error: 'tts body unreadable' }); return; }
+  catch (e) {
+    await paidProvider.settle(budget, { costUsd: estimatedUsd });
+    res.status(502).json({ ok: false, error: 'tts body unreadable' }); return;
+  }
 
   // A short body is a failure that arrived with a 200. Do not cache it and do not play it.
   if (!buf || buf.length < 2000) {
+    await paidProvider.settle(budget, { costUsd: estimatedUsd });
     res.status(502).json({ ok: false, error: 'tts returned an empty clip' });
+    return;
+  }
+
+  var settled = await paidProvider.settle(budget, { costUsd: estimatedUsd });
+  if (!settled.ok) {
+    res.status(503).json({ ok: false, error: 'voice spend settlement unavailable' });
     return;
   }
 

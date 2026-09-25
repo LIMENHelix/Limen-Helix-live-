@@ -3,6 +3,12 @@
 
 const assert = require('node:assert/strict');
 const Provider = require('../lib/finance-preview-provider.js');
+const realCreate = Provider.create;
+const paidBoundary = {
+  reserve: async options => ({ ok: true, id: 'test-reservation', estUsd: 0.1, options }),
+  settle: async () => ({ ok: true, chargedUsd: 0.1 })
+};
+Provider.create = options => realCreate(Object.assign({ paidBoundary }, options));
 
 (async function () {
   assert.equal(Provider.enabled({ LIMEN_FINANCE_PREVIEW_ENABLED: '0' }), false);
