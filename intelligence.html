@@ -174,7 +174,7 @@ html,body{overflow-x:clip;max-width:100%}
     fetch('/api/intelligence-tools?tool=sdn&q=' + encodeURIComponent(q)).then(function (r) { return r.json(); }).then(function (s) {
       if (!s.ok) { out.innerHTML = D.fail(s.reason); return; }
       if (!s.found) { out.innerHTML = '<div class="note"><b>No match for "' + D.esc(s.query) + '".</b> ' + D.esc(s.note) + '</div>' + upgrade(); return; }
-      var h = '<div class="note" style="color:var(--bad)"><b>' + s.found + ' designated match' + (s.found === 1 ? '' : 'es') + '</b> for "' + D.esc(s.query) + '". Confirm on Treasury's list before you act.</div>';
+      var h = '<div class="note" style="color:var(--bad)"><b>' + s.found + ' designated match' + (s.found === 1 ? '' : 'es') + '</b> for "' + D.esc(s.query) + '". Confirm on Treasury\'s list before you act.</div>';
       s.rows.forEach(function (r) {
         h += '<div class="agrow"><div class="nm">' + D.esc(r.name) +
           (r.title ? '<em>' + D.esc(r.title) + '</em>' : '') +
@@ -189,5 +189,6 @@ html,body{overflow-x:clip;max-width:100%}
   $('intelQ').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); run(); } });
 })();
 </script>
+<script src="/assets/js/domain-business-ladder.js"></script>
 </body>
 </html>
