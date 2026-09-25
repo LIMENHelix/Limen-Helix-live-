@@ -105,6 +105,9 @@ async function run(deps) {
       blocked: rows.filter(function (row) {
         return row.businessRegulationShadow && row.businessRegulationShadow.status === 'BLOCKED';
       }).length,
+      halted: rows.filter(function (row) {
+        return row.businessRegulationShadow && row.businessRegulationShadow.status === 'HALTED';
+      }).length,
       gateEligible: 0,
       enforcementActive: false
     },
