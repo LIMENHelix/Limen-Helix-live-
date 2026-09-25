@@ -32,6 +32,19 @@ assert.equal(summary.rows[2].reason, 'noncanonical-value-redacted');
 assert.equal(summary.reasons['noncanonical-value-redacted'], 1);
 assert.equal(summary.secretBearingFieldsIncluded, false);
 
+var shadow = Observability.summarize('domain-commercial-reflex', {
+  ok: true,
+  evaluatedAt: 123,
+  rows: [{ productDomain: 'finance', status: 'ABSTAINED', reason: 'held' }],
+  canonicalHomologyShadow: {
+    mode: 'SHADOW_ONLY', eligible: 3, wouldChange: 17, evaluated: 20, enforcementActive: false
+  }
+});
+assert.deepEqual(shadow.canonicalHomologyShadow, {
+  mode: 'SHADOW_ONLY', eligible: 3, wouldChange: 17, evaluated: 20, enforcementActive: false
+});
+assert.equal(JSON.stringify(shadow).includes('blockers'), false);
+
 var line = null;
 Observability.emit('communication-video-cycle', result, function (value) { line = value; });
 assert.match(line, /^\[autonomy-cycle\] /);
@@ -40,4 +53,4 @@ assert.doesNotThrow(function () {
   Observability.emit('communication-video-cycle', result, function () { throw new Error('log drain unavailable'); });
 }, 'telemetry failure must not inhibit the autonomy cycle');
 
-console.log('autonomy cycle observability: per-domain gates visible without secret-bearing values');
+console.log('autonomy cycle observability: per-domain gates and safe shadow aggregate visible without secret-bearing values');
