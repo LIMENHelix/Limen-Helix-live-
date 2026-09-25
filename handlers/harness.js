@@ -355,10 +355,11 @@ module.exports = async function handler(req, res) {
       return {
         job: j.job,
         cost: money,
-        declared: { schedule: j.schedule, source: j.source, path: j.path, kind: j.kind, role: j.role, note: j.note, expectedGapMs: gap },
+        declared: { schedule: j.schedule, source: j.source, path: j.path, kind: j.kind, role: j.role,
+          heartbeat: j.heartbeat, effectControl: j.effectControl, note: j.note, expectedGapMs: gap },
         observed: last ? { at: last.at, ok: last.ok, ms: last.ms, note: last.note, sinceMs: since, overdue: overdue }
                        : { at: null, ok: null, ms: null, note: null, sinceMs: null, overdue: null, neverObserved: true },
-        valve: (j.kind === 'outward') ? (led.valves[j.job] || { open: true }) : null
+        valve: (j.effectControl === 'global-heartbeat-valve') ? (led.valves[j.job] || { open: true }) : null
       };
     });
 

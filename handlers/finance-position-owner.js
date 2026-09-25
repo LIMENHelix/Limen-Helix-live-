@@ -177,7 +177,10 @@ handler.createHandler = createHandler;
 handler.commandIds = commandIds;
 handler.packetIdOf = packetIdOf;
 handler.openingFor = openingFor;
-module.exports = require('../lib/heartbeat').guard('finance-position-owner', handler);
+// This lane owns domain-local Finance/Tradier switches rather than a global
+// heartbeat valve. Record the run without presenting a non-functional global
+// veto in the harness board.
+module.exports = require('../lib/heartbeat').wrap('finance-position-owner', handler);
 module.exports.createHandler = createHandler;
 module.exports.commandIds = commandIds;
 module.exports.packetIdOf = packetIdOf;

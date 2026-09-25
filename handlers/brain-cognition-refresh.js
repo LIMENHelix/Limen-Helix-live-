@@ -27,6 +27,7 @@ const domainCommercialLanes = require('../lib/domain-commercial-lanes.js');
 const domainCommercialSocialLearning = require('../lib/domain-commercial-social-learning.js');
 const cronAuth = require('../lib/cron-auth.js');
 const cognitionProjection = require('../lib/brain-cognition-compact.js');
+const cognitionSnapshotInput = require('../lib/brain-cognition-snapshot-input.js');
 const compactCognition = cognitionProjection.compact;
 const num = cognitionProjection.num;
 const arr = cognitionProjection.arr;
@@ -199,8 +200,16 @@ module.exports = async function handler(req, res) {
   // so a header-controlled base was an SSRF -> RCE path (attacker JS executed in a non-isolating sandbox).
   var BASE = 'https://' + (process.env.SELF_ORIGIN || 'limenhelix.com');
   try {
-    // fetch snapshot + all brain sources over HTTP (parallel)
-    var snap = await fetch(BASE + '/api/domain-snapshot').then(function (r) { return r.json(); });
+    // The domain snapshot owns live feed/source observations. The existing
+    // console snapshot owns node-grounded phase and domain/company joins.
+    // Construct one bounded read model before code enters the VM; no general
+    // network capability is granted to code running inside the VM.
+    var snapshotRows = await Promise.all([
+      fetch(BASE + '/api/domain-snapshot').then(function (r) { return r.json(); }),
+      limenDb.get('console_snapshot').catch(function () { return null; })
+    ]);
+    var cognitionInput = cognitionSnapshotInput.merge(snapshotRows[0], snapshotRows[1], Date.now());
+    var snap = cognitionInput.snapshot;
     var sources = await Promise.all(FILES.map(function (f) {
       return fetch(BASE + '/' + f).then(function (r) { return r.ok ? r.text() : ''; }).then(function (code) { return { name: f, code: code }; }).catch(function () { return { name: f, code: '' }; });
     }));
@@ -367,7 +376,7 @@ module.exports = async function handler(req, res) {
           c.stress = num(_st.stress);
           c.phase = val(_st.phaseLabel || _st.phase);
           try {
-            var _domainJoin = snap.domainCompanyJoin && snap.domainCompanyJoin[dom] || null;
+            var _domainJoin = cognitionSnapshotInput.readDomain(snap.domainCompanyJoin, dom);
             var _phaseEvidence = _domainJoin && Array.isArray(_domainJoin.companies)
               ? _domainJoin.companies.filter(function (co) { return co && co.scored === true && co.phase; }).slice(0, 32).map(function (co) {
                 return { source: 'company-phase-scorer', cik: co.cik || null, ticker: co.ticker || null, phase: co.phase, trajectory: co.trajectory || null, observedAt: co.timestamp || null };
@@ -375,6 +384,7 @@ module.exports = async function handler(req, res) {
             var _packetExtras = {
               companyDomainJoin: _domainJoin,
               phaseEvidence: _phaseEvidence,
+              cognitionInputEvidence: snap.cognitionInputEvidence || null,
               bridgePattern: _st.bridgePattern || _st.bridgeReadings || null,
               regulation: _st.regulation || null,
               recovery: _st.recovery || null,
@@ -481,6 +491,7 @@ module.exports = async function handler(req, res) {
         storedAndRestored: motorReceiptsStored,
         failures: motorReceiptFailures
       },
+      cognitionInput: cognitionInput.evidence,
       gamma: gammaRecord,
       gammaFailure: gammaFailure,
       ms: Date.now() - t0
