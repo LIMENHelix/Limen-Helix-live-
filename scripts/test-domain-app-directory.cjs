@@ -30,7 +30,10 @@ domains.forEach(function (domain) {
     domain + ' must load the shared navigation/regulation surface');
 });
 
-assert.match(home, /class="domain-directory" href="\/pages"/);
+assert.doesNotMatch(home, /class="domain-directory" href="\/pages"/, 'front page must not expose the directory without authentication');
+assert.match(home, /class="domain-directory" href="#" id="directoryEntry"/);
+assert.match(home, /directoryEntry\.addEventListener\('click', show\)/);
+assert.match(home, /fetch\('\/api\/admin-auth'/);
 assert.match(atlas, /class="directorybtn" href="\/pages"/);
 assert.match(topbar, /DOMAINS & APPS/);
 assert.match(topbar, /href: '\/pages'/);
