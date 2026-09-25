@@ -1,0 +1,257 @@
+{
+  "schemaVersion": "domain-business-capital-ladders/1.0",
+  "_meta": {
+    "expectedDomainCount": 20,
+    "phaseNamespace": "businessCapitalBand",
+    "domainStateNamespace": "domainCyclePhase",
+    "meaning": "Candidate venture architecture ordered by capital intensity. These bands do not report the domain's current P0-P10 state and do not authorize a business or external effect.",
+    "fundingRule": "A higher band may be funded only from measured surplus below it or from a separately approved Finance or owner-capital contract.",
+    "statusOrder": [
+      "LIVE_SURFACE",
+      "OFFER_DEFINED",
+      "SOURCE_IMPLEMENTED_HELD",
+      "BOUNDED_RUNTIME",
+      "DESIGNED_UNMEASURED",
+      "LICENSE_GATED"
+    ],
+    "bands": [
+      {
+        "id": "p0-p1",
+        "phases": ["P0", "P1"],
+        "label": "Observe and attract",
+        "capital": "none to minimal",
+        "revenue": "attention, referrals, affiliate or lead revenue"
+      },
+      {
+        "id": "p2-p3",
+        "phases": ["P2", "P3"],
+        "label": "Monitor and diagnose",
+        "capital": "low",
+        "revenue": "subscriptions, alerts and transaction fees"
+      },
+      {
+        "id": "p4-p5",
+        "phases": ["P4", "P5"],
+        "label": "Operate and stabilize",
+        "capital": "low to moderate",
+        "revenue": "managed service, project and B2B retainer revenue"
+      },
+      {
+        "id": "p6-p7",
+        "phases": ["P6", "P7"],
+        "label": "Coordinate at scale",
+        "capital": "moderate to high",
+        "revenue": "institutional contracts, APIs and licensing"
+      },
+      {
+        "id": "p8-p10",
+        "phases": ["P8", "P9", "P10"],
+        "label": "Own and renew",
+        "capital": "highest",
+        "revenue": "platform, portfolio and productive-asset returns"
+      }
+    ]
+  },
+  "domains": {
+    "agriculture": {
+      "name": "Agriculture",
+      "bands": {
+        "p0-p1": { "venture": "Crop, land-rent and yield tools", "mechanism": "Turn public crop, drought and input data into useful free decisions and qualified demand.", "status": "LIVE_SURFACE", "evidence": "The Agriculture public read and tools exist; the dedicated CalcStack land-rent and yield calculators remain an explicit gap.", "nextGate": "Ship sourced calculators and measure retained use before monetizing." },
+        "p2-p3": { "venture": "Farm margin and drought watch", "mechanism": "Sell recurring, location-specific margin and exposure monitoring from the same sources.", "status": "OFFER_DEFINED", "evidence": "The weekly drought and input read is defined in the server-authoritative offer catalog.", "nextGate": "Prove purchase, fulfillment and independently observed subscriber outcome." },
+        "p4-p5": { "venture": "Farm Operations Desk", "mechanism": "Request and compare bounded service quotes for an evidenced farm-property work order.", "status": "SOURCE_IMPLEMENTED_HELD", "evidence": "The internal runtime lane is agriculture:homestead. Production measured the switch closed with zero decisions, commands and observations on 2026-09-25. It is not the Population Homestead Deal Desk.", "nextGate": "Admit one real, consented work order; prove exact decision, provider receipt, signed reply, recovery and same-domain learning without inventing a candidate.", "runtimeLane": "agriculture:homestead" },
+        "p6-p7": { "venture": "Regional farm procurement and risk network", "mechanism": "Coordinate verified service capacity, inputs and risk intelligence across many operators.", "status": "DESIGNED_UNMEASURED", "evidence": "Architecture only; no institutional customer or operating evidence exists.", "nextGate": "Require profitable P4-P5 cohorts, supplier quality evidence and contract controls." },
+        "p8-p10": { "venture": "Farmland and food-infrastructure portfolio", "mechanism": "Own or finance productive land, storage and processing assets where the lower desks establish durable demand.", "status": "LICENSE_GATED", "evidence": "Long-range candidate only; no capital, title, underwriting or operating authority is granted.", "nextGate": "Separate legal entity, underwriting, insurance, owner capital approval and asset-level controls." }
+      }
+    },
+    "communication": {
+      "name": "Communication",
+      "bands": {
+        "p0-p1": { "venture": "FCC and media decision tools", "mechanism": "Make public communications rules, reach and channel economics understandable.", "status": "LIVE_SURFACE", "evidence": "The public FCC read and domain front are live.", "nextGate": "Measure tool demand and source freshness." },
+        "p2-p3": { "venture": "FCC docket and channel watch", "mechanism": "Monitor named proceedings, licenses and distribution channels for material change.", "status": "OFFER_DEFINED", "evidence": "P1 and P2 Communication offers are defined in the offer catalog.", "nextGate": "Prove paid fulfillment and useful subscriber outcomes." },
+        "p4-p5": { "venture": "Evidence-linked distribution studio", "mechanism": "Prepare and distribute source-linked material through separately authorized channels.", "status": "BOUNDED_RUNTIME", "evidence": "The social motor has exact-command public receipts and independent AppView outcomes; conversion and revenue remain unproved.", "nextGate": "Accumulate source-separated outcomes and prove conversion without widening channel authority." },
+        "p6-p7": { "venture": "Multi-channel distribution network", "mechanism": "License governed distribution, attribution and outcome measurement to organizations.", "status": "DESIGNED_UNMEASURED", "evidence": "No institutional contracts or cross-channel economics are measured.", "nextGate": "Require profitable studio cohorts and channel-specific recovery evidence." },
+        "p8-p10": { "venture": "Communications infrastructure platform", "mechanism": "Own the governed identity, delivery and measurement layer rather than individual campaigns.", "status": "LICENSE_GATED", "evidence": "Long-range platform concept only.", "nextGate": "Privacy, platform-policy, identity, security and capital review." }
+      }
+    },
+    "culture": {
+      "name": "Culture",
+      "bands": {
+        "p0-p1": { "venture": "Royalty, audience and event tools", "mechanism": "Give creators free math and public context for pricing, royalties and attention.", "status": "LIVE_SURFACE", "evidence": "The Culture front and CalcStack wedding-budget tool are public; royalty tools are present on the domain surface.", "nextGate": "Measure which decisions create repeat use." },
+        "p2-p3": { "venture": "Royalty and audience watch", "mechanism": "Sell recurring reads of creator economics and audience movement.", "status": "OFFER_DEFINED", "evidence": "A P2 Culture offer is defined in the offer catalog.", "nextGate": "Prove purchase, delivery and creator retention." },
+        "p4-p5": { "venture": "Rights and licensing studio", "mechanism": "Package, clear and place creator work with evidence-linked economics.", "status": "DESIGNED_UNMEASURED", "evidence": "No rights inventory or placement outcome is measured.", "nextGate": "Rights provenance, contract templates and one reversible placement pilot." },
+        "p6-p7": { "venture": "Cultural IP distribution portfolio", "mechanism": "Coordinate catalogs across channels and license them to institutions.", "status": "DESIGNED_UNMEASURED", "evidence": "No portfolio or institutional license exists.", "nextGate": "Require profitable licensing cohorts and auditable royalty accounting." },
+        "p8-p10": { "venture": "Cultural IP fund and venue network", "mechanism": "Finance or own durable intellectual-property and cultural infrastructure assets.", "status": "LICENSE_GATED", "evidence": "Long-range capital concept only.", "nextGate": "Securities, rights, valuation and owner-capital approval." }
+      }
+    },
+    "defense": {
+      "name": "Defense",
+      "bands": {
+        "p0-p1": { "venture": "Military household and award tools", "mechanism": "Use BAH, PCS and award data to answer concrete planning questions.", "status": "LIVE_SURFACE", "evidence": "The Defense public award read and CalcStack BAH rent-versus-buy tool are live.", "nextGate": "Measure qualified military-household and supplier demand." },
+        "p2-p3": { "venture": "Defense award watch", "mechanism": "Track named programs, agencies and competitors as awards appear.", "status": "OFFER_DEFINED", "evidence": "P1 and P2 Defense offers are defined.", "nextGate": "Prove paid alert timeliness and customer action." },
+        "p4-p5": { "venture": "Supplier bid and compliance desk", "mechanism": "Help qualified suppliers triage opportunities and prepare compliant responses.", "status": "DESIGNED_UNMEASURED", "evidence": "No bid service or win outcome is measured.", "nextGate": "Controlled document workflow, human review and one non-sensitive pilot." },
+        "p6-p7": { "venture": "Program and supplier intelligence contracts", "mechanism": "Provide portfolio-level award, supplier and execution intelligence.", "status": "DESIGNED_UNMEASURED", "evidence": "No institutional contract is measured.", "nextGate": "Security classification boundary, customer validation and audited sources." },
+        "p8-p10": { "venture": "Dual-use systems portfolio", "mechanism": "Invest in or own verified dual-use production and service companies.", "status": "LICENSE_GATED", "evidence": "Long-range investment concept only.", "nextGate": "Export-control, procurement, safety and owner-capital approval." }
+      }
+    },
+    "economy": {
+      "name": "Economy",
+      "bands": {
+        "p0-p1": { "venture": "Cost, tax and inflation tools", "mechanism": "Translate public macro data into household and small-business decisions.", "status": "LIVE_SURFACE", "evidence": "The Economy read and public tools exist.", "nextGate": "Measure repeated use around real planning events." },
+        "p2-p3": { "venture": "Local economy and tax-receipt watch", "mechanism": "Sell recurring, place-specific spending and economic-change reads.", "status": "OFFER_DEFINED", "evidence": "A P2 Economy offer is defined.", "nextGate": "Prove paid fulfillment and decision value." },
+        "p4-p5": { "venture": "Small-business forecasting desk", "mechanism": "Convert local demand, labor and price signals into operating scenarios.", "status": "DESIGNED_UNMEASURED", "evidence": "No managed forecasting customer exists.", "nextGate": "Backtest forecasts and pilot with one bounded customer cohort." },
+        "p6-p7": { "venture": "Regional economic intelligence service", "mechanism": "License comparable regional indicators and scenario APIs.", "status": "DESIGNED_UNMEASURED", "evidence": "No institutional license or service-level record exists.", "nextGate": "Data rights, stability, procurement and contract controls." },
+        "p8-p10": { "venture": "Economic simulation and allocation platform", "mechanism": "Operate a governed planning platform for large portfolios and public systems.", "status": "LICENSE_GATED", "evidence": "Long-range platform concept only.", "nextGate": "Model-risk governance, independent validation and capital approval." }
+      }
+    },
+    "education": {
+      "name": "Education",
+      "bands": {
+        "p0-p1": { "venture": "GPA, debt and education-ROI tools", "mechanism": "Make education tradeoffs visible with free, sourced calculations.", "status": "LIVE_SURFACE", "evidence": "The Education front and CalcStack GPA tool are live.", "nextGate": "Measure search demand and completion quality." },
+        "p2-p3": { "venture": "School and college outcomes watch", "mechanism": "Monitor a chosen shortlist as federal completion, debt and earnings data changes.", "status": "OFFER_DEFINED", "evidence": "A P2 Education offer is defined.", "nextGate": "Prove paid delivery and useful shortlist changes." },
+        "p4-p5": { "venture": "Learning-outcomes analytics desk", "mechanism": "Help schools and programs diagnose retention, completion and cost gaps.", "status": "DESIGNED_UNMEASURED", "evidence": "No institutional analysis engagement is measured.", "nextGate": "FERPA-safe data contract and one reviewed pilot." },
+        "p6-p7": { "venture": "Institutional planning platform", "mechanism": "Coordinate program economics, outcomes and capacity planning across institutions.", "status": "DESIGNED_UNMEASURED", "evidence": "No platform customer or integration exists.", "nextGate": "Security review, procurement path and longitudinal validation." },
+        "p8-p10": { "venture": "Learning network or accredited operator", "mechanism": "Own delivery capacity only after the lower analytics prove durable learner value.", "status": "LICENSE_GATED", "evidence": "Long-range regulated operating concept only.", "nextGate": "Accreditation, licensure, student protection and owner-capital approval." }
+      }
+    },
+    "energy": {
+      "name": "Energy",
+      "bands": {
+        "p0-p1": { "venture": "Distressed-asset broker and bill X-ray", "mechanism": "Detect stranded assets and internal waste without owning either asset.", "status": "LIVE_SURFACE", "evidence": "The Bill X-Ray is live; the distressed-energy broker is documented but not production-commissioned.", "nextGate": "Measure qualified leads and retained calculator use separately." },
+        "p2-p3": { "venture": "Grid and asset condition watch", "mechanism": "Relay and gate telemetry so operators see congestion, instability and deterioration early.", "status": "OFFER_DEFINED", "evidence": "A P2 utility-rate watch is defined; full asset-condition monitoring remains unmeasured.", "nextGate": "Prove paid monitoring against independent operating outcomes." },
+        "p4-p5": { "venture": "Predictive maintenance and O&M service", "mechanism": "Use forward-model error to schedule bounded maintenance before failure.", "status": "DESIGNED_UNMEASURED", "evidence": "The node-to-business design is documented; no field-service outcome exists.", "nextGate": "One insured, reversible maintenance pilot with independent failure data." },
+        "p6-p7": { "venture": "Equipment and renewable EPC", "mechanism": "Produce and install the hardware that closes verified capacity gaps.", "status": "LICENSE_GATED", "evidence": "Role-level homology only; no manufacturing or EPC capacity exists.", "nextGate": "Engineering, permitting, warranty, safety and project-finance controls." },
+        "p8-p10": { "venture": "Generation and storage ownership", "mechanism": "Own productive capacity only where lower bands establish demand and operating competence.", "status": "LICENSE_GATED", "evidence": "Long-range asset-ownership candidate only.", "nextGate": "Interconnection, permits, offtake, insurance and explicit owner-capital approval." }
+      }
+    },
+    "environment": {
+      "name": "Environment",
+      "bands": {
+        "p0-p1": { "venture": "Hazard, flood and carbon decision tools", "mechanism": "Turn public hazard observations into free local decisions.", "status": "LIVE_SURFACE", "evidence": "The Environment live read and local hazard sources are public.", "nextGate": "Add sourced calculators only where data resolution supports them." },
+        "p2-p3": { "venture": "Local hazard watch", "mechanism": "Monitor fire, drought, air and disaster declarations for selected places.", "status": "OFFER_DEFINED", "evidence": "Multiple Environment phase-shaped offers are defined.", "nextGate": "Prove alert timeliness, delivery and customer action." },
+        "p4-p5": { "venture": "Resilience and compliance audit", "mechanism": "Diagnose property or organizational exposure and prioritize bounded remediation.", "status": "DESIGNED_UNMEASURED", "evidence": "No paid audit or remediation outcome exists.", "nextGate": "Licensed review where required and one independently checked pilot." },
+        "p6-p7": { "venture": "Municipal and portfolio resilience system", "mechanism": "Coordinate exposure, projects and recovery across many sites.", "status": "DESIGNED_UNMEASURED", "evidence": "No municipal or portfolio contract exists.", "nextGate": "Procurement, source reliability and service-level evidence." },
+        "p8-p10": { "venture": "Remediation and resilience infrastructure", "mechanism": "Own or finance physical mitigation only after lower-band demand is proven.", "status": "LICENSE_GATED", "evidence": "Long-range capital concept only.", "nextGate": "Environmental permits, engineering, insurance and owner-capital approval." }
+      }
+    },
+    "finance": {
+      "name": "Finance",
+      "bands": {
+        "p0-p1": { "venture": "Money, bank and rate tools", "mechanism": "Give households and operators free, sourced financial math and live context.", "status": "LIVE_SURFACE", "evidence": "The Finance live read and CalcStack paycheck tool are public.", "nextGate": "Complete mortgage then credit tools and measure qualified use." },
+        "p2-p3": { "venture": "Bank capital and filing watch", "mechanism": "Monitor named institutions against regulator-published filings and thresholds.", "status": "OFFER_DEFINED", "evidence": "P2 and P3 Finance offers are defined.", "nextGate": "Prove paid fulfillment, retention and independently useful alerts." },
+        "p4-p5": { "venture": "Treasury and risk desk", "mechanism": "Manage cash visibility, counterparty limits and separately contracted domain funding.", "status": "SOURCE_IMPLEMENTED_HELD", "evidence": "Treasury ledgers and controls exist; atomic external reconciliation and live-money authority remain held.", "nextGate": "External balance reconciliation, atomic capital reservation and explicit live-money switch." },
+        "p6-p7": { "venture": "Institutional risk API", "mechanism": "License verified bank, market and treasury observations with stable contracts.", "status": "DESIGNED_UNMEASURED", "evidence": "No institutional API customer or service-level history exists.", "nextGate": "Data rights, model-risk validation and contractual service controls." },
+        "p8-p10": { "venture": "Regulated capital platform", "mechanism": "Allocate, lend or invest real capital only through licensed and reconciled structures.", "status": "LICENSE_GATED", "evidence": "Tradier remains a separate sandbox program; no live-money authority is granted here.", "nextGate": "Licensing, custody, audit, tax, insurance and explicit owner approval." }
+      }
+    },
+    "governance": {
+      "name": "Governance",
+      "bands": {
+        "p0-p1": { "venture": "Public spending and rule tools", "mechanism": "Make awards, budgets and obligations searchable and calculable.", "status": "LIVE_SURFACE", "evidence": "The Governance spending desk and CalcStack property-tax appeal tool are public.", "nextGate": "Measure whether users reach primary records and complete decisions." },
+        "p2-p3": { "venture": "Public money and competitor watch", "mechanism": "Monitor federal awards by place, agency and market.", "status": "OFFER_DEFINED", "evidence": "P1 and P2 Governance offers are defined.", "nextGate": "Prove paid alert usefulness and source timeliness." },
+        "p4-p5": { "venture": "Procurement opportunity desk", "mechanism": "Help qualified organizations find and prepare for public opportunities.", "status": "DESIGNED_UNMEASURED", "evidence": "No bid workflow or award outcome is measured.", "nextGate": "Conflict, lobbying and procurement-compliance review plus one pilot." },
+        "p6-p7": { "venture": "Government performance analytics", "mechanism": "Provide institutions with traceable spending and program-performance views.", "status": "DESIGNED_UNMEASURED", "evidence": "No government contract or validated performance model exists.", "nextGate": "Procurement, accessibility, records retention and independent validation." },
+        "p8-p10": { "venture": "Civic operating platform", "mechanism": "Operate governed public-service coordination infrastructure without replacing lawful authority.", "status": "LICENSE_GATED", "evidence": "Long-range platform concept only.", "nextGate": "Statutory authority, public accountability, security and owner-capital approval." }
+      }
+    },
+    "industry": {
+      "name": "Industry",
+      "bands": {
+        "p0-p1": { "venture": "Recall and production-loss tools", "mechanism": "Make recalls and basic plant economics actionable for buyers and operators.", "status": "LIVE_SURFACE", "evidence": "The Industry recall surface is public.", "nextGate": "Measure recall resolution and operator demand." },
+        "p2-p3": { "venture": "Vehicle and factory watch", "mechanism": "Monitor named products, plants and suppliers for recalls, closures and disruption.", "status": "OFFER_DEFINED", "evidence": "P1 and P2 Industry offers are defined.", "nextGate": "Prove paid delivery and customer action." },
+        "p4-p5": { "venture": "Plant and supplier operations desk", "mechanism": "Turn verified disruptions into bounded CRM, sourcing and maintenance work.", "status": "SOURCE_IMPLEMENTED_HELD", "evidence": "A domain-bound Industry CRM loop exists; production-verified external outcomes remain absent.", "nextGate": "One exact task through provider readback, independent lifecycle outcome and recovery." },
+        "p6-p7": { "venture": "Manufacturing intelligence platform", "mechanism": "Coordinate multi-plant capacity, supplier and risk signals.", "status": "DESIGNED_UNMEASURED", "evidence": "No enterprise customer or plant integration exists.", "nextGate": "OT security, data contracts and measurable operating improvement." },
+        "p8-p10": { "venture": "Production assets and contract manufacturing", "mechanism": "Own productive capacity only after the operating desk proves durable demand.", "status": "LICENSE_GATED", "evidence": "Long-range capital concept only.", "nextGate": "Safety, labor, quality, insurance and owner-capital approval." }
+      }
+    },
+    "infrastructure": {
+      "name": "Infrastructure",
+      "bands": {
+        "p0-p1": { "venture": "Facility, corridor and outage tools", "mechanism": "Translate public infrastructure status into free local operating decisions.", "status": "LIVE_SURFACE", "evidence": "FAA delay and infrastructure status surfaces are public.", "nextGate": "Measure facility-specific demand and source coverage." },
+        "p2-p3": { "venture": "Airport and corridor watch", "mechanism": "Monitor selected airports, corridors and facilities as official status changes.", "status": "OFFER_DEFINED", "evidence": "P1 and P2 Infrastructure offers are defined.", "nextGate": "Prove alert timeliness and operating value." },
+        "p4-p5": { "venture": "Site diligence and property operations", "mechanism": "Run bounded, non-binding inquiries and diligence on evidenced infrastructure sites.", "status": "SOURCE_IMPLEMENTED_HELD", "evidence": "The infrastructure:real-estate loop exists with receipt, signed-inbound observer and suppression recovery; production commissioning is unproved.", "nextGate": "One owned target with consent, non-binding language and independent reply evidence.", "runtimeLane": "infrastructure:real-estate" },
+        "p6-p7": { "venture": "Municipal asset-management system", "mechanism": "Coordinate condition, maintenance and capital plans across public assets.", "status": "DESIGNED_UNMEASURED", "evidence": "No municipal integration or contract exists.", "nextGate": "Procurement, engineering data quality and service-level proof." },
+        "p8-p10": { "venture": "Infrastructure ownership and development", "mechanism": "Finance or own assets only after lower bands prove demand and operating competence.", "status": "LICENSE_GATED", "evidence": "Long-range capital concept only.", "nextGate": "Permits, engineering, title, insurance and explicit owner-capital approval." }
+      }
+    },
+    "intelligence": {
+      "name": "Intelligence",
+      "bands": {
+        "p0-p1": { "venture": "Sanctions and OSINT screening tools", "mechanism": "Make official watchlists and source provenance usable for free screening.", "status": "LIVE_SURFACE", "evidence": "The Intelligence OFAC desk is public; no unrelated CalcStack tool is substituted.", "nextGate": "Measure exact-list screening demand and false-positive handling." },
+        "p2-p3": { "venture": "Counterparty change watch", "mechanism": "Re-screen named counterparties whenever authoritative lists change.", "status": "OFFER_DEFINED", "evidence": "P1 and P2 Intelligence offers are defined.", "nextGate": "Prove paid fulfillment, timeliness and compliance-team action." },
+        "p4-p5": { "venture": "Due-diligence desk", "mechanism": "Assemble source-separated counterparty and event evidence for reviewed decisions.", "status": "SOURCE_IMPLEMENTED_HELD", "evidence": "An Intelligence autopilot motor exists, but live business transition and production outcome proof remain held.", "nextGate": "One consented owned-destination case with exact receipt, readback and suppression recovery." },
+        "p6-p7": { "venture": "Enterprise intelligence platform", "mechanism": "Coordinate monitored entities, provenance and analyst workflow across teams.", "status": "DESIGNED_UNMEASURED", "evidence": "No enterprise customer or analyst-quality record exists.", "nextGate": "Privacy, source licensing, human review and service-level evidence." },
+        "p8-p10": { "venture": "Proprietary observation network", "mechanism": "Own lawful data collection and analysis infrastructure where public-source products prove demand.", "status": "LICENSE_GATED", "evidence": "Long-range concept only; no surveillance authority is implied.", "nextGate": "Privacy, civil liberties, security, licensing and owner-capital approval." }
+      }
+    },
+    "law": {
+      "name": "Law",
+      "bands": {
+        "p0-p1": { "venture": "Deadline, filing and cost tools", "mechanism": "Make public legal timelines and basic economics understandable without giving legal advice.", "status": "LIVE_SURFACE", "evidence": "The Law public rule desk and CalcStack billable-hours tool are live.", "nextGate": "Measure primary-source use and avoid unauthorized advice." },
+        "p2-p3": { "venture": "Rule and docket watch", "mechanism": "Monitor the CFR titles, dockets and deadlines that affect a named user.", "status": "OFFER_DEFINED", "evidence": "Six Law offers are defined across the phase vocabulary.", "nextGate": "Prove paid alert timeliness and customer response." },
+        "p4-p5": { "venture": "Compliance workflow desk", "mechanism": "Turn verified obligations into reviewed tasks, notices and evidence packets.", "status": "SOURCE_IMPLEMENTED_HELD", "evidence": "Law owns Homestead physical-mail fulfillment; provider acceptance is irreversible and autonomous outcome proof remains uncommissioned.", "nextGate": "Consent, legal review, exact recipient proof, budget, delivery outcome and future suppression.", "runtimeLane": "law:automail" },
+        "p6-p7": { "venture": "Enterprise regulatory operations", "mechanism": "Coordinate obligations, evidence and accountable workflow across regulated teams.", "status": "DESIGNED_UNMEASURED", "evidence": "No enterprise compliance contract exists.", "nextGate": "Privilege boundary, records policy, security and independently verified accuracy." },
+        "p8-p10": { "venture": "Licensed legal-services network", "mechanism": "Connect governed software to licensed professionals without substituting the software for counsel.", "status": "LICENSE_GATED", "evidence": "Long-range regulated-services concept only.", "nextGate": "Jurisdictional licensure, ethics, malpractice coverage and owner-capital approval." }
+      }
+    },
+    "medicine": {
+      "name": "Medicine",
+      "bands": {
+        "p0-p1": { "venture": "Drug shortage and recall finder", "mechanism": "Translate authoritative safety and availability records into free lookup tools.", "status": "LIVE_SURFACE", "evidence": "The Medicine public tools and shortage/recall surface exist.", "nextGate": "Measure usefulness while preserving the non-clinical boundary." },
+        "p2-p3": { "venture": "Medication shortage and recall watch", "mechanism": "Monitor a user's named medicines or a clinic's inventory against authoritative changes.", "status": "OFFER_DEFINED", "evidence": "Multiple Medicine offers are defined.", "nextGate": "Prove paid delivery, source timeliness and safe user action." },
+        "p4-p5": { "venture": "Clinic supply and operations analytics", "mechanism": "Help clinics identify supply, scheduling and compliance bottlenecks without diagnosing patients.", "status": "DESIGNED_UNMEASURED", "evidence": "No clinic pilot or protected-health-data contract exists.", "nextGate": "Clinical governance, HIPAA-safe data boundary and one reviewed operational pilot." },
+        "p6-p7": { "venture": "Health-system operations platform", "mechanism": "Coordinate non-clinical capacity, supply and quality signals across facilities.", "status": "LICENSE_GATED", "evidence": "No health-system integration or clinical validation exists.", "nextGate": "Security, clinical safety, procurement and independent validation." },
+        "p8-p10": { "venture": "Care-delivery or medical-infrastructure network", "mechanism": "Own regulated delivery capacity only after lower non-clinical systems prove value.", "status": "LICENSE_GATED", "evidence": "Long-range regulated operating concept only.", "nextGate": "Licensure, clinical leadership, patient safety, insurance and owner-capital approval." }
+      }
+    },
+    "population": {
+      "name": "Population",
+      "bands": {
+        "p0-p1": { "venture": "Home, migration and affordability tools", "mechanism": "Turn housing and migration data into free buyer, seller and mover decisions.", "status": "LIVE_SURFACE", "evidence": "The Population public desk, home-buying surfaces and migration read exist; a dedicated CalcStack demographic tool remains a gap.", "nextGate": "Complete the chained mortgage desk and measure qualified local use." },
+        "p2-p3": { "venture": "Homestead Deal Desk", "mechanism": "Rank public-record housing distress, connect owners with licensed market participants and preserve a reviewed outreach trail.", "status": "SOURCE_IMPLEMENTED_HELD", "evidence": "The public /home surface and key-gated operator desk exist. Population owns the opportunity surface; Law owns physical-mail fulfillment. Autonomous sale, closing and revenue outcomes are unmeasured.", "nextGate": "Fresh source proof, legal and consent review, one exact lead-to-independent-outcome pilot, and no claim of prediction or ownership.", "href": "/home", "linkLabel": "Open Homestead", "runtimeLane": "population opportunity + law:automail" },
+        "p4-p5": { "venture": "Agent and investor operating desk", "mechanism": "Chain listing math, insurance, diligence, net sheets and licensed closing workflow.", "status": "DESIGNED_UNMEASURED", "evidence": "Individual tools exist in CalcStack; the integrated operating desk and revenue outcome do not.", "nextGate": "Mortgage/credit data contract, licensed partner workflow and one bounded cohort." },
+        "p6-p7": { "venture": "Multi-market housing intelligence", "mechanism": "License comparable market, distress and transaction operations across regions.", "status": "DESIGNED_UNMEASURED", "evidence": "No institutional license or stable multi-market outcome record exists.", "nextGate": "Data rights, fair-housing review, service levels and source reconciliation." },
+        "p8-p10": { "venture": "Housing acquisition, insurance and finance platform", "mechanism": "Own or finance housing assets only after lower desks prove durable demand and fair outcomes.", "status": "LICENSE_GATED", "evidence": "Long-range capital concept only; the current system has no title, lending or insurance authority.", "nextGate": "Real-estate, lending and insurance licensure, fair-housing controls, audit and owner-capital approval." }
+      }
+    },
+    "religion": {
+      "name": "Religion",
+      "bands": {
+        "p0-p1": { "venture": "Giving and community-resource tools", "mechanism": "Make charity filings, giving math and community resources easier to understand.", "status": "LIVE_SURFACE", "evidence": "The Religion public charity desk exists; a dedicated CalcStack calculator remains an explicit gap.", "nextGate": "Build sourced tools and measure genuine community use." },
+        "p2-p3": { "venture": "Charity filing and community-health watch", "mechanism": "Monitor chosen organizations and community indicators as authoritative records change.", "status": "OFFER_DEFINED", "evidence": "A P2 Religion offer is defined.", "nextGate": "Prove paid fulfillment, retention and community value." },
+        "p4-p5": { "venture": "Congregation operations and fundraising desk", "mechanism": "Support transparent budgeting, facilities and donor stewardship.", "status": "DESIGNED_UNMEASURED", "evidence": "No congregation customer or fundraising outcome is measured.", "nextGate": "Financial controls, donor privacy and one reviewed pilot." },
+        "p6-p7": { "venture": "Interfaith community-services network", "mechanism": "Coordinate verified aid capacity and referrals across institutions.", "status": "DESIGNED_UNMEASURED", "evidence": "No service network or referral outcome exists.", "nextGate": "Safeguarding, privacy, nondiscrimination and partner agreements." },
+        "p8-p10": { "venture": "Endowment and property stewardship platform", "mechanism": "Manage long-horizon assets only under transparent fiduciary structures.", "status": "LICENSE_GATED", "evidence": "Long-range fiduciary concept only.", "nextGate": "Fiduciary, tax, governance, audit and owner-capital approval." }
+      }
+    },
+    "science": {
+      "name": "Science",
+      "bands": {
+        "p0-p1": { "venture": "Grant, literature and evidence tools", "mechanism": "Help researchers find and compare public funding and literature evidence.", "status": "LIVE_SURFACE", "evidence": "The Science public read and research sources are live.", "nextGate": "Measure researcher use and citation back to primary sources." },
+        "p2-p3": { "venture": "Funding and preprint watch", "mechanism": "Monitor selected fields, institutions and investigators as sources change.", "status": "OFFER_DEFINED", "evidence": "P1 and P2 Science offers are defined.", "nextGate": "Prove paid timeliness and researcher action." },
+        "p4-p5": { "venture": "Research synthesis and grant desk", "mechanism": "Produce source-separated reviews and bounded grant-preparation workflows.", "status": "SOURCE_IMPLEMENTED_HELD", "evidence": "Internal research-artifact loops exist; independent evaluation maturity remains below release authority.", "nextGate": "Five source-separated evaluations, correction workflow and one reviewed customer pilot." },
+        "p6-p7": { "venture": "Contract research platform", "mechanism": "Coordinate validated evidence work across customers, methods and reviewers.", "status": "DESIGNED_UNMEASURED", "evidence": "No contract-research customer or validated delivery record exists.", "nextGate": "Method governance, IP terms, conflict controls and service-level proof." },
+        "p8-p10": { "venture": "Lab, IP and science-venture portfolio", "mechanism": "Own research assets only where lower-band evidence demonstrates replicable value.", "status": "LICENSE_GATED", "evidence": "Long-range capital concept only.", "nextGate": "Research ethics, IP, laboratory safety, securities and owner-capital approval." }
+      }
+    },
+    "technology": {
+      "name": "Technology",
+      "bands": {
+        "p0-p1": { "venture": "Exposure and technology-cost tools", "mechanism": "Make active exploitation and technology tradeoffs understandable for free.", "status": "LIVE_SURFACE", "evidence": "The Technology CISA exploitation surface is public.", "nextGate": "Measure asset-specific lookup demand and false-positive handling." },
+        "p2-p3": { "venture": "Exploited-vulnerability watch", "mechanism": "Monitor a named stack against authoritative exploitation and fix-by changes.", "status": "OFFER_DEFINED", "evidence": "Multiple Technology offers are defined.", "nextGate": "Prove paid alert timeliness and remediation action." },
+        "p4-p5": { "venture": "Managed remediation service", "mechanism": "Convert verified exposure into bounded, reversible remediation work.", "status": "DESIGNED_UNMEASURED", "evidence": "No managed-security customer or remediation receipt exists.", "nextGate": "Scoped authorization, rollback, change control and one sandboxed pilot." },
+        "p6-p7": { "venture": "Enterprise security platform", "mechanism": "Coordinate exposure, remediation and evidence across organizations.", "status": "DESIGNED_UNMEASURED", "evidence": "No enterprise integration or service-level history exists.", "nextGate": "Security certification, tenant isolation and independently measured risk reduction." },
+        "p8-p10": { "venture": "Software and hardware venture studio", "mechanism": "Create or acquire products only where lower services establish persistent demand.", "status": "LICENSE_GATED", "evidence": "Long-range portfolio concept only.", "nextGate": "IP, product safety, financing and explicit owner-capital approval." }
+      }
+    },
+    "trade": {
+      "name": "Trade",
+      "bands": {
+        "p0-p1": { "venture": "Tariff, freight and import tools", "mechanism": "Turn public trade and price data into free sourcing decisions.", "status": "LIVE_SURFACE", "evidence": "The Trade public read exists; a dedicated CalcStack tariff tool remains an explicit gap.", "nextGate": "Ship sourced trade calculators and measure qualified buyer use." },
+        "p2-p3": { "venture": "Partner and import-price watch", "mechanism": "Monitor selected countries, products and prices as official data changes.", "status": "OFFER_DEFINED", "evidence": "A P2 Trade offer is defined.", "nextGate": "Prove paid delivery and sourcing action." },
+        "p4-p5": { "venture": "Relay sourcing and resale marketplace", "mechanism": "Convert explicit customer demand into bounded search, catalog and purchase work under Trade policy.", "status": "BOUNDED_RUNTIME", "evidence": "The scheduled Relay provider boundary and natural held/success cycle are exact-SHA proven; supplier payment, customer fulfillment and profit remain open.", "nextGate": "One exact demand-to-supplier-to-customer reconciliation with margin and refund evidence.", "runtimeLane": "trade:relay-sourcing" },
+        "p6-p7": { "venture": "Procurement and logistics contracts", "mechanism": "Coordinate repeat buying, supplier quality and delivery across organizations.", "status": "DESIGNED_UNMEASURED", "evidence": "No institutional procurement contract or delivery history exists.", "nextGate": "Supplier terms, working-capital limits, insurance and service-level proof." },
+        "p8-p10": { "venture": "Inventory and fulfillment network", "mechanism": "Own inventory or logistics capacity only after lower-band unit economics are reconciled.", "status": "LICENSE_GATED", "evidence": "Long-range asset network concept only.", "nextGate": "Facilities, customs, tax, insurance, working capital and owner approval." }
+      }
+    }
+  }
+}
