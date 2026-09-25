@@ -95,7 +95,25 @@ The one skip is the explicitly reported external corpus prerequisite in
 
 ## Production evidence
 
-**UNMEASURED until this commit is deployed.** Exact-SHA GitHub checks, Vercel production SHA,
-post-deploy smoke, removed-route responses, and live kill-switch refusal will be recorded before
-this increment is called production-verified. No live paid provider call is required or authorized
-for that proof.
+R2b merged as `f783f077c852c025fbdde5f1ca63d37080abda97`. GitHub repository check
+`36092135731`, Vercel production deployment `6653348068`, and post-deploy smoke
+`36092272154` all completed successfully against that exact merge SHA.
+
+Both deleted anonymous paid-provider routes returned 404 in production:
+
+```text
+POST /api/relay-grok-image    -> 404
+POST /api/relay-image-search -> 404
+```
+
+The production AI gate was not closed. A single valid Orb verification request returned
+`200 audio`, `Content-Length: 35328`, and `X-Orb-Cache: miss`, proving that the positive path
+crossed the deployed boundary. Its 34 input characters have a conservative documented estimate
+of `$0.00051` at `$15/M` characters. No second paid request was made.
+
+Therefore a live kill-switch refusal is **UNMEASURED**, not passed: production's global AI gate
+was open. The closed-gate and exhausted-budget paths are measured by the hermetic tests above;
+the exact-SHA production deployment and positive-path provider reach are measured live.
+
+Full production transcript:
+`https://github.com/LIMENHelix/Limen-Helix-live-/pull/377#issuecomment-5826428733`.

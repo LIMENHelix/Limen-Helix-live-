@@ -106,10 +106,33 @@ for (const rel of CORE) {
     if (/relay/i.test(dep)) continue;
     if (ALLOWED_FOREIGN.has(dep)) continue;
     if (/limen-db$/.test(dep)) continue;
+    if (rel === 'lib/relay-paid-provider.js' &&
+        /(?:paid-provider-boundary|civilization-adapter-guard|autofire-efference-store)$/.test(dep)) continue;
+    if (rel === 'handlers/relay-autonomous-scraper.js' &&
+        /(?:heartbeat|civilization-valve-control)$/.test(dep)) continue;
     violations.push(rel + ' -> ' + dep);
   }
 }
 assert('no core file imports a foreign subsystem', violations.length === 0, violations.join(', '));
+
+const paidBoundaryImporters = CORE.filter(function (rel) {
+  return requiresOf(rel).some(function (d) { return /paid-provider-boundary$/.test(d); });
+});
+assert('only the Relay paid-provider seam imports the common spend boundary',
+  paidBoundaryImporters.length === 1 && paidBoundaryImporters[0] === 'lib/relay-paid-provider.js',
+  paidBoundaryImporters.join(', '));
+const lastMomentImporters = CORE.filter(function (rel) {
+  return requiresOf(rel).some(function (d) { return /civilization-adapter-guard$/.test(d); });
+});
+assert('only the Relay paid-provider seam imports the last-moment adapter inhibitor',
+  lastMomentImporters.length === 1 && lastMomentImporters[0] === 'lib/relay-paid-provider.js',
+  lastMomentImporters.join(', '));
+const governanceImporters = CORE.filter(function (rel) {
+  return requiresOf(rel).some(function (d) { return /(?:heartbeat|civilization-valve-control)$/.test(d); });
+});
+assert('only the scheduled Relay motor imports heartbeat and its sovereign valve',
+  governanceImporters.length === 1 && governanceImporters[0] === 'handlers/relay-autonomous-scraper.js',
+  governanceImporters.join(', '));
 
 const unpinned = ALL.filter(function (rel) {
   if (LEGACY_SET.has(rel)) return false;
