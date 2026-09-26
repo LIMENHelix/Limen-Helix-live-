@@ -25,7 +25,12 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
-const DOMAINS_DIR = path.join(ROOT, 'assets', 'data', 'domains');
+// Full L1-L7 tree lives in the sibling repo (24 GB, 465k files); the live repo
+// only carries the deployable L1-L3 slice. Prefer the full tree (same pattern as
+// build-cumulative-fold.mjs:33-35), fall back to the shallow copy.
+const FULL_DOMAINS = 'C:\\Users\\Chris\\Limen-Helix\\assets\\data\\domains';
+const LIVE_DOMAINS = path.join(ROOT, 'assets', 'data', 'domains');
+const DOMAINS_DIR = fs.existsSync(FULL_DOMAINS) ? FULL_DOMAINS : LIVE_DOMAINS;
 const OUT_DIR = path.join(ROOT, 'assets', 'data', 'deep');
 
 // portalKey == file prefix for all 20 brains (verified): most = domainId,
@@ -39,6 +44,15 @@ const PORTAL_KEYS = [
 
 const MAX_TX_PER_DX = 2;       // keep the digest lean — top treatments by evidence
 const MAX_DX_PER_DOMAIN = 180; // brain injects only ~8 stress-gated per cycle; keep the richest + urgent
+// Depth-stratified slots (sums to MAX_DX_PER_DOMAIN). With the full L2-L7 tree as
+// input a single global top-180 is swallowed by L6 (30k+ issues); quotas keep every
+// level represented. Unspent quota redistributes into the global ranking.
+const DEPTH_QUOTA = { 2: 30, 3: 40, 4: 40, 5: 35, 6: 25, 7: 10 };
+// Synthetic-content marker. Repo audits (docs/audits/energy-portal-cortex-quality-c1.md)
+// found deep-tree treatments are procedurally generated from a fixed verb family
+// (same classifier the brains carry inline, ENERGY_REFERENCE.md:4117). Tagged, NOT
+// removed — CONTRACT doctrine is honest provenance, not hiding scaffold.
+const MADLIB_VERB = /^(Develop|Establish|Implement|Build|Launch|Design|Deploy|Operationalize|Conduct|Create|Define|Assess|Optimize|Modernize|Strengthen|Enhance|Formalize|Institute|Standardize|Coordinate|Integrate|Calibrate|Evaluate|Streamline|Institutionalize|Configure|Monitor)\b/;
 const SUMMARY_MAX = 160;
 const EV_RANK = { Strong: 4, A: 4, Moderate: 3, B: 3, C: 2, Emerging: 1 };
 
@@ -125,7 +139,10 @@ function buildDigest(pk) {
       let tx = [];
       treatmentNodeIds.forEach(nodeId => {
         (byNode[nodeId] || []).forEach(t => {
-          if (t && t.label) tx.push({ l: t.label, t: t.type || '', e: t.evidence || '' });
+          if (!t || !t.label) return;
+          const rec = { l: t.label, t: t.type || '', e: t.evidence || '' };
+          if (MADLIB_VERB.test(String(t.label))) rec.syn = 1;
+          tx.push(rec);
         });
       });
       const txCount = tx.length;
@@ -172,16 +189,33 @@ function buildDigest(pk) {
     ((EV_RANK[b.evidence] || 0) - (EV_RANK[a.evidence] || 0))
   );
   const urgentCount = deduped.filter(d => d.themes.length).length;
-  deduped = deduped.slice(0, MAX_DX_PER_DOMAIN);
+  // Stratified pick: buckets inherit the global sort order, so each depth keeps
+  // its own richest/urgent entries; leftover slots fill from the global ranking.
+  const buckets = {};
+  deduped.forEach(d => { (buckets[d.depth] = buckets[d.depth] || []).push(d); });
+  let picked = [];
+  for (const dep in DEPTH_QUOTA) {
+    picked = picked.concat((buckets[dep] || []).slice(0, DEPTH_QUOTA[dep]));
+  }
+  if (picked.length < MAX_DX_PER_DOMAIN) {
+    const chosen = new Set(picked);
+    for (const d of deduped) {
+      if (picked.length >= MAX_DX_PER_DOMAIN) break;
+      if (!chosen.has(d)) { picked.push(d); chosen.add(d); }
+    }
+  }
+  deduped = picked;
 
   return {
     domain: pk,
+    source: DOMAINS_DIR.indexOf(FULL_DOMAINS) === 0 ? 'full-tree' : 'live-shallow',
     portalCount: portalCount,
     diagnosisCount: deduped.length,
     diagnosisTotalAvailable: totalBeforeCap,
     urgentThemeCount: deduped.filter(d => d.themes.length).length,
     urgentThemeAvailable: urgentCount,
     treatmentTotal: deduped.reduce((s, d) => s + d.txCount, 0),
+    syntheticTreatments: deduped.reduce((s, d) => s + d.tx.filter(t => t.syn).length, 0),
     diagnoses: deduped
   };
 }
@@ -189,7 +223,13 @@ function buildDigest(pk) {
 let grand = { domains: 0, diagnoses: 0, treatments: 0 };
 if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
 
-PORTAL_KEYS.forEach(pk => {
+// Optional CLI filter: `node scripts/build-diagnosis-digest.mjs finance` builds
+// only the named portal keys (full-tree runs are heavy; proof first, fleet later).
+const onlyKeys = process.argv.slice(2).filter(a => a.charAt(0) !== '-');
+const KEYS = onlyKeys.length ? PORTAL_KEYS.filter(k => onlyKeys.indexOf(k) !== -1) : PORTAL_KEYS;
+console.log('source:', DOMAINS_DIR, ' domains:', KEYS.join(','));
+
+KEYS.forEach(pk => {
   const dg = buildDigest(pk);
   const out = path.join(OUT_DIR, pk + '-diagnosis-digest.json');
   fs.writeFileSync(out, JSON.stringify(dg));

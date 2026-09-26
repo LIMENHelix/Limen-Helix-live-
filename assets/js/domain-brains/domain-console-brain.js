@@ -774,7 +774,7 @@
       for (var li = 0; li < _changelog.length; li++) {
         var log = _changelog[li];
         var logType = log.type || log.changeType || 'EVENT';
-        var logMsg = log.message || log.description || log.summary || '';
+        var logMsg = log.message || log.title || log.description || log.summary || '';
         var logTime = log.timestamp || log.ts || log.date || '';
         if (logTime) { try { logTime = new Date(logTime).toLocaleString(); } catch (e) { /* keep raw */ } }
         h += '<div class="dcb-log">';
@@ -1434,6 +1434,15 @@
     var feedsLive = liveFeeds.length;
     var feedsTotal = feeds.length;
     var lastUpdate = state.updated ? new Date(state.updated).toLocaleTimeString() : 'never';
+    var now = new Date();
+    var timeStr = now.toLocaleTimeString();
+    var freshStatus = _freshness.status || 'INIT';
+    var freshColor = freshStatus === 'LIVE' ? '#5ab5a0' : freshStatus === 'DEGRADED' ? '#C9A94E' : '#e85454';
+    var ageStr = '';
+    if (_freshness.snapshotAge != null) {
+      var ageSec = Math.round(_freshness.snapshotAge / 1000);
+      ageStr = ageSec < 60 ? ageSec + 's ago' : Math.round(ageSec / 60) + 'm ago';
+    }
     var lines = [
       ['DOMAIN ENGINE', domEngineLive ? (domEngineStarted ? 'STARTED' : 'LOADED') : 'MISSING', domEngineStarted ? '#5ab5a0' : '#e85454'],
       ['BRAIN STATUS', brainStatus, brainLive ? '#5ab5a0' : '#e85454'],
@@ -1472,16 +1481,7 @@
 
     h += '</div>'; // end right col
 
-    // Freshness proof bar
-    var now = new Date();
-    var timeStr = now.toLocaleTimeString();
-    var freshStatus = _freshness.status || 'INIT';
-    var freshColor = freshStatus === 'LIVE' ? '#5ab5a0' : freshStatus === 'DEGRADED' ? '#C9A94E' : '#e85454';
-    var ageStr = '';
-    if (_freshness.snapshotAge != null) {
-      var ageSec = Math.round(_freshness.snapshotAge / 1000);
-      ageStr = ageSec < 60 ? ageSec + 's ago' : Math.round(ageSec / 60) + 'm ago';
-    }
+    // Freshness proof bar (freshStatus/freshColor/ageStr computed above the trace lines)
     h += '<div id="dcb-timestamp">';
     h += (freshStatus === 'LIVE' ? '<span class="live-dot"></span>' : '<span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:' + freshColor + ';margin-right:4px;vertical-align:middle"></span>');
     h += '<span style="color:' + freshColor + '">' + freshStatus + '</span>';

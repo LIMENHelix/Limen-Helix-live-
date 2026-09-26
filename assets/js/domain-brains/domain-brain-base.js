@@ -859,7 +859,8 @@
           evidence: t.e || '',
           diagnosisId: d.id,
           relevance: 0.7 + 0.05 * (EV[t.e] || 0),
-          source: 'deep-digest'
+          source: 'deep-digest',
+          synthetic: t.syn === 1   // build-time mad-lib tag; surfaces may label scaffold
         });
       });
     }

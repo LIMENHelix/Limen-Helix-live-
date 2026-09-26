@@ -105,13 +105,18 @@
     try { this._loadFinanceL1PortalDepth(); } catch (e) {}          // scan L1 branches (treatments mad-lib -> NOT admitted; real tickers only)
     try { this._loadFinanceSublayer(); } catch (e) {}               // CREDIT/LIQUIDITY: load credit sub-portal (real-content, unbundled) as an additive LAYER
 
+    // Stress catch-all triggers are grounded per finance-pulse-engine.js EVIDENCE_CONTRACTS:
+    // only SYSTEMIC_CONTAGION has catchAllBlocked:false, so it alone keeps live _stress_*
+    // triggers; the other five contracts block stress-only activation, so their dead
+    // 'finance_high_stress'/'structural_stress' slots (never matchable since conditions were
+    // renamed _stress_finance_high/_stress_structural) are removed rather than re-grounded.
     this.diagnosisIndex = {
-      'BANKING_CRISIS':           ['BANKING_CRISIS', 'CREDIT_FREEZE', 'SYSTEMIC_CONTAGION', 'bank_failure', 'finance_high_stress'],
-      'CREDIT_FREEZE':            ['CREDIT_FREEZE', 'lending_contraction', 'interbank_stress', 'liquidity_drain', 'structural_stress'],
-      'MARKET_CRASH':             ['volatility_cascade', 'correlation_breakdown', 'flash_crash', 'market_panic', 'finance_high_stress'],
+      'BANKING_CRISIS':           ['BANKING_CRISIS', 'CREDIT_FREEZE', 'SYSTEMIC_CONTAGION', 'bank_failure'],
+      'CREDIT_FREEZE':            ['CREDIT_FREEZE', 'lending_contraction', 'interbank_stress', 'liquidity_drain'],
+      'MARKET_CRASH':             ['volatility_cascade', 'correlation_breakdown', 'flash_crash', 'market_panic'],
       'CURRENCY_COLLAPSE':        ['currency_collapse', 'capital_flight', 'reserves_depletion', 'fx_intervention', 'macro_shock'],
-      'SYSTEMIC_CONTAGION':       ['finance_high_stress', 'structural_stress', 'macro_shock', 'systemic_risk'],
-      'FRAUD_SCANDAL':            ['fraud_detected', 'accounting_irregularity', 'regulatory_action', 'finance_high_stress']
+      'SYSTEMIC_CONTAGION':       ['_stress_finance_high', '_stress_structural', 'macro_shock', 'systemic_risk'],
+      'FRAUD_SCANDAL':            ['fraud_detected', 'accounting_irregularity', 'regulatory_action']
     };
 
     // Cross-domain emissions — GATED: require at least 1 active diagnosis
@@ -802,7 +807,26 @@
             });
           }
         }
-        if (deepTreats.length > 0) self.state.treatments = deepTreats;
+        if (deepTreats.length > 0) {
+          // MERGE, not replace (execution-disparity fix): the base cycle's step-6
+          // _applyDeepDigest injected deep-digest treatments into state.treatments
+          // earlier THIS cycle; a wholesale overwrite wiped them before render.
+          // Composite-key union keeps canonical + deep-digest + resolver treatments;
+          // deterministic and idempotent on re-run. Key includes diagnosisId/nodeId/
+          // label because resolver ids ('deep_<nodeId>_<i>') can collide across
+          // diagnoses, so id alone is not a safe dedupe key.
+          var existing = Array.isArray(self.state.treatments) ? self.state.treatments : [];
+          var seen = {};
+          var merged = [];
+          existing.concat(deepTreats).forEach(function (t) {
+            if (!t) return;
+            var key = (t.id || '') + '|' + (t.diagnosisId || '') + '|' + (t.nodeId || '') + '|' + (t.label || '');
+            if (seen[key]) return;
+            seen[key] = true;
+            merged.push(t);
+          });
+          self.state.treatments = merged;
+        }
       }
     }).catch(function () {});
   };
