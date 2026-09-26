@@ -185,9 +185,9 @@ measurement schedule. Each step is additive; none requires a big-bang migration.
 
 | # | defect | location | fix |
 |---|---|---|---|
-| 1 | Twin diagnoses double-count treatments | portal-content-resolver.js:72-76, 581-599 | A4.1 |
-| 2 | Mid-cycle wholesale replace of state.treatments causes count flicker | finance-brain.js:406 vs :805 | A4.2 |
-| 3 | Console implies capped count is the full pool | domain-console-brain.js:910 | A4.3 |
+| 1 | Twin diagnoses double-count treatments | portal-content-resolver.js:72-76, 581-599 | A4.1 — **FIXED 2026-09-26** (Exp 3, c83b3659): cross-dx dedupe, 1200→901 unique, conservation fields on packet |
+| 2 | Mid-cycle wholesale replace of state.treatments causes count flicker | finance-brain.js:406 vs :805 | A4.2 — **FIXED 2026-09-26** (baseline 04dc5b6d): deterministic merge, regression 8/8 |
+| 3 | Console implies capped count is the full pool | domain-console-brain.js:910 | A4.3 — open (selected-vs-available provenance now computable from digest `diagnosisTotalAvailable` + resolver `totalUnique`) |
 | 4 | Brain derivations unreachable by posts/investments/ventures | social-generator.js, limen-worker-snapshot.js:610-742, operator.html:625 | B3.2-B3.3 |
 | 5 | Browser POST cognition path demoted to second-class by consumers | communication-social-decision.js:48-52 | B3.4 |
 
