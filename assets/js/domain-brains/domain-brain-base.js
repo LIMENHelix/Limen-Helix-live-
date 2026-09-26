@@ -823,25 +823,30 @@
     self.state.diagnoses.forEach(function (d) { if (d && d.id) have[d.id] = true; });
 
     var EV = { Strong: 3, A: 3, Moderate: 2, B: 2, C: 1, Emerging: 1 };
-    // Digest is pre-ranked (richest first). Depth-diverse pick (2026-09-26, cap 8->12):
-    // no single tree level may take more than half the window while candidates from
-    // other levels remain — without this the ranked list lets one level (e.g. L2's
-    // urgent-theme bias) fill the whole window. Deferred entries fill leftover slots
-    // in ranked order, so the window is never under-filled for diversity's sake.
-    var perDepthCeil = Math.ceil(cap / 2);
-    var picked = [], deferred = [], depthCounts = {};
-    for (var pi = 0; pi < list.length && picked.length < cap; pi++) {
+    // Digest is pre-ranked (richest first) but ORDERED SHALLOW-FIRST by the builder's
+    // stratified buckets — a plain top-N pick therefore never reaches the deepest
+    // levels (measured: cap-12 window was permanently {L2:6, L3:6}, L4-L6 unreachable).
+    // Depth round-robin (2026-09-26): bucket by level preserving ranked order, then
+    // deal one per level per pass until the window fills. Every represented level is
+    // reachable EVERY cycle; fully deterministic given the same digest + state.
+    var byDepth = {}, depthKeys = [];
+    for (var pi = 0; pi < list.length; pi++) {
       var pd = list[pi];
       if (!pd || !pd.id || have[pd.id]) continue;
       var dk = String(pd.depth || 'x');
-      if ((depthCounts[dk] || 0) < perDepthCeil) {
-        depthCounts[dk] = (depthCounts[dk] || 0) + 1;
-        picked.push(pd);
-      } else {
-        deferred.push(pd);
-      }
+      if (!byDepth[dk]) { byDepth[dk] = []; depthKeys.push(dk); }
+      byDepth[dk].push(pd);
     }
-    for (var di2 = 0; picked.length < cap && di2 < deferred.length; di2++) picked.push(deferred[di2]);
+    depthKeys.sort();
+    var picked = [];
+    while (picked.length < cap) {
+      var progressed = false;
+      for (var ki = 0; ki < depthKeys.length && picked.length < cap; ki++) {
+        var bucket = byDepth[depthKeys[ki]];
+        if (bucket.length > 0) { picked.push(bucket.shift()); progressed = true; }
+      }
+      if (!progressed) break;
+    }
 
     var added = 0;
     for (var i = 0; i < picked.length; i++) {

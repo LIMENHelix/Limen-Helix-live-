@@ -101,12 +101,18 @@ brain.resolveDeepContent = function () {
   console.log('    deep-digest in playbook: ' + playbookTx);
 
   var maxDepth = Math.max.apply(null, Object.keys(hist).map(function (k) { return hist[k]; }));
+  var minDepth = Math.min.apply(null, Object.keys(hist).map(function (k) { return hist[k]; }));
+  var digestFile = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/data/deep/finance-diagnosis-digest.json'), 'utf8'));
+  var digestDepths = {};
+  digestFile.diagnoses.forEach(function (d) { digestDepths[String(d.depth)] = true; });
+  var missingDepths = Object.keys(digestDepths).filter(function (k) { return !hist[k]; });
   console.log('\nM1: cap 12 reached');
   assert('12 deep diagnoses injected', deepDx.length === 12, 'got ' + deepDx.length);
-  console.log('M2: depth diversity ceiling (<=6 per level while others remain)');
-  assert('no level exceeds ceil(12/2)=6', maxDepth <= 6, 'max=' + maxDepth);
-  console.log('M3: multiple depths surfaced');
-  assert('>1 distinct depth', Object.keys(hist).length > 1, JSON.stringify(hist));
+  console.log('M2: every digest-represented depth is reachable THIS cycle');
+  assert('all depths ' + JSON.stringify(Object.keys(digestDepths)) + ' surfaced', missingDepths.length === 0,
+    'missing: ' + JSON.stringify(missingDepths));
+  console.log('M3: balance across depths');
+  assert('max-min <= 1 (round-robin)', maxDepth - minDepth <= 1, maxDepth + '-' + minDepth);
   console.log('M4: conservation into playbook');
   assert('injected == surviving in playbook', injectedTx === playbookTx && injectedTx > 0, injectedTx + ' -> ' + playbookTx);
 
