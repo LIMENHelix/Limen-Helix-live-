@@ -6,8 +6,6 @@ var path = require('node:path');
 
 var ROOT = path.join(__dirname, '..');
 var pages = fs.readFileSync(path.join(ROOT, 'pages.html'), 'utf8');
-var home = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
-var atlas = fs.readFileSync(path.join(ROOT, 'atlas.html'), 'utf8');
 var topbar = fs.readFileSync(path.join(ROOT, 'assets/js/limen-topbar.js'), 'utf8');
 var ladder = fs.readFileSync(path.join(ROOT, 'assets/js/domain-business-ladder.js'), 'utf8');
 var domains = [
@@ -30,12 +28,12 @@ domains.forEach(function (domain) {
     domain + ' must load the shared navigation/regulation surface');
 });
 
-assert.match(home, /class="domain-directory" href="\/pages"/);
-assert.match(atlas, /class="directorybtn" href="\/pages"/);
+// The front gate and the atlas deliberately carry no directory button: both pages stay
+// clean, and the directory is reached from the global menu and the domain fronts instead.
 assert.match(topbar, /DOMAINS & APPS/);
 assert.match(topbar, /href: '\/pages'/);
 assert.match(ladder, /All domains & apps/);
 assert.match(ladder, /\/portal\?domain=/);
 assert.match(ladder, /\/domain-console\?domain=/);
 
-console.log('domain app directory: home + atlas + global menu + twenty public fronts: PASS');
+console.log('domain app directory: global menu + twenty public fronts: PASS');
