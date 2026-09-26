@@ -236,28 +236,43 @@
       return { level: 'FULL', badge: null, reason: null, suppressBody: false };
     }
     if (panelId === 'playbook') {
+      // Classify the EXACT array the panel renders (ctx.treatments = the
+      // active-dx-filtered set) — classifying unfiltered state.treatments let
+      // invisible entries downgrade the visible panel with contradictory counts.
+      var txSet = (ctx && Array.isArray(ctx.treatments)) ? ctx.treatments : state.treatments;
       // Evidence field is empirically populated 100% in canonical data;
       // this rule is forward-protection. Any treatment missing .evidence
       // (or with blank string) downgrades the whole playbook to CANDIDATE.
-      var hasMissingEvidence = state.treatments.some(function (t) {
+      var hasMissingEvidence = txSet.some(function (t) {
         return !t || t.evidence === undefined || t.evidence === null ||
                (typeof t.evidence === 'string' && t.evidence.trim().length === 0);
       });
       if (hasMissingEvidence) {
         return { level: 'CANDIDATE', badge: 'TREATMENT EVIDENCE INCOMPLETE', reason: 'One or more treatments lack evidence value.', suppressBody: false };
       }
-      // Synthetic-content gate (2026-09-26): digest-built treatments carry
-      // synthetic:true (mad-lib classifier at build). Procedurally generated
-      // scaffold may inform but NEVER carries FULL playbook authority — an
-      // all-synthetic playbook is scaffold, not a verified response set.
-      var synCount = state.treatments.filter(function (t) { return t && t.synthetic === true; }).length;
-      if (synCount > 0 && synCount === state.treatments.length) {
+      // Provenance gate (2026-09-26): verified status requires an AFFIRMATIVE
+      // machine-checkable classification (synthetic === false, set by the mad-lib
+      // classifier on every treatment path: digest build, canonical root, resolver
+      // deep). synthetic === true is generated scaffold. Absent flag = UNKNOWN
+      // provenance, which is UNVERIFIED — never silently counted as verified.
+      var synCount = 0, verCount = 0;
+      for (var pvi = 0; pvi < txSet.length; pvi++) {
+        var pv = txSet[pvi];
+        if (pv && pv.synthetic === true) synCount++;
+        else if (pv && pv.synthetic === false) verCount++;
+      }
+      var unkCount = txSet.length - synCount - verCount;
+      if (txSet.length > 0 && verCount === txSet.length) {
+        return { level: 'FULL', badge: null, reason: null, suppressBody: false };
+      }
+      if (synCount > 0 && verCount === 0 && unkCount === 0) {
         return { level: 'CANDIDATE', badge: 'SYNTHETIC SCAFFOLD · ' + synCount + ' generated treatments', reason: 'All treatments are procedurally generated scaffold (build-time tagged); unverified, not actionable.', suppressBody: false };
       }
-      if (synCount > 0) {
-        return { level: 'CANDIDATE', badge: 'CONTAINS SYNTHETIC SCAFFOLD · ' + synCount + '/' + state.treatments.length + ' generated', reason: 'Some treatments are procedurally generated scaffold; verified items are marked.', suppressBody: false };
-      }
-      return { level: 'FULL', badge: null, reason: null, suppressBody: false };
+      var pvParts = [];
+      if (synCount) pvParts.push(synCount + ' scaffold');
+      if (unkCount) pvParts.push(unkCount + ' unverified');
+      if (verCount) pvParts.push(verCount + ' verified');
+      return { level: 'CANDIDATE', badge: 'PROVENANCE: ' + pvParts.join(' · '), reason: 'Verified requires affirmative classification; scaffold and unknown-provenance treatments are not verified.', suppressBody: false };
     }
     if (panelId === 'opportunities') {
       var hasMissingMeta = state.opportunities.some(function (o) {
@@ -294,8 +309,39 @@
   // Replacement body for NO_BRAIN / BRAIN_NOT_READY / BRAIN_STOPPED.
   // These states mean the panel content genuinely doesn't exist or
   // shouldn't be acted on — show the operator why.
-  function renderSuppressedPanelBody(authority) {
-    var color = (authority.level === 'BRAIN_STOPPED' || authority.level === 'NO_BRAIN') ? '#e85454' : '#C9A94E';
+  // ── Association-set helpers ──
+  // A treatment may legitimately belong to SEVERAL diagnoses. The resolver's
+  // dedupe keeps each entity once (hosted by its primary diagnosis) but preserves
+  // the complete diagnosisIds association set; filtering and grouping must use
+  // that full set or shared treatments vanish from their other applicable
+  // diagnoses. Order of activeDx never changes memberships, groups, or totals.
+  function treatmentDxIds(t) {
+    if (t && Array.isArray(t.diagnosisIds) && t.diagnosisIds.length) return t.diagnosisIds;
+    return [(t && t.diagnosisId) || 'UNLINKED'];
+  }
+  function filterTreatmentsForActiveDx(treatments, activeDxIds) {
+    return (treatments || []).filter(function (t) {
+      if (!t) return false;
+      var ids = treatmentDxIds(t);
+      for (var i = 0; i < ids.length; i++) if (activeDxIds[ids[i]]) return true;
+      return false;
+    });
+  }
+  function groupTreatmentsByDx(treatments, activeDxIds) {
+    var groups = {};
+    (treatments || []).forEach(function (t) {
+      var ids = treatmentDxIds(t);
+      for (var i = 0; i < ids.length; i++) {
+        var k = ids[i] || 'UNLINKED';
+        if (k !== 'UNLINKED' && activeDxIds && !activeDxIds[k]) continue;
+        if (!groups[k]) groups[k] = [];
+        groups[k].push(t);
+      }
+    });
+    return groups;
+  }
+
+  function renderSuppressedPanelBody(authority) {    var color = (authority.level === 'BRAIN_STOPPED' || authority.level === 'NO_BRAIN') ? '#e85454' : '#C9A94E';
     var bg = (authority.level === 'BRAIN_STOPPED' || authority.level === 'NO_BRAIN') ? 'rgba(232,84,84,0.05)' : 'rgba(201,169,78,0.04)';
     var border = (authority.level === 'BRAIN_STOPPED' || authority.level === 'NO_BRAIN') ? 'rgba(232,84,84,0.25)' : 'rgba(201,169,78,0.25)';
     var h = '<div style="padding:14px 12px;text-align:center;background:' + bg + ';border:1px solid ' + border + ';border-radius:3px">';
@@ -525,7 +571,7 @@
     // regulation engine narrows it — that's why the count used to flash ~400 then settle.
     // Count/show only treatments that map to an ACTIVE diagnosis: the stable, actionable set.
     var _activeDxIds = {}; for (var _ax = 0; _ax < activeDx.length; _ax++) _activeDxIds[activeDx[_ax].id] = true;
-    treatments = treatments.filter(function (t) { return t && t.diagnosisId && _activeDxIds[t.diagnosisId]; });
+    treatments = filterTreatmentsForActiveDx(treatments, _activeDxIds);
     var resolvedContent = state.resolvedContent || {};
     var byDx = resolvedContent.byDiagnosis || {};
 
@@ -615,7 +661,8 @@
     // diagnoses, playbook, opportunities).
     var __dcbPanelCtx = {
       unmappedConditionCount: unmappedConditions.length,
-      activeDxCount: activeDx.length
+      activeDxCount: activeDx.length,
+      treatments: treatments
     };
 
     var h = '';
@@ -918,8 +965,22 @@
     // ═══ REGULATION PLAYBOOK — grouped by diagnosis ═══
     var __authPlaybook = classifyPanelAuthority('playbook', _brainRef, state, __dcbPanelCtx);
     h += '<div class="dcb-panel' + (treatments.length > 0 ? ' dcb-firing' : isLive ? ' dcb-live' : '') + '" data-panel="playbook">';
-    var _synTxCount = treatments.filter(function (t) { return t && t.synthetic === true; }).length;
-    h += '<div class="dcb-panel-title"><span>REGULATION PLAYBOOK \u00b7 ' + treatments.length + ' treatments across ' + activeDx.length + ' diagnoses' + (_synTxCount > 0 ? ' \u00b7 ' + (treatments.length - _synTxCount) + ' verified / ' + _synTxCount + ' scaffold' : '') + '</span></div>';
+    var _verTx = 0, _synTx = 0, _unkTx = 0;
+    for (var _pv = 0; _pv < treatments.length; _pv++) {
+      var _pt = treatments[_pv];
+      if (_pt && _pt.synthetic === true) _synTx++;
+      else if (_pt && _pt.synthetic === false) _verTx++;
+      else _unkTx++;
+    }
+    var _provSuffix = '';
+    if (_synTx + _unkTx > 0) {
+      var _provParts = [];
+      if (_verTx) _provParts.push(_verTx + ' verified');
+      if (_synTx) _provParts.push(_synTx + ' scaffold');
+      if (_unkTx) _provParts.push(_unkTx + ' unverified');
+      _provSuffix = ' \u00b7 ' + _provParts.join(' / ');
+    }
+    h += '<div class="dcb-panel-title"><span>REGULATION PLAYBOOK \u00b7 ' + treatments.length + ' treatments across ' + activeDx.length + ' diagnoses' + _provSuffix + '</span></div>';
     h += '<div class="dcb-panel-body">';
     if (__authPlaybook.suppressBody) {
       h += renderSuppressedPanelBody(__authPlaybook);
@@ -931,14 +992,10 @@
     } else if (treatments.length === 0 && activeDx.length > 0) {
       h += '<div style="font-size:0.30rem;color:#9a9080;line-height:1.5">Diagnoses active but no treatments resolved from portal node structure. Treatment mapping gap detected for current diagnosis set.</div>';
     } else {
-      // Group treatments by diagnosis
-      var treatByDx = {};
-      for (var tgi = 0; tgi < treatments.length; tgi++) {
-        var tg = treatments[tgi];
-        var dxKey = tg.diagnosisId || 'UNLINKED';
-        if (!treatByDx[dxKey]) treatByDx[dxKey] = [];
-        treatByDx[dxKey].push(tg);
-      }
+      // Group treatments by their FULL diagnosis association set — a shared
+      // treatment renders under every applicable active diagnosis (entity is
+      // still counted once in the panel title).
+      var treatByDx = groupTreatmentsByDx(treatments, _activeDxIds);
 
       // Evidence rank for priority ordering
       var evRank = { 'Strong': 4, 'A': 4, 'Moderate': 3, 'B': 3, 'Emerging': 2, 'C': 2 };
@@ -1695,7 +1752,10 @@
   // can never render FULL playbook authority.
   window.LIMENDomainConsoleBrain = {
     classifyPanelAuthority: classifyPanelAuthority,
-    renderPanelAuthorityBadge: renderPanelAuthorityBadge
+    renderPanelAuthorityBadge: renderPanelAuthorityBadge,
+    treatmentDxIds: treatmentDxIds,
+    filterTreatmentsForActiveDx: filterTreatmentsForActiveDx,
+    groupTreatmentsByDx: groupTreatmentsByDx
   };
 
   // Boot immediately once DOM is ready — no delay.

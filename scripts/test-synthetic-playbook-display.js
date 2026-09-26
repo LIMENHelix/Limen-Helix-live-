@@ -1,15 +1,18 @@
 /**
- * scripts/test-synthetic-playbook-display.js — synthetic scaffold can never
- * render FULL playbook authority. Run: node scripts/test-synthetic-playbook-display.js
+ * scripts/test-synthetic-playbook-display.js — provenance-based playbook authority.
+ * Run: node scripts/test-synthetic-playbook-display.js
  *
- * Review finding (PR #386): digest-built treatments are 100% synthetic yet the
- * console displayed them without a badge and could classify the playbook FULL
- * with EV: A. The classifier now gates on t.synthetic.
+ * Verified status requires an AFFIRMATIVE machine-checkable classification
+ * (synthetic === false). Unknown provenance (flag absent) is UNVERIFIED.
+ * Authority is classified on the exact filtered array the panel renders.
  *
- *   T1  synthetic-only playbook -> CANDIDATE (never FULL), badge names scaffold
- *   T2  mixed synthetic + verified -> CANDIDATE (never FULL)
- *   T3  no synthetic, evidence present -> FULL (gate does not over-fire)
- *   T4  badge renderer emits the scaffold badge text for T1's authority
+ *   T1  synthetic-only -> CANDIDATE (never FULL), badge names scaffold
+ *   T2  mixed synthetic + verified -> CANDIDATE, PROVENANCE breakdown
+ *   T3  all affirmatively verified (synthetic === false) -> FULL
+ *   T4  badge renderer emits the badge text
+ *   T5  unknown-provenance only -> CANDIDATE, badge names unverified
+ *   T6  invisible (inactive-dx) synthetic does not downgrade the rendered set;
+ *       badge counts equal the rendered (ctx) counts
  */
 var fs = require('fs'), path = require('path');
 var failures = 0, tests = 0;
@@ -49,7 +52,7 @@ global.document = {
   querySelectorAll: function () { return []; }
 };
 win.document = global.document;
-global.requestAnimationFrame = function () {};   // never boot
+global.requestAnimationFrame = function () {};
 win.requestAnimationFrame = global.requestAnimationFrame;
 global.fetch = function () { return Promise.resolve({ ok: false, status: 404, json: function () { return Promise.resolve({}); } }); };
 win.fetch = global.fetch;
@@ -70,7 +73,8 @@ function stateWith(treatments) {
   return { status: 'RUNNING', updated: Date.now(), treatments: treatments };
 }
 var SYN = { label: 'Deploy X Assessment Protocol', evidence: 'A', synthetic: true, diagnosisId: 'D1' };
-var REAL = { label: 'Circuit Breaker Protocol', evidence: 'A', diagnosisId: 'D1' };
+var VER = { label: 'Circuit Breaker Protocol', evidence: 'A', synthetic: false, diagnosisId: 'D1' };
+var UNK = { label: 'Unclassified Resolver Treatment', evidence: 'A', diagnosisId: 'D1' };
 
 console.log('T1: synthetic-only -> CANDIDATE, never FULL');
 var a1 = dcb.classifyPanelAuthority('playbook', brain, stateWith([SYN, SYN]), {});
@@ -78,18 +82,35 @@ assert('level is CANDIDATE', a1.level === 'CANDIDATE', a1.level);
 assert('level is not FULL', a1.level !== 'FULL');
 assert('badge names synthetic scaffold', /SYNTHETIC/i.test(a1.badge || ''), a1.badge);
 
-console.log('T2: mixed synthetic + verified -> CANDIDATE, never FULL');
-var a2 = dcb.classifyPanelAuthority('playbook', brain, stateWith([SYN, REAL]), {});
-assert('level is CANDIDATE', a2.level === 'CANDIDATE', a2.level);
-assert('level is not FULL', a2.level !== 'FULL');
+console.log('T2: mixed synthetic + verified -> CANDIDATE, PROVENANCE breakdown');
+var a2 = dcb.classifyPanelAuthority('playbook', brain, stateWith([SYN, VER]), {});
+assert('level is CANDIDATE, not FULL', a2.level === 'CANDIDATE' && a2.level !== 'FULL', a2.level);
+assert('badge breaks down provenance', /PROVENANCE/i.test(a2.badge || '') && /1 scaffold/.test(a2.badge) && /1 verified/.test(a2.badge), a2.badge);
 
-console.log('T3: no synthetic, evidence present -> FULL (no over-fire)');
-var a3 = dcb.classifyPanelAuthority('playbook', brain, stateWith([REAL, REAL]), {});
+console.log('T3: all affirmatively verified -> FULL');
+var a3 = dcb.classifyPanelAuthority('playbook', brain, stateWith([VER, VER]), {});
 assert('level is FULL', a3.level === 'FULL', a3.level + ' :: ' + a3.badge);
 
-console.log('T4: badge renderer surfaces the scaffold badge');
-var badgeHtml = dcb.renderPanelAuthorityBadge(a1);
-assert('badge html non-empty and names scaffold', /SYNTHETIC/i.test(badgeHtml));
+console.log('T4: badge renderer surfaces the badge');
+assert('badge html names scaffold', /SYNTHETIC/i.test(dcb.renderPanelAuthorityBadge(a1)));
+
+console.log('T5: unknown provenance -> CANDIDATE, names unverified (never silently verified)');
+var a5 = dcb.classifyPanelAuthority('playbook', brain, stateWith([UNK, UNK]), {});
+assert('level is CANDIDATE, not FULL', a5.level === 'CANDIDATE' && a5.level !== 'FULL', a5.level);
+assert('badge names unverified', /unverified/i.test(a5.badge || ''), a5.badge);
+
+console.log('T6: authority classifies the rendered set (ctx.treatments), not invisible state entries');
+// state.treatments carries scaffold from an INACTIVE diagnosis (invisible after
+// filtering); the rendered set (ctx.treatments) is all verified -> must be FULL,
+// and badge counts must equal rendered counts.
+var invisibleSyn = { label: 'Deploy Inactive Assessment', evidence: 'A', synthetic: true, diagnosisId: 'INACTIVE_DX' };
+var a6 = dcb.classifyPanelAuthority('playbook', brain,
+  stateWith([VER, VER, invisibleSyn]),
+  { treatments: [VER, VER] });
+assert('level is FULL when rendered set is all verified', a6.level === 'FULL', a6.level + ' :: ' + a6.badge);
+var a6b = dcb.classifyPanelAuthority('playbook', brain,
+  stateWith([VER, VER, invisibleSyn]), {});   // no ctx -> falls back to unfiltered state
+assert('unfiltered fallback sees the scaffold (not FULL)', a6b.level !== 'FULL', a6b.level);
 
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
 process.exit(failures ? 1 : 0);

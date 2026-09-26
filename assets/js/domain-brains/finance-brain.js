@@ -215,11 +215,10 @@
       this._activeConditions.push('macro_shock');
     }
 
-    // Stress-derived flags — tagged with _stress_ prefix to prevent
-    // them from satisfying evidence family requirements in the pulse engine
-    if (this.state.stress >= 0.70) this._activeConditions.push('_stress_finance_high');
-    if (this.state.maturity === 'STRUCTURAL') this._activeConditions.push('_stress_structural');
-    if (this.state.stress >= 0.80) this._activeConditions.push('_stress_systemic');
+    // Stress-derived flags are computed AFTER current-cycle scoring — see the
+    // scoreStress override below. (They used to be read here, but normalizeSignals
+    // runs BEFORE scoreStress in the base cycle, so they carried PREVIOUS-cycle
+    // stress/maturity: SYSTEMIC_CONTAGION activated and cleared one cycle late.)
 
     // Cross-domain pressure from energy
     var extPressure = this.getExternalPressure ? this.getExternalPressure() : 0;
@@ -398,6 +397,9 @@
             diagnosisId: activeNodeIds[nodeId],
             nodeId: nodeId,
             relevance: 1.0,
+            // Affirmative machine-checkable provenance: false = classified NOT
+            // scaffold; true = mad-lib verb family. No flag is never "verified".
+            synthetic: self._isFinanceMadLibTreatment ? self._isFinanceMadLibTreatment(t.label) : true,
             source: 'canonical'
           });
         }
@@ -804,6 +806,9 @@
               nodeId: t.nodeId,
               nodeLabel: t.nodeLabel,
               hasDepth: t.hasDepth,
+              // Affirmative machine-checkable provenance (same classifier as the
+              // canonical path): resolver output is unverified unless classified.
+              synthetic: self._isFinanceMadLibTreatment ? self._isFinanceMadLibTreatment(t.label) : true,
               source: 'canonical_deep'
             });
           }
@@ -830,6 +835,22 @@
         }
       }
     }).catch(function () {});
+  };
+
+  // STEP 3 override: stress-derived catch-all flags must reflect CURRENT-cycle
+  // stress/maturity. The base cycle runs normalizeSignals (step 2) BEFORE
+  // scoreStress (step 3), so flags computed there carried previous-cycle state:
+  // SYSTEMIC_CONTAGION activated one cycle late on escalation and persisted one
+  // cycle late after recovery (review finding 2026-09-26). The _stress_ prefix
+  // still prevents these from satisfying pulse evidence-family requirements.
+  FinanceBrain.prototype.scoreStress = function () {
+    var self = this;
+    return Base.prototype.scoreStress.call(this).then(function () {
+      self._activeConditions = self._activeConditions || [];
+      if (self.state.stress >= 0.70) self._activeConditions.push('_stress_finance_high');
+      if (self.state.maturity === 'STRUCTURAL') self._activeConditions.push('_stress_structural');
+      if (self.state.stress >= 0.80) self._activeConditions.push('_stress_systemic');
+    });
   };
 
   var _origCycle = FinanceBrain.prototype.cycle;
