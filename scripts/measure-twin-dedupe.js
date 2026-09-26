@@ -162,6 +162,29 @@ function key(t) { return (t.nodeId || '') + '|' + (t.label || ''); }
   assert('combined steps == concat of package steps', combined.allImplementationSteps.length === pkgStepSum,
     combined.allImplementationSteps.length + ' vs ' + pkgStepSum);
 
+  console.log('D7: package + combined counts describe the retained set');
+  var pkgCountOk = true, sumRetained = 0;
+  Object.keys(combined.byDiagnosis).forEach(function (dxId) {
+    var pkg = combined.byDiagnosis[dxId];
+    var n = (pkg.treatments || []).length;
+    sumRetained += n;
+    if (pkg.totalTreatments !== n || pkg.deepTreatments !== n) pkgCountOk = false;
+  });
+  assert('every package count == its retained set', pkgCountOk);
+  assert('combined.totalTreatments == post-dedupe package sum', combined.totalTreatments === sumRetained,
+    combined.totalTreatments + ' vs ' + sumRetained);
+  assert('combined.totalDeep == post-dedupe package sum', combined.totalDeep === sumRetained,
+    combined.totalDeep + ' vs ' + sumRetained);
+  assert('combined.totalTreatments == totalUnique', combined.totalTreatments === combined.totalUnique);
+  // pool provenance: pre-cap full resolved list per dx, summed independently
+  var poolExpected = 0;
+  for (var pi2 = 0; pi2 < issueIds.length; pi2++) {
+    var full = await resolver.resolveForDiagnosis(issueIds[pi2], { eager: false });
+    poolExpected += full.length;
+  }
+  assert('pool provenance preserved (totalPoolTreatments)', combined.totalPoolTreatments === poolExpected,
+    combined.totalPoolTreatments + ' vs ' + poolExpected);
+
   console.log('\n' + (tests - failures) + '/' + tests + ' passed');
   process.exit(failures ? 1 : 0);
 })().catch(function (e) { console.error('TEST CRASH', e && e.stack || e); process.exit(1); });

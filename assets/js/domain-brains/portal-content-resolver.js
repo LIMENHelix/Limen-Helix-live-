@@ -683,16 +683,29 @@
           }
         }
         totalUnique += kept.length;
+        // Count fields must describe the RETAINED set (review finding, 2026-09-26):
+        // recompute per-package counts post-dedupe. The pre-cap full-pool figure
+        // (resolveForDocument's original totalTreatments) is preserved as
+        // pkg.poolTreatments for provenance.
+        if (pkg.poolTreatments === undefined) pkg.poolTreatments = pkg.totalTreatments;
+        pkg.totalTreatments = (pkg.treatments || []).length;
+        pkg.deepTreatments = (pkg.treatments || []).length;
       }
       // Combined aggregates derive from the (possibly trimmed) packages.
       combined.allEvidenceAnchors = [];
       combined.allImplementationSteps = [];
       combined.totalCitations = 0;
+      combined.totalTreatments = 0;
+      combined.totalDeep = 0;
+      combined.totalPoolTreatments = 0;
       for (var ai = 0; ai < results.length; ai++) {
         if (!results[ai]) continue;
         combined.allEvidenceAnchors = combined.allEvidenceAnchors.concat(results[ai].evidenceAnchors || []);
         combined.allImplementationSteps = combined.allImplementationSteps.concat(results[ai].implementationSteps || []);
         combined.totalCitations += (results[ai].evidenceAnchors || []).length;
+        combined.totalTreatments += results[ai].totalTreatments;
+        combined.totalDeep += results[ai].deepTreatments;
+        combined.totalPoolTreatments += results[ai].poolTreatments || 0;
       }
       combined.totalTreatmentsPreDedupe = preDedupeTotal;
       combined.totalUnique = totalUnique;
