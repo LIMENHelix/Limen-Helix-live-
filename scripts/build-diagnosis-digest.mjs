@@ -42,7 +42,7 @@ const PORTAL_KEYS = [
   'technology', 'trade'
 ];
 
-const MAX_TX_PER_DX = 2;       // keep the digest lean — top treatments by evidence
+const MAX_TX_PER_DX = 6;       // keep the digest lean — top treatments by evidence (2→6 measured experiment 2026-09-26)
 const MAX_DX_PER_DOMAIN = 180; // brain injects only ~8 stress-gated per cycle; keep the richest + urgent
 // Depth-stratified slots (sums to MAX_DX_PER_DOMAIN). With the full L2-L7 tree as
 // input a single global top-180 is swallowed by L6 (30k+ issues); quotas keep every
