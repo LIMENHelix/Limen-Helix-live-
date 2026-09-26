@@ -240,6 +240,11 @@
       // active-dx-filtered set) — classifying unfiltered state.treatments let
       // invisible entries downgrade the visible panel with contradictory counts.
       var txSet = (ctx && Array.isArray(ctx.treatments)) ? ctx.treatments : state.treatments;
+      // Empty rendered set (e.g. validation deactivated every diagnosis while
+      // stale treatments linger in state) is NO_CONTENT, not a provenance verdict.
+      if (txSet.length === 0) {
+        return { level: 'NO_CONTENT', badge: null, reason: null, suppressBody: false };
+      }
       // Evidence field is empirically populated 100% in canonical data;
       // this rule is forward-protection. Any treatment missing .evidence
       // (or with blank string) downgrades the whole playbook to CANDIDATE.

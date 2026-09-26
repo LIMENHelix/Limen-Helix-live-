@@ -1,18 +1,17 @@
 /**
- * scripts/measure-twin-dedupe.js — Exp 3: twin-diagnosis duplication in the resolver.
+ * scripts/measure-twin-dedupe.js — joint selection + cross-diagnosis dedupe.
  * Run: node scripts/measure-twin-dedupe.js
  *
- * BANKING_CRISIS/CREDIT_CHANNEL_BREAK and MARKET_CRASH/EQUITY_WEALTH_SHOCK resolve
- * identical portal roots (portal-content-resolver.js DIAGNOSIS_PORTAL_MAP), so when
- * both twins are active the same treatments enter combined.byDiagnosis twice under
- * different diagnosisIds — the double-count defect from the spec (A4.1).
- *
- * Measures over the REAL resolver + REAL deployed L1-L3 files (non-eager, L1):
- *   pre-total     = sum of per-dx capped treatment arrays (what consumers iterate)
- *   unique        = dedupe by (nodeId|label) across dx packages
- *   duplicates    = pre - unique
- * Then asserts the resolver's dedupe fields report exactly those numbers and that
- * no (nodeId|label) key survives in two packages.
+ * Invariants under test (finance L1, all 6 root dx active, quota 200/dx):
+ *   D1  totals match an independent full-pool replication
+ *   D2  no duplicate (nodeId|label) identities across packages
+ *   D3  conservation: totalUnique + duplicatesRemoved == totalTreatmentsPreDedupe
+ *   D4  every selected entity carries its complete full-pool diagnosisIds set
+ *   D5  order-independence: shuffled activeDx -> identical memberships and totals
+ *   D6  aggregates (anchors/steps) derive from the selected set
+ *   D7  package + combined counts describe the retained set; pool provenance kept
+ *   D8  BACKFILL: every diagnosis fills its quota unless unique candidates are
+ *       genuinely exhausted (SYSTEMIC_CONTAGION no longer starves at 1/200)
  */
 var fs = require('fs'), path = require('path');
 var failures = 0, tests = 0;
@@ -42,148 +41,134 @@ var issueIds = (finance.issues || []).map(function (i) { return i.id; });
 console.log('  finance root issues: ' + JSON.stringify(issueIds));
 
 function key(t) { return (t.nodeId || '') + '|' + (t.label || ''); }
+var QUOTA = 200;
 
 (async function () {
-  var state = { domainId: 'finance', diagnoses: issueIds.map(function (id) { return { id: id, active: true }; }) };
-
-  // Independent pre-dedupe measurement: resolveForDocument does NOT dedupe, so
-  // resolving each dx separately with the same 200 cap gives the true pre total.
-  var pre = 0, uniqueSet = {};
-  var perDx = {};
+  // ── Independent replication over FULL pools (dedupe-free resolveForDiagnosis) ──
+  var pools = {};
   for (var ii = 0; ii < issueIds.length; ii++) {
-    var single = await resolver.resolveForDocument(issueIds[ii], 200, { eager: false });
-    perDx[issueIds[ii]] = single.treatments.length;
-    pre += single.treatments.length;
-    single.treatments.forEach(function (t) { uniqueSet[key(t)] = true; });
+    pools[issueIds[ii]] = await resolver.resolveForDiagnosis(issueIds[ii], { eager: false });
   }
-  var unique = Object.keys(uniqueSet).length;
-
-  var combined = await resolver.resolveForBrain(state, {});
-
-  // cross-package surviving duplicates (post-dedupe this must be 0)
-  var stillDuplicated = 0;
-  var seenBy = {};
-  Object.keys(combined.byDiagnosis).forEach(function (dxId) {
-    (combined.byDiagnosis[dxId].treatments || []).forEach(function (t) {
-      var k = key(t);
-      if (seenBy[k] && seenBy[k] !== dxId) stillDuplicated++;
-      seenBy[k] = seenBy[k] || dxId;
-    });
-  });
-
-  console.log('\n  MEASURED (L1, all ' + issueIds.length + ' root dx active, cap 200/dx)');
-  console.log('    per-dx treatments: ' + JSON.stringify(perDx));
-  console.log('    pre-dedupe total (independent):  ' + pre);
-  console.log('    unique (nodeId|label): ' + unique);
-  console.log('    duplicates:        ' + (pre - unique));
-  console.log('    resolver reports:  totalTreatments=' + combined.totalTreatments +
-    ' totalUnique=' + combined.totalUnique + ' duplicatesRemoved=' + combined.duplicatesRemoved +
-    ' totalTreatmentsPreDedupe=' + combined.totalTreatmentsPreDedupe);
-
-  console.log('\nD1: dedupe accounting exists and matches independent measurement');
-  assert('totalUnique field present', typeof combined.totalUnique === 'number');
-  assert('duplicatesRemoved field present', typeof combined.duplicatesRemoved === 'number');
-  assert('totalUnique == measured unique', combined.totalUnique === unique, combined.totalUnique + ' vs ' + unique);
-  assert('duplicatesRemoved == measured duplicates', combined.duplicatesRemoved === pre - unique,
-    combined.duplicatesRemoved + ' vs ' + (pre - unique));
-  console.log('D2: no surviving cross-dx duplicates');
-  assert('zero (nodeId|label) keys in two packages', stillDuplicated === 0, stillDuplicated + ' survivors');
-  console.log('D3: conservation — pre-dedupe total preserved for audit');
-  assert('totalTreatmentsPreDedupe == independent pre', combined.totalTreatmentsPreDedupe === pre,
-    combined.totalTreatmentsPreDedupe + ' vs ' + pre);
-  assert('totalUnique + duplicatesRemoved == pre', combined.totalUnique + combined.duplicatesRemoved === pre,
-    combined.totalUnique + '+' + combined.duplicatesRemoved + ' vs ' + pre);
-
-  console.log('D4: association sets retained — no diagnosis context lost');
-  // independently compute the expected association sets from the dedupe-free path
   var expectedAssoc = {};
-  for (var ai = 0; ai < issueIds.length; ai++) {
-    var s = await resolver.resolveForDocument(issueIds[ai], 200, { eager: false });
-    s.treatments.forEach(function (t) {
+  issueIds.forEach(function (id) {
+    pools[id].forEach(function (t) {
       var k = key(t);
       if (!expectedAssoc[k]) expectedAssoc[k] = [];
-      if (expectedAssoc[k].indexOf(issueIds[ai]) === -1) expectedAssoc[k].push(issueIds[ai]);
+      if (expectedAssoc[k].indexOf(id) === -1) expectedAssoc[k].push(id);
     });
-  }
-  var assocChecked = 0, assocMismatches = 0, multiDxEntities = 0;
-  Object.keys(combined.byDiagnosis).forEach(function (dxId) {
-    (combined.byDiagnosis[dxId].treatments || []).forEach(function (t) {
-      var k = key(t);
-      var expected = (expectedAssoc[k] || []).slice().sort();
+  });
+  var expClaimed = {}, expSelected = {}, expPre = 0, expUnique = 0;
+  issueIds.slice().sort().forEach(function (id) {
+    expPre += Math.min(QUOTA, pools[id].length);
+    var sel = [];
+    for (var pi = 0; pi < pools[id].length && sel.length < QUOTA; pi++) {
+      var t = pools[id][pi], k = key(t);
+      if (expClaimed[k]) continue;
+      expClaimed[k] = id;
+      sel.push(t);
+    }
+    expSelected[id] = sel;
+    expUnique += sel.length;
+  });
+  var expPool = issueIds.reduce(function (n, id) { return n + pools[id].length; }, 0);
+
+  // ── Resolver under test ──
+  var state = { domainId: 'finance', diagnoses: issueIds.map(function (id) { return { id: id, active: true }; }) };
+  var combined = await resolver.resolveForBrain(state, {});
+
+  var perDx = {};
+  Object.keys(combined.byDiagnosis).forEach(function (id) { perDx[id] = (combined.byDiagnosis[id].treatments || []).length; });
+  console.log('\n  MEASURED (L1, 6 dx active, quota 200/dx, full-pool backfill)');
+  console.log('    per-dx selected: ' + JSON.stringify(perDx));
+  console.log('    expected (replication): ' + JSON.stringify(Object.keys(expSelected).reduce(function (o, id) { o[id] = expSelected[id].length; return o; }, {})));
+  console.log('    totalUnique=' + combined.totalUnique + ' duplicatesRemoved=' + combined.duplicatesRemoved +
+    ' preDedupe=' + combined.totalTreatmentsPreDedupe + ' pool=' + combined.totalPoolTreatments);
+
+  console.log('\nD1: totals match independent full-pool replication');
+  assert('totalUnique == replication', combined.totalUnique === expUnique, combined.totalUnique + ' vs ' + expUnique);
+  assert('duplicatesRemoved == pre - unique', combined.duplicatesRemoved === expPre - expUnique,
+    combined.duplicatesRemoved + ' vs ' + (expPre - expUnique));
+  console.log('D2: no duplicate identities across packages');
+  var seen = {}, dups = 0;
+  Object.keys(combined.byDiagnosis).forEach(function (id) {
+    (combined.byDiagnosis[id].treatments || []).forEach(function (t) {
+      if (seen[key(t)]) dups++; seen[key(t)] = true;
+    });
+  });
+  assert('zero duplicate (nodeId|label)', dups === 0, dups + ' dups');
+  console.log('D3: conservation');
+  assert('preDedupe == replication pre', combined.totalTreatmentsPreDedupe === expPre,
+    combined.totalTreatmentsPreDedupe + ' vs ' + expPre);
+  assert('unique + removed == pre', combined.totalUnique + combined.duplicatesRemoved === combined.totalTreatmentsPreDedupe);
+  console.log('D4: complete full-pool association sets');
+  var assocBad = 0;
+  Object.keys(combined.byDiagnosis).forEach(function (id) {
+    (combined.byDiagnosis[id].treatments || []).forEach(function (t) {
+      var expected = (expectedAssoc[key(t)] || []).slice().sort();
       var actual = (t.diagnosisIds || []).slice().sort();
-      assocChecked++;
-      if (expected.length > 1) multiDxEntities++;
-      if (JSON.stringify(expected) !== JSON.stringify(actual)) assocMismatches++;
-      if (actual.indexOf(dxId) === -1) assocMismatches++;   // host must be in its own set
+      if (JSON.stringify(expected) !== JSON.stringify(actual)) assocBad++;
+      if (actual.indexOf(id) === -1) assocBad++;
     });
   });
-  assert('every kept entity carries its complete diagnosisIds set', assocMismatches === 0,
-    assocMismatches + '/' + assocChecked + ' mismatches');
-  assert('multi-diagnosis entities exist and retain >1 association', multiDxEntities > 0, multiDxEntities + ' found');
-
-  console.log('D5: order-independence — shuffled activeDx, identical memberships and totals');
-  var shuffled = issueIds.slice().reverse();
-  var combined2 = await resolver.resolveForBrain({ domainId: 'finance', diagnoses: shuffled.map(function (id) { return { id: id, active: true }; }) }, {});
-  assert('totalUnique unchanged', combined2.totalUnique === combined.totalUnique,
-    combined2.totalUnique + ' vs ' + combined.totalUnique);
+  assert('every entity carries complete diagnosisIds (incl. host)', assocBad === 0, assocBad + ' mismatches');
+  console.log('D5: order-independence');
+  var combined2 = await resolver.resolveForBrain({ domainId: 'finance', diagnoses: issueIds.slice().reverse().map(function (id) { return { id: id, active: true }; }) }, {});
   var mem1 = {}, mem2 = {};
-  Object.keys(combined.byDiagnosis).forEach(function (dxId) {
-    (combined.byDiagnosis[dxId].treatments || []).forEach(function (t) { mem1[key(t)] = (t.diagnosisIds || []).join('+'); });
+  Object.keys(combined.byDiagnosis).forEach(function (id) {
+    (combined.byDiagnosis[id].treatments || []).forEach(function (t) { mem1[key(t)] = id + '|' + (t.diagnosisIds || []).join('+'); });
   });
-  Object.keys(combined2.byDiagnosis).forEach(function (dxId) {
-    (combined2.byDiagnosis[dxId].treatments || []).forEach(function (t) { mem2[key(t)] = (t.diagnosisIds || []).join('+'); });
+  Object.keys(combined2.byDiagnosis).forEach(function (id) {
+    (combined2.byDiagnosis[id].treatments || []).forEach(function (t) { mem2[key(t)] = id + '|' + (t.diagnosisIds || []).join('+'); });
   });
-  var memMismatch = Object.keys(mem1).filter(function (k) { return mem1[k] !== mem2[k]; }).length;
-  assert('memberships identical under shuffle', memMismatch === 0 && Object.keys(mem1).length === Object.keys(mem2).length,
-    memMismatch + ' mismatches');
-
-  console.log('D6: aggregates derive from the kept set, not the pre-dedup set');
-  var anchorViolations = 0, stepViolations = 0, pkgAnchorSum = 0, pkgStepSum = 0;
-  Object.keys(combined.byDiagnosis).forEach(function (dxId) {
-    var pkg = combined.byDiagnosis[dxId];
-    var keptLabels = {}, keptCites = {};
+  var memBad = Object.keys(mem1).filter(function (k) { return mem1[k] !== mem2[k]; }).length;
+  assert('memberships+hosts identical under shuffle', memBad === 0 && combined2.totalUnique === combined.totalUnique,
+    memBad + ' mismatches');
+  console.log('D6: aggregates derive from the selected set');
+  var anchorBad = 0, stepBad = 0, anchorSum = 0, stepSum = 0;
+  Object.keys(combined.byDiagnosis).forEach(function (id) {
+    var pkg = combined.byDiagnosis[id];
+    var labels = {}, cites = {};
     (pkg.treatments || []).forEach(function (t) {
-      keptLabels[(t.label || '') + '@' + (t.nodeId || '')] = true;
-      if (t.cite) keptCites[t.cite] = true;
+      labels[(t.label || '') + '@' + (t.nodeId || '')] = true;
+      if (t.cite) cites[t.cite] = true;
     });
-    (pkg.implementationSteps || []).forEach(function (s) {
-      pkgStepSum++;
-      if (!keptLabels[(s.treatmentLabel || '') + '@' + (s.nodeId || '')]) stepViolations++;
-    });
-    (pkg.evidenceAnchors || []).forEach(function (a) {
-      pkgAnchorSum++;
-      if (!keptCites[a.text]) anchorViolations++;
-    });
+    (pkg.implementationSteps || []).forEach(function (s) { stepSum++; if (!labels[(s.treatmentLabel || '') + '@' + (s.nodeId || '')]) stepBad++; });
+    (pkg.evidenceAnchors || []).forEach(function (a) { anchorSum++; if (!cites[a.text]) anchorBad++; });
   });
-  assert('every implementationStep references a KEPT treatment', stepViolations === 0, stepViolations + ' orphans');
-  assert('every evidenceAnchor cites a KEPT treatment', anchorViolations === 0, anchorViolations + ' orphans');
-  assert('combined anchors == concat of package anchors', combined.allEvidenceAnchors.length === pkgAnchorSum,
-    combined.allEvidenceAnchors.length + ' vs ' + pkgAnchorSum);
-  assert('combined steps == concat of package steps', combined.allImplementationSteps.length === pkgStepSum,
-    combined.allImplementationSteps.length + ' vs ' + pkgStepSum);
+  assert('every step references a selected treatment', stepBad === 0, stepBad + ' orphans');
+  assert('every anchor cites a selected treatment', anchorBad === 0, anchorBad + ' orphans');
+  assert('combined aggregates == package concats', combined.allEvidenceAnchors.length === anchorSum && combined.allImplementationSteps.length === stepSum);
+  console.log('D7: counts describe the retained set; pool provenance kept');
+  var countOk = true, sumSel = 0;
+  Object.keys(combined.byDiagnosis).forEach(function (id) {
+    var pkg = combined.byDiagnosis[id], n = (pkg.treatments || []).length;
+    sumSel += n;
+    if (pkg.totalTreatments !== n || pkg.deepTreatments !== n) countOk = false;
+  });
+  assert('package counts == retained set', countOk);
+  assert('combined totals == package sums == totalUnique', combined.totalTreatments === sumSel && combined.totalDeep === sumSel && combined.totalTreatments === combined.totalUnique);
+  assert('pool provenance == full-pool sum', combined.totalPoolTreatments === expPool, combined.totalPoolTreatments + ' vs ' + expPool);
 
-  console.log('D7: package + combined counts describe the retained set');
-  var pkgCountOk = true, sumRetained = 0;
-  Object.keys(combined.byDiagnosis).forEach(function (dxId) {
-    var pkg = combined.byDiagnosis[dxId];
-    var n = (pkg.treatments || []).length;
-    sumRetained += n;
-    if (pkg.totalTreatments !== n || pkg.deepTreatments !== n) pkgCountOk = false;
+  console.log('D8: backfill — quota filled unless unique candidates genuinely exhausted');
+  var perDxOk = true;
+  Object.keys(combined.byDiagnosis).forEach(function (id) {
+    var n = (combined.byDiagnosis[id].treatments || []).length;
+    if (n !== expSelected[id].length) perDxOk = false;
+    if (n < QUOTA) {
+      // genuine exhaustion: every unselected pool entity must be claimed elsewhere
+      var selKeys = {};
+      (combined.byDiagnosis[id].treatments || []).forEach(function (t) { selKeys[key(t)] = true; });
+      var free = pools[id].filter(function (t) { return !expClaimed[key(t)] || selKeys[key(t)]; });
+      // every pool entity is either selected here or claimed by another dx
+      var unclaimed = pools[id].filter(function (t) { return !selKeys[key(t)] && !expClaimed[key(t)]; });
+      if (unclaimed.length > 0) { perDxOk = false; console.error('    ' + id + ': ' + unclaimed.length + ' unclaimed candidates despite unfilled quota'); }
+    }
   });
-  assert('every package count == its retained set', pkgCountOk);
-  assert('combined.totalTreatments == post-dedupe package sum', combined.totalTreatments === sumRetained,
-    combined.totalTreatments + ' vs ' + sumRetained);
-  assert('combined.totalDeep == post-dedupe package sum', combined.totalDeep === sumRetained,
-    combined.totalDeep + ' vs ' + sumRetained);
-  assert('combined.totalTreatments == totalUnique', combined.totalTreatments === combined.totalUnique);
-  // pool provenance: pre-cap full resolved list per dx, summed independently
-  var poolExpected = 0;
-  for (var pi2 = 0; pi2 < issueIds.length; pi2++) {
-    var full = await resolver.resolveForDiagnosis(issueIds[pi2], { eager: false });
-    poolExpected += full.length;
-  }
-  assert('pool provenance preserved (totalPoolTreatments)', combined.totalPoolTreatments === poolExpected,
-    combined.totalPoolTreatments + ' vs ' + poolExpected);
+  assert('every dx matches replication quota-fill', perDxOk);
+  var sc = (combined.byDiagnosis.SYSTEMIC_CONTAGION || { treatments: [] }).treatments.length;
+  var scExp = (expSelected.SYSTEMIC_CONTAGION || []).length;
+  console.log('    SYSTEMIC_CONTAGION: ' + sc + ' selected (was 1 pre-backfill), replication expects ' + scExp);
+  assert('SYSTEMIC_CONTAGION backfilled from its pool', sc === scExp && sc > 1, sc + ' vs ' + scExp);
 
   console.log('\n' + (tests - failures) + '/' + tests + ' passed');
   process.exit(failures ? 1 : 0);

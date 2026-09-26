@@ -112,5 +112,15 @@ var a6b = dcb.classifyPanelAuthority('playbook', brain,
   stateWith([VER, VER, invisibleSyn]), {});   // no ctx -> falls back to unfiltered state
 assert('unfiltered fallback sees the scaffold (not FULL)', a6b.level !== 'FULL', a6b.level);
 
+console.log('T7: empty rendered set -> NO_CONTENT (not a malformed provenance badge)');
+// All diagnoses deactivated by validation; stale treatments linger in state,
+// but the rendered (filtered) set is empty.
+var a7 = dcb.classifyPanelAuthority('playbook', brain,
+  stateWith([SYN, VER]),
+  { treatments: [] });
+assert('level is NO_CONTENT', a7.level === 'NO_CONTENT', a7.level + ' :: ' + a7.badge);
+assert('no badge emitted', !a7.badge, a7.badge);
+assert('badge renderer emits nothing for NO_CONTENT', dcb.renderPanelAuthorityBadge(a7) === '');
+
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
 process.exit(failures ? 1 : 0);

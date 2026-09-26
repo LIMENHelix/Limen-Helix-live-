@@ -574,11 +574,37 @@
     var callStats = { fetched: 0, hit: 0, neg: 0, missed: 0 };
     var innerOpts = { eager: eager, _stats: callStats };
 
+    // Joint selection + cross-diagnosis dedupe (2026-09-26, spec A4.1, backfill fix):
+    // resolve each diagnosis's FULL sorted pool, then fill each diagnosis's quota
+    // claiming entities globally in a fixed alphabetical diagnosis order.
+    // Previously each diagnosis was capped to maxTreatments FIRST and duplicates
+    // removed afterwards — diagnoses whose capped list overlapped earlier ones
+    // retained almost nothing (measured: SYSTEMIC_CONTAGION kept 1 of 200 despite
+    // hundreds of unique candidates still in its 722-entry pool). Now every
+    // diagnosis fills its quota unless unique candidates are genuinely exhausted.
+    // Each selected entity carries its COMPLETE diagnosisIds association set
+    // (computed from full pools). Deterministic and order-independent: fixed
+    // processing order + sorted pools means shuffling activeDx changes neither
+    // memberships nor totals.
     var resolves = activeDx.map(function (dx) {
-      return resolveForDocument(dx.id, maxTreatments, innerOpts);
+      return resolveForDiagnosis(dx.id, innerOpts).then(function (pool) {
+        return { diagnosisId: dx.id, pool: pool || [] };
+      });
     });
 
     return Promise.all(resolves).then(function (results) {
+      function txKeyOf(t) { return (t.nodeId || '') + '|' + (t.label || ''); }
+
+      // Association sets over FULL pools (complete membership, not the capped view).
+      var assoc = {};
+      results.forEach(function (r) {
+        r.pool.forEach(function (t) {
+          var k = txKeyOf(t);
+          if (!assoc[k]) assoc[k] = [];
+          if (assoc[k].indexOf(r.diagnosisId) === -1) assoc[k].push(r.diagnosisId);
+        });
+      });
+
       var combined = {
         activeDiagnoses: activeDx.length,
         totalTreatments: 0,
@@ -590,126 +616,79 @@
         resolvedAt: Date.now()
       };
 
-      for (var i = 0; i < results.length; i++) {
-        if (!results[i]) continue;
-        var r = results[i];
-        combined.totalTreatments += r.totalTreatments;
-        combined.totalDeep += r.deepTreatments;
-        combined.totalCitations += r.evidenceAnchors.length;
-        combined.byDiagnosis[r.diagnosisId] = r;
-        combined.allEvidenceAnchors = combined.allEvidenceAnchors.concat(r.evidenceAnchors);
-        combined.allImplementationSteps = combined.allImplementationSteps.concat(r.implementationSteps);
-      }
+      var claimed = {};
+      var totalUnique = 0, preDedupeTotal = 0;
+      var order = results.map(function (r) { return r.diagnosisId; }).sort();
+      var byId = {};
+      results.forEach(function (r) { byId[r.diagnosisId] = r; });
 
-      // Cross-diagnosis dedupe (2026-09-26, spec A4.1): portal roots overlap across
-      // diagnoses — twins like BANKING_CRISIS/CREDIT_CHANNEL_BREAK resolve identical
-      // subtrees, and non-twin maps share individual roots (finance_commercial is in
-      // three maps) — so the same treatment used to enter byDiagnosis packages
-      // multiple times under different diagnosisIds (measured finance L1: 1200
-      // capped entries, 901 unique, 299 duplicates).
-      //
-      // Association-preserving: the entity is kept ONCE, in the package of its
-      // alphabetically-first associated diagnosis (order-independent: shuffling
-      // activeDx changes neither memberships nor totals), carrying the COMPLETE
-      // diagnosisIds association set — diagnosis context is retained, not lost.
-      // Non-primary packages drop the duplicate and rebuild their nodeMap.
-      // Conservation audit: totalUnique + duplicatesRemoved == totalTreatmentsPreDedupe.
-      var assoc = {};
-      var i, pkg, arr, j, tx, txKey;
-      for (i = 0; i < results.length; i++) {
-        pkg = results[i]; if (!pkg) continue;
-        arr = pkg.treatments || [];
-        for (j = 0; j < arr.length; j++) {
-          txKey = (arr[j].nodeId || '') + '|' + (arr[j].label || '');
-          if (!assoc[txKey]) assoc[txKey] = [];
-          if (assoc[txKey].indexOf(pkg.diagnosisId) === -1) assoc[txKey].push(pkg.diagnosisId);
+      order.forEach(function (dxId) {
+        var pool = byId[dxId].pool;
+        preDedupeTotal += Math.min(maxTreatments, pool.length);
+        var selected = [];
+        for (var pi = 0; pi < pool.length && selected.length < maxTreatments; pi++) {
+          var t = pool[pi];
+          var k = txKeyOf(t);
+          if (claimed[k]) continue;
+          claimed[k] = dxId;
+          t.diagnosisIds = assoc[k].slice().sort();   // complete association set
+          selected.push(t);
         }
-      }
-      var totalUnique = 0, duplicatesRemoved = 0, preDedupeTotal = 0;
-      for (i = 0; i < results.length; i++) {
-        pkg = results[i]; if (!pkg) continue;
-        arr = pkg.treatments || [];
-        preDedupeTotal += arr.length;
-        var kept = [];
-        var keptKeys = {};
-        for (j = 0; j < arr.length; j++) {
-          tx = arr[j];
-          txKey = (tx.nodeId || '') + '|' + (tx.label || '');
-          var dxIds = assoc[txKey].slice().sort();
-          if (pkg.diagnosisId === dxIds[0] && !keptKeys[txKey]) {
-            keptKeys[txKey] = true;
-            tx.diagnosisIds = dxIds;   // complete association set, sorted
-            kept.push(tx);
-          } else {
-            duplicatesRemoved++;
+
+        // Package built from the SELECTED set (same shapes resolveForDocument
+        // produces) — anchors/steps/nodeMap/counts can never reference a
+        // treatment that was not selected.
+        var pkg = {
+          diagnosisId: dxId,
+          totalTreatments: selected.length,
+          deepTreatments: selected.length,
+          poolTreatments: pool.length,
+          treatments: selected,
+          evidenceAnchors: [],
+          implementationSteps: [],
+          nodeMap: [],
+          resolvedAt: Date.now()
+        };
+        var seenCites = {}, nm = {};
+        selected.forEach(function (t) {
+          if (t.cite && !seenCites[t.cite]) {
+            seenCites[t.cite] = true;
+            pkg.evidenceAnchors.push({ type: 'citation', text: t.cite, evidence: t.evidence, source: t.portalTitle });
           }
-        }
-        if (kept.length !== arr.length) {
-          pkg.treatments = kept;
-          pkg.duplicatesRemoved = arr.length - kept.length;
-          var nm = {};
-          for (var k2 = 0; k2 < kept.length; k2++) {
-            var nid = kept[k2].nodeId;
-            if (!nid) continue;
-            if (!nm[nid]) nm[nid] = { nodeId: nid, nodeLabel: kept[k2].nodeLabel, treatmentCount: 0 };
-            nm[nid].treatmentCount++;
+          if (t.steps && t.steps.length > 0) {
+            pkg.implementationSteps.push({
+              treatmentLabel: t.label, type: t.type, evidence: t.evidence,
+              steps: t.steps, monitoring: t.monitoring, escalation: t.escalation,
+              nodeId: t.nodeId, target: t.target
+            });
           }
-          pkg.nodeMap = Object.values(nm);
-          // Aggregates must derive from the KEPT set, not the pre-dedup one:
-          // rebuild this package's evidence anchors + implementation steps from
-          // `kept` with the same shapes resolveForDocument produced, so no anchor
-          // or step references a treatment the dedupe removed.
-          var seenCites2 = {};
-          pkg.evidenceAnchors = [];
-          pkg.implementationSteps = [];
-          for (var k3 = 0; k3 < kept.length; k3++) {
-            var kt = kept[k3];
-            if (kt.cite && !seenCites2[kt.cite]) {
-              seenCites2[kt.cite] = true;
-              pkg.evidenceAnchors.push({ type: 'citation', text: kt.cite, evidence: kt.evidence, source: kt.portalTitle });
-            }
-            if (kt.steps && kt.steps.length > 0) {
-              pkg.implementationSteps.push({
-                treatmentLabel: kt.label,
-                type: kt.type,
-                evidence: kt.evidence,
-                steps: kt.steps,
-                monitoring: kt.monitoring,
-                escalation: kt.escalation,
-                nodeId: kt.nodeId,
-                target: kt.target
-              });
-            }
+          if (t.nodeId) {
+            if (!nm[t.nodeId]) nm[t.nodeId] = { nodeId: t.nodeId, nodeLabel: t.nodeLabel, treatmentCount: 0 };
+            nm[t.nodeId].treatmentCount++;
           }
-        }
-        totalUnique += kept.length;
-        // Count fields must describe the RETAINED set (review finding, 2026-09-26):
-        // recompute per-package counts post-dedupe. The pre-cap full-pool figure
-        // (resolveForDocument's original totalTreatments) is preserved as
-        // pkg.poolTreatments for provenance.
-        if (pkg.poolTreatments === undefined) pkg.poolTreatments = pkg.totalTreatments;
-        pkg.totalTreatments = (pkg.treatments || []).length;
-        pkg.deepTreatments = (pkg.treatments || []).length;
-      }
-      // Combined aggregates derive from the (possibly trimmed) packages.
-      combined.allEvidenceAnchors = [];
-      combined.allImplementationSteps = [];
-      combined.totalCitations = 0;
-      combined.totalTreatments = 0;
-      combined.totalDeep = 0;
+        });
+        pkg.nodeMap = Object.values(nm);
+
+        combined.byDiagnosis[dxId] = pkg;
+        totalUnique += selected.length;
+      });
+
+      // Combined aggregates derive from the selected packages.
       combined.totalPoolTreatments = 0;
-      for (var ai = 0; ai < results.length; ai++) {
-        if (!results[ai]) continue;
-        combined.allEvidenceAnchors = combined.allEvidenceAnchors.concat(results[ai].evidenceAnchors || []);
-        combined.allImplementationSteps = combined.allImplementationSteps.concat(results[ai].implementationSteps || []);
-        combined.totalCitations += (results[ai].evidenceAnchors || []).length;
-        combined.totalTreatments += results[ai].totalTreatments;
-        combined.totalDeep += results[ai].deepTreatments;
-        combined.totalPoolTreatments += results[ai].poolTreatments || 0;
-      }
+      Object.keys(combined.byDiagnosis).forEach(function (dxId) {
+        var pkg = combined.byDiagnosis[dxId];
+        combined.allEvidenceAnchors = combined.allEvidenceAnchors.concat(pkg.evidenceAnchors);
+        combined.allImplementationSteps = combined.allImplementationSteps.concat(pkg.implementationSteps);
+        combined.totalCitations += pkg.evidenceAnchors.length;
+        combined.totalTreatments += pkg.totalTreatments;
+        combined.totalDeep += pkg.deepTreatments;
+        combined.totalPoolTreatments += pkg.poolTreatments;
+      });
+      // Conservation audit: quota-slots that could not be filled with unique
+      // candidates. totalUnique + duplicatesRemoved == totalTreatmentsPreDedupe.
       combined.totalTreatmentsPreDedupe = preDedupeTotal;
       combined.totalUnique = totalUnique;
-      combined.duplicatesRemoved = duplicatesRemoved;
+      combined.duplicatesRemoved = preDedupeTotal - totalUnique;
 
       // One concise summary per brain resolve, only when actual network
       // work happened. Stats are per-call so concurrent resolves report
