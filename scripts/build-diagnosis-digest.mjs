@@ -26,11 +26,24 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 // Full L1-L7 tree lives in the sibling repo (24 GB, 465k files); the live repo
-// only carries the deployable L1-L3 slice. Prefer the full tree (same pattern as
-// build-cumulative-fold.mjs:33-35), fall back to the shallow copy.
-const FULL_DOMAINS = 'C:\\Users\\Chris\\Limen-Helix\\assets\\data\\domains';
+// only carries the deployable L1-L3 slice. Resolution order (first hit wins):
+//   1. LIMEN_FULL_DOMAINS_DIR env var (configurable/discoverable for CI + other machines)
+//   2. the default sibling-repo path (same convention as build-cumulative-fold.mjs:33-35)
+// FAIL CLOSED: if no full-tree source exists, the build aborts rather than
+// silently regenerating a materially smaller artifact from the shallow corpus.
+// Explicit opt-out: --allow-shallow or LIMEN_ALLOW_SHALLOW=1 (recorded in output).
+const FULL_DOMAINS = process.env.LIMEN_FULL_DOMAINS_DIR || 'C:\\Users\\Chris\\Limen-Helix\\assets\\data\\domains';
 const LIVE_DOMAINS = path.join(ROOT, 'assets', 'data', 'domains');
-const DOMAINS_DIR = fs.existsSync(FULL_DOMAINS) ? FULL_DOMAINS : LIVE_DOMAINS;
+const ALLOW_SHALLOW = process.env.LIMEN_ALLOW_SHALLOW === '1' || process.argv.indexOf('--allow-shallow') !== -1;
+const HAS_FULL = fs.existsSync(FULL_DOMAINS);
+if (!HAS_FULL && !ALLOW_SHALLOW) {
+  console.error('FAIL-CLOSED: full-tree domain source not found at: ' + FULL_DOMAINS);
+  console.error('  Set LIMEN_FULL_DOMAINS_DIR to the full L1-L7 tree, or explicitly');
+  console.error('  authorize the shallow deployed corpus (L1-L3 only, materially smaller');
+  console.error('  artifact) with --allow-shallow or LIMEN_ALLOW_SHALLOW=1.');
+  process.exit(1);
+}
+const DOMAINS_DIR = HAS_FULL ? FULL_DOMAINS : LIVE_DOMAINS;
 const OUT_DIR = path.join(ROOT, 'assets', 'data', 'deep');
 
 // portalKey == file prefix for all 20 brains (verified): most = domainId,
@@ -208,7 +221,7 @@ function buildDigest(pk) {
 
   return {
     domain: pk,
-    source: DOMAINS_DIR.indexOf(FULL_DOMAINS) === 0 ? 'full-tree' : 'live-shallow',
+    source: HAS_FULL ? 'full-tree' : 'live-shallow-authorized',
     portalCount: portalCount,
     diagnosisCount: deduped.length,
     diagnosisTotalAvailable: totalBeforeCap,

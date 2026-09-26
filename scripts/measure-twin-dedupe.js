@@ -137,6 +137,31 @@ function key(t) { return (t.nodeId || '') + '|' + (t.label || ''); }
   assert('memberships identical under shuffle', memMismatch === 0 && Object.keys(mem1).length === Object.keys(mem2).length,
     memMismatch + ' mismatches');
 
+  console.log('D6: aggregates derive from the kept set, not the pre-dedup set');
+  var anchorViolations = 0, stepViolations = 0, pkgAnchorSum = 0, pkgStepSum = 0;
+  Object.keys(combined.byDiagnosis).forEach(function (dxId) {
+    var pkg = combined.byDiagnosis[dxId];
+    var keptLabels = {}, keptCites = {};
+    (pkg.treatments || []).forEach(function (t) {
+      keptLabels[(t.label || '') + '@' + (t.nodeId || '')] = true;
+      if (t.cite) keptCites[t.cite] = true;
+    });
+    (pkg.implementationSteps || []).forEach(function (s) {
+      pkgStepSum++;
+      if (!keptLabels[(s.treatmentLabel || '') + '@' + (s.nodeId || '')]) stepViolations++;
+    });
+    (pkg.evidenceAnchors || []).forEach(function (a) {
+      pkgAnchorSum++;
+      if (!keptCites[a.text]) anchorViolations++;
+    });
+  });
+  assert('every implementationStep references a KEPT treatment', stepViolations === 0, stepViolations + ' orphans');
+  assert('every evidenceAnchor cites a KEPT treatment', anchorViolations === 0, anchorViolations + ' orphans');
+  assert('combined anchors == concat of package anchors', combined.allEvidenceAnchors.length === pkgAnchorSum,
+    combined.allEvidenceAnchors.length + ' vs ' + pkgAnchorSum);
+  assert('combined steps == concat of package steps', combined.allImplementationSteps.length === pkgStepSum,
+    combined.allImplementationSteps.length + ' vs ' + pkgStepSum);
+
   console.log('\n' + (tests - failures) + '/' + tests + ' passed');
   process.exit(failures ? 1 : 0);
 })().catch(function (e) { console.error('TEST CRASH', e && e.stack || e); process.exit(1); });

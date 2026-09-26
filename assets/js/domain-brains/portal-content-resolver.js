@@ -655,8 +655,44 @@
             nm[nid].treatmentCount++;
           }
           pkg.nodeMap = Object.values(nm);
+          // Aggregates must derive from the KEPT set, not the pre-dedup one:
+          // rebuild this package's evidence anchors + implementation steps from
+          // `kept` with the same shapes resolveForDocument produced, so no anchor
+          // or step references a treatment the dedupe removed.
+          var seenCites2 = {};
+          pkg.evidenceAnchors = [];
+          pkg.implementationSteps = [];
+          for (var k3 = 0; k3 < kept.length; k3++) {
+            var kt = kept[k3];
+            if (kt.cite && !seenCites2[kt.cite]) {
+              seenCites2[kt.cite] = true;
+              pkg.evidenceAnchors.push({ type: 'citation', text: kt.cite, evidence: kt.evidence, source: kt.portalTitle });
+            }
+            if (kt.steps && kt.steps.length > 0) {
+              pkg.implementationSteps.push({
+                treatmentLabel: kt.label,
+                type: kt.type,
+                evidence: kt.evidence,
+                steps: kt.steps,
+                monitoring: kt.monitoring,
+                escalation: kt.escalation,
+                nodeId: kt.nodeId,
+                target: kt.target
+              });
+            }
+          }
         }
         totalUnique += kept.length;
+      }
+      // Combined aggregates derive from the (possibly trimmed) packages.
+      combined.allEvidenceAnchors = [];
+      combined.allImplementationSteps = [];
+      combined.totalCitations = 0;
+      for (var ai = 0; ai < results.length; ai++) {
+        if (!results[ai]) continue;
+        combined.allEvidenceAnchors = combined.allEvidenceAnchors.concat(results[ai].evidenceAnchors || []);
+        combined.allImplementationSteps = combined.allImplementationSteps.concat(results[ai].implementationSteps || []);
+        combined.totalCitations += (results[ai].evidenceAnchors || []).length;
       }
       combined.totalTreatmentsPreDedupe = preDedupeTotal;
       combined.totalUnique = totalUnique;
