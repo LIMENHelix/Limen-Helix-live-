@@ -808,10 +808,10 @@
         return String(c).charAt(0) !== '_';        // `_`-prefixed tokens are reporting flags, not evidence
       }).length;
       if (nEvidence === 0) return;                 // no evidence this cycle -> surface nothing
-      cap = Math.max(0, Math.min(8, nEvidence));
+      cap = Math.max(0, Math.min(12, nEvidence));
     } else {
       if (stress < 0.30) return;                   // only surface deep dx under real stress
-      cap = Math.max(0, Math.min(8, Math.round(stress * 8)));
+      cap = Math.max(0, Math.min(12, Math.round(stress * 12)));
     }
     if (cap === 0) return;
 
@@ -823,10 +823,29 @@
     self.state.diagnoses.forEach(function (d) { if (d && d.id) have[d.id] = true; });
 
     var EV = { Strong: 3, A: 3, Moderate: 2, B: 2, C: 1, Emerging: 1 };
-    // Digest is pre-ranked (richest first); take the first `cap` not already present.
+    // Digest is pre-ranked (richest first). Depth-diverse pick (2026-09-26, cap 8->12):
+    // no single tree level may take more than half the window while candidates from
+    // other levels remain — without this the ranked list lets one level (e.g. L2's
+    // urgent-theme bias) fill the whole window. Deferred entries fill leftover slots
+    // in ranked order, so the window is never under-filled for diversity's sake.
+    var perDepthCeil = Math.ceil(cap / 2);
+    var picked = [], deferred = [], depthCounts = {};
+    for (var pi = 0; pi < list.length && picked.length < cap; pi++) {
+      var pd = list[pi];
+      if (!pd || !pd.id || have[pd.id]) continue;
+      var dk = String(pd.depth || 'x');
+      if ((depthCounts[dk] || 0) < perDepthCeil) {
+        depthCounts[dk] = (depthCounts[dk] || 0) + 1;
+        picked.push(pd);
+      } else {
+        deferred.push(pd);
+      }
+    }
+    for (var di2 = 0; picked.length < cap && di2 < deferred.length; di2++) picked.push(deferred[di2]);
+
     var added = 0;
-    for (var i = 0; i < list.length && added < cap; i++) {
-      var d = list[i];
+    for (var i = 0; i < picked.length; i++) {
+      var d = picked[i];
       if (!d || !d.id || have[d.id]) continue;
       have[d.id] = true;
       added++;
