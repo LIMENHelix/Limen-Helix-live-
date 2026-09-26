@@ -34,7 +34,9 @@ for (const f of digests) {
       ev: d.evidence || null,
       dp: d.depth || 0,
       txn: tx.length,                                     // # treatment/business actions
-      tx: tx.slice(0, 3).map(t => t.l || t.label || t.t).filter(Boolean),  // top actions
+      // Exhaustive selected treatment identities. Consumers that need a preview can slice
+      // this array at render time; the index must not silently drop selected treatments.
+      tx: tx.map(t => t.l || t.label || t.t).filter(Boolean),
       evr: EV_RANK[d.evidence] || 0
     });
   }
