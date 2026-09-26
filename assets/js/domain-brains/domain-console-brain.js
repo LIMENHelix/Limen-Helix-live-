@@ -246,6 +246,17 @@
       if (hasMissingEvidence) {
         return { level: 'CANDIDATE', badge: 'TREATMENT EVIDENCE INCOMPLETE', reason: 'One or more treatments lack evidence value.', suppressBody: false };
       }
+      // Synthetic-content gate (2026-09-26): digest-built treatments carry
+      // synthetic:true (mad-lib classifier at build). Procedurally generated
+      // scaffold may inform but NEVER carries FULL playbook authority — an
+      // all-synthetic playbook is scaffold, not a verified response set.
+      var synCount = state.treatments.filter(function (t) { return t && t.synthetic === true; }).length;
+      if (synCount > 0 && synCount === state.treatments.length) {
+        return { level: 'CANDIDATE', badge: 'SYNTHETIC SCAFFOLD · ' + synCount + ' generated treatments', reason: 'All treatments are procedurally generated scaffold (build-time tagged); unverified, not actionable.', suppressBody: false };
+      }
+      if (synCount > 0) {
+        return { level: 'CANDIDATE', badge: 'CONTAINS SYNTHETIC SCAFFOLD · ' + synCount + '/' + state.treatments.length + ' generated', reason: 'Some treatments are procedurally generated scaffold; verified items are marked.', suppressBody: false };
+      }
       return { level: 'FULL', badge: null, reason: null, suppressBody: false };
     }
     if (panelId === 'opportunities') {
@@ -907,7 +918,8 @@
     // ═══ REGULATION PLAYBOOK — grouped by diagnosis ═══
     var __authPlaybook = classifyPanelAuthority('playbook', _brainRef, state, __dcbPanelCtx);
     h += '<div class="dcb-panel' + (treatments.length > 0 ? ' dcb-firing' : isLive ? ' dcb-live' : '') + '" data-panel="playbook">';
-    h += '<div class="dcb-panel-title"><span>REGULATION PLAYBOOK \u00b7 ' + treatments.length + ' treatments across ' + activeDx.length + ' diagnoses</span></div>';
+    var _synTxCount = treatments.filter(function (t) { return t && t.synthetic === true; }).length;
+    h += '<div class="dcb-panel-title"><span>REGULATION PLAYBOOK \u00b7 ' + treatments.length + ' treatments across ' + activeDx.length + ' diagnoses' + (_synTxCount > 0 ? ' \u00b7 ' + (treatments.length - _synTxCount) + ' verified / ' + _synTxCount + ' scaffold' : '') + '</span></div>';
     h += '<div class="dcb-panel-body">';
     if (__authPlaybook.suppressBody) {
       h += renderSuppressedPanelBody(__authPlaybook);
@@ -955,6 +967,7 @@
           h += '<span class="dcb-treat-label">' + esc(t.label) + '</span>';
           if (t.type) h += '<span class="dcb-treat-type" style="' + treatTypeColor(t.type) + '">' + esc(t.type) + '</span>';
           if (t.evidence) h += '<span class="dcb-treat-ev">EV: ' + esc(t.evidence) + '</span>';
+          if (t.synthetic === true) h += '<span style="font-size:0.20rem;letter-spacing:0.5px;padding:1px 4px;border-radius:2px;color:rgba(168,85,247,0.85);border:1px solid rgba(168,85,247,0.25);background:rgba(168,85,247,0.04);margin-left:2px">SCAFFOLD</span>';
           // Promoted directive badge
           if (t.source === 'portal_directive_promoted' && t._promotedFrom) {
             var pf = t._promotedFrom;
@@ -1676,6 +1689,14 @@
     // Console-clarity is blocked from starting (see blockClarity() above).
     // No intercept or MutationObserver needed — brain owns #clarity-view exclusively.
   }
+
+  // Test/diagnostic seam (additive): the authority classifier is the console's
+  // honesty gate — expose it so regression tests can assert synthetic scaffold
+  // can never render FULL playbook authority.
+  window.LIMENDomainConsoleBrain = {
+    classifyPanelAuthority: classifyPanelAuthority,
+    renderPanelAuthorityBadge: renderPanelAuthorityBadge
+  };
 
   // Boot immediately once DOM is ready — no delay.
   // Column hiding is handled by static CSS (.dcb-active) applied in domain-console.html.
