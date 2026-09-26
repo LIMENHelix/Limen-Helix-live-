@@ -606,26 +606,43 @@
       // subtrees, and non-twin maps share individual roots (finance_commercial is in
       // three maps) — so the same treatment used to enter byDiagnosis packages
       // multiple times under different diagnosisIds (measured finance L1: 1200
-      // capped entries, 901 unique, 299 duplicates). First-active-diagnosis-wins
-      // keeps attribution with the highest-relevance dx (activeDx arrives
-      // relevance-sorted); later packages drop the duplicate and rebuild their
-      // nodeMap so per-package counts stay consistent. Pre-dedupe totals are
-      // retained for conservation audit: totalUnique + duplicatesRemoved equals
-      // the pre-dedupe capped sum.
-      var seenTx = {};
+      // capped entries, 901 unique, 299 duplicates).
+      //
+      // Association-preserving: the entity is kept ONCE, in the package of its
+      // alphabetically-first associated diagnosis (order-independent: shuffling
+      // activeDx changes neither memberships nor totals), carrying the COMPLETE
+      // diagnosisIds association set — diagnosis context is retained, not lost.
+      // Non-primary packages drop the duplicate and rebuild their nodeMap.
+      // Conservation audit: totalUnique + duplicatesRemoved == totalTreatmentsPreDedupe.
+      var assoc = {};
+      var i, pkg, arr, j, tx, txKey;
+      for (i = 0; i < results.length; i++) {
+        pkg = results[i]; if (!pkg) continue;
+        arr = pkg.treatments || [];
+        for (j = 0; j < arr.length; j++) {
+          txKey = (arr[j].nodeId || '') + '|' + (arr[j].label || '');
+          if (!assoc[txKey]) assoc[txKey] = [];
+          if (assoc[txKey].indexOf(pkg.diagnosisId) === -1) assoc[txKey].push(pkg.diagnosisId);
+        }
+      }
       var totalUnique = 0, duplicatesRemoved = 0, preDedupeTotal = 0;
-      for (var j = 0; j < results.length; j++) {
-        if (!results[j]) continue;
-        var pkg = results[j];
-        var kept = [];
-        var arr = pkg.treatments || [];
+      for (i = 0; i < results.length; i++) {
+        pkg = results[i]; if (!pkg) continue;
+        arr = pkg.treatments || [];
         preDedupeTotal += arr.length;
-        for (var k = 0; k < arr.length; k++) {
-          var tx = arr[k];
-          var txKey = (tx.nodeId || '') + '|' + (tx.label || '');
-          if (seenTx[txKey]) { duplicatesRemoved++; continue; }
-          seenTx[txKey] = pkg.diagnosisId;
-          kept.push(tx);
+        var kept = [];
+        var keptKeys = {};
+        for (j = 0; j < arr.length; j++) {
+          tx = arr[j];
+          txKey = (tx.nodeId || '') + '|' + (tx.label || '');
+          var dxIds = assoc[txKey].slice().sort();
+          if (pkg.diagnosisId === dxIds[0] && !keptKeys[txKey]) {
+            keptKeys[txKey] = true;
+            tx.diagnosisIds = dxIds;   // complete association set, sorted
+            kept.push(tx);
+          } else {
+            duplicatesRemoved++;
+          }
         }
         if (kept.length !== arr.length) {
           pkg.treatments = kept;

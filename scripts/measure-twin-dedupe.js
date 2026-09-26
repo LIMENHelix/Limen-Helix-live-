@@ -94,6 +94,49 @@ function key(t) { return (t.nodeId || '') + '|' + (t.label || ''); }
   assert('totalUnique + duplicatesRemoved == pre', combined.totalUnique + combined.duplicatesRemoved === pre,
     combined.totalUnique + '+' + combined.duplicatesRemoved + ' vs ' + pre);
 
+  console.log('D4: association sets retained — no diagnosis context lost');
+  // independently compute the expected association sets from the dedupe-free path
+  var expectedAssoc = {};
+  for (var ai = 0; ai < issueIds.length; ai++) {
+    var s = await resolver.resolveForDocument(issueIds[ai], 200, { eager: false });
+    s.treatments.forEach(function (t) {
+      var k = key(t);
+      if (!expectedAssoc[k]) expectedAssoc[k] = [];
+      if (expectedAssoc[k].indexOf(issueIds[ai]) === -1) expectedAssoc[k].push(issueIds[ai]);
+    });
+  }
+  var assocChecked = 0, assocMismatches = 0, multiDxEntities = 0;
+  Object.keys(combined.byDiagnosis).forEach(function (dxId) {
+    (combined.byDiagnosis[dxId].treatments || []).forEach(function (t) {
+      var k = key(t);
+      var expected = (expectedAssoc[k] || []).slice().sort();
+      var actual = (t.diagnosisIds || []).slice().sort();
+      assocChecked++;
+      if (expected.length > 1) multiDxEntities++;
+      if (JSON.stringify(expected) !== JSON.stringify(actual)) assocMismatches++;
+      if (actual.indexOf(dxId) === -1) assocMismatches++;   // host must be in its own set
+    });
+  });
+  assert('every kept entity carries its complete diagnosisIds set', assocMismatches === 0,
+    assocMismatches + '/' + assocChecked + ' mismatches');
+  assert('multi-diagnosis entities exist and retain >1 association', multiDxEntities > 0, multiDxEntities + ' found');
+
+  console.log('D5: order-independence — shuffled activeDx, identical memberships and totals');
+  var shuffled = issueIds.slice().reverse();
+  var combined2 = await resolver.resolveForBrain({ domainId: 'finance', diagnoses: shuffled.map(function (id) { return { id: id, active: true }; }) }, {});
+  assert('totalUnique unchanged', combined2.totalUnique === combined.totalUnique,
+    combined2.totalUnique + ' vs ' + combined.totalUnique);
+  var mem1 = {}, mem2 = {};
+  Object.keys(combined.byDiagnosis).forEach(function (dxId) {
+    (combined.byDiagnosis[dxId].treatments || []).forEach(function (t) { mem1[key(t)] = (t.diagnosisIds || []).join('+'); });
+  });
+  Object.keys(combined2.byDiagnosis).forEach(function (dxId) {
+    (combined2.byDiagnosis[dxId].treatments || []).forEach(function (t) { mem2[key(t)] = (t.diagnosisIds || []).join('+'); });
+  });
+  var memMismatch = Object.keys(mem1).filter(function (k) { return mem1[k] !== mem2[k]; }).length;
+  assert('memberships identical under shuffle', memMismatch === 0 && Object.keys(mem1).length === Object.keys(mem2).length,
+    memMismatch + ' mismatches');
+
   console.log('\n' + (tests - failures) + '/' + tests + ' passed');
   process.exit(failures ? 1 : 0);
 })().catch(function (e) { console.error('TEST CRASH', e && e.stack || e); process.exit(1); });
