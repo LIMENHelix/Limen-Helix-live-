@@ -601,6 +601,50 @@
         combined.allImplementationSteps = combined.allImplementationSteps.concat(r.implementationSteps);
       }
 
+      // Cross-diagnosis dedupe (2026-09-26, spec A4.1): portal roots overlap across
+      // diagnoses — twins like BANKING_CRISIS/CREDIT_CHANNEL_BREAK resolve identical
+      // subtrees, and non-twin maps share individual roots (finance_commercial is in
+      // three maps) — so the same treatment used to enter byDiagnosis packages
+      // multiple times under different diagnosisIds (measured finance L1: 1200
+      // capped entries, 901 unique, 299 duplicates). First-active-diagnosis-wins
+      // keeps attribution with the highest-relevance dx (activeDx arrives
+      // relevance-sorted); later packages drop the duplicate and rebuild their
+      // nodeMap so per-package counts stay consistent. Pre-dedupe totals are
+      // retained for conservation audit: totalUnique + duplicatesRemoved equals
+      // the pre-dedupe capped sum.
+      var seenTx = {};
+      var totalUnique = 0, duplicatesRemoved = 0, preDedupeTotal = 0;
+      for (var j = 0; j < results.length; j++) {
+        if (!results[j]) continue;
+        var pkg = results[j];
+        var kept = [];
+        var arr = pkg.treatments || [];
+        preDedupeTotal += arr.length;
+        for (var k = 0; k < arr.length; k++) {
+          var tx = arr[k];
+          var txKey = (tx.nodeId || '') + '|' + (tx.label || '');
+          if (seenTx[txKey]) { duplicatesRemoved++; continue; }
+          seenTx[txKey] = pkg.diagnosisId;
+          kept.push(tx);
+        }
+        if (kept.length !== arr.length) {
+          pkg.treatments = kept;
+          pkg.duplicatesRemoved = arr.length - kept.length;
+          var nm = {};
+          for (var k2 = 0; k2 < kept.length; k2++) {
+            var nid = kept[k2].nodeId;
+            if (!nid) continue;
+            if (!nm[nid]) nm[nid] = { nodeId: nid, nodeLabel: kept[k2].nodeLabel, treatmentCount: 0 };
+            nm[nid].treatmentCount++;
+          }
+          pkg.nodeMap = Object.values(nm);
+        }
+        totalUnique += kept.length;
+      }
+      combined.totalTreatmentsPreDedupe = preDedupeTotal;
+      combined.totalUnique = totalUnique;
+      combined.duplicatesRemoved = duplicatesRemoved;
+
       // One concise summary per brain resolve, only when actual network
       // work happened. Stats are per-call so concurrent resolves report
       // their own counts accurately.
