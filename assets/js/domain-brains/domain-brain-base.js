@@ -824,11 +824,14 @@
 
     var EV = { Strong: 3, A: 3, Moderate: 2, B: 2, C: 1, Emerging: 1 };
     // Digest is pre-ranked (richest first) but ORDERED SHALLOW-FIRST by the builder's
-    // stratified buckets — a plain top-N pick therefore never reaches the deepest
-    // levels (measured: cap-12 window was permanently {L2:6, L3:6}, L4-L6 unreachable).
-    // Depth round-robin (2026-09-26): bucket by level preserving ranked order, then
-    // deal one per level per pass until the window fills. Every represented level is
-    // reachable EVERY cycle; fully deterministic given the same digest + state.
+    // stratified buckets. Depth round-robin deals one entry per level per pass so
+    // every represented level is reachable in a single wide window — but with a
+    // NARROW window (cap < number of levels) a fixed start index still skips the
+    // deepest levels forever (measured: cap 3 -> always L2-L4). Rotating cursor
+    // (2026-09-26): the starting depth advances one level per cycle, and the
+    // within-bucket offset advances with it, so every level — and over time every
+    // diagnosis — becomes reachable within ceil(levels/cap) cycles. Deterministic:
+    // same cycle count + same digest + same state -> same window.
     var byDepth = {}, depthKeys = [];
     for (var pi = 0; pi < list.length; pi++) {
       var pd = list[pi];
@@ -838,14 +841,24 @@
       byDepth[dk].push(pd);
     }
     depthKeys.sort();
+    var rot = self._deepDigestRotation || 0;
+    self._deepDigestRotation = rot + 1;
+    var nd = depthKeys.length;
     var picked = [];
-    while (picked.length < cap) {
-      var progressed = false;
-      for (var ki = 0; ki < depthKeys.length && picked.length < cap; ki++) {
-        var bucket = byDepth[depthKeys[ki]];
-        if (bucket.length > 0) { picked.push(bucket.shift()); progressed = true; }
+    if (nd > 0) {
+      var passes = 0;
+      while (picked.length < cap && passes <= nd) {
+        var progressed = false;
+        for (var ki = 0; ki < nd && picked.length < cap; ki++) {
+          var bucket = byDepth[depthKeys[(rot + ki) % nd]];
+          if (bucket.length > 0) {
+            picked.push(bucket.splice((rot + passes) % bucket.length, 1)[0]);
+            progressed = true;
+          }
+        }
+        if (!progressed) break;
+        passes++;
       }
-      if (!progressed) break;
     }
 
     var added = 0;

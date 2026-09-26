@@ -55,7 +55,12 @@ const PORTAL_KEYS = [
   'technology', 'trade'
 ];
 
-const MAX_TX_PER_DX = 6;       // keep the digest lean — top treatments by evidence (2→6 measured experiment 2026-09-26)
+// Treatments per diagnosis carried in the digest. The 6-tx experiment was
+// validated for FINANCE ONLY (PR #386); every other domain stays at the proven
+// value of 2 until it is regenerated AND validated with before/after identity
+// sets. A no-argument full build therefore changes nothing outside finance.
+const MAX_TX_PER_DX_DEFAULT = 2;
+const MAX_TX_PER_DX_BY_DOMAIN = { finance: 6 };
 const MAX_DX_PER_DOMAIN = 180; // brain injects only ~8 stress-gated per cycle; keep the richest + urgent
 // Depth-stratified slots (sums to MAX_DX_PER_DOMAIN). With the full L2-L7 tree as
 // input a single global top-180 is swallowed by L6 (30k+ issues); quotas keep every
@@ -161,7 +166,7 @@ function buildDigest(pk) {
       const txCount = tx.length;
       // Keep the strongest-evidence treatments, capped.
       tx.sort((a, b) => (EV_RANK[b.e] || 0) - (EV_RANK[a.e] || 0));
-      tx = tx.slice(0, MAX_TX_PER_DX);
+      tx = tx.slice(0, MAX_TX_PER_DX_BY_DOMAIN[pk] || MAX_TX_PER_DX_DEFAULT);
 
       const themes = matchThemes(
         (iss.label || '') + ' ' + (iss.summary || '') + ' ' + (iss.id || '') + ' ' + slug
