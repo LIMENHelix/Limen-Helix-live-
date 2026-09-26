@@ -846,18 +846,26 @@
     var nd = depthKeys.length;
     var picked = [];
     if (nd > 0) {
-      var passes = 0;
-      while (picked.length < cap && passes <= nd) {
+      // Per-depth cursors: each bucket advances INDEPENDENTLY whenever it is
+      // dealt from. Sharing one cursor with the depth rotation coupled the
+      // within-bucket offset to the level count, so buckets whose size divided
+      // the level count cycled the same subset forever (measured: 60% coverage).
+      // Termination is only "cap filled" or "all buckets exhausted" — a fixed
+      // pass bound truncated 2-depth digests below cap (19 domains, P1).
+      var cursors = self._deepDigestBucketCursors || (self._deepDigestBucketCursors = {});
+      while (picked.length < cap) {
         var progressed = false;
         for (var ki = 0; ki < nd && picked.length < cap; ki++) {
-          var bucket = byDepth[depthKeys[(rot + ki) % nd]];
+          var dk = depthKeys[(rot + ki) % nd];
+          var bucket = byDepth[dk];
           if (bucket.length > 0) {
-            picked.push(bucket.splice((rot + passes) % bucket.length, 1)[0]);
+            var idx = (cursors[dk] || 0) % bucket.length;
+            cursors[dk] = (cursors[dk] || 0) + 1;
+            picked.push(bucket.splice(idx, 1)[0]);
             progressed = true;
           }
         }
-        if (!progressed) break;
-        passes++;
+        if (!progressed) break;   // every bucket exhausted
       }
     }
 

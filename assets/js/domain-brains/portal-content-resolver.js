@@ -631,8 +631,15 @@
           var k = txKeyOf(t);
           if (claimed[k]) continue;
           claimed[k] = dxId;
-          t.diagnosisIds = assoc[k].slice().sort();   // complete association set
-          selected.push(t);
+          // Clone before attaching per-call associations: pool entries are the
+          // SHARED _deepTreatmentCache objects; mutating them retroactively alters
+          // packages already returned to other brains resolving overlapping
+          // diagnoses (measured: Defense's CYBER_ATTACK package gained Technology's
+          // DATA_BREACH after a later Technology resolve).
+          var tc = {};
+          for (var f in t) { if (Object.prototype.hasOwnProperty.call(t, f)) tc[f] = t[f]; }
+          tc.diagnosisIds = assoc[k].slice().sort();
+          selected.push(tc);
         }
 
         // Package built from the SELECTED set (same shapes resolveForDocument

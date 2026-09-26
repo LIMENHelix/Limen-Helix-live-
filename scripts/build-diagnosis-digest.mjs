@@ -35,9 +35,28 @@ const ROOT = path.resolve(__dirname, '..');
 const FULL_DOMAINS = process.env.LIMEN_FULL_DOMAINS_DIR || 'C:\\Users\\Chris\\Limen-Helix\\assets\\data\\domains';
 const LIVE_DOMAINS = path.join(ROOT, 'assets', 'data', 'domains');
 const ALLOW_SHALLOW = process.env.LIMEN_ALLOW_SHALLOW === '1' || process.argv.indexOf('--allow-shallow') !== -1;
-const HAS_FULL = fs.existsSync(FULL_DOMAINS);
+// Sentinel: existence alone is not enough — an existing but SHALLOW directory
+// (e.g. this repo's deployed L1-L3 corpus) must not pass as full-tree. The
+// shallow corpus holds at most L1-L3 (measured: exactly ONE 5-segment file,
+// energy's shipped L4 datacenter layer); a genuine full tree carries thousands
+// of 5+-segment files. Threshold rejects both empty/wrong dirs and the
+// shallow corpus itself.
+function looksLikeFullTree(dir) {
+  var deep = 0;
+  try {
+    const names = fs.readdirSync(dir);
+    for (const n of names) {
+      if (n.endsWith('.json') && n.replace(/\.json$/, '').split('_').length >= 5) {
+        if (++deep >= 100) return true;
+      }
+    }
+  } catch (e) { /* fall through */ }
+  return false;
+}
+const HAS_FULL = fs.existsSync(FULL_DOMAINS) && looksLikeFullTree(FULL_DOMAINS);
 if (!HAS_FULL && !ALLOW_SHALLOW) {
-  console.error('FAIL-CLOSED: full-tree domain source not found at: ' + FULL_DOMAINS);
+  console.error('FAIL-CLOSED: no full-tree domain source at: ' + FULL_DOMAINS);
+  console.error('  (missing, or failed the full-tree sentinel: <100 deep (5+-segment) portal files)');
   console.error('  Set LIMEN_FULL_DOMAINS_DIR to the full L1-L7 tree, or explicitly');
   console.error('  authorize the shallow deployed corpus (L1-L3 only, materially smaller');
   console.error('  artifact) with --allow-shallow or LIMEN_ALLOW_SHALLOW=1.');
@@ -119,7 +138,10 @@ function buildDigest(pk) {
 
   files.forEach(file => {
     const slug = file.replace(/\.json$/, '');
-    const depth = slug.split('_').length;        // L1 = 1, deeper = more
+    // Depth relative to the portal key — the key itself may contain underscores
+    // (p2_agri): without normalization every level shifted by one (root counted
+    // as depth 2, real L7 as depth 8, breaking the stratified quotas).
+    const depth = slug.split('_').length - (pk.split('_').length - 1);
     if (depth < 2) return;                        // skip the L1 root — brain already reads it
     const j = readJSON(path.join(DOMAINS_DIR, file));
     if (!j || !Array.isArray(j.issues) || !j.issues.length) return;
