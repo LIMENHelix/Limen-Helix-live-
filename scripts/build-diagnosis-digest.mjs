@@ -32,39 +32,6 @@ const ROOT = path.resolve(__dirname, '..');
 // FAIL CLOSED: if no full-tree source exists, the build aborts rather than
 // silently regenerating a materially smaller artifact from the shallow corpus.
 // Explicit opt-out: --allow-shallow or LIMEN_ALLOW_SHALLOW=1 (recorded in output).
-const FULL_DOMAINS = process.env.LIMEN_FULL_DOMAINS_DIR || 'C:\\Users\\Chris\\Limen-Helix\\assets\\data\\domains';
-const LIVE_DOMAINS = path.join(ROOT, 'assets', 'data', 'domains');
-const ALLOW_SHALLOW = process.env.LIMEN_ALLOW_SHALLOW === '1' || process.argv.indexOf('--allow-shallow') !== -1;
-// Sentinel: existence alone is not enough — an existing but SHALLOW directory
-// (e.g. this repo's deployed L1-L3 corpus) must not pass as full-tree. The
-// shallow corpus holds at most L1-L3 (measured: exactly ONE 5-segment file,
-// energy's shipped L4 datacenter layer); a genuine full tree carries thousands
-// of 5+-segment files. Threshold rejects both empty/wrong dirs and the
-// shallow corpus itself.
-function looksLikeFullTree(dir) {
-  var deep = 0;
-  try {
-    const names = fs.readdirSync(dir);
-    for (const n of names) {
-      if (n.endsWith('.json') && n.replace(/\.json$/, '').split('_').length >= 5) {
-        if (++deep >= 100) return true;
-      }
-    }
-  } catch (e) { /* fall through */ }
-  return false;
-}
-const HAS_FULL = fs.existsSync(FULL_DOMAINS) && looksLikeFullTree(FULL_DOMAINS);
-if (!HAS_FULL && !ALLOW_SHALLOW) {
-  console.error('FAIL-CLOSED: no full-tree domain source at: ' + FULL_DOMAINS);
-  console.error('  (missing, or failed the full-tree sentinel: <100 deep (5+-segment) portal files)');
-  console.error('  Set LIMEN_FULL_DOMAINS_DIR to the full L1-L7 tree, or explicitly');
-  console.error('  authorize the shallow deployed corpus (L1-L3 only, materially smaller');
-  console.error('  artifact) with --allow-shallow or LIMEN_ALLOW_SHALLOW=1.');
-  process.exit(1);
-}
-const DOMAINS_DIR = HAS_FULL ? FULL_DOMAINS : LIVE_DOMAINS;
-const OUT_DIR = path.join(ROOT, 'assets', 'data', 'deep');
-
 // portalKey == file prefix for all 20 brains (verified): most = domainId,
 // plus medicine='medicine', science='science', trade='trade'.
 const PORTAL_KEYS = [
@@ -74,10 +41,56 @@ const PORTAL_KEYS = [
   'technology', 'trade'
 ];
 
-// Treatments per diagnosis carried in the digest. The 6-tx experiment was
-// validated for FINANCE ONLY (PR #386); every other domain stays at the proven
-// value of 2 until it is regenerated AND validated with before/after identity
-// sets. A no-argument full build therefore changes nothing outside finance.
+const FULL_DOMAINS = process.env.LIMEN_FULL_DOMAINS_DIR || 'C:\\Users\\Chris\\Limen-Helix\\assets\\data\\domains';
+const LIVE_DOMAINS = path.join(ROOT, 'assets', 'data', 'domains');
+const ALLOW_SHALLOW = process.env.LIMEN_ALLOW_SHALLOW === '1' || process.argv.indexOf('--allow-shallow') !== -1;
+// Sentinel v2 — canonical per-domain invariant, measured against the real corpus
+// (2026-09-26): all 20 portal roots present; every domain carries >=1000 subtree
+// files (real minimum 17,059; the deployed shallow corpus has ~190/domain);
+// every domain represents depths 2-6 (some reach 7-8; p2_agri/governance/
+// population top out at 6). Rejects empty, shallow, partial, single-domain, and
+// missing-depth sources instead of stamping them 'full-tree'. Non-key trees
+// (legal, psychedelic, …) are tolerated — the build only reads the 20 keys.
+function fullTreeReport(dir) {
+  let names;
+  try { names = fs.readdirSync(dir); } catch (e) { return { ok: false, reason: 'unreadable: ' + e.message }; }
+  const byKey = {};
+  const keySeg = {};
+  PORTAL_KEYS.forEach(k => { byKey[k] = { root: false, files: 0, depths: new Set() }; keySeg[k] = k.split('_').length; });
+  for (const n of names) {
+    if (!n.endsWith('.json')) continue;
+    const slug = n.replace(/\.json$/, '');
+    for (const k of PORTAL_KEYS) {
+      if (slug === k) { byKey[k].root = true; break; }
+      if (slug.startsWith(k + '_')) {
+        byKey[k].files++;
+        byKey[k].depths.add(slug.split('_').length - (keySeg[k] - 1));
+        break;
+      }
+    }
+  }
+  const missing = PORTAL_KEYS.filter(k => !byKey[k].root);
+  if (missing.length) return { ok: false, reason: 'missing portal roots: ' + missing.join(', ') };
+  const small = PORTAL_KEYS.filter(k => byKey[k].files < 1000);
+  if (small.length) return { ok: false, reason: 'domains below full-tree size (<1000 files): ' + small.join(', ') };
+  const REQ_DEPTHS = [2, 3, 4, 5, 6];
+  const missingDepth = PORTAL_KEYS.filter(k => !REQ_DEPTHS.every(d => byKey[k].depths.has(d)));
+  if (missingDepth.length) return { ok: false, reason: 'domains missing depths 2-6: ' + missingDepth.join(', ') };
+  return { ok: true };
+}
+const FULL_REPORT = fs.existsSync(FULL_DOMAINS) ? fullTreeReport(FULL_DOMAINS) : { ok: false, reason: 'path does not exist' };
+const HAS_FULL = FULL_REPORT.ok;
+if (!HAS_FULL && !ALLOW_SHALLOW) {
+  console.error('FAIL-CLOSED: no full-tree domain source at: ' + FULL_DOMAINS);
+  console.error('  reason: ' + FULL_REPORT.reason);
+  console.error('  Set LIMEN_FULL_DOMAINS_DIR to the full L1-L7 tree, or explicitly');
+  console.error('  authorize the shallow deployed corpus (L1-L3 only, materially smaller');
+  console.error('  artifact) with --allow-shallow or LIMEN_ALLOW_SHALLOW=1.');
+  process.exit(1);
+}
+const DOMAINS_DIR = HAS_FULL ? FULL_DOMAINS : LIVE_DOMAINS;
+const OUT_DIR = path.join(ROOT, 'assets', 'data', 'deep');
+
 const MAX_TX_PER_DX_DEFAULT = 2;
 const MAX_TX_PER_DX_BY_DOMAIN = { finance: 6 };
 const MAX_DX_PER_DOMAIN = 180; // brain injects only ~8 stress-gated per cycle; keep the richest + urgent
@@ -180,8 +193,10 @@ function buildDigest(pk) {
       treatmentNodeIds.forEach(nodeId => {
         (byNode[nodeId] || []).forEach(t => {
           if (!t || !t.label) return;
-          const rec = { l: t.label, t: t.type || '', e: t.evidence || '' };
-          if (MADLIB_VERB.test(String(t.label))) rec.syn = 1;
+          // Explicit classification on EVERY treatment: 1 = mad-lib/scaffold,
+          // 0 = classified NOT scaffold. Absence of the field (legacy digests)
+          // means UNCLASSIFIED and must never read as verified downstream.
+          const rec = { l: t.label, t: t.type || '', e: t.evidence || '', syn: MADLIB_VERB.test(String(t.label)) ? 1 : 0 };
           tx.push(rec);
         });
       });
@@ -265,7 +280,15 @@ if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
 
 // Optional CLI filter: `node scripts/build-diagnosis-digest.mjs finance` builds
 // only the named portal keys (full-tree runs are heavy; proof first, fleet later).
+// FAIL CLOSED on unknown targets — a typo must not exit 0 having written nothing
+// and left stale artifacts behind.
 const onlyKeys = process.argv.slice(2).filter(a => a.charAt(0) !== '-');
+const unknownKeys = onlyKeys.filter(k => PORTAL_KEYS.indexOf(k) === -1);
+if (unknownKeys.length) {
+  console.error('FAIL-CLOSED: unknown portal key(s): ' + unknownKeys.join(', '));
+  console.error('  Valid keys: ' + PORTAL_KEYS.join(', '));
+  process.exit(1);
+}
 const KEYS = onlyKeys.length ? PORTAL_KEYS.filter(k => onlyKeys.indexOf(k) !== -1) : PORTAL_KEYS;
 console.log('source:', DOMAINS_DIR, ' domains:', KEYS.join(','));
 
