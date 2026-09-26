@@ -131,19 +131,6 @@
      from pale to deep gold reads as metal without touching the brand colour. */
   svg.mark path{ fill:url(#limenGold); }
 
-  .domain-directory{
-    display:inline-flex;align-items:center;gap:.55rem;
-    color:rgba(226,236,250,.72);border:1px solid rgba(226,236,250,.2);
-    border-radius:999px;padding:.65rem 1rem;text-decoration:none;
-    font:600 10px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
-    letter-spacing:.16em;text-transform:uppercase;
-    background:rgba(5,8,16,.36);transition:border-color .2s,color .2s,background .2s;
-  }
-  .domain-directory:hover,.domain-directory:focus-visible{
-    color:#fff;border-color:rgba(226,236,250,.58);background:rgba(226,236,250,.08);
-    outline:2px solid rgba(226,236,250,.22);outline-offset:3px;
-  }
-
   /* ── SOCIAL ROW ───────────────────────────────────────────────────────────────────────
      Inline SVG, no icon font and no third-party request. Each link is a 48px target because
      that is the minimum a thumb can hit reliably, even though the glyph inside is smaller.
@@ -269,7 +256,7 @@
 <div class="vignette" aria-hidden="true"></div>
 
 <main>
-  <a class="marklink" href="#" id="operatorEntry" aria-label="Authorized LIMEN Helix access">
+  <a class="marklink" href="/atlas" aria-label="Enter the LIMEN Helix atlas">
   <svg class="mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2363 1348" role="img" aria-label="LIMEN Helix">
   <title>LIMEN Helix</title>
       <defs>
@@ -294,8 +281,6 @@
   </g>
   </svg>
   </a>
-
-  <a class="domain-directory" href="/pages" aria-label="Open the directory of twenty LIMEN Helix domains and apps">20 Domains &amp; Apps <span aria-hidden="true">→</span></a>
 
   <!-- SOCIAL LINKS. Icon geometry is the standard Simple Icons glyph set, inlined so nothing
        is fetched from a third party. Each emblem carries its real brand colours.
@@ -1104,10 +1089,6 @@
     if (e.key === 'Escape') hide();
   });
 
-  // The front-page wordmark is an operator entry point. Never route directly into the atlas.
-  var operatorEntry = document.getElementById('operatorEntry');
-  if (operatorEntry) operatorEntry.addEventListener('click', show);
-
   // Arriving already bounced by a gate? Open the prompt rather than making them find it.
   try {
     if (/[?&]return=/.test(location.search)) show();
@@ -1122,7 +1103,7 @@
         if (p.charAt(0) === '/' && p.charAt(1) !== '/') return p;
       }
     } catch (e) {}
-    return '/connectome';
+    return '/admin';
   }
 
   f.addEventListener('submit', function (e) {
