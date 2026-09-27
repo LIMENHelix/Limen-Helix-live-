@@ -829,8 +829,9 @@
     // NARROW window (cap < number of levels) a fixed start index still skips the
     // deepest levels forever (measured: cap 3 -> always L2-L4). Rotating cursor
     // (2026-09-26): the starting depth advances one level per cycle, and the
-    // within-bucket offset advances with it, so every level — and over time every
-    // diagnosis — becomes reachable within ceil(levels/cap) cycles. Deterministic:
+    // within-bucket offsets advance independently, so narrow windows visit every
+    // level. Exhaustive diagnosis coverage depends on each bucket's size and
+    // allocated slots. Deterministic:
     // same cycle count + same digest + same state -> same window.
     var byDepth = {}, depthKeys = [];
     for (var pi = 0; pi < list.length; pi++) {
@@ -853,25 +854,20 @@
       // Termination is only "cap filled" or "all buckets exhausted" — a fixed
       // pass bound truncated 2-depth digests below cap (19 domains, P1).
       var cursors = self._deepDigestBucketCursors || (self._deepDigestBucketCursors = {});
-      // Finance advances over a stable circular bucket. Splicing while also
+      // Every domain advances over a stable circular bucket. Splicing while also
       // advancing the persistent cursor skips entries when a cycle draws twice
       // from one depth. Count this cycle's draws to avoid wrapping within it.
-      // Other domains retain their existing selection behavior.
-      var cycleTaken = pk === 'finance' ? {} : null;
+      var cycleTaken = {};
       while (picked.length < cap) {
         var progressed = false;
         for (var ki = 0; ki < nd && picked.length < cap; ki++) {
           var dk = depthKeys[(rot + ki) % nd];
           var bucket = byDepth[dk];
-          if (bucket.length > 0 && (!cycleTaken || (cycleTaken[dk] || 0) < bucket.length)) {
+          if (bucket.length > 0 && (cycleTaken[dk] || 0) < bucket.length) {
             var idx = (cursors[dk] || 0) % bucket.length;
             cursors[dk] = (cursors[dk] || 0) + 1;
-            if (cycleTaken) {
-              picked.push(bucket[idx]);
-              cycleTaken[dk] = (cycleTaken[dk] || 0) + 1;
-            } else {
-              picked.push(bucket.splice(idx, 1)[0]);
-            }
+            picked.push(bucket[idx]);
+            cycleTaken[dk] = (cycleTaken[dk] || 0) + 1;
             progressed = true;
           }
         }
