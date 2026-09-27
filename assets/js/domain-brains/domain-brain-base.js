@@ -853,15 +853,25 @@
       // Termination is only "cap filled" or "all buckets exhausted" — a fixed
       // pass bound truncated 2-depth digests below cap (19 domains, P1).
       var cursors = self._deepDigestBucketCursors || (self._deepDigestBucketCursors = {});
+      // Finance advances over a stable circular bucket. Splicing while also
+      // advancing the persistent cursor skips entries when a cycle draws twice
+      // from one depth. Count this cycle's draws to avoid wrapping within it.
+      // Other domains retain their existing selection behavior.
+      var cycleTaken = pk === 'finance' ? {} : null;
       while (picked.length < cap) {
         var progressed = false;
         for (var ki = 0; ki < nd && picked.length < cap; ki++) {
           var dk = depthKeys[(rot + ki) % nd];
           var bucket = byDepth[dk];
-          if (bucket.length > 0) {
+          if (bucket.length > 0 && (!cycleTaken || (cycleTaken[dk] || 0) < bucket.length)) {
             var idx = (cursors[dk] || 0) % bucket.length;
             cursors[dk] = (cursors[dk] || 0) + 1;
-            picked.push(bucket.splice(idx, 1)[0]);
+            if (cycleTaken) {
+              picked.push(bucket[idx]);
+              cycleTaken[dk] = (cycleTaken[dk] || 0) + 1;
+            } else {
+              picked.push(bucket.splice(idx, 1)[0]);
+            }
             progressed = true;
           }
         }

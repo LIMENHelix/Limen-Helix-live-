@@ -12,9 +12,11 @@ const { execFileSync } = require('node:child_process');
 const ROOT = path.resolve(__dirname, '..');
 const BASELINE = process.argv.includes('--baseline');
 const BASE_SHA = 'bab392ebaa2745032040950fb325a099e639d8fe';
+function readPinned(file) {
+  return execFileSync('git', ['show', BASE_SHA + ':' + file], { cwd: ROOT, encoding: 'utf8', maxBuffer: 8 * 1024 * 1024 });
+}
 function readSource(file) {
-  return BASELINE ? execFileSync('git', ['show', BASE_SHA + ':' + file], { cwd: ROOT, encoding: 'utf8', maxBuffer: 8 * 1024 * 1024 })
-    : fs.readFileSync(path.join(ROOT, file), 'utf8');
+  return BASELINE ? readPinned(file) : fs.readFileSync(path.join(ROOT, file), 'utf8');
 }
 const clone = x => JSON.parse(JSON.stringify(x));
 let passed = 0, failed = 0;
@@ -22,7 +24,7 @@ async function test(name, run) {
   try { await run(); passed++; console.log('PASS ' + name); }
   catch (e) { failed++; console.error('FAIL ' + name + ': ' + e.message); }
 }
-function harness(portals = {}) {
+function harness(portals = {}, read = readSource) {
   const win = { location: { pathname: '/', search: '' },
     LIMENDomainBrains: { register() {} }, addEventListener() {}, dispatchEvent() {} };
   const sandbox = { window: win, URLSearchParams, console: { log() {}, warn() {}, error() {} },
@@ -39,7 +41,7 @@ function harness(portals = {}) {
     fetch: sandbox.fetch, setInterval: sandbox.setInterval });
   const ctx = vm.createContext(sandbox);
   for (const file of ['domain-brain-base.js', 'finance-brain.js', 'portal-content-resolver.js']) {
-    vm.runInContext(readSource('assets/js/domain-brains/' + file), ctx, { filename: file });
+    vm.runInContext(read('assets/js/domain-brains/' + file), ctx, { filename: file });
     // Prevent the browser singleton's automatic background cycle. Exercise the
     // real methods explicitly below, without a racing startup pipeline.
     if (file === 'domain-brain-base.js') win.LIMENDomainBrainBase.prototype.start = function () {};
@@ -56,8 +58,8 @@ function normalized(records) {
     diagnoses: (t.diagnosisIds || [t.diagnosisId]).slice().sort() }))
     .sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)));
 }
-function rotateEight(brain) {
-  brain._deepDigest = JSON.parse(readSource('assets/data/deep/finance-diagnosis-digest.json'));
+function rotateEight(brain, read = readSource) {
+  brain._deepDigest = JSON.parse(read('assets/data/deep/finance-diagnosis-digest.json'));
   brain._deepDigestRotation = 0;
   brain._deepDigestBucketCursors = {};
   brain._activeConditions = Array.from({ length: 14 }, (_, i) => 'observed_' + i);
@@ -67,13 +69,30 @@ function rotateEight(brain) {
   }
   return clone(brain.state.treatments);
 }
+function historicalWindow(brain) {
+  // Pin the *reported* window to its original scheduler and corpus. A scheduler
+  // repair must not silently replace this identity regression with another set.
+  const old = harness({}, readPinned).brain;
+  const original = rotateEight(old, readPinned);
+  const selected = new Set(old.state.diagnoses.map(d => d.id));
+  const digest = JSON.parse(readSource('assets/data/deep/finance-diagnosis-digest.json'));
+  brain._deepDigest = { diagnoses: digest.diagnoses.filter(d => selected.has(d.id)) };
+  assert.equal(brain._deepDigest.diagnoses.length, 12);
+  brain._activeConditions = Array.from({ length: 14 }, (_, i) => 'observed_' + i);
+  brain.state.diagnoses = []; brain.state.treatments = [];
+  brain._applyDeepDigest();
+  const window = clone(brain.state.treatments);
+  const occurrence = records => records.map(t => JSON.stringify([t.id, t.label, t.diagnosisId])).sort();
+  assert.deepEqual(occurrence(window), occurrence(original), 'same 72 authored records as the pinned cycle eight');
+  return window;
+}
 function wire(h, map) { Object.assign(h.resolver.getDiagnosisPortalMap(), map); }
 
 (async () => {
-  await test('actual cycle eight: 72 injected entities survive final merge in three input orders', async () => {
+  await test('pinned original cycle eight: 72 injected entities survive final merge in three input orders', async () => {
     const h = harness({ finance_f01_trigger: portal('finance_f01_trigger', 'THAL', ['F01 merge trigger']) });
     wire(h, { F01_TRIGGER: ['finance_f01_trigger'] });
-    const window = rotateEight(h.brain);
+    const window = historicalWindow(h.brain);
     assert.equal(window.length, 72, 'fixture must replay the real 12-diagnosis/72-treatment window');
     const label = 'Deploy Resource Planning Integrated Technology Platform';
     const collision = window.filter(t => t.label === label);
@@ -104,6 +123,20 @@ function wire(h, map) { Object.assign(h.resolver.getDiagnosisPortalMap(), map); 
     process.exitCode = failed ? 1 : 0;
     return;
   }
+
+  await test('current scheduler cycle eight also preserves all 72 identities and memberships', async () => {
+    const h = harness({ finance_f01_trigger: portal('finance_f01_trigger', 'THAL', ['F01 merge trigger']) });
+    wire(h, { F01_TRIGGER: ['finance_f01_trigger'] });
+    const window = rotateEight(h.brain);
+    assert.equal(window.length, 72);
+    assert.equal(new Set(window.map(t => t.treatmentSourceKey)).size, 72);
+    for (const ordered of [window, window.slice().reverse()]) {
+      h.brain.state.diagnoses = [{ id: 'F01_TRIGGER', active: true }];
+      h.brain.state.treatments = clone(ordered);
+      await h.brain.resolveDeepContent();
+      assert.deepEqual(normalized(h.brain.state.treatments.filter(t => t.source === 'deep-digest')), normalized(window));
+    }
+  });
 
   await test('real resolver separates portals and source records; unions only proven duplicate sources', async () => {
     const h = harness({ finance_f01_a: portal('finance_f01_a', 'THAL', ['Same action', 'Same action']),

@@ -1,10 +1,10 @@
 /**
- * scripts/measure-twin-dedupe.js — joint selection + cross-diagnosis dedupe.
- * Run: node scripts/measure-twin-dedupe.js
+ * scripts/test-measure-twin-dedupe.js — joint selection + cross-diagnosis dedupe.
+ * Run: node scripts/test-measure-twin-dedupe.js
  *
  * Invariants under test (finance L1, all 6 root dx active, quota 200/dx):
  *   D1  totals match an independent full-pool replication
- *   D2  no duplicate (nodeId|label) identities across packages
+ *   D2  no duplicate authored-occurrence identities across Finance packages
  *   D3  conservation: totalUnique + duplicatesRemoved == totalTreatmentsPreDedupe
  *   D4  every selected entity carries its complete full-pool diagnosisIds set
  *   D5  order-independence: shuffled activeDx -> identical memberships and totals
@@ -40,15 +40,46 @@ var finance = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/data/domains/fi
 var issueIds = (finance.issues || []).map(function (i) { return i.id; });
 console.log('  finance root issues: ' + JSON.stringify(issueIds));
 
-function key(t) { return (t.nodeId || '') + '|' + (t.label || ''); }
+// Finance identity is an authored occurrence, not a semantic label. Keep this
+// oracle independent of the resolver's key helper and validate coordinates
+// against the committed portal documents below, before computing expectations.
+function key(t) {
+  if (typeof t.treatmentSourceKey !== 'string' || !t.treatmentSourceKey.trim()) {
+    throw new Error('Finance corpus entry lacks authored-occurrence identity: ' + t.label);
+  }
+  return JSON.stringify([t.sourcePortal || '', t.nodeId || '', t.treatmentSourceKey]);
+}
+function legacyKey(t) { return (t.nodeId || '') + '|' + (t.label || ''); }
+function ranked(pool) {
+  var evidence = { A: 10, Strong: 10, B: 7, Moderate: 7, C: 4, Emerging: 1 };
+  return pool.slice().sort(function (a, b) {
+    return Number(!!b.hasDepth) - Number(!!a.hasDepth) ||
+      (a.depth || 0) - (b.depth || 0) ||
+      (evidence[b.evidence] || 0) - (evidence[a.evidence] || 0) ||
+      (a.treatmentSourceKey < b.treatmentSourceKey ? -1 : a.treatmentSourceKey > b.treatmentSourceKey ? 1 : 0);
+  });
+}
 var QUOTA = 200;
 
 (async function () {
   // ── Independent replication over FULL pools (dedupe-free resolveForDiagnosis) ──
   var pools = {};
   for (var ii = 0; ii < issueIds.length; ii++) {
-    pools[issueIds[ii]] = await resolver.resolveForDiagnosis(issueIds[ii], { eager: false });
+    pools[issueIds[ii]] = ranked(await resolver.resolveForDiagnosis(issueIds[ii], { eager: false }));
   }
+  var sourceDocs = {}, coordinateErrors = 0;
+  Object.values(pools).flat().forEach(function (t) {
+    var coordinates = JSON.parse(t.treatmentSourceKey);
+    var slug = coordinates[0];
+    if (!/^finance(?:_[A-Za-z0-9_]+)?$/.test(slug)) throw new Error('Invalid Finance source portal');
+    var doc = sourceDocs[slug] || (sourceDocs[slug] = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/data/domains', slug + '.json'), 'utf8')));
+    var act = (doc.activations || [])[coordinates[2]];
+    var authored = act && (act.treatments || [])[coordinates[3]];
+    if (coordinates.length !== 4 || !Number.isInteger(coordinates[2]) || !Number.isInteger(coordinates[3]) ||
+      !authored || t.sourcePortal !== slug || coordinates[1] !== t.nodeId ||
+      (act.brainNodeId || '') !== t.nodeId || (authored.label || '') !== t.label) coordinateErrors++;
+  });
+  assert('every Finance pool identity points to its actual authored portal/node/position', coordinateErrors === 0, coordinateErrors + ' invalid coordinates');
   var expectedAssoc = {};
   issueIds.forEach(function (id) {
     pools[id].forEach(function (t) {
@@ -86,6 +117,11 @@ var QUOTA = 200;
 
   console.log('\nD1: totals match independent full-pool replication');
   assert('totalUnique == replication', combined.totalUnique === expUnique, combined.totalUnique + ' vs ' + expUnique);
+  var selectionBad = issueIds.filter(function (id) {
+    var actual = (combined.byDiagnosis[id].treatments || []).map(key).sort();
+    return JSON.stringify(actual) !== JSON.stringify(expSelected[id].map(key).sort());
+  });
+  assert('selected identities, not just counts, match independent ranking and claims', selectionBad.length === 0, selectionBad.join(','));
   assert('duplicatesRemoved == pre - unique', combined.duplicatesRemoved === expPre - expUnique,
     combined.duplicatesRemoved + ' vs ' + (expPre - expUnique));
   console.log('D2: no duplicate identities across packages');
@@ -95,7 +131,7 @@ var QUOTA = 200;
       if (seen[key(t)]) dups++; seen[key(t)] = true;
     });
   });
-  assert('zero duplicate (nodeId|label)', dups === 0, dups + ' dups');
+  assert('zero duplicate Finance authored occurrences', dups === 0, dups + ' dups');
   console.log('D3: conservation');
   assert('preDedupe == replication pre', combined.totalTreatmentsPreDedupe === expPre,
     combined.totalTreatmentsPreDedupe + ' vs ' + expPre);
@@ -196,6 +232,36 @@ var QUOTA = 200;
     combined.poolEntries + ' vs ' + (combined.poolUniqueIdentities + combined.poolDuplicates));
   assert('incidence exists even when backfill fills every slot', combined.poolDuplicates > 0,
     String(combined.poolDuplicates));
+
+  console.log('D10: real same-node/same-label records from different portals remain distinct');
+  var allFinance = await resolver.resolveForBrain(state, { maxTreatments: 10000 });
+  var collision = Object.values(allFinance.byDiagnosis).flatMap(function (p) { return p.treatments; })
+    .filter(function (t) { return legacyKey(t) === 'VERM|Deploy Sustainability Integrated Technology Platform'; });
+  var sourcePair = collision.map(function (t) { return t.treatmentSourceKey; }).sort();
+  assert('both committed authored occurrences survive selection', JSON.stringify(sourcePair) === JSON.stringify([
+    '["finance_commercial","VERM",16,34]', '["finance_reinsurance","VERM",20,16]'
+  ]));
+  assert('uncapped retained set equals independently counted authored identities', allFinance.totalUnique === Object.keys(expectedAssoc).length);
+
+  console.log('D11: non-Finance keeps its separate legacy node/label accounting');
+  var agriculture = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/data/domains/p2_agri.json'), 'utf8'));
+  var agIds = agriculture.issues.map(function (d) { return d.id; });
+  var agEntries = [], agExpected = new Set();
+  for (var ai = 0; ai < agIds.length; ai++) {
+    var agPool = await resolver.resolveForDiagnosis(agIds[ai], { eager: false });
+    agEntries = agEntries.concat(agPool);
+    agPool.forEach(function (t) { agExpected.add(legacyKey(t)); });
+  }
+  var agResult = await resolver.resolveForBrain({ domainId: 'agriculture',
+    diagnoses: agIds.map(function (id) { return { id: id, active: true }; }) }, { maxTreatments: 10000 });
+  var agSelected = Object.values(agResult.byDiagnosis).flatMap(function (p) { return p.treatments; });
+  assert('Agriculture legacy pool unique and duplicate incidence unchanged',
+    agResult.poolUniqueIdentities === agExpected.size && agResult.poolDuplicates === agEntries.length - agExpected.size);
+  assert('Agriculture still selects one record per legacy identity', agSelected.length === agExpected.size &&
+    JSON.stringify(agSelected.map(legacyKey).sort()) === JSON.stringify(Array.from(agExpected).sort()));
+  assert('Finance identity fields do not leak into Agriculture', agSelected.every(function (t) {
+    return !('treatmentSourceKey' in t) && !('sourcePortal' in t);
+  }));
 
   console.log('\n' + (tests - failures) + '/' + tests + ' passed');
   process.exit(failures ? 1 : 0);
