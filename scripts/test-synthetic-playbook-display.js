@@ -134,5 +134,20 @@ var a8b = dcb.classifyPanelAuthority('playbook', brain,
   { treatments: [VER, VER], unmappedConditionCount: 4 });
 assert('non-empty + unmapped still yields ONTOLOGY downgrade', /ONTOLOGY/.test(a8b.badge || ''), a8b.badge);
 
+console.log('T9: untagged records fall back to machine-checkable classification (all-domain rule)');
+// communication-style resolver treatment: no synthetic flag, but cite + steps
+// (hasDepth) and a non-mad-lib label => verified-eligible, not permanent downgrade
+var DEEP_UNTAGGED = { label: 'Circuit Breaker Coordination Protocol', evidence: 'A', hasDepth: true, diagnosisId: 'D1' };
+var a9 = dcb.classifyPanelAuthority('playbook', brain, stateWith([DEEP_UNTAGGED, DEEP_UNTAGGED]), {});
+assert('hasDepth untagged records can render FULL', a9.level === 'FULL', a9.level + ' :: ' + a9.badge);
+assert('classifier: hasDepth -> 0', dcb.classifyProvenance(DEEP_UNTAGGED) === 0);
+// untagged mad-lib label => scaffold (never verified by omission)
+var MADLIB_UNTAGGED = { label: 'Deploy Circuit Assessment Protocol', evidence: 'A', hasDepth: true, diagnosisId: 'D1' };
+var a9b = dcb.classifyPanelAuthority('playbook', brain, stateWith([MADLIB_UNTAGGED]), {});
+assert('untagged mad-lib -> CANDIDATE, not FULL', a9b.level === 'CANDIDATE' && a9b.level !== 'FULL', a9b.level);
+assert('classifier: mad-lib label -> 1', dcb.classifyProvenance(MADLIB_UNTAGGED) === 1);
+// untagged, no provenance fields => unknown
+assert('classifier: no-provenance -> 2', dcb.classifyProvenance(UNK) === 2);
+
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
 process.exit(failures ? 1 : 0);

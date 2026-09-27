@@ -648,7 +648,10 @@
         var pkg = {
           diagnosisId: dxId,
           totalTreatments: selected.length,
-          deepTreatments: selected.length,
+          // Full-depth vs shallow, separately: quota fill draws from the whole
+          // pool, and hasDepth:false entries are NOT deep treatments.
+          deepTreatments: selected.filter(function (t) { return t.hasDepth; }).length,
+          shallowTreatments: selected.filter(function (t) { return !t.hasDepth; }).length,
           poolTreatments: pool.length,
           treatments: selected,
           evidenceAnchors: [],

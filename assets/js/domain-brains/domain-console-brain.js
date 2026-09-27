@@ -265,9 +265,9 @@
       // provenance, which is UNVERIFIED — never silently counted as verified.
       var synCount = 0, verCount = 0;
       for (var pvi = 0; pvi < txSet.length; pvi++) {
-        var pv = txSet[pvi];
-        if (pv && pv.synthetic === true) synCount++;
-        else if (pv && pv.synthetic === false) verCount++;
+        var pvc = classifyProvenance(txSet[pvi]);
+        if (pvc === 1) synCount++;
+        else if (pvc === 0) verCount++;
       }
       var unkCount = txSet.length - synCount - verCount;
       if (txSet.length > 0 && verCount === txSet.length) {
@@ -317,6 +317,23 @@
   // Replacement body for NO_BRAIN / BRAIN_NOT_READY / BRAIN_STOPPED.
   // These states mean the panel content genuinely doesn't exist or
   // shouldn't be acted on — show the operator why.
+  // ── Provenance fallback classifier ──
+  // Not every treatment path tags provenance (only finance's brains + the
+  // digest builder do). For untagged records the console applies the SAME
+  // machine-checkable rules as the digest builder, shared across all 20 domains:
+  // mad-lib verb family => scaffold; affirmative provenance (non-empty citation
+  // AND implementation steps — the resolver's hasDepth) => verified-eligible;
+  // anything else => unknown (never silently verified).
+  var _MADLIB_VERB = /^(Develop|Establish|Implement|Build|Launch|Design|Deploy|Operationalize|Conduct|Create|Define|Assess|Optimize|Modernize|Strengthen|Enhance|Formalize|Institute|Standardize|Coordinate|Integrate|Calibrate|Evaluate|Streamline|Institutionalize|Configure|Monitor)\b/;
+  function classifyProvenance(t) {
+    if (!t) return 2;
+    if (t.synthetic === true) return 1;
+    if (t.synthetic === false) return 0;
+    if (_MADLIB_VERB.test(String(t.label || ''))) return 1;
+    if (t.hasDepth === true || (t.cite && String(t.cite).length > 3 && Array.isArray(t.steps) && t.steps.length > 0)) return 0;
+    return 2;
+  }
+
   // ── Association-set helpers ──
   // A treatment may legitimately belong to SEVERAL diagnoses. The resolver's
   // dedupe keeps each entity once (hosted by its primary diagnosis) but preserves
@@ -979,9 +996,9 @@
     h += '<div class="dcb-panel' + (treatments.length > 0 ? ' dcb-firing' : isLive ? ' dcb-live' : '') + '" data-panel="playbook">';
     var _verTx = 0, _synTx = 0, _unkTx = 0;
     for (var _pv = 0; _pv < treatments.length; _pv++) {
-      var _pt = treatments[_pv];
-      if (_pt && _pt.synthetic === true) _synTx++;
-      else if (_pt && _pt.synthetic === false) _verTx++;
+      var _pc = classifyProvenance(treatments[_pv]);
+      if (_pc === 1) _synTx++;
+      else if (_pc === 0) _verTx++;
       else _unkTx++;
     }
     var _provSuffix = '';
@@ -1036,7 +1053,7 @@
           h += '<span class="dcb-treat-label">' + esc(t.label) + '</span>';
           if (t.type) h += '<span class="dcb-treat-type" style="' + treatTypeColor(t.type) + '">' + esc(t.type) + '</span>';
           if (t.evidence) h += '<span class="dcb-treat-ev">EV: ' + esc(t.evidence) + '</span>';
-          if (t.synthetic === true) h += '<span style="font-size:0.20rem;letter-spacing:0.5px;padding:1px 4px;border-radius:2px;color:rgba(168,85,247,0.85);border:1px solid rgba(168,85,247,0.25);background:rgba(168,85,247,0.04);margin-left:2px">SCAFFOLD</span>';
+          if (classifyProvenance(t) === 1) h += '<span style="font-size:0.20rem;letter-spacing:0.5px;padding:1px 4px;border-radius:2px;color:rgba(168,85,247,0.85);border:1px solid rgba(168,85,247,0.25);background:rgba(168,85,247,0.04);margin-left:2px">SCAFFOLD</span>';
           // Promoted directive badge
           if (t.source === 'portal_directive_promoted' && t._promotedFrom) {
             var pf = t._promotedFrom;
@@ -1765,6 +1782,7 @@
   window.LIMENDomainConsoleBrain = {
     classifyPanelAuthority: classifyPanelAuthority,
     renderPanelAuthorityBadge: renderPanelAuthorityBadge,
+    classifyProvenance: classifyProvenance,
     treatmentDxIds: treatmentDxIds,
     filterTreatmentsForActiveDx: filterTreatmentsForActiveDx,
     groupTreatmentsByDx: groupTreatmentsByDx

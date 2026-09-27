@@ -21,7 +21,7 @@ for (const f of digests) {
   let j; try { j = JSON.parse(fs.readFileSync(DEEP + '/' + f, 'utf8')); } catch (e) { continue; }
   const domain = j.domain || f.replace('-diagnosis-digest.json', '');
   const diags = Array.isArray(j.diagnoses) ? j.diagnoses : [];
-  perDomain[domain] = { diagnoses: diags.length, treatmentOpps: 0, available: j.diagnosisTotalAvailable || 0 };
+  perDomain[domain] = { diagnoses: diags.length, treatmentOpps: 0, available: j.diagnosisTotalAvailable || 0, provenance: { verifiedEligible: 0, scaffold: 0, unknown: 0 } };
   availTotal += j.diagnosisTotalAvailable || 0;
   for (const d of diags) {
     const tx = Array.isArray(d.tx) ? d.tx : [];
@@ -36,10 +36,17 @@ for (const f of digests) {
       ev: d.evidence || null,
       dp: d.depth || 0,
       txn: tx.length,                                     // # treatment/business actions
-      // Exhaustive selected treatment identities. Consumers that need a preview can slice
-      // this array at render time; the index must not silently drop selected treatments.
-      tx: tx.map(t => t.l || t.label || t.t).filter(Boolean),
+      // Exhaustive selected treatment identities WITH per-record provenance:
+      // scaffold (syn 1) is never indistinguishable from verified-eligible (0);
+      // unknown (2) stays unknown. Consumers needing bare labels map x => x.l.
+      tx: tx.map(t => ({ l: t.l || t.label || t.t, s: (t.syn === 0 || t.syn === 1 || t.syn === 2) ? t.syn : 2 })).filter(x => !!x.l),
       evr: EV_RANK[d.evidence] || 0
+    });
+    tx.forEach(t => {
+      var pr = perDomain[domain].provenance;
+      if (t.syn === 1) pr.scaffold++;
+      else if (t.syn === 0) pr.verifiedEligible++;
+      else pr.unknown++;
     });
   }
 }
@@ -52,6 +59,12 @@ const out = {
   totalDiagnoses: opportunities.length,      // SELECTED window (180/domain)
   totalAvailable: availTotal,                // AVAILABLE full-tree pool — the distinction the UI must show
   totalTreatmentOpps: txOppTotal,
+  provenance: Object.values(perDomain).reduce(function (acc, d) {
+    acc.verifiedEligible += d.provenance.verifiedEligible;
+    acc.scaffold += d.provenance.scaffold;
+    acc.unknown += d.provenance.unknown;
+    return acc;
+  }, { verifiedEligible: 0, scaffold: 0, unknown: 0 }),
   domains: Object.keys(perDomain).length,
   perDomain,
   opportunities
