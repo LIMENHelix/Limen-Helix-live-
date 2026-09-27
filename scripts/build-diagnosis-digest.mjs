@@ -78,17 +78,12 @@ function fullTreeReport(dir) {
   if (missingDepth.length) return { ok: false, reason: 'domains missing depths 2-6: ' + missingDepth.join(', ') };
   return { ok: true };
 }
-const FULL_REPORT = fs.existsSync(FULL_DOMAINS) ? fullTreeReport(FULL_DOMAINS) : { ok: false, reason: 'path does not exist' };
-const HAS_FULL = FULL_REPORT.ok;
-if (!HAS_FULL && !ALLOW_SHALLOW) {
-  console.error('FAIL-CLOSED: no full-tree domain source at: ' + FULL_DOMAINS);
-  console.error('  reason: ' + FULL_REPORT.reason);
-  console.error('  Set LIMEN_FULL_DOMAINS_DIR to the full L1-L7 tree, or explicitly');
-  console.error('  authorize the shallow deployed corpus (L1-L3 only, materially smaller');
-  console.error('  artifact) with --allow-shallow or LIMEN_ALLOW_SHALLOW=1.');
-  process.exit(1);
-}
-const DOMAINS_DIR = HAS_FULL ? FULL_DOMAINS : LIVE_DOMAINS;
+// Corpus discovery/validation is DEFERRED to the executable main path so the
+// module can be imported for its pure functions (stratifiedPick) without the
+// external corpus — BUILD_DIGEST_SKIP_MAIN=1 must work in a clean checkout.
+let FULL_REPORT = { ok: false, reason: 'not evaluated (import-only mode)' };
+let HAS_FULL = false;
+let DOMAINS_DIR = null;
 const OUT_DIR = path.join(ROOT, 'assets', 'data', 'deep');
 
 const MAX_TX_PER_DX_DEFAULT = 2;
@@ -325,6 +320,18 @@ function buildDigest(pk) {
 
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (IS_MAIN && process.env.BUILD_DIGEST_SKIP_MAIN !== '1') {
+FULL_REPORT = fs.existsSync(FULL_DOMAINS) ? fullTreeReport(FULL_DOMAINS) : { ok: false, reason: 'path does not exist' };
+HAS_FULL = FULL_REPORT.ok;
+if (!HAS_FULL && !ALLOW_SHALLOW) {
+  console.error('FAIL-CLOSED: no full-tree domain source at: ' + FULL_DOMAINS);
+  console.error('  reason: ' + FULL_REPORT.reason);
+  console.error('  Set LIMEN_FULL_DOMAINS_DIR to the full L1-L7 tree, or explicitly');
+  console.error('  authorize the shallow deployed corpus (L1-L3 only, materially smaller');
+  console.error('  artifact) with --allow-shallow or LIMEN_ALLOW_SHALLOW=1.');
+  process.exit(1);
+}
+DOMAINS_DIR = HAS_FULL ? FULL_DOMAINS : LIVE_DOMAINS;
+
 let grand = { domains: 0, diagnoses: 0, treatments: 0 };
 if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
 

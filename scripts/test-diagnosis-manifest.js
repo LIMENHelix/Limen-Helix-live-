@@ -209,9 +209,9 @@ function reset() { handler._clearCache(); fetchCalls = []; upstreamBytes = 0; gl
   assert('no boundary duplicates', dup7 === 0, dup7 + ' dups');
   assert('no gaps', Object.keys(seen7).length === fin.count, Object.keys(seen7).length + ' vs ' + fin.count);
 
-  console.log('E8: route guard — traversal/host/encoded/query escapes contained');
+  console.log('E8: tainted manifest (traversal/host/encoded/query-escape suffixes) rejected wholesale');
   reset();
-  var evilManifest = JSON.stringify({ domain: 'finance', source: 'x', count: 4, entries: [
+  var evilManifest = JSON.stringify({ domain: 'finance', source: 'x', count: 5, entries: [
     ['GOOD', 'good_suffix', 3],
     ['E1', '../etc/passwd', 3],
     ['E2', '..%2f..%2fsecret', 3],
@@ -219,17 +219,12 @@ function reset() { handler._clearCache(); fetchCalls = []; upstreamBytes = 0; gl
     ['E4', 'a?x=1&y=2', 3]
   ] });
   globalThis.__BLOB_OVERRIDE = { [EVIL_SHA]: evilManifest };
-  ['E1', 'E2', 'E3', 'E4'].forEach(function (eid, ix) {
-    // sequential awaits needed; handled below
-  });
-  var eOk = true;
-  for (var eid2 of ['E1', 'E2', 'E3', 'E4']) {
-    var re = await call({ domain: 'finance', id: eid2, ref: EVIL_SHA });
-    if (re.body.found !== false || re.body.route !== null) eOk = false;
-  }
-  assert('all escape attempts contained', eOk);
-  var rg = await call({ domain: 'finance', id: 'GOOD', ref: EVIL_SHA });
-  assert('clean suffix still routes', rg.body.found === true && rg.body.route === '/api/fetch-portal?domainId=finance_good_suffix');
+  var blobCalls8 = fetchCalls.filter(function (u) { return u.indexOf('/git/blobs/') !== -1; }).length;
+  var r8 = await call({ domain: 'finance', page: '0', ref: EVIL_SHA });
+  assert('tainted manifest -> 422 (entry-slug-shape)', r8.statusCode === 422 && /entry-slug-shape/.test(r8.body.reason || ''), JSON.stringify(r8.body));
+  await call({ domain: 'finance', id: 'E1', ref: EVIL_SHA });
+  var blobCalls8b = fetchCalls.filter(function (u) { return u.indexOf('/git/blobs/') !== -1; }).length;
+  assert('tainted blob never cached (every call re-fetches)', blobCalls8b === blobCalls8 + 2, blobCalls8 + ' -> ' + blobCalls8b);
   globalThis.__BLOB_OVERRIDE = null;
 
   console.log('A2: raw content is fetched by the EXACT metadata sha (branch move cannot swap bodies)');
@@ -278,6 +273,29 @@ function reset() { handler._clearCache(); fetchCalls = []; upstreamBytes = 0; gl
   }
   assert('one immutable ref per domain across all pages', fleetOk);
   console.log('    fleet pinned total: ' + fleetTotal + ' ids');
+
+  console.log('S1-S5: schema gate — invalid blobs rejected WITHOUT cache admission');
+  function schemaCase(name, body, expectReason) {
+    return (async function () {
+      handler._clearCache();
+      fetchCalls = [];
+      var sha = 'd'.repeat(40);
+      globalThis.__BLOB_OVERRIDE = { [sha]: body };
+      var r = await call({ domain: 'finance', ref: sha });
+      assert(name + ' -> 422', r.statusCode === 422, 'got ' + r.statusCode + ' :: ' + JSON.stringify(r.body));
+      if (expectReason) assert(name + ' reason: ' + expectReason, (r.body.reason || '').indexOf(expectReason) !== -1, r.body.reason);
+      var blobCallsBefore = fetchCalls.filter(function (u) { return u.indexOf('/git/blobs/') !== -1; }).length;
+      await call({ domain: 'finance', ref: sha });
+      var blobCallsAfter = fetchCalls.filter(function (u) { return u.indexOf('/git/blobs/') !== -1; }).length;
+      assert(name + ': NOT admitted to cache (re-fetched)', blobCallsAfter === blobCallsBefore + 1,
+        blobCallsBefore + ' -> ' + blobCallsAfter);
+      globalThis.__BLOB_OVERRIDE = null;
+    })();
+  }
+  await schemaCase('S1 arbitrary valid-JSON blob', JSON.stringify({ hello: 'world', entries: 'nope' }), 'manifest-domain');
+  await schemaCase('S2 no-domain manifest', JSON.stringify({ count: 1, entries: [['X', 'y', 2]] }), 'manifest-domain');
+  await schemaCase('S3 count mismatch', JSON.stringify({ domain: 'finance', count: 99, entries: [['X', 'y', 2]] }), 'count-mismatch');
+  await schemaCase('S4 bad entry shape', JSON.stringify({ domain: 'finance', count: 2, entries: [['X', 'y', 2], [42, 'y', 2]] }), 'entry-id-shape');
 
   console.log('\n' + (tests - failures) + '/' + tests + ' passed');
   process.exit(failures ? 1 : 0);

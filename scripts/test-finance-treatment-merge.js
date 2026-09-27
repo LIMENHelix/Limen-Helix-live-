@@ -55,17 +55,17 @@ win.fetch = global.fetch;
 
 // resolver stub: simulates production condition — canonical dx active and the
 // resolver DID find deep content (the trigger for the old wholesale replace).
+// Treatments array is dynamic so the test can craft a cross-path duplicate.
+var stubTreatments = [
+  { label: 'Resolver Circuit Breaker Protocol', type: 'POLICY', evidence: 'A', description: '', cite: 'resolver-cite-1', steps: ['s1', 's2'], monitoring: null, escalation: null, nodeId: 'THAL', nodeLabel: 'Thalamus', hasDepth: true },
+  { label: 'Resolver Liquidity Backstop', type: 'INFRASTRUCTURE', evidence: 'B', description: '', cite: 'resolver-cite-2', steps: ['s1'], monitoring: null, escalation: null, nodeId: 'HYPO', nodeLabel: 'Hypothalamus', hasDepth: true }
+];
 win.LIMENPortalContentResolver = {
   resolveForBrain: function () {
     return Promise.resolve({
       activeDiagnoses: 1,
       byDiagnosis: {
-        MARKET_CRASH: {
-          treatments: [
-            { label: 'Resolver Circuit Breaker Protocol', type: 'POLICY', evidence: 'A', description: '', cite: 'resolver-cite-1', steps: ['s1', 's2'], monitoring: null, escalation: null, nodeId: 'THAL', nodeLabel: 'Thalamus', hasDepth: true },
-            { label: 'Resolver Liquidity Backstop', type: 'INFRASTRUCTURE', evidence: 'B', description: '', cite: 'resolver-cite-2', steps: ['s1'], monitoring: null, escalation: null, nodeId: 'HYPO', nodeLabel: 'Hypothalamus', hasDepth: true }
-          ]
-        }
+        MARKET_CRASH: { treatments: stubTreatments }
       }
     });
   }
@@ -107,6 +107,19 @@ function playbookFilter(list, diagnoses) {
 
 (async function () {
   await brain.cycle();   // cycle 1: kicks off the one-time digest load
+
+  // Craft the cross-path duplicate (Codex P2): a resolver treatment carrying the
+  // SAME label the digest is about to inject this cycle — the two paths assign
+  // different synthetic ids and diagnosisIds, and digest entries omit nodeId,
+  // so only semantic reconciliation can merge them.
+  var digest0 = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/data/deep/finance-diagnosis-digest.json'), 'utf8'));
+  var l2dx = digest0.diagnoses.filter(function (d) { return d.depth === 2; })[0];
+  var dupeLabel = l2dx.tx[0].l;
+  stubTreatments.push({
+    label: dupeLabel, type: 'POLICY', evidence: 'A', description: '', cite: 'resolver-cite-3',
+    steps: ['s1'], monitoring: null, escalation: null, nodeId: 'THAL', nodeLabel: 'Thalamus', hasDepth: true
+  });
+
   await brain.cycle();   // cycle 2: digest applies, then resolveDeepContent runs
 
   var digestFile = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/data/deep/finance-diagnosis-digest.json'), 'utf8'));
@@ -140,6 +153,24 @@ function playbookFilter(list, diagnoses) {
   await brain.resolveDeepContent();
   var seq2 = (brain.state.treatments || []).map(function (t) { return t.id; }).join('|');
   assert('id sequence identical', seq1 === seq2);
+
+  console.log('\nT4: cross-path duplicate merges semantically, associations unioned');
+  var finalTx = brain.state.treatments || [];
+  var dupeHits = finalTx.filter(function (t) { return t.label === dupeLabel; });
+  assert('exactly one entity for the cross-path label', dupeHits.length === 1, 'got ' + dupeHits.length);
+  var dupeIds = (dupeHits[0] && dupeHits[0].diagnosisIds) || [];
+  assert('associations unioned (digest dx + MARKET_CRASH)',
+    dupeIds.indexOf(l2dx.id) !== -1 && dupeIds.indexOf('MARKET_CRASH') !== -1, JSON.stringify(dupeIds));
+  // count conservation: merged == unique normalized labels across both paths
+  var allLabels = {};
+  (preResolve || []).concat(stubTreatments.map(function (t) {
+    return { label: t.label };
+  })).forEach(function (t) {
+    if (t) allLabels[String(t.label || '').toLowerCase().replace(/\s+/g, ' ').trim()] = true;
+  });
+  assert('merged count == semantic-unique count across paths',
+    finalTx.length === Object.keys(allLabels).length,
+    finalTx.length + ' vs ' + Object.keys(allLabels).length);
 
   console.log('\n' + (tests - failures) + '/' + tests + ' passed');
   process.exit(failures ? 1 : 0);

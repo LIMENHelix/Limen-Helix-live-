@@ -22,10 +22,13 @@ module.exports = async function handler(req, res) {
   const url = `https://api.github.com/repos/LIMENHelix/Limen-Helix/contents/assets/data/domains/${encodeURIComponent(domainId)}.json`;
 
   try {
+    // Raw media type: the default JSON media type omits base64 `content` for
+    // files >1 MiB (e.g. deep education portals at ~1.8 MiB), which used to make
+    // every large portal unretrievable. Raw works for any size GitHub serves.
     const ghRes = await fetch(url, {
       headers: {
         'Authorization': `Bearer ${token}`,
-        'Accept': 'application/vnd.github.v3+json',
+        'Accept': 'application/vnd.github.raw+json',
         'User-Agent': 'LimenHelix-Portal'
       }
     });
@@ -38,15 +41,13 @@ module.exports = async function handler(req, res) {
       return res.status(502).json({ error: 'GitHub API error', status: ghRes.status });
     }
 
-    const data = await ghRes.json();
-
-    // GitHub Contents API returns base64-encoded content
-    if (!data.content) {
-      return res.status(502).json({ error: 'No content in GitHub response' });
+    const text = await ghRes.text();
+    let json;
+    try {
+      json = JSON.parse(text);
+    } catch (e) {
+      return res.status(502).json({ error: 'Malformed portal JSON from GitHub' });
     }
-
-    const decoded = Buffer.from(data.content, 'base64').toString('utf-8');
-    const json = JSON.parse(decoded);
 
     // Cache for 1 hour — these files rarely change
     res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');

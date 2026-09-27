@@ -68,8 +68,29 @@ async function blobBySha(sha, token) {
   try { manifest = JSON.parse(text); } catch (e) {
     return { status: 502, upstream: 'malformed-manifest-json' };   // never cached
   }
+  // Schema gate BEFORE cache admission: an unauthenticated caller may pin any
+  // 40-hex blob sha, so only structurally valid manifests may enter the shared
+  // cache. Arbitrary/no-domain/oversized/inconsistent JSON is rejected uncached.
+  const bad = validateManifest(manifest);
+  if (bad) return { status: 422, upstream: bad };
   cacheBlob(sha, manifest);
   return { manifest, status: 200 };
+}
+
+const MAX_MANIFEST_ENTRIES = 1000000;
+function validateManifest(m) {
+  if (!m || typeof m !== 'object') return 'not-an-object';
+  if (!PORTAL_KEYS.has(m.domain)) return 'manifest-domain-missing-or-invalid';
+  if (!Array.isArray(m.entries)) return 'entries-not-array';
+  if (m.entries.length > MAX_MANIFEST_ENTRIES) return 'entries-oversized';
+  if (typeof m.count === 'number' && m.count !== m.entries.length) return 'count-mismatch';
+  for (let i = 0; i < m.entries.length; i++) {
+    const e = m.entries[i];
+    if (!Array.isArray(e) || e.length < 2) return 'entry-shape@' + i;
+    if (typeof e[0] !== 'string' || !/^[A-Za-z0-9_-]{1,200}$/.test(e[0])) return 'entry-id-shape@' + i;
+    if (typeof e[1] !== 'string' || !/^[A-Za-z0-9_-]{1,200}$/.test(e[1])) return 'entry-slug-shape@' + i;
+  }
+  return null;
 }
 
 async function currentSha(domain, token) {
@@ -111,11 +132,13 @@ module.exports = async function handler(req, res) {
     }
     const got = await blobBySha(sha, token);
     if (got.status === 404) return res.status(404).json({ error: 'Manifest blob not found', ref: sha });
+    if (got.status === 422) return res.status(422).json({ error: 'Blob failed manifest schema validation', reason: got.upstream, ref: sha });
     if (got.status !== 200) return res.status(502).json({ error: 'GitHub upstream error', status: got.upstream });
     const manifest = got.manifest;
 
-    // Domain cross-check: a pinned ref must still address THIS domain's manifest
-    if (manifest.domain && manifest.domain !== domain) {
+    // Domain cross-check is strict: the schema gate guarantees a valid domain
+    // field, and it must equal the requested one.
+    if (manifest.domain !== domain) {
       return res.status(409).json({ error: 'Ref/domain mismatch', domain, refDomain: manifest.domain });
     }
 

@@ -829,19 +829,40 @@
           // MERGE, not replace (execution-disparity fix): the base cycle's step-6
           // _applyDeepDigest injected deep-digest treatments into state.treatments
           // earlier THIS cycle; a wholesale overwrite wiped them before render.
-          // Composite-key union keeps canonical + deep-digest + resolver treatments;
-          // deterministic and idempotent on re-run. Key includes diagnosisId/nodeId/
-          // label because resolver ids ('deep_<nodeId>_<i>') can collide across
-          // diagnoses, so id alone is not a safe dedupe key.
+          //
+          // Semantic dedupe (2026-09-27, Codex P2): the SAME portal treatment can
+          // arrive through BOTH the resolver (canonical_deep) and the digest —
+          // with different synthetic ids and diagnosisIds, and digest entries
+          // omit nodeId — so an id-based key can never merge them (the committed
+          // finance window shares 21 labels with resolver-mapped L1 portals).
+          // Reconcile on the normalized label, union the diagnosis associations,
+          // fill missing fields from the richer record, and keep the STRICTER
+          // provenance verdict so a generated twin cannot launder a verified one.
+          // Composite-id semantics for exact re-runs is subsumed: the merge stays
+          // deterministic and idempotent.
+          function semanticKey(t) {
+            return String(t.label || '').toLowerCase().replace(/\s+/g, ' ').trim();
+          }
           var existing = Array.isArray(self.state.treatments) ? self.state.treatments : [];
           var seen = {};
           var merged = [];
           existing.concat(deepTreats).forEach(function (t) {
             if (!t) return;
-            var key = (t.id || '') + '|' + (t.diagnosisId || '') + '|' + (t.nodeId || '') + '|' + (t.label || '');
-            if (seen[key]) return;
-            seen[key] = true;
-            merged.push(t);
+            var sk = semanticKey(t);
+            var prev = seen[sk];
+            if (!prev) { seen[sk] = t; merged.push(t); return; }
+            var ids = {};
+            (Array.isArray(prev.diagnosisIds) ? prev.diagnosisIds : [prev.diagnosisId]).forEach(function (i) { if (i) ids[i] = true; });
+            (Array.isArray(t.diagnosisIds) ? t.diagnosisIds : [t.diagnosisId]).forEach(function (i) { if (i) ids[i] = true; });
+            prev.diagnosisIds = Object.keys(ids).sort();
+            prev.diagnosisId = prev.diagnosisIds[0];
+            if (!prev.nodeId && t.nodeId) { prev.nodeId = t.nodeId; prev.nodeLabel = t.nodeLabel; }
+            if (!prev.cite && t.cite) prev.cite = t.cite;
+            if ((!prev.steps || !prev.steps.length) && t.steps && t.steps.length) prev.steps = t.steps;
+            if (!prev.hasDepth && t.hasDepth) prev.hasDepth = t.hasDepth;
+            if (prev.synthetic === true || t.synthetic === true) prev.synthetic = true;
+            else if (prev.synthetic === false && t.synthetic === false) prev.synthetic = false;
+            else prev.synthetic = undefined;
           });
           self.state.treatments = merged;
         }
