@@ -153,6 +153,18 @@
     } catch (e) { return null; }
   }
 
+  // Packages store each authored source once. Their key is its legacy host,
+  // while diagnosisIds carries every association proven by the resolver.
+  function _treatmentDiagnosisIds(t, host) {
+    var ids = [];
+    function add(id) {
+      if (typeof id === 'string' && id.trim() && ids.indexOf(id) === -1) ids.push(id);
+    }
+    add(host);
+    if (t && Array.isArray(t.diagnosisIds)) t.diagnosisIds.forEach(add);
+    return ids;
+  }
+
   function _activatedNodes(ds, nodeDir, kernel) {
     var activated = {};
     function _mark(nid, pred, env) {
@@ -177,7 +189,10 @@
         if (!rc.byDiagnosis.hasOwnProperty(dxId)) continue;
         var ts = (rc.byDiagnosis[dxId] && rc.byDiagnosis[dxId].treatments) || [];
         for (var ti = 0; ti < ts.length; ti++) {
-          if (ts[ti] && ts[ti].nodeId) _mark(ts[ti].nodeId, 'B', dxId);
+          if (ts[ti] && ts[ti].nodeId) {
+            var members = _treatmentDiagnosisIds(ts[ti], dxId);
+            for (var mi = 0; mi < members.length; mi++) _mark(ts[ti].nodeId, 'B', members[mi]);
+          }
         }
       }
     }
@@ -446,6 +461,9 @@
               portalDomainId: t.portalDomainId || null,
               portalTitle: t.portalTitle || null,
               diagnosisId: dxId,
+              diagnosisIds: _treatmentDiagnosisIds(t, dxId),
+              treatmentSourceKey: t.treatmentSourceKey || null,
+              sourcePortal: t.sourcePortal || null,
               hasDepth: !!(t.cite && Array.isArray(t.steps) && t.steps.length > 0)
             });
           }
