@@ -45,7 +45,7 @@ console.log('  finance root issues: ' + JSON.stringify(issueIds));
 // against the committed portal documents below, before computing expectations.
 function key(t) {
   if (typeof t.treatmentSourceKey !== 'string' || !t.treatmentSourceKey.trim()) {
-    throw new Error('Finance corpus entry lacks authored-occurrence identity: ' + t.label);
+    throw new Error('Corpus entry lacks authored-occurrence identity: ' + t.label);
   }
   return JSON.stringify([t.sourcePortal || '', t.nodeId || '', t.treatmentSourceKey]);
 }
@@ -243,24 +243,24 @@ var QUOTA = 200;
   ]));
   assert('uncapped retained set equals independently counted authored identities', allFinance.totalUnique === Object.keys(expectedAssoc).length);
 
-  console.log('D11: non-Finance keeps its separate legacy node/label accounting');
+  console.log('D11: Agriculture uses the same authored-occurrence accounting');
   var agriculture = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/data/domains/p2_agri.json'), 'utf8'));
   var agIds = agriculture.issues.map(function (d) { return d.id; });
   var agEntries = [], agExpected = new Set();
   for (var ai = 0; ai < agIds.length; ai++) {
     var agPool = await resolver.resolveForDiagnosis(agIds[ai], { eager: false });
     agEntries = agEntries.concat(agPool);
-    agPool.forEach(function (t) { agExpected.add(legacyKey(t)); });
+    agPool.forEach(function (t) { agExpected.add(key(t)); });
   }
   var agResult = await resolver.resolveForBrain({ domainId: 'agriculture',
     diagnoses: agIds.map(function (id) { return { id: id, active: true }; }) }, { maxTreatments: 10000 });
   var agSelected = Object.values(agResult.byDiagnosis).flatMap(function (p) { return p.treatments; });
-  assert('Agriculture legacy pool unique and duplicate incidence unchanged',
+  assert('Agriculture authored pool unique and duplicate incidence conserved',
     agResult.poolUniqueIdentities === agExpected.size && agResult.poolDuplicates === agEntries.length - agExpected.size);
-  assert('Agriculture still selects one record per legacy identity', agSelected.length === agExpected.size &&
-    JSON.stringify(agSelected.map(legacyKey).sort()) === JSON.stringify(Array.from(agExpected).sort()));
-  assert('Finance identity fields do not leak into Agriculture', agSelected.every(function (t) {
-    return !('treatmentSourceKey' in t) && !('sourcePortal' in t);
+  assert('Agriculture selects one record per authored occurrence', agSelected.length === agExpected.size &&
+    JSON.stringify(agSelected.map(key).sort()) === JSON.stringify(Array.from(agExpected).sort()));
+  assert('Agriculture carries its own source identity fields', agSelected.every(function (t) {
+    return t.treatmentSourceKey && t.sourcePortal && !/^finance(?:_|$)/.test(t.sourcePortal);
   }));
 
   console.log('\n' + (tests - failures) + '/' + tests + ' passed');

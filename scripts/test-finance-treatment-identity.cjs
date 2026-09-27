@@ -369,13 +369,15 @@ function wire(h, map) { Object.assign(h.resolver.getDiagnosisPortalMap(), map); 
     assert.deepEqual(clone(h.brain.state.treatments), before);
   });
 
-  await test('non-Finance resolver retains its existing label/node behavior and shape', async () => {
+  await test('non-Finance resolver now preserves both authored portal identities', async () => {
     const h = harness({ energy_f01_a: portal('energy_f01_a'), energy_f01_b: portal('energy_f01_b') });
     wire(h, { F01_E: ['energy_f01_a', 'energy_f01_b'] });
     const result = await h.resolver.resolveForBrain({ domainId: 'energy', diagnoses: [{ id: 'F01_E', active: true }] });
-    assert.equal(result.totalTreatments, 1);
-    assert.ok(!('treatmentSourceKey' in result.byDiagnosis.F01_E.treatments[0]));
-    assert.ok(!('sourcePortal' in result.byDiagnosis.F01_E.treatments[0]));
+    assert.equal(result.totalTreatments, 2);
+    assert.deepEqual(clone(result.byDiagnosis.F01_E.treatments.map(t => t.treatmentSourceKey).sort()),
+      ['["energy_f01_a","THAL",0,0]', '["energy_f01_b","THAL",0,0]']);
+    assert.deepEqual(clone(result.byDiagnosis.F01_E.treatments.map(t => t.sourcePortal).sort()),
+      ['energy_f01_a', 'energy_f01_b']);
   });
   console.log(`${passed}/${passed + failed} identity tests passed`);
   process.exitCode = failed ? 1 : 0;

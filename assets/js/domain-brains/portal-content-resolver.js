@@ -311,7 +311,6 @@
     var portalId = portalData.domainId || '';
     // Use the fetched route, not a possibly absent/reused payload domainId.
     var sourcePortal = ancestryPath[ancestryPath.length - 1] || portalId;
-    var financeSource = /^finance(?:_|$)/.test(sourcePortal);
     var portalTitle = portalData.title || '';
 
     for (var ai = 0; ai < activations.length; ai++) {
@@ -342,10 +341,9 @@
           ancestryPath: ancestryPath.slice(),
           hasDepth: !!(t.steps && t.steps.length > 0 && t.cite)
         };
-        if (financeSource) {
-          treatment.sourcePortal = sourcePortal;
-          treatment.treatmentSourceKey = JSON.stringify([sourcePortal, nodeId, ai, ti]);
-        }
+        // An authored occurrence, not its label, is identity in every domain.
+        treatment.sourcePortal = sourcePortal;
+        treatment.treatmentSourceKey = JSON.stringify([sourcePortal, nodeId, ai, ti]);
         treatments.push(treatment);
       }
     }
@@ -596,10 +594,10 @@
     // memberships nor totals.
     var resolves = activeDx.map(function (dx) {
       return resolveForDiagnosis(dx.id, innerOpts).then(function (pool) {
-        if (domainLabel === 'finance' && pool) {
+        if (pool) {
           // Preserve rank policy, break equal-rank ties by authored identity so
-          // a capped selection cannot depend on incoming treatment order. Do
-          // not sort the shared cache or change another domain's selection.
+          // a capped selection cannot depend on incoming treatment order.
+          // Sort a copy: the shared cache must retain its original ordering.
           var rank = { A: 10, Strong: 10, B: 7, Moderate: 7, C: 4, Emerging: 1 };
           pool = pool.slice().sort(function (a, b) {
             if (a.hasDepth !== b.hasDepth) return a.hasDepth ? -1 : 1;
@@ -616,7 +614,6 @@
 
     return Promise.all(resolves).then(function (results) {
       function txKeyOf(t, dxId, index) {
-        if (domainLabel !== 'finance') return (t.nodeId || '') + '|' + (t.label || '');
         // Unknown identities get occurrence-local accounting keys, NEVER a
         // label fallback. These are not promoted to source identities.
         return typeof t.treatmentSourceKey === 'string' && t.treatmentSourceKey.trim()
