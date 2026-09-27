@@ -45,12 +45,15 @@ const fetchedUrls = [];
 let githubStatus = 200;
 global.fetch = async function (url, opts) {
   fetchedUrls.push(String(url));
+  const rawText = JSON.stringify({ activations: [] });
   return {
     ok: githubStatus >= 200 && githubStatus < 300,
     status: githubStatus,
     json: async function () {
-      return { content: Buffer.from(JSON.stringify({ activations: [] })).toString('base64') };
-    }
+      return { content: Buffer.from(rawText).toString('base64') };
+    },
+    // raw-media-type contract: the handler now reads response text for any size
+    text: async function () { return rawText; }
   };
 };
 
