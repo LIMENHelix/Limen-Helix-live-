@@ -33,7 +33,7 @@ function harness(portals = {}, read = readSource) {
     setInterval: () => 0, clearInterval() {}, setTimeout: () => 0, clearTimeout() {},
     fetch: async url => {
       const match = String(url).match(/^\/assets\/data\/domains\/(.+)\.json$/);
-      const data = match && portals[match[1]];
+      const data = match && (typeof portals === 'function' ? portals(match[1]) : portals[match[1]]);
       return { ok: !!data, status: data ? 200 : 404, json: async () => clone(data || {}) };
     }
   };
@@ -286,6 +286,87 @@ function wire(h, map) { Object.assign(h.resolver.getDiagnosisPortalMap(), map); 
     ];
     await h.brain.resolveDeepContent();
     assert.equal(h.brain.state.treatments.length, 4);
+  });
+
+  await test('shared resolver treatments reach every Finance member packet once, including steps', async () => {
+    const source = portal('finance_f01_shared');
+    source.activations[0].treatments[0].steps = ['Shared authored implementation step'];
+    const h = harness({ finance_f01_shared: source });
+    wire(h, { F01_A: ['finance_f01_shared'], F01_B: ['finance_f01_shared'] });
+    for (const order of [['F01_A', 'F01_B', 'F01_C'], ['F01_C', 'F01_B', 'F01_A'], ['F01_B', 'F01_C', 'F01_A']]) {
+      h.brain.state.diagnoses = order.map(id => ({ id, active: true }));
+      await h.brain.resolveDeepContent();
+      assert.equal(h.brain.state.treatments.length, 1, 'one entity globally, not one copy per membership');
+      const before = clone(h.brain.state.treatments);
+      assert.deepEqual(before[0].diagnosisIds, ['F01_A', 'F01_B']);
+      h.brain._updateFinanceModel();
+      const packets = h.brain.state.financeDomainDiagnosisPackets;
+      assert.equal(packets.length, 3);
+      for (const id of ['F01_A', 'F01_B']) {
+        const packet = packets.find(p => p.identity.diagnosisId === id);
+        assert.equal(packet.treatmentContext.treatments.length, 1, id + ' must retain the shared treatment');
+        assert.deepEqual(normalized(packet.treatmentContext.treatments), normalized(before));
+        assert.deepEqual(clone(packet.treatmentContext.implementationSteps), source.activations[0].treatments[0].steps);
+      }
+      const unrelated = packets.find(p => p.identity.diagnosisId === 'F01_C');
+      assert.deepEqual(clone(unrelated.treatmentContext.treatments), []);
+      assert.deepEqual(clone(unrelated.treatmentContext.implementationSteps), []);
+      const primary = h.brain.state.financeModel.domainDiagnosisPacket;
+      assert.equal(primary.identity.diagnosisId, order[0]);
+      assert.deepEqual(normalized(primary.treatmentContext.treatments), order[0] === 'F01_C' ? [] : normalized(before));
+      assert.deepEqual(clone(h.brain.state.treatments), before, 'packet building must not mutate source entities');
+    }
+  });
+
+  await test('Finance packet membership preserves legacy hosts and aggregate behavior without duplicates', async () => {
+    const h = harness();
+    const records = [
+      { id: 'legacy', diagnosisId: 'F01_A', steps: ['Legacy step'] },
+      { id: 'empty-members', diagnosisId: 'F01_A', diagnosisIds: [], steps: ['Empty-list legacy step'] },
+      { id: 'shared', diagnosisId: 'F01_A', diagnosisIds: ['F01_A', 'F01_B', 'F01_B'], steps: ['Shared step'] },
+      { id: 'member-only', diagnosisIds: ['F01_B'], steps: ['Membership-only step'] },
+      { id: 'not-an-array', diagnosisId: 'F01_C', diagnosisIds: 'F01_B', steps: ['Unrelated step'] },
+      { id: 'unassigned', steps: ['Unassigned step'] }
+    ];
+    h.brain.state.treatments = clone(records);
+    function packet(id) { return h.brain._buildDomainDiagnosisPacket(id ? { id } : null).treatmentContext; }
+    assert.deepEqual(clone(packet('F01_A').treatments.map(t => t.id)), ['legacy', 'empty-members', 'shared']);
+    assert.deepEqual(clone(packet('F01_B').treatments.map(t => t.id)), ['shared', 'member-only']);
+    assert.deepEqual(clone(packet('F01_B').implementationSteps), ['Shared step', 'Membership-only step']);
+    assert.deepEqual(clone(packet('F01_C').treatments.map(t => t.id)), ['not-an-array']);
+    assert.deepEqual(clone(packet('F01_UNRELATED').treatments), []);
+    assert.deepEqual(clone(packet(null).treatments), records);
+    assert.deepEqual(clone(packet(null).implementationSteps), records.flatMap(t => t.steps));
+    assert.deepEqual(clone(h.brain.state.treatments), records);
+  });
+
+  await test('committed Finance corpus conserves shared memberships through model packet production', async () => {
+    const h = harness(slug => {
+      if (!/^finance(?:_[A-Za-z0-9_]+)?$/.test(slug)) return null;
+      const file = path.join(ROOT, 'assets/data/domains', slug + '.json');
+      return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : null;
+    });
+    const finance = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/data/domains/finance.json'), 'utf8'));
+    const ids = finance.issues.map(d => d.id);
+    h.brain.state.diagnoses = ids.map(id => ({ id, active: true }));
+    await h.brain.resolveDeepContent();
+    const before = clone(h.brain.state.treatments);
+    assert.ok(before.some(t => t.diagnosisIds.length > 1 && t.steps.length > 0), 'real corpus must exercise shared steps');
+    let nonHostMemberships = 0;
+    h.brain._updateFinanceModel();
+    assert.equal(h.brain.state.financeDomainDiagnosisPackets.length, ids.length);
+    for (const packet of h.brain.state.financeDomainDiagnosisPackets) {
+      const dxId = packet.identity.diagnosisId;
+      const expected = before.filter(t => t.diagnosisIds.includes(dxId));
+      nonHostMemberships += expected.filter(t => t.diagnosisId !== dxId).length;
+      assert.equal(packet.treatmentContext.treatments.length, expected.length, dxId + ' packet count');
+      assert.deepEqual(normalized(packet.treatmentContext.treatments), normalized(expected), dxId + ' membership conservation');
+      assert.deepEqual(clone(packet.treatmentContext.implementationSteps), expected.flatMap(t => t.steps || []));
+      assert.equal(new Set(packet.treatmentContext.treatments.map(t => t.treatmentSourceKey)).size, expected.length);
+    }
+    assert.ok(nonHostMemberships > 0);
+    console.log('  corpus global entities=' + before.length + '; non-host packet memberships=' + nonHostMemberships);
+    assert.deepEqual(clone(h.brain.state.treatments), before);
   });
 
   await test('non-Finance resolver retains its existing label/node behavior and shape', async () => {

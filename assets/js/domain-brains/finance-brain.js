@@ -2324,7 +2324,12 @@
     var dxId = dx ? (dx.id || null) : null;
 
     var allTreat = Array.isArray(s.treatments) ? s.treatments : [];
-    var treatments = allTreat.filter(function (t) { return !dxId || t.diagnosisId === dxId; });
+    // A shared source is stored once; diagnosisId is its host, not its complete
+    // membership. Each member packet must retain that source and its steps.
+    var treatments = allTreat.filter(function (t) {
+      return !dxId || t.diagnosisId === dxId ||
+        (Array.isArray(t.diagnosisIds) && t.diagnosisIds.indexOf(dxId) !== -1);
+    });
     var implementationSteps = [];
     for (var ti = 0; ti < treatments.length; ti++) { if (Array.isArray(treatments[ti].steps)) implementationSteps = implementationSteps.concat(treatments[ti].steps); }
 
