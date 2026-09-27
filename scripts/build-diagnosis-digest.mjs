@@ -94,6 +94,37 @@ const OUT_DIR = path.join(ROOT, 'assets', 'data', 'deep');
 const MAX_TX_PER_DX_DEFAULT = 2;
 const MAX_TX_PER_DX_BY_DOMAIN = { finance: 6 };
 const MAX_DX_PER_DOMAIN = 180; // brain injects only ~8 stress-gated per cycle; keep the richest + urgent
+
+// Exported for tests (import with BUILD_DIGEST_SKIP_MAIN=1). Input is the
+// globally ranked deduped diagnosis list; output is the stratified window.
+// See the reserve-first comment at the call site for the selection rule.
+export function stratifiedPick(sortedDeduped, maxPick) {
+  const RESERVE_PER_DEPTH = 5;
+  const buckets = {};
+  sortedDeduped.forEach(d => { (buckets[d.depth] = buckets[d.depth] || []).push(d); });
+  const picked = [];
+  const contributed = {};
+  for (const dep of Object.keys(buckets).map(Number).sort((a, b) => a - b)) {
+    const seatsLeft = maxPick - picked.length;
+    if (seatsLeft <= 0) break;   // more depths than seats: ascending-depth priority
+    const take = buckets[dep].splice(0, Math.min(RESERVE_PER_DEPTH, seatsLeft));
+    picked.push(...take);
+    contributed[dep] = take.length;
+  }
+  for (const dep in DEPTH_QUOTA) {
+    if (picked.length >= maxPick) break;
+    const remaining = Math.max(0, Math.min(DEPTH_QUOTA[dep] - (contributed[dep] || 0), maxPick - picked.length));
+    if (buckets[dep] && remaining > 0) picked.push(...buckets[dep].slice(0, remaining));
+  }
+  if (picked.length < maxPick) {
+    const chosen = new Set(picked);
+    for (const d of sortedDeduped) {
+      if (picked.length >= maxPick) break;
+      if (!chosen.has(d)) { picked.push(d); chosen.add(d); }
+    }
+  }
+  return picked;
+}
 // Depth-stratified slots (sums to MAX_DX_PER_DOMAIN). With the full L2-L7 tree as
 // input a single global top-180 is swallowed by L6 (30k+ issues); quotas keep every
 // level represented. Unspent quota redistributes into the global ranking.
@@ -265,29 +296,12 @@ function buildDigest(pk) {
   // the weighted table runs — a fixed 2..7 quota table shut deeper levels out of
   // the window entirely (education's 3 L8 diagnoses were unreachable). With >=5
   // entries per depth this lands on exactly the weighted quotas, so distributions
-  // for depths that already had seats are unchanged.
-  const RESERVE_PER_DEPTH = 5;
-  const buckets = {};
-  deduped.forEach(d => { (buckets[d.depth] = buckets[d.depth] || []).push(d); });
-  let picked = [];
-  const contributed = {};
-  Object.keys(buckets).map(Number).sort((a, b) => a - b).forEach(dep => {
-    const take = buckets[dep].splice(0, RESERVE_PER_DEPTH);
-    picked = picked.concat(take);
-    contributed[dep] = take.length;
-  });
-  for (const dep in DEPTH_QUOTA) {
-    const remaining = Math.max(0, DEPTH_QUOTA[dep] - (contributed[dep] || 0));
-    if (buckets[dep]) picked = picked.concat(buckets[dep].slice(0, remaining));
-  }
-  if (picked.length < MAX_DX_PER_DOMAIN) {
-    const chosen = new Set(picked);
-    for (const d of deduped) {
-      if (picked.length >= MAX_DX_PER_DOMAIN) break;
-      if (!chosen.has(d)) { picked.push(d); chosen.add(d); }
-    }
-  }
-  deduped = picked;
+  // for depths that already had seats are unchanged. When MORE depths are
+  // represented than the window can seat, reserves are assigned in ascending
+  // depth order until the window is full (deterministic; documented rule — deep
+  // overflow depths get zero seats that build, they are not silently dropped
+  // from the manifest).
+  deduped = stratifiedPick(deduped, MAX_DX_PER_DOMAIN);
 
   return {
     domain: pk,
@@ -309,6 +323,8 @@ function buildDigest(pk) {
   };
 }
 
+const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (IS_MAIN && process.env.BUILD_DIGEST_SKIP_MAIN !== '1') {
 let grand = { domains: 0, diagnoses: 0, treatments: 0 };
 if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
 
@@ -354,3 +370,4 @@ KEYS.forEach(pk => {
 
 console.log('---');
 console.log('TOTAL', grand.domains, 'domains  ', grand.diagnoses, 'deep diagnoses  ', grand.treatments, 'treatment links');
+}

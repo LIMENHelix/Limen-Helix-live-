@@ -2,16 +2,26 @@
  * handlers/diagnosis-manifest.js — deployed paginated enumeration of the
  * per-domain diagnosis identity/route manifests (PR #386 acceptance).
  *
- * The manifests are committed to this repo but excluded from the deploy bundle
- * (~110 MB fleet). This endpoint fetches them from GitHub on demand (same token
- * pattern as fetch-portal), caches per domain in-process, and pages server-side.
+ * Snapshot consistency: every page response carries the manifest blob sha as
+ * `ref`. Clients pin a traversal by passing ?ref=<sha> on subsequent calls —
+ * the server then serves that EXACT immutable blob (fetched via the GitHub
+ * blob API, cached by sha), so a manifest mutation upstream can never mix
+ * versions mid-traversal. Without ?ref, the current sha is resolved once
+ * (metadata call) and the same pinned path is used.
+ *
+ * Cache correctness: blobs are keyed by immutable sha (never by domain alone),
+ * bounded (CACHE_MAX, FIFO), parsed before caching (malformed content cannot
+ * poison the cache), and upstream failures propagate as 502 — never a fake
+ * empty-success 200.
  *
  *   GET /api/diagnosis-manifest?domain=finance&page=0&size=200
- *     -> { domain, count, page, pages, size, entries: [[id, slugSuffix, depth]...] }
- *   GET /api/diagnosis-manifest?domain=finance&id=FINANCE_..._CAPACITY_OVERLOAD
- *     -> { domain, found, entry, route }   (route = /api/fetch-portal?domainId=...)
+ *     -> { domain, ref, count, page, pages, size, entries }
+ *   GET /api/diagnosis-manifest?domain=finance&page=1&size=200&ref=<sha>
+ *     -> same shape, pinned to <sha>
+ *   GET /api/diagnosis-manifest?domain=finance&id=FINANCE_...&ref=<sha>
+ *     -> { domain, ref, found, entry, route }
  *
- * Domains are restricted to the 20 portal keys; ids are shape-gated.
+ * Domains are restricted to the 20 portal keys; id and ref are shape-gated.
  */
 const PORTAL_KEYS = new Set([
   'p2_agri', 'communication', 'culture', 'defense', 'economy', 'education',
@@ -20,56 +30,70 @@ const PORTAL_KEYS = new Set([
   'technology', 'trade'
 ]);
 
-const CACHE_TTL = 3600 * 1000;
-const _cache = {};   // domain -> { t, manifest, ref }
+const META_TTL = 3600 * 1000;   // domain -> current sha (re-resolve hourly)
+const CACHE_MAX = 50;           // bounded blob cache (immutable shas, FIFO)
+const _metaCache = {};          // domain -> { t, sha }
+const _blobCache = {};          // sha -> manifest (immutable)
+const _blobOrder = [];          // FIFO eviction order
 
-async function loadManifest(domain, token) {
-  const hit = _cache[domain];
-  if (hit && (Date.now() - hit.t) < CACHE_TTL) return { manifest: hit.manifest, ref: hit.ref, status: 200 };
-
-  // 1) Metadata call: the Contents API omits `content` for files >1 MiB (all 20
-  // manifests are 3.7-6.9 MiB) — but it still returns the blob sha, which we
-  // publish as `ref` so multi-page traversals can verify version consistency.
-  const metaUrl = `https://api.github.com/repos/LIMENHelix/Limen-Helix-live-/contents/assets/data/deep/${domain}-diagnosis-manifest.json`;
-  const metaRes = await fetch(metaUrl, {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Accept': 'application/vnd.github.v3+json',
-      'User-Agent': 'LimenHelix-Manifest'
-    }
-  });
-  if (metaRes.status === 404) return { status: 404 };
-  if (!metaRes.ok) return { status: 502, upstream: metaRes.status };
-  const meta = await metaRes.json();
-
-  // 2) Raw content call: works for files of any size (base64 `content` is only
-  // offered <1 MiB; requesting the raw media type returns the file itself).
-  const rawRes = await fetch(metaUrl, {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Accept': 'application/vnd.github.raw+json',
-      'User-Agent': 'LimenHelix-Manifest'
-    }
-  });
-  if (!rawRes.ok) return { status: 502, upstream: rawRes.status };
-  const text = await rawRes.text();
-  let manifest;
-  try {
-    manifest = JSON.parse(text);
-  } catch (e) {
-    return { status: 502, upstream: 'malformed-manifest-json' };
+function cacheBlob(sha, manifest) {
+  if (_blobCache[sha]) return;
+  _blobCache[sha] = manifest;
+  _blobOrder.push(sha);
+  while (_blobOrder.length > CACHE_MAX) {
+    const evict = _blobOrder.shift();
+    delete _blobCache[evict];
   }
-  _cache[domain] = { t: Date.now(), manifest, ref: meta.sha || null };
-  return { manifest, ref: meta.sha || null, status: 200 };
+}
+
+async function gh(url, token, raw) {
+  return fetch(url, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Accept': raw ? 'application/vnd.github.raw+json' : 'application/vnd.github.v3+json',
+      'User-Agent': 'LimenHelix-Manifest'
+    }
+  });
+}
+
+async function blobBySha(sha, token) {
+  if (_blobCache[sha]) return { manifest: _blobCache[sha], status: 200 };
+  // The blob API serves any size with the raw media type (the Contents API
+  // omits inline content >1 MiB — all manifests are 3.7-6.9 MiB).
+  const res = await gh(`https://api.github.com/repos/LIMENHelix/Limen-Helix-live-/git/blobs/${sha}`, token, true);
+  if (res.status === 404) return { status: 404 };
+  if (!res.ok) return { status: 502, upstream: res.status };
+  const text = await res.text();
+  let manifest;
+  try { manifest = JSON.parse(text); } catch (e) {
+    return { status: 502, upstream: 'malformed-manifest-json' };   // never cached
+  }
+  cacheBlob(sha, manifest);
+  return { manifest, status: 200 };
+}
+
+async function currentSha(domain, token) {
+  const hit = _metaCache[domain];
+  if (hit && (Date.now() - hit.t) < META_TTL) return { sha: hit.sha, status: 200 };
+  const res = await gh(`https://api.github.com/repos/LIMENHelix/Limen-Helix-live-/contents/assets/data/deep/${domain}-diagnosis-manifest.json`, token, false);
+  if (res.status === 404) return { status: 404 };
+  if (!res.ok) return { status: 502, upstream: res.status };
+  const meta = await res.json();
+  if (!meta.sha) return { status: 502, upstream: 'missing-blob-sha' };
+  _metaCache[domain] = { t: Date.now(), sha: meta.sha };
+  return { sha: meta.sha, status: 200 };
 }
 
 module.exports = async function handler(req, res) {
-  const { domain, id } = req.query;
+  const { domain, id, ref } = req.query;
   if (!domain || !PORTAL_KEYS.has(domain)) {
     return res.status(400).json({ error: 'Invalid domain', valid: [...PORTAL_KEYS] });
   }
   if (id !== undefined && !/^[A-Za-z0-9_-]{1,160}$/.test(id)) {
     return res.status(400).json({ error: 'Invalid id' });
+  }
+  if (ref !== undefined && !/^[0-9a-f]{40}$/i.test(ref)) {
+    return res.status(400).json({ error: 'Invalid ref (expected 40-char blob sha)' });
   }
   const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || process.env.VERCEL_GITHUB_TOKEN;
   if (!token) {
@@ -77,25 +101,36 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const result = await loadManifest(domain, token);
-    if (result.status === 404) return res.status(404).json({ error: 'Manifest not found for domain', domain });
-    if (result.status !== 200) {
-      // Upstream failure propagates as 502 — never a fake empty-success 200.
-      return res.status(502).json({ error: 'GitHub upstream error', status: result.upstream || result.status });
+    // Resolve which immutable blob to serve: pinned ref, or current head sha.
+    let sha = ref;
+    if (!sha) {
+      const cur = await currentSha(domain, token);
+      if (cur.status === 404) return res.status(404).json({ error: 'Manifest not found for domain', domain });
+      if (cur.status !== 200) return res.status(502).json({ error: 'GitHub upstream error', status: cur.upstream });
+      sha = cur.sha;
     }
-    const manifest = result.manifest;
+    const got = await blobBySha(sha, token);
+    if (got.status === 404) return res.status(404).json({ error: 'Manifest blob not found', ref: sha });
+    if (got.status !== 200) return res.status(502).json({ error: 'GitHub upstream error', status: got.upstream });
+    const manifest = got.manifest;
+
+    // Domain cross-check: a pinned ref must still address THIS domain's manifest
+    if (manifest.domain && manifest.domain !== domain) {
+      return res.status(409).json({ error: 'Ref/domain mismatch', domain, refDomain: manifest.domain });
+    }
 
     res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
 
     if (id !== undefined) {
       const entry = (manifest.entries || []).find(e => e[0] === id) || null;
       // Route guard: the returned route may only address expected repository
-      // content — a manifest slug suffix must be a plain slug, and the route is
-      // always this site's fetch-portal handler (which shape-gates again).
+      // content — a slug suffix must be a plain slug; the route is always this
+      // site's fetch-portal handler (which shape-gates again). No host, no
+      // traversal, no query escape is constructible.
       const safeSuffix = entry && /^[A-Za-z0-9_-]{1,160}$/.test(entry[1]);
       return res.status(200).json({
         domain,
-        ref: result.ref,
+        ref: sha,
         found: !!(entry && safeSuffix),
         entry: entry && safeSuffix ? entry : null,
         route: entry && safeSuffix ? `/api/fetch-portal?domainId=${domain}_${encodeURIComponent(entry[1])}` : null
@@ -109,7 +144,7 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({
       domain,
       source: manifest.source || null,
-      ref: result.ref,
+      ref: sha,
       count,
       page,
       pages,
@@ -121,6 +156,9 @@ module.exports = async function handler(req, res) {
   }
 };
 
-// Test seam: isolated suites need a clean cache between scenarios (malformed
-// bodies, upstream failures) without waiting out the TTL.
-module.exports._clearCache = function () { for (const k in _cache) delete _cache[k]; };
+// Test seam: isolated suites need clean caches between scenarios.
+module.exports._clearCache = function () {
+  for (const k in _metaCache) delete _metaCache[k];
+  for (const k in _blobCache) delete _blobCache[k];
+  _blobOrder.length = 0;
+};
