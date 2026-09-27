@@ -122,5 +122,17 @@ assert('level is NO_CONTENT', a7.level === 'NO_CONTENT', a7.level + ' :: ' + a7.
 assert('no badge emitted', !a7.badge, a7.badge);
 assert('badge renderer emits nothing for NO_CONTENT', dcb.renderPanelAuthorityBadge(a7) === '');
 
+console.log('T8: empty + unmapped -> NO_CONTENT, not ONTOLOGY COVERAGE INCOMPLETE');
+var a8 = dcb.classifyPanelAuthority('playbook', brain,
+  stateWith([SYN, VER]),
+  { treatments: [], unmappedConditionCount: 4 });
+assert('level is NO_CONTENT (ordering fixed)', a8.level === 'NO_CONTENT', a8.level + ' :: ' + a8.badge);
+assert('no ontology badge on empty set', !a8.badge, a8.badge);
+// control: NON-empty set with unmapped conditions still gets the ontology downgrade
+var a8b = dcb.classifyPanelAuthority('playbook', brain,
+  stateWith([VER, VER]),
+  { treatments: [VER, VER], unmappedConditionCount: 4 });
+assert('non-empty + unmapped still yields ONTOLOGY downgrade', /ONTOLOGY/.test(a8b.badge || ''), a8b.badge);
+
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
 process.exit(failures ? 1 : 0);

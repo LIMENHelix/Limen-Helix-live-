@@ -254,3 +254,9 @@ brain-v2/replay-energy.js
 # Meeting room test bench. Local evaluation only — the real thing goes behind
 # gate-master.js in the connectome admin section, never on a public page.
 meeting-test.html
+
+# Diagnosis identity/route manifests — complete per-domain route tables
+# (selected-180 vs available-N distinction). Repo-side audit artifacts: the
+# fleet total is ~886k entries (~80MB), too heavy for the function bundle.
+# Retrieval of any entry is via /api/fetch-portal (GitHub-backed), not static serving.
+assets/data/deep/*-diagnosis-manifest.json

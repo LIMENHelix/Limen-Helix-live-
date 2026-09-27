@@ -15,12 +15,14 @@ const digests = fs.readdirSync(DEEP).filter(f => f.endsWith('-diagnosis-digest.j
 const opportunities = [];
 const perDomain = {};
 let txOppTotal = 0;
+let availTotal = 0;
 
 for (const f of digests) {
   let j; try { j = JSON.parse(fs.readFileSync(DEEP + '/' + f, 'utf8')); } catch (e) { continue; }
   const domain = j.domain || f.replace('-diagnosis-digest.json', '');
   const diags = Array.isArray(j.diagnoses) ? j.diagnoses : [];
-  perDomain[domain] = { diagnoses: diags.length, treatmentOpps: 0 };
+  perDomain[domain] = { diagnoses: diags.length, treatmentOpps: 0, available: j.diagnosisTotalAvailable || 0 };
+  availTotal += j.diagnosisTotalAvailable || 0;
   for (const d of diags) {
     const tx = Array.isArray(d.tx) ? d.tx : [];
     perDomain[domain].treatmentOpps += tx.length;
@@ -47,7 +49,8 @@ opportunities.sort((a, b) => (b.evr - a.evr) || (b.txn - a.txn) || (b.dp - a.dp)
 
 const out = {
   generatedAt: new Date().toISOString(),
-  totalDiagnoses: opportunities.length,
+  totalDiagnoses: opportunities.length,      // SELECTED window (180/domain)
+  totalAvailable: availTotal,                // AVAILABLE full-tree pool — the distinction the UI must show
   totalTreatmentOpps: txOppTotal,
   domains: Object.keys(perDomain).length,
   perDomain,

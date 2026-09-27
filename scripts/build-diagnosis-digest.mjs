@@ -193,10 +193,15 @@ function buildDigest(pk) {
       treatmentNodeIds.forEach(nodeId => {
         (byNode[nodeId] || []).forEach(t => {
           if (!t || !t.label) return;
-          // Explicit classification on EVERY treatment: 1 = mad-lib/scaffold,
-          // 0 = classified NOT scaffold. Absence of the field (legacy digests)
-          // means UNCLASSIFIED and must never read as verified downstream.
-          const rec = { l: t.label, t: t.type || '', e: t.evidence || '', syn: MADLIB_VERB.test(String(t.label)) ? 1 : 0 };
+          // Explicit THREE-STATE classification on every treatment:
+          //   1 = scaffold (mad-lib verb family)
+          //   0 = verified-eligible (AFFIRMATIVE provenance: non-empty citation
+          //       AND implementation steps present in the source portal record)
+          //   2 = unknown (regex miss WITHOUT affirmative provenance — a regex
+          //       miss is not evidence of authorship; never verified-eligible)
+          const _madlib = MADLIB_VERB.test(String(t.label));
+          const _prov = !!(t.cite && String(t.cite).length > 3 && Array.isArray(t.steps) && t.steps.length > 0);
+          const rec = { l: t.label, t: t.type || '', e: t.evidence || '', syn: _madlib ? 1 : (_prov ? 0 : 2) };
           tx.push(rec);
         });
       });
@@ -244,6 +249,16 @@ function buildDigest(pk) {
     ((EV_RANK[b.evidence] || 0) - (EV_RANK[a.evidence] || 0))
   );
   const urgentCount = deduped.filter(d => d.themes.length).length;
+
+  // Complete identity/route manifest — EVERY deduped source diagnosis, sorted
+  // by id (deterministic pagination). The stratified pick below is only the
+  // ACTIVE WINDOW (180); the manifest keeps source IDs == reachable IDs exactly.
+  // Retrieval route for any entry: /api/fetch-portal?domainId=<pk>_<slugSuffix>
+  // (GitHub-backed, proven live). Manifest files are repo-side audit artifacts
+  // (fleet ~886k entries; too heavy for the deploy bundle — see .vercelignore).
+  const manifestEntries = deduped
+    .map(d => [d.id, d.slug.slice(pk.length + 1), d.depth])
+    .sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
   // Stratified pick: buckets inherit the global sort order, so each depth keeps
   // its own richest/urgent entries; leftover slots fill from the global ranking.
   const buckets = {};
@@ -267,11 +282,14 @@ function buildDigest(pk) {
     portalCount: portalCount,
     diagnosisCount: deduped.length,
     diagnosisTotalAvailable: totalBeforeCap,
+    manifestCount: manifestEntries.length,
+    manifestFile: 'assets/data/deep/' + pk + '-diagnosis-manifest.json',
     urgentThemeCount: deduped.filter(d => d.themes.length).length,
     urgentThemeAvailable: urgentCount,
     treatmentTotal: deduped.reduce((s, d) => s + d.txCount, 0),
     syntheticTreatments: deduped.reduce((s, d) => s + d.tx.filter(t => t.syn).length, 0),
-    diagnoses: deduped
+    diagnoses: deduped,
+    _manifest: manifestEntries
   };
 }
 
@@ -295,7 +313,17 @@ console.log('source:', DOMAINS_DIR, ' domains:', KEYS.join(','));
 KEYS.forEach(pk => {
   const dg = buildDigest(pk);
   const out = path.join(OUT_DIR, pk + '-diagnosis-digest.json');
+  // Complete identity/route manifest (see buildDigest): repo-side audit artifact.
+  const manifest = {
+    domain: pk,
+    source: dg.source,
+    count: dg._manifest.length,
+    note: 'Every deduped source diagnosis, sorted by id. The 180-entry digest is only the ACTIVE WINDOW. Retrieve any entry: /api/fetch-portal?domainId=' + pk + '_<slugSuffix>',
+    entries: dg._manifest
+  };
+  delete dg._manifest;
   fs.writeFileSync(out, JSON.stringify(dg));
+  fs.writeFileSync(path.join(OUT_DIR, pk + '-diagnosis-manifest.json'), JSON.stringify(manifest));
   const kb = (fs.statSync(out).size / 1024).toFixed(0);
   console.log(
     pk.padEnd(15),

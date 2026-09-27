@@ -203,12 +203,18 @@
         return { level: 'STALE', badge: 'STALE · last cycle ' + ageSec + 's ago', reason: 'Last cycle older than ' + Math.round(staleAfter / 1000) + 's.', suppressBody: false };
       }
     }
-    // Content presence — empty-state existing render handles its own message
+    // Content presence — empty-state existing render handles its own message.
+    // The playbook check uses the FILTERED rendered set (ctx.treatments) and must
+    // run BEFORE the cross-panel ontology downgrade below: an empty playbook with
+    // unmapped conditions is NO_CONTENT, not ONTOLOGY COVERAGE INCOMPLETE.
     if (panelId === 'diagnoses' && (!state.diagnoses || state.diagnoses.length === 0)) {
       return { level: 'NO_CONTENT', badge: null, reason: null, suppressBody: false };
     }
-    if (panelId === 'playbook' && (!state.treatments || state.treatments.length === 0)) {
-      return { level: 'NO_CONTENT', badge: null, reason: null, suppressBody: false };
+    if (panelId === 'playbook') {
+      var txSet0 = (ctx && Array.isArray(ctx.treatments)) ? ctx.treatments : state.treatments;
+      if (!txSet0 || txSet0.length === 0) {
+        return { level: 'NO_CONTENT', badge: null, reason: null, suppressBody: false };
+      }
     }
     if (panelId === 'opportunities' && (!state.opportunities || state.opportunities.length === 0)) {
       return { level: 'NO_CONTENT', badge: null, reason: null, suppressBody: false };
@@ -240,11 +246,8 @@
       // active-dx-filtered set) — classifying unfiltered state.treatments let
       // invisible entries downgrade the visible panel with contradictory counts.
       var txSet = (ctx && Array.isArray(ctx.treatments)) ? ctx.treatments : state.treatments;
-      // Empty rendered set (e.g. validation deactivated every diagnosis while
-      // stale treatments linger in state) is NO_CONTENT, not a provenance verdict.
-      if (txSet.length === 0) {
-        return { level: 'NO_CONTENT', badge: null, reason: null, suppressBody: false };
-      }
+      // (Empty-rendered-set NO_CONTENT is handled above, before the ontology
+      // downgrade — see the content-presence block.)
       // Evidence field is empirically populated 100% in canonical data;
       // this rule is forward-protection. Any treatment missing .evidence
       // (or with blank string) downgrades the whole playbook to CANDIDATE.
@@ -883,7 +886,11 @@
     // Diagnosis Chain — deep explanations
     var __authDiagnoses = classifyPanelAuthority('diagnoses', _brainRef, state, __dcbPanelCtx);
     h += '<div class="dcb-panel' + (hasFiring ? ' dcb-firing' : isLive ? ' dcb-live' : '') + '" data-panel="diagnoses">';
-    h += '<div class="dcb-panel-title"><span>DIAGNOSIS CHAIN \u00b7 ' + activeDx.length + ' active / ' + diagnoses.length + ' monitored</span></div>';
+    // Selected-vs-available: the digest's active window (180) is a RANKED SUBSET
+    // of the full-tree diagnosis pool; show the relationship honestly instead of
+    // implying the window is the pool. Full route table: per-domain manifest.
+    var _dxAvail = (_brainRef && _brainRef._deepDigest && _brainRef._deepDigest.diagnosisTotalAvailable) || 0;
+    h += '<div class="dcb-panel-title"><span>DIAGNOSIS CHAIN \u00b7 ' + activeDx.length + ' active / ' + diagnoses.length + ' monitored' + (_dxAvail > 0 ? ' \u00b7 window of ' + _dxAvail.toLocaleString() + ' reachable' : '') + '</span></div>';
     h += '<div class="dcb-panel-body">';
     if (__authDiagnoses.suppressBody) {
       h += renderSuppressedPanelBody(__authDiagnoses);
