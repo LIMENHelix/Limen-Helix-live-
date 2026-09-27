@@ -60,6 +60,10 @@ var stubTreatments = [
   { label: 'Resolver Circuit Breaker Protocol', type: 'POLICY', evidence: 'A', description: '', cite: 'resolver-cite-1', steps: ['s1', 's2'], monitoring: null, escalation: null, nodeId: 'THAL', nodeLabel: 'Thalamus', hasDepth: true },
   { label: 'Resolver Liquidity Backstop', type: 'INFRASTRUCTURE', evidence: 'B', description: '', cite: 'resolver-cite-2', steps: ['s1'], monitoring: null, escalation: null, nodeId: 'HYPO', nodeLabel: 'Hypothalamus', hasDepth: true }
 ];
+stubTreatments.forEach(function (t, i) {
+  t.sourcePortal = 'finance_test';
+  t.treatmentSourceKey = JSON.stringify(['finance_test', t.nodeId, 0, i]);
+});
 win.LIMENPortalContentResolver = {
   resolveForBrain: function () {
     return Promise.resolve({
@@ -109,15 +113,15 @@ function playbookFilter(list, diagnoses) {
   await brain.cycle();   // cycle 1: kicks off the one-time digest load
 
   // Craft the cross-path duplicate (Codex P2): a resolver treatment carrying the
-  // SAME label the digest is about to inject this cycle — the two paths assign
-  // different synthetic ids and diagnosisIds, and digest entries omit nodeId,
-  // so only semantic reconciliation can merge them.
+  // SAME source occurrence the digest is about to inject this cycle. Equal
+  // labels alone do not establish identity across different portal records.
   var digest0 = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/data/deep/finance-diagnosis-digest.json'), 'utf8'));
   var l2dx = digest0.diagnoses.filter(function (d) { return d.depth === 2; })[0];
   var dupeLabel = l2dx.tx[0].l;
   stubTreatments.push({
     label: dupeLabel, type: 'POLICY', evidence: 'A', description: '', cite: 'resolver-cite-3',
-    steps: ['s1'], monitoring: null, escalation: null, nodeId: 'THAL', nodeLabel: 'Thalamus', hasDepth: true
+    steps: ['s1'], monitoring: null, escalation: null, nodeId: l2dx.tx[0].n,
+    sourcePortal: l2dx.tx[0].p, treatmentSourceKey: l2dx.tx[0].k, hasDepth: true
   });
 
   await brain.cycle();   // cycle 2: digest applies, then resolveDeepContent runs
@@ -154,23 +158,23 @@ function playbookFilter(list, diagnoses) {
   var seq2 = (brain.state.treatments || []).map(function (t) { return t.id; }).join('|');
   assert('id sequence identical', seq1 === seq2);
 
-  console.log('\nT4: cross-path duplicate merges semantically, associations unioned');
+  console.log('\nT4: proven cross-path source duplicate merges, associations unioned');
   var finalTx = brain.state.treatments || [];
-  var dupeHits = finalTx.filter(function (t) { return t.label === dupeLabel; });
-  assert('exactly one entity for the cross-path label', dupeHits.length === 1, 'got ' + dupeHits.length);
+  var dupeHits = finalTx.filter(function (t) { return t.treatmentSourceKey === l2dx.tx[0].k; });
+  assert('exactly one entity for the cross-path source', dupeHits.length === 1, 'got ' + dupeHits.length);
   var dupeIds = (dupeHits[0] && dupeHits[0].diagnosisIds) || [];
   assert('associations unioned (digest dx + MARKET_CRASH)',
     dupeIds.indexOf(l2dx.id) !== -1 && dupeIds.indexOf('MARKET_CRASH') !== -1, JSON.stringify(dupeIds));
-  // count conservation: merged == unique normalized labels across both paths
-  var allLabels = {};
-  (preResolve || []).concat(stubTreatments.map(function (t) {
-    return { label: t.label };
-  })).forEach(function (t) {
-    if (t) allLabels[String(t.label || '').toLowerCase().replace(/\s+/g, ' ').trim()] = true;
+  // Count conservation: distinct positive identities plus every unknown.
+  var sourceKeys = new Set(), unknown = 0;
+  (preResolve || []).concat(stubTreatments).forEach(function (t) {
+    if (!t) return;
+    if (t.treatmentSourceKey) sourceKeys.add(t.treatmentSourceKey);
+    else unknown++;
   });
-  assert('merged count == semantic-unique count across paths',
-    finalTx.length === Object.keys(allLabels).length,
-    finalTx.length + ' vs ' + Object.keys(allLabels).length);
+  assert('merged count == source-unique count plus unknown entries',
+    finalTx.length === sourceKeys.size + unknown,
+    finalTx.length + ' vs ' + (sourceKeys.size + unknown));
 
   console.log('\nT5: same label with different known nodeIds stays separate (node context preserved)');
   brain.state.treatments = [{ id: 'keep_1', label: 'Shared Node Label', nodeId: 'THAL', diagnosisId: 'D1', synthetic: false }];
@@ -183,14 +187,17 @@ function playbookFilter(list, diagnoses) {
   assert('both nodeIds intact', JSON.stringify(nodeIds) === JSON.stringify(['HYPO', 'THAL']), JSON.stringify(nodeIds));
 
   console.log('\nT6: merged entity preserves resolver operational metadata');
-  brain.state.treatments = [{ id: 'keep_2', label: 'Metadata-Rich Label', diagnosisId: 'D1', synthetic: true }];
+  var richKey = JSON.stringify(['finance_test', 'THAL', 1, 0]);
+  brain.state.treatments = [{ id: 'keep_2', label: 'Metadata-Rich Label', diagnosisId: 'D1', synthetic: true,
+    nodeId: 'THAL', sourcePortal: 'finance_test', treatmentSourceKey: richKey }];
   stubTreatments.length = 0;
   stubTreatments.push({
     label: 'Metadata-Rich Label', type: 'POLICY', evidence: 'A',
     description: 'Full explanation from the resolver record',
     cite: 'c6', steps: ['s1', 's2'], monitoring: { cadence: 'hourly' },
     escalation: { to: 'operator' }, target: { node: 'THAL' },
-    nodeId: 'THAL', nodeLabel: 'Thalamus', hasDepth: true
+    nodeId: 'THAL', nodeLabel: 'Thalamus', hasDepth: true,
+    sourcePortal: 'finance_test', treatmentSourceKey: richKey
   });
   await brain.resolveDeepContent();
   var rich = (brain.state.treatments || []).filter(function (t) { return t.label === 'Metadata-Rich Label'; });

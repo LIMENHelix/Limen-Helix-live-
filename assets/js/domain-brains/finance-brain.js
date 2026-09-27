@@ -389,13 +389,15 @@
         for (var ti = 0; ti < actTreats.length; ti++) {
           var t = actTreats[ti];
           treatments.push({
-            id: 'treat_' + nodeId + '_' + ti,
+            id: 'treat_' + encodeURIComponent(JSON.stringify(['finance', nodeId, ai, ti])),
             label: t.label,
             type: t.type,
             evidence: t.evidence,
             description: t.description || '',
             diagnosisId: activeNodeIds[nodeId],
             nodeId: nodeId,
+            sourcePortal: 'finance',
+            treatmentSourceKey: JSON.stringify(['finance', nodeId, ai, ti]),
             relevance: 1.0,
             // Tri-state affirmative provenance (same rule as the digest builder):
             // mad-lib => true (scaffold); cite+steps => false (verified-eligible);
@@ -799,7 +801,7 @@
           for (var i = 0; i < dxContent.treatments.length; i++) {
             var t = dxContent.treatments[i];
             deepTreats.push({
-              id: 'deep_' + t.nodeId + '_' + i,
+              id: 'deep_' + encodeURIComponent(t.treatmentSourceKey || (dxId + '_' + i)),
               label: t.label,
               type: t.type,
               evidence: t.evidence,
@@ -812,6 +814,12 @@
               diagnosisId: dxId,
               diagnosisIds: t.diagnosisIds || [dxId],
               nodeId: t.nodeId,
+              sourcePortal: t.sourcePortal || null,
+              treatmentSourceKey: t.treatmentSourceKey || null,
+              portalDomain: t.portalDomain,
+              portalDomainId: t.portalDomainId,
+              ancestryPath: t.ancestryPath,
+              depth: t.depth,
               nodeLabel: t.nodeLabel,
               hasDepth: t.hasDepth,
               // Tri-state affirmative provenance (same rule as the canonical
@@ -831,34 +839,22 @@
           // _applyDeepDigest injected deep-digest treatments into state.treatments
           // earlier THIS cycle; a wholesale overwrite wiped them before render.
           //
-          // Semantic dedupe (2026-09-27, Codex P2): the SAME portal treatment can
-          // arrive through BOTH the resolver (canonical_deep) and the digest —
-          // with different synthetic ids and diagnosisIds, and digest entries
-          // omit nodeId. Reconcile on the normalized label, BUT only when node
-          // context is compatible: both nodeIds unknown, or equal. Two records
-          // with DIFFERENT known nodeIds are distinct node bindings and stay
-          // separate (review: label-only merging discards node/source context).
-          // Merges union diagnosis associations AND nodeIds, fill missing fields
-          // from the richer record, and keep the STRICTER provenance verdict.
-          function semanticKey(t) {
-            return String(t.label || '').toLowerCase().replace(/\s+/g, ' ').trim();
-          }
-          function nodeCompatible(a, b) {
-            return !a.nodeId || !b.nodeId || a.nodeId === b.nodeId;
+          // Merge only proven copies of the same authored occurrence. Source
+          // coordinates travel through BOTH paths before ranking/selection.
+          // Labels (even with equal nodes) are not identity. Missing keys stay
+          // separate, and conflicting portal/node context fails closed.
+          function sourceKey(t) {
+            if (typeof t.treatmentSourceKey !== 'string' || !t.treatmentSourceKey.trim()) return null;
+            return JSON.stringify([t.treatmentSourceKey, t.sourcePortal || '', t.nodeId || '']);
           }
           var existing = Array.isArray(self.state.treatments) ? self.state.treatments : [];
           var seen = {};
           var merged = [];
           existing.concat(deepTreats).forEach(function (t) {
             if (!t) return;
-            var sk = semanticKey(t);
-            var prev = seen[sk];
-            if (prev && !nodeCompatible(prev, t)) {
-              // distinct node binding — park under a node-qualified key instead
-              sk = sk + ' @ ' + (t.nodeId || prev.nodeId);
-              prev = seen[sk];
-            }
-            if (!prev) { seen[sk] = t; merged.push(t); return; }
+            var sk = sourceKey(t);
+            var prev = sk && seen[sk];
+            if (!prev) { if (sk) seen[sk] = t; merged.push(t); return; }
             var ids = {};
             (Array.isArray(prev.diagnosisIds) ? prev.diagnosisIds : [prev.diagnosisId]).forEach(function (i) { if (i) ids[i] = true; });
             (Array.isArray(t.diagnosisIds) ? t.diagnosisIds : [t.diagnosisId]).forEach(function (i) { if (i) ids[i] = true; });
@@ -882,6 +878,9 @@
             if (!prev.monitoring && t.monitoring) prev.monitoring = t.monitoring;
             if (!prev.escalation && t.escalation) prev.escalation = t.escalation;
             if (!prev.target && t.target) prev.target = t.target;
+            ['portalDomain', 'portalDomainId', 'ancestryPath', 'depth'].forEach(function (field) {
+              if (prev[field] == null && t[field] != null) prev[field] = t[field];
+            });
             if (prev.synthetic === true || t.synthetic === true) prev.synthetic = true;
             else if (prev.synthetic === false && t.synthetic === false) prev.synthetic = false;
             else prev.synthetic = undefined;

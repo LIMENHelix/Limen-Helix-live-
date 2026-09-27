@@ -897,7 +897,7 @@
       });
 
       (d.tx || []).forEach(function (t, ti) {
-        self.state.treatments.push({
+        var treatment = {
           id: 'deep_' + d.id + '_' + ti,
           label: t.l,
           type: t.t || '',
@@ -909,7 +909,13 @@
           cite: t.c || null,
           steps: t.st || [],
           synthetic: t.syn === 1 ? true : (t.syn === 0 ? false : undefined)   // tri-state: ONLY an affirmative false is verified-eligible; untagged stays unknown/unverified
-        });
+        };
+        if (pk === 'finance') {
+          treatment.nodeId = t.n || null;
+          treatment.sourcePortal = t.p || null;
+          treatment.treatmentSourceKey = t.k || null;
+        }
+        self.state.treatments.push(treatment);
       });
     }
   };

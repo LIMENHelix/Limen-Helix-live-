@@ -309,6 +309,9 @@
     var treatments = [];
     var activations = portalData.activations || [];
     var portalId = portalData.domainId || '';
+    // Use the fetched route, not a possibly absent/reused payload domainId.
+    var sourcePortal = ancestryPath[ancestryPath.length - 1] || portalId;
+    var financeSource = /^finance(?:_|$)/.test(sourcePortal);
     var portalTitle = portalData.title || '';
 
     for (var ai = 0; ai < activations.length; ai++) {
@@ -319,7 +322,7 @@
 
       for (var ti = 0; ti < treats.length; ti++) {
         var t = treats[ti];
-        treatments.push({
+        var treatment = {
           label: t.label || '',
           type: t.type || '',
           evidence: t.evidence || '',
@@ -338,7 +341,12 @@
           depth: depth,
           ancestryPath: ancestryPath.slice(),
           hasDepth: !!(t.steps && t.steps.length > 0 && t.cite)
-        });
+        };
+        if (financeSource) {
+          treatment.sourcePortal = sourcePortal;
+          treatment.treatmentSourceKey = JSON.stringify([sourcePortal, nodeId, ai, ti]);
+        }
+        treatments.push(treatment);
       }
     }
 
@@ -588,19 +596,40 @@
     // memberships nor totals.
     var resolves = activeDx.map(function (dx) {
       return resolveForDiagnosis(dx.id, innerOpts).then(function (pool) {
+        if (domainLabel === 'finance' && pool) {
+          // Preserve rank policy, break equal-rank ties by authored identity so
+          // a capped selection cannot depend on incoming treatment order. Do
+          // not sort the shared cache or change another domain's selection.
+          var rank = { A: 10, Strong: 10, B: 7, Moderate: 7, C: 4, Emerging: 1 };
+          pool = pool.slice().sort(function (a, b) {
+            if (a.hasDepth !== b.hasDepth) return a.hasDepth ? -1 : 1;
+            var priority = ((a.depth || 0) - (b.depth || 0)) ||
+              ((rank[b.evidence] || 0) - (rank[a.evidence] || 0));
+            if (priority) return priority;
+            var ak = a.treatmentSourceKey || '', bk = b.treatmentSourceKey || '';
+            return ak < bk ? -1 : ak > bk ? 1 : 0;
+          });
+        }
         return { diagnosisId: dx.id, pool: pool || [] };
       });
     });
 
     return Promise.all(resolves).then(function (results) {
-      function txKeyOf(t) { return (t.nodeId || '') + '|' + (t.label || ''); }
+      function txKeyOf(t, dxId, index) {
+        if (domainLabel !== 'finance') return (t.nodeId || '') + '|' + (t.label || '');
+        // Unknown identities get occurrence-local accounting keys, NEVER a
+        // label fallback. These are not promoted to source identities.
+        return typeof t.treatmentSourceKey === 'string' && t.treatmentSourceKey.trim()
+          ? JSON.stringify(['source', t.treatmentSourceKey, t.sourcePortal || '', t.nodeId || ''])
+          : JSON.stringify(['unknown', dxId, index]);
+      }
 
       // Association sets over FULL pools (complete membership, not the capped view).
       var assoc = {};
       var poolEntryCount = 0, poolIdentitySet = {}, poolDuplicateEntries = 0;
       results.forEach(function (r) {
-        r.pool.forEach(function (t) {
-          var k = txKeyOf(t);
+        r.pool.forEach(function (t, index) {
+          var k = txKeyOf(t, r.diagnosisId, index);
           if (!assoc[k]) assoc[k] = [];
           if (assoc[k].indexOf(r.diagnosisId) === -1) assoc[k].push(r.diagnosisId);
           // Pool-level duplicate INCIDENCE (independent of backfill): entries
@@ -635,7 +664,7 @@
         var selected = [];
         for (var pi = 0; pi < pool.length && selected.length < maxTreatments; pi++) {
           var t = pool[pi];
-          var k = txKeyOf(t);
+          var k = txKeyOf(t, dxId, pi);
           if (claimed[k]) continue;
           claimed[k] = dxId;
           // Clone before attaching per-call associations: pool entries are the
