@@ -284,6 +284,9 @@ export function buildDigest(pk, domainsDir = DOMAINS_DIR) {
   // just bloats the fetch; it stays in the portal tree (reachable via eager
   // drill). The digest is the brain's working set.
   const totalBeforeCap = deduped.length;
+  // Count uncapped treatment links across the complete deduped diagnosis pool,
+  // before the active diagnosis window discards unselected entries.
+  const treatmentsBeforeCap = deduped.reduce((s, d) => s + d.txCount, 0);
   deduped.sort((a, b) =>
     ((b.themes.length ? 1 : 0) - (a.themes.length ? 1 : 0)) ||
     (b.txCount - a.txCount) ||
@@ -328,7 +331,7 @@ export function buildDigest(pk, domainsDir = DOMAINS_DIR) {
     // so consumers never compute coverage from mismatched populations
     // (finance previously showed treatmentTotal 4625 vs syntheticTreatments 1080).
     treatmentTotal: deduped.reduce((s, d) => s + d.tx.length, 0),
-    availableTreatments: deduped.reduce((s, d) => s + d.txCount, 0),
+    availableTreatments: treatmentsBeforeCap,
     // Only syn===1 is scaffold. syn===2 is UNKNOWN — counting truthy conflated
     // unknown with generated content (environment: 360 reported vs 359 actual).
     syntheticTreatments: deduped.reduce((s, d) => s + d.tx.filter(t => t.syn === 1).length, 0),

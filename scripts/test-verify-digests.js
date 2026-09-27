@@ -87,12 +87,16 @@ assert('V4: counts self-consistent', badCount.length === 0, badCount.slice(0, 3)
 assert('V5: every digest spans multiple depths', shallowOnly.length === 0, shallowOnly.join('; '));
 assert('V8: every syn=0 record carries its evidence (c + st)', badSyn0Evidence.length === 0,
   badSyn0Evidence.slice(0, 3).join(' | ') + (badSyn0Evidence.length > 3 ? ' (+' + (badSyn0Evidence.length - 3) + ')' : ''));
-assert('V9: treatmentTotal == selected population, availableTreatments == uncapped population', (function () {
+// Selected rows cannot reconstruct the full-pool total. Exact availability is
+// checked by test-digest-availability.cjs; here assert selected counts and bounds.
+assert('V9: selected treatment counts and full-pool availability bounds', (function () {
   for (var vi = 0; vi < KEYS.length; vi++) {
     var j = JSON.parse(fs.readFileSync(path.join(DEEP, KEYS[vi] + '-diagnosis-digest.json'), 'utf8'));
     var sel = j.diagnoses.reduce(function (n, d) { return n + (d.tx || []).length; }, 0);
-    var avail = j.diagnoses.reduce(function (n, d) { return n + (d.txCount || 0); }, 0);
-    if (j.treatmentTotal !== sel || j.availableTreatments !== avail) return false;
+    var selectedUncapped = j.diagnoses.reduce(function (n, d) { return n + (d.txCount || 0); }, 0);
+    if (j.treatmentTotal !== sel || !Number.isSafeInteger(j.availableTreatments) ||
+        j.availableTreatments < selectedUncapped) return false;
+    if (j.diagnosisTotalAvailable === j.diagnosisCount && j.availableTreatments !== selectedUncapped) return false;
   }
   return true;
 })());
