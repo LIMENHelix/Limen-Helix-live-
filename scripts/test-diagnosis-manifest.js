@@ -232,6 +232,53 @@ function reset() { handler._clearCache(); fetchCalls = []; upstreamBytes = 0; gl
   assert('clean suffix still routes', rg.body.found === true && rg.body.route === '/api/fetch-portal?domainId=finance_good_suffix');
   globalThis.__BLOB_OVERRIDE = null;
 
+  console.log('A2: raw content is fetched by the EXACT metadata sha (branch move cannot swap bodies)');
+  reset();
+  var shaCallsBefore = fetchCalls.length;
+  await call({ domain: 'finance', page: '0', size: '1000' });
+  var newCalls = fetchCalls.slice(shaCallsBefore);
+  var metaIdx = newCalls.findIndex(function (u) { return u.indexOf('/contents/') !== -1; });
+  var blobIdx = newCalls.findIndex(function (u) { return u.indexOf('/git/blobs/') !== -1; });
+  assert('metadata call precedes content call', metaIdx !== -1 && blobIdx !== -1 && blobIdx > metaIdx, JSON.stringify(newCalls));
+  assert('content call targets the blob API by exact sha', newCalls[blobIdx].indexOf('/git/blobs/' + SHA.finance) !== -1, newCalls[blobIdx]);
+  var branchQualified = newCalls.slice(metaIdx + 1).filter(function (u) { return u.indexOf('diagnosis-manifest.json') !== -1; });
+  assert('no branch-qualified content request after metadata', branchQualified.length === 0, JSON.stringify(branchQualified));
+
+  console.log('A3: cache-cleared pages across separate handler instances honor the pin');
+  reset();
+  var i1 = await call({ domain: 'defense', page: '0', size: '500' });
+  handler._clearCache();                       // simulate a different serverless instance
+  var i2 = await call({ domain: 'defense', page: '1', size: '500', ref: i1.body.ref });
+  handler._clearCache();                       // and a third
+  var i3 = await call({ domain: 'defense', page: '2', size: '500', ref: i1.body.ref });
+  assert('same ref across instances', i2.body.ref === i1.body.ref && i3.body.ref === i1.body.ref);
+  var inst1 = JSON.stringify((await call({ domain: 'defense', page: '1', size: '500', ref: i1.body.ref })).body.entries);
+  assert('identical page content across instances', JSON.stringify(i2.body.entries) === inst1);
+
+  console.log('A4: full fleet pagination with ONE immutable ref per domain');
+  reset();
+  var fleetOk = true, fleetTotal = 0;
+  for (var k4 = 0; k4 < KEYS.length; k4++) {
+    var key4 = KEYS[k4];
+    var firstPage = await call({ domain: key4, page: '0', size: '1000' });
+    var ref4 = firstPage.body.ref;
+    var committed4 = JSON.parse(BLOBS[ref4]);
+    var seen4 = {}, pages4 = firstPage.body.pages;
+    firstPage.body.entries.forEach(function (e) { seen4[e[0]] = true; });
+    for (var pg4 = 1; pg4 < pages4; pg4++) {
+      var rp = await call({ domain: key4, page: String(pg4), size: '1000', ref: ref4 });
+      if (rp.body.ref !== ref4) fleetOk = false;
+      (rp.body.entries || []).forEach(function (e) { seen4[e[0]] = true; });
+    }
+    fleetTotal += Object.keys(seen4).length;
+    assert(key4 + ': pinned fleet enumeration == committed (' + committed4.count + ')',
+      Object.keys(seen4).length === committed4.count &&
+      (committed4.entries || []).every(function (e) { return seen4[e[0]]; }),
+      'seen=' + Object.keys(seen4).length);
+  }
+  assert('one immutable ref per domain across all pages', fleetOk);
+  console.log('    fleet pinned total: ' + fleetTotal + ' ids');
+
   console.log('\n' + (tests - failures) + '/' + tests + ' passed');
   process.exit(failures ? 1 : 0);
 })().catch(function (e) { console.error('TEST CRASH', e && e.stack || e); process.exit(1); });
