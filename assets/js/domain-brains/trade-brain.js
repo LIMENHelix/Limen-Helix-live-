@@ -785,6 +785,7 @@
               monitoring: t.monitoring,
               escalation: t.escalation,
               diagnosisId: dxId,
+              diagnosisIds: t.diagnosisIds || [dxId],
               nodeId: t.nodeId,
               nodeLabel: t.nodeLabel,
               hasDepth: t.hasDepth,

@@ -182,6 +182,25 @@ function playbookFilter(list, diagnoses) {
   var nodeIds = nodeHits.map(function (t) { return t.nodeId; }).sort();
   assert('both nodeIds intact', JSON.stringify(nodeIds) === JSON.stringify(['HYPO', 'THAL']), JSON.stringify(nodeIds));
 
+  console.log('\nT6: merged entity preserves resolver operational metadata');
+  brain.state.treatments = [{ id: 'keep_2', label: 'Metadata-Rich Label', diagnosisId: 'D1', synthetic: true }];
+  stubTreatments.length = 0;
+  stubTreatments.push({
+    label: 'Metadata-Rich Label', type: 'POLICY', evidence: 'A',
+    description: 'Full explanation from the resolver record',
+    cite: 'c6', steps: ['s1', 's2'], monitoring: { cadence: 'hourly' },
+    escalation: { to: 'operator' }, target: { node: 'THAL' },
+    nodeId: 'THAL', nodeLabel: 'Thalamus', hasDepth: true
+  });
+  await brain.resolveDeepContent();
+  var rich = (brain.state.treatments || []).filter(function (t) { return t.label === 'Metadata-Rich Label'; });
+  assert('exactly one merged entity', rich.length === 1, 'got ' + rich.length);
+  assert('description preserved', rich[0] && rich[0].description === 'Full explanation from the resolver record');
+  assert('monitoring preserved', rich[0] && rich[0].monitoring && rich[0].monitoring.cadence === 'hourly');
+  assert('escalation preserved', rich[0] && rich[0].escalation && rich[0].escalation.to === 'operator');
+  assert('target preserved', rich[0] && rich[0].target && rich[0].target.node === 'THAL');
+  assert('scaffold verdict kept (stricter wins)', rich[0] && rich[0].synthetic === true);
+
   console.log('\n' + (tests - failures) + '/' + tests + ' passed');
   process.exit(failures ? 1 : 0);
 })().catch(function (e) { console.error('TEST CRASH', e && e.stack || e); process.exit(1); });

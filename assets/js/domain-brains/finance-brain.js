@@ -808,6 +808,7 @@
               steps: t.steps,
               monitoring: t.monitoring,
               escalation: t.escalation,
+              target: t.target,
               diagnosisId: dxId,
               diagnosisIds: t.diagnosisIds || [dxId],
               nodeId: t.nodeId,
@@ -874,6 +875,13 @@
             if (!prev.cite && t.cite) prev.cite = t.cite;
             if ((!prev.steps || !prev.steps.length) && t.steps && t.steps.length) prev.steps = t.steps;
             if (!prev.hasDepth && t.hasDepth) prev.hasDepth = t.hasDepth;
+            // Preserve the resolver's full operational metadata — the retained
+            // record is often the lightweight digest twin; without these the
+            // playbook loses explanation, monitoring, and escalation guidance.
+            if (!prev.description && t.description) prev.description = t.description;
+            if (!prev.monitoring && t.monitoring) prev.monitoring = t.monitoring;
+            if (!prev.escalation && t.escalation) prev.escalation = t.escalation;
+            if (!prev.target && t.target) prev.target = t.target;
             if (prev.synthetic === true || t.synthetic === true) prev.synthetic = true;
             else if (prev.synthetic === false && t.synthetic === false) prev.synthetic = false;
             else prev.synthetic = undefined;
