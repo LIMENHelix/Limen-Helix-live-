@@ -21,26 +21,46 @@ const PORTAL_KEYS = new Set([
 ]);
 
 const CACHE_TTL = 3600 * 1000;
-const _cache = {};   // domain -> { t, manifest }
+const _cache = {};   // domain -> { t, manifest, ref }
 
 async function loadManifest(domain, token) {
   const hit = _cache[domain];
-  if (hit && (Date.now() - hit.t) < CACHE_TTL) return hit.manifest;
-  const url = `https://api.github.com/repos/LIMENHelix/Limen-Helix-live-/contents/assets/data/deep/${domain}-diagnosis-manifest.json`;
-  const ghRes = await fetch(url, {
+  if (hit && (Date.now() - hit.t) < CACHE_TTL) return { manifest: hit.manifest, ref: hit.ref, status: 200 };
+
+  // 1) Metadata call: the Contents API omits `content` for files >1 MiB (all 20
+  // manifests are 3.7-6.9 MiB) — but it still returns the blob sha, which we
+  // publish as `ref` so multi-page traversals can verify version consistency.
+  const metaUrl = `https://api.github.com/repos/LIMENHelix/Limen-Helix-live-/contents/assets/data/deep/${domain}-diagnosis-manifest.json`;
+  const metaRes = await fetch(metaUrl, {
     headers: {
       'Authorization': `Bearer ${token}`,
       'Accept': 'application/vnd.github.v3+json',
       'User-Agent': 'LimenHelix-Manifest'
     }
   });
-  if (ghRes.status === 404) return null;
-  if (!ghRes.ok) throw new Error('GitHub API error ' + ghRes.status);
-  const data = await ghRes.json();
-  if (!data.content) throw new Error('no content in GitHub response');
-  const manifest = JSON.parse(Buffer.from(data.content, 'base64').toString('utf-8'));
-  _cache[domain] = { t: Date.now(), manifest };
-  return manifest;
+  if (metaRes.status === 404) return { status: 404 };
+  if (!metaRes.ok) return { status: 502, upstream: metaRes.status };
+  const meta = await metaRes.json();
+
+  // 2) Raw content call: works for files of any size (base64 `content` is only
+  // offered <1 MiB; requesting the raw media type returns the file itself).
+  const rawRes = await fetch(metaUrl, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/vnd.github.raw+json',
+      'User-Agent': 'LimenHelix-Manifest'
+    }
+  });
+  if (!rawRes.ok) return { status: 502, upstream: rawRes.status };
+  const text = await rawRes.text();
+  let manifest;
+  try {
+    manifest = JSON.parse(text);
+  } catch (e) {
+    return { status: 502, upstream: 'malformed-manifest-json' };
+  }
+  _cache[domain] = { t: Date.now(), manifest, ref: meta.sha || null };
+  return { manifest, ref: meta.sha || null, status: 200 };
 }
 
 module.exports = async function handler(req, res) {
@@ -57,18 +77,28 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const manifest = await loadManifest(domain, token);
-    if (!manifest) return res.status(404).json({ error: 'Manifest not found for domain', domain });
+    const result = await loadManifest(domain, token);
+    if (result.status === 404) return res.status(404).json({ error: 'Manifest not found for domain', domain });
+    if (result.status !== 200) {
+      // Upstream failure propagates as 502 — never a fake empty-success 200.
+      return res.status(502).json({ error: 'GitHub upstream error', status: result.upstream || result.status });
+    }
+    const manifest = result.manifest;
 
     res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
 
     if (id !== undefined) {
       const entry = (manifest.entries || []).find(e => e[0] === id) || null;
+      // Route guard: the returned route may only address expected repository
+      // content — a manifest slug suffix must be a plain slug, and the route is
+      // always this site's fetch-portal handler (which shape-gates again).
+      const safeSuffix = entry && /^[A-Za-z0-9_-]{1,160}$/.test(entry[1]);
       return res.status(200).json({
         domain,
-        found: !!entry,
-        entry,
-        route: entry ? `/api/fetch-portal?domainId=${domain}_${entry[1]}` : null
+        ref: result.ref,
+        found: !!(entry && safeSuffix),
+        entry: entry && safeSuffix ? entry : null,
+        route: entry && safeSuffix ? `/api/fetch-portal?domainId=${domain}_${encodeURIComponent(entry[1])}` : null
       });
     }
 
@@ -79,6 +109,7 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({
       domain,
       source: manifest.source || null,
+      ref: result.ref,
       count,
       page,
       pages,
@@ -89,3 +120,7 @@ module.exports = async function handler(req, res) {
     return res.status(500).json({ error: 'Internal error', message: err.message });
   }
 };
+
+// Test seam: isolated suites need a clean cache between scenarios (malformed
+// bodies, upstream failures) without waiting out the TTL.
+module.exports._clearCache = function () { for (const k in _cache) delete _cache[k]; };

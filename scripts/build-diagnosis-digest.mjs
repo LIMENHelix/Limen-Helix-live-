@@ -261,11 +261,24 @@ function buildDigest(pk) {
     .sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
   // Stratified pick: buckets inherit the global sort order, so each depth keeps
   // its own richest/urgent entries; leftover slots fill from the global ranking.
+  // RESERVE-FIRST (2026-09-27): every represented depth gets up to 5 seats before
+  // the weighted table runs — a fixed 2..7 quota table shut deeper levels out of
+  // the window entirely (education's 3 L8 diagnoses were unreachable). With >=5
+  // entries per depth this lands on exactly the weighted quotas, so distributions
+  // for depths that already had seats are unchanged.
+  const RESERVE_PER_DEPTH = 5;
   const buckets = {};
   deduped.forEach(d => { (buckets[d.depth] = buckets[d.depth] || []).push(d); });
   let picked = [];
+  const contributed = {};
+  Object.keys(buckets).map(Number).sort((a, b) => a - b).forEach(dep => {
+    const take = buckets[dep].splice(0, RESERVE_PER_DEPTH);
+    picked = picked.concat(take);
+    contributed[dep] = take.length;
+  });
   for (const dep in DEPTH_QUOTA) {
-    picked = picked.concat((buckets[dep] || []).slice(0, DEPTH_QUOTA[dep]));
+    const remaining = Math.max(0, DEPTH_QUOTA[dep] - (contributed[dep] || 0));
+    if (buckets[dep]) picked = picked.concat(buckets[dep].slice(0, remaining));
   }
   if (picked.length < MAX_DX_PER_DOMAIN) {
     const chosen = new Set(picked);
@@ -287,7 +300,10 @@ function buildDigest(pk) {
     urgentThemeCount: deduped.filter(d => d.themes.length).length,
     urgentThemeAvailable: urgentCount,
     treatmentTotal: deduped.reduce((s, d) => s + d.txCount, 0),
-    syntheticTreatments: deduped.reduce((s, d) => s + d.tx.filter(t => t.syn).length, 0),
+    // Only syn===1 is scaffold. syn===2 is UNKNOWN — counting truthy conflated
+    // unknown with generated content (environment: 360 reported vs 359 actual).
+    syntheticTreatments: deduped.reduce((s, d) => s + d.tx.filter(t => t.syn === 1).length, 0),
+    unknownTreatments: deduped.reduce((s, d) => s + d.tx.filter(t => t.syn === 2).length, 0),
     diagnoses: deduped,
     _manifest: manifestEntries
   };

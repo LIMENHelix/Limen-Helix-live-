@@ -397,9 +397,16 @@
             diagnosisId: activeNodeIds[nodeId],
             nodeId: nodeId,
             relevance: 1.0,
-            // Affirmative machine-checkable provenance: false = classified NOT
-            // scaffold; true = mad-lib verb family. No flag is never "verified".
-            synthetic: self._isFinanceMadLibTreatment ? self._isFinanceMadLibTreatment(t.label) : true,
+            // Tri-state affirmative provenance (same rule as the digest builder):
+            // mad-lib => true (scaffold); cite+steps => false (verified-eligible);
+            // a regex miss WITHOUT provenance is UNKNOWN (undefined) — never
+            // verified by omission. All 38 finance.json root treatments miss the
+            // regex AND lack cite/steps, so they are unknown, not verified.
+            synthetic: (function () {
+              if (self._isFinanceMadLibTreatment && self._isFinanceMadLibTreatment(t.label)) return true;
+              if (t.cite && String(t.cite).length > 3 && Array.isArray(t.steps) && t.steps.length > 0) return false;
+              return undefined;
+            })(),
             source: 'canonical'
           });
         }
@@ -806,9 +813,14 @@
               nodeId: t.nodeId,
               nodeLabel: t.nodeLabel,
               hasDepth: t.hasDepth,
-              // Affirmative machine-checkable provenance (same classifier as the
-              // canonical path): resolver output is unverified unless classified.
-              synthetic: self._isFinanceMadLibTreatment ? self._isFinanceMadLibTreatment(t.label) : true,
+              // Tri-state affirmative provenance (same rule as the canonical
+              // path + digest builder): mad-lib => true; cite+steps => false;
+              // otherwise unknown (undefined) — never verified by omission.
+              synthetic: (function () {
+                if (self._isFinanceMadLibTreatment && self._isFinanceMadLibTreatment(t.label)) return true;
+                if (t.cite && String(t.cite).length > 3 && Array.isArray(t.steps) && t.steps.length > 0) return false;
+                return undefined;
+              })(),
               source: 'canonical_deep'
             });
           }
