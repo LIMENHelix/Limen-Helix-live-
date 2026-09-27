@@ -295,3 +295,79 @@ Parts of this document's Part B and the earlier "inert" language referred to the
 arm** (`_learnedVec`, BCM η, active-inference consumer, lateral.js) — that finding stands.
 It does **not** extend to the 16-panel console system, which this audit shows is a
 functioning pipeline with 4 fixable defects and 2 provenance-labeling gaps, not a mockup.
+
+---
+
+## Part E — Owner doctrine (2026-09-27) + per-domain implementation notes
+
+Owner doctrine, stated this session and binding on how this work is applied:
+
+1. **Domains are individual brains.** They do not share code or behavior for
+   convenience. A fix proven in one domain is a *pattern*, not a fleet rollout.
+2. **Sharing is permitted only where it matches a neurological sequence** — the
+   actual neural pipeline stages (brainstem cycle, thalamic relay, immune
+   surveillance, memory consolidation), not "twenty domains might want this."
+3. **The current system is what it is.** No re-architecture. Fix bugs and the
+   items needed to connect the systems efficiently.
+4. **Everything done is noted here for possible implementation in the NEXT
+   domain** — applied when that domain is worked on, with its own before/after
+   measurement. No fleet-wide campaigns.
+
+### E.1 Domain-local patterns (implement per domain, in that domain's own files)
+
+Each of these was proven on finance. Apply to the next domain individually,
+adapting to that domain's own data and contracts:
+
+| Pattern | Proven at | What it is |
+|---|---|---|
+| diagnosisIndex grounding | finance-brain.js:113 | match stress catch-all triggers to the domain's own pulse contracts (only the catchAllBlocked:false diagnosis keeps `_stress_*` triggers) |
+| stress catch-all timing | finance-brain.js scoreStress override | stress flags computed after current-cycle scoring, not from previous-cycle state |
+| treatment merge w/ semantic dedupe | finance resolveDeepContent | merge-not-replace; reconcile on normalized label; node-aware separation; union diagnosisIds + nodeIds; preserve metadata (description/monitoring/escalation/target); stricter provenance wins |
+| provenance tri-state | finance (both treatment paths) | mad-lib => scaffold; cite+steps => verified-eligible; otherwise unknown. Each domain applies its OWN classifier/verb family |
+| digest rebuild + validation | finance, then fleet build | full-tree digest + manifest, per-domain measured before/after identity sets; synthetic tagging at build |
+| refractory/metaplasticity actuation | finance overlays | volatility-scaled refractory dead-time (already domain-owned; copy the pattern, not the parameters) |
+
+### E.2 Legitimately shared (neurological sequences — already the design)
+
+These are the nervous system's own stages; sharing here is anatomical, not
+convenience:
+
+- **Brainstem cycle spine** (`domain-brain-base.js`): signals → stress →
+  diagnoses → treatments → opportunities → emissions. One sequence, every brain.
+- **Thalamic relay** (digest + `_applyDeepDigest`): sensory content gated into
+  the cycle. Rotation over depth = attention cycling; per-depth cursors.
+- **Synaptic convergence** (`portal-content-resolver.js` joint selection):
+  associations preserved as `diagnosisIds` on each kept entity — one signal,
+  many targets, counted once.
+- **Immune surveillance** (console `classifyProvenance` + panel authority):
+  scaffold/unknown/verified discrimination; synthetic may inform but never
+  carries FULL authority.
+- **Memory** (per-domain manifests + `/api/diagnosis-manifest`): complete
+  identity/route table, snapshot-pinned recall (`?ref=`), schema-gated.
+- **Inter-brain emissions** (emissionRules + bus): domain-local rules, shared
+  delivery mechanism — matches the connectome contract (no master tier).
+
+### E.3 What this doctrine changes about the current PR
+
+- The **19-adapter `diagnosisIds` propagation** was NOT a coupling change: each
+  domain's own adapter now carries the association set its own console needs to
+  render shared treatments under every applicable diagnosis. It is listed here
+  as a domain-local pattern (E.1, merge/render row) — each file owns its copy.
+- The **fleet digest rebuild** is done (all 20 exist now with full-tree
+  coverage, manifests, provenance tags). That was a one-time admission of the
+  corpus, not a rolling campaign. Future digest rebuilds happen per domain,
+  when that domain is worked on.
+- **brain-v2 `bind/`** remains the long-term home for domain knowledge as
+  declared data (Part B3.1) — that direction *is* the doctrine: one runtime,
+  per-domain declarations, no per-domain code inside the shared kernel.
+
+### E.4 Working agreement going forward
+
+1. No re-architecture; bug fixes and connection-efficiency items only.
+2. New fixes land in the domain being worked on, and are recorded in this
+   document under E.1 for the next domain's optional adoption.
+3. Shared files (base brain, resolver, console, manifest endpoint) are touched
+   only for neurological-sequence stages (E.2) — and each such touch gets
+   justified against the sequence it belongs to.
+4. Every change keeps its conservation/provenance measurements so the next
+   domain can compare honestly rather than copy blindly.
