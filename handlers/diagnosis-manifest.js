@@ -32,6 +32,11 @@ const PORTAL_KEYS = new Set([
 
 const META_TTL = 3600 * 1000;   // domain -> current sha (re-resolve hourly)
 const CACHE_MAX = 50;           // bounded blob cache (immutable shas, FIFO)
+// Current manifests fit below 7.2 MB, including the largest, p2_agri. Limit
+// decoded response bytes, not just entry count: arbitrary pinned JSON must not
+// be fully buffered/parsed before validation. This is a per-blob byte bound,
+// not a bound on total process memory across concurrent requests/cache entries.
+const MAX_MANIFEST_BYTES = 8 * 1024 * 1024;
 const _metaCache = {};          // domain -> { t, sha }
 const _blobCache = {};          // sha -> manifest (immutable)
 const _blobOrder = [];          // FIFO eviction order
@@ -56,16 +61,60 @@ async function gh(url, token, raw) {
   });
 }
 
+async function cancelBody(body) {
+  // Cancellation is best-effort; its failure must not hide the size/read error.
+  try { if (body) await body.cancel(); } catch (_) {}
+}
+
+async function boundedBlobText(res) {
+  const tooLarge = { status: 502, upstream: 'manifest-body-too-large' };
+  const length = res.headers.get('content-length');
+  if (length !== null && /^\d+$/.test(length) && Number(length) > MAX_MANIFEST_BYTES) {
+    await cancelBody(res.body);
+    return tooLarge;
+  }
+  if (!res.body) return { text: '' };
+  const reader = res.body.getReader();
+  let buffer, bytes = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      // Count actual bytes even if Content-Length is absent, false, or refers
+      // to a compressed transfer. Do not retain the chunk that exceeds the cap.
+      if (value.byteLength > MAX_MANIFEST_BYTES - bytes) {
+        await cancelBody(reader);
+        return tooLarge;
+      }
+      if (value.byteLength) {
+        // One bounded buffer avoids unbounded per-chunk object overhead when
+        // a response is fragmented into many tiny chunks. Decode only written
+        // bytes; TextDecoder preserves Response.text's UTF-8/BOM semantics.
+        if (!buffer) buffer = Buffer.allocUnsafe(MAX_MANIFEST_BYTES);
+        buffer.set(value, bytes);
+        bytes += value.byteLength;
+      }
+    }
+    return { text: new TextDecoder().decode(buffer ? buffer.subarray(0, bytes) : new Uint8Array()) };
+  } catch (_) {
+    await cancelBody(reader);
+    return { status: 502, upstream: 'manifest-body-read-failed' };
+  } finally {
+    reader.releaseLock();
+  }
+}
+
 async function blobBySha(sha, token) {
   if (_blobCache[sha]) return { manifest: _blobCache[sha], status: 200 };
-  // The blob API serves any size with the raw media type (the Contents API
-  // omits inline content >1 MiB — all manifests are 3.7-6.9 MiB).
+  // The raw blob API supports our multi-MiB manifests, but is also addressable
+  // by arbitrary caller-supplied SHAs: bound its body before JSON parsing.
   const res = await gh(`https://api.github.com/repos/LIMENHelix/Limen-Helix-live-/git/blobs/${sha}`, token, true);
   if (res.status === 404) return { status: 404 };
   if (!res.ok) return { status: 502, upstream: res.status };
-  const text = await res.text();
+  const body = await boundedBlobText(res);
+  if (body.status) return body;
   let manifest;
-  try { manifest = JSON.parse(text); } catch (e) {
+  try { manifest = JSON.parse(body.text); } catch (e) {
     return { status: 502, upstream: 'malformed-manifest-json' };   // never cached
   }
   // Schema gate BEFORE cache admission: an unauthenticated caller may pin any

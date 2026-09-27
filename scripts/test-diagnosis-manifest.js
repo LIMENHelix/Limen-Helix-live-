@@ -54,7 +54,7 @@ global.fetch = function (url, opts) {
     var body = blobBody(blobM[1]);
     if (body === undefined || body === null) return resp(404);
     upstreamBytes += Buffer.byteLength(body);
-    return Promise.resolve({ ok: true, status: 200, text: function () { return Promise.resolve(body); }, json: function () { return Promise.resolve({}); } });
+    return Promise.resolve(new Response(body, { headers: { 'content-length': String(Buffer.byteLength(body)) } }));
   }
   var cm = u.match(/\/contents\/assets\/data\/deep\/([a-z0-9_]+)-diagnosis-manifest\.json/);
   if (cm) {
