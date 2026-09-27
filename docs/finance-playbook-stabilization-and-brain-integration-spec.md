@@ -298,76 +298,148 @@ functioning pipeline with 4 fixable defects and 2 provenance-labeling gaps, not 
 
 ---
 
-## Part E — Owner doctrine (2026-09-27) + per-domain implementation notes
+## Part E — Owner doctrine (clarified 2026-09-27) + NEXT-DOMAIN NOTES
 
-Owner doctrine, stated this session and binding on how this work is applied:
+**Governing rule: neurological homology** — not software convenience, not
+software anti-sharing. Each domain is an individual cognitive brain and retains
+its own state, observations/signals, stress interpretation, diagnoses,
+treatments, opportunities/actions, domain-specific thresholds/timing,
+learning/history, and domain-specific evidence and behavior.
 
-1. **Domains are individual brains.** They do not share code or behavior for
-   convenience. A fix proven in one domain is a *pattern*, not a fleet rollout.
-2. **Sharing is permitted only where it matches a neurological sequence** — the
-   actual neural pipeline stages (brainstem cycle, thalamic relay, immune
-   surveillance, memory consolidation), not "twenty domains might want this."
-3. **The current system is what it is.** No re-architecture. Fix bugs and the
-   items needed to connect the systems efficiently.
-4. **Everything done is noted here for possible implementation in the NEXT
-   domain** — applied when that domain is worked on, with its own before/after
-   measurement. No fleet-wide campaigns.
+**A fix in Finance does NOT authorize changing the other 19 brains.** The path
+is: Finance finding → document pattern → when the next domain is worked,
+inspect THAT domain → determine whether the same neurological mechanism applies
+→ measure → implement only if appropriate.
 
-### E.1 Domain-local patterns (implement per domain, in that domain's own files)
+**Shared mechanisms are permitted when the sharing follows the neurological
+architecture itself** — transport, relay, communication contracts,
+memory/retrieval, immune/provenance barriers, or other genuinely shared
+biological sequences. A shared mechanism does not imply shared cognition: e.g.
+a shared provenance/immune barrier is valid while each domain supplies and
+interprets its own evidence.
 
-Each of these was proven on finance. Apply to the next domain individually,
-adapting to that domain's own data and contracts:
+**The existing architecture is authoritative.** No re-architecture. Work is:
+fix bugs, repair broken connections, eliminate information loss, improve
+connection efficiency, verify intended behavior, preserve existing anatomy.
+Do not consolidate code because implementations look similar; do not split
+existing shared code because domains are individual. Either direction requires
+evidence that the current implementation violates the neurological sequence.
 
-| Pattern | Proven at | What it is |
-|---|---|---|
-| diagnosisIndex grounding | finance-brain.js:113 | match stress catch-all triggers to the domain's own pulse contracts (only the catchAllBlocked:false diagnosis keeps `_stress_*` triggers) |
-| stress catch-all timing | finance-brain.js scoreStress override | stress flags computed after current-cycle scoring, not from previous-cycle state |
-| treatment merge w/ semantic dedupe | finance resolveDeepContent | merge-not-replace; reconcile on normalized label; node-aware separation; union diagnosisIds + nodeIds; preserve metadata (description/monitoring/escalation/target); stricter provenance wins |
-| provenance tri-state | finance (both treatment paths) | mad-lib => scaffold; cite+steps => verified-eligible; otherwise unknown. Each domain applies its OWN classifier/verb family |
-| digest rebuild + validation | finance, then fleet build | full-tree digest + manifest, per-domain measured before/after identity sets; synthetic tagging at build |
-| refractory/metaplasticity actuation | finance overlays | volatility-scaled refractory dead-time (already domain-owned; copy the pattern, not the parameters) |
+PR #386 is the Finance checkpoint. No other domain begins without explicit
+owner instruction.
 
-### E.2 Legitimately shared (neurological sequences — already the design)
+### NEXT-DOMAIN NOTES (candidates, NOT authorization)
 
-These are the nervous system's own stages; sharing here is anatomical, not
-convenience:
+**N1 — Console changelog blank entries**
+1. Defect: changelog entries written `{title, description}` but rendered from
+   `message||description||summary` — most entries blank.
+2. Finance fix: added `title` to the fallback chain (domain-console-brain.js:777).
+3. Mechanism: presentation/render fidelity of the panel system.
+4. Scope: shared renderer file, but the defect class is per-panel — inspect
+   which panels each domain actually renders before assuming the same bug.
+5. Measure first: does the domain's changelog use the same writer shape?
 
-- **Brainstem cycle spine** (`domain-brain-base.js`): signals → stress →
-  diagnoses → treatments → opportunities → emissions. One sequence, every brain.
-- **Thalamic relay** (digest + `_applyDeepDigest`): sensory content gated into
-  the cycle. Rotation over depth = attention cycling; per-depth cursors.
-- **Synaptic convergence** (`portal-content-resolver.js` joint selection):
-  associations preserved as `diagnosisIds` on each kept entity — one signal,
-  many targets, counted once.
-- **Immune surveillance** (console `classifyProvenance` + panel authority):
-  scaffold/unknown/verified discrimination; synthetic may inform but never
-  carries FULL authority.
-- **Memory** (per-domain manifests + `/api/diagnosis-manifest`): complete
-  identity/route table, snapshot-pinned recall (`?ref=`), schema-gated.
-- **Inter-brain emissions** (emissionRules + bus): domain-local rules, shared
-  delivery mechanism — matches the connectome contract (no master tier).
+**N2 — Pipeline trace freshness lines dead**
+1. Defect: `freshColor`/`ageStr` used before assignment (var hoisting) —
+   SNAPSHOT AGE permanently "unknown" in the honesty panel.
+2. Finance fix: moved computation above the trace lines (domain-console-brain.js).
+3. Mechanism: freshness provenance — part of the immune/honesty barrier.
+4. Scope: universal mechanism (every domain's console needs honest freshness);
+   the specific bug is one file's ordering.
+5. Measure first: render the domain's trace panel and read SNAPSHOT AGE.
 
-### E.3 What this doctrine changes about the current PR
+**N3 — Catch-all triggers born dead**
+1. Defect: conditions renamed `_stress_*` at push sites but not in
+   diagnosisIndex — catch-all activation silently dead since the rename commit.
+2. Finance fix: grounded per the pulse EVIDENCE_CONTRACTS — SYSTEMIC_CONTAGION
+   (catchAllBlocked:false) re-grounded to live `_stress_*` ids; unmatchable
+   slots removed from the five catchAllBlocked:true diagnoses.
+3. Mechanism: stress-derived catch-all proposing → evidence gating (immune
+   barrier deciding what stress may propose vs confirm).
+4. Scope: mechanism universal; the correct grounding is DOMAIN-SPECIFIC — each
+   domain's own pulse contracts decide which diagnosis (if any) may catch-all.
+5. Measure first: enumerate the domain's `_activeConditions` writers and its
+   diagnosisIndex triggers; prove match/no-match from git history, not inspection.
 
-- The **19-adapter `diagnosisIds` propagation** was NOT a coupling change: each
-  domain's own adapter now carries the association set its own console needs to
-  render shared treatments under every applicable diagnosis. It is listed here
-  as a domain-local pattern (E.1, merge/render row) — each file owns its copy.
-- The **fleet digest rebuild** is done (all 20 exist now with full-tree
-  coverage, manifests, provenance tags). That was a one-time admission of the
-  corpus, not a rolling campaign. Future digest rebuilds happen per domain,
-  when that domain is worked on.
-- **brain-v2 `bind/`** remains the long-term home for domain knowledge as
-  declared data (Part B3.1) — that direction *is* the doctrine: one runtime,
-  per-domain declarations, no per-domain code inside the shared kernel.
+**N4 — Treatments wiped mid-cycle (lifecycle bug)**
+1. Defect: `resolveDeepContent` overwrote `state.treatments` AFTER step-6 digest
+   injection — deep treatments destroyed in the cycle they were injected in.
+2. Finance fix: deterministic semantic merge (normalized label, node-aware
+   separation, unioned diagnosisIds + nodeIds, metadata fill from the richer
+   record, stricter provenance verdict) in finance-brain.js resolveDeepContent.
+3. Mechanism: thalamic relay into the cycle + synaptic convergence — one signal,
+   many targets, counted once, context preserved.
+4. Scope: mechanism universal; the merge parameters (provenance strictness,
+   node handling) are domain-specific. Each domain's adapter has its own copy.
+5. Measure first: trace inject→resolve→final counts through the domain's cycle;
+   check its adapter's treatment rebuild for the association/metadata fields.
 
-### E.4 Working agreement going forward
+**N5 — Stress catch-all one cycle late**
+1. Defect: `_stress_*` flags computed in normalizeSignals (step 2) from
+   previous-cycle stress — activation/clearing one cycle late both directions.
+2. Finance fix: scoreStress override computes flags after current-cycle scoring.
+3. Mechanism: stress interpretation timing — part of each domain's own stress
+   interpretation (owner-listed domain property).
+4. Scope: sequencing universal (sense before interpret); thresholds
+   (0.70/0.80/STRUCTURAL) are domain-specific.
+5. Measure first: the domain's cycle order and where its flags read state.stress.
 
-1. No re-architecture; bug fixes and connection-efficiency items only.
-2. New fixes land in the domain being worked on, and are recorded in this
-   document under E.1 for the next domain's optional adoption.
-3. Shared files (base brain, resolver, console, manifest endpoint) are touched
-   only for neurological-sequence stages (E.2) — and each such touch gets
-   justified against the sequence it belongs to.
-4. Every change keeps its conservation/provenance measurements so the next
-   domain can compare honestly rather than copy blindly.
+**N6 — Provenance tri-state (scaffold/unknown/verified)**
+1. Defect: regex-miss treated as verified; missing tags converted to the
+   verified value; ~97% of carried treatments were scaffold presented as EV:A.
+2. Finance fix: tri-state everywhere — mad-lib => scaffold(1), affirmative
+   cite+steps => verified-eligible(0), otherwise unknown(2/undefined);
+   verified-eligible records carry their citation+steps; FULL authority only
+   when every rendered treatment is affirmatively verified.
+3. Mechanism: immune/provenance barrier — a SHARED biological sequence.
+4. Scope: the barrier is shared; the evidence and its interpretation are
+   DOMAIN-SUPPLIED (each domain's own classifier, verb family, citations).
+5. Measure first: sample the domain's digest treatments — scaffold fraction,
+   verified-eligible fraction with cite+steps, and whether its console panels
+   can render FULL from stripped records.
+
+**N7 — Deep content unreachable (L4-L7)**
+1. Defect: digest built from the shallow deployed corpus; resolver capped at
+   L1-L3; L5-L6 body (~310k finance treatments) unreachable.
+2. Finance fix: full-tree digest + stratified selection + reserve-first depth
+   representation + identity/route manifest + snapshot-pinned endpoint.
+3. Mechanism: memory/retrieval — a shared biological sequence (encoding,
+   consolidation, recall with snapshot consistency).
+4. Scope: mechanism universal; corpus shape per domain varies (depth
+   distribution, synthetic fraction) — no per-domain parameters are copied.
+5. Measure first: the domain's true tree depth/content quality, its digest's
+   source path, and selected-vs-available counts.
+
+**N8 — Association loss in adapters**
+1. Defect: adapters rebuilt canonical_deep treatments with only the singular
+   diagnosisId — shared treatments rendered solely under the alphabetical host.
+2. Finance fix: propagate `t.diagnosisIds || [dxId]` (finance first; then the
+   identical repair applied to the other 19 adapters with a mechanical scan
+   proving zero offenders — done as a CONNECTION REPAIR, not a rollout).
+3. Mechanism: communication contract — the association set IS the contract;
+   dropping it breaks rendering of convergent signals.
+4. Scope: universal contract; each adapter owns its copy (no consolidation —
+   the 19 copies stay per-domain).
+5. Measure first: does the domain's adapter drop the association set? Scan for
+   `canonical_deep` pushes missing `diagnosisIds` (test-adapter-diagnosis-ids.js).
+
+**N9 — Count/display honesty**
+1. Defect: capped counts presented as pool totals (1000↔2000 bounce),
+   duplicates inflating playbooks ~25%, pool totals conflated with selected.
+2. Finance fix: conservation accounting everywhere — totalTreatmentsPreDedupe,
+   totalUnique, duplicatesRemoved, poolDuplicates, treatmentTotal(selected) vs
+   availableTreatments, "window of N reachable" in the console.
+3. Mechanism: honest self-report — part of the immune/honesty barrier.
+4. Scope: universal barrier; the display strings are per-panel choices.
+5. Measure first: the domain's funnel (pool → selected → injected → merged →
+   displayed) and whether any number implies completeness it doesn't have.
+
+### Working agreement (binding)
+
+1. Finance is the checkpoint; the next domain starts only on owner instruction.
+2. Every shared-file touch is justified against the neurological sequence it
+   belongs to (transport, relay, contracts, memory, immune barrier).
+3. Every domain-local change is recorded here as a NEXT-DOMAIN NOTE — candidates
+   for measurement, never automatic authorization.
+4. No consolidation for similarity; no splitting for individuality; evidence of
+   a sequence violation is required for either.
