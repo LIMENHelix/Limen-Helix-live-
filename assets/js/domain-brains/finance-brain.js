@@ -833,15 +833,17 @@
           // Semantic dedupe (2026-09-27, Codex P2): the SAME portal treatment can
           // arrive through BOTH the resolver (canonical_deep) and the digest —
           // with different synthetic ids and diagnosisIds, and digest entries
-          // omit nodeId — so an id-based key can never merge them (the committed
-          // finance window shares 21 labels with resolver-mapped L1 portals).
-          // Reconcile on the normalized label, union the diagnosis associations,
-          // fill missing fields from the richer record, and keep the STRICTER
-          // provenance verdict so a generated twin cannot launder a verified one.
-          // Composite-id semantics for exact re-runs is subsumed: the merge stays
-          // deterministic and idempotent.
+          // omit nodeId. Reconcile on the normalized label, BUT only when node
+          // context is compatible: both nodeIds unknown, or equal. Two records
+          // with DIFFERENT known nodeIds are distinct node bindings and stay
+          // separate (review: label-only merging discards node/source context).
+          // Merges union diagnosis associations AND nodeIds, fill missing fields
+          // from the richer record, and keep the STRICTER provenance verdict.
           function semanticKey(t) {
             return String(t.label || '').toLowerCase().replace(/\s+/g, ' ').trim();
+          }
+          function nodeCompatible(a, b) {
+            return !a.nodeId || !b.nodeId || a.nodeId === b.nodeId;
           }
           var existing = Array.isArray(self.state.treatments) ? self.state.treatments : [];
           var seen = {};
@@ -850,13 +852,25 @@
             if (!t) return;
             var sk = semanticKey(t);
             var prev = seen[sk];
+            if (prev && !nodeCompatible(prev, t)) {
+              // distinct node binding — park under a node-qualified key instead
+              sk = sk + ' @ ' + (t.nodeId || prev.nodeId);
+              prev = seen[sk];
+            }
             if (!prev) { seen[sk] = t; merged.push(t); return; }
             var ids = {};
             (Array.isArray(prev.diagnosisIds) ? prev.diagnosisIds : [prev.diagnosisId]).forEach(function (i) { if (i) ids[i] = true; });
             (Array.isArray(t.diagnosisIds) ? t.diagnosisIds : [t.diagnosisId]).forEach(function (i) { if (i) ids[i] = true; });
             prev.diagnosisIds = Object.keys(ids).sort();
             prev.diagnosisId = prev.diagnosisIds[0];
-            if (!prev.nodeId && t.nodeId) { prev.nodeId = t.nodeId; prev.nodeLabel = t.nodeLabel; }
+            // union node context (nodeIds array; nodeId stays the primary)
+            if (t.nodeId) {
+              if (!prev.nodeId) { prev.nodeId = t.nodeId; prev.nodeLabel = t.nodeLabel; }
+              var nids = {};
+              (Array.isArray(prev.nodeIds) ? prev.nodeIds : [prev.nodeId]).forEach(function (n) { if (n) nids[n] = true; });
+              (Array.isArray(t.nodeIds) ? t.nodeIds : [t.nodeId]).forEach(function (n) { if (n) nids[n] = true; });
+              prev.nodeIds = Object.keys(nids).sort();
+            }
             if (!prev.cite && t.cite) prev.cite = t.cite;
             if ((!prev.steps || !prev.steps.length) && t.steps && t.steps.length) prev.steps = t.steps;
             if (!prev.hasDepth && t.hasDepth) prev.hasDepth = t.hasDepth;

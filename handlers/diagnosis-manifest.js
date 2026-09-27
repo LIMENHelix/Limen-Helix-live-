@@ -83,7 +83,7 @@ function validateManifest(m) {
   if (!PORTAL_KEYS.has(m.domain)) return 'manifest-domain-missing-or-invalid';
   if (!Array.isArray(m.entries)) return 'entries-not-array';
   if (m.entries.length > MAX_MANIFEST_ENTRIES) return 'entries-oversized';
-  if (typeof m.count === 'number' && m.count !== m.entries.length) return 'count-mismatch';
+  if (typeof m.count !== 'number' || m.count !== m.entries.length) return 'count-missing-or-mismatch';
   for (let i = 0; i < m.entries.length; i++) {
     const e = m.entries[i];
     if (!Array.isArray(e) || e.length < 2) return 'entry-shape@' + i;

@@ -597,11 +597,18 @@
 
       // Association sets over FULL pools (complete membership, not the capped view).
       var assoc = {};
+      var poolEntryCount = 0, poolIdentitySet = {}, poolDuplicateEntries = 0;
       results.forEach(function (r) {
         r.pool.forEach(function (t) {
           var k = txKeyOf(t);
           if (!assoc[k]) assoc[k] = [];
           if (assoc[k].indexOf(r.diagnosisId) === -1) assoc[k].push(r.diagnosisId);
+          // Pool-level duplicate INCIDENCE (independent of backfill): entries
+          // sharing an identity across diagnosis pools. Conservation:
+          // poolEntries == poolUniqueIdentities + poolDuplicates.
+          poolEntryCount++;
+          if (poolIdentitySet[k]) poolDuplicateEntries++;
+          poolIdentitySet[k] = true;
         });
       });
 
@@ -699,6 +706,12 @@
       combined.totalTreatmentsPreDedupe = preDedupeTotal;
       combined.totalUnique = totalUnique;
       combined.duplicatesRemoved = preDedupeTotal - totalUnique;
+      // Pool-level duplicate incidence, measured BEFORE backfill/selection:
+      // how many pool entries shared an identity across diagnoses. Distinct from
+      // duplicatesRemoved (quota slots that went unfilled after claiming).
+      combined.poolEntries = poolEntryCount;
+      combined.poolUniqueIdentities = Object.keys(poolIdentitySet).length;
+      combined.poolDuplicates = poolDuplicateEntries;
 
       // One concise summary per brain resolve, only when actual network
       // work happened. Stats are per-call so concurrent resolves report

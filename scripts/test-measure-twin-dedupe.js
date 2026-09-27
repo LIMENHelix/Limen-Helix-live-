@@ -177,6 +177,26 @@ var QUOTA = 200;
   console.log('    SYSTEMIC_CONTAGION: ' + sc + ' selected (was 1 pre-backfill), replication expects ' + scExp);
   assert('SYSTEMIC_CONTAGION backfilled from its pool', sc === scExp && sc > 1, sc + ' vs ' + scExp);
 
+  console.log('D9: pool-level duplicate incidence measured (before backfill, not after)');
+  var expPoolEntries = 0, expPoolIds = {}, expPoolDups = 0;
+  issueIds.forEach(function (id) {
+    pools[id].forEach(function (t) {
+      expPoolEntries++;
+      var k = key(t);
+      if (expPoolIds[k]) expPoolDups++;
+      expPoolIds[k] = true;
+    });
+  });
+  assert('poolEntries == sum of pool lengths', combined.poolEntries === expPoolEntries,
+    combined.poolEntries + ' vs ' + expPoolEntries);
+  assert('poolDuplicates == cross-pool incidence', combined.poolDuplicates === expPoolDups,
+    combined.poolDuplicates + ' vs ' + expPoolDups);
+  assert('pool conservation: entries == unique + duplicates',
+    combined.poolEntries === combined.poolUniqueIdentities + combined.poolDuplicates,
+    combined.poolEntries + ' vs ' + (combined.poolUniqueIdentities + combined.poolDuplicates));
+  assert('incidence exists even when backfill fills every slot', combined.poolDuplicates > 0,
+    String(combined.poolDuplicates));
+
   console.log('\n' + (tests - failures) + '/' + tests + ' passed');
   process.exit(failures ? 1 : 0);
 })().catch(function (e) { console.error('TEST CRASH', e && e.stack || e); process.exit(1); });

@@ -172,6 +172,16 @@ function playbookFilter(list, diagnoses) {
     finalTx.length === Object.keys(allLabels).length,
     finalTx.length + ' vs ' + Object.keys(allLabels).length);
 
+  console.log('\nT5: same label with different known nodeIds stays separate (node context preserved)');
+  brain.state.treatments = [{ id: 'keep_1', label: 'Shared Node Label', nodeId: 'THAL', diagnosisId: 'D1', synthetic: false }];
+  stubTreatments.length = 0;
+  stubTreatments.push({ label: 'Shared Node Label', type: 'POLICY', evidence: 'A', description: '', cite: 'c5', steps: ['s1'], monitoring: null, escalation: null, nodeId: 'HYPO', nodeLabel: 'Hypothalamus', hasDepth: true });
+  await brain.resolveDeepContent();
+  var nodeHits = (brain.state.treatments || []).filter(function (t) { return t.label === 'Shared Node Label'; });
+  assert('two distinct node bindings preserved', nodeHits.length === 2, 'got ' + nodeHits.length);
+  var nodeIds = nodeHits.map(function (t) { return t.nodeId; }).sort();
+  assert('both nodeIds intact', JSON.stringify(nodeIds) === JSON.stringify(['HYPO', 'THAL']), JSON.stringify(nodeIds));
+
   console.log('\n' + (tests - failures) + '/' + tests + ' passed');
   process.exit(failures ? 1 : 0);
 })().catch(function (e) { console.error('TEST CRASH', e && e.stack || e); process.exit(1); });

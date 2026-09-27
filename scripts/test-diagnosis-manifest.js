@@ -294,7 +294,9 @@ function reset() { handler._clearCache(); fetchCalls = []; upstreamBytes = 0; gl
   }
   await schemaCase('S1 arbitrary valid-JSON blob', JSON.stringify({ hello: 'world', entries: 'nope' }), 'manifest-domain');
   await schemaCase('S2 no-domain manifest', JSON.stringify({ count: 1, entries: [['X', 'y', 2]] }), 'manifest-domain');
-  await schemaCase('S3 count mismatch', JSON.stringify({ domain: 'finance', count: 99, entries: [['X', 'y', 2]] }), 'count-mismatch');
+  await schemaCase('S3 count mismatch', JSON.stringify({ domain: 'finance', count: 99, entries: [['X', 'y', 2]] }), 'count-missing-or-mismatch');
+  await schemaCase('S3b count missing', JSON.stringify({ domain: 'finance', entries: [['X', 'y', 2]] }), 'count-missing-or-mismatch');
+  await schemaCase('S3c count nonnumeric', JSON.stringify({ domain: 'finance', count: 'two', entries: [['X', 'y', 2]] }), 'count-missing-or-mismatch');
   await schemaCase('S4 bad entry shape', JSON.stringify({ domain: 'finance', count: 2, entries: [['X', 'y', 2], [42, 'y', 2]] }), 'entry-id-shape');
 
   console.log('\n' + (tests - failures) + '/' + tests + ' passed');
