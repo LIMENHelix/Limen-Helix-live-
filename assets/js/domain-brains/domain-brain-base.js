@@ -905,6 +905,9 @@
           diagnosisId: d.id,
           relevance: 0.7 + 0.05 * (EV[t.e] || 0),
           source: 'deep-digest',
+          // Evidence behind the verdict travels with verified-eligible records
+          cite: t.c || null,
+          steps: t.st || [],
           synthetic: t.syn === 1 ? true : (t.syn === 0 ? false : undefined)   // tri-state: ONLY an affirmative false is verified-eligible; untagged stays unknown/unverified
         });
       });

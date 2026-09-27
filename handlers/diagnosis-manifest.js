@@ -116,6 +116,9 @@ module.exports = async function handler(req, res) {
   if (ref !== undefined && !/^[0-9a-f]{40}$/i.test(ref)) {
     return res.status(400).json({ error: 'Invalid ref (expected 40-char blob sha)' });
   }
+  // Normalize: the validator is case-insensitive and GitHub resolves either
+  // spelling, but the cache must not key the same immutable blob twice.
+  const normalizedRef = typeof ref === 'string' ? ref.toLowerCase() : ref;
   const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || process.env.VERCEL_GITHUB_TOKEN;
   if (!token) {
     return res.status(500).json({ error: 'Server misconfigured', hint: 'Set GITHUB_TOKEN env var' });
@@ -123,7 +126,7 @@ module.exports = async function handler(req, res) {
 
   try {
     // Resolve which immutable blob to serve: pinned ref, or current head sha.
-    let sha = ref;
+    let sha = normalizedRef;
     if (!sha) {
       const cur = await currentSha(domain, token);
       if (cur.status === 404) return res.status(404).json({ error: 'Manifest not found for domain', domain });

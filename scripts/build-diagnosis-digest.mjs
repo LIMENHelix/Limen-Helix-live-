@@ -228,6 +228,10 @@ function buildDigest(pk) {
           const _madlib = MADLIB_VERB.test(String(t.label));
           const _prov = !!(t.cite && String(t.cite).length > 3 && Array.isArray(t.steps) && t.steps.length > 0);
           const rec = { l: t.label, t: t.type || '', e: t.evidence || '', syn: _madlib ? 1 : (_prov ? 0 : 2) };
+          // Verified-eligible records must carry the evidence that established
+          // the verdict — the console grants authority from this bit, so the
+          // citation and steps must be renderable/auditable, not stripped.
+          if (rec.syn === 0) { rec.c = t.cite; rec.st = t.steps; }
           tx.push(rec);
         });
       });
@@ -308,7 +312,12 @@ function buildDigest(pk) {
     manifestFile: 'assets/data/deep/' + pk + '-diagnosis-manifest.json',
     urgentThemeCount: deduped.filter(d => d.themes.length).length,
     urgentThemeAvailable: urgentCount,
-    treatmentTotal: deduped.reduce((s, d) => s + d.txCount, 0),
+    // Selected treatment count — the population the provenance aggregates below
+    // are computed over. The uncapped source-side sum moves to availableTreatments
+    // so consumers never compute coverage from mismatched populations
+    // (finance previously showed treatmentTotal 4625 vs syntheticTreatments 1080).
+    treatmentTotal: deduped.reduce((s, d) => s + d.tx.length, 0),
+    availableTreatments: deduped.reduce((s, d) => s + d.txCount, 0),
     // Only syn===1 is scaffold. syn===2 is UNKNOWN — counting truthy conflated
     // unknown with generated content (environment: 360 reported vs 359 actual).
     syntheticTreatments: deduped.reduce((s, d) => s + d.tx.filter(t => t.syn === 1).length, 0),

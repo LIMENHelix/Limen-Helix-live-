@@ -31,7 +31,7 @@ var TX_CAP = { finance: 6 };
 var files = fs.readdirSync(DEEP).filter(function (f) { return f.endsWith('-diagnosis-digest.json'); });
 assert('V1: all 20 digests present', files.length === 20, 'found ' + files.length);
 
-var badSource = [], badSyn = 0, badCount = [], shallowOnly = [];
+var badSource = [], badSyn = 0, badCount = [], shallowOnly = [], badSyn0Evidence = [];
 var totalTx = 0, totalSyn = 0, totalVer = 0, totalUnk = 0;
 var manifestIssues = [];
 var synZeroRecords = [];   // {domain, slug, label}
@@ -58,6 +58,14 @@ KEYS.forEach(function (k) {
   });
   if (Object.keys(depths).length < 2) shallowOnly.push(k);
   totalTx += syn + ver + unk; totalSyn += syn; totalVer += ver; totalUnk += unk;
+  // V8: verified-eligible records must carry the evidence behind the verdict
+  dxs.forEach(function (d) {
+    (d.tx || []).forEach(function (t) {
+      if (t.syn === 0 && (!(t.c && String(t.c).length > 3) || !(Array.isArray(t.st) && t.st.length > 0))) {
+        badSyn0Evidence.push(k + '/' + d.id + ' :: ' + (t.l || '').slice(0, 50));
+      }
+    });
+  });
   console.log('  ' + k.padEnd(16) + String(dxs.length).padStart(5) + String(syn + ver + unk).padStart(6) +
     String(syn).padStart(7) + String(unk).padStart(6) + String(ver).padStart(7) + '  ' + JSON.stringify(Object.keys(depths).sort()));
 
@@ -77,6 +85,17 @@ assert('V2: every digest is full-tree sourced', badSource.length === 0, badSourc
 assert('V3: EVERY treatment explicitly classified (syn 0/1/2), zero undefined', badSyn === 0, badSyn + ' unclassified');
 assert('V4: counts self-consistent', badCount.length === 0, badCount.slice(0, 3).join('; '));
 assert('V5: every digest spans multiple depths', shallowOnly.length === 0, shallowOnly.join('; '));
+assert('V8: every syn=0 record carries its evidence (c + st)', badSyn0Evidence.length === 0,
+  badSyn0Evidence.slice(0, 3).join(' | ') + (badSyn0Evidence.length > 3 ? ' (+' + (badSyn0Evidence.length - 3) + ')' : ''));
+assert('V9: treatmentTotal == selected population, availableTreatments == uncapped population', (function () {
+  for (var vi = 0; vi < KEYS.length; vi++) {
+    var j = JSON.parse(fs.readFileSync(path.join(DEEP, KEYS[vi] + '-diagnosis-digest.json'), 'utf8'));
+    var sel = j.diagnoses.reduce(function (n, d) { return n + (d.tx || []).length; }, 0);
+    var avail = j.diagnoses.reduce(function (n, d) { return n + (d.txCount || 0); }, 0);
+    if (j.treatmentTotal !== sel || j.availableTreatments !== avail) return false;
+  }
+  return true;
+})());
 assert('V6: manifests complete and consistent (count==available, no dupes, selected ⊆ manifest)',
   manifestIssues.length === 0, manifestIssues.slice(0, 4).join('; '));
 

@@ -275,6 +275,17 @@ function reset() { handler._clearCache(); fetchCalls = []; upstreamBytes = 0; gl
   console.log('    fleet pinned total: ' + fleetTotal + ' ids');
 
   console.log('S1-S5: schema gate — invalid blobs rejected WITHOUT cache admission');
+  console.log('N1: ref spelling is normalized — uppercase and lowercase share one cache entry');
+  handler._clearCache();
+  fetchCalls = [];
+  var upper = SHA.finance.toUpperCase();
+  var rn1 = await call({ domain: 'finance', ref: upper });
+  assert('uppercase ref accepted and normalized in response', rn1.statusCode === 200 && rn1.body.ref === SHA.finance, rn1.body.ref);
+  var blobsAfterFirst = fetchCalls.filter(function (u) { return u.indexOf('/git/blobs/') !== -1; }).length;
+  var rn2 = await call({ domain: 'finance', ref: SHA.finance });
+  var blobsAfterSecond = fetchCalls.filter(function (u) { return u.indexOf('/git/blobs/') !== -1; }).length;
+  assert('lowercase spelling hits the same cache entry (no second download)', blobsAfterSecond === blobsAfterFirst,
+    blobsAfterFirst + ' -> ' + blobsAfterSecond);
   function schemaCase(name, body, expectReason) {
     return (async function () {
       handler._clearCache();
