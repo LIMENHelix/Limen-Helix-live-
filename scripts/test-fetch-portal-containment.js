@@ -39,21 +39,47 @@ function restoreEnv() {
 }
 
 const TOKEN = 'ghp_fetchportaltesttoken0000';
+const MAX_PORTAL_BYTES = 8 * 1024 * 1024;
 
 const REAL_FETCH = global.fetch;
 const fetchedUrls = [];
 let githubStatus = 200;
+let responseBody = JSON.stringify({ activations: [] });
+let responseContentLength = null;
+let responseBodyMode = 'stream';
+let textCalls = 0;
+let cancelCalls = 0;
+function responseHeaders() {
+  return { get: function (name) {
+    return name.toLowerCase() === 'content-length' && responseContentLength !== null
+      ? String(responseContentLength) : null;
+  } };
+}
+function streamBody(text) {
+  const bytes = Buffer.from(text);
+  let sent = false;
+  return new ReadableStream({
+    pull: function (controller) {
+      if (sent) return controller.close();
+      sent = true;
+      controller.enqueue(bytes);
+    },
+    cancel: function () { cancelCalls++; }
+  });
+}
 global.fetch = async function (url, opts) {
   fetchedUrls.push(String(url));
-  const rawText = JSON.stringify({ activations: [] });
+  const rawText = responseBody;
   return {
     ok: githubStatus >= 200 && githubStatus < 300,
     status: githubStatus,
+    headers: responseHeaders(),
+    body: responseBodyMode === 'stream' ? streamBody(rawText) : null,
     json: async function () {
       return { content: Buffer.from(rawText).toString('base64') };
     },
     // raw-media-type contract: the handler now reads response text for any size
-    text: async function () { return rawText; }
+    text: async function () { textCalls++; return rawText; }
   };
 };
 
@@ -94,6 +120,11 @@ async function main() {
   delete process.env.GH_TOKEN;
   delete process.env.VERCEL_GITHUB_TOKEN;
   githubStatus = 200;
+  responseBody = JSON.stringify({ activations: [] });
+  responseContentLength = Buffer.byteLength(responseBody);
+  responseBodyMode = 'stream';
+  textCalls = 0;
+  cancelCalls = 0;
 
   // ── anonymous in-family read passes ────────────────────────────────────────
   let r = await invoke(request({ domainId: 'energy_battery_battrecycling_collection' }));
@@ -103,6 +134,7 @@ async function main() {
   check('upstream URL is the allowed repo + prefix',
     fetchedUrls[0],
     'https://api.github.com/repos/LIMENHelix/Limen-Helix/contents/assets/data/domains/energy_battery_battrecycling_collection.json');
+  check('streamed success does not call unbounded text()', textCalls, 0);
 
   // ── server token used upstream, never in the response ─────────────────────
   const blob = JSON.stringify(r.body) + JSON.stringify(r.headers);
@@ -149,6 +181,31 @@ async function main() {
   r = await invoke(request({ domainId: 'energy' }));
   check('github 404 passes through (status)', r.status, 404);
   githubStatus = 200;
+
+  // ── oversized responses are rejected before text()/JSON.parse ──────────────
+  responseBody = '{"activations":[]}';
+  responseContentLength = MAX_PORTAL_BYTES + 1;
+  responseBodyMode = 'stream';
+  textCalls = 0;
+  cancelCalls = 0;
+  fetchedUrls.length = 0;
+  r = await invoke(request({ domainId: 'energy_oversized_declared' }));
+  check('declared oversized body refuses (status)', r.status, 502);
+  check('declared oversized body does not call text()', textCalls, 0);
+  check('declared oversized body is cancelled', cancelCalls, 1);
+
+  responseContentLength = null;
+  responseBody = 'A'.repeat(MAX_PORTAL_BYTES + 1);
+  responseBodyMode = 'stream';
+  textCalls = 0;
+  cancelCalls = 0;
+  r = await invoke(request({ domainId: 'energy_oversized_stream' }));
+  check('stream oversized body refuses (status)', r.status, 502);
+  check('stream oversized body does not call text()', textCalls, 0);
+
+  responseBody = JSON.stringify({ activations: [] });
+  responseContentLength = Buffer.byteLength(responseBody);
+  responseBodyMode = 'stream';
 
   delete process.env.GITHUB_TOKEN;
   fetchedUrls.length = 0;
