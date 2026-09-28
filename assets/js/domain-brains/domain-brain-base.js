@@ -916,14 +916,52 @@
           steps: t.st || [],
           synthetic: t.syn === 1 ? true : (t.syn === 0 ? false : undefined)   // tri-state: ONLY an affirmative false is verified-eligible; untagged stays unknown/unverified
         };
-        if (pk === 'finance') {
-          treatment.nodeId = t.n || null;
-          treatment.sourcePortal = t.p || null;
-          treatment.treatmentSourceKey = t.k || null;
-        }
+        treatment.nodeId = t.n || null;
+        treatment.sourcePortal = t.p || null;
+        treatment.treatmentSourceKey = t.k || null;
         self.state.treatments.push(treatment);
       });
     }
+  };
+
+  // Resolver enrichment runs AFTER digest injection. Preserve the union of
+  // authored sources, not just the resolver's subset. Unknown/conflicting
+  // identities remain separate; only proven copies share diagnosis memberships.
+  DomainBrainBase.prototype._mergeResolvedTreatments = function (resolved) {
+    var existing = Array.isArray(this.state.treatments) ? this.state.treatments : [];
+    var seen = Object.create(null), merged = [];
+    existing.concat(resolved).forEach(function (t) {
+      if (!t) return;
+      var key = typeof t.treatmentSourceKey === 'string' && t.treatmentSourceKey.trim()
+        ? JSON.stringify([t.treatmentSourceKey, t.sourcePortal || '', t.nodeId || '']) : null;
+      var prev = key && seen[key];
+      if (!prev) {
+        var copy = Object.assign({}, t);
+        if (key) seen[key] = copy;
+        merged.push(copy);
+        return;
+      }
+      var ids = Object.create(null);
+      [prev, t].forEach(function (record) {
+        [record.diagnosisId].concat(Array.isArray(record.diagnosisIds) ? record.diagnosisIds : []).forEach(function (id) {
+          if (id) ids[id] = true;
+        });
+      });
+      prev.diagnosisIds = Object.keys(ids).sort();
+      prev.diagnosisId = prev.diagnosisIds[0];
+      if ((!prev.steps || !prev.steps.length) && t.steps && t.steps.length) prev.steps = t.steps;
+      ['cite', 'description', 'monitoring', 'escalation', 'target', 'hasDepth', 'nodeLabel'].forEach(function (field) {
+        if (!prev[field] && t[field]) prev[field] = t[field];
+      });
+      ['portalDomain', 'portalDomainId', 'ancestryPath', 'depth'].forEach(function (field) {
+        if (prev[field] == null && t[field] != null) prev[field] = t[field];
+      });
+      // A resolver copy cannot upgrade a scaffold/unknown digest into verified.
+      if (prev.synthetic === true || t.synthetic === true) prev.synthetic = true;
+      else if (prev.synthetic === false && t.synthetic === false) prev.synthetic = false;
+      else prev.synthetic = undefined;
+    });
+    this.state.treatments = merged;
   };
 
   /**

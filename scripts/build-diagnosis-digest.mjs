@@ -190,9 +190,7 @@ export function buildDigest(pk, domainsDir = DOMAINS_DIR) {
     const byNode = {};
     (j.activations || []).forEach((a, ai) => {
       if (!a || !a.brainNodeId) return;
-      const records = pk === 'finance'
-        ? (a.treatments || []).map((t, ti) => ({ treatment: t, ai, ti }))
-        : (a.treatments || []);
+      const records = (a.treatments || []).map((t, ti) => ({ treatment: t, ai, ti }));
       byNode[a.brainNodeId] = (byNode[a.brainNodeId] || []).concat(records);
     });
 
@@ -221,7 +219,7 @@ export function buildDigest(pk, domainsDir = DOMAINS_DIR) {
       let tx = [];
       treatmentNodeIds.forEach(nodeId => {
         (byNode[nodeId] || []).forEach(entry => {
-          const t = pk === 'finance' ? entry.treatment : entry;
+          const t = entry.treatment;
           if (!t || !t.label) return;
           // Explicit THREE-STATE classification on every treatment:
           //   1 = scaffold (mad-lib verb family)
@@ -232,13 +230,11 @@ export function buildDigest(pk, domainsDir = DOMAINS_DIR) {
           const _madlib = MADLIB_VERB.test(String(t.label));
           const _prov = !!(t.cite && String(t.cite).length > 3 && Array.isArray(t.steps) && t.steps.length > 0);
           const rec = { l: t.label, t: t.type || '', e: t.evidence || '', syn: _madlib ? 1 : (_prov ? 0 : 2) };
-          if (pk === 'finance') {
-            // Authored occurrence, BEFORE ranking/capping. Labels and node IDs
-            // alone are not unique across portals (or within one activation).
-            rec.n = nodeId;
-            rec.p = slug;
-            rec.k = JSON.stringify([slug, nodeId, entry.ai, entry.ti]);
-          }
+          // Authored occurrence, BEFORE ranking/capping, in every domain.
+          // Labels and node IDs alone are not unique across portals/activations.
+          rec.n = nodeId;
+          rec.p = slug;
+          rec.k = JSON.stringify([slug, nodeId, entry.ai, entry.ti]);
           // Verified-eligible records must carry the evidence that established
           // the verdict — the console grants authority from this bit, so the
           // citation and steps must be renderable/auditable, not stripped.

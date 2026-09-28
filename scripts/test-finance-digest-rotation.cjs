@@ -191,7 +191,7 @@ test('all20 domains: existing grounded and stress-driven gates/caps are unchange
     }
   }
 });
-test('all20 domains: treatment records and cognition stay unchanged for each selected diagnosis', () => {
+test('all20 domains: treatment fields and cognition unchanged except additive source coordinates', () => {
   for (const domain of DOMAINS) {
     const current = brain(corpus[domain], 12, domain), previous = brain(corpus[domain], 12, domain, oldSource);
     const cognition = { marker: domain };
@@ -201,7 +201,14 @@ test('all20 domains: treatment records and cognition stay unchanged for each sel
       // not hide changes to its injected fields, treatments or domain identity.
       current._deepDigest = previous._deepDigest = { diagnoses: [diagnosis] };
       assert.deepEqual(pick(current), pick(previous), domain + ' injected diagnosis');
-      assert.equal(JSON.stringify(current.state.treatments), JSON.stringify(previous.state.treatments), domain + ' treatment fields');
+      const comparable = JSON.parse(JSON.stringify(current.state.treatments));
+      if (domain !== 'finance') comparable.forEach((t, i) => {
+        assert.equal(t.nodeId, diagnosis.tx[i].n || null);
+        assert.equal(t.sourcePortal, diagnosis.tx[i].p || null);
+        assert.equal(t.treatmentSourceKey, diagnosis.tx[i].k || null);
+        delete t.nodeId; delete t.sourcePortal; delete t.treatmentSourceKey;
+      });
+      assert.equal(JSON.stringify(comparable), JSON.stringify(previous.state.treatments), domain + ' other treatment fields');
       assert.equal(current.state.cognition, cognition);
     }
   }

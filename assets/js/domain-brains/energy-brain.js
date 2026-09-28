@@ -1273,7 +1273,7 @@
             });
           }
         }
-        if (deepTreats.length > 0) self.state.treatments = deepTreats;
+        if (deepTreats.length > 0) self._mergeResolvedTreatments(deepTreats);
       }
     }).catch(function () {});
   };

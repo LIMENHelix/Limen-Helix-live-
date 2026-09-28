@@ -258,14 +258,18 @@ function wire(h, map) { Object.assign(h.resolver.getDiagnosisPortalMap(), map); 
         fs.writeFileSync(path.join(temp, slug + '.json'), JSON.stringify({ ...source, domainId: slug }));
         const other = buildDigest(domain, temp);
         assert.deepEqual(other.diagnoses[0].tx, [
-          { l: 'Same action', t: 'POLICY', e: 'A', syn: 2 },
-          { l: 'Other action', t: 'POLICY', e: 'A', syn: 2 }
-        ], domain + ' retains its two-record cap, ranking, provenance and field shape');
+          { l: 'Same action', t: 'POLICY', e: 'A', syn: 2, n: 'THAL', p: slug, k: JSON.stringify([slug, 'THAL', 0, 1]) },
+          { l: 'Other action', t: 'POLICY', e: 'A', syn: 2, n: 'THAL', p: slug, k: JSON.stringify([slug, 'THAL', 0, 2]) }
+        ], domain + ' retains two-record cap/ranking/provenance and gains exact source coordinates');
         const base = new h.win.LIMENDomainBrainBase({ domainId: domain, groundedOnly: true });
         base._deepDigest = other; base._activeConditions = ['fixture_observation'];
         base._applyDeepDigest();
         assert.equal(base.state.treatments.length, 2);
-        assert.ok(base.state.treatments.every(t => !('treatmentSourceKey' in t) && !('nodeId' in t) && !('sourcePortal' in t)));
+        base.state.treatments.forEach((t, i) => {
+          assert.equal(t.treatmentSourceKey, other.diagnoses[0].tx[i].k);
+          assert.equal(t.nodeId, 'THAL');
+          assert.equal(t.sourcePortal, slug);
+        });
       }
     } finally {
       // Only this test's newly created, resolved temporary directory is removed.
