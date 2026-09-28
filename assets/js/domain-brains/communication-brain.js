@@ -460,7 +460,7 @@
 
   CommunicationBrain.prototype.resolveDeepContent = function () {
     var self = this; var resolver = window.LIMENPortalContentResolver; if (!resolver) return Promise.resolve();
-    return resolver.resolveForBrain(this.state).then(function (content) { self.state.resolvedContent = content; if (content) { var dt = []; for (var dxId in content.byDiagnosis) { var dxC = content.byDiagnosis[dxId]; for (var i = 0; i < dxC.treatments.length; i++) { var t = dxC.treatments[i]; dt.push({ id: 'deep_' + t.nodeId + '_' + i, label: t.label, type: t.type, evidence: t.evidence, description: t.description, cite: t.cite, steps: t.steps, monitoring: t.monitoring, escalation: t.escalation, diagnosisId: dxId, nodeId: t.nodeId, nodeLabel: t.nodeLabel, hasDepth: t.hasDepth, source: 'canonical_deep' }); } } if (dt.length > 0) self.state.treatments = dt; } }).catch(function () {});
+    return resolver.resolveForBrain(this.state).then(function (content) { self.state.resolvedContent = content; if (content) { var dt = []; for (var dxId in content.byDiagnosis) { var dxC = content.byDiagnosis[dxId]; for (var i = 0; i < dxC.treatments.length; i++) { var t = dxC.treatments[i]; dt.push({ id: 'deep_' + t.nodeId + '_' + i, label: t.label, type: t.type, evidence: t.evidence, description: t.description, cite: t.cite, steps: t.steps, monitoring: t.monitoring, escalation: t.escalation, target: t.target, diagnosisId: dxId, diagnosisIds: t.diagnosisIds || [dxId], sourcePortal: t.sourcePortal || null, treatmentSourceKey: t.treatmentSourceKey || null, portalDomain: t.portalDomain, portalDomainId: t.portalDomainId, ancestryPath: t.ancestryPath, depth: t.depth, nodeId: t.nodeId, nodeLabel: t.nodeLabel, hasDepth: t.hasDepth, source: 'canonical_deep' }); } } if (dt.length > 0) self._mergeResolvedTreatments(dt); } }).catch(function () {});
   };
 
   var _origCycle = CommunicationBrain.prototype.cycle;
@@ -1731,7 +1731,11 @@
     var dxId = dx ? (dx.id || null) : null;
 
     var allTreat = Array.isArray(s.treatments) ? s.treatments : [];
-    var treatments = allTreat.filter(function (t) { return !dxId || t.diagnosisId === dxId; });
+    // diagnosisId is the storage host; shared treatments belong to every member packet.
+    var treatments = allTreat.filter(function (t) {
+      return !dxId || t.diagnosisId === dxId ||
+        (Array.isArray(t.diagnosisIds) && t.diagnosisIds.indexOf(dxId) !== -1);
+    });
     var implementationSteps = [];
     for (var ti = 0; ti < treatments.length; ti++) { if (Array.isArray(treatments[ti].steps)) implementationSteps = implementationSteps.concat(treatments[ti].steps); }
 

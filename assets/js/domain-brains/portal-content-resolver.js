@@ -309,6 +309,8 @@
     var treatments = [];
     var activations = portalData.activations || [];
     var portalId = portalData.domainId || '';
+    // Use the fetched route, not a possibly absent/reused payload domainId.
+    var sourcePortal = ancestryPath[ancestryPath.length - 1] || portalId;
     var portalTitle = portalData.title || '';
 
     for (var ai = 0; ai < activations.length; ai++) {
@@ -319,7 +321,7 @@
 
       for (var ti = 0; ti < treats.length; ti++) {
         var t = treats[ti];
-        treatments.push({
+        var treatment = {
           label: t.label || '',
           type: t.type || '',
           evidence: t.evidence || '',
@@ -338,7 +340,11 @@
           depth: depth,
           ancestryPath: ancestryPath.slice(),
           hasDepth: !!(t.steps && t.steps.length > 0 && t.cite)
-        });
+        };
+        // An authored occurrence, not its label, is identity in every domain.
+        treatment.sourcePortal = sourcePortal;
+        treatment.treatmentSourceKey = JSON.stringify([sourcePortal, nodeId, ai, ti]);
+        treatments.push(treatment);
       }
     }
 
@@ -574,11 +580,64 @@
     var callStats = { fetched: 0, hit: 0, neg: 0, missed: 0 };
     var innerOpts = { eager: eager, _stats: callStats };
 
+    // Joint selection + cross-diagnosis dedupe (2026-09-26, spec A4.1, backfill fix):
+    // resolve each diagnosis's FULL sorted pool, then fill each diagnosis's quota
+    // claiming entities globally in a fixed alphabetical diagnosis order.
+    // Previously each diagnosis was capped to maxTreatments FIRST and duplicates
+    // removed afterwards — diagnoses whose capped list overlapped earlier ones
+    // retained almost nothing (measured: SYSTEMIC_CONTAGION kept 1 of 200 despite
+    // hundreds of unique candidates still in its 722-entry pool). Now every
+    // diagnosis fills its quota unless unique candidates are genuinely exhausted.
+    // Each selected entity carries its COMPLETE diagnosisIds association set
+    // (computed from full pools). Deterministic and order-independent: fixed
+    // processing order + sorted pools means shuffling activeDx changes neither
+    // memberships nor totals.
     var resolves = activeDx.map(function (dx) {
-      return resolveForDocument(dx.id, maxTreatments, innerOpts);
+      return resolveForDiagnosis(dx.id, innerOpts).then(function (pool) {
+        if (pool) {
+          // Preserve rank policy, break equal-rank ties by authored identity so
+          // a capped selection cannot depend on incoming treatment order.
+          // Sort a copy: the shared cache must retain its original ordering.
+          var rank = { A: 10, Strong: 10, B: 7, Moderate: 7, C: 4, Emerging: 1 };
+          pool = pool.slice().sort(function (a, b) {
+            if (a.hasDepth !== b.hasDepth) return a.hasDepth ? -1 : 1;
+            var priority = ((a.depth || 0) - (b.depth || 0)) ||
+              ((rank[b.evidence] || 0) - (rank[a.evidence] || 0));
+            if (priority) return priority;
+            var ak = a.treatmentSourceKey || '', bk = b.treatmentSourceKey || '';
+            return ak < bk ? -1 : ak > bk ? 1 : 0;
+          });
+        }
+        return { diagnosisId: dx.id, pool: pool || [] };
+      });
     });
 
     return Promise.all(resolves).then(function (results) {
+      function txKeyOf(t, dxId, index) {
+        // Unknown identities get occurrence-local accounting keys, NEVER a
+        // label fallback. These are not promoted to source identities.
+        return typeof t.treatmentSourceKey === 'string' && t.treatmentSourceKey.trim()
+          ? JSON.stringify(['source', t.treatmentSourceKey, t.sourcePortal || '', t.nodeId || ''])
+          : JSON.stringify(['unknown', dxId, index]);
+      }
+
+      // Association sets over FULL pools (complete membership, not the capped view).
+      var assoc = {};
+      var poolEntryCount = 0, poolIdentitySet = {}, poolDuplicateEntries = 0;
+      results.forEach(function (r) {
+        r.pool.forEach(function (t, index) {
+          var k = txKeyOf(t, r.diagnosisId, index);
+          if (!assoc[k]) assoc[k] = [];
+          if (assoc[k].indexOf(r.diagnosisId) === -1) assoc[k].push(r.diagnosisId);
+          // Pool-level duplicate INCIDENCE (independent of backfill): entries
+          // sharing an identity across diagnosis pools. Conservation:
+          // poolEntries == poolUniqueIdentities + poolDuplicates.
+          poolEntryCount++;
+          if (poolIdentitySet[k]) poolDuplicateEntries++;
+          poolIdentitySet[k] = true;
+        });
+      });
+
       var combined = {
         activeDiagnoses: activeDx.length,
         totalTreatments: 0,
@@ -590,16 +649,95 @@
         resolvedAt: Date.now()
       };
 
-      for (var i = 0; i < results.length; i++) {
-        if (!results[i]) continue;
-        var r = results[i];
-        combined.totalTreatments += r.totalTreatments;
-        combined.totalDeep += r.deepTreatments;
-        combined.totalCitations += r.evidenceAnchors.length;
-        combined.byDiagnosis[r.diagnosisId] = r;
-        combined.allEvidenceAnchors = combined.allEvidenceAnchors.concat(r.evidenceAnchors);
-        combined.allImplementationSteps = combined.allImplementationSteps.concat(r.implementationSteps);
-      }
+      var claimed = {};
+      var totalUnique = 0, preDedupeTotal = 0;
+      var order = results.map(function (r) { return r.diagnosisId; }).sort();
+      var byId = {};
+      results.forEach(function (r) { byId[r.diagnosisId] = r; });
+
+      order.forEach(function (dxId) {
+        var pool = byId[dxId].pool;
+        preDedupeTotal += Math.min(maxTreatments, pool.length);
+        var selected = [];
+        for (var pi = 0; pi < pool.length && selected.length < maxTreatments; pi++) {
+          var t = pool[pi];
+          var k = txKeyOf(t, dxId, pi);
+          if (claimed[k]) continue;
+          claimed[k] = dxId;
+          // Clone before attaching per-call associations: pool entries are the
+          // SHARED _deepTreatmentCache objects; mutating them retroactively alters
+          // packages already returned to other brains resolving overlapping
+          // diagnoses (measured: Defense's CYBER_ATTACK package gained Technology's
+          // DATA_BREACH after a later Technology resolve).
+          var tc = {};
+          for (var f in t) { if (Object.prototype.hasOwnProperty.call(t, f)) tc[f] = t[f]; }
+          tc.diagnosisIds = assoc[k].slice().sort();
+          selected.push(tc);
+        }
+
+        // Package built from the SELECTED set (same shapes resolveForDocument
+        // produces) — anchors/steps/nodeMap/counts can never reference a
+        // treatment that was not selected.
+        var pkg = {
+          diagnosisId: dxId,
+          totalTreatments: selected.length,
+          // Full-depth vs shallow, separately: quota fill draws from the whole
+          // pool, and hasDepth:false entries are NOT deep treatments.
+          deepTreatments: selected.filter(function (t) { return t.hasDepth; }).length,
+          shallowTreatments: selected.filter(function (t) { return !t.hasDepth; }).length,
+          poolTreatments: pool.length,
+          treatments: selected,
+          evidenceAnchors: [],
+          implementationSteps: [],
+          nodeMap: [],
+          resolvedAt: Date.now()
+        };
+        var seenCites = {}, nm = {};
+        selected.forEach(function (t) {
+          if (t.cite && !seenCites[t.cite]) {
+            seenCites[t.cite] = true;
+            pkg.evidenceAnchors.push({ type: 'citation', text: t.cite, evidence: t.evidence, source: t.portalTitle });
+          }
+          if (t.steps && t.steps.length > 0) {
+            pkg.implementationSteps.push({
+              treatmentLabel: t.label, type: t.type, evidence: t.evidence,
+              steps: t.steps, monitoring: t.monitoring, escalation: t.escalation,
+              nodeId: t.nodeId, target: t.target
+            });
+          }
+          if (t.nodeId) {
+            if (!nm[t.nodeId]) nm[t.nodeId] = { nodeId: t.nodeId, nodeLabel: t.nodeLabel, treatmentCount: 0 };
+            nm[t.nodeId].treatmentCount++;
+          }
+        });
+        pkg.nodeMap = Object.values(nm);
+
+        combined.byDiagnosis[dxId] = pkg;
+        totalUnique += selected.length;
+      });
+
+      // Combined aggregates derive from the selected packages.
+      combined.totalPoolTreatments = 0;
+      Object.keys(combined.byDiagnosis).forEach(function (dxId) {
+        var pkg = combined.byDiagnosis[dxId];
+        combined.allEvidenceAnchors = combined.allEvidenceAnchors.concat(pkg.evidenceAnchors);
+        combined.allImplementationSteps = combined.allImplementationSteps.concat(pkg.implementationSteps);
+        combined.totalCitations += pkg.evidenceAnchors.length;
+        combined.totalTreatments += pkg.totalTreatments;
+        combined.totalDeep += pkg.deepTreatments;
+        combined.totalPoolTreatments += pkg.poolTreatments;
+      });
+      // Conservation audit: quota-slots that could not be filled with unique
+      // candidates. totalUnique + duplicatesRemoved == totalTreatmentsPreDedupe.
+      combined.totalTreatmentsPreDedupe = preDedupeTotal;
+      combined.totalUnique = totalUnique;
+      combined.duplicatesRemoved = preDedupeTotal - totalUnique;
+      // Pool-level duplicate incidence, measured BEFORE backfill/selection:
+      // how many pool entries shared an identity across diagnoses. Distinct from
+      // duplicatesRemoved (quota slots that went unfilled after claiming).
+      combined.poolEntries = poolEntryCount;
+      combined.poolUniqueIdentities = Object.keys(poolIdentitySet).length;
+      combined.poolDuplicates = poolDuplicateEntries;
 
       // One concise summary per brain resolve, only when actual network
       // work happened. Stats are per-call so concurrent resolves report

@@ -1,0 +1,268 @@
+/**
+ * scripts/test-measure-twin-dedupe.js — joint selection + cross-diagnosis dedupe.
+ * Run: node scripts/test-measure-twin-dedupe.js
+ *
+ * Invariants under test (finance L1, all 6 root dx active, quota 200/dx):
+ *   D1  totals match an independent full-pool replication
+ *   D2  no duplicate authored-occurrence identities across Finance packages
+ *   D3  conservation: totalUnique + duplicatesRemoved == totalTreatmentsPreDedupe
+ *   D4  every selected entity carries its complete full-pool diagnosisIds set
+ *   D5  order-independence: shuffled activeDx -> identical memberships and totals
+ *   D6  aggregates (anchors/steps) derive from the selected set
+ *   D7  package + combined counts describe the retained set; pool provenance kept
+ *   D8  BACKFILL: every diagnosis fills its quota unless unique candidates are
+ *       genuinely exhausted (SYSTEMIC_CONTAGION no longer starves at 1/200)
+ */
+var fs = require('fs'), path = require('path');
+var failures = 0, tests = 0;
+function assert(name, cond, detail) { tests++; if (cond) console.log('  PASS ' + name); else { failures++; console.error('  FAIL ' + name + (detail ? ' :: ' + detail : '')); } }
+
+var ROOT = path.join(__dirname, '..');
+var win = { location: { pathname: '/', search: '' }, addEventListener: function () {} };
+global.window = win;
+global.fetch = function (url) {
+  var u = String(url);
+  var m = u.match(/\/assets\/data\/domains\/([A-Za-z0-9_]+)\.json/);
+  var file = m ? path.join(ROOT, 'assets/data/domains', m[1] + '.json') : null;
+  if (file && fs.existsSync(file)) {
+    var data = JSON.parse(fs.readFileSync(file, 'utf8'));
+    return Promise.resolve({ ok: true, status: 200, json: function () { return Promise.resolve(data); } });
+  }
+  return Promise.resolve({ ok: false, status: 404, json: function () { return Promise.resolve({}); } });
+};
+win.fetch = global.fetch;
+
+eval(fs.readFileSync(path.join(ROOT, 'assets/js/domain-brains/portal-content-resolver.js'), 'utf8'));
+var resolver = win.LIMENPortalContentResolver;
+assert('resolver loaded', !!resolver);
+
+var finance = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/data/domains/finance.json'), 'utf8'));
+var issueIds = (finance.issues || []).map(function (i) { return i.id; });
+console.log('  finance root issues: ' + JSON.stringify(issueIds));
+
+// Finance identity is an authored occurrence, not a semantic label. Keep this
+// oracle independent of the resolver's key helper and validate coordinates
+// against the committed portal documents below, before computing expectations.
+function key(t) {
+  if (typeof t.treatmentSourceKey !== 'string' || !t.treatmentSourceKey.trim()) {
+    throw new Error('Corpus entry lacks authored-occurrence identity: ' + t.label);
+  }
+  return JSON.stringify([t.sourcePortal || '', t.nodeId || '', t.treatmentSourceKey]);
+}
+function legacyKey(t) { return (t.nodeId || '') + '|' + (t.label || ''); }
+function ranked(pool) {
+  var evidence = { A: 10, Strong: 10, B: 7, Moderate: 7, C: 4, Emerging: 1 };
+  return pool.slice().sort(function (a, b) {
+    return Number(!!b.hasDepth) - Number(!!a.hasDepth) ||
+      (a.depth || 0) - (b.depth || 0) ||
+      (evidence[b.evidence] || 0) - (evidence[a.evidence] || 0) ||
+      (a.treatmentSourceKey < b.treatmentSourceKey ? -1 : a.treatmentSourceKey > b.treatmentSourceKey ? 1 : 0);
+  });
+}
+var QUOTA = 200;
+
+(async function () {
+  // ── Independent replication over FULL pools (dedupe-free resolveForDiagnosis) ──
+  var pools = {};
+  for (var ii = 0; ii < issueIds.length; ii++) {
+    pools[issueIds[ii]] = ranked(await resolver.resolveForDiagnosis(issueIds[ii], { eager: false }));
+  }
+  var sourceDocs = {}, coordinateErrors = 0;
+  Object.values(pools).flat().forEach(function (t) {
+    var coordinates = JSON.parse(t.treatmentSourceKey);
+    var slug = coordinates[0];
+    if (!/^finance(?:_[A-Za-z0-9_]+)?$/.test(slug)) throw new Error('Invalid Finance source portal');
+    var doc = sourceDocs[slug] || (sourceDocs[slug] = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/data/domains', slug + '.json'), 'utf8')));
+    var act = (doc.activations || [])[coordinates[2]];
+    var authored = act && (act.treatments || [])[coordinates[3]];
+    if (coordinates.length !== 4 || !Number.isInteger(coordinates[2]) || !Number.isInteger(coordinates[3]) ||
+      !authored || t.sourcePortal !== slug || coordinates[1] !== t.nodeId ||
+      (act.brainNodeId || '') !== t.nodeId || (authored.label || '') !== t.label) coordinateErrors++;
+  });
+  assert('every Finance pool identity points to its actual authored portal/node/position', coordinateErrors === 0, coordinateErrors + ' invalid coordinates');
+  var expectedAssoc = {};
+  issueIds.forEach(function (id) {
+    pools[id].forEach(function (t) {
+      var k = key(t);
+      if (!expectedAssoc[k]) expectedAssoc[k] = [];
+      if (expectedAssoc[k].indexOf(id) === -1) expectedAssoc[k].push(id);
+    });
+  });
+  var expClaimed = {}, expSelected = {}, expPre = 0, expUnique = 0;
+  issueIds.slice().sort().forEach(function (id) {
+    expPre += Math.min(QUOTA, pools[id].length);
+    var sel = [];
+    for (var pi = 0; pi < pools[id].length && sel.length < QUOTA; pi++) {
+      var t = pools[id][pi], k = key(t);
+      if (expClaimed[k]) continue;
+      expClaimed[k] = id;
+      sel.push(t);
+    }
+    expSelected[id] = sel;
+    expUnique += sel.length;
+  });
+  var expPool = issueIds.reduce(function (n, id) { return n + pools[id].length; }, 0);
+
+  // ── Resolver under test ──
+  var state = { domainId: 'finance', diagnoses: issueIds.map(function (id) { return { id: id, active: true }; }) };
+  var combined = await resolver.resolveForBrain(state, {});
+
+  var perDx = {};
+  Object.keys(combined.byDiagnosis).forEach(function (id) { perDx[id] = (combined.byDiagnosis[id].treatments || []).length; });
+  console.log('\n  MEASURED (L1, 6 dx active, quota 200/dx, full-pool backfill)');
+  console.log('    per-dx selected: ' + JSON.stringify(perDx));
+  console.log('    expected (replication): ' + JSON.stringify(Object.keys(expSelected).reduce(function (o, id) { o[id] = expSelected[id].length; return o; }, {})));
+  console.log('    totalUnique=' + combined.totalUnique + ' duplicatesRemoved=' + combined.duplicatesRemoved +
+    ' preDedupe=' + combined.totalTreatmentsPreDedupe + ' pool=' + combined.totalPoolTreatments);
+
+  console.log('\nD1: totals match independent full-pool replication');
+  assert('totalUnique == replication', combined.totalUnique === expUnique, combined.totalUnique + ' vs ' + expUnique);
+  var selectionBad = issueIds.filter(function (id) {
+    var actual = (combined.byDiagnosis[id].treatments || []).map(key).sort();
+    return JSON.stringify(actual) !== JSON.stringify(expSelected[id].map(key).sort());
+  });
+  assert('selected identities, not just counts, match independent ranking and claims', selectionBad.length === 0, selectionBad.join(','));
+  assert('duplicatesRemoved == pre - unique', combined.duplicatesRemoved === expPre - expUnique,
+    combined.duplicatesRemoved + ' vs ' + (expPre - expUnique));
+  console.log('D2: no duplicate identities across packages');
+  var seen = {}, dups = 0;
+  Object.keys(combined.byDiagnosis).forEach(function (id) {
+    (combined.byDiagnosis[id].treatments || []).forEach(function (t) {
+      if (seen[key(t)]) dups++; seen[key(t)] = true;
+    });
+  });
+  assert('zero duplicate Finance authored occurrences', dups === 0, dups + ' dups');
+  console.log('D3: conservation');
+  assert('preDedupe == replication pre', combined.totalTreatmentsPreDedupe === expPre,
+    combined.totalTreatmentsPreDedupe + ' vs ' + expPre);
+  assert('unique + removed == pre', combined.totalUnique + combined.duplicatesRemoved === combined.totalTreatmentsPreDedupe);
+  console.log('D4: complete full-pool association sets');
+  var assocBad = 0;
+  Object.keys(combined.byDiagnosis).forEach(function (id) {
+    (combined.byDiagnosis[id].treatments || []).forEach(function (t) {
+      var expected = (expectedAssoc[key(t)] || []).slice().sort();
+      var actual = (t.diagnosisIds || []).slice().sort();
+      if (JSON.stringify(expected) !== JSON.stringify(actual)) assocBad++;
+      if (actual.indexOf(id) === -1) assocBad++;
+    });
+  });
+  assert('every entity carries complete diagnosisIds (incl. host)', assocBad === 0, assocBad + ' mismatches');
+  console.log('D5: order-independence');
+  var combined2 = await resolver.resolveForBrain({ domainId: 'finance', diagnoses: issueIds.slice().reverse().map(function (id) { return { id: id, active: true }; }) }, {});
+  var mem1 = {}, mem2 = {};
+  Object.keys(combined.byDiagnosis).forEach(function (id) {
+    (combined.byDiagnosis[id].treatments || []).forEach(function (t) { mem1[key(t)] = id + '|' + (t.diagnosisIds || []).join('+'); });
+  });
+  Object.keys(combined2.byDiagnosis).forEach(function (id) {
+    (combined2.byDiagnosis[id].treatments || []).forEach(function (t) { mem2[key(t)] = id + '|' + (t.diagnosisIds || []).join('+'); });
+  });
+  var memBad = Object.keys(mem1).filter(function (k) { return mem1[k] !== mem2[k]; }).length;
+  assert('memberships+hosts identical under shuffle', memBad === 0 && combined2.totalUnique === combined.totalUnique,
+    memBad + ' mismatches');
+  console.log('D6: aggregates derive from the selected set');
+  var anchorBad = 0, stepBad = 0, anchorSum = 0, stepSum = 0;
+  Object.keys(combined.byDiagnosis).forEach(function (id) {
+    var pkg = combined.byDiagnosis[id];
+    var labels = {}, cites = {};
+    (pkg.treatments || []).forEach(function (t) {
+      labels[(t.label || '') + '@' + (t.nodeId || '')] = true;
+      if (t.cite) cites[t.cite] = true;
+    });
+    (pkg.implementationSteps || []).forEach(function (s) { stepSum++; if (!labels[(s.treatmentLabel || '') + '@' + (s.nodeId || '')]) stepBad++; });
+    (pkg.evidenceAnchors || []).forEach(function (a) { anchorSum++; if (!cites[a.text]) anchorBad++; });
+  });
+  assert('every step references a selected treatment', stepBad === 0, stepBad + ' orphans');
+  assert('every anchor cites a selected treatment', anchorBad === 0, anchorBad + ' orphans');
+  assert('combined aggregates == package concats', combined.allEvidenceAnchors.length === anchorSum && combined.allImplementationSteps.length === stepSum);
+  console.log('D7: counts describe the retained set; pool provenance kept; deep/shallow separated');
+  var countOk = true, sumSel = 0, sumDeep = 0;
+  Object.keys(combined.byDiagnosis).forEach(function (id) {
+    var pkg = combined.byDiagnosis[id];
+    var arr = pkg.treatments || [];
+    var n = arr.length;
+    var nDeep = arr.filter(function (t) { return t.hasDepth; }).length;
+    sumSel += n; sumDeep += nDeep;
+    if (pkg.totalTreatments !== n) countOk = false;
+    if (pkg.deepTreatments !== nDeep) countOk = false;
+    if (pkg.shallowTreatments !== n - nDeep) countOk = false;
+  });
+  assert('package totalTreatments == retained set', countOk);
+  assert('package deepTreatments == full-depth subset only', countOk);
+  assert('combined.totalTreatments == package sums == totalUnique', combined.totalTreatments === sumSel && combined.totalTreatments === combined.totalUnique);
+  assert('combined.totalDeep == full-depth sum', combined.totalDeep === sumDeep, combined.totalDeep + ' vs ' + sumDeep);
+  assert('pool provenance == full-pool sum', combined.totalPoolTreatments === expPool, combined.totalPoolTreatments + ' vs ' + expPool);
+
+  console.log('D8: backfill — quota filled unless unique candidates genuinely exhausted');
+  var perDxOk = true;
+  Object.keys(combined.byDiagnosis).forEach(function (id) {
+    var n = (combined.byDiagnosis[id].treatments || []).length;
+    if (n !== expSelected[id].length) perDxOk = false;
+    if (n < QUOTA) {
+      // genuine exhaustion: every unselected pool entity must be claimed elsewhere
+      var selKeys = {};
+      (combined.byDiagnosis[id].treatments || []).forEach(function (t) { selKeys[key(t)] = true; });
+      var free = pools[id].filter(function (t) { return !expClaimed[key(t)] || selKeys[key(t)]; });
+      // every pool entity is either selected here or claimed by another dx
+      var unclaimed = pools[id].filter(function (t) { return !selKeys[key(t)] && !expClaimed[key(t)]; });
+      if (unclaimed.length > 0) { perDxOk = false; console.error('    ' + id + ': ' + unclaimed.length + ' unclaimed candidates despite unfilled quota'); }
+    }
+  });
+  assert('every dx matches replication quota-fill', perDxOk);
+  var sc = (combined.byDiagnosis.SYSTEMIC_CONTAGION || { treatments: [] }).treatments.length;
+  var scExp = (expSelected.SYSTEMIC_CONTAGION || []).length;
+  console.log('    SYSTEMIC_CONTAGION: ' + sc + ' selected (was 1 pre-backfill), replication expects ' + scExp);
+  assert('SYSTEMIC_CONTAGION backfilled from its pool', sc === scExp && sc > 1, sc + ' vs ' + scExp);
+
+  console.log('D9: pool-level duplicate incidence measured (before backfill, not after)');
+  var expPoolEntries = 0, expPoolIds = {}, expPoolDups = 0;
+  issueIds.forEach(function (id) {
+    pools[id].forEach(function (t) {
+      expPoolEntries++;
+      var k = key(t);
+      if (expPoolIds[k]) expPoolDups++;
+      expPoolIds[k] = true;
+    });
+  });
+  assert('poolEntries == sum of pool lengths', combined.poolEntries === expPoolEntries,
+    combined.poolEntries + ' vs ' + expPoolEntries);
+  assert('poolDuplicates == cross-pool incidence', combined.poolDuplicates === expPoolDups,
+    combined.poolDuplicates + ' vs ' + expPoolDups);
+  assert('pool conservation: entries == unique + duplicates',
+    combined.poolEntries === combined.poolUniqueIdentities + combined.poolDuplicates,
+    combined.poolEntries + ' vs ' + (combined.poolUniqueIdentities + combined.poolDuplicates));
+  assert('incidence exists even when backfill fills every slot', combined.poolDuplicates > 0,
+    String(combined.poolDuplicates));
+
+  console.log('D10: real same-node/same-label records from different portals remain distinct');
+  var allFinance = await resolver.resolveForBrain(state, { maxTreatments: 10000 });
+  var collision = Object.values(allFinance.byDiagnosis).flatMap(function (p) { return p.treatments; })
+    .filter(function (t) { return legacyKey(t) === 'VERM|Deploy Sustainability Integrated Technology Platform'; });
+  var sourcePair = collision.map(function (t) { return t.treatmentSourceKey; }).sort();
+  assert('both committed authored occurrences survive selection', JSON.stringify(sourcePair) === JSON.stringify([
+    '["finance_commercial","VERM",16,34]', '["finance_reinsurance","VERM",20,16]'
+  ]));
+  assert('uncapped retained set equals independently counted authored identities', allFinance.totalUnique === Object.keys(expectedAssoc).length);
+
+  console.log('D11: Agriculture uses the same authored-occurrence accounting');
+  var agriculture = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/data/domains/p2_agri.json'), 'utf8'));
+  var agIds = agriculture.issues.map(function (d) { return d.id; });
+  var agEntries = [], agExpected = new Set();
+  for (var ai = 0; ai < agIds.length; ai++) {
+    var agPool = await resolver.resolveForDiagnosis(agIds[ai], { eager: false });
+    agEntries = agEntries.concat(agPool);
+    agPool.forEach(function (t) { agExpected.add(key(t)); });
+  }
+  var agResult = await resolver.resolveForBrain({ domainId: 'agriculture',
+    diagnoses: agIds.map(function (id) { return { id: id, active: true }; }) }, { maxTreatments: 10000 });
+  var agSelected = Object.values(agResult.byDiagnosis).flatMap(function (p) { return p.treatments; });
+  assert('Agriculture authored pool unique and duplicate incidence conserved',
+    agResult.poolUniqueIdentities === agExpected.size && agResult.poolDuplicates === agEntries.length - agExpected.size);
+  assert('Agriculture selects one record per authored occurrence', agSelected.length === agExpected.size &&
+    JSON.stringify(agSelected.map(key).sort()) === JSON.stringify(Array.from(agExpected).sort()));
+  assert('Agriculture carries its own source identity fields', agSelected.every(function (t) {
+    return t.treatmentSourceKey && t.sourcePortal && !/^finance(?:_|$)/.test(t.sourcePortal);
+  }));
+
+  console.log('\n' + (tests - failures) + '/' + tests + ' passed');
+  process.exit(failures ? 1 : 0);
+})().catch(function (e) { console.error('TEST CRASH', e && e.stack || e); process.exit(1); });

@@ -203,12 +203,18 @@
         return { level: 'STALE', badge: 'STALE · last cycle ' + ageSec + 's ago', reason: 'Last cycle older than ' + Math.round(staleAfter / 1000) + 's.', suppressBody: false };
       }
     }
-    // Content presence — empty-state existing render handles its own message
+    // Content presence — empty-state existing render handles its own message.
+    // The playbook check uses the FILTERED rendered set (ctx.treatments) and must
+    // run BEFORE the cross-panel ontology downgrade below: an empty playbook with
+    // unmapped conditions is NO_CONTENT, not ONTOLOGY COVERAGE INCOMPLETE.
     if (panelId === 'diagnoses' && (!state.diagnoses || state.diagnoses.length === 0)) {
       return { level: 'NO_CONTENT', badge: null, reason: null, suppressBody: false };
     }
-    if (panelId === 'playbook' && (!state.treatments || state.treatments.length === 0)) {
-      return { level: 'NO_CONTENT', badge: null, reason: null, suppressBody: false };
+    if (panelId === 'playbook') {
+      var txSet0 = (ctx && Array.isArray(ctx.treatments)) ? ctx.treatments : state.treatments;
+      if (!txSet0 || txSet0.length === 0) {
+        return { level: 'NO_CONTENT', badge: null, reason: null, suppressBody: false };
+      }
     }
     if (panelId === 'opportunities' && (!state.opportunities || state.opportunities.length === 0)) {
       return { level: 'NO_CONTENT', badge: null, reason: null, suppressBody: false };
@@ -236,17 +242,45 @@
       return { level: 'FULL', badge: null, reason: null, suppressBody: false };
     }
     if (panelId === 'playbook') {
+      // Classify the EXACT array the panel renders (ctx.treatments = the
+      // active-dx-filtered set) — classifying unfiltered state.treatments let
+      // invisible entries downgrade the visible panel with contradictory counts.
+      var txSet = (ctx && Array.isArray(ctx.treatments)) ? ctx.treatments : state.treatments;
+      // (Empty-rendered-set NO_CONTENT is handled above, before the ontology
+      // downgrade — see the content-presence block.)
       // Evidence field is empirically populated 100% in canonical data;
       // this rule is forward-protection. Any treatment missing .evidence
       // (or with blank string) downgrades the whole playbook to CANDIDATE.
-      var hasMissingEvidence = state.treatments.some(function (t) {
+      var hasMissingEvidence = txSet.some(function (t) {
         return !t || t.evidence === undefined || t.evidence === null ||
                (typeof t.evidence === 'string' && t.evidence.trim().length === 0);
       });
       if (hasMissingEvidence) {
         return { level: 'CANDIDATE', badge: 'TREATMENT EVIDENCE INCOMPLETE', reason: 'One or more treatments lack evidence value.', suppressBody: false };
       }
-      return { level: 'FULL', badge: null, reason: null, suppressBody: false };
+      // Provenance gate (2026-09-26): verified status requires an AFFIRMATIVE
+      // machine-checkable classification (synthetic === false, set by the mad-lib
+      // classifier on every treatment path: digest build, canonical root, resolver
+      // deep). synthetic === true is generated scaffold. Absent flag = UNKNOWN
+      // provenance, which is UNVERIFIED — never silently counted as verified.
+      var synCount = 0, verCount = 0;
+      for (var pvi = 0; pvi < txSet.length; pvi++) {
+        var pvc = classifyProvenance(txSet[pvi]);
+        if (pvc === 1) synCount++;
+        else if (pvc === 0) verCount++;
+      }
+      var unkCount = txSet.length - synCount - verCount;
+      if (txSet.length > 0 && verCount === txSet.length) {
+        return { level: 'FULL', badge: null, reason: null, suppressBody: false };
+      }
+      if (synCount > 0 && verCount === 0 && unkCount === 0) {
+        return { level: 'CANDIDATE', badge: 'SYNTHETIC SCAFFOLD · ' + synCount + ' generated treatments', reason: 'All treatments are procedurally generated scaffold (build-time tagged); unverified, not actionable.', suppressBody: false };
+      }
+      var pvParts = [];
+      if (synCount) pvParts.push(synCount + ' scaffold');
+      if (unkCount) pvParts.push(unkCount + ' unverified');
+      if (verCount) pvParts.push(verCount + ' verified');
+      return { level: 'CANDIDATE', badge: 'PROVENANCE: ' + pvParts.join(' · '), reason: 'Verified requires affirmative classification; scaffold and unknown-provenance treatments are not verified.', suppressBody: false };
     }
     if (panelId === 'opportunities') {
       var hasMissingMeta = state.opportunities.some(function (o) {
@@ -283,8 +317,71 @@
   // Replacement body for NO_BRAIN / BRAIN_NOT_READY / BRAIN_STOPPED.
   // These states mean the panel content genuinely doesn't exist or
   // shouldn't be acted on — show the operator why.
-  function renderSuppressedPanelBody(authority) {
-    var color = (authority.level === 'BRAIN_STOPPED' || authority.level === 'NO_BRAIN') ? '#e85454' : '#C9A94E';
+  // ── Provenance fallback classifier ──
+  // Not every treatment path tags provenance (only finance's brains + the
+  // digest builder do). For untagged records the console applies the SAME
+  // machine-checkable rules as the digest builder, shared across all 20 domains:
+  // mad-lib verb family => scaffold; affirmative provenance (non-placeholder
+  // citation AND implementation steps, not hasDepth alone) => verified-eligible;
+  // anything else => unknown (never silently verified).
+  var _MADLIB_VERB = /^(Develop|Establish|Implement|Build|Launch|Design|Deploy|Operationalize|Conduct|Create|Define|Assess|Optimize|Modernize|Strengthen|Enhance|Formalize|Institute|Standardize|Coordinate|Integrate|Calibrate|Evaluate|Streamline|Institutionalize|Configure|Monitor)\b/;
+  // Same evidence predicate as scripts/treatment-provenance.cjs. Structural
+  // depth and placeholder text are not affirmative source evidence.
+  function isEvidenceText(value) {
+    return typeof value === 'string' && value.trim().length > 0 &&
+      !/\b(?:todo|tbd|placeholder)\b|\b(?:citation|reference|source|implementation|steps?)[\s_-]+(?:needed|required|missing|pending|not[\s_-]+(?:provided|available|found))\b|^(?:n\/?a|none|null|unknown|pending)$/i.test(value.trim());
+  }
+  function hasAffirmativeProvenance(cite, steps) {
+    return isEvidenceText(cite) && cite.trim().length > 3 &&
+      Array.isArray(steps) && steps.length > 0 && steps.every(isEvidenceText);
+  }
+  function classifyProvenance(t) {
+    if (!t) return 2;
+    if (t.synthetic === true) return 1;
+    if (t.synthetic === false) {
+      // Preserve trusted legacy flags with no supplied evidence, but never let
+      // a stale flag override contradictory empty/placeholder evidence.
+      if (('cite' in t || 'steps' in t) && !hasAffirmativeProvenance(t.cite, t.steps)) return 2;
+      return 0;
+    }
+    if (_MADLIB_VERB.test(String(t.label || ''))) return 1;
+    if (hasAffirmativeProvenance(t.cite, t.steps)) return 0;
+    return 2;
+  }
+
+  // ── Association-set helpers ──
+  // A treatment may legitimately belong to SEVERAL diagnoses. The resolver's
+  // dedupe keeps each entity once (hosted by its primary diagnosis) but preserves
+  // the complete diagnosisIds association set; filtering and grouping must use
+  // that full set or shared treatments vanish from their other applicable
+  // diagnoses. Order of activeDx never changes memberships, groups, or totals.
+  function treatmentDxIds(t) {
+    if (t && Array.isArray(t.diagnosisIds) && t.diagnosisIds.length) return t.diagnosisIds;
+    return [(t && t.diagnosisId) || 'UNLINKED'];
+  }
+  function filterTreatmentsForActiveDx(treatments, activeDxIds) {
+    return (treatments || []).filter(function (t) {
+      if (!t) return false;
+      var ids = treatmentDxIds(t);
+      for (var i = 0; i < ids.length; i++) if (activeDxIds[ids[i]]) return true;
+      return false;
+    });
+  }
+  function groupTreatmentsByDx(treatments, activeDxIds) {
+    var groups = {};
+    (treatments || []).forEach(function (t) {
+      var ids = treatmentDxIds(t);
+      for (var i = 0; i < ids.length; i++) {
+        var k = ids[i] || 'UNLINKED';
+        if (k !== 'UNLINKED' && activeDxIds && !activeDxIds[k]) continue;
+        if (!groups[k]) groups[k] = [];
+        groups[k].push(t);
+      }
+    });
+    return groups;
+  }
+
+  function renderSuppressedPanelBody(authority) {    var color = (authority.level === 'BRAIN_STOPPED' || authority.level === 'NO_BRAIN') ? '#e85454' : '#C9A94E';
     var bg = (authority.level === 'BRAIN_STOPPED' || authority.level === 'NO_BRAIN') ? 'rgba(232,84,84,0.05)' : 'rgba(201,169,78,0.04)';
     var border = (authority.level === 'BRAIN_STOPPED' || authority.level === 'NO_BRAIN') ? 'rgba(232,84,84,0.25)' : 'rgba(201,169,78,0.25)';
     var h = '<div style="padding:14px 12px;text-align:center;background:' + bg + ';border:1px solid ' + border + ';border-radius:3px">';
@@ -514,7 +611,7 @@
     // regulation engine narrows it — that's why the count used to flash ~400 then settle.
     // Count/show only treatments that map to an ACTIVE diagnosis: the stable, actionable set.
     var _activeDxIds = {}; for (var _ax = 0; _ax < activeDx.length; _ax++) _activeDxIds[activeDx[_ax].id] = true;
-    treatments = treatments.filter(function (t) { return t && t.diagnosisId && _activeDxIds[t.diagnosisId]; });
+    treatments = filterTreatmentsForActiveDx(treatments, _activeDxIds);
     var resolvedContent = state.resolvedContent || {};
     var byDx = resolvedContent.byDiagnosis || {};
 
@@ -604,7 +701,8 @@
     // diagnoses, playbook, opportunities).
     var __dcbPanelCtx = {
       unmappedConditionCount: unmappedConditions.length,
-      activeDxCount: activeDx.length
+      activeDxCount: activeDx.length,
+      treatments: treatments
     };
 
     var h = '';
@@ -774,7 +872,10 @@
       for (var li = 0; li < _changelog.length; li++) {
         var log = _changelog[li];
         var logType = log.type || log.changeType || 'EVENT';
-        var logMsg = log.message || log.description || log.summary || '';
+        var logMsg = log.message || log.title || log.description || log.summary || '';
+        // The changelog endpoint accepts arbitrary JSON titles. Convert JSON
+        // values before substring; objects may even shadow toString/valueOf.
+        if (typeof logMsg !== 'string') logMsg = JSON.stringify(logMsg);
         var logTime = log.timestamp || log.ts || log.date || '';
         if (logTime) { try { logTime = new Date(logTime).toLocaleString(); } catch (e) { /* keep raw */ } }
         h += '<div class="dcb-log">';
@@ -820,7 +921,11 @@
     // Diagnosis Chain — deep explanations
     var __authDiagnoses = classifyPanelAuthority('diagnoses', _brainRef, state, __dcbPanelCtx);
     h += '<div class="dcb-panel' + (hasFiring ? ' dcb-firing' : isLive ? ' dcb-live' : '') + '" data-panel="diagnoses">';
-    h += '<div class="dcb-panel-title"><span>DIAGNOSIS CHAIN \u00b7 ' + activeDx.length + ' active / ' + diagnoses.length + ' monitored</span></div>';
+    // Selected-vs-available: the digest's active window (180) is a RANKED SUBSET
+    // of the full-tree diagnosis pool; show the relationship honestly instead of
+    // implying the window is the pool. Full route table: per-domain manifest.
+    var _dxAvail = (_brainRef && _brainRef._deepDigest && _brainRef._deepDigest.diagnosisTotalAvailable) || 0;
+    h += '<div class="dcb-panel-title"><span>DIAGNOSIS CHAIN \u00b7 ' + activeDx.length + ' active / ' + diagnoses.length + ' monitored' + (_dxAvail > 0 ? ' \u00b7 window of ' + _dxAvail.toLocaleString() + ' reachable' : '') + '</span></div>';
     h += '<div class="dcb-panel-body">';
     if (__authDiagnoses.suppressBody) {
       h += renderSuppressedPanelBody(__authDiagnoses);
@@ -907,7 +1012,22 @@
     // ═══ REGULATION PLAYBOOK — grouped by diagnosis ═══
     var __authPlaybook = classifyPanelAuthority('playbook', _brainRef, state, __dcbPanelCtx);
     h += '<div class="dcb-panel' + (treatments.length > 0 ? ' dcb-firing' : isLive ? ' dcb-live' : '') + '" data-panel="playbook">';
-    h += '<div class="dcb-panel-title"><span>REGULATION PLAYBOOK \u00b7 ' + treatments.length + ' treatments across ' + activeDx.length + ' diagnoses</span></div>';
+    var _verTx = 0, _synTx = 0, _unkTx = 0;
+    for (var _pv = 0; _pv < treatments.length; _pv++) {
+      var _pc = classifyProvenance(treatments[_pv]);
+      if (_pc === 1) _synTx++;
+      else if (_pc === 0) _verTx++;
+      else _unkTx++;
+    }
+    var _provSuffix = '';
+    if (_synTx + _unkTx > 0) {
+      var _provParts = [];
+      if (_verTx) _provParts.push(_verTx + ' verified');
+      if (_synTx) _provParts.push(_synTx + ' scaffold');
+      if (_unkTx) _provParts.push(_unkTx + ' unverified');
+      _provSuffix = ' \u00b7 ' + _provParts.join(' / ');
+    }
+    h += '<div class="dcb-panel-title"><span>REGULATION PLAYBOOK \u00b7 ' + treatments.length + ' treatments across ' + activeDx.length + ' diagnoses' + _provSuffix + '</span></div>';
     h += '<div class="dcb-panel-body">';
     if (__authPlaybook.suppressBody) {
       h += renderSuppressedPanelBody(__authPlaybook);
@@ -919,14 +1039,10 @@
     } else if (treatments.length === 0 && activeDx.length > 0) {
       h += '<div style="font-size:0.30rem;color:#9a9080;line-height:1.5">Diagnoses active but no treatments resolved from portal node structure. Treatment mapping gap detected for current diagnosis set.</div>';
     } else {
-      // Group treatments by diagnosis
-      var treatByDx = {};
-      for (var tgi = 0; tgi < treatments.length; tgi++) {
-        var tg = treatments[tgi];
-        var dxKey = tg.diagnosisId || 'UNLINKED';
-        if (!treatByDx[dxKey]) treatByDx[dxKey] = [];
-        treatByDx[dxKey].push(tg);
-      }
+      // Group treatments by their FULL diagnosis association set — a shared
+      // treatment renders under every applicable active diagnosis (entity is
+      // still counted once in the panel title).
+      var treatByDx = groupTreatmentsByDx(treatments, _activeDxIds);
 
       // Evidence rank for priority ordering
       var evRank = { 'Strong': 4, 'A': 4, 'Moderate': 3, 'B': 3, 'Emerging': 2, 'C': 2 };
@@ -955,6 +1071,7 @@
           h += '<span class="dcb-treat-label">' + esc(t.label) + '</span>';
           if (t.type) h += '<span class="dcb-treat-type" style="' + treatTypeColor(t.type) + '">' + esc(t.type) + '</span>';
           if (t.evidence) h += '<span class="dcb-treat-ev">EV: ' + esc(t.evidence) + '</span>';
+          if (classifyProvenance(t) === 1) h += '<span style="font-size:0.20rem;letter-spacing:0.5px;padding:1px 4px;border-radius:2px;color:rgba(168,85,247,0.85);border:1px solid rgba(168,85,247,0.25);background:rgba(168,85,247,0.04);margin-left:2px">SCAFFOLD</span>';
           // Promoted directive badge
           if (t.source === 'portal_directive_promoted' && t._promotedFrom) {
             var pf = t._promotedFrom;
@@ -1434,6 +1551,15 @@
     var feedsLive = liveFeeds.length;
     var feedsTotal = feeds.length;
     var lastUpdate = state.updated ? new Date(state.updated).toLocaleTimeString() : 'never';
+    var now = new Date();
+    var timeStr = now.toLocaleTimeString();
+    var freshStatus = _freshness.status || 'INIT';
+    var freshColor = freshStatus === 'LIVE' ? '#5ab5a0' : freshStatus === 'DEGRADED' ? '#C9A94E' : '#e85454';
+    var ageStr = '';
+    if (_freshness.snapshotAge != null) {
+      var ageSec = Math.round(_freshness.snapshotAge / 1000);
+      ageStr = ageSec < 60 ? ageSec + 's ago' : Math.round(ageSec / 60) + 'm ago';
+    }
     var lines = [
       ['DOMAIN ENGINE', domEngineLive ? (domEngineStarted ? 'STARTED' : 'LOADED') : 'MISSING', domEngineStarted ? '#5ab5a0' : '#e85454'],
       ['BRAIN STATUS', brainStatus, brainLive ? '#5ab5a0' : '#e85454'],
@@ -1472,16 +1598,7 @@
 
     h += '</div>'; // end right col
 
-    // Freshness proof bar
-    var now = new Date();
-    var timeStr = now.toLocaleTimeString();
-    var freshStatus = _freshness.status || 'INIT';
-    var freshColor = freshStatus === 'LIVE' ? '#5ab5a0' : freshStatus === 'DEGRADED' ? '#C9A94E' : '#e85454';
-    var ageStr = '';
-    if (_freshness.snapshotAge != null) {
-      var ageSec = Math.round(_freshness.snapshotAge / 1000);
-      ageStr = ageSec < 60 ? ageSec + 's ago' : Math.round(ageSec / 60) + 'm ago';
-    }
+    // Freshness proof bar (freshStatus/freshColor/ageStr computed above the trace lines)
     h += '<div id="dcb-timestamp">';
     h += (freshStatus === 'LIVE' ? '<span class="live-dot"></span>' : '<span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:' + freshColor + ';margin-right:4px;vertical-align:middle"></span>');
     h += '<span style="color:' + freshColor + '">' + freshStatus + '</span>';
@@ -1676,6 +1793,18 @@
     // Console-clarity is blocked from starting (see blockClarity() above).
     // No intercept or MutationObserver needed — brain owns #clarity-view exclusively.
   }
+
+  // Test/diagnostic seam (additive): the authority classifier is the console's
+  // honesty gate — expose it so regression tests can assert synthetic scaffold
+  // can never render FULL playbook authority.
+  window.LIMENDomainConsoleBrain = {
+    classifyPanelAuthority: classifyPanelAuthority,
+    renderPanelAuthorityBadge: renderPanelAuthorityBadge,
+    classifyProvenance: classifyProvenance,
+    treatmentDxIds: treatmentDxIds,
+    filterTreatmentsForActiveDx: filterTreatmentsForActiveDx,
+    groupTreatmentsByDx: groupTreatmentsByDx
+  };
 
   // Boot immediately once DOM is ready — no delay.
   // Column hiding is handled by static CSS (.dcb-active) applied in domain-console.html.

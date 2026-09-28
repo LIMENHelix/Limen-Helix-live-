@@ -29,6 +29,17 @@
 
   var Base = window.LIMENDomainBrainBase;
 
+  // Same evidence predicate as scripts/treatment-provenance.cjs; regression
+  // vectors cover both runtime producers and the digest/console consumers.
+  function isEvidenceText(value) {
+    return typeof value === 'string' && value.trim().length > 0 &&
+      !/\b(?:todo|tbd|placeholder)\b|\b(?:citation|reference|source|implementation|steps?)[\s_-]+(?:needed|required|missing|pending|not[\s_-]+(?:provided|available|found))\b|^(?:n\/?a|none|null|unknown|pending)$/i.test(value.trim());
+  }
+  function hasAffirmativeProvenance(cite, steps) {
+    return isEvidenceText(cite) && cite.trim().length > 3 &&
+      Array.isArray(steps) && steps.length > 0 && steps.every(isEvidenceText);
+  }
+
   function FinanceBrain() {
     Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24: deep-digest must not activate from stress
       
@@ -105,13 +116,18 @@
     try { this._loadFinanceL1PortalDepth(); } catch (e) {}          // scan L1 branches (treatments mad-lib -> NOT admitted; real tickers only)
     try { this._loadFinanceSublayer(); } catch (e) {}               // CREDIT/LIQUIDITY: load credit sub-portal (real-content, unbundled) as an additive LAYER
 
+    // Stress catch-all triggers are grounded per finance-pulse-engine.js EVIDENCE_CONTRACTS:
+    // only SYSTEMIC_CONTAGION has catchAllBlocked:false, so it alone keeps live _stress_*
+    // triggers; the other five contracts block stress-only activation, so their dead
+    // 'finance_high_stress'/'structural_stress' slots (never matchable since conditions were
+    // renamed _stress_finance_high/_stress_structural) are removed rather than re-grounded.
     this.diagnosisIndex = {
-      'BANKING_CRISIS':           ['BANKING_CRISIS', 'CREDIT_FREEZE', 'SYSTEMIC_CONTAGION', 'bank_failure', 'finance_high_stress'],
-      'CREDIT_FREEZE':            ['CREDIT_FREEZE', 'lending_contraction', 'interbank_stress', 'liquidity_drain', 'structural_stress'],
-      'MARKET_CRASH':             ['volatility_cascade', 'correlation_breakdown', 'flash_crash', 'market_panic', 'finance_high_stress'],
+      'BANKING_CRISIS':           ['BANKING_CRISIS', 'CREDIT_FREEZE', 'SYSTEMIC_CONTAGION', 'bank_failure'],
+      'CREDIT_FREEZE':            ['CREDIT_FREEZE', 'lending_contraction', 'interbank_stress', 'liquidity_drain'],
+      'MARKET_CRASH':             ['volatility_cascade', 'correlation_breakdown', 'flash_crash', 'market_panic'],
       'CURRENCY_COLLAPSE':        ['currency_collapse', 'capital_flight', 'reserves_depletion', 'fx_intervention', 'macro_shock'],
-      'SYSTEMIC_CONTAGION':       ['finance_high_stress', 'structural_stress', 'macro_shock', 'systemic_risk'],
-      'FRAUD_SCANDAL':            ['fraud_detected', 'accounting_irregularity', 'regulatory_action', 'finance_high_stress']
+      'SYSTEMIC_CONTAGION':       ['_stress_finance_high', '_stress_structural', 'macro_shock', 'systemic_risk'],
+      'FRAUD_SCANDAL':            ['fraud_detected', 'accounting_irregularity', 'regulatory_action']
     };
 
     // Cross-domain emissions — GATED: require at least 1 active diagnosis
@@ -210,11 +226,10 @@
       this._activeConditions.push('macro_shock');
     }
 
-    // Stress-derived flags — tagged with _stress_ prefix to prevent
-    // them from satisfying evidence family requirements in the pulse engine
-    if (this.state.stress >= 0.70) this._activeConditions.push('_stress_finance_high');
-    if (this.state.maturity === 'STRUCTURAL') this._activeConditions.push('_stress_structural');
-    if (this.state.stress >= 0.80) this._activeConditions.push('_stress_systemic');
+    // Stress-derived flags are computed AFTER current-cycle scoring — see the
+    // scoreStress override below. (They used to be read here, but normalizeSignals
+    // runs BEFORE scoreStress in the base cycle, so they carried PREVIOUS-cycle
+    // stress/maturity: SYSTEMIC_CONTAGION activated and cleared one cycle late.)
 
     // Cross-domain pressure from energy
     var extPressure = this.getExternalPressure ? this.getExternalPressure() : 0;
@@ -385,14 +400,26 @@
         for (var ti = 0; ti < actTreats.length; ti++) {
           var t = actTreats[ti];
           treatments.push({
-            id: 'treat_' + nodeId + '_' + ti,
+            id: 'treat_' + encodeURIComponent(JSON.stringify(['finance', nodeId, ai, ti])),
             label: t.label,
             type: t.type,
             evidence: t.evidence,
             description: t.description || '',
             diagnosisId: activeNodeIds[nodeId],
             nodeId: nodeId,
+            sourcePortal: 'finance',
+            treatmentSourceKey: JSON.stringify(['finance', nodeId, ai, ti]),
             relevance: 1.0,
+            // Tri-state affirmative provenance (same rule as the digest builder):
+            // mad-lib => true (scaffold); cite+steps => false (verified-eligible);
+            // a regex miss WITHOUT provenance is UNKNOWN (undefined) — never
+            // verified by omission. All 38 finance.json root treatments miss the
+            // regex AND lack cite/steps, so they are unknown, not verified.
+            synthetic: (function () {
+              if (self._isFinanceMadLibTreatment && self._isFinanceMadLibTreatment(t.label)) return true;
+              if (hasAffirmativeProvenance(t.cite, t.steps)) return false;
+              return undefined;
+            })(),
             source: 'canonical'
           });
         }
@@ -785,7 +812,7 @@
           for (var i = 0; i < dxContent.treatments.length; i++) {
             var t = dxContent.treatments[i];
             deepTreats.push({
-              id: 'deep_' + t.nodeId + '_' + i,
+              id: 'deep_' + encodeURIComponent(t.treatmentSourceKey || (dxId + '_' + i)),
               label: t.label,
               type: t.type,
               evidence: t.evidence,
@@ -794,17 +821,101 @@
               steps: t.steps,
               monitoring: t.monitoring,
               escalation: t.escalation,
+              target: t.target,
               diagnosisId: dxId,
+              diagnosisIds: t.diagnosisIds || [dxId],
               nodeId: t.nodeId,
+              sourcePortal: t.sourcePortal || null,
+              treatmentSourceKey: t.treatmentSourceKey || null,
+              portalDomain: t.portalDomain,
+              portalDomainId: t.portalDomainId,
+              ancestryPath: t.ancestryPath,
+              depth: t.depth,
               nodeLabel: t.nodeLabel,
               hasDepth: t.hasDepth,
+              // Tri-state affirmative provenance (same rule as the canonical
+              // path + digest builder): mad-lib => true; cite+steps => false;
+              // otherwise unknown (undefined) — never verified by omission.
+              synthetic: (function () {
+                if (self._isFinanceMadLibTreatment && self._isFinanceMadLibTreatment(t.label)) return true;
+                if (hasAffirmativeProvenance(t.cite, t.steps)) return false;
+                return undefined;
+              })(),
               source: 'canonical_deep'
             });
           }
         }
-        if (deepTreats.length > 0) self.state.treatments = deepTreats;
+        if (deepTreats.length > 0) {
+          // MERGE, not replace (execution-disparity fix): the base cycle's step-6
+          // _applyDeepDigest injected deep-digest treatments into state.treatments
+          // earlier THIS cycle; a wholesale overwrite wiped them before render.
+          //
+          // Merge only proven copies of the same authored occurrence. Source
+          // coordinates travel through BOTH paths before ranking/selection.
+          // Labels (even with equal nodes) are not identity. Missing keys stay
+          // separate, and conflicting portal/node context fails closed.
+          function sourceKey(t) {
+            if (typeof t.treatmentSourceKey !== 'string' || !t.treatmentSourceKey.trim()) return null;
+            return JSON.stringify([t.treatmentSourceKey, t.sourcePortal || '', t.nodeId || '']);
+          }
+          var existing = Array.isArray(self.state.treatments) ? self.state.treatments : [];
+          var seen = {};
+          var merged = [];
+          existing.concat(deepTreats).forEach(function (t) {
+            if (!t) return;
+            var sk = sourceKey(t);
+            var prev = sk && seen[sk];
+            if (!prev) { if (sk) seen[sk] = t; merged.push(t); return; }
+            var ids = {};
+            (Array.isArray(prev.diagnosisIds) ? prev.diagnosisIds : [prev.diagnosisId]).forEach(function (i) { if (i) ids[i] = true; });
+            (Array.isArray(t.diagnosisIds) ? t.diagnosisIds : [t.diagnosisId]).forEach(function (i) { if (i) ids[i] = true; });
+            prev.diagnosisIds = Object.keys(ids).sort();
+            prev.diagnosisId = prev.diagnosisIds[0];
+            // union node context (nodeIds array; nodeId stays the primary)
+            if (t.nodeId) {
+              if (!prev.nodeId) { prev.nodeId = t.nodeId; prev.nodeLabel = t.nodeLabel; }
+              var nids = {};
+              (Array.isArray(prev.nodeIds) ? prev.nodeIds : [prev.nodeId]).forEach(function (n) { if (n) nids[n] = true; });
+              (Array.isArray(t.nodeIds) ? t.nodeIds : [t.nodeId]).forEach(function (n) { if (n) nids[n] = true; });
+              prev.nodeIds = Object.keys(nids).sort();
+            }
+            if (!prev.cite && t.cite) prev.cite = t.cite;
+            if ((!prev.steps || !prev.steps.length) && t.steps && t.steps.length) prev.steps = t.steps;
+            if (!prev.hasDepth && t.hasDepth) prev.hasDepth = t.hasDepth;
+            // Preserve the resolver's full operational metadata — the retained
+            // record is often the lightweight digest twin; without these the
+            // playbook loses explanation, monitoring, and escalation guidance.
+            if (!prev.description && t.description) prev.description = t.description;
+            if (!prev.monitoring && t.monitoring) prev.monitoring = t.monitoring;
+            if (!prev.escalation && t.escalation) prev.escalation = t.escalation;
+            if (!prev.target && t.target) prev.target = t.target;
+            ['portalDomain', 'portalDomainId', 'ancestryPath', 'depth'].forEach(function (field) {
+              if (prev[field] == null && t[field] != null) prev[field] = t[field];
+            });
+            if (prev.synthetic === true || t.synthetic === true) prev.synthetic = true;
+            else if (prev.synthetic === false && t.synthetic === false) prev.synthetic = false;
+            else prev.synthetic = undefined;
+          });
+          self.state.treatments = merged;
+        }
       }
     }).catch(function () {});
+  };
+
+  // STEP 3 override: stress-derived catch-all flags must reflect CURRENT-cycle
+  // stress/maturity. The base cycle runs normalizeSignals (step 2) BEFORE
+  // scoreStress (step 3), so flags computed there carried previous-cycle state:
+  // SYSTEMIC_CONTAGION activated one cycle late on escalation and persisted one
+  // cycle late after recovery (review finding 2026-09-26). The _stress_ prefix
+  // still prevents these from satisfying pulse evidence-family requirements.
+  FinanceBrain.prototype.scoreStress = function () {
+    var self = this;
+    return Base.prototype.scoreStress.call(this).then(function () {
+      self._activeConditions = self._activeConditions || [];
+      if (self.state.stress >= 0.70) self._activeConditions.push('_stress_finance_high');
+      if (self.state.maturity === 'STRUCTURAL') self._activeConditions.push('_stress_structural');
+      if (self.state.stress >= 0.80) self._activeConditions.push('_stress_systemic');
+    });
   };
 
   var _origCycle = FinanceBrain.prototype.cycle;
@@ -2224,7 +2335,12 @@
     var dxId = dx ? (dx.id || null) : null;
 
     var allTreat = Array.isArray(s.treatments) ? s.treatments : [];
-    var treatments = allTreat.filter(function (t) { return !dxId || t.diagnosisId === dxId; });
+    // A shared source is stored once; diagnosisId is its host, not its complete
+    // membership. Each member packet must retain that source and its steps.
+    var treatments = allTreat.filter(function (t) {
+      return !dxId || t.diagnosisId === dxId ||
+        (Array.isArray(t.diagnosisIds) && t.diagnosisIds.indexOf(dxId) !== -1);
+    });
     var implementationSteps = [];
     for (var ti = 0; ti < treatments.length; ti++) { if (Array.isArray(treatments[ti].steps)) implementationSteps = implementationSteps.concat(treatments[ti].steps); }
 

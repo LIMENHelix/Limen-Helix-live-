@@ -235,6 +235,7 @@ const HANDLERS = {
   'feed-status': require('../handlers/feed-status'),
   'fetch-doc': require('../handlers/fetch-doc'),
   'fetch-portal': require('../handlers/fetch-portal'),
+  'diagnosis-manifest': require('../handlers/diagnosis-manifest'),
   'kernel-experiment': require('../handlers/kernel-experiment'),
   'lead': require('../handlers/lead'),
   'fitness-program': require('../handlers/fitness-program'),

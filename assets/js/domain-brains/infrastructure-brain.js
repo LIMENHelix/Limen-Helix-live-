@@ -1682,7 +1682,9 @@
               steps: t.steps,
               monitoring: t.monitoring,
               escalation: t.escalation,
+              target: t.target,
               diagnosisId: dxId,
+              diagnosisIds: t.diagnosisIds || [dxId], sourcePortal: t.sourcePortal || null, treatmentSourceKey: t.treatmentSourceKey || null, portalDomain: t.portalDomain, portalDomainId: t.portalDomainId, ancestryPath: t.ancestryPath, depth: t.depth,
               nodeId: t.nodeId,
               nodeLabel: t.nodeLabel,
               hasDepth: t.hasDepth,
@@ -1690,7 +1692,7 @@
             });
           }
         }
-        if (deepTreats.length > 0) self.state.treatments = deepTreats;
+        if (deepTreats.length > 0) self._mergeResolvedTreatments(deepTreats);
       }
     }).catch(function () {});
   };
@@ -2287,7 +2289,11 @@
     var dxId = dx ? (dx.id || null) : null;
 
     var allTreat = Array.isArray(s.treatments) ? s.treatments : [];
-    var treatments = allTreat.filter(function (t) { return !dxId || t.diagnosisId === dxId; });
+    // diagnosisId is the storage host; shared treatments belong to every member packet.
+    var treatments = allTreat.filter(function (t) {
+      return !dxId || t.diagnosisId === dxId ||
+        (Array.isArray(t.diagnosisIds) && t.diagnosisIds.indexOf(dxId) !== -1);
+    });
     var implementationSteps = [];
     for (var ti = 0; ti < treatments.length; ti++) { if (Array.isArray(treatments[ti].steps)) implementationSteps = implementationSteps.concat(treatments[ti].steps); }
 

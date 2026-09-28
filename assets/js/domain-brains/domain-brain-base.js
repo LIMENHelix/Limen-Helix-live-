@@ -808,10 +808,10 @@
         return String(c).charAt(0) !== '_';        // `_`-prefixed tokens are reporting flags, not evidence
       }).length;
       if (nEvidence === 0) return;                 // no evidence this cycle -> surface nothing
-      cap = Math.max(0, Math.min(8, nEvidence));
+      cap = Math.max(0, Math.min(12, nEvidence));
     } else {
       if (stress < 0.30) return;                   // only surface deep dx under real stress
-      cap = Math.max(0, Math.min(8, Math.round(stress * 8)));
+      cap = Math.max(0, Math.min(12, Math.round(stress * 12)));
     }
     if (cap === 0) return;
 
@@ -823,10 +823,61 @@
     self.state.diagnoses.forEach(function (d) { if (d && d.id) have[d.id] = true; });
 
     var EV = { Strong: 3, A: 3, Moderate: 2, B: 2, C: 1, Emerging: 1 };
-    // Digest is pre-ranked (richest first); take the first `cap` not already present.
+    // Digest is pre-ranked (richest first) but ORDERED SHALLOW-FIRST by the builder's
+    // stratified buckets. Depth round-robin deals one entry per level per pass so
+    // every represented level is reachable in a single wide window — but with a
+    // NARROW window (cap < number of levels) a fixed start index still skips the
+    // deepest levels forever (measured: cap 3 -> always L2-L4). Rotating cursor
+    // (2026-09-26): the starting depth advances one level per cycle, and the
+    // within-bucket offsets advance independently, so narrow windows visit every
+    // level. Exhaustive diagnosis coverage depends on each bucket's size and
+    // allocated slots. Deterministic:
+    // same cycle count + same digest + same state -> same window.
+    var byDepth = {}, depthKeys = [];
+    for (var pi = 0; pi < list.length; pi++) {
+      var pd = list[pi];
+      if (!pd || !pd.id || have[pd.id]) continue;
+      var dk = String(pd.depth || 'x');
+      if (!byDepth[dk]) { byDepth[dk] = []; depthKeys.push(dk); }
+      byDepth[dk].push(pd);
+    }
+    depthKeys.sort();
+    var rot = self._deepDigestRotation || 0;
+    self._deepDigestRotation = rot + 1;
+    var nd = depthKeys.length;
+    var picked = [];
+    if (nd > 0) {
+      // Per-depth cursors: each bucket advances INDEPENDENTLY whenever it is
+      // dealt from. Sharing one cursor with the depth rotation coupled the
+      // within-bucket offset to the level count, so buckets whose size divided
+      // the level count cycled the same subset forever (measured: 60% coverage).
+      // Termination is only "cap filled" or "all buckets exhausted" — a fixed
+      // pass bound truncated 2-depth digests below cap (19 domains, P1).
+      var cursors = self._deepDigestBucketCursors || (self._deepDigestBucketCursors = {});
+      // Every domain advances over a stable circular bucket. Splicing while also
+      // advancing the persistent cursor skips entries when a cycle draws twice
+      // from one depth. Count this cycle's draws to avoid wrapping within it.
+      var cycleTaken = {};
+      while (picked.length < cap) {
+        var progressed = false;
+        for (var ki = 0; ki < nd && picked.length < cap; ki++) {
+          var dk = depthKeys[(rot + ki) % nd];
+          var bucket = byDepth[dk];
+          if (bucket.length > 0 && (cycleTaken[dk] || 0) < bucket.length) {
+            var idx = (cursors[dk] || 0) % bucket.length;
+            cursors[dk] = (cursors[dk] || 0) + 1;
+            picked.push(bucket[idx]);
+            cycleTaken[dk] = (cycleTaken[dk] || 0) + 1;
+            progressed = true;
+          }
+        }
+        if (!progressed) break;   // every bucket exhausted
+      }
+    }
+
     var added = 0;
-    for (var i = 0; i < list.length && added < cap; i++) {
-      var d = list[i];
+    for (var i = 0; i < picked.length; i++) {
+      var d = picked[i];
       if (!d || !d.id || have[d.id]) continue;
       have[d.id] = true;
       added++;
@@ -852,17 +903,68 @@
       });
 
       (d.tx || []).forEach(function (t, ti) {
-        self.state.treatments.push({
+        var treatment = {
           id: 'deep_' + d.id + '_' + ti,
           label: t.l,
           type: t.t || '',
           evidence: t.e || '',
           diagnosisId: d.id,
           relevance: 0.7 + 0.05 * (EV[t.e] || 0),
-          source: 'deep-digest'
-        });
+          source: 'deep-digest',
+          // Evidence behind the verdict travels with verified-eligible records
+          cite: t.c || null,
+          steps: t.st || [],
+          synthetic: t.syn === 1 ? true : (t.syn === 0 ? false : undefined)   // tri-state: ONLY an affirmative false is verified-eligible; untagged stays unknown/unverified
+        };
+        treatment.nodeId = t.n || null;
+        treatment.sourcePortal = t.p || null;
+        treatment.treatmentSourceKey = t.k || null;
+        self.state.treatments.push(treatment);
       });
     }
+    // Preserve authored-source uniqueness even if live resolution is empty or
+    // unavailable. Merge proven copies only, retaining every diagnosis membership.
+    self._mergeResolvedTreatments([]);
+  };
+
+  // Resolver enrichment runs AFTER digest injection. Preserve the union of
+  // authored sources, not just the resolver's subset. Unknown/conflicting
+  // identities remain separate; only proven copies share diagnosis memberships.
+  DomainBrainBase.prototype._mergeResolvedTreatments = function (resolved) {
+    var existing = Array.isArray(this.state.treatments) ? this.state.treatments : [];
+    var seen = Object.create(null), merged = [];
+    existing.concat(resolved).forEach(function (t) {
+      if (!t) return;
+      var key = typeof t.treatmentSourceKey === 'string' && t.treatmentSourceKey.trim()
+        ? JSON.stringify([t.treatmentSourceKey, t.sourcePortal || '', t.nodeId || '']) : null;
+      var prev = key && seen[key];
+      if (!prev) {
+        var copy = Object.assign({}, t);
+        if (key) seen[key] = copy;
+        merged.push(copy);
+        return;
+      }
+      var ids = Object.create(null);
+      [prev, t].forEach(function (record) {
+        [record.diagnosisId].concat(Array.isArray(record.diagnosisIds) ? record.diagnosisIds : []).forEach(function (id) {
+          if (id) ids[id] = true;
+        });
+      });
+      prev.diagnosisIds = Object.keys(ids).sort();
+      prev.diagnosisId = prev.diagnosisIds[0];
+      if ((!prev.steps || !prev.steps.length) && t.steps && t.steps.length) prev.steps = t.steps;
+      ['cite', 'description', 'monitoring', 'escalation', 'target', 'hasDepth', 'nodeLabel'].forEach(function (field) {
+        if (!prev[field] && t[field]) prev[field] = t[field];
+      });
+      ['portalDomain', 'portalDomainId', 'ancestryPath', 'depth'].forEach(function (field) {
+        if (prev[field] == null && t[field] != null) prev[field] = t[field];
+      });
+      // A resolver copy cannot upgrade a scaffold/unknown digest into verified.
+      if (prev.synthetic === true || t.synthetic === true) prev.synthetic = true;
+      else if (prev.synthetic === false && t.synthetic === false) prev.synthetic = false;
+      else prev.synthetic = undefined;
+    });
+    this.state.treatments = merged;
   };
 
   /**

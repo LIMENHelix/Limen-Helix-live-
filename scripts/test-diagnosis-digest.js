@@ -55,8 +55,13 @@ check('canonical circuit remains the digest identity',
   !!digestIssue && digestIssue.circuits.indexOf('THAL') !== -1);
 check('authored activation treatment survives canonical circuit reduction',
   !!authoredTreatment && !!digestIssue && digestIssue.tx.some(function (x) { return x.l === authoredTreatment; }));
-check('agriculture remains the smaller 98-diagnosis surface',
-  readJson('assets/data/deep/p2_agri-diagnosis-digest.json').diagnosisCount === 98);
+// Was: 'agriculture remains the smaller 98-diagnosis surface' — 98 was the
+// SHALLOW-corpus artifact (pre full-tree build). The fleet full-tree rebuild
+// (2026-09-26) gives agriculture the same 180-diagnosis stratified digest as
+// every other domain. Assert the invariant, not the legacy artifact.
+var agri = readJson('assets/data/deep/p2_agri-diagnosis-digest.json');
+check('agriculture digest is full-tree and at full stratified capacity',
+  agri.source === 'full-tree' && agri.diagnoses.length === 180 && agri.diagnosisCount === 180);
 
 if (failures.length) {
   console.error('\n' + failures.length + ' failed: ' + failures.join('; '));
