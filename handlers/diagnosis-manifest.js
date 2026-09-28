@@ -40,6 +40,7 @@ const MAX_MANIFEST_BYTES = 8 * 1024 * 1024;
 const _metaCache = {};          // domain -> { t, sha }
 const _blobCache = {};          // sha -> manifest (immutable)
 const _blobOrder = [];          // FIFO eviction order
+const _blobInflight = new Map(); // normalized sha -> one load in this process
 
 function cacheBlob(sha, manifest) {
   if (_blobCache[sha]) return;
@@ -113,7 +114,23 @@ async function boundedBlobText(res) {
 }
 
 async function blobBySha(sha, token) {
+  sha = String(sha).toLowerCase();
   if (_blobCache[sha]) return { manifest: _blobCache[sha], status: 200 };
+  if (_blobInflight.has(sha)) return _blobInflight.get(sha);
+  // Share the entire read/decode/parse/validation operation, not just fetch.
+  // Different SHAs and separate serverless instances still load independently.
+  const pending = loadBlobBySha(sha, token);
+  _blobInflight.set(sha, pending);
+  try {
+    return await pending;
+  } finally {
+    // Failures must be retryable; successful promises must not outlive FIFO
+    // cache eviction. Do not remove a replacement flight after a cache reset.
+    if (_blobInflight.get(sha) === pending) _blobInflight.delete(sha);
+  }
+}
+
+async function loadBlobBySha(sha, token) {
   // The raw blob API supports our multi-MiB manifests, but is also addressable
   // by arbitrary caller-supplied SHAs: bound its body before JSON parsing.
   const res = await gh(`https://api.github.com/repos/LIMENHelix/Limen-Helix-live-/git/blobs/${sha}`, token, true);
@@ -244,4 +261,5 @@ module.exports._clearCache = function () {
   for (const k in _metaCache) delete _metaCache[k];
   for (const k in _blobCache) delete _blobCache[k];
   _blobOrder.length = 0;
+  _blobInflight.clear();
 };
