@@ -67,7 +67,7 @@ function assertConservation(domain, h, ids) {
   for (const t of before) {
     const source = expected.get(sourceIdentity(domain, t));
     assert.deepEqual(sorted(t.diagnosisIds), sorted(source.diagnosisIds), 'adapter memberships');
-    for (const field of ['label', 'nodeId', 'steps', 'cite', 'type', 'evidence', 'sourcePortal', 'treatmentSourceKey',
+    for (const field of ['label', 'nodeId', 'steps', 'cite', 'type', 'evidence', 'target', 'sourcePortal', 'treatmentSourceKey',
       'portalDomain', 'portalDomainId', 'ancestryPath', 'depth']) {
       assert.deepEqual(t[field], source[field], 'adapter preserves ' + field);
     }
@@ -79,10 +79,14 @@ function assertConservation(domain, h, ids) {
     for (const t of wanted) expectedPairs.push(JSON.stringify([sourceIdentity(domain, t), id]));
     const context = packet(h.brain, id);
     const actualKeys = context.treatments.map(t => sourceIdentity(domain, t));
+    const actualByKey = new Map(context.treatments.map(t => [sourceIdentity(domain, t), t]));
     for (const key of actualKeys) actualPairs.push(JSON.stringify([key, id]));
     assert.equal(new Set(actualKeys).size, actualKeys.length, id + ' no duplicate source');
     assert.deepEqual(sorted(actualKeys), sorted(wanted.map(t => sourceIdentity(domain, t))), id + ' exact source set');
     assert.deepEqual(clone(context.implementationSteps), wanted.flatMap(t => t.steps || []), id + ' implementation steps');
+    for (const source of wanted) {
+      assert.deepEqual(actualByKey.get(sourceIdentity(domain, source)).target, source.target, id + ' target');
+    }
   }
   assert.deepEqual(sorted(actualPairs), sorted(expectedPairs), 'exact (source identity, diagnosis ID) set');
   assert.deepEqual(clone(packet(h.brain, 'F07_UNRELATED').treatments), []);
@@ -93,7 +97,7 @@ function assertConservation(domain, h, ids) {
 function fixture(domain) {
   const shared = domain + '_f07_shared', local = domain + '_f07_local';
   const portal = (id, label) => ({ domainId: id, activations: [{ brainNodeId: 'THAL', treatments: [
-    { label, evidence: 'A', type: 'POLICY', cite: id + ' authored source', steps: [id + ' step 1', id + ' step 2'] }
+    { label, evidence: 'A', type: 'POLICY', target: id + ' authored target', cite: id + ' authored source', steps: [id + ' step 1', id + ' step 2'] }
   ] }] });
   const h = harness(domain, { [shared]: portal(shared, 'Shared action'), [local]: portal(local, 'Local action') });
   Object.assign(h.resolver.getDiagnosisPortalMap(), {

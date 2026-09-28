@@ -808,6 +808,7 @@
               steps: t.steps,
               monitoring: t.monitoring,
               escalation: t.escalation,
+              target: t.target,
               diagnosisId: dxId,
               diagnosisIds: t.diagnosisIds || [dxId], sourcePortal: t.sourcePortal || null, treatmentSourceKey: t.treatmentSourceKey || null, portalDomain: t.portalDomain, portalDomainId: t.portalDomainId, ancestryPath: t.ancestryPath, depth: t.depth,
               nodeId: t.nodeId,

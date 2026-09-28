@@ -609,7 +609,7 @@
           var dxContent = content.byDiagnosis[dxId];
           for (var i = 0; i < dxContent.treatments.length; i++) {
             var t = dxContent.treatments[i];
-            deepTreats.push({ id: 'deep_' + t.nodeId + '_' + i, label: t.label, type: t.type, evidence: t.evidence, description: t.description, cite: t.cite, steps: t.steps, monitoring: t.monitoring, escalation: t.escalation, diagnosisId: dxId, diagnosisIds: t.diagnosisIds || [dxId], sourcePortal: t.sourcePortal || null, treatmentSourceKey: t.treatmentSourceKey || null, portalDomain: t.portalDomain, portalDomainId: t.portalDomainId, ancestryPath: t.ancestryPath, depth: t.depth, nodeId: t.nodeId, nodeLabel: t.nodeLabel, hasDepth: t.hasDepth, source: 'canonical_deep' });
+            deepTreats.push({ id: 'deep_' + t.nodeId + '_' + i, label: t.label, type: t.type, evidence: t.evidence, description: t.description, cite: t.cite, steps: t.steps, monitoring: t.monitoring, escalation: t.escalation, target: t.target, diagnosisId: dxId, diagnosisIds: t.diagnosisIds || [dxId], sourcePortal: t.sourcePortal || null, treatmentSourceKey: t.treatmentSourceKey || null, portalDomain: t.portalDomain, portalDomainId: t.portalDomainId, ancestryPath: t.ancestryPath, depth: t.depth, nodeId: t.nodeId, nodeLabel: t.nodeLabel, hasDepth: t.hasDepth, source: 'canonical_deep' });
           }
         }
         if (deepTreats.length > 0) self._mergeResolvedTreatments(deepTreats);
