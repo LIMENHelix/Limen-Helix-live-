@@ -87,14 +87,22 @@ async function boundedBlobText(res) {
         return tooLarge;
       }
       if (value.byteLength) {
-        // One bounded buffer avoids unbounded per-chunk object overhead when
-        // a response is fragmented into many tiny chunks. Decode only written
-        // bytes; TextDecoder preserves Response.text's UTF-8/BOM semantics.
-        if (!buffer) buffer = Buffer.allocUnsafe(MAX_MANIFEST_BYTES);
+        // Grow from received bytes, never an untrusted declared size or the
+        // full cap. Geometric growth avoids per-chunk retention/quadratic copies;
+        // start at 64 bytes or actual received size, not 8 MiB for every response.
+        // The cap remains per body, not a global memory/concurrency budget.
+        const needed = bytes + value.byteLength;
+        if (!buffer || needed > buffer.length) {
+          const capacity = Math.min(MAX_MANIFEST_BYTES, Math.max(needed, buffer ? buffer.length * 2 : 64));
+          const next = Buffer.allocUnsafe(capacity);
+          if (buffer) next.set(buffer.subarray(0, bytes));
+          buffer = next;
+        }
         buffer.set(value, bytes);
         bytes += value.byteLength;
       }
     }
+    // Decode only written bytes, preserving Response.text's UTF-8/BOM behavior.
     return { text: new TextDecoder().decode(buffer ? buffer.subarray(0, bytes) : new Uint8Array()) };
   } catch (_) {
     await cancelBody(reader);

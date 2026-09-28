@@ -1,5 +1,6 @@
 // Offline F-02 regression: bound raw blob bytes BEFORE buffering/parsing/cache.
 const assert = require('node:assert/strict');
+const fs = require('node:fs'), vm = require('node:vm');
 const handler = require('../handlers/diagnosis-manifest.js');
 const LIMIT = 8 * 1024 * 1024;
 const SHA = 'a'.repeat(40);
@@ -61,6 +62,54 @@ function rejected(result) {
 }
 
 (async () => {
+  // Instrument only allocations made by the handler, not Fetch/Node internals.
+  // Hold all readers at their second read so capacities coexist concurrently.
+  // These are deterministic buffer-capacity assertions, NOT process RSS claims.
+  for (const declared of [undefined, LIMIT]) {
+    await test('16 concurrent tiny invalid refs allocate proportionally; declared=' + declared, async () => {
+      const capacities = [], waiting = [], n = 16, bytes = Buffer.from('{"hello":"x"}');
+      const module = { exports: {} };
+      const sandbox = { module, process: { env: { GITHUB_TOKEN: 'offline' } }, TextDecoder, Uint8Array,
+        Buffer: { allocUnsafe(size) { capacities.push(size); return Buffer.allocUnsafe(size); } },
+        fetch: async () => ({ ok: true, status: 200, headers: { get: () => declared === undefined ? null : String(declared) },
+          body: { getReader() {
+            let sent = false;
+            return { async read() {
+              if (!sent) { sent = true; return { done: false, value: bytes }; }
+              return new Promise(resolve => { waiting.push(resolve); if (waiting.length === n) waiting.forEach(r => r({ done: true })); });
+            }, cancel: async () => {}, releaseLock() {} };
+          } }
+        }) };
+      vm.runInNewContext(fs.readFileSync(require.resolve('../handlers/diagnosis-manifest.js'), 'utf8'), sandbox);
+      const results = await Promise.all(Array.from({ length: n }, async (_, i) => {
+        const res = { status(c) { this.code = c; return this; }, json(body) { this.body = body; return this; }, setHeader() { assert.fail('invalid body must not be cacheable'); } };
+        await module.exports({ query: { domain: 'finance', ref: (i + 1).toString(16).padStart(40, '0') } }, res);
+        return res;
+      }));
+      assert.ok(results.every(r => r.code === 422));
+      const total = capacities.reduce((a, b) => a + b, 0);
+      console.log('  concurrent=' + n + ' bodyBytes=' + bytes.length + ' requestedBufferBytes=' + total);
+      assert.ok(total <= n * Math.max(64, bytes.length * 2), 'aggregate requested capacity scales with actual tiny bodies, not the8MiB cap: ' + total);
+      assert.ok(Math.max(...capacities) <= Math.max(64, bytes.length * 2));
+    });
+  }
+  await test('fragmented growth is geometric and preserves all bytes', async () => {
+    const capacities = [], bytes = Buffer.from(JSON.stringify({ domain: 'finance', count: 0, entries: [], source: 'é'.repeat(10000) }));
+    const chunks = [];
+    for (let i = 0; i < bytes.length; i += 17) chunks.push(bytes.subarray(i, i + 17));
+    const module = { exports: {} }, fixture = upstream(chunks);
+    vm.runInNewContext(fs.readFileSync(require.resolve('../handlers/diagnosis-manifest.js'), 'utf8'), {
+      module, process: { env: { GITHUB_TOKEN: 'offline' } }, TextDecoder, Uint8Array,
+      Buffer: { allocUnsafe(size) { capacities.push(size); return Buffer.allocUnsafe(size); } },
+      fetch: async () => fixture.response
+    });
+    const res = { status(c) { this.code = c; return this; }, json(body) { this.body = body; return this; }, setHeader() {} };
+    await module.exports({ query: { domain: 'finance', ref: SHA } }, res);
+    assert.equal(res.code, 200); assert.equal(res.body.source, 'é'.repeat(10000));
+    assert.ok(capacities.reduce((a, b) => a + b, 0) < 4 * bytes.length, 'cumulative allocation must be linear, not per-chunk quadratic');
+    assert.ok(Math.max(...capacities) < 2 * bytes.length);
+    assert.ok(capacities.every(c => c <= LIMIT));
+  });
   for (const length of [65 * 1024 * 1024, '99999999999999999999999999']) {
     await test('oversized declared length ' + length + ': reject before first read', async () => {
       const fixture = upstream([VALID], length);
