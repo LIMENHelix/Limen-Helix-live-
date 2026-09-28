@@ -48,7 +48,8 @@ const LIVE_DOMAINS = path.join(ROOT, 'assets', 'data', 'domains');
 const ALLOW_SHALLOW = process.env.LIMEN_ALLOW_SHALLOW === '1' || process.argv.indexOf('--allow-shallow') !== -1;
 // Pinned to an independently recorded source Git tree, not a candidate's own
 // declaration or a low size floor. Exact names detect missing/substituted files
-// even at equal counts. This checks file-set completeness, not content validity.
+// even at equal counts. Every expected source must also be readable JSON;
+// neither check establishes scientific validity or a content revision hash.
 // A legitimate corpus revision needs a reviewed inventory update. Non-key trees
 // are ignored; all 20 keys (including p2_agri) include their L1 root.
 export function fullTreeReport(dir, inventory = readJSON(path.join(__dirname, 'data/full-tree-inventory.json'))) {
@@ -76,7 +77,14 @@ export function fullTreeReport(dir, inventory = readJSON(path.join(__dirname, 'd
       createHash('sha256').update(names.join('\n') + '\n').digest('hex') !== expected.filenamesSha256;
   });
   if (mismatched.length) return { ok: false, reason: 'full-tree inventory mismatch: ' + mismatched.join(', ') };
-  return { ok: true };
+  let validatedFiles = 0;
+  try {
+    for (const k of PORTAL_KEYS) for (const name of byKey[k]) {
+      readSourcePortal(path.join(dir, name));
+      validatedFiles++;
+    }
+  } catch (e) { return { ok: false, reason: e.message }; }
+  return { ok: true, validatedFiles };
 }
 // Corpus discovery/validation is DEFERRED to the executable main path so the
 // module can be imported for its pure functions (stratifiedPick) without the
@@ -159,6 +167,18 @@ function readJSON(p) {
   try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch (e) { return null; }
 }
 
+// Corpus errors must not masquerade as an empty portal. Revalidate on the build
+// read too, so a file removed/corrupted after preflight aborts before publication.
+function readSourcePortal(file) {
+  try {
+    const value = JSON.parse(fs.readFileSync(file, 'utf8'));
+    if (!value || typeof value !== 'object' || Array.isArray(value)) {
+      throw new Error('expected a JSON portal object');
+    }
+    return value;
+  } catch (e) { throw new Error('Invalid source portal ' + file + ': ' + e.message); }
+}
+
 function bestCircuitEvidence(circuits) {
   let best = '', bestRank = -1;
   (circuits || []).forEach(c => {
@@ -190,8 +210,8 @@ export function buildDigest(pk, domainsDir = DOMAINS_DIR) {
     // as depth 2, real L7 as depth 8, breaking the stratified quotas).
     const depth = slug.split('_').length - (pk.split('_').length - 1);
     if (depth < 2) return;                        // skip the L1 root — brain already reads it
-    const j = readJSON(path.join(domainsDir, file));
-    if (!j || !Array.isArray(j.issues) || !j.issues.length) return;
+    const j = readSourcePortal(path.join(domainsDir, file));
+    if (!Array.isArray(j.issues) || !j.issues.length) return;
     portalCount++;
 
     // Resolve activation node -> treatments within THIS portal file.
@@ -381,8 +401,10 @@ if (unknownKeys.length) {
 const KEYS = onlyKeys.length ? PORTAL_KEYS.filter(k => onlyKeys.indexOf(k) !== -1) : PORTAL_KEYS;
 console.log('source:', DOMAINS_DIR, ' domains:', KEYS.join(','));
 
-KEYS.forEach(pk => {
-  const dg = buildDigest(pk);
+// Finish every requested source read before replacing any committed artifact.
+// This prevents a late-domain parse failure from leaving an earlier partial build.
+const prepared = KEYS.map(pk => ({ pk, dg: buildDigest(pk) }));
+prepared.forEach(({ pk, dg }) => {
   const out = path.join(OUT_DIR, pk + '-diagnosis-digest.json');
   // Complete identity/route manifest (see buildDigest): repo-side audit artifact.
   const manifest = {

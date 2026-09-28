@@ -16,18 +16,24 @@ const baseline = { schemaVersion: 1, domains: Object.fromEntries(keys.map(k => {
   const names = all.filter(n => n === k + '.json' || n.startsWith(k + '_'));
   return [k, { files: names.length, filenamesSha256: hash(names) }];
 })) };
-function report(fn, names, expected = baseline, nonfiles = new Set()) {
-  const original = fs.readdirSync;
+function report(fn, names, expected = baseline, nonfiles = new Set(), bodies = {}) {
+  const original = fs.readdirSync, originalRead = fs.readFileSync;
   try {
     fs.readdirSync = (dir, opts) => {
       assert.equal(path.resolve(dir), virtual);
       return opts && opts.withFileTypes ? names.map(name => ({ name, isFile: () => !nonfiles.has(name) })) : names.slice();
     };
+    fs.readFileSync = (file, ...args) => {
+      if (path.dirname(String(file)) !== virtual) return originalRead(file, ...args);
+      const body = bodies[path.basename(String(file))];
+      if (body instanceof Error) throw body;
+      return body === undefined ? '{"issues":[],"activations":[]}' : body;
+    };
     return fn(virtual, expected);
-  } finally { fs.readdirSync = original; }
+  } finally { fs.readdirSync = original; fs.readFileSync = originalRead; }
 }
 (async () => {
-  let { fullTreeReport } = await import('./build-diagnosis-digest.mjs');
+  let { fullTreeReport, buildDigest } = await import('./build-diagnosis-digest.mjs');
   if (!fullTreeReport) {
     // Pre-repair RED path: run the committed private gate without editing it.
     const source = fs.readFileSync(path.join(__dirname, 'build-diagnosis-digest.mjs'), 'utf8');
@@ -45,6 +51,13 @@ function report(fn, names, expected = baseline, nonfiles = new Set()) {
   });
   for (const k of keys) {
     const target = all.find(n => n.startsWith(k + '_') && n !== k + '.json');
+    for (const [kind, body] of [['truncated', '{"issues":'], ['unreadable', new Error('EACCES fixture')]]) {
+      test(k + ': same-name ' + kind + ' expected source fails closed', () => {
+        const result = report(fullTreeReport, all, baseline, new Set(), { [target]: body });
+        assert.equal(result.ok, false);
+        assert.ok(result.reason.includes(target), 'identify the offending source file');
+      });
+    }
     test(k + ': one missing source fails even above old size/depth floor', () => {
       assert.equal(report(fullTreeReport, all.filter(n => n !== target)).ok, false);
     });
@@ -80,6 +93,21 @@ function report(fn, names, expected = baseline, nonfiles = new Set()) {
     }
   });
   test('unreadable source fails closed', () => assert.equal(fullTreeReport(path.join(os.tmpdir(), 'absent-full-tree-' + process.pid)).ok, false));
+  test('expected roots and non-object JSON cannot silently disappear', () => {
+    for (const body of ['', 'null', '[]', '42', '"text"']) {
+      assert.equal(report(fullTreeReport, all, baseline, new Set(), { 'p2_agri.json': body }).ok, false);
+    }
+  });
+  test('build itself rejects parse/read errors after preflight instead of skipping a portal', () => {
+    const dir = fs.readdirSync, read = fs.readFileSync;
+    try {
+      fs.readdirSync = () => ['finance_broken.json'];
+      for (const body of ['{', '', 'null', new Error('ENOENT after preflight')]) {
+        fs.readFileSync = () => { if (body instanceof Error) throw body; return body; };
+        assert.throws(() => buildDigest('finance', virtual), /finance_broken\.json/);
+      }
+    } finally { fs.readdirSync = dir; fs.readFileSync = read; }
+  });
   test('CLI fails before writing; explicit shallow opt-in remains labelled shallow', () => {
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'limen-full-tree-test-'));
     try {
@@ -100,10 +128,55 @@ function report(fn, names, expected = baseline, nonfiles = new Set()) {
       assert.equal(digest.source, 'live-shallow-authorized'); assert.equal(digest.diagnosisCount, 1);
     } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
   });
+  test('CLI preserves every existing artifact on preflight and late-domain content failures', () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'limen-content-fail-'));
+    try {
+      const scripts = path.join(tmp, 'scripts'), sourceDir = path.join(tmp, 'source'), out = path.join(tmp, 'assets/data/deep');
+      for (const dir of [path.join(scripts, 'data'), sourceDir, out]) fs.mkdirSync(dir, { recursive: true });
+      for (const name of ['build-diagnosis-digest.mjs', 'treatment-provenance.cjs']) fs.copyFileSync(path.join(__dirname, name), path.join(scripts, name));
+      fs.writeFileSync(path.join(scripts, 'data/full-tree-inventory.json'), JSON.stringify(baseline));
+      const preload = path.join(tmp, 'virtual-source.cjs');
+      fs.writeFileSync(preload, `
+        const fs = require('node:fs'), path = require('node:path');
+        const dir = process.env.LIMEN_FULL_DOMAINS_DIR, reads = new Map();
+        const keys = ${JSON.stringify(keys)};
+        const names = keys.flatMap(k => [k + '.json', ...Array.from({length:17060}, (_,i) =>
+          k + '_' + Array(1 + i % 5).fill('level').join('_') + i + '.json')]);
+        const readDir = fs.readdirSync, readFile = fs.readFileSync;
+        fs.readdirSync = (p, opts) => path.resolve(p) === dir
+          ? (opts && opts.withFileTypes ? names.map(name => ({name, isFile:()=>true})) : names.slice())
+          : readDir(p, opts);
+        fs.readFileSync = (p, ...args) => {
+          if (path.dirname(String(p)) !== dir) return readFile(p, ...args);
+          const n = (reads.get(String(p)) || 0) + 1; reads.set(String(p), n);
+          if (path.basename(String(p)) === 'finance_level0.json') {
+            if (process.env.BAD_MODE === 'unreadable') throw new Error('EACCES fixture');
+            if (process.env.BAD_MODE === 'preflight' || n > 1) return '{"issues":';
+          }
+          return '{"issues":[{"id":"VALID_DX","circuits":[]}],"activations":[]}';
+        };
+      `);
+      const outputs = ['p2_agri', 'finance'].flatMap(k => ['digest', 'manifest'].map(kind => path.join(out, k + '-diagnosis-' + kind + '.json')));
+      for (const file of outputs) fs.writeFileSync(file, 'DO NOT OVERWRITE ' + path.basename(file));
+      const before = outputs.map(file => fs.readFileSync(file, 'utf8'));
+      for (const mode of ['preflight', 'unreadable', 'late']) {
+        const env = { ...process.env, LIMEN_FULL_DOMAINS_DIR: sourceDir, LIMEN_ALLOW_SHALLOW: '', BUILD_DIGEST_SKIP_MAIN: '', BAD_MODE: mode };
+        const run = spawnSync(process.execPath, ['--require', preload, path.join(scripts, 'build-diagnosis-digest.mjs'), 'p2_agri', 'finance'], { env, encoding: 'utf8' });
+        assert.notEqual(run.status, 0, mode + ' must fail');
+        assert.match(run.stderr, /finance_level0\.json/, mode + ' reports offending path');
+        assert.deepEqual(outputs.map(file => fs.readFileSync(file, 'utf8')), before, mode + ' must not partially publish');
+      }
+    } finally {
+      assert.ok(tmp.startsWith(path.resolve(os.tmpdir()) + path.sep));
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
+  });
   const arg = process.argv.indexOf('--corpus');
   if (arg >= 0) test('actual full corpus matches pinned source inventory', () => {
     const result = fullTreeReport(process.argv[arg + 1]);
     assert.equal(result.ok, true, result.reason);
+    assert.equal(result.validatedFiles, Object.values(inventory.domains).reduce((sum, d) => sum + d.files, 0));
+    console.log('  real corpus: ' + result.validatedFiles + ' expected files read and parsed');
   });
   console.log(passed + '/' + (passed + failed) + ' full-tree completeness checks passed');
   process.exitCode = failed ? 1 : 0;
