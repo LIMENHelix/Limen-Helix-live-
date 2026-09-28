@@ -873,6 +873,9 @@
         var log = _changelog[li];
         var logType = log.type || log.changeType || 'EVENT';
         var logMsg = log.message || log.title || log.description || log.summary || '';
+        // The changelog endpoint accepts arbitrary JSON titles. Convert JSON
+        // values before substring; objects may even shadow toString/valueOf.
+        if (typeof logMsg !== 'string') logMsg = JSON.stringify(logMsg);
         var logTime = log.timestamp || log.ts || log.date || '';
         if (logTime) { try { logTime = new Date(logTime).toLocaleString(); } catch (e) { /* keep raw */ } }
         h += '<div class="dcb-log">';
