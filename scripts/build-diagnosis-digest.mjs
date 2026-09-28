@@ -22,6 +22,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
+import provenance from './treatment-provenance.cjs';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -230,12 +231,13 @@ export function buildDigest(pk, domainsDir = DOMAINS_DIR) {
           if (!t || !t.label) return;
           // Explicit THREE-STATE classification on every treatment:
           //   1 = scaffold (mad-lib verb family)
-          //   0 = verified-eligible (AFFIRMATIVE provenance: non-empty citation
-          //       AND implementation steps present in the source portal record)
+          //   0 = verified-eligible (AFFIRMATIVE provenance: non-placeholder
+          //       citation AND implementation steps in the source portal record)
           //   2 = unknown (regex miss WITHOUT affirmative provenance — a regex
           //       miss is not evidence of authorship; never verified-eligible)
           const _madlib = MADLIB_VERB.test(String(t.label));
-          const _prov = !!(t.cite && String(t.cite).length > 3 && Array.isArray(t.steps) && t.steps.length > 0);
+          const _hadEvidenceFields = !!(t.cite && String(t.cite).length > 3 && Array.isArray(t.steps) && t.steps.length > 0);
+          const _prov = provenance.hasAffirmativeProvenance(t.cite, t.steps);
           const rec = { l: t.label, t: t.type || '', e: t.evidence || '', syn: _madlib ? 1 : (_prov ? 0 : 2) };
           // Authored occurrence, BEFORE ranking/capping, in every domain.
           // Labels and node IDs alone are not unique across portals/activations.
@@ -245,7 +247,8 @@ export function buildDigest(pk, domainsDir = DOMAINS_DIR) {
           // Verified-eligible records must carry the evidence that established
           // the verdict — the console grants authority from this bit, so the
           // citation and steps must be renderable/auditable, not stripped.
-          if (rec.syn === 0) { rec.c = t.cite; rec.st = t.steps; }
+          // Demoting a placeholder verdict must not erase its source payload.
+          if (rec.syn === 0 || (!_madlib && _hadEvidenceFields)) { rec.c = t.cite; rec.st = t.steps; }
           tx.push(rec);
         });
       });

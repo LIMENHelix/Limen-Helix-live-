@@ -321,16 +321,31 @@
   // Not every treatment path tags provenance (only finance's brains + the
   // digest builder do). For untagged records the console applies the SAME
   // machine-checkable rules as the digest builder, shared across all 20 domains:
-  // mad-lib verb family => scaffold; affirmative provenance (non-empty citation
-  // AND implementation steps — the resolver's hasDepth) => verified-eligible;
+  // mad-lib verb family => scaffold; affirmative provenance (non-placeholder
+  // citation AND implementation steps, not hasDepth alone) => verified-eligible;
   // anything else => unknown (never silently verified).
   var _MADLIB_VERB = /^(Develop|Establish|Implement|Build|Launch|Design|Deploy|Operationalize|Conduct|Create|Define|Assess|Optimize|Modernize|Strengthen|Enhance|Formalize|Institute|Standardize|Coordinate|Integrate|Calibrate|Evaluate|Streamline|Institutionalize|Configure|Monitor)\b/;
+  // Same evidence predicate as scripts/treatment-provenance.cjs. Structural
+  // depth and placeholder text are not affirmative source evidence.
+  function isEvidenceText(value) {
+    return typeof value === 'string' && value.trim().length > 0 &&
+      !/\b(?:todo|tbd|placeholder)\b|\b(?:citation|reference|source|implementation|steps?)[\s_-]+(?:needed|required|missing|pending|not[\s_-]+(?:provided|available|found))\b|^(?:n\/?a|none|null|unknown|pending)$/i.test(value.trim());
+  }
+  function hasAffirmativeProvenance(cite, steps) {
+    return isEvidenceText(cite) && cite.trim().length > 3 &&
+      Array.isArray(steps) && steps.length > 0 && steps.every(isEvidenceText);
+  }
   function classifyProvenance(t) {
     if (!t) return 2;
     if (t.synthetic === true) return 1;
-    if (t.synthetic === false) return 0;
+    if (t.synthetic === false) {
+      // Preserve trusted legacy flags with no supplied evidence, but never let
+      // a stale flag override contradictory empty/placeholder evidence.
+      if (('cite' in t || 'steps' in t) && !hasAffirmativeProvenance(t.cite, t.steps)) return 2;
+      return 0;
+    }
     if (_MADLIB_VERB.test(String(t.label || ''))) return 1;
-    if (t.hasDepth === true || (t.cite && String(t.cite).length > 3 && Array.isArray(t.steps) && t.steps.length > 0)) return 0;
+    if (hasAffirmativeProvenance(t.cite, t.steps)) return 0;
     return 2;
   }
 

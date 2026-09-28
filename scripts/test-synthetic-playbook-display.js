@@ -137,10 +137,11 @@ assert('non-empty + unmapped still yields ONTOLOGY downgrade', /ONTOLOGY/.test(a
 console.log('T9: untagged records fall back to machine-checkable classification (all-domain rule)');
 // communication-style resolver treatment: no synthetic flag, but cite + steps
 // (hasDepth) and a non-mad-lib label => verified-eligible, not permanent downgrade
-var DEEP_UNTAGGED = { label: 'Circuit Breaker Coordination Protocol', evidence: 'A', hasDepth: true, diagnosisId: 'D1' };
+var DEEP_UNTAGGED = { label: 'Circuit Breaker Coordination Protocol', evidence: 'A', hasDepth: true, diagnosisId: 'D1', cite: 'Authored study (2024), section 3', steps: ['Record the circuit breaker state before resetting it.'] };
 var a9 = dcb.classifyPanelAuthority('playbook', brain, stateWith([DEEP_UNTAGGED, DEEP_UNTAGGED]), {});
-assert('hasDepth untagged records can render FULL', a9.level === 'FULL', a9.level + ' :: ' + a9.badge);
-assert('classifier: hasDepth -> 0', dcb.classifyProvenance(DEEP_UNTAGGED) === 0);
+assert('untagged records with source evidence can render FULL', a9.level === 'FULL', a9.level + ' :: ' + a9.badge);
+assert('classifier: actual citation and steps -> 0', dcb.classifyProvenance(DEEP_UNTAGGED) === 0);
+assert('classifier: hasDepth without source evidence -> 2', dcb.classifyProvenance({ label: DEEP_UNTAGGED.label, hasDepth: true }) === 2);
 // untagged mad-lib label => scaffold (never verified by omission)
 var MADLIB_UNTAGGED = { label: 'Deploy Circuit Assessment Protocol', evidence: 'A', hasDepth: true, diagnosisId: 'D1' };
 var a9b = dcb.classifyPanelAuthority('playbook', brain, stateWith([MADLIB_UNTAGGED]), {});

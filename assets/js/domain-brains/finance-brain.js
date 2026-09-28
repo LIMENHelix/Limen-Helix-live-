@@ -29,6 +29,17 @@
 
   var Base = window.LIMENDomainBrainBase;
 
+  // Same evidence predicate as scripts/treatment-provenance.cjs; regression
+  // vectors cover both runtime producers and the digest/console consumers.
+  function isEvidenceText(value) {
+    return typeof value === 'string' && value.trim().length > 0 &&
+      !/\b(?:todo|tbd|placeholder)\b|\b(?:citation|reference|source|implementation|steps?)[\s_-]+(?:needed|required|missing|pending|not[\s_-]+(?:provided|available|found))\b|^(?:n\/?a|none|null|unknown|pending)$/i.test(value.trim());
+  }
+  function hasAffirmativeProvenance(cite, steps) {
+    return isEvidenceText(cite) && cite.trim().length > 3 &&
+      Array.isArray(steps) && steps.length > 0 && steps.every(isEvidenceText);
+  }
+
   function FinanceBrain() {
     Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24: deep-digest must not activate from stress
       
@@ -406,7 +417,7 @@
             // regex AND lack cite/steps, so they are unknown, not verified.
             synthetic: (function () {
               if (self._isFinanceMadLibTreatment && self._isFinanceMadLibTreatment(t.label)) return true;
-              if (t.cite && String(t.cite).length > 3 && Array.isArray(t.steps) && t.steps.length > 0) return false;
+              if (hasAffirmativeProvenance(t.cite, t.steps)) return false;
               return undefined;
             })(),
             source: 'canonical'
@@ -827,7 +838,7 @@
               // otherwise unknown (undefined) — never verified by omission.
               synthetic: (function () {
                 if (self._isFinanceMadLibTreatment && self._isFinanceMadLibTreatment(t.label)) return true;
-                if (t.cite && String(t.cite).length > 3 && Array.isArray(t.steps) && t.steps.length > 0) return false;
+                if (hasAffirmativeProvenance(t.cite, t.steps)) return false;
                 return undefined;
               })(),
               source: 'canonical_deep'

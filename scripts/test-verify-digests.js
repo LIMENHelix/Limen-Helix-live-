@@ -14,6 +14,7 @@
  *       there with a non-empty citation AND implementation steps
  */
 var fs = require('fs'), path = require('path');
+var hasAffirmativeProvenance = require('./treatment-provenance.cjs').hasAffirmativeProvenance;
 var failures = 0, tests = 0;
 function assert(name, cond, detail) { tests++; if (cond) console.log('  PASS ' + name); else { failures++; console.error('  FAIL ' + name + (detail ? ' :: ' + detail : '')); } }
 
@@ -61,7 +62,7 @@ KEYS.forEach(function (k) {
   // V8: verified-eligible records must carry the evidence behind the verdict
   dxs.forEach(function (d) {
     (d.tx || []).forEach(function (t) {
-      if (t.syn === 0 && (!(t.c && String(t.c).length > 3) || !(Array.isArray(t.st) && t.st.length > 0))) {
+      if (t.syn === 0 && !hasAffirmativeProvenance(t.c, t.st)) {
         badSyn0Evidence.push(k + '/' + d.id + ' :: ' + (t.l || '').slice(0, 50));
       }
     });
@@ -123,7 +124,7 @@ if (fs.existsSync(FULL)) {
     if (j) {
       (j.activations || []).forEach(function (a) {
         (a.treatments || []).forEach(function (t) {
-          if (t.label === r.label && t.cite && String(t.cite).length > 3 && Array.isArray(t.steps) && t.steps.length > 0) found = true;
+          if (t.label === r.label && hasAffirmativeProvenance(t.cite, t.steps)) found = true;
         });
       });
     }

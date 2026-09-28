@@ -86,6 +86,7 @@ function report(fn, names, expected = baseline, nonfiles = new Set()) {
       fs.mkdirSync(path.join(tmp, 'scripts/data'), { recursive: true });
       fs.mkdirSync(path.join(tmp, 'assets/data/domains'), { recursive: true });
       fs.copyFileSync(path.join(__dirname, 'build-diagnosis-digest.mjs'), path.join(tmp, 'scripts/build-diagnosis-digest.mjs'));
+      fs.copyFileSync(path.join(__dirname, 'treatment-provenance.cjs'), path.join(tmp, 'scripts/treatment-provenance.cjs'));
       fs.copyFileSync(path.join(__dirname, 'data/full-tree-inventory.json'), path.join(tmp, 'scripts/data/full-tree-inventory.json'));
       fs.writeFileSync(path.join(tmp, 'assets/data/domains/finance_leaf.json'), JSON.stringify({ issues: [{ id: 'ONLY_DX', circuits: [] }] }));
       const env = { ...process.env, LIMEN_FULL_DOMAINS_DIR: path.join(tmp, 'missing'), LIMEN_ALLOW_SHALLOW: '', BUILD_DIGEST_SKIP_MAIN: '' };
