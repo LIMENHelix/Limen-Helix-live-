@@ -168,9 +168,17 @@ function bestCircuitEvidence(circuits) {
   return best;
 }
 
+// Code-unit ordering, not localeCompare: identical sources must rank the same
+// on hosts with different filesystem enumeration and locale/ICU settings.
+function compareText(a, b) {
+  a = String(a); b = String(b);
+  return a < b ? -1 : a > b ? 1 : 0;
+}
+
 export function buildDigest(pk, domainsDir = DOMAINS_DIR) {
   const files = fs.readdirSync(domainsDir)
-    .filter(f => f.endsWith('.json') && (f === pk + '.json' || f.startsWith(pk + '_')));
+    .filter(f => f.endsWith('.json') && (f === pk + '.json' || f.startsWith(pk + '_')))
+    .sort();
 
   const diagnoses = [];
   let portalCount = 0;
@@ -266,11 +274,13 @@ export function buildDigest(pk, domainsDir = DOMAINS_DIR) {
     });
   });
 
-  // De-dup identical diagnosis ids across sibling portals — keep the richest.
+  // De-dup identical diagnosis ids across sibling portals — keep the richest;
+  // equal-richness sources use the lexical slug, not filesystem arrival order.
   const byId = {};
   diagnoses.forEach(d => {
     const prev = byId[d.id];
-    if (!prev || d.txCount > prev.txCount) byId[d.id] = d;
+    if (!prev || d.txCount > prev.txCount ||
+        (d.txCount === prev.txCount && compareText(d.slug, prev.slug) < 0)) byId[d.id] = d;
   });
   let deduped = Object.keys(byId).map(k => byId[k]);
 
@@ -286,7 +296,8 @@ export function buildDigest(pk, domainsDir = DOMAINS_DIR) {
   deduped.sort((a, b) =>
     ((b.themes.length ? 1 : 0) - (a.themes.length ? 1 : 0)) ||
     (b.txCount - a.txCount) ||
-    ((EV_RANK[b.evidence] || 0) - (EV_RANK[a.evidence] || 0))
+    ((EV_RANK[b.evidence] || 0) - (EV_RANK[a.evidence] || 0)) ||
+    compareText(a.id, b.id) || compareText(a.slug, b.slug)
   );
   const urgentCount = deduped.filter(d => d.themes.length).length;
 
