@@ -922,6 +922,9 @@
         self.state.treatments.push(treatment);
       });
     }
+    // Preserve authored-source uniqueness even if live resolution is empty or
+    // unavailable. Merge proven copies only, retaining every diagnosis membership.
+    self._mergeResolvedTreatments([]);
   };
 
   // Resolver enrichment runs AFTER digest injection. Preserve the union of

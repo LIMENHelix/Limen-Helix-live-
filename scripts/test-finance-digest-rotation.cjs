@@ -214,11 +214,20 @@ test('all20 domains: treatment fields and cognition unchanged except additive so
   }
 });
 test('Finance already-fixed schedules and cursors are preserved', () => {
+  // F-14 intentionally coalesces identical authored sources at injection time.
+  // Compare every payload/diagnosis incidence, not the old duplicate array.
+  const incidences = records => Array.from(records).flatMap(t => [...new Set([t.diagnosisId, ...(t.diagnosisIds || [])])].map(dxId => {
+    const copy = JSON.parse(JSON.stringify(t));
+    delete copy.id; delete copy.diagnosisIds; copy.diagnosisId = dxId;
+    return JSON.stringify(copy);
+  })).sort();
   for (const cap of [1, 3, 12]) {
     const current = brain(digest, cap), previous = brain(digest, cap, 'finance', oldSource);
     for (let cycle = 0; cycle < 40; cycle++) {
       assert.deepEqual(pick(current), pick(previous));
-      assert.equal(JSON.stringify(current.state.treatments), JSON.stringify(previous.state.treatments));
+      assert.deepEqual(incidences(current.state.treatments), incidences(previous.state.treatments));
+      const sources = current.state.treatments.map(t => JSON.stringify([t.treatmentSourceKey, t.sourcePortal, t.nodeId]));
+      assert.equal(new Set(sources).size, sources.length, 'one record per authored source');
       assert.equal(JSON.stringify(current._deepDigestBucketCursors), JSON.stringify(previous._deepDigestBucketCursors));
     }
   }

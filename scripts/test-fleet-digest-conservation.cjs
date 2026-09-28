@@ -29,12 +29,25 @@ function harness(domain, docs) {
     if (file === 'domain-brain-base.js') window.LIMENDomainBrainBase.prototype.start = function () {};
   }
   const name = ({ medicine: 'Health', science: 'Research', trade: 'SupplyChain' })[domain] || domain[0].toUpperCase() + domain.slice(1);
-  return { brain: window['LIMEN' + name + 'Brain'], resolver: window.LIMENPortalContentResolver };
+  return { brain: window['LIMEN' + name + 'Brain'], resolver: window.LIMENPortalContentResolver, window };
 }
 const identity = t => { assert.ok(t.treatmentSourceKey && t.sourcePortal && t.nodeId, 'missing source coordinates'); return JSON.stringify([t.treatmentSourceKey, t.sourcePortal, t.nodeId]); };
 const members = t => [...new Set([t.diagnosisId, ...(t.diagnosisIds || [])].filter(Boolean))].sort();
 const pairs = records => clone(records).flatMap(t => members(t).map(id => JSON.stringify([identity(t), id])));
 const sorted = xs => [...new Set(xs)].sort();
+// Independent pre-merge oracle: derive memberships from raw selected digest
+// rows, not already-deduplicated runtime output (which could hide lost links).
+function rawDigestTreatments(digest, diagnoses) {
+  const ids = new Set(diagnoses.map(d => d.id));
+  return digest.diagnoses.filter(d => ids.has(d.id)).flatMap(d => d.tx.map(t => ({
+    diagnosisId: d.id, label: t.l, nodeId: t.n, sourcePortal: t.p,
+    treatmentSourceKey: t.k, cite: t.c, steps: t.st || []
+  })));
+}
+function prepareDigest(brain, digest) {
+  brain._deepDigest = digest; brain._activeConditions = Array.from({ length: 6 }, (_, i) => 'observed_' + i);
+  brain.state.stress = 0.5; brain.state.diagnoses = []; brain.state.treatments = []; brain.state.opportunities = [];
+}
 function verify(brain, before, selected) {
   const expected = sorted(pairs(before.concat(selected)));
   const actual = pairs(brain.state.treatments);
@@ -67,6 +80,64 @@ function verify(brain, before, selected) {
         assert.equal(portal, d.slug); assert.equal(t.p, portal); assert.equal(node, t.n);
         assert.ok(Number.isInteger(ai) && ai >= 0 && Number.isInteger(ti) && ti >= 0);
       }
+    });
+    await test(domain + ': actual first6 digest window survives resolver portal failures without duplicates', async () => {
+      const h = harness(domain, {}), b = h.brain; // actual resolver, every portal fetch404
+      prepareDigest(b, digest); b._applyDeepDigest();
+      const expected = rawDigestTreatments(digest, b.state.diagnoses);
+      assert.equal(b.state.diagnoses.length, 6);
+      await b.resolveDeepContent();
+      assert.equal(Object.values(b.state.resolvedContent.byDiagnosis).flatMap(p => p.treatments).length, 0);
+      verify(b, expected, []);
+      if (domain === 'agriculture') {
+        assert.equal(expected.length, 12); assert.equal(b.state.treatments.length, 10);
+        const shared = b.state.treatments.filter(t => members(t).includes('INTEREST_RATE_SHOCK') && members(t).includes('SUCCESSION_FAILURE'));
+        assert.equal(shared.length, 2); assert.ok(shared.every(t => t.sourcePortal === 'p2_agri_finance'));
+        console.log('  p2_agri:12 diagnosis-treatment incidences ->10 authored sources, all12 memberships retained');
+      }
+    });
+    await test(domain + ': shared digest sources remain unique with empty/null/rejected/absent resolver', async () => {
+      const slug = pk + '_f14';
+      const t = { l: 'Shared authored action', n: 'THAL', p: slug, k: JSON.stringify([slug, 'THAL', 0, 0]), syn: 0, c: 'authored citation', st: ['authored step'] };
+      for (const mode of ['empty', 'null', 'rejected', 'absent']) for (const reverse of [false, true]) {
+        const h = harness(domain, {}), b = h.brain;
+        const data = { diagnoses: ['F14_A', 'F14_B', 'F14_C'].map(id => ({ id, slug, depth: 2, tx: [id === 'F14_C'
+          ? { ...t, p: slug + '_other', k: JSON.stringify([slug + '_other', 'THAL', 0, 0]) } : clone(t)] })) };
+        if (reverse) data.diagnoses.reverse();
+        const snapshot = clone(data), cognition = { unchanged: domain };
+        prepareDigest(b, data); b.state.cognition = cognition;
+        if (mode === 'absent') delete h.window.LIMENPortalContentResolver;
+        else h.resolver.resolveForBrain = async () => {
+          if (mode === 'rejected') throw new Error('offline unavailable');
+          return mode === 'null' ? null : { byDiagnosis: {} };
+        };
+        b._applyDeepDigest();
+        const expected = rawDigestTreatments(data, b.state.diagnoses);
+        assert.equal(b.state.treatments.length, 2, mode + ': unique before resolver');
+        const expectedPairs = verify(b, expected, []);
+        await b.resolveDeepContent(); assert.deepEqual(verify(b, expected, []), expectedPairs);
+        b.state.treatments.reverse(); b._applyDeepDigest(); await b.resolveDeepContent();
+        assert.deepEqual(verify(b, expected, []), expectedPairs, 'repeat injection/resolution');
+        assert.deepEqual(data, snapshot, 'authored digest not mutated'); assert.equal(b.state.cognition, cognition);
+      }
+    });
+    await test(domain + ': injection keeps unknown and conflicting sources separate', async () => {
+      const slug = pk + '_f14', h = harness(domain, {}), b = h.brain;
+      const t = { l: 'Same label', n: 'THAL', p: slug, k: JSON.stringify([slug, 'THAL', 0, 0]), syn: 1 };
+      const unknown = { l: t.l, n: t.n, p: t.p, syn: 1 };
+      const data = { diagnoses: [
+        { id: 'A', depth: 2, tx: [t] }, { id: 'B', depth: 2, tx: [clone(t)] },
+        { id: 'C', depth: 2, tx: [{ ...t, p: slug + '_other', k: JSON.stringify([slug + '_other', 'THAL', 0, 0]) }] },
+        { id: 'UNKNOWN', depth: 2, tx: [unknown, clone(unknown)] },
+        { id: 'CONFLICT', depth: 2, tx: [{ ...t, n: 'PFC' }] }
+      ] };
+      prepareDigest(b, data); b._applyDeepDigest(); await b.resolveDeepContent();
+      const expected = rawDigestTreatments(data, b.state.diagnoses).filter(t => t.treatmentSourceKey);
+      assert.deepEqual(pairs(b.state.treatments.filter(t => t.treatmentSourceKey)).sort(), sorted(pairs(expected)));
+      assert.equal(b.state.treatments.length, 5, 'three known identities plus two unknown occurrences');
+      assert.equal(b.state.treatments.filter(t => !t.treatmentSourceKey).length, 2);
+      assert.equal(b._buildDomainDiagnosisPacket({ id: 'UNKNOWN', active: true }).treatmentContext.treatments.length, 2);
+      assert.equal(b._buildDomainDiagnosisPacket({ id: 'UNRELATED_F14', active: true }).treatmentContext.treatments.length, 0);
     });
     await test(domain + ': root-plus-digest cycles retain all treatments through packets', async () => {
       const h = harness(domain), b = h.brain;
