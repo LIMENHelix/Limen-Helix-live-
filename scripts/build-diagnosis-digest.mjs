@@ -21,6 +21,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -44,38 +45,36 @@ const PORTAL_KEYS = [
 const FULL_DOMAINS = process.env.LIMEN_FULL_DOMAINS_DIR || 'C:\\Users\\Chris\\Limen-Helix\\assets\\data\\domains';
 const LIVE_DOMAINS = path.join(ROOT, 'assets', 'data', 'domains');
 const ALLOW_SHALLOW = process.env.LIMEN_ALLOW_SHALLOW === '1' || process.argv.indexOf('--allow-shallow') !== -1;
-// Sentinel v2 — canonical per-domain invariant, measured against the real corpus
-// (2026-09-26): all 20 portal roots present; every domain carries >=1000 subtree
-// files (real minimum 17,059; the deployed shallow corpus has ~190/domain);
-// every domain represents depths 2-6 (some reach 7-8; p2_agri/governance/
-// population top out at 6). Rejects empty, shallow, partial, single-domain, and
-// missing-depth sources instead of stamping them 'full-tree'. Non-key trees
-// (legal, psychedelic, …) are tolerated — the build only reads the 20 keys.
-function fullTreeReport(dir) {
-  let names;
-  try { names = fs.readdirSync(dir); } catch (e) { return { ok: false, reason: 'unreadable: ' + e.message }; }
-  const byKey = {};
-  const keySeg = {};
-  PORTAL_KEYS.forEach(k => { byKey[k] = { root: false, files: 0, depths: new Set() }; keySeg[k] = k.split('_').length; });
-  for (const n of names) {
-    if (!n.endsWith('.json')) continue;
-    const slug = n.replace(/\.json$/, '');
-    for (const k of PORTAL_KEYS) {
-      if (slug === k) { byKey[k].root = true; break; }
-      if (slug.startsWith(k + '_')) {
-        byKey[k].files++;
-        byKey[k].depths.add(slug.split('_').length - (keySeg[k] - 1));
-        break;
-      }
-    }
+// Pinned to an independently recorded source Git tree, not a candidate's own
+// declaration or a low size floor. Exact names detect missing/substituted files
+// even at equal counts. This checks file-set completeness, not content validity.
+// A legitimate corpus revision needs a reviewed inventory update. Non-key trees
+// are ignored; all 20 keys (including p2_agri) include their L1 root.
+export function fullTreeReport(dir, inventory = readJSON(path.join(__dirname, 'data/full-tree-inventory.json'))) {
+  // Owner floor: never admit a baseline below 17,000 subtree files plus root.
+  // Exact pinned names/counts still apply; meeting this floor alone is not enough.
+  const MIN_FULL_TREE_FILES = 17001;
+  if (!inventory || inventory.schemaVersion !== 1 || !inventory.domains || PORTAL_KEYS.some(k => {
+    const expected = inventory.domains[k];
+    return !expected || !Number.isSafeInteger(expected.files) || expected.files < MIN_FULL_TREE_FILES ||
+      !/^[a-f0-9]{64}$/.test(expected.filenamesSha256 || '');
+  })) return { ok: false, reason: 'missing or invalid pinned full-tree inventory' };
+  let entries;
+  try { entries = fs.readdirSync(dir, { withFileTypes: true }); }
+  catch (e) { return { ok: false, reason: 'unreadable: ' + e.message }; }
+  const byKey = Object.fromEntries(PORTAL_KEYS.map(k => [k, []]));
+  for (const entry of entries) {
+    if (!entry.isFile() || !entry.name.endsWith('.json')) continue;
+    const slug = entry.name.slice(0, -5);
+    const k = slug === 'p2_agri' || slug.startsWith('p2_agri_') ? 'p2_agri' : slug.split('_', 1)[0];
+    if (Object.hasOwn(byKey, k)) byKey[k].push(entry.name);
   }
-  const missing = PORTAL_KEYS.filter(k => !byKey[k].root);
-  if (missing.length) return { ok: false, reason: 'missing portal roots: ' + missing.join(', ') };
-  const small = PORTAL_KEYS.filter(k => byKey[k].files < 1000);
-  if (small.length) return { ok: false, reason: 'domains below full-tree size (<1000 files): ' + small.join(', ') };
-  const REQ_DEPTHS = [2, 3, 4, 5, 6];
-  const missingDepth = PORTAL_KEYS.filter(k => !REQ_DEPTHS.every(d => byKey[k].depths.has(d)));
-  if (missingDepth.length) return { ok: false, reason: 'domains missing depths 2-6: ' + missingDepth.join(', ') };
+  const mismatched = PORTAL_KEYS.filter(k => {
+    const names = byKey[k].sort(), expected = inventory.domains[k];
+    return names.length !== expected.files || !names.includes(k + '.json') ||
+      createHash('sha256').update(names.join('\n') + '\n').digest('hex') !== expected.filenamesSha256;
+  });
+  if (mismatched.length) return { ok: false, reason: 'full-tree inventory mismatch: ' + mismatched.join(', ') };
   return { ok: true };
 }
 // Corpus discovery/validation is DEFERRED to the executable main path so the
