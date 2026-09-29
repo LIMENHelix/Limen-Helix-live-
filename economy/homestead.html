@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Homestead Desk · sell before auction · LIMEN Helix</title>
+<meta name="description" content="Free Homestead Read: ZIP or street to an educational foreclosure-stage clock. Watch this ZIP. Not legal advice. We do not invent auction dates.">
+<link rel="canonical" href="https://limenhelix.com/economy/homestead">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Homestead Desk · sell before auction">
+<meta property="og:description" content="Free educational stage clock. Watch this ZIP. Desk Alerts when we can actually send them.">
+<meta property="og:url" content="https://limenhelix.com/economy/homestead">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="/assets/css/homestead-desk.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#070b12; --panel:#0e131d; --panel2:#121826; --line:rgba(201,169,78,0.14);
+  --gold:#C9A94E; --ink:#e9e6dd; --soft:#9a9384;
+}
+html,body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--gold)}
+.wrap{max-width:760px;margin:0 auto;padding:0 18px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line)}
+.brand{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--soft)}
+.brand b{color:var(--gold)}
+.top .r{display:flex;align-items:center;gap:14px}
+.top a.alt{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--soft);text-decoration:none}
+.top a.buy{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#1a1407;background:var(--gold);padding:6px 12px;border-radius:6px;text-decoration:none}
+.hero{text-align:center;padding:40px 0 18px}
+.hero h1{font-size:clamp(26px,5vw,40px);line-height:1.15;margin:12px 0 10px}
+.hero p{color:var(--soft);max-width:540px;margin:0 auto}
+.promise{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.promise span{font-size:12px;color:var(--soft);border:1px solid var(--line);border-radius:20px;padding:5px 12px}
+.hubnav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.hubnav a{font-size:13px;color:var(--gold);border:1px solid rgba(201,169,78,.3);border-radius:20px;padding:7px 14px;text-decoration:none}
+.foot{text-align:center;color:var(--soft);font-size:12px;padding:30px 0 80px}
+.desk-banner{display:none;margin:16px 18px 0;padding:12px 14px;border-radius:8px;background:rgba(201,169,78,.08);border:1px solid var(--line);font-size:14px}
+.desk-banner.ok{display:block;color:#5ab5a0}
+.desk-banner:not([hidden]){display:block}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="brand"><b>LIMEN</b> HOMESTEAD DESK</div>
+  <div class="r">
+    <a class="alt" href="/economy">Economy Watch</a>
+    <a class="alt" href="/">limenhelix.com</a>
+    <a class="buy" id="watchCheckoutLink" href="/api/checkout?start=1&amp;domain=economy&amp;rung=p2">Watch · $4/mo</a>
+  </div>
+</div>
+<div class="desk-banner" id="deskBanner" hidden></div>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="hs-kicker">Free · No account needed</div>
+    <h1>Homestead Desk · sell before auction</h1>
+    <p>One free read: your ZIP or street, an educational stage clock, and what people in that stage typically do next. We do not invent auction dates. This is not legal or financial advice.</p>
+    <div class="promise">
+      <span>Educational stage clock</span>
+      <span>Official resources</span>
+      <span>Watch this ZIP</span>
+    </div>
+    <div class="hubnav">
+      <a href="#homesteadRead">Homestead Read</a>
+      <a href="#deskWaitlist">Desk waitlist</a>
+      <a href="#watchCheckout">$4 Economy Watch</a>
+    </div>
+  </div>
+
+  <div class="hs-card" id="homesteadRead">
+    <h2>Homestead Read</h2>
+    <p class="hs-plain">Public place lookup plus the notice you say you received. Heuristic. Labeled. Not a county docket search.</p>
+    <div class="hs-grid">
+      <div>
+        <label for="hsQ">ZIP or street address</label>
+        <input id="hsQ" type="text" placeholder="64111 or 1200 Main St, Kansas City, MO" autocomplete="street-address">
+      </div>
+      <div>
+        <label for="hsNotice">What did you receive?</label>
+        <select id="hsNotice">
+          <option value="unsure">Not sure / just looking</option>
+          <option value="none">Nothing filed that I know of</option>
+          <option value="late">Late notices / collection calls</option>
+          <option value="nod">Notice of Default (or equivalent)</option>
+          <option value="sale">Sale / auction notice</option>
+          <option value="sold">I think it already sold</option>
+        </select>
+      </div>
+    </div>
+    <button class="hs-btn" id="hsGo" type="button">Read this place →</button>
+    <div id="hsOut"></div>
+    <div class="hs-disc">Educational information only. Not legal, financial, tax, or emergency advice. Confirm every date with the county recorder and the official sale list. In a crisis call 988 or 211.</div>
+  </div>
+
+  <div class="hs-card" id="watchCheckout">
+    <h2>Your Monthly Tax Receipt</h2>
+    <p class="hs-plain">The paid Economy Watch that is live today. $4 / month. Helix checkout, economy rung only. This is not a foreclosure-alert feed.</p>
+    <a class="hs-btn" href="/api/checkout?start=1&amp;domain=economy&amp;rung=p2">Start the Watch · $4 / mo</a>
+  </div>
+
+  <div class="hs-card" id="deskWaitlist">
+    <h2>Homestead Desk Alerts · about $19 / mo when live</h2>
+    <p class="hs-plain">Competitors charge $9 to $49 for alerts. Desk Alerts are not live. We will not take $19 until we can send an honest, dated alert from public county data. Join the list. Watch this ZIP for free.</p>
+    <div>
+      <label for="hsName">Name</label>
+      <input id="hsName" type="text" placeholder="your name" maxlength="200" autocomplete="name">
+    </div>
+    <div style="margin-top:10px">
+      <label for="hsEmail">Email</label>
+      <input id="hsEmail" type="email" placeholder="you@email.com" maxlength="200" autocomplete="email">
+    </div>
+    <label style="display:flex;gap:8px;align-items:flex-start;margin-top:10px;font-size:13px;text-transform:none;letter-spacing:0">
+      <input type="checkbox" id="hsConsent" checked style="width:auto;margin-top:3px"> I agree to be contacted about Homestead Desk. Educational emails only. No outbound texts from this page.
+    </label>
+    <button class="hs-btn" id="hsWaitBtn" type="button">Watch this ZIP - free</button>
+    <div class="hs-waitstat" id="hsWaitStat"></div>
+  </div>
+
+  <div class="foot">
+    Part of <a href="/economy">Economy Watch</a> · <a href="/">LIMEN Helix</a><br>
+    Educational information, not professional, financial, legal, or emergency advice.<br>
+    We do not invent auction dates. Confirm filings with the county.
+  </div>
+</div>
+
+<script src="/assets/js/homestead-desk.js"></script>
+<script src="/assets/js/homestead-chat.js"></script>
+<script>
+(function () {
+  var H = window.LIMEN_HOMESTEAD;
+  function qs() { try { return new URLSearchParams(location.search); } catch (e) { return new URLSearchParams(); } }
+  var ban = document.getElementById('deskBanner');
+  if (ban) {
+    var q = qs();
+    if (q.get('bought')) {
+      ban.hidden = false; ban.className = 'desk-banner ok';
+      ban.textContent = 'You are in. We will watch what you named on checkout.';
+    } else if (q.get('checkout') === 'cancelled') {
+      ban.hidden = false; ban.className = 'desk-banner';
+      ban.textContent = 'Checkout cancelled. The free Homestead Read is still yours.';
+    }
+  }
+  H.boot({
+    waitlist: { interest: 'homestead-desk-waitlist', sourcePage: '/economy/homestead' }
+  });
+})();
+</script>
+</body>
+</html>
