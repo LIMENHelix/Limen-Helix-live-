@@ -79,6 +79,7 @@ function cognition(now) {
 
   var decision = await Decision.decide(store, candidate, now, brain);
   assert.equal(decision.status, 'RELEASED');
+  assert.equal(decision.returnedOutcome.status, 'UNOBSERVED');
   var held = await Executor.execute({ store: store, candidate: candidate, decision: decision, now: now + 1,
     motorAuthorization: { authorize: async function () { throw new Error('cost gate must precede motor'); } },
     dailyBudgetUsd: 0, dailyPublicationCap: 1 });
@@ -137,6 +138,13 @@ function cognition(now) {
   var learned = await Learning.recordObservation(store, clickObservation);
   assert.equal(learned.resolvedCount, 1);
   assert.equal((await Learning.readForBrain(store)).learningGate.ready, false);
+  var nextCandidate = Source.build(changedSource, brain, now + 10);
+  var nextDecision = await Decision.decide(store, nextCandidate, now + 10, brain);
+  assert.equal(nextDecision.status, 'RELEASED');
+  assert.equal(nextDecision.returnedOutcome.status, 'OBSERVED');
+  assert.equal(nextDecision.returnedOutcome.actionId, command.actionId);
+  assert.equal(nextDecision.returnedOutcome.effect, 'RECORDED_NOT_YET_QUALIFIED');
+  assert.notEqual(nextDecision.decisionReceiptId, decision.decisionReceiptId);
 
   var ambiguousStore = memory(), ambiguousDecision = await Decision.decide(ambiguousStore, candidate, now, brain), attempts = 0;
   var ambiguous = await Executor.execute({ store: ambiguousStore, candidate: candidate, decision: ambiguousDecision, now: now + 5,
