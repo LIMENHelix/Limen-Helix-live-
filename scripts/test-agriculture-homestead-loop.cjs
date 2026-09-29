@@ -34,6 +34,8 @@ function invoke(handler, raw, headers) { return new Promise(function (resolve) {
   var invalid = Decision.candidate({ workOrderId: 'x' }); assert.equal(invalid, null);
   var decision = await Decision.decide(store, candidate, now, { cognition: cognition });
   assert.equal(decision.status, 'RELEASED'); assert.equal(decision.providerCalled, false);
+  assert.equal(decision.returnedOutcome.status, 'UNOBSERVED');
+  assert.equal(decision.returnedOutcome.effect, 'NO_RETURNED_OUTCOME_YET');
   var motorCount = 0, motor = { authorize: async function () { motorCount++; return { authorized: true, receiptId: 'motor_' + motorCount }; } };
   var calls = 0, command = await Executor.execute({ store: store, candidate: candidate, decision: decision, now: now + 1, motorAuthorization: motor,
     emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailyRequestCap: 2,
@@ -55,6 +57,14 @@ function invoke(handler, raw, headers) { return new Promise(function (resolve) {
   var forged = await invoke(inbound, raw, { 'svix-id': messageId, 'svix-timestamp': String(Math.floor(stamp.getTime() / 1000)), 'svix-signature': 'v1,forged' });
   assert.equal(forged.status, 400); assert.equal(forged.body.error, 'invalid webhook signature');
   var learningState = await Learning.readForBrain(store); assert.equal(learningState.status, 'ELIGIBLE'); assert.equal(learningState.learningGate.ready, false);
+  var nextCandidate = Decision.candidate({ workOrderId: 'farm-work-002', providerEmail: 'vendor@example.com', propertyRef: 'farm-field-alpha', operationKind: 'equipment-inspection-quote', subject: 'Request for inspection quote', body: 'Please provide scope, availability, and a written no-obligation estimate after the prior response.', evidenceId: 'agriculture-feed-bundle-002' });
+  var nextDecision = await Decision.decide(store, nextCandidate, now + 2500, { cognition: cognition });
+  assert.equal(nextDecision.status, 'RELEASED');
+  assert.equal(nextDecision.returnedOutcome.status, 'OBSERVED');
+  assert.equal(nextDecision.returnedOutcome.actionId, command.actionId);
+  assert.equal(nextDecision.returnedOutcome.appliesToCurrentCandidate, false);
+  assert.equal(nextDecision.returnedOutcome.effect, 'RECORDED_NOT_YET_QUALIFIED');
+  assert.notEqual(nextDecision.decisionReceiptId, decision.decisionReceiptId);
   var recovery = await Recovery.recover({ store: store, command: command, observation: observation, now: now + 2000, motorAuthorization: motor });
   assert.equal(recovery.status, 'FUTURE_REQUESTS_SUPPRESSED'); assert.equal(recovery.strictSuppressionReadback, true); assert.equal(recovery.irreversiblePriorRequest, true);
   var held = await Executor.execute({ store: store, candidate: candidate, decision: decision, now: now + 3, motorAuthorization: motor, emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailyRequestCap: 2, transport: { send: async function () { calls++; } } });
