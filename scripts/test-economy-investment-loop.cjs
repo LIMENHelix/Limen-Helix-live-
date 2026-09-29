@@ -33,6 +33,7 @@ function cognition(now) { return { ts: now, c: { domain: 'economy', immune: { im
   var titleSets = evidence.map(function (row, i) { return { d: 'economy', f: row.feedName, t: now, items: [{ i: i, ti: row.title, au: row.url, tr: false }] }; });
   var decision = await Decision.decide(store, candidate, now, { cognition: cognition(now), titleSets: titleSets, maxNotionalUsd: 150 });
   assert.equal(decision.status, 'RELEASED');
+  assert.equal(decision.returnedOutcome.status, 'UNOBSERVED');
   var b14 = { createPreview: async function (_s, _b, intent) { assert.equal(intent.ownerDomain, 'economy'); return { previewId: 'epv1', confirmationSummary: 'confirm' }; },
     submitApproved: async function (_s, _b, input) { assert.deepEqual(input.approval, { mode: 'domain-autonomous', actor: 'economy-brain', ownerDomain: 'economy', authorizationReceiptId: 'economy-motor-receipt-1', authorizationMode: 'mature-production-capability' }); assert(await store.get(Learning.causeKey(decision.actionId))); return { commandId: 'broker-command-1', receipt: { orderId: 'paper-order-1' }, rollback: { confirmationSummary: 'cancel' } }; } };
   var broker = { quote: async function (s) { return { symbol: s, last: s === 'SPY' ? 500 : 10, bid: s === 'SPY' ? 499 : 9.99, ask: s === 'SPY' ? 501 : 10.01 }; }, accountSnapshot: async function () { return { totalCash: 1000 }; } };
@@ -47,6 +48,33 @@ function cognition(now) { return { ts: now, c: { domain: 'economy', immune: { im
   var recovered = await Recovery.recover({ store: store, command: result, trigger: { type: 'economy-investment-kill', id: 'kill-1' }, broker: broker, b14: recoveryB14,
     motorAuthorization: authorization, env: { ECONOMY_INVESTMENT_RECOVERY_ENABLED: '1' }, now: now + 2 });
   assert.equal(recovered.status, 'CANCEL_RECEIPT_PERSISTED'); assert.equal(recovered.rollbackReadbackVerified, true);
+  var learnedActionIds = [result.actionId];
+  for (var i = 2; i <= 5; i++) {
+    var extraCandidate = Decision.candidate({ requestId: 'econ-request-' + i, symbol: 'ACME', issuerName: 'Acme Inc', side: 'buy', maxNotionalUsd: 100,
+      riskLimitPct: 8, benchmarkSymbol: 'SPY', thesisId: 'econ-thesis-' + i, brainOpportunityId: 'econ-invest-1', feedEvidence: evidence, paperOnly: true, liveMoney: false });
+    var extraDecision = await Decision.decide(store, extraCandidate, now + i, { cognition: cognition(now + i), titleSets: titleSets, maxNotionalUsd: 150 });
+    assert.equal(extraDecision.status, 'RELEASED');
+    var extraCommand = { ownerDomain: 'economy', actionId: extraDecision.actionId, decisionReceiptId: extraDecision.decisionReceiptId, commandedAt: now + i };
+    var extraLearning = await Learning.recordProductInvestmentCommand(store, { domain: 'economy', candidate: extraCandidate, decision: extraDecision, command: extraCommand, emittedAt: now + i });
+    assert.equal(extraLearning.ok, true); learnedActionIds.push(extraDecision.actionId);
+  }
+  for (var j = 0; j < learnedActionIds.length; j++) {
+    var observed = await Learning.recordOutcome(store, {
+      eventId: 'economy-observed-' + j, eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', ownerDomain: 'economy',
+      actionId: learnedActionIds[j], ts: now + 100 + j,
+      sourceIdentity: { kind: 'tradier-paper-account-read', value: 'economy-order-' + j },
+      outcomeData: { horizonDays: 30, investedAmount: 100, netPnl: -1, returnPct: -1, benchmarkReturnPct: 0,
+        maxDrawdownPct: 1, riskBreach: false, executionMode: 'paper', brokerOrderId: 'economy-order-' + j }
+    });
+    assert.equal(observed.ok, true); assert.equal(observed.assessment.outcome, 'FAILURE');
+  }
+  var nextCandidate = Decision.candidate({ requestId: 'econ-request-6', symbol: 'ACME', issuerName: 'Acme Inc', side: 'buy', maxNotionalUsd: 100,
+    riskLimitPct: 8, benchmarkSymbol: 'SPY', thesisId: 'econ-thesis-6', brainOpportunityId: 'econ-invest-1', feedEvidence: evidence, paperOnly: true, liveMoney: false });
+  var nextDecision = await Decision.decide(store, nextCandidate, now + 200, { cognition: cognition(now + 200), titleSets: titleSets, maxNotionalUsd: 150 });
+  assert.equal(nextDecision.status, 'NO_ACTION');
+  assert(nextDecision.blockers.includes('economy-returned-outcome-requires-reassessment'));
+  assert.equal(nextDecision.returnedOutcome.status, 'OBSERVED');
+  assert.equal(nextDecision.returnedOutcome.effect, 'HOLD_FOR_NEW_ECONOMY_EVIDENCE');
   var held = await Decision.decide(store, candidate, now, { cognition: cognition(now), titleSets: titleSets.slice(0, 1), maxNotionalUsd: 150 });
   assert.equal(held.status, 'NO_ACTION'); assert(held.blockers.includes('economy-exact-current-feed-evidence-not-confirmed'));
   console.log('economy investment loop: source-gated decision, durable paper receipt, and cancel recovery passed');
