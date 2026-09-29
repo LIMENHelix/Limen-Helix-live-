@@ -1,8 +1,11 @@
 const crypto = require('crypto');
+const canonicalRegistry = require('../assets/data/connectome-node-registry.json');
 
 const MAX_PORTAL_BYTES = 8 * 1024 * 1024;
 const SOURCE_SHA_ENV = 'LIMEN_PORTAL_SOURCE_SHA';
 const SOURCE_REPOSITORY = 'LIMENHelix/Limen-Helix';
+const CANONICAL_NODE_IDS = new Set(canonicalRegistry.canonical_ids || []);
+const CANONICAL_ALIASES = canonicalRegistry.aliases || {};
 
 function header(res, name) {
   if (!res || !res.headers) return null;
@@ -125,9 +128,36 @@ function validatePortalSchema(portal, requestedDomainId) {
     if (typeof activation.brainNodeId !== 'string' || activation.brainNodeId.length === 0) {
       return 'activation-brain-node-id@' + i;
     }
+    if (!isDeclaredNode(activation.brainNodeId)) return 'activation-undeclared-node@' + i;
     if (activation.treatments !== undefined && !Array.isArray(activation.treatments)) return 'activation-treatments-not-array@' + i;
   }
+  for (let i = 0; i < (portal.issues || []).length; i++) {
+    const issue = portal.issues[i];
+    if (!issue || typeof issue !== 'object' || Array.isArray(issue)) return 'issue-shape@' + i;
+    for (let j = 0; j < (issue.circuits || []).length; j++) {
+      if (!issue.circuits[j] || !isDeclaredNode(issue.circuits[j].nodeId)) return 'issue-circuit-undeclared-node@' + i + ':' + j;
+    }
+    for (let j = 0; j < (issue._authored || []).length; j++) {
+      if (!issue._authored[j] || !isDeclaredNode(issue._authored[j].nodeId)) return 'issue-authored-undeclared-node@' + i + ':' + j;
+    }
+    if (issue.resolved && !isDeclaredNode(issue.resolved.nodeId)) return 'issue-resolved-undeclared-node@' + i;
+  }
+  for (let i = 0; i < (portal.edges || []).length; i++) {
+    const edge = portal.edges[i];
+    const endpoints = edge && (edge.source !== undefined || edge.target !== undefined)
+      ? [edge.source, edge.target]
+      : edge && (edge.a !== undefined || edge.b !== undefined)
+        ? [edge.a, edge.b]
+        : null;
+    if (!endpoints || endpoints.some(nodeId => !isDeclaredNode(nodeId))) return 'edge-undeclared-node@' + i;
+  }
   return null;
+}
+
+function isDeclaredNode(nodeId) {
+  return typeof nodeId === 'string' &&
+    (CANONICAL_NODE_IDS.has(nodeId) ||
+      (typeof CANONICAL_ALIASES[nodeId] === 'string' && CANONICAL_NODE_IDS.has(CANONICAL_ALIASES[nodeId])));
 }
 
 function sourceRevision() {
@@ -255,3 +285,4 @@ module.exports.SOURCE_SHA_ENV = SOURCE_SHA_ENV;
 module.exports.SOURCE_REPOSITORY = SOURCE_REPOSITORY;
 module.exports.gitBlobSha = gitBlobSha;
 module.exports.validatePortalSchema = validatePortalSchema;
+module.exports.isDeclaredNode = isDeclaredNode;

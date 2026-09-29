@@ -255,6 +255,18 @@ async function main() {
   });
   r = await invoke(request({ domainId: 'energy_battery_battrecycling_collection' }));
   check('cross-domain payload fails closed (status)', r.status, 502);
+  responseBody = JSON.stringify({
+    domainId: 'energy', title: 'Undeclared node', phase: 'p4',
+    activations: [{ brainNodeId: 'FUND' }], issues: []
+  });
+  r = await invoke(request({ domainId: 'energy' }));
+  check('undeclared activation node fails closed (status)', r.status, 502);
+  responseBody = JSON.stringify({
+    domainId: 'energy', title: 'Declared alias', phase: 'p4',
+    activations: [{ brainNodeId: 'NAc' }], issues: [], edges: []
+  });
+  r = await invoke(request({ domainId: 'energy' }));
+  check('explicit registry alias passes (status)', r.status, 200);
   responseBody = null;
 
   delete process.env.GITHUB_TOKEN;
