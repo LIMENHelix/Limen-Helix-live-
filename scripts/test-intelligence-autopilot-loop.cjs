@@ -20,6 +20,15 @@ function motor(id) { return { authorize: async function () { return { authorized
   assert.equal(command.status, 'ACCEPTED'); assert.equal(calls, 1); assert.equal(saw, true); var replay = await Executor.execute({ store: store, candidate: candidate, decision: decision, now: now, emailCostUsd: 0.01, dailyBudgetUsd: 0.05, dailyEmailCap: 5, motorAuthorization: motor('intel-motor-2'), transport: { send: async function () { calls++; } } }); assert.equal(replay.replayed, true); assert.equal(calls, 1);
   var observation = await Observer.observe(store, command, { apiKey: 'read', fetch: async function (_u, options) { assert.equal(options.method, 'GET'); return { ok: true, status: 200, json: async function () { return { id: 'email-intel-1', last_event: 'bounced', created_at: new Date(now).toISOString() }; } }; } }); assert.equal(observation.independentOfSendResponse, true);
   var learned = await Learning.recordObservation(store, observation); assert.equal(learned.ok, true); assert.equal(learned.resolvedCount, 1); assert.equal((await Learning.readForBrain(store)).learningGate.ready, false);
+  var returned = await Decision.decide(store, candidate, now + 1, { cognition: cognition });
+  assert.equal(returned.status, 'NO_ACTION');
+  assert(returned.blockers.includes('intelligence-returned-outcome-requires-reassessment'));
+  assert.equal(returned.returnedOutcome.status, 'OBSERVED');
+  assert.equal(returned.returnedOutcome.signalOutcome, 'bounced');
+  assert.equal(returned.returnedOutcome.normalizedCredit, 0);
+  assert.equal(returned.returnedOutcome.requiresReassessment, true);
+  assert.equal(returned.returnedOutcome.effect, 'CONSUMED_AS_INTELLIGENCE_AFFERENT');
+  assert.notEqual(returned.decisionReceiptId, decision.decisionReceiptId, 'returned consequence must change the next decision receipt identity');
   var recovery = await Recovery.recover({ store: store, command: command, observation: observation, now: now + 1, motorAuthorization: motor('intel-motor-3') }); assert.equal(recovery.status, 'FUTURE_DELIVERY_SUPPRESSED');
   var persisted = JSON.stringify(Array.from(store.values.values()).concat(Array.from(store.lists.values()))); assert.equal(persisted.includes('lead@example.com'), false); assert.equal(persisted.includes('lead-secret'), false);
   console.log('intelligence sovereign B10/B14/email outcome/recovery loop: PASS');
