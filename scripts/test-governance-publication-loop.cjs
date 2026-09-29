@@ -137,6 +137,13 @@ function cognition(now) {
   var learned = await Learning.recordObservation(store, clickObservation);
   assert.equal(learned.resolvedCount, 1);
   assert.equal((await Learning.readForBrain(store)).learningGate.ready, false);
+  var returnedDecision = await Decision.decide(store, candidate, now + 6, cognition(now + 6));
+  assert.equal(returnedDecision.status, 'RELEASED');
+  assert.equal(returnedDecision.returnedOutcome.status, 'OBSERVED');
+  assert.equal(returnedDecision.returnedOutcome.signalOutcome, 'source-link-click');
+  assert.equal(returnedDecision.returnedOutcome.effect, 'CONSUMED_AS_GOVERNANCE_AFFERENT');
+  assert.notEqual(returnedDecision.decisionReceiptId, decision.decisionReceiptId,
+    'returned Governance learning state must change the next decision receipt identity');
 
   var ambiguousStore = memory(), ambiguousDecision = await Decision.decide(ambiguousStore, candidate, now, brain), attempts = 0;
   var ambiguous = await Executor.execute({ store: ambiguousStore, candidate: candidate, decision: ambiguousDecision, now: now + 5,
