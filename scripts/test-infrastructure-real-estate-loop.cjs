@@ -75,6 +75,14 @@ function invoke(handler, raw, headers) { return new Promise(function (resolve) {
   assert.equal(observation.status, 'COUNTERPARTY_RESPONSE_OBSERVED'); assert.equal(observation.independentOfSendResponse, true); assert.equal(observation.webhookSignatureVerified, true);
   var learned = await Learning.recordObservation(store, observation); assert.equal(learned.ok, true); assert.equal(learned.resolvedCount, 1);
   assert.equal(learned.signal.normalizedCredit, 0, 'an unclassified reply cannot be treated as a positive real-estate outcome');
+  var returned = await Decision.decide(store, candidate, now + 1500, { cognition: cognition, maxIndicationUsd: 300000 });
+  assert.equal(returned.status, 'RELEASED');
+  assert.equal(returned.returnedOutcome.status, 'OBSERVED');
+  assert.equal(returned.returnedOutcome.signalOutcome, 'counterparty-response-unclassified');
+  assert.equal(returned.returnedOutcome.normalizedCredit, 0);
+  assert.equal(returned.returnedOutcome.requiresReassessment, true);
+  assert.equal(returned.returnedOutcome.effect, 'CONSUMED_AS_INFRASTRUCTURE_AFFERENT');
+  assert.notEqual(returned.decisionReceiptId, decision.decisionReceiptId, 'returned consequence must change the next decision receipt identity');
   var secret = 'whsec_' + Buffer.from('infrastructure-real-estate-webhook-test-secret').toString('base64');
   var webhook = new Webhook(secret), stamp = new Date(), messageId = 'msg_infrastructure_1';
   var signedEvent = { type: 'email.received', created_at: stamp.toISOString(), data: { email_id: 'email_in_2', from: 'broker@example.com', to: ['realestate+' + command.actionId + '@receive.example.com'] } };
