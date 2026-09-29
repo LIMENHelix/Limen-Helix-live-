@@ -181,6 +181,12 @@ function warnDeal(overrides) {
   assert.equal(observation.independentOfCreateResponse, true);
   var learned = await Learning.recordObservation(store, observation);
   assert.equal(learned.resolvedCount, 1);
+  var returned = await Decision.decide(store, candidate, now + 7, { cognition: cognition(now + 7) });
+  assert.equal(returned.status, 'RELEASED');
+  assert.equal(returned.returnedOutcome.status, 'OBSERVED');
+  assert.equal(returned.returnedOutcome.signalOutcome, 'opportunity');
+  assert.equal(returned.returnedOutcome.effect, 'CONSUMED_AS_INDUSTRY_AFFERENT');
+  assert.notEqual(returned.decisionReceiptId, decision.decisionReceiptId, 'returned consequence must change the next decision receipt identity');
 
   var ambiguousStore = memory();
   var ambiguousCandidate = Decision.candidate(warnDeal({
