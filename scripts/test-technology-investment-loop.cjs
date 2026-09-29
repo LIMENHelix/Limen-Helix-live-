@@ -33,6 +33,7 @@ function cognition(now) { return { ts: now, c: { domain: 'technology', immune: {
   var titleSets = evidence.map(function (row, i) { return { d: 'technology', f: row.feedName, t: now, items: [{ i: i, ti: row.title, au: row.url, tr: false }] }; });
   var decision = await Decision.decide(store, candidate, now, { cognition: cognition(now), titleSets: titleSets, maxNotionalUsd: 150 });
   assert.equal(decision.status, 'RELEASED');
+  assert.equal(decision.returnedOutcome.status, 'UNOBSERVED');
   var b14 = { createPreview: async function (_s, _b, intent) { assert.equal(intent.ownerDomain, 'technology'); return { previewId: 'epv1', confirmationSummary: 'confirm' }; },
     submitApproved: async function (_s, _b, input) { assert.deepEqual(input.approval, { mode: 'domain-autonomous', actor: 'technology-brain', ownerDomain: 'technology', authorizationReceiptId: 'technology-motor-receipt-1', authorizationMode: 'mature-production-capability' }); assert(await store.get(Learning.causeKey(decision.actionId))); return { commandId: 'broker-command-1', receipt: { orderId: 'paper-order-1' }, rollback: { confirmationSummary: 'cancel' } }; } };
   var broker = { quote: async function (s) { return { symbol: s, last: s === 'SPY' ? 500 : 10, bid: s === 'SPY' ? 499 : 9.99, ask: s === 'SPY' ? 501 : 10.01 }; }, accountSnapshot: async function () { return { totalCash: 1000 }; } };
@@ -47,6 +48,33 @@ function cognition(now) { return { ts: now, c: { domain: 'technology', immune: {
   var recovered = await Recovery.recover({ store: store, command: result, trigger: { type: 'technology-investment-kill', id: 'kill-1' }, broker: broker, b14: recoveryB14,
     motorAuthorization: authorization, env: { TECHNOLOGY_INVESTMENT_RECOVERY_ENABLED: '1' }, now: now + 2 });
   assert.equal(recovered.status, 'CANCEL_RECEIPT_PERSISTED'); assert.equal(recovered.rollbackReadbackVerified, true);
+  var learnedActionIds = [result.actionId];
+  for (var i = 2; i <= 5; i++) {
+    var extraCandidate = Decision.candidate({ requestId: 'technology-request-' + i, symbol: 'ACME', issuerName: 'Acme Inc', side: 'buy', maxNotionalUsd: 100,
+      riskLimitPct: 8, benchmarkSymbol: 'SPY', thesisId: 'technology-thesis-' + i, brainOpportunityId: 'technology-invest-1', feedEvidence: evidence, paperOnly: true, liveMoney: false });
+    var extraDecision = await Decision.decide(store, extraCandidate, now + i, { cognition: cognition(now + i), titleSets: titleSets, maxNotionalUsd: 150 });
+    assert.equal(extraDecision.status, 'RELEASED');
+    var extraCommand = { ownerDomain: 'technology', actionId: extraDecision.actionId, decisionReceiptId: extraDecision.decisionReceiptId, commandedAt: now + i };
+    var extraLearning = await Learning.recordProductInvestmentCommand(store, { domain: 'technology', candidate: extraCandidate, decision: extraDecision, command: extraCommand, emittedAt: now + i });
+    assert.equal(extraLearning.ok, true); learnedActionIds.push(extraDecision.actionId);
+  }
+  for (var j = 0; j < learnedActionIds.length; j++) {
+    var observed = await Learning.recordOutcome(store, {
+      eventId: 'technology-observed-' + j, eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', ownerDomain: 'technology',
+      actionId: learnedActionIds[j], ts: now + 100 + j,
+      sourceIdentity: { kind: 'tradier-paper-account-read', value: 'technology-order-' + j },
+      outcomeData: { horizonDays: 30, investedAmount: 100, netPnl: -1, returnPct: -1, benchmarkReturnPct: 0,
+        maxDrawdownPct: 1, riskBreach: false, executionMode: 'paper', brokerOrderId: 'technology-order-' + j }
+    });
+    assert.equal(observed.ok, true); assert.equal(observed.assessment.outcome, 'FAILURE');
+  }
+  var nextCandidate = Decision.candidate({ requestId: 'technology-request-6', symbol: 'ACME', issuerName: 'Acme Inc', side: 'buy', maxNotionalUsd: 100,
+    riskLimitPct: 8, benchmarkSymbol: 'SPY', thesisId: 'technology-thesis-6', brainOpportunityId: 'technology-invest-1', feedEvidence: evidence, paperOnly: true, liveMoney: false });
+  var nextDecision = await Decision.decide(store, nextCandidate, now + 200, { cognition: cognition(now + 200), titleSets: titleSets, maxNotionalUsd: 150 });
+  assert.equal(nextDecision.status, 'NO_ACTION');
+  assert(nextDecision.blockers.includes('technology-returned-outcome-requires-reassessment'));
+  assert.equal(nextDecision.returnedOutcome.status, 'OBSERVED');
+  assert.equal(nextDecision.returnedOutcome.effect, 'HOLD_FOR_NEW_TECHNOLOGY_EVIDENCE');
   var held = await Decision.decide(store, candidate, now, { cognition: cognition(now), titleSets: titleSets.slice(0, 1), maxNotionalUsd: 150 });
   assert.equal(held.status, 'NO_ACTION'); assert(held.blockers.includes('technology-exact-current-feed-evidence-not-confirmed'));
   console.log('technology investment loop: source-gated decision, durable paper receipt, and cancel recovery passed');
