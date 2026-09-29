@@ -17,8 +17,8 @@
  * file is missing); every other shape is rejected before a token is spent.
  *
  * Properties under test:
- *   1. Anonymous in-family request → 200 with the decoded GitHub content, and
- *      the upstream URL is exactly the allowed repo + path prefix.
+ *   1. In-family request → 200 only when the source revision is pinned; the
+ *      handler resolves metadata at that revision and reads the exact blob.
  *   2. Out-of-family / traversal / abuse shapes → 400 with ZERO upstream fetches.
  *   3. The server token is used upstream but never appears in the response.
  *   4. GitHub 404 → 404 passthrough; token unset → 500 fail closed.
@@ -40,15 +40,36 @@ function restoreEnv() {
 
 const TOKEN = 'ghp_fetchportaltesttoken0000';
 const MAX_PORTAL_BYTES = 8 * 1024 * 1024;
+const SOURCE_SHA = 'a'.repeat(40);
 
 const REAL_FETCH = global.fetch;
 const fetchedUrls = [];
 let githubStatus = 200;
-let responseBody = JSON.stringify({ activations: [] });
+let responseBody = null;
 let responseContentLength = null;
 let responseBodyMode = 'stream';
 let textCalls = 0;
 let cancelCalls = 0;
+let currentDomainId = 'energy_battery_battrecycling_collection';
+let metadataShaOverride = null;
+function validPortal(domainId) {
+  return {
+    domainId: domainId,
+    title: 'Test portal',
+    phase: 'p2',
+    activations: [],
+    issues: [],
+    edges: []
+  };
+}
+function gitBlobSha(text) {
+  const bytes = Buffer.from(text);
+  return require('crypto').createHash('sha1')
+    .update(Buffer.concat([Buffer.from('blob ' + bytes.length + '\0'), bytes])).digest('hex');
+}
+function upstreamBody() {
+  return responseBody === null ? JSON.stringify(validPortal(currentDomainId)) : responseBody;
+}
 function responseHeaders() {
   return { get: function (name) {
     return name.toLowerCase() === 'content-length' && responseContentLength !== null
@@ -68,19 +89,32 @@ function streamBody(text) {
   });
 }
 global.fetch = async function (url, opts) {
-  fetchedUrls.push(String(url));
-  const rawText = responseBody;
-  return {
-    ok: githubStatus >= 200 && githubStatus < 300,
-    status: githubStatus,
-    headers: responseHeaders(),
-    body: responseBodyMode === 'stream' ? streamBody(rawText) : null,
-    json: async function () {
-      return { content: Buffer.from(rawText).toString('base64') };
-    },
-    // raw-media-type contract: the handler now reads response text for any size
-    text: async function () { textCalls++; return rawText; }
-  };
+  const u = String(url);
+  fetchedUrls.push(u);
+  const metadataMatch = u.match(/\/contents\/assets\/data\/domains\/([^?]+)\.json\?ref=([0-9a-f]{40})$/i);
+  if (metadataMatch) {
+    currentDomainId = decodeURIComponent(metadataMatch[1]);
+    const body = upstreamBody();
+    const metadataSha = metadataShaOverride || gitBlobSha(body);
+    return {
+      ok: githubStatus >= 200 && githubStatus < 300,
+      status: githubStatus,
+      json: async function () {
+        return { type: 'file', path: 'assets/data/domains/' + currentDomainId + '.json', sha: metadataSha };
+      }
+    };
+  }
+  if (/\/git\/blobs\/[0-9a-f]{40}$/i.test(u)) {
+    const rawText = upstreamBody();
+    return {
+      ok: githubStatus >= 200 && githubStatus < 300,
+      status: githubStatus,
+      headers: responseHeaders(),
+      body: responseBodyMode === 'stream' ? streamBody(rawText) : null,
+      text: async function () { textCalls++; return rawText; }
+    };
+  }
+  return { ok: false, status: 500, json: async function () { return {}; } };
 };
 
 const handler = require('../handlers/fetch-portal.js');
@@ -117,11 +151,12 @@ function request(query) {
 
 async function main() {
   process.env.GITHUB_TOKEN = TOKEN;
+  process.env.LIMEN_PORTAL_SOURCE_SHA = SOURCE_SHA;
   delete process.env.GH_TOKEN;
   delete process.env.VERCEL_GITHUB_TOKEN;
   githubStatus = 200;
-  responseBody = JSON.stringify({ activations: [] });
-  responseContentLength = Buffer.byteLength(responseBody);
+  responseBody = null;
+  responseContentLength = null;
   responseBodyMode = 'stream';
   textCalls = 0;
   cancelCalls = 0;
@@ -129,11 +164,14 @@ async function main() {
   // ── anonymous in-family read passes ────────────────────────────────────────
   let r = await invoke(request({ domainId: 'energy_battery_battrecycling_collection' }));
   check('in-family anonymous passes (status)', r.status, 200);
-  check('decoded payload returned', JSON.stringify(r.body), JSON.stringify({ activations: [] }));
-  check('exactly one upstream fetch', fetchedUrls.length, 1);
-  check('upstream URL is the allowed repo + prefix',
+  check('decoded payload returned', r.body.domainId, 'energy_battery_battrecycling_collection');
+  check('metadata and blob are the only upstream fetches', fetchedUrls.length, 2);
+  check('metadata URL pins the exact source revision',
     fetchedUrls[0],
-    'https://api.github.com/repos/LIMENHelix/Limen-Helix/contents/assets/data/domains/energy_battery_battrecycling_collection.json');
+    'https://api.github.com/repos/LIMENHelix/Limen-Helix/contents/assets/data/domains/energy_battery_battrecycling_collection.json?ref=' + SOURCE_SHA);
+  check('blob URL uses the metadata content SHA',
+    fetchedUrls[1],
+    'https://api.github.com/repos/LIMENHelix/Limen-Helix/git/blobs/' + gitBlobSha(JSON.stringify(validPortal('energy_battery_battrecycling_collection'))));
   check('streamed success does not call unbounded text()', textCalls, 0);
 
   // ── server token used upstream, never in the response ─────────────────────
@@ -203,8 +241,8 @@ async function main() {
   check('stream oversized body refuses (status)', r.status, 502);
   check('stream oversized body does not call text()', textCalls, 0);
 
-  responseBody = JSON.stringify({ activations: [] });
-  responseContentLength = Buffer.byteLength(responseBody);
+  responseBody = null;
+  responseContentLength = null;
   responseBodyMode = 'stream';
 
   delete process.env.GITHUB_TOKEN;
@@ -213,6 +251,23 @@ async function main() {
   check('token unset fails closed (status)', r.status, 500);
   check('token unset performed zero upstream fetches', fetchedUrls.length, 0);
   process.env.GITHUB_TOKEN = TOKEN;
+
+  delete process.env.LIMEN_PORTAL_SOURCE_SHA;
+  fetchedUrls.length = 0;
+  r = await invoke(request({ domainId: 'energy' }));
+  check('source revision unset fails closed (status)', r.status, 503);
+  check('source revision unset performed zero upstream fetches', fetchedUrls.length, 0);
+  process.env.LIMEN_PORTAL_SOURCE_SHA = SOURCE_SHA;
+
+  // ── integrity and schema gates ────────────────────────────────────────────
+  metadataShaOverride = 'b'.repeat(40);
+  responseBody = JSON.stringify(validPortal('energy'));
+  r = await invoke(request({ domainId: 'energy' }));
+  check('content SHA mismatch fails closed (status)', r.status, 502);
+  metadataShaOverride = null;
+  responseBody = JSON.stringify({ domainId: 'energy', title: 'wrong', phase: 'p2', issues: [] });
+  r = await invoke(request({ domainId: 'energy' }));
+  check('invalid portal schema fails closed (status)', r.status, 502);
 
   console.log(passed + '/' + passed + ' passed');
 }
