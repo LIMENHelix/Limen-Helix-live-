@@ -8,6 +8,7 @@ var Observer = require('../lib/agriculture-homestead-observer.js');
 var Recovery = require('../lib/agriculture-homestead-recovery.js');
 var Learning = require('../lib/agriculture-homestead-learning.js');
 var InboundHandler = require('../handlers/agriculture-homestead-inbound.js');
+var Cycle = require('../handlers/agriculture-homestead-cycle.js');
 var Webhook = require('svix').Webhook;
 
 function memoryStore() {
@@ -32,6 +33,22 @@ function invoke(handler, raw, headers) { return new Promise(function (resolve) {
   var candidate = Decision.candidate({ workOrderId: 'farm-work-001', providerEmail: 'vendor@example.com', propertyRef: 'farm-field-alpha', operationKind: 'equipment-inspection-quote', subject: 'Request for inspection quote', body: 'Please provide scope, availability, and a written no-obligation estimate.', evidenceId: 'agriculture-feed-bundle-001' });
   assert(candidate); assert.equal(Decision.validateCandidate(candidate), true);
   var invalid = Decision.candidate({ workOrderId: 'x' }); assert.equal(invalid, null);
+  var oldReceivingDomain = process.env.AGRICULTURE_HOMESTEAD_RECEIVING_DOMAIN;
+  process.env.AGRICULTURE_HOMESTEAD_RECEIVING_DOMAIN = 'receive.example.com';
+  var outboundPayload, outboundHeaders;
+  var sendProof = await Cycle.send(candidate, 'aha_' + 'b'.repeat(24), 'agriculture-homestead/send-proof', {
+    apiKey: 'test-key', from: 'LIMEN <sender@example.com>', fetch: async function (_url, options) {
+      outboundPayload = JSON.parse(options.body); outboundHeaders = options.headers;
+      return { ok: true, status: 200, json: async function () { return { id: 'email_proof_1' }; } };
+    }
+  });
+  if (oldReceivingDomain == null) delete process.env.AGRICULTURE_HOMESTEAD_RECEIVING_DOMAIN; else process.env.AGRICULTURE_HOMESTEAD_RECEIVING_DOMAIN = oldReceivingDomain;
+  assert.equal(sendProof.ok, true); assert.equal(sendProof.providerCalled, true); assert.equal(sendProof.id, 'email_proof_1');
+  assert.deepEqual(outboundPayload.to, ['vendor@example.com']); assert.equal(outboundPayload.from, 'LIMEN <sender@example.com>');
+  assert.match(outboundPayload.reply_to, /^homestead\+aha_[b]+@receive\.example\.com$/);
+  assert.match(outboundPayload.text, /Work order: farm-work-001/); assert.equal(outboundHeaders['idempotency-key'], 'agriculture-homestead/send-proof');
+  var missingConfig = await Cycle.send(candidate, 'aha_' + 'c'.repeat(24), 'agriculture-homestead/missing-config', { apiKey: '', from: '', fetch: async function () { throw new Error('provider must not be called'); } });
+  assert.equal(missingConfig.providerCalled, false); assert.equal(missingConfig.definitiveFailure, true);
   var decision = await Decision.decide(store, candidate, now, { cognition: cognition });
   assert.equal(decision.status, 'RELEASED'); assert.equal(decision.providerCalled, false);
   assert.equal(decision.returnedOutcome.status, 'UNOBSERVED');
