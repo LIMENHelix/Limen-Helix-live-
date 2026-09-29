@@ -35,6 +35,13 @@ function motor(id) { return { authorize: async function () { return { authorized
     return { ok: true, status: 200, json: async function () { return { id: 'ltr_abc123', status: 'rendered', expected_delivery_date: '2026-09-01', date_created: new Date(now).toISOString(), date_modified: new Date(now).toISOString() }; } }; } });
   assert.equal(observation.status, 'PROVIDER_STATE_OBSERVED'); assert.equal(observation.independentOfCreateResponse, true);
   assert.equal((await Learning.recordObservation(store, observation)).ok, true); assert.equal((await Learning.readForBrain(store)).status, 'ELIGIBLE');
+  var returned = await Decision.decide(store, candidate, now + 1, { cognition: cognition(now + 1, false) });
+  assert.equal(returned.status, 'RELEASED');
+  assert.equal(returned.returnedOutcome.status, 'OBSERVED');
+  assert.equal(returned.returnedOutcome.signalOutcome, 'rendered');
+  assert.equal(returned.returnedOutcome.normalizedCredit, 0.5);
+  assert.equal(returned.returnedOutcome.effect, 'CONSUMED_AS_LAW_AFFERENT');
+  assert.notEqual(returned.decisionReceiptId, decision.decisionReceiptId, 'returned consequence must change the next decision receipt identity');
   var canceled = 0, reads = 0, recovery = await Recovery.recover({ store: store, command: command, observation: observation,
     trigger: { type: 'law-automail-cancel', id: 'operator-cancel-1' }, now: now + 1, motorAuthorization: motor('law-motor-3'),
     provider: { cancel: async function (id) { canceled++; assert.equal(id, 'ltr_abc123'); return { ok: true, deleted: true }; },
