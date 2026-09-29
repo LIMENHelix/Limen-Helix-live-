@@ -23,6 +23,7 @@ var communicationLearning = require('../lib/communication-social-learning.js');
 var cultureLearning = require('../lib/culture-hero-learning.js');
 var lawLearning = require('../lib/law-automail-learning.js');
 var softSubscriberLanes = require('../lib/soft-domain-subscriber-lanes.js');
+var energyFinanceAfferent = require('../lib/energy-finance-afferent-learning.js');
 
 var DOMAINS = [
   'agriculture', 'communication', 'culture', 'defense', 'economy', 'education',
@@ -89,10 +90,11 @@ async function readPrimary(domain) {
      Truly malformed owner/lane/kernel state continues to fail closed. */
   var state = await learning._load(store, domain);
   var external = state.externalLearning;
+  var financialAfferent = domain === 'energy' ? await energyFinanceAfferent.readForBrain(store) : null;
   var signal = external.signals.length ? external.signals[external.signals.length - 1] : null;
   if (!signal) return Object.assign(
     abstained(domain, 'domain-has-no-graded-external-action-outcome', external.resolvedCount),
-    { companyPatterns: compactCompanyPatterns(state) }
+    { companyPatterns: compactCompanyPatterns(state), financialAfferent: financialAfferent }
   );
   if (signal.schemaVersion !== learning.EXTERNAL_LEARNING_SCHEMA || signal.ownerDomain !== domain ||
       signal.sourceKind !== 'independent-action-outcome' || !validSource(signal.sourceIdentity) ||
@@ -132,7 +134,8 @@ async function readPrimary(domain) {
       sourceKind: signal.sourceKind,
       sourceIdentity: signal.sourceIdentity
     },
-    companyPatterns: compactCompanyPatterns(state)
+    companyPatterns: compactCompanyPatterns(state),
+    financialAfferent: financialAfferent
   };
 }
 

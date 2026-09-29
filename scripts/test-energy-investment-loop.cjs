@@ -4,26 +4,20 @@ var assert = require('node:assert/strict');
 var Decision = require('../lib/energy-investment-decision.js');
 var Executor = require('../lib/energy-investment-executor.js');
 var Recovery = require('../lib/energy-investment-recovery.js');
-var Learning = require('../lib/autofire-learning.js');
-var Observer = require('../lib/autofire-investment-observer.js');
 var StrictStore = require('../lib/autofire-efference-store.js');
 
-function memory() { var values = new Map(), lists = new Map(); return { values: values, lists: lists, assertDurable: function () {},
+function memory() { var values = new Map(), lists = new Map(); return { assertDurable: function () {},
   get: async function (k) { return values.get(k) || null; }, set: async function (k, v) { values.set(k, JSON.parse(JSON.stringify(v))); return true; },
   setIfAbsent: async function (k, v) { if (values.has(k)) return false; values.set(k, JSON.parse(JSON.stringify(v))); return true; },
   lpush: async function (k, v) { var a = lists.get(k) || []; a.unshift(JSON.parse(JSON.stringify(v))); lists.set(k, a); return a.length; },
-  ltrim: async function (k, s, e) { var a = lists.get(k) || []; lists.set(k, a.slice(s, e + 1)); },
-  lrange: async function (k, s, e) { var a = lists.get(k) || []; return JSON.parse(JSON.stringify(a.slice(s, e < 0 ? undefined : e + 1))); } }; }
+  ltrim: async function () {}, lrange: async function () { return []; } }; }
 function cognition(now, immune) { return { ts: now, c: { domain: 'energy', immune: immune || { immuneState: 'clear' }, awareness: { humanReviewRequired: false },
   brainOrgans: { autonomousInternalEmission: { holdReason: null, emittedCount: 1 }, resourceMetabolism: { state: 'AVAILABLE', gates: { mayRunInternalCycle: true } } },
   serverPacket: { schemaVersion: 'civilization-domain-packet/1.0', domainId: 'energy', packetId: 'energy-packet-1', generatedAt: new Date(now).toISOString(),
     sourceIdentity: { producer: 'brain-cognition-refresh/1' }, truth: { feedHealth: { live: 4 }, opportunities: [{ id: 'energy-invest-1', path: 'INVESTABLE', held: false }] } } } }; }
 
 (async function () {
-  ['energy_investment_worklist', 'energy_investment_decision_log', 'energy_investment_command_log', 'energy_investment_recovery_log',
-    'energy_investment_task:test', 'energy_investment_decision:test', 'energy_investment_command:test', 'energy_investment_action:test',
-    'energy_investment_motor_claim:test', 'energy_investment_budget_slot:test', 'energy_investment_observation:test',
-    'energy_investment_recovery:test', 'energy_investment_developmental_slot:test'].forEach(function (key) { assert.equal(StrictStore.assertKey(key), key); });
+  ['energy_investment_worklist', 'energy_investment_decision_log', 'energy_investment_command_log', 'energy_investment_recovery_log'].forEach(function (key) { assert.equal(StrictStore.assertKey(key), key); });
   var store = memory(), now = Date.now(), evidence = [
     { title: 'Acme demand improves', url: 'https://one.example/acme', feedName: 'energy-one', recordedAt: new Date(now).toISOString() },
     { title: 'Acme margins stabilize', url: 'https://two.example/acme', feedName: 'energy-two', recordedAt: new Date(now).toISOString() }
@@ -35,64 +29,24 @@ function cognition(now, immune) { return { ts: now, c: { domain: 'energy', immun
   var decision = await Decision.decide(store, candidate, now, { cognition: cognition(now), titleSets: titleSets, maxNotionalUsd: 150 });
   assert.equal(decision.status, 'RELEASED');
   assert.equal(decision.returnedOutcome.status, 'UNOBSERVED');
-  var b14 = { createPreview: async function (_s, _b, intent) { assert.equal(intent.ownerDomain, 'energy'); return { previewId: 'epv1', confirmationSummary: 'confirm' }; },
-    submitApproved: async function (_s, _b, input) { assert.deepEqual(input.approval, { mode: 'domain-autonomous', actor: 'energy-brain', ownerDomain: 'energy', authorizationReceiptId: 'energy-motor-receipt-1', authorizationMode: 'mature-production-capability' }); assert(await store.get(Learning.causeKey(decision.actionId))); return { commandId: 'broker-command-1', receipt: { orderId: 'paper-order-1' }, rollback: { confirmationSummary: 'cancel' } }; } };
-  var broker = { quote: async function (s) { return { symbol: s, last: s === 'SPY' ? 500 : 10, bid: s === 'SPY' ? 499 : 9.99, ask: s === 'SPY' ? 501 : 10.01 }; }, accountSnapshot: async function () { return { totalCash: 1000 }; } };
-  var authorization = { authorize: async function () { return { authorized: true, receiptId: 'energy-motor-receipt-1' }; } };
-  var result = await Executor.execute({ store: store, candidate: candidate, decision: decision, broker: broker, b14: b14, motorAuthorization: authorization,
-    env: { ENERGY_INVESTMENT_PAPER_ORDER_ENABLED: '1', ENERGY_INVESTMENT_RECOVERY_ENABLED: '1' }, maxNotionalUsd: 150, dailyNotionalBudgetUsd: 200, dailyOrderCap: 2, now: now + 1 });
-  assert.equal(result.status, 'COMMAND_RECEIPTED'); assert.equal(result.ownerDomain, 'energy'); assert.equal(result.liveMoney, false);
-  assert.equal(result.learningCauseDurable, true); assert(result.learningEpisodeId);
-  assert.equal((await Learning._load(store, 'energy')).commands[0].ticker, 'ACME');
-  var recoveryB14 = { reconcile: async function () { return { commandId: 'broker-command-1', order: { status: 'open', executedQuantity: 0 }, rollback: { confirmationSummary: 'cancel' } }; },
-    cancelApproved: async function (_s, _b, input) { assert.deepEqual(input.approval, { mode: 'recovery', actor: 'energy-brain-recovery', ownerDomain: 'energy', authorizationReceiptId: 'energy-motor-receipt-1', authorizationMode: 'mature-production-capability' }); return { commandId: 'broker-command-1', rollback: { receipt: { orderId: 'paper-order-1', status: 'canceled' } } }; } };
-  var recovered = await Recovery.recover({ store: store, command: result, trigger: { type: 'energy-investment-kill', id: 'kill-1' }, broker: broker, b14: recoveryB14,
-    motorAuthorization: authorization, env: { ENERGY_INVESTMENT_RECOVERY_ENABLED: '1' }, now: now + 2 });
-  assert.equal(recovered.status, 'CANCEL_RECEIPT_PERSISTED'); assert.equal(recovered.rollbackReadbackVerified, true);
-  var observerCommand = {
-    commandId: result.commandId, status: 'RECONCILED_TERMINAL', emittedAt: new Date(now).toISOString(),
-    receipt: { orderId: 'paper-order-1', receivedAt: new Date(now + 1000).toISOString() },
-    intent: { symbol: 'ACME', side: 'buy', actionId: result.actionId, benchmarkSymbol: 'SPY', benchmarkBaselineValue: 500, riskLimitPct: 8, ownerDomain: 'energy' },
-    accountBefore: { accountId: 'PAPER-1', positions: [] },
-    order: { id: 'paper-order-1', status: 'filled', executedQuantity: 9, averageFillPrice: 10, transactionAt: new Date(now).toISOString() },
-    reafference: { matchedSelfEffect: { executedQuantity: 9, averageFillPrice: 10 } },
-    reconciliation: { actualFees: 1, interveningTrades: 0 }
-  };
-  var dueAt = now + 30 * Observer.DAY_MS + 1000;
-  var observation = Observer.inspectCommand(observerCommand,
-    { accountId: 'PAPER-1', positions: [{ symbol: 'ACME', quantity: 9, marketValue: 80 }] },
-    { symbol: 'SPY', last: 510 },
-    [{ accountId: 'PAPER-1', observedAt: new Date(now + 10 * Observer.DAY_MS).toISOString(), positionQuantity: 9, positionMarketValue: 85, benchmarkValue: 505 },
-      { accountId: 'PAPER-1', observedAt: new Date(now + 30 * Observer.DAY_MS + 1000).toISOString(), positionQuantity: 9, positionMarketValue: 80, benchmarkValue: 510 }],
-    dueAt,
-    { symbol: 'ACME', last: 8.89 });
-  assert.equal(observation.status, 'ELIGIBLE', JSON.stringify(observation)); assert.equal(observation.events.length, 1);
-  assert.equal(observation.events[0].ownerDomain, 'energy');
-  var observedEvent = Object.assign({}, observation.events[0], {
-    eventId: 'energy-observed:' + observation.events[0].observationId,
-    ts: Date.parse(observation.events[0].observedAt)
-  });
-  var learned = await Learning.recordOutcome(store, observedEvent);
-  assert.equal(learned.ok, true, JSON.stringify(learned)); assert.equal(learned.duplicate, false);
-  var nextEvidence = [
-    { title: 'Acme demand changes', url: 'https://one.example/acme-next', feedName: 'energy-one', recordedAt: new Date(now + 4).toISOString() },
-    { title: 'Acme margins weaken', url: 'https://two.example/acme-next', feedName: 'energy-two', recordedAt: new Date(now + 4).toISOString() }
-  ];
-  var nextCandidate = Decision.candidate({ requestId: 'energy-request-2', symbol: 'ACME', issuerName: 'Acme Inc', side: 'buy', maxNotionalUsd: 100,
-    riskLimitPct: 8, benchmarkSymbol: 'SPY', thesisId: 'energy-thesis-2', brainOpportunityId: 'energy-invest-1', feedEvidence: nextEvidence, paperOnly: true, liveMoney: false });
-  var nextTitleSets = nextEvidence.map(function (row, i) { return { d: 'energy', f: row.feedName, t: now + 4, items: [{ i: i, ti: row.title, au: row.url, tr: false }] }; });
-  var nextDecision = await Decision.decide(store, nextCandidate, now + 4, { cognition: cognition(now + 4), titleSets: nextTitleSets, maxNotionalUsd: 150 });
-  assert.equal(nextDecision.status, 'NO_ACTION');
-  assert(nextDecision.blockers.includes('energy-returned-outcome-requires-reassessment'));
-  assert.equal(nextDecision.returnedOutcome.status, 'OBSERVED');
-  assert.equal(nextDecision.returnedOutcome.effect, 'HOLD_FOR_NEW_ENERGY_EVIDENCE');
-  var warning = await Decision.decide(store, nextCandidate, now + 4, { cognition: cognition(now + 4, { immuneState: 'warning', allowedWithWarning: true }), titleSets: nextTitleSets, maxNotionalUsd: 150 });
-  assert.equal(warning.status, 'NO_ACTION'); assert(warning.blockers.includes('energy-immune-hold'));
-  assert.equal(warning.immuneRouting.candidatePreserved, true);
-  var threat = await Decision.decide(store, nextCandidate, now + 4, { cognition: cognition(now + 4, { immuneState: 'alert', integrityThreat: true, candidateScoped: true }), titleSets: nextTitleSets, maxNotionalUsd: 150 });
-  assert.equal(threat.status, 'NO_ACTION'); assert(threat.blockers.includes('energy-immune-quarantine'));
-  assert.equal(threat.immuneRouting.candidatePreserved, true);
+
+  var calls = 0;
+  var result = await Executor.execute({ store: store, candidate: candidate, decision: decision,
+    broker: { quote: async function () { calls++; } }, b14: { createPreview: async function () { calls++; } }, now: now + 1 });
+  assert.equal(result.status, 'HELD');
+  assert.equal(result.reason, 'energy-investment-authority-moved-to-finance-domain');
+  assert.equal(result.ownerDomain, 'finance');
+  assert.equal(result.brokerCalls, 0);
+  assert.equal(result.orderSubmissionCalls, 0);
+  assert.equal(calls, 0);
+
+  var recovered = await Recovery.recover({ store: store, command: { schemaVersion: Executor.SCHEMA, status: 'COMMAND_RECEIPTED', brokerCommandId: 'legacy-command' },
+    trigger: { type: 'energy-investment-kill', id: 'kill-1' }, env: { ENERGY_INVESTMENT_RECOVERY_ENABLED: '1' }, now: now + 2 });
+  assert.equal(recovered.status, 'HELD');
+  assert.equal(recovered.reason, 'energy-investment-recovery-owned-by-finance-only');
+
   var held = await Decision.decide(store, candidate, now, { cognition: cognition(now), titleSets: titleSets.slice(0, 1), maxNotionalUsd: 150 });
-  assert.equal(held.status, 'NO_ACTION'); assert(held.blockers.includes('energy-exact-current-feed-evidence-not-confirmed'));
-  console.log('energy investment loop: source-gated decision, durable paper receipt, and cancel recovery passed');
-})().catch(function (error) { console.error(error); process.exit(1); });
+  assert.equal(held.status, 'NO_ACTION');
+  assert(held.blockers.includes('energy-exact-current-feed-evidence-not-confirmed'));
+  console.log('energy investment loop: source-gated decision, Energy motor quarantine, and Finance ownership boundary passed');
+})().catch(function (error) { console.error(error.stack || error); process.exit(1); });

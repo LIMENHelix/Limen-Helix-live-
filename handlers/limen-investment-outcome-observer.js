@@ -14,6 +14,7 @@ var broker = require('../lib/tradier-sandbox');
 var b14 = require('../lib/tradier-b14');
 var cronAuth = require('../lib/cron-auth');
 var observer = require('../lib/autofire-investment-observer');
+var energyFinanceAfferent = require('../lib/energy-finance-afferent-learning');
 var outcome = require('./limen-outcome');
 
 var COMMAND_SCAN = 500;
@@ -85,6 +86,8 @@ module.exports = async function handler(req, res) {
     var eligible = 0;
     var waiting = 0;
     var recorded = 0;
+    var returnedToEnergy = 0;
+    var returnAbstentions = [];
     var duplicates = 0;
     var failures = [];
     var now = Date.now();
@@ -123,6 +126,11 @@ module.exports = async function handler(req, res) {
         eligible += result.events.length;
         for (var e = 0; e < result.events.length; e++) {
           var recordedResult = await outcome.recordAutonomousOutcome(result.events[e]);
+          var afferentResult = await energyFinanceAfferent.record(store, result.events[e], current, recordedResult);
+          if (afferentResult && afferentResult.ok && afferentResult.signal) returnedToEnergy++;
+          else if (afferentResult && afferentResult.status === 'ABSTAINED') returnAbstentions.push({
+            commandId: current.commandId, eventId: result.events[e].eventId, reason: afferentResult.reason
+          });
           if (recordedResult && recordedResult.ok && recordedResult.learningAccepted !== false) {
             if (recordedResult.duplicate) duplicates++;
             else recorded++;
@@ -139,6 +147,8 @@ module.exports = async function handler(req, res) {
       eligible: eligible,
       recorded: recorded,
       duplicates: duplicates,
+      returnedToEnergy: returnedToEnergy,
+      returnAbstentions: returnAbstentions,
       waiting: waiting,
       abstentions: abstentions,
       failures: failures,

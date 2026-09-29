@@ -390,6 +390,8 @@ module.exports = async function handler(req, res) {
               recovery: _st.recovery || null,
               mappings: _st.homologyMappings || null
             };
+            _packetExtras.crossDomainEmissions = Array.isArray(_st.crossDomainEmissions)
+              ? _st.crossDomainEmissions.slice(0, 32) : [];
             var _semantic = domainSemantic[dom];
             _packetExtras.semanticEvidence = _semantic && _semantic.observations || [];
             _packetExtras.semanticEvidenceMeta = _semantic && _semantic.meta || {
