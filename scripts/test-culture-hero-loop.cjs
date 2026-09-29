@@ -63,6 +63,32 @@ function motor(receipt) { return { authorize: async function () { return { autho
   assert.equal(observed.generationEndpointCalled, false);
   assert.equal((await Learning.recordObservation(store, observed)).ok, true);
   assert.equal((await Learning.readForBrain(store)).status, 'ELIGIBLE');
+  var reaffirmed = await Decision.decide(store, candidate, now + 1, { cognition: cognition(now + 1) });
+  assert.equal(reaffirmed.status, 'RELEASED');
+  assert.equal(reaffirmed.returnedOutcome.status, 'OBSERVED');
+  assert.equal(reaffirmed.returnedOutcome.signalOutcome, 'PUBLIC_ASSET_RETRIEVABLE');
+  assert.equal(reaffirmed.returnedOutcome.effect, 'CONSUMED_AS_CULTURE_AFFERENT');
+
+  var invalidCandidate = Policy.candidate('culture', 'test-model', 'missing-public-hero-2');
+  var invalidDecision = await Decision.decide(store, invalidCandidate, now + 2, { cognition: cognition(now + 2) });
+  assert.equal(invalidDecision.status, 'RELEASED');
+  var invalidGenerated = await Executor.execute({ store: store, candidate: invalidCandidate, decision: invalidDecision, now: now + 2,
+    motorAuthorization: motor('culture-motor-4'), provider: { generate: async function () {
+      return { ok: true, url: 'https://assets.example/culture-invalid.jpg', requestId: 'provider-invalid', spentUsd: 0.02 };
+    } } });
+  assert.equal(invalidGenerated.status, 'GENERATED');
+  var invalidObserved = await Observer.observe(store, invalidGenerated, { allowAnyHttpsForTest: true, fetch: async function () { return {
+    status: 404, headers: { get: function (name) { return name === 'content-type' ? 'text/plain' : null; } },
+    arrayBuffer: async function () { return Buffer.from('not an image'); }
+  }; } });
+  assert.equal(invalidObserved.status, 'OBSERVED_ABSENT_OR_INVALID');
+  assert.equal((await Learning.recordObservation(store, invalidObserved)).ok, true);
+  var heldAfterNegative = await Decision.decide(store,
+    Policy.candidate('culture', 'test-model', 'missing-public-hero-3'), now + 3, { cognition: cognition(now + 3) });
+  assert.equal(heldAfterNegative.status, 'NO_ACTION');
+  assert(heldAfterNegative.blockers.includes('culture-returned-outcome-requires-reassessment'));
+  assert.equal(heldAfterNegative.returnedOutcome.signalOutcome, 'PUBLIC_ASSET_INVALID_OR_ABSENT');
+  assert.equal(heldAfterNegative.returnedOutcome.effect, 'HOLD_FOR_NEW_CULTURE_EVIDENCE');
 
   var recovered = await Recovery.recover({ store: store, command: executed, observation: observed,
     trigger: { type: 'culture-policy', id: 'policy-event-1' }, motorAuthorization: motor('culture-motor-2'), now: now + 1,
