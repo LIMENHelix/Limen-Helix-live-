@@ -245,6 +245,18 @@ async function main() {
   responseContentLength = null;
   responseBodyMode = 'stream';
 
+  responseBody = JSON.stringify({
+    domainId: 'energy', title: 'Deep portal', phase: 'p4', activations: [], edges: []
+  });
+  r = await invoke(request({ domainId: 'energy_battery_battrecycling_collection' }));
+  check('activation-only deep payload passes (status)', r.status, 200);
+  responseBody = JSON.stringify({
+    domainId: 'finance', title: 'Wrong family', phase: 'p4', activations: [], issues: []
+  });
+  r = await invoke(request({ domainId: 'energy_battery_battrecycling_collection' }));
+  check('cross-domain payload fails closed (status)', r.status, 502);
+  responseBody = null;
+
   delete process.env.GITHUB_TOKEN;
   fetchedUrls.length = 0;
   r = await invoke(request({ domainId: 'energy' }));

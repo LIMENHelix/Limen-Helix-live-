@@ -107,10 +107,17 @@ function gitBlobSha(bytes) {
 function validatePortalSchema(portal, requestedDomainId) {
   if (!portal || typeof portal !== 'object' || Array.isArray(portal)) return 'portal-not-an-object';
   if (typeof portal.domainId !== 'string' || portal.domainId.length === 0) return 'domain-id-missing-or-invalid';
+  // L4-L7 files are nested route slugs but intentionally retain their root
+  // domainId (for example energy_datacenter.json -> energy). Accept only that
+  // authored root-family relationship; never accept an unrelated domain.
+  if (requestedDomainId && portal.domainId !== requestedDomainId &&
+    !requestedDomainId.startsWith(portal.domainId + '_')) return 'domain-id-does-not-match-request';
   if (typeof portal.title !== 'string' || portal.title.length === 0) return 'title-missing-or-invalid';
   if (typeof portal.phase !== 'string' || portal.phase.length === 0) return 'phase-missing-or-invalid';
   if (!Array.isArray(portal.activations)) return 'activations-not-array';
-  if (!Array.isArray(portal.issues)) return 'issues-not-array';
+  // Deep portals may omit authored issues; portal-ui synthesizes them from
+  // activations. If present, the field must still have the expected shape.
+  if (portal.issues !== undefined && !Array.isArray(portal.issues)) return 'issues-not-array';
   if (portal.edges !== undefined && !Array.isArray(portal.edges)) return 'edges-not-array';
   for (let i = 0; i < portal.activations.length; i++) {
     const activation = portal.activations[i];
