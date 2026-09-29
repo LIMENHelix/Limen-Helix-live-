@@ -70,6 +70,14 @@ function budget() { return { emailCostUsd: 0.01, dailyBudgetUsd: 0.05, dailySend
   } });
   assert.equal(observation.status, 'TERMINAL_OBSERVED'); assert.equal(observation.lastEvent, 'bounced'); assert.equal(observation.independentOfSendResponse, true);
   var learned = await Learning.recordObservation(store, observation); assert.equal(learned.ok, true); assert.equal(learned.resolvedCount, 1);
+  var returned = await Decision.decide(store, c1, now + 1, { cognition: cognition(now + 1, false) });
+  assert.equal(returned.status, 'NO_ACTION');
+  assert(returned.blockers.includes('religion-returned-outcome-requires-reassessment'));
+  assert.equal(returned.returnedOutcome.status, 'OBSERVED');
+  assert.equal(returned.returnedOutcome.signalOutcome, 'bounced');
+  assert.equal(returned.returnedOutcome.normalizedCredit, 0);
+  assert.equal(returned.returnedOutcome.effect, 'CONSUMED_AS_RELIGION_AFFERENT');
+  assert.notEqual(returned.decisionReceiptId, released.decisionReceiptId, 'returned consequence must change the next decision receipt identity');
   var earlySignal = await Learning.readForBrain(store); assert.equal(earlySignal.learningGate.ready, false);
   for (var n = 2; n <= 5; n++) {
     var itemN = { actionId: 'religion-action-' + n, decisionReceiptId: 'decision-' + n, contentHash: 'content-' + n };
