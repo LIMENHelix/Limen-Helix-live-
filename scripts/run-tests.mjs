@@ -35,6 +35,7 @@
 
 import { execFileSync } from 'node:child_process';
 import { spawnSync } from 'node:child_process';
+import { existsSync } from 'node:fs';
 
 const filter = process.argv[2] || '';
 
@@ -71,6 +72,7 @@ const NOT_STANDALONE = new Set([
 const files = tracked('*.js', '*.cjs', '*.mjs')
   .filter(f => NAMED.test(f) || IN_TEST_DIR.test(f))
   .filter(f => !f.startsWith('assets/'))            // browser harnesses, need a DOM
+  .filter(f => existsSync(f))                       // tolerate staged deletions before commit
   .filter(f => !NOT_STANDALONE.has(f))
   .filter(f => !filter || f.includes(filter))
   .sort();

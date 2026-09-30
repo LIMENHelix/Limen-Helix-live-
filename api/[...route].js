@@ -136,10 +136,6 @@ const HANDLERS = {
   'governance-markets': require('../handlers/governance-markets'),
   'agriculture-markets': require('../handlers/agriculture-markets'),
   'agriculture-tools': require('../handlers/agriculture-tools'),
-  'agriculture-homestead-cycle': require('../handlers/agriculture-homestead-cycle'),
-  'agriculture-homestead-inbound': require('../handlers/agriculture-homestead-inbound'),
-  'agriculture-homestead-status': require('../handlers/agriculture-homestead-status'),
-  'agriculture-homestead-recovery': require('../handlers/agriculture-homestead-recovery'),
   'medicine-tools': require('../handlers/medicine-tools'),
   'environment-tools': require('../handlers/environment-tools'),
   'economy-tools': require('../handlers/economy-tools'),
@@ -361,7 +357,7 @@ function resolve(h) { return (h && typeof h !== 'function' && h.default) ? h.def
 // receives this preparation exception: Autopilot and Law mail, for example,
 // can execute externally from POST and must cross the valve.
 const PREPARATION_POST_ROUTES = new Set([
-  'agriculture-homestead-cycle', 'economy-investment-cycle',
+  'economy-investment-cycle',
   'energy-investment-cycle', 'infrastructure-real-estate-cycle',
   'population-real-estate-cycle', 'technology-investment-cycle',
   'trade-auction-cycle'

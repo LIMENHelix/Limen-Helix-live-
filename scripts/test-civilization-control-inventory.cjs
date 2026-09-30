@@ -48,6 +48,7 @@ assert.match(agriculture.source, /assets\/data\/domains\/p2_agri\.json/);
 const root = path.resolve(__dirname, '..');
 const files = cp.execFileSync('git', ['ls-files', '*.js', '*.cjs'], { cwd: root, encoding: 'utf8' })
   .split(/\r?\n/).filter(Boolean)
+  .filter(f => fs.existsSync(path.join(root, f)))
   .filter(f => !/(^|\/)(?:test|tests|fixtures)(?:\/|-)/i.test(f) && !/^scripts\/test-/i.test(f));
 const found = new Set();
 const patterns = [

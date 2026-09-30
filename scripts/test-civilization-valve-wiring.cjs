@@ -20,7 +20,8 @@ assert.match(router, /INTERNALLY_GATED_OR_RECOVERY_POST_ROUTES\.has\(name\)/);
 const recoveryPostBlock = router.match(/INTERNALLY_GATED_OR_RECOVERY_POST_ROUTES = new Set\(\[([\s\S]*?)\]\);/)[1];
 assert.match(recoveryPostBlock, /'communication-video-upload-work'/,
   'provider preflight must use its own JIT gate while receipt replay remains available after valve closure');
-assert.match(router, /'agriculture-homestead-cycle'.*'economy-investment-cycle'/s);
+assert.doesNotMatch(router, /'agriculture-homestead-cycle'/,
+  'Homestead must not be registered as an Agriculture end-to-end motor route');
 const prepBlock = router.match(/PREPARATION_POST_ROUTES = new Set\(\[([\s\S]*?)\]\);/)[1];
 assert.doesNotMatch(prepBlock, /'autopilot'/);
 assert.doesNotMatch(prepBlock, /'homestead-automail'/);

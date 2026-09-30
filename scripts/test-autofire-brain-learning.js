@@ -4,6 +4,7 @@ var POLICY = require('../brain-v2/core/outward-action-policy.js');
 var BRIDGE = require('../lib/autofire-domain-bridge.js');
 var LEARN = require('../lib/autofire-learning.js');
 var SELECT = require('../brain-v2/kernel/select.js');
+var AUTOFIRE = require('../handlers/limen-worker-autofire.js');
 
 var passed = 0;
 function assert(name, ok, detail) {
@@ -76,6 +77,11 @@ function investmentData(horizon, pnl, ret, benchmark, breach) {
 
 async function main() {
   assert('investment owner is finance', POLICY.ownerFor('investment', 'technology') === 'finance');
+  assert('agriculture investment remains finance-owned', POLICY.ownerFor('investment', 'agriculture') === 'finance');
+  assert('protected policy does not give Agriculture its own research motor', POLICY.ownerFor('research', 'agriculture') === null);
+  assert('worker routes Agriculture research to the research owner', AUTOFIRE.routedDomain({ domain: 'agriculture', recommendedLane: 'research' }) === 'research');
+  assert('worker preserves Agriculture investment identity', AUTOFIRE.routedDomain({ domain: 'agriculture', recommendedLane: 'investment' }) === 'agriculture');
+  assert('Agriculture research rotates in the Science/research scheduler group', AUTOFIRE.schedulerGroup({ domain: 'agriculture', recommendedLane: 'research' }) === 'research:science');
   assert('science canonicalizes to research', POLICY.ownerFor('research', 'science') === 'research');
   assert('medicine canonicalizes to health', POLICY.ownerFor('research', 'medicine') === 'health');
   assert('education retains its sovereign research owner', POLICY.ownerFor('research', 'education') === 'education');

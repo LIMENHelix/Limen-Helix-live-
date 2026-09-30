@@ -23,7 +23,6 @@ function store() {
 const bindings = [
   { file: 'handlers/limen-worker-autofire.js', guard: 'civilizationAdapterGuard.checkpoint', effect: "fetch(BASE + '/api/expand-artifact-claude'", valves: ['education:research-papers', 'environment:research-papers', 'medicine:research-papers', 'science:research-papers'] },
   { file: 'lib/tradier-b14.js', guard: 'AdapterGuard.checkpoint', effect: 'broker.placeOrder(orderRequest)', valves: ['economy:investments', 'energy:investments', 'finance:broker-order', 'technology:investments'] },
-  { file: 'lib/agriculture-homestead-executor.js', effect: 'input.transport.send', valves: ['agriculture:homestead'] },
   { file: 'lib/communication-social-executor.js', effect: 'platform.postToBluesky', valves: ['communication:social'] },
   { file: 'lib/communication-social-capability-verifier.js', guard: '(deps.adapterGuard || AdapterGuard).checkpoint', effect: '(deps.postToBluesky || Social.postToBluesky)', valves: ['communication:social-commissioning'] },
   { file: 'lib/communication-video-upload-bridge.js', guard: 'AdapterGuard).checkpoint', effect: "var authorizationId = 'cvua_'", valves: ['communication:youtube'] },

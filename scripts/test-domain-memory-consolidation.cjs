@@ -28,7 +28,6 @@ assert(efference.includes('db.set(recordKey(id), resolved)'), 'resolved command/
 
 [
   'lib/autofire-learning.js',
-  'lib/agriculture-homestead-learning.js',
   'lib/defense-publication-learning.js',
   'lib/governance-publication-learning.js',
   'lib/industry-crm-learning.js',

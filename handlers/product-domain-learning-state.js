@@ -12,7 +12,6 @@ var store = require('../lib/autofire-efference-store.js');
 var learning = require('../lib/autofire-learning.js');
 var religionLearning = require('../lib/religion-subscriber-learning.js');
 var intelligenceLearning = require('../lib/intelligence-autopilot-learning.js');
-var agricultureLearning = require('../lib/agriculture-homestead-learning.js');
 var industryLearning = require('../lib/industry-crm-learning.js');
 var defenseLearning = require('../lib/defense-publication-learning.js');
 var governanceLearning = require('../lib/governance-publication-learning.js');
@@ -77,7 +76,12 @@ async function readPrimary(domain) {
   if (domain === 'infrastructure') return infrastructureLearning.readForBrain(store);
   if (domain === 'population') return populationLearning.readForBrain(store);
   if (domain === 'supplyChain') return tradeLearning.readForBrain(store);
-  if (domain === 'agriculture') return agricultureLearning.readForBrain(store);
+  // Agriculture produces opportunity candidates, not an Agriculture-owned
+  // external motor. Investment candidates are handed to Finance and research
+  // candidates to Science/research by the autofire worker. Until those owner
+  // lanes return independently graded outcomes, Agriculture must abstain here;
+  // the retired Homestead service-request learner must not be consulted.
+  if (domain === 'agriculture') return abstained(domain, 'agriculture-opportunity-owner-outcomes-not-yet-returned', 0);
   if (domain === 'industry') return industryLearning.readForBrain(store);
   if (domain === 'religion') return religionLearning.readForBrain(store);
   if (domain === 'intelligence') return intelligenceLearning.readForBrain(store);

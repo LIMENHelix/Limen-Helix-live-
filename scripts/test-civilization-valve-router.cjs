@@ -63,21 +63,10 @@ function response() {
     assert.deepEqual(out.valves, ['law:automail'], 'POST physical mail execution crosses its valve');
     assert.deepEqual(out.handlers, []);
 
-    out = await hit('/api/agriculture-homestead-cycle', 'POST');
-    assert.deepEqual(out.valves, [], 'exact queue-only POST remains available');
-    assert.deepEqual(out.handlers, ['agriculture-homestead-cycle']);
-
     out = await hit('/api/agriculture-homestead-cycle', 'GET');
-    assert.deepEqual(out.valves, ['agriculture:homestead'], 'the matching outward GET is inhibited');
+    assert.deepEqual(out.valves, [], 'Agriculture Homestead is not an active Agriculture motor route');
     assert.deepEqual(out.handlers, []);
-
-    out = await hit('/api/agriculture-homestead-inbound', 'GET');
-    assert.deepEqual(out.valves, [], 'outcome observation stays open');
-    assert.deepEqual(out.handlers, ['agriculture-homestead-inbound']);
-
-    out = await hit('/api/agriculture-homestead-recovery', 'GET');
-    assert.deepEqual(out.valves, [], 'recovery stays open');
-    assert.deepEqual(out.handlers, ['agriculture-homestead-recovery']);
+    assert.equal(out.res.statusCode, 404);
 
     out = await hit('/api/brain-shadow', 'GET');
     assert.deepEqual(out.valves, [], 'the brain runtime is outside the motor valve');

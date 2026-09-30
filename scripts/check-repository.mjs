@@ -32,7 +32,7 @@
  */
 
 import { execFileSync, spawnSync } from 'node:child_process';
-import { readFileSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { parse } from 'acorn';
 import path from 'node:path';
 
@@ -50,7 +50,7 @@ function tracked(...patterns) {
   try {
     return execFileSync('git', ['ls-files', '-z', ...patterns], {
       encoding: 'utf8', maxBuffer: 256 * 1024 * 1024
-    }).split('\0').filter(Boolean);
+  }).split('\0').filter(Boolean).filter(f => existsSync(f));
   } catch (e) {
     console.error('git ls-files failed: ' + e.message);
     process.exit(2);

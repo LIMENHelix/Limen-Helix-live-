@@ -4,6 +4,7 @@ var assert = require('node:assert/strict');
 var fs = require('node:fs');
 var path = require('node:path');
 var vm = require('node:vm');
+var Registry = require('../lib/civilization-valve-registry.js');
 
 var ROOT = path.join(__dirname, '..');
 var DATA = path.join(ROOT, 'assets', 'data', 'domain-business-ladders.json');
@@ -76,7 +77,10 @@ assert.equal(populationHomestead.venture, 'Homestead Deal Desk');
 assert.equal(populationHomestead.href, '/home');
 assert.equal(populationHomestead.runtimeLane, 'population opportunity + law:automail');
 assert.equal(agricultureOperations.venture, 'Farm Operations Desk');
-assert.equal(agricultureOperations.runtimeLane, 'agriculture:homestead');
+assert.equal(agricultureOperations.runtimeLane, 'agriculture:homestead',
+  'the authored Agriculture ladder remains preserved as source history');
+assert.equal(Registry.get('agriculture:homestead'), null,
+  'the preserved Homestead label is not an active Agriculture motor route');
 assert.notEqual(populationHomestead.venture, agricultureOperations.venture,
   'Population Homestead and Agriculture farm operations must not collapse into one business');
 assert.equal(populationHomestead.status, 'SOURCE_IMPLEMENTED_HELD');

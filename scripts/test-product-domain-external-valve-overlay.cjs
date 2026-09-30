@@ -94,7 +94,21 @@ const openFinance = {
     const source = fs.readFileSync(path.join(dir, name), 'utf8');
     const match = source.match(/this\.motorAuthority\s*=\s*\{[^\n]*ownerDomain:\s*'([^']+)'[^\n]*externalValveId:\s*'([^']+)'[^\n]*lane:\s*'([^']+)'/);
     assert.ok(match, productDomain + ' must declare its local external valve');
+    // Agriculture's preserved authored brain still names its former
+    // agriculture:homestead declaration, but that service-request motor is
+    // retired. Its active opportunities route through the worker to Finance
+    // or Science/research; the overlay must therefore fail closed rather than
+    // resurrect a Homestead motor line.
     const line = Registry.get(match[2]);
+    if (productDomain === 'agriculture') {
+      assert.equal(line, null, 'Agriculture Homestead must not resolve as an active physical motor line');
+      const agricultureBrain = brain({ domainId: 'agriculture', resourceAuthority: { ownerDomain: 'agriculture', switches: { internalCycle: true, internalEmission: true, externalAction: true, spend: false, capital: false } }, motorAuthority: { ownerDomain: 'agriculture', externalValveId: match[2], lane: match[3], switches: { prepare: true, simulate: true, external: true } } });
+      const held = await Overlay.apply(store(), 'agriculture', agricultureBrain, {});
+      assert.equal(held.eligible, false);
+      assert.equal(held.reason, 'domain-external-valve-unknown');
+      assert.equal(agricultureBrain.motorAuthority.switches.external, false);
+      continue;
+    }
     assert.ok(line, productDomain + ' valve must resolve in the physical line registry');
     assert.equal(line.productDomain, productDomain);
     assert.equal(line.ownerDomain, match[1]);

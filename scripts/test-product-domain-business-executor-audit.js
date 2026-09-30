@@ -15,13 +15,13 @@ assert(report.laneSurfaces.every(function (row) { return row.filesPresent; }));
 
 var bound = report.domains.filter(function (row) { return row.domainBoundExecutorImplemented; });
 assert.deepEqual(bound.map(function (row) { return row.productDomain; }).sort(), [
-  'agriculture', 'communication', 'culture', 'defense', 'economy', 'education', 'energy', 'environment', 'finance', 'governance', 'industry', 'infrastructure', 'intelligence', 'law', 'medicine', 'population', 'religion', 'science', 'technology', 'trade'
+  'communication', 'culture', 'defense', 'economy', 'education', 'energy', 'environment', 'finance', 'governance', 'industry', 'infrastructure', 'intelligence', 'law', 'medicine', 'population', 'religion', 'science', 'technology', 'trade'
 ]);
-assert.equal(report.summary.domainBoundExecutorsImplemented, 20);
-assert.equal(report.summary.actionReceiptsImplemented, 20);
-assert.equal(report.summary.independentOutcomeObserversImplemented, 20);
-assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 20);
-assert.equal(report.summary.sourceChainsComplete, 20);
+assert.equal(report.summary.domainBoundExecutorsImplemented, 19);
+assert.equal(report.summary.actionReceiptsImplemented, 19);
+assert.equal(report.summary.independentOutcomeObserversImplemented, 19);
+assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 19);
+assert.equal(report.summary.sourceChainsComplete, 19);
 assert.equal(report.summary.productionVerifiedByDomain, 0);
 assert.equal(report.summary.autonomousExternalReady, 0);
 
@@ -127,11 +127,12 @@ assert.equal(environment.observerScope, 'EXTERNAL_EVALUATION_INPUT_GATED');
 assert.equal(environment.externalEnabled, false);
 
 var agriculture = report.domains.find(function (row) { return row.productDomain === 'agriculture'; });
-assert.equal(agriculture.lane, 'homestead');
-assert.equal(agriculture.domainBoundExecutorImplemented, true);
-assert.equal(agriculture.actionReceiptStrength, 'DURABLE_B10_B14_IDEMPOTENT_SERVICE_REQUEST_RECEIPT');
-assert.equal(agriculture.observerScope, 'RESEND_SIGNED_INBOUND_COUNTERPARTY_RESPONSE');
-assert.equal(agriculture.sourceChainComplete, true);
+assert.equal(agriculture.lane, 'opportunities');
+assert.equal(agriculture.domainBoundExecutorImplemented, false);
+assert.equal(agriculture.actionReceiptStrength, 'NONE');
+assert.equal(agriculture.observerScope, 'NONE');
+assert.equal(agriculture.sourceChainComplete, false);
+assert.deepEqual(agriculture.opportunityRouting, { investment: 'finance:broker-order', research: 'science:research-papers', homestead: null, implemented: true });
 assert.equal(agriculture.externalEnabled, false);
 
 var industry = report.domains.find(function (row) { return row.productDomain === 'industry'; });
@@ -176,4 +177,4 @@ assert.equal(trade.observerScope, 'PUBLIC_OWNED_MARKETPLACE_LISTING_PRESENCE_ZER
 assert.equal(trade.sourceChainComplete, true);
 assert.equal(trade.externalEnabled, false);
 
-console.log('product domain business executor audit: contracts 20/20, bound executors 20/20, closed source chain 20/20, externally ready 0/20; production capability evidence remains fail-closed');
+console.log('product domain business executor audit: contracts 20/20, bound executors 19/20, closed source chain 19/20; Agriculture opportunities route to Finance or Science/research, Homestead is separate, production capability evidence remains fail-closed');

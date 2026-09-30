@@ -78,6 +78,18 @@ var MAX_ATTEMPTS_PER_ENTRY = 3;
 var SCHEDULER_TICK_MS = 30 * 60 * 1000;
 var SCHEDULER_GROUPS = ['investment:finance', 'research:science', 'research:medicine', 'research:education', 'research:environment'];
 
+// Agriculture may produce a research candidate, but it does not own the
+// research motor. Keep the originating domain on the candidate; normalize only
+// the owner lookup/selection view so the candidate reaches Science/research.
+function routedDomain(entry) {
+  return entry && entry.recommendedLane === 'research' && entry.domain === 'agriculture'
+    ? 'research' : entry && entry.domain;
+}
+function selectionCandidate(entry) {
+  if (routedDomain(entry) === entry.domain) return entry;
+  return Object.assign({}, entry, { domain: 'research', originDomain: 'agriculture' });
+}
+
 /*
  * Candidate availability is not motor priority.  The queue may contain many
  * Finance rows before any Science or Medicine row, and a held first row must
@@ -87,7 +99,7 @@ var SCHEDULER_GROUPS = ['investment:finance', 'research:science', 'research:medi
  * requires no shared scheduler state or new write authority.
  */
 function schedulerGroup(entry) {
-  var owner = autofireLearning.ownerFor(entry && entry.recommendedLane, entry && entry.domain);
+  var owner = autofireLearning.ownerFor(entry && entry.recommendedLane, routedDomain(entry));
   if (entry && entry.recommendedLane === 'investment' && owner === 'finance') return 'investment:finance';
   if (entry && entry.recommendedLane === 'research' && owner === 'research') return 'research:science';
   if (entry && entry.recommendedLane === 'research' && owner === 'health') return 'research:medicine';
@@ -407,7 +419,8 @@ async function _fireOne(entry) {
   // B11 owner-domain release. The candidate exists before this gate; the gate
   // cannot manufacture one from stress, headlines, or a finding. It can only
   // release or hold it, and its decision is durably reviewable.
-  var ownerDomain = autofireLearning.ownerFor(lane, entry.domain);
+  var routedEntry = selectionCandidate(entry);
+  var ownerDomain = autofireLearning.ownerFor(lane, routedEntry.domain);
   var ownerCycle = null;
   if (ownerDomain) {
     try { ownerCycle = await brainStore.readCycle(ownerDomain); }
@@ -422,7 +435,7 @@ async function _fireOne(entry) {
   }
   var selected = await domainBridge.select(efferenceStore, {
     lane: lane,
-    candidate: entry,
+    candidate: routedEntry,
     domainCycle: ownerCycle,
     at: Date.now()
   });
@@ -1102,6 +1115,8 @@ module.exports.domainOutwardHoldResult = autofireHandler.domainOutwardHoldResult
 module.exports.researchMotorIdentity = autofireHandler.researchMotorIdentity;
 module.exports.researchMotorHoldResult = autofireHandler.researchMotorHoldResult;
 module.exports.schedulerGroup = schedulerGroup;
+module.exports.routedDomain = routedDomain;
+module.exports.selectionCandidate = selectionCandidate;
 module.exports.fairCandidateOrder = fairCandidateOrder;
 module.exports.SCHEDULER_TICK_MS = SCHEDULER_TICK_MS;
 module.exports.candidateIdentity = candidateIdentity;

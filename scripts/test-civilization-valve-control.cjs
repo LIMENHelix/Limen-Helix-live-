@@ -17,10 +17,13 @@ function store() {
 }
 
 (async function () {
-  assert.equal(Registry.LINES.length, 42, 'each external lane has its own line; all twenty domains have separate subscriber valves and Relay has a sovereign sourcing line');
+  assert.equal(Registry.LINES.length, 41, 'active external lanes exclude the separate Homestead catalog; all twenty domains retain subscriber valves and Relay has a sovereign sourcing line');
   assert.equal(new Set(Registry.LINES.map(x => x.id)).size, Registry.LINES.length, 'valve identities are unique');
   assert.equal(Registry.get('finance:subscriber-email').ownerDomain, 'finance');
   assert.equal(Registry.forCandidate({ recommendedLane: 'research', domain: 'science' }), 'science:research-papers');
+  assert.equal(Registry.forCandidate({ recommendedLane: 'research', domain: 'agriculture' }), 'science:research-papers');
+  assert.equal(Registry.forCandidate({ recommendedLane: 'investment', domain: 'agriculture' }), 'finance:broker-order');
+  assert.notEqual(Registry.forCandidate({ recommendedLane: 'research', domain: 'agriculture' }), 'agriculture:homestead');
   assert.equal(Registry.forCandidate({ recommendedLane: 'research', domain: 'medicine' }), 'medicine:research-papers');
   assert.equal(Registry.forCandidate({ recommendedLane: 'investment', domain: 'finance' }), 'finance:broker-order');
   assert.equal(Registry.forRoute('trade-auction-cycle'), 'trade:auction');
