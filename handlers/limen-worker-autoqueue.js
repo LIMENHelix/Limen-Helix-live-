@@ -82,6 +82,19 @@ function _retireMismatchedResearch(queue) {
   return null;
 }
 
+/* The producer and consumer share a versioned, timestamped contract. A
+ * future-dated or malformed receipt is not fresh evidence, even if its
+ * arithmetic happens to fall inside the one-hour window. */
+function _freshStressFeed(stressSlim, stressMeta, nowValue) {
+  var now = Number.isFinite(Number(nowValue)) ? Number(nowValue) : Date.now();
+  var generatedAtMs = Number(stressMeta && stressMeta.generatedAtMs);
+  return !!(stressSlim && stressSlim.schemaVersion === 'stress-slim/1.0' &&
+    stressSlim.byCik && typeof stressSlim.byCik === 'object' &&
+    stressMeta && stressMeta.schemaVersion === 'stress-slim/1.0' &&
+    Number.isFinite(generatedAtMs) && now >= generatedAtMs &&
+    now - generatedAtMs < 60 * 60 * 1000);
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
@@ -105,7 +118,7 @@ module.exports = async function handler(req, res) {
     var stressSlim = await db.get('stress_slim');
     var stressByCik = (stressSlim && stressSlim.byCik) || {};
     var stressMeta = await db.get('stress_meta');
-    var stressFresh = !!(stressMeta && (Date.now() - (stressMeta.generatedAtMs || 0) < 60 * 60 * 1000));
+    var stressFresh = _freshStressFeed(stressSlim, stressMeta, Date.now());
     var stressApplied = 0;
 
     var added = 0;
@@ -374,9 +387,11 @@ module.exports = async function handler(req, res) {
 module.exports._queueSeedCapacity = _queueSeedCapacity;
 module.exports._trimQueue = _trimQueue;
 module.exports._retireMismatchedResearch = _retireMismatchedResearch;
+module.exports._freshStressFeed = _freshStressFeed;
 
 var autoqueueHandler = module.exports;
 module.exports = require('../lib/heartbeat').wrap('limen-worker-autoqueue', autoqueueHandler);
 module.exports._queueSeedCapacity = autoqueueHandler._queueSeedCapacity;
 module.exports._trimQueue = autoqueueHandler._trimQueue;
 module.exports._retireMismatchedResearch = autoqueueHandler._retireMismatchedResearch;
+module.exports._freshStressFeed = autoqueueHandler._freshStressFeed;

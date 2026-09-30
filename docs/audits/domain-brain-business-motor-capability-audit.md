@@ -98,7 +98,7 @@ Agriculture is the deliberate exception: its brain should route investment and r
 - Opportunity-routing matrix and E2E routing: all domains pass; Agriculture investment → Finance, Agriculture research → Science/research, Homestead held/separate.
 - Repository check: passed.
 - Harness check: passed.
-- Full suite: `357 passed, 1 skipped, 0 failed`.
+- Full suite: `359 passed, 1 skipped, 0 failed`.
 - Live provider capability baseline: remains evidence-gated; no receipt or provider action is fabricated by this audit.
 
 ### Domain-by-domain implementation progress
@@ -145,11 +145,32 @@ reports `HELD` and never projects the Bluesky capability pair onto it.
 This closes the implementation gap in the four remaining business lanes without
 fabricating provider evidence or issuing a provider call from a capability route.
 
+### Spider-web propagation edge-to-edge repair
+
+The propagation system is a separate sovereign signal path, not a provider motor:
+
+`live portal corpus + Command Board → stress refresh → Redis stress_slim/stress_meta → autoqueue salience → autofire context packet`
+
+The audit found that refresh and autoqueue used the hot Redis map, while autofire
+still read only the bundled snapshot. A fresh signal could therefore affect queue
+salience and disappear or become stale at the downstream artifact edge. The repair
+now makes autofire read the same versioned Redis slim map, carries its producer
+timestamp into the context packet, and includes named source edges only when the
+bundled causal snapshot is time-aligned with the live metrics. Missing, malformed,
+future-dated or older-than-one-hour state is held rather than presented as current.
+
+The autoqueue consumer now applies the same versioned, non-future, one-hour
+freshness contract. The focused edge test is
+`scripts/test-spider-web-edge-to-edge.cjs`; it covers the live handoff, metric
+preservation, timestamp continuity, causal-source isolation and stale-state
+refusal without calling a provider.
+
 ## Remaining work
 
 The remaining work is real provider commissioning where an external receipt is
-actually desired, plus the spider-web propagation audit. That is provider- and
-environment-dependent work, not brain repair. The code now has a lane-specific
-promotion boundary for every currently implemented outward motor and keeps each
-lane held until its evidence is independently present.
+actually desired. That is provider- and environment-dependent work, not brain
+repair. The code now has a lane-specific promotion boundary for every currently
+implemented outward motor and keeps each lane held until its evidence is
+independently present. The spider-web signal is now continuous through the
+sovereign refresh, queue and autofire context path, with stale state held.
 

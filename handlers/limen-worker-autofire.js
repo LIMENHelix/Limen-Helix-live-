@@ -323,42 +323,74 @@ function _specializeScope(template, portal) {
 }
 
 // Full per-company network-stress node (with the named source counterparties)
-// from the bundled spider-web snapshot. This is the DEEP read — the slim Redis
-// map (for routing/UI) drops inducedSources; the artifact context wants the
-// causation, so it reads the full node here. Cached per cold start.
+// from the bundled spider-web snapshot. The live slim Redis map is the routing
+// authority; the bundle is used only for named source edges when its timestamp
+// is aligned with that live run. This prevents fresh queue salience from being
+// paired with stale artifact causation.
 var _STRESS_STATE = null;
-function _loadStressNode(slug) {
-  if (!slug) return null;
-  if (_STRESS_STATE === null) {
-    _STRESS_STATE = {};
-    var paths = [
-      path.join(__dirname, '..', 'assets', 'data', 'stress-network-state.json'),
-      '/var/task/assets/data/stress-network-state.json',
-      path.join(process.cwd(), 'assets', 'data', 'stress-network-state.json')
-    ];
-    for (var i = 0; i < paths.length; i++) {
-      try {
-        if (!fs.existsSync(paths[i])) continue;
-        var sn = JSON.parse(fs.readFileSync(paths[i], 'utf8'));
-        var arr = (sn && sn.propagated) || [];
-        for (var j = 0; j < arr.length; j++) { if (arr[j] && arr[j].slug) _STRESS_STATE[arr[j].slug] = arr[j]; }
-        break;
-      } catch (e) { /* try next path */ }
-    }
+function _loadStaticStress() {
+  if (_STRESS_STATE !== null) return _STRESS_STATE;
+  _STRESS_STATE = { generatedAtMs: null, bySlug: {} };
+  var paths = [
+    path.join(__dirname, '..', 'assets', 'data', 'stress-network-state.json'),
+    '/var/task/assets/data/stress-network-state.json',
+    path.join(process.cwd(), 'assets', 'data', 'stress-network-state.json')
+  ];
+  for (var i = 0; i < paths.length; i++) {
+    try {
+      if (!fs.existsSync(paths[i])) continue;
+      var sn = JSON.parse(fs.readFileSync(paths[i], 'utf8'));
+      var generatedAtMs = Date.parse(sn && sn.generatedAt);
+      var arr = (sn && sn.propagated) || [];
+      for (var j = 0; j < arr.length; j++) if (arr[j] && arr[j].slug) _STRESS_STATE.bySlug[arr[j].slug] = arr[j];
+      _STRESS_STATE.generatedAtMs = Number.isFinite(generatedAtMs) ? generatedAtMs : null;
+      break;
+    } catch (e) { /* try next path */ }
   }
-  var n = _STRESS_STATE[slug];
-  if (!n) return null;
-  var srcs = Array.isArray(n.inducedSources) ? n.inducedSources.slice(0, 6).map(function (s) {
-    return { source: s.sourceSlug, contribution: s.contribution, via: s.edgeCategory };
-  }) : [];
+  return _STRESS_STATE;
+}
+
+function _stressRow(row, asOf, source, topSources, fresh) {
+  if (!row || typeof row !== 'object') return null;
   return {
-    inducedStress: n.inducedStress, totalStress: n.totalStress,
-    amplificationRank: n.amplificationRank, isHub: !!n.isHub,
-    stressRatio: n.stressRatio, topSources: srcs
+    inducedStress: row.inducedStress == null ? row.induced : row.inducedStress,
+    totalStress: row.totalStress == null ? row.total : row.totalStress,
+    amplificationRank: row.amplificationRank == null ? row.rank : row.amplificationRank,
+    isHub: row.isHub === true || row.hub === true,
+    stressRatio: row.stressRatio == null ? null : row.stressRatio,
+    topSources: Array.isArray(topSources) ? topSources : [],
+    asOf: asOf || null,
+    source: source || 'unknown',
+    fresh: fresh === true
   };
 }
 
-function _buildContextPacket(portal, lane) {
+async function _loadStressNode(portal, nowValue) {
+  var slug = portal && portal.slug, cik = portal && String(portal.cik || '').replace(/^0+/, '');
+  if (!slug && !cik) return null;
+  var now = Number.isFinite(Number(nowValue)) ? Number(nowValue) : Date.now();
+  var slim = null, meta = null;
+  try { slim = await db.get('stress_slim'); meta = await db.get('stress_meta'); } catch (_) { /* bundled fallback */ }
+  var generatedAtMs = Number(meta && meta.generatedAtMs);
+  var fresh = slim && slim.schemaVersion === 'stress-slim/1.0' && slim.byCik && cik &&
+    Number.isFinite(generatedAtMs) && now >= generatedAtMs && now - generatedAtMs < 60 * 60 * 1000;
+  if (fresh && slim.byCik[cik]) {
+    var staticState = _loadStaticStress(), staticNode = staticState.bySlug[slug], aligned =
+      Number.isFinite(staticState.generatedAtMs) && Math.abs(staticState.generatedAtMs - generatedAtMs) <= 60 * 60 * 1000;
+    var sources = aligned && staticNode && Array.isArray(staticNode.inducedSources)
+      ? staticNode.inducedSources.slice(0, 6).map(function (s) { return { source: s.sourceSlug, contribution: s.contribution, via: s.edgeCategory }; }) : [];
+    return _stressRow(slim.byCik[cik], new Date(generatedAtMs).toISOString(), 'redis', sources, true);
+  }
+
+  var state = _loadStaticStress(), n = state.bySlug[slug];
+  if (!n || !Number.isFinite(state.generatedAtMs) || now < state.generatedAtMs || now - state.generatedAtMs >= 60 * 60 * 1000) return null;
+  var srcs = Array.isArray(n.inducedSources) ? n.inducedSources.slice(0, 6).map(function (s) {
+    return { source: s.sourceSlug, contribution: s.contribution, via: s.edgeCategory };
+  }) : [];
+  return _stressRow(n, new Date(state.generatedAtMs).toISOString(), 'bundled-snapshot', srcs, true);
+}
+
+async function _buildContextPacket(portal, lane, nowValue) {
   var template = SCOPE_TEMPLATES[lane] || SCOPE_TEMPLATES.research;
   var scope = _specializeScope(template, portal);
   var financialHealth = portal.financialHealth || {};
@@ -384,7 +416,7 @@ function _buildContextPacket(portal, lane) {
         latestQuarter: financialHealth.latestQuarter || '2026Q1',
         historyQuarters: 16
       },
-      networkStress: _loadStressNode(portal.slug)
+      networkStress: await _loadStressNode(portal, nowValue)
     }
   };
 }
@@ -421,7 +453,7 @@ async function _fireOne(entry) {
     if (!portal) {
       return Object.assign(resultIdentity(entry), { skipped: true, reason: 'portal-load-failed', lane: lane });
     }
-    packet = _buildContextPacket(portal, lane);
+    packet = await _buildContextPacket(portal, lane);
   }
   var subjectKey = candidateIdentity(entry);
   var sig = entry.sourcePatternSig || ('autofire-' + lane + '-' + subjectKey + '-' + Date.now());
@@ -1118,12 +1150,16 @@ module.exports = async function handler(req, res) {
 module.exports.domainOutwardHoldResult = domainOutwardHoldResult;
 module.exports.researchMotorIdentity = researchMotorIdentity;
 module.exports.researchMotorHoldResult = researchMotorHoldResult;
+module.exports._loadStressNode = _loadStressNode;
+module.exports._buildContextPacket = _buildContextPacket;
 
 var autofireHandler = module.exports;
 module.exports = require('../lib/heartbeat').wrap('limen-worker-autofire', autofireHandler);
 module.exports.domainOutwardHoldResult = autofireHandler.domainOutwardHoldResult;
 module.exports.researchMotorIdentity = autofireHandler.researchMotorIdentity;
 module.exports.researchMotorHoldResult = autofireHandler.researchMotorHoldResult;
+module.exports._loadStressNode = autofireHandler._loadStressNode;
+module.exports._buildContextPacket = autofireHandler._buildContextPacket;
 module.exports.schedulerGroup = schedulerGroup;
 module.exports.routedDomain = routedDomain;
 module.exports.selectionCandidate = selectionCandidate;
