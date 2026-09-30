@@ -199,6 +199,7 @@ const HANDLERS = {
   'hero-image': require('../handlers/hero-image'),
   'culture-hero-decision-status': require('../handlers/culture-hero-decision-status'),
   'culture-hero-outcome-observer': require('../handlers/culture-hero-outcome-observer'),
+  'culture-hero-capability': require('../handlers/culture-hero-capability'),
   'culture-hero-recovery': require('../handlers/culture-hero-recovery'),
   'harness': require('../handlers/harness'),
   'finance-tools': require('../handlers/finance-tools'),
