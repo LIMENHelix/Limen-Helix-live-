@@ -130,6 +130,16 @@ async function readFinancePaperAdmissions() {
 
 function buildSandbox(snap, BASE, domainLearning){
   var noop = function(){};
+  // The hosted VM is intentionally denied general network access. Agriculture's
+  // sovereign diagnosis path nevertheless needs the same shipped, read-only
+  // portal artifacts that the browser brain reads before it can derive diagnoses.
+  // Keep this explicit and narrow: no API routes, query-controlled paths, or
+  // arbitrary remote fetches are exposed to brain code.
+  var STATIC_BRAIN_ASSETS = {
+    '/assets/data/domains/p2_agri.json': true,
+    '/assets/data/deep/p2_agri-diagnosis-digest.json': true,
+    '/assets/data/deep/p2_agri-fold.json': true
+  };
   var sb = {};
   sb.window = sb; sb.globalThis = sb; sb.self = sb;
   sb.console = { log: noop, warn: noop, error: noop, info: noop };
@@ -167,6 +177,18 @@ function buildSandbox(snap, BASE, domainLearning){
         var body = JSON.parse(JSON.stringify(Object.assign({ ok: true }, value)));
         return Promise.resolve({ ok:true, status:200, json:function(){ return Promise.resolve(body); }, text:function(){ return Promise.resolve(JSON.stringify(body)); } });
       }
+    }
+    if (target && STATIC_BRAIN_ASSETS[target.pathname]) {
+      return fetch(BASE + target.pathname).then(function (response) {
+        return {
+          ok: !!response.ok,
+          status: response.status,
+          json: function () { return response.json(); },
+          text: function () { return response.text(); }
+        };
+      }).catch(function () {
+        return { ok:false, status:502, json:function(){ return Promise.resolve({}); }, text:function(){ return Promise.resolve(''); } };
+      });
     }
     return Promise.resolve({ ok:false, status:404, json:function(){ return Promise.resolve({}); }, text:function(){ return Promise.resolve(''); } });
   };
