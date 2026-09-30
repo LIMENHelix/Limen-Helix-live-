@@ -91,6 +91,7 @@ const HANDLERS = {
   'communication-video-cycle': require('../handlers/communication-video-cycle'),
   'communication-video-work': require('../handlers/communication-video-work'),
   'communication-video-upload-work': require('../handlers/communication-video-upload-work'),
+  'communication-video-capability': require('../handlers/communication-video-capability'),
   'domain-commercial-status': require('../handlers/domain-commercial-status'),
   'domain-subscriber-fulfillment': require('../handlers/domain-subscriber-fulfillment'),
   'domain-subscriber-outcome-observer': require('../handlers/domain-subscriber-outcome-observer'),
@@ -197,6 +198,7 @@ const HANDLERS = {
   'medicine-subscriber-recovery': require('../handlers/medicine-subscriber-recovery'),
   'law-automail-decision-status': require('../handlers/law-automail-decision-status'),
   'law-automail-outcome-observer': require('../handlers/law-automail-outcome-observer'),
+  'law-automail-capability': require('../handlers/law-automail-capability'),
   'law-automail-recovery': require('../handlers/law-automail-recovery'),
   'intelligence-autopilot-decision-status': require('../handlers/intelligence-autopilot-decision-status'),
   'intelligence-autopilot-outcome-observer': require('../handlers/intelligence-autopilot-outcome-observer'),
@@ -274,10 +276,12 @@ const HANDLERS = {
   'governance-publication-recovery': require('../handlers/governance-publication-recovery'),
   'governance-publication-status': require('../handlers/governance-publication-status'),
   'infrastructure-real-estate-cycle': require('../handlers/infrastructure-real-estate-cycle'),
+  'infrastructure-real-estate-capability': require('../handlers/infrastructure-real-estate-capability'),
   // 'infrastructure-real-estate-inbound': require('../handlers/infrastructure-real-estate-inbound'), // disabled: missing svix dependency
   'infrastructure-real-estate-recovery': require('../handlers/infrastructure-real-estate-recovery'),
   'infrastructure-real-estate-status': require('../handlers/infrastructure-real-estate-status'),
   'population-real-estate-cycle': require('../handlers/population-real-estate-cycle'),
+  'population-real-estate-capability': require('../handlers/population-real-estate-capability'),
   // 'population-real-estate-inbound': require('../handlers/population-real-estate-inbound'), // disabled: missing svix dependency
   'population-real-estate-recovery': require('../handlers/population-real-estate-recovery'),
   'population-real-estate-status': require('../handlers/population-real-estate-status'),

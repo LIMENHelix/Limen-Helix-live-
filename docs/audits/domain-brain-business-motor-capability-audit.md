@@ -122,7 +122,34 @@ The research-owned group is also wired for Science, Medicine, Education and Envi
 
 The research verifier is held without that complete historical chain. Its positive test uses only durable fixture records and independent readback; it does not generate, publish, evaluate or withdraw an artifact.
 
+The remaining business lanes are now wired to the same promotion boundary:
+
+- Law automail: `/api/law-automail-capability`
+- Infrastructure real estate: `/api/infrastructure-real-estate-capability`
+- Population real estate: `/api/population-real-estate-capability`
+- Communication video: `/api/communication-video-capability`
+
+Law and the two real-estate verifiers inspect their existing domain command,
+provider receipt, independently recorded outcome and returned learning state.
+They promote only an explicit owned-destination commissioning proof on the exact
+command: consent, permanent one-shot slot, suppressed business-state transition,
+future suppression recovery and zero-money boundary. Ordinary Lob or Resend
+business activity is therefore visible but remains held; an accepted message is
+not mistaken for reversible commissioning evidence.
+
+Communication video is intentionally separate from Communication social. A
+private YouTube platform receipt proves only that the private upload was accepted.
+Until an independent public outcome observer exists, the video capability route
+reports `HELD` and never projects the Bluesky capability pair onto it.
+
+This closes the implementation gap in the four remaining business lanes without
+fabricating provider evidence or issuing a provider call from a capability route.
+
 ## Remaining work
 
-The remaining work is business-motor commissioning, not brain repair. Each outward lane needs its own provider-owned executor receipt, independent observer receipt and recovery evidence before its capability lease can be enabled. The central validator and fail-closed authorization are already shared; the provider adapter, commissioning effect and independent observation must remain lane-specific.
+The remaining work is real provider commissioning where an external receipt is
+actually desired, plus the spider-web propagation audit. That is provider- and
+environment-dependent work, not brain repair. The code now has a lane-specific
+promotion boundary for every currently implemented outward motor and keeps each
+lane held until its evidence is independently present.
 
