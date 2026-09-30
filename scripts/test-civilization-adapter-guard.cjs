@@ -31,6 +31,7 @@ const bindings = [
   { file: 'lib/defense-publication-capability-verifier.js', guard: '(deps.adapterGuard || AdapterGuard).checkpoint', effect: '.publish(store, state.candidate', valves: ['defense:publication'] },
   { file: 'lib/finance-subscriber-executor.js', effect: 'transport.send', valves: ['finance:subscriber-email'] },
   { file: 'lib/governance-publication-executor.js', effect: '.publish(store, candidate', valves: ['governance:publication'] },
+  { file: 'lib/governance-publication-capability-verifier.js', guard: '(deps.adapterGuard || AdapterGuard).checkpoint', effect: '.publish(store, state.candidate', valves: ['governance:publication'] },
   { file: 'lib/industry-crm-executor.js', effect: 'i.provider.create', valves: ['industry:crm'] },
   { file: 'lib/infrastructure-real-estate-executor.js', effect: 'input.transport.send', valves: ['infrastructure:real-estate'] },
   { file: 'lib/intelligence-autopilot-executor.js', effect: 'input.transport.send', valves: ['intelligence:autopilot'] },

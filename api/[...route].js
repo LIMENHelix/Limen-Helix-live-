@@ -258,6 +258,7 @@ const HANDLERS = {
   'defense-publication-recovery': require('../handlers/defense-publication-recovery'),
   'defense-publication-status': require('../handlers/defense-publication-status'),
   'governance-publication-cycle': require('../handlers/governance-publication-cycle'),
+  'governance-publication-capability': require('../handlers/governance-publication-capability'),
   'governance-publication-public': require('../handlers/governance-publication-public'),
   'governance-publication-engagement': require('../handlers/governance-publication-engagement'),
   'governance-publication-outcome-observer': require('../handlers/governance-publication-outcome-observer'),
