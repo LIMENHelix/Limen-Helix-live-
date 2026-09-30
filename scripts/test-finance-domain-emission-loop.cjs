@@ -122,7 +122,7 @@ function fakeLearningStore() {
     b14: { createPreview: async () => { throw new Error('B14 must not be called'); } }
   });
   assert.equal(quarantined.status, 'HELD');
-  assert.equal(quarantined.reason, 'energy-investment-authority-moved-to-finance-domain');
+  assert.equal(quarantined.reason, 'energy-investment-exact-b10-decision-required');
   assert.equal(quarantined.brokerCalls, 0);
   assert.equal(quarantined.orderSubmissionCalls, 0);
 

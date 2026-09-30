@@ -15,8 +15,6 @@ function createHandler(deps) {
       for (var i = 0; i < commands.length; i++) {
         var owned = commands[i]; if (!owned || owned.status !== 'COMMAND_RECEIPTED' || !owned.brokerCommandId) continue; inspected++;
         try {
-          abstentions.push({ commandId: owned.commandId, reason: 'energy-investment-outcome-observer-quarantined-finance-owns-investment' });
-          continue;
           var command = await b14.reconcile(store, broker, owned.brokerCommandId, Date.now());
           if (!command.intent || command.intent.ownerDomain !== 'energy') { abstentions.push({ commandId: owned.commandId, reason: 'energy-command-owner-mismatch' }); continue; }
           var account = await broker.accountSnapshot(), benchmark = await broker.quote(command.intent.benchmarkSymbol), position = await broker.quote(command.intent.symbol);

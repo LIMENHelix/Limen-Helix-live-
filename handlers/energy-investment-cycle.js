@@ -1,7 +1,8 @@
 'use strict';
 
 var Cron = require('../lib/cron-auth.js'), Admin = require('../lib/admin-gate.js'), Store = require('../lib/autofire-efference-store.js');
-var Decision = require('../lib/energy-investment-decision.js');
+var Db = require('../lib/limen-db.js'), Redis = require('../lib/redis-kv.js'), Decision = require('../lib/energy-investment-decision.js');
+var Executor = require('../lib/energy-investment-executor.js'), Broker = require('../lib/tradier-sandbox.js');
 var WORKLIST = 'energy_investment_worklist', TASK_PREFIX = 'energy_investment_task:';
 function json(res, code, body) { res.statusCode = code; res.setHeader('content-type', 'application/json'); res.setHeader('cache-control', 'no-store'); res.end(JSON.stringify(body)); }
 function taskKey(id) { return TASK_PREFIX + id; }
@@ -27,20 +28,29 @@ function createHandler(deps) {
     if (!auth.enforce(req, res)) return;
     if ((deps.enabled != null ? deps.enabled : env.ENERGY_INVESTMENT_PAPER_ENABLED === '1') !== true) return json(res, 200, { ok: true, status: 'HELD', reason: 'energy-investment-paper-switch-disabled', inspected: 0, accepted: 0, brokerCalls: 0, paperOnly: true, liveMoney: false });
     try {
-      /* Compatibility quarantine: this route preserves old Energy investment
-       * requests for later review but cannot make a decision, claim Energy's
-       * motor, call Finance as an execution adapter, or touch Tradier. Finance
-       * now receives source-domain opportunities through civilization packets
-       * and independently owns the investment loop. */
-      store.assertDurable(); var refs = await store.lrange(WORKLIST, 0, 24), results = [];
+      store.assertDurable(); var now = Date.now(), refs = await store.lrange(WORKLIST, 0, 24), results = [], accepted = 0;
+      var titleSets = await (deps.readTitleSets || Db.lrangeStrict)('feedtitles:energy', 0, 12);
+      var cognition = deps.cognition || await (deps.redisGet || Redis.redisGet)('limen:brain:cognition:energy');
       for (var i = 0; i < refs.length; i++) {
         var task = await store.get(taskKey(refs[i].taskId)); if (!task || task.status === 'COMPLETED') continue;
-        results.push({ taskId: task.taskId, status: 'QUARANTINED', reason: 'energy-investment-authority-moved-to-finance-domain',
-          sourceDomain: 'energy', destination: 'finance-domain-intake', candidatePreserved: true,
-          orderSubmissionCalls: 0, brokerCalls: 0, paperOnly: true, liveMoney: false });
+        var decision = await (deps.decision || Decision).decide(store, task.candidate, now, { cognition: cognition, titleSets: titleSets,
+          maxNotionalUsd: deps.maxNotionalUsd != null ? deps.maxNotionalUsd : number(env, 'ENERGY_INVESTMENT_MAX_NOTIONAL_USD') });
+        if (decision.status !== 'RELEASED') { results.push({ taskId: task.taskId, status: decision.status, reason: decision.reason, blockers: decision.blockers || [] }); continue; }
+        var result = await (deps.executor || Executor).execute({ store: store, candidate: task.candidate, decision: decision, broker: deps.broker || Broker,
+          env: env, now: Date.now(), motorAuthorization: deps.motorAuthorization, developmentalAuthorization: deps.developmentalAuthorization, b14: deps.b14,
+          maxNotionalUsd: deps.maxNotionalUsd != null ? deps.maxNotionalUsd : number(env, 'ENERGY_INVESTMENT_MAX_NOTIONAL_USD'),
+          dailyNotionalBudgetUsd: deps.dailyNotionalBudgetUsd != null ? deps.dailyNotionalBudgetUsd : number(env, 'ENERGY_INVESTMENT_DAILY_NOTIONAL_USD'),
+          dailyOrderCap: deps.dailyOrderCap != null ? deps.dailyOrderCap : number(env, 'ENERGY_INVESTMENT_DAILY_ORDER_CAP') });
+        accepted += result.accepted || 0;
+        results.push({ taskId: task.taskId, actionId: result.actionId || decision.actionId, commandId: result.commandId || null,
+          brokerCommandId: result.brokerCommandId || null, brokerOrderId: result.brokerOrderId || null, status: result.status, reason: result.reason || null });
+        if (result.status === 'COMMAND_RECEIPTED') {
+          task.status = 'COMPLETED'; task.commandId = result.commandId; task.completedAt = Date.now(); await store.set(taskKey(task.taskId), task);
+          var rb = await store.get(taskKey(task.taskId)); if (!rb || rb.status !== 'COMPLETED') throw new Error('energy investment task completion readback invalid');
+        }
       }
-      return json(res, 200, { ok: true, schemaVersion: 'energy-investment-cycle/1.1', inspected: refs.length, accepted: 0, quarantined: results.length,
-        results: results, executionMode: 'quarantine-only', brokerCalls: 0, orderSubmissionCalls: 0, paperOnly: true, liveMoney: false });
+      return json(res, 200, { ok: true, schemaVersion: 'energy-investment-cycle/1.2', inspected: refs.length, accepted: accepted,
+        results: results, executionMode: 'paper', brokerCalls: 0, orderSubmissionCalls: 0, paperOnly: true, liveMoney: false });
     } catch (error) { return json(res, 503, { ok: false, error: 'energy-investment-cycle-unavailable', detail: String(error && error.message || error), executionMode: 'paper', liveMoney: false }); }
   };
 }

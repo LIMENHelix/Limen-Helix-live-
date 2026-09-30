@@ -4,13 +4,15 @@ var assert = require('node:assert/strict');
 var Decision = require('../lib/energy-investment-decision.js');
 var Executor = require('../lib/energy-investment-executor.js');
 var Recovery = require('../lib/energy-investment-recovery.js');
+var Cycle = require('../handlers/energy-investment-cycle.js');
 var StrictStore = require('../lib/autofire-efference-store.js');
 
 function memory() { var values = new Map(), lists = new Map(); return { assertDurable: function () {},
   get: async function (k) { return values.get(k) || null; }, set: async function (k, v) { values.set(k, JSON.parse(JSON.stringify(v))); return true; },
   setIfAbsent: async function (k, v) { if (values.has(k)) return false; values.set(k, JSON.parse(JSON.stringify(v))); return true; },
   lpush: async function (k, v) { var a = lists.get(k) || []; a.unshift(JSON.parse(JSON.stringify(v))); lists.set(k, a); return a.length; },
-  ltrim: async function () {}, lrange: async function () { return []; } }; }
+  ltrim: async function (k, s, e) { lists.set(k, (lists.get(k) || []).slice(s, e + 1)); },
+  lrange: async function (k, s, e) { return JSON.parse(JSON.stringify((lists.get(k) || []).slice(s, e < 0 ? undefined : e + 1))); } }; }
 function cognition(now, immune) { return { ts: now, c: { domain: 'energy', immune: immune || { immuneState: 'clear' }, awareness: { humanReviewRequired: false },
   brainOrgans: { autonomousInternalEmission: { holdReason: null, emittedCount: 1 }, resourceMetabolism: { state: 'AVAILABLE', gates: { mayRunInternalCycle: true } } },
   serverPacket: { schemaVersion: 'civilization-domain-packet/1.0', domainId: 'energy', packetId: 'energy-packet-1', generatedAt: new Date(now).toISOString(),
@@ -30,12 +32,25 @@ function cognition(now, immune) { return { ts: now, c: { domain: 'energy', immun
   assert.equal(decision.status, 'RELEASED');
   assert.equal(decision.returnedOutcome.status, 'UNOBSERVED');
 
+  await store.set(Cycle.taskKey(candidate.requestId), { schemaVersion: 'energy-investment-task/1.0', taskId: candidate.requestId, candidate: candidate, status: 'QUEUED' });
+  await store.lpush(Cycle.WORKLIST, { taskId: candidate.requestId });
+  var cycleResponse = await new Promise(function (resolve) {
+    var response = { statusCode: 0, setHeader: function () {}, end: function (value) { resolve({ status: this.statusCode, body: JSON.parse(value) }); } };
+    Cycle.createHandler({ store: store, enabled: true, cronAuth: { enforce: function () { return true; } }, cognition: cognition(now),
+      readTitleSets: async function () { return titleSets; }, decision: { decide: async function () { return decision; } },
+      executor: { execute: async function () { return { status: 'COMMAND_RECEIPTED', accepted: 1, commandId: 'energy-command-1' }; } } })
+      ({ method: 'GET', headers: {} }, response);
+  });
+  assert.equal(cycleResponse.status, 200); assert.equal(cycleResponse.body.accepted, 1);
+  assert.equal(cycleResponse.body.results[0].status, 'COMMAND_RECEIPTED');
+  assert.equal((await store.get(Cycle.taskKey(candidate.requestId))).status, 'COMPLETED');
+
   var calls = 0;
   var result = await Executor.execute({ store: store, candidate: candidate, decision: decision,
     broker: { quote: async function () { calls++; } }, b14: { createPreview: async function () { calls++; } }, now: now + 1 });
   assert.equal(result.status, 'HELD');
-  assert.equal(result.reason, 'energy-investment-authority-moved-to-finance-domain');
-  assert.equal(result.ownerDomain, 'finance');
+  assert.equal(result.reason, 'energy-investment-paper-order-switch-off');
+  assert.equal(result.ownerDomain, 'energy');
   assert.equal(result.brokerCalls, 0);
   assert.equal(result.orderSubmissionCalls, 0);
   assert.equal(calls, 0);
@@ -43,10 +58,10 @@ function cognition(now, immune) { return { ts: now, c: { domain: 'energy', immun
   var recovered = await Recovery.recover({ store: store, command: { schemaVersion: Executor.SCHEMA, status: 'COMMAND_RECEIPTED', brokerCommandId: 'legacy-command' },
     trigger: { type: 'energy-investment-kill', id: 'kill-1' }, env: { ENERGY_INVESTMENT_RECOVERY_ENABLED: '1' }, now: now + 2 });
   assert.equal(recovered.status, 'HELD');
-  assert.equal(recovered.reason, 'energy-investment-recovery-owned-by-finance-only');
+  assert.equal(recovered.reason, 'energy-investment-developmental-switch-off');
 
   var held = await Decision.decide(store, candidate, now, { cognition: cognition(now), titleSets: titleSets.slice(0, 1), maxNotionalUsd: 150 });
   assert.equal(held.status, 'NO_ACTION');
   assert(held.blockers.includes('energy-exact-current-feed-evidence-not-confirmed'));
-  console.log('energy investment loop: source-gated decision, Energy motor quarantine, and Finance ownership boundary passed');
+  console.log('energy investment loop: source-gated decision, Energy-owned paper motor boundary, and recovery passed');
 })().catch(function (error) { console.error(error.stack || error); process.exit(1); });
