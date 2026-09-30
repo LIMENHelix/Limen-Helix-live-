@@ -1789,7 +1789,10 @@
   // H1 — formal immune system
   EnergyBrain.prototype._computeEnergyImmune = function () {
     var s = this.state, em = s.energyModel || {}, reg = em.regulation || {}, bs = this._energyBundleStates();
-    var ant = [{ type: 'synthetic-portal-contamination', severity: 'medium', action: 'quarantine', note: 'L2 ~98% synthetic (C1)' }];
+    // Match the other sovereign brains: start with no antigen and add only
+    // conditions observed in the current Energy state. L2 remains quarantined
+    // as content policy, but it must not become a permanent Energy-wide veto.
+    var ant = [];
     bs.forEach(function (b) {
       if (b.bundleStatus === 'missing') ant.push({ type: 'source-bundle-missing', dx: b.dxId, severity: 'medium', action: 'block-from-prompt-evidence' });
       if (b.buildMethod === 'external-source-authored') ant.push({ type: 'external-source-authored-needs-human-verification', dx: b.dxId, severity: 'low', action: 'allow-with-warning' });
