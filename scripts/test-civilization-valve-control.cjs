@@ -24,7 +24,7 @@ function store() {
   assert.equal(Registry.forCandidate({ recommendedLane: 'research', domain: 'agriculture' }), 'science:research-papers');
   assert.equal(Registry.forCandidate({ recommendedLane: 'investment', domain: 'agriculture' }), 'finance:broker-order');
   assert.notEqual(Registry.forCandidate({ recommendedLane: 'research', domain: 'agriculture' }), 'agriculture:homestead');
-  assert.equal(Registry.forCandidate({ recommendedLane: 'research', domain: 'medicine' }), 'medicine:research-papers');
+  assert.equal(Registry.forCandidate({ recommendedLane: 'research', domain: 'medicine' }), 'science:research-papers');
   assert.equal(Registry.forCandidate({ recommendedLane: 'investment', domain: 'finance' }), 'finance:broker-order');
   assert.equal(Registry.forRoute('trade-auction-cycle'), 'trade:auction');
   assert.equal(Registry.forRoute('finance-position-owner'), 'finance:broker-order');

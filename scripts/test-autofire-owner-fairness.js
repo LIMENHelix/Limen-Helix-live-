@@ -19,15 +19,15 @@ var candidates = [
   row('education-b', 'research', 'education'),
   row('environment-a', 'research', 'environment'),
   row('environment-b', 'research', 'environment'),
-  row('unowned-a', 'research', 'culture')
+  row('unowned-a', 'research', 'homestead')
 ];
 var tick = worker.SCHEDULER_TICK_MS;
 
 assert.equal(worker.schedulerGroup(candidates[0]), 'investment:finance');
 assert.equal(worker.schedulerGroup(candidates[2]), 'research:science');
-assert.equal(worker.schedulerGroup(candidates[4]), 'research:medicine');
-assert.equal(worker.schedulerGroup(candidates[6]), 'research:education');
-assert.equal(worker.schedulerGroup(candidates[8]), 'research:environment');
+assert.equal(worker.schedulerGroup(candidates[4]), 'research:science');
+assert.equal(worker.schedulerGroup(candidates[6]), 'research:science');
+assert.equal(worker.schedulerGroup(candidates[8]), 'research:science');
 assert.equal(worker.schedulerGroup(candidates[10]), 'unowned');
 
 var at0 = worker.fairCandidateOrder(candidates, 0);
@@ -43,14 +43,14 @@ var at9 = worker.fairCandidateOrder(candidates, tick * 9);
 
 assert.equal(at0[0].id, 'finance-a');
 assert.equal(at1[0].id, 'science-a');
-assert.equal(at2[0].id, 'medicine-a');
-assert.equal(at3[0].id, 'education-a');
-assert.equal(at4[0].id, 'environment-a');
-assert.equal(at5[0].id, 'finance-b');
-assert.equal(at6[0].id, 'science-b');
+assert.equal(at2[0].id, 'finance-b');
+assert.equal(at3[0].id, 'science-b');
+assert.equal(at4[0].id, 'finance-a');
+assert.equal(at5[0].id, 'medicine-a');
+assert.equal(at6[0].id, 'finance-b');
 assert.equal(at7[0].id, 'medicine-b');
-assert.equal(at8[0].id, 'education-b');
-assert.equal(at9[0].id, 'environment-b');
+assert.equal(at8[0].id, 'finance-a');
+assert.equal(at9[0].id, 'education-a');
 assert.equal(at0[at0.length - 1].id, 'unowned-a');
 assert.deepEqual(
   worker.fairCandidateOrder(candidates, tick * 4).map(function (r) { return r.id; }),
@@ -78,6 +78,6 @@ assert.ok(!worker.isEligibleCandidate(Object.assign({}, domainResearch, {
 }), Date.now()), 'stale domain research cannot enter the paid worker');
 
 var withoutScience = candidates.filter(function (r) { return worker.schedulerGroup(r) !== 'research:science'; });
-assert.equal(worker.fairCandidateOrder(withoutScience, tick)[0].id, 'medicine-a');
+assert.equal(worker.fairCandidateOrder(withoutScience, tick)[0].id, 'finance-a');
 
-console.log('autofire owner fairness: Finance, Science, Medicine, Education, and Environment rotate deterministically without dropping candidates');
+console.log('autofire owner fairness: Finance and Science/research rotate deterministically without dropping candidates');

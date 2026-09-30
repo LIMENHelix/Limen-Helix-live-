@@ -44,8 +44,22 @@ var DOMAIN_ALIASES = {
   health: 'health',
   education: 'education',
   environment: 'environment',
-  finance: 'finance'
+  finance: 'finance',
+  supplychain: 'trade'
 };
+
+/* An opportunity is not the same thing as a product-domain motor. Every
+ * product brain may surface an investment or research opportunity, but the
+ * opportunity has one accountable destination: Finance for investment and
+ * the Science/research lane for research. Keep the source-domain allowlist
+ * explicit so an arbitrary or Homestead-shaped record cannot acquire a motor
+ * merely by declaring `recommendedLane: research`. */
+var OPPORTUNITY_SOURCE_DOMAINS = new Set([
+  'agriculture', 'communication', 'culture', 'defense', 'economy',
+  'education', 'energy', 'environment', 'finance', 'governance',
+  'health', 'industry', 'infrastructure', 'intelligence', 'law',
+  'population', 'religion', 'research', 'technology', 'trade'
+]);
 
 function canonicalDomain(value) {
   return DOMAIN_ALIASES[String(value || '').toLowerCase()] || String(value || '').toLowerCase();
@@ -56,6 +70,18 @@ function ownerFor(lane, subjectDomain) {
   if (lane !== 'research') return null;
   var d = canonicalDomain(subjectDomain);
   return d === 'research' || d === 'health' || d === 'education' || d === 'environment' ? d : null;
+}
+
+function opportunityOwnerFor(lane, sourceDomain) {
+  var d = canonicalDomain(sourceDomain);
+  if (!OPPORTUNITY_SOURCE_DOMAINS.has(d)) return null;
+  if (lane === 'investment') return 'finance';
+  if (lane === 'research') return 'research';
+  return null;
+}
+
+function opportunityDomain(lane, sourceDomain) {
+  return opportunityOwnerFor(lane, sourceDomain) ? 'research' : null;
 }
 
 function sourceIdentity(candidate) {
@@ -244,6 +270,8 @@ module.exports = {
   LANE_POLICY: LANE_POLICY,
   canonicalDomain: canonicalDomain,
   ownerFor: ownerFor,
+  opportunityOwnerFor: opportunityOwnerFor,
+  opportunityDomain: opportunityDomain,
   sourceIdentity: sourceIdentity,
   select: select
 };

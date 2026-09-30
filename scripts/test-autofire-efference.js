@@ -407,14 +407,14 @@ async function handlerProof() {
       response.json.efferenceSweep.retired === 1 &&
       fakeEfferenceStore.values.get(EFFERENCE.recordKey(stale.copy.id)).status === 'UNRESOLVED');
     ok('actual handler completes one bounded research fire', response.code === 200 && response.json.fired === 1 && response.json.errors === 0, response.body);
-    ok('Medicine product motor authorizes the Health-owned research call before dispatch',
-      productMotorCalls.length === 1 && productMotorCalls[0].productDomain === 'medicine' && productMotorCalls[0].lane === 'research-papers');
+    ok('Medicine-origin research opportunity authorizes the Science/research motor before dispatch',
+      productMotorCalls.length === 1 && productMotorCalls[0].productDomain === 'science' && productMotorCalls[0].lane === 'research-papers');
     ok('actual handler made exactly expand then persist calls', network.length === 2 && /expand-artifact/.test(network[0].url) && /limen-engine-output/.test(network[1].url));
     ok('persisted artifact carries the same command identity', network[1].body.payload.autofire.efferenceCopyId === response.json.results[0].efferenceCopyId);
-    ok('artifact and result retain the exact product motor receipt',
-      network[1].body.payload.autofire.productDomain === 'medicine' &&
-      network[1].body.payload.autofire.productMotorReceiptId === 'pdmr_medicine' &&
-      response.json.results[0].productMotorReceiptId === 'pdmr_medicine');
+    ok('artifact and result retain the exact Science/research motor receipt',
+      network[1].body.payload.autofire.productDomain === 'science' &&
+      network[1].body.payload.autofire.productMotorReceiptId === 'pdmr_science' &&
+      response.json.results[0].productMotorReceiptId === 'pdmr_science');
     const effKey = EFFERENCE.recordKey(response.json.results[0].efferenceCopyId);
     const eff = fakeEfferenceStore.values.get(effKey);
     ok('actual handler closes the copy from the persistence receipt', eff.status === 'EXECUTED' && eff.receipt.outputId === 'eo_research_apple_1');

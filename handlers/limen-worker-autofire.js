@@ -76,18 +76,23 @@ var COST_PER_CALL_USD = { investment: 0.40, research: 0.30 };
 var RETRY_BACKOFF_MS = 6 * 60 * 60 * 1000;
 var MAX_ATTEMPTS_PER_ENTRY = 3;
 var SCHEDULER_TICK_MS = 30 * 60 * 1000;
-var SCHEDULER_GROUPS = ['investment:finance', 'research:science', 'research:medicine', 'research:education', 'research:environment'];
+var SCHEDULER_GROUPS = ['investment:finance', 'research:science'];
 
-// Agriculture may produce a research candidate, but it does not own the
-// research motor. Keep the originating domain on the candidate; normalize only
-// the owner lookup/selection view so the candidate reaches Science/research.
+// Every product domain may surface an opportunity, but research is owned by
+// the Science/research lane. Keep the originating domain on the candidate;
+// normalize only the owner lookup/selection view so no product domain is
+// mistaken for a second research motor. Homestead is intentionally absent
+// from the opportunity allowlist and remains an independent catalog.
 function routedDomain(entry) {
-  return entry && entry.recommendedLane === 'research' && entry.domain === 'agriculture'
-    ? 'research' : entry && entry.domain;
+  if (!entry) return null;
+  return entry.recommendedLane === 'research'
+    ? (autofireLearning.opportunityDomain(entry.recommendedLane, entry.domain) || entry.domain)
+    : entry.domain;
 }
 function selectionCandidate(entry) {
-  if (routedDomain(entry) === entry.domain) return entry;
-  return Object.assign({}, entry, { domain: 'research', originDomain: 'agriculture' });
+  var routed = routedDomain(entry);
+  if (routed === entry.domain) return entry;
+  return Object.assign({}, entry, { domain: routed, originDomain: entry.domain });
 }
 
 /*
@@ -99,12 +104,11 @@ function selectionCandidate(entry) {
  * requires no shared scheduler state or new write authority.
  */
 function schedulerGroup(entry) {
-  var owner = autofireLearning.ownerFor(entry && entry.recommendedLane, routedDomain(entry));
+  var owner = entry && entry.recommendedLane === 'investment'
+    ? autofireLearning.opportunityOwnerFor(entry.recommendedLane, entry.domain)
+    : autofireLearning.ownerFor(entry && entry.recommendedLane, routedDomain(entry));
   if (entry && entry.recommendedLane === 'investment' && owner === 'finance') return 'investment:finance';
   if (entry && entry.recommendedLane === 'research' && owner === 'research') return 'research:science';
-  if (entry && entry.recommendedLane === 'research' && owner === 'health') return 'research:medicine';
-  if (entry && entry.recommendedLane === 'research' && owner === 'education') return 'research:education';
-  if (entry && entry.recommendedLane === 'research' && owner === 'environment') return 'research:environment';
   return 'unowned';
 }
 
@@ -387,6 +391,12 @@ function _buildContextPacket(portal, lane) {
 
 async function _fireOne(entry) {
   var lane = entry.recommendedLane;
+  if (schedulerGroup(entry) === 'unowned') {
+    return Object.assign(resultIdentity(entry), {
+      skipped: true, ok: false, billableAttempt: false, lane: lane,
+      reason: 'opportunity-owner-unregistered', motorStatus: 'NOT_SELECTED'
+    });
+  }
   var isDomainResearch = lane === 'research' && entry.source === 'domain-packet-research';
   var slug = null;
   var portal = null;
