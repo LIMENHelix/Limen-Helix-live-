@@ -251,6 +251,7 @@ const HANDLERS = {
   'industry-crm-status': require('../handlers/industry-crm-status'),
   'industry-crm-recovery': require('../handlers/industry-crm-recovery'),
   'defense-publication-cycle': require('../handlers/defense-publication-cycle'),
+  'defense-publication-capability': require('../handlers/defense-publication-capability'),
   'defense-publication-public': require('../handlers/defense-publication-public'),
   'defense-publication-engagement': require('../handlers/defense-publication-engagement'),
   'defense-publication-outcome-observer': require('../handlers/defense-publication-outcome-observer'),
