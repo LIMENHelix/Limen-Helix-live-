@@ -51,6 +51,7 @@ async function invoke(handler, headers) { const response = res(); await handler(
     assert.equal(good.json.recovery.withdrawn, 1);
     assert.equal(recovered.length, 1);
     assert.equal(recorded[0].eventType, 'OUTCOME_RESEARCH_EVALUATED');
+    assert.equal(recorded[0].ownerDomain, 'health');
     strictFailure = true;
     const unavailable = await invoke(handler, { authorization: 'Bearer research-observer-secret' });
     assert.equal(unavailable.code, 503);

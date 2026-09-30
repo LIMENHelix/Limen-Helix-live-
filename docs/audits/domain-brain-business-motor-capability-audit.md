@@ -98,7 +98,7 @@ Agriculture is the deliberate exception: its brain should route investment and r
 - Opportunity-routing matrix and E2E routing: all domains pass; Agriculture investment → Finance, Agriculture research → Science/research, Homestead held/separate.
 - Repository check: passed.
 - Harness check: passed.
-- Full suite: `356 passed, 1 skipped, 0 failed`.
+- Full suite: `357 passed, 1 skipped, 0 failed`.
 - Live provider capability baseline: remains evidence-gated; no receipt or provider action is fabricated by this audit.
 
 ### Domain-by-domain implementation progress
@@ -111,6 +111,16 @@ The first reusable provider group is now wired for Economy, Energy and Technolog
 - `/api/technology-investment-capability`
 
 The verifier refuses to write capability receipts when evidence is absent. Its positive test uses only pre-existing zero-fill/cancel and independent paper-outcome records; it does not submit an order. This is implementation progress, not live provider proof.
+
+The research-owned group is also wired for Science, Medicine, Education and Environment. Their verifier promotes only an already-executed research artifact that has an independently admitted evaluation, domain-authorized withdrawal, withdrawal readback and returned learner state. The evaluation intake preserves product identity (`science`/`medicine`), while the returned afferent uses the runtime learning owners (`research`/`health`). No research provider call or recovery action is made by the capability route.
+
+- `lib/product-domain-research-capability-verifier.js`
+- `/api/science-research-capability`
+- `/api/medicine-research-capability`
+- `/api/education-research-capability`
+- `/api/environment-research-capability`
+
+The research verifier is held without that complete historical chain. Its positive test uses only durable fixture records and independent readback; it does not generate, publish, evaluate or withdraw an artifact.
 
 ## Remaining work
 

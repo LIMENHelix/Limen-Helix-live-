@@ -9,6 +9,18 @@ var Observer = require('../lib/research-evaluation-observer.js');
 var Recovery = require('../lib/research-artifact-recovery.js');
 var outcome = require('./limen-outcome.js');
 
+function learningOwner(productDomain) {
+  if (productDomain === 'science') return 'research';
+  if (productDomain === 'medicine') return 'health';
+  if (productDomain === 'education' || productDomain === 'environment') return productDomain;
+  return null;
+}
+
+function eventForLearning(event) {
+  var owner = learningOwner(event && event.ownerDomain);
+  return owner ? Object.assign({}, event, { ownerDomain: owner }) : event;
+}
+
 async function researchEvaluationObserverHandler(req, res) {
   res.setHeader('content-type', 'application/json');
   res.setHeader('cache-control', 'no-store');
@@ -27,7 +39,10 @@ async function researchEvaluationObserverHandler(req, res) {
     for (var i = 0; i < inspected.length; i++) {
       var row = inspected[i];
       if (row.status !== 'ELIGIBLE') { abstentions.push(row); continue; }
-      var result = await outcome.recordAutonomousOutcome(row.event);
+      // Intake and recovery retain the product-domain identity (science or
+      // medicine). The learner owns the runtime aliases (research or health),
+      // so normalize only the returned afferent copy at this boundary.
+      var result = await outcome.recordAutonomousOutcome(eventForLearning(row.event));
       if (result && result.ok && result.learningAccepted !== false) {
         if (result.duplicate) duplicates++;
         else recorded++;
