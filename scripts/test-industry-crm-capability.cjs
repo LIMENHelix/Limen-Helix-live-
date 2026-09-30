@@ -56,6 +56,7 @@ function motor(now) {
   });
   assert.equal(result.status, 'VERIFIED');
   assert(result.commissioning.hubspotCompanyId);
+  assert.equal(result.commissioning.providerCalled, true);
   assert.equal(records.get(result.commissioning.hubspotCompanyId).archived, true);
   assert.equal((await Cap.verifyPair(store, await store.get(Motor.receiptKey('industry')), Date.now() + 1000)).ok, true);
   var duplicate = await Verifier.commission(store, Date.now() + 1000, { env: { INDUSTRY_CRM_COMMISSIONING_ENABLED: '1' }, sleep: async function () {} });
