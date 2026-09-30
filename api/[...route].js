@@ -273,6 +273,7 @@ const HANDLERS = {
   'population-real-estate-recovery': require('../handlers/population-real-estate-recovery'),
   'population-real-estate-status': require('../handlers/population-real-estate-status'),
   'trade-auction-cycle': require('../handlers/trade-auction-cycle'),
+  'trade-auction-capability': require('../handlers/trade-auction-capability'),
   'trade-auction-outcome-observer': require('../handlers/trade-auction-outcome-observer'),
   'trade-auction-recovery': require('../handlers/trade-auction-recovery'),
   'trade-auction-status': require('../handlers/trade-auction-status'),
