@@ -22,14 +22,18 @@ assert.equal(report.summary.actionReceiptsImplemented, 19);
 assert.equal(report.summary.independentOutcomeObserversImplemented, 19);
 assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 19);
 assert.equal(report.summary.sourceChainsComplete, 19);
-assert.equal(report.summary.productionVerifiedByDomain, 0);
-assert.equal(report.summary.autonomousExternalReady, 0);
+assert.equal(report.summary.brainContractComplete, 20);
+assert.equal(report.summary.businessMotorCapabilityVerified, 0);
+assert.equal(report.summary.businessMotorReady, 0);
+assert.equal(report.summary.productionVerifiedByDomain, report.summary.businessMotorCapabilityVerified);
+assert.equal(report.summary.autonomousExternalReady, report.summary.businessMotorReady);
 
 var finance = report.domains.find(function (row) { return row.productDomain === 'finance'; });
 assert.equal(finance.sourceChainComplete, true);
 assert.equal(finance.actionReceiptStrength, 'DURABLE_IDEMPOTENT_SANDBOX_COMMAND_RECEIPT');
 assert.equal(finance.observerScope, 'PAPER_30_60_90_PENDING_ELIGIBLE_COMMAND_AND_HORIZON');
-assert.equal(finance.productionVerifiedByDomain, false);
+assert.equal(finance.brainContractComplete, true);
+assert.equal(finance.businessMotorCapabilityVerified, false);
 var economy = report.domains.find(function (row) { return row.productDomain === 'economy'; });
 assert.equal(economy.domainBoundExecutorImplemented, true);
 assert.equal(economy.actionReceiptStrength, 'DURABLE_B10_B14_DOMAIN_OWNED_PAPER_BROKER_RECEIPT');
@@ -132,6 +136,9 @@ assert.equal(agriculture.domainBoundExecutorImplemented, false);
 assert.equal(agriculture.actionReceiptStrength, 'NONE');
 assert.equal(agriculture.observerScope, 'NONE');
 assert.equal(agriculture.sourceChainComplete, false);
+assert.equal(agriculture.brainContractComplete, true);
+assert.equal(agriculture.brain.complete, true);
+assert.equal(agriculture.brain.opportunityRoutingComplete, true);
 assert.deepEqual(agriculture.opportunityRouting, { investment: 'finance:broker-order', research: 'science:research-papers', homestead: null, implemented: true });
 assert.equal(agriculture.externalEnabled, false);
 
@@ -177,4 +184,4 @@ assert.equal(trade.observerScope, 'PUBLIC_OWNED_MARKETPLACE_LISTING_PRESENCE_ZER
 assert.equal(trade.sourceChainComplete, true);
 assert.equal(trade.externalEnabled, false);
 
-console.log('product domain business executor audit: contracts 20/20, bound executors 19/20, closed source chain 19/20; Agriculture opportunities route to Finance or Science/research, Homestead is separate, production capability evidence remains fail-closed');
+console.log('product domain audit: brain contracts 20/20; business executors 19/20 with Agriculture routed to Finance or Science/research; Homestead is separate; business capability evidence remains fail-closed');
