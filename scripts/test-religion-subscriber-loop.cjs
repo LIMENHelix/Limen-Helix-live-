@@ -5,6 +5,7 @@ var Executor = require('../lib/religion-subscriber-executor.js');
 var Observer = require('../lib/religion-subscriber-outcome-observer.js');
 var Recovery = require('../lib/religion-subscriber-recovery.js');
 var Learning = require('../lib/religion-subscriber-learning.js');
+var RevenueDecision = require('../lib/domain-revenue-decision.js');
 function Store() { this.values = new Map(); this.lists = new Map(); }
 Store.prototype.assertDurable = function () { return true; };
 Store.prototype.get = async function (k) { return this.values.has(k) ? structuredClone(this.values.get(k)) : null; };
@@ -19,7 +20,9 @@ function cognition(now, review) { return { ts: now, c: { domain: 'religion', imm
     sourceIdentity: { producer: 'brain-cognition-refresh/1' }, truth: { feedHealth: { configured: 16, live: 16 } } } } }; }
 function motor(id, authorized) { return { authorize: async function () { return { authorized: authorized !== false, receiptId: id, reason: authorized === false ? 'switch-off' : null }; } }; }
 function sub(email) { return { email: email, domain: 'religion', active: true, subscriptionId: 'sub-secret', customerId: 'cus-secret' }; }
-function digest(key) { return { subject: 'Religion briefing', body: 'Source-grounded change.\n\nCheck any figure yourself: https://limenhelix.com/religion', key: key }; }
+function digest(key) { var body = 'Source-grounded change.\n\nCheck any figure yourself: https://limenhelix.com/religion'; return { subject: 'Religion briefing', body: body, key: key,
+  revenueDecision: RevenueDecision.create({ productDomain: 'religion', ownerDomain: 'religion', sourceMode: RevenueDecision.MODES.DOMAIN_WIDE_LIVE_READ,
+    sourceRef: 'religion-live', digestKey: key, contentHash: Decision.hash(body) }) }; }
 function budget() { return { emailCostUsd: 0.01, dailyBudgetUsd: 0.05, dailySendCap: 5 }; }
 
 (async function () {

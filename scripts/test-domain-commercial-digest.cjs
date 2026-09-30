@@ -34,6 +34,10 @@ function store(value, stateOverride) {
   var built = await Digest.buildFor({ domain: 'culture', offer: 'p2', active: true }, { store: store(artifact), now: now, get: down.get });
   assert.match(built.body, /Current source-linked Culture artifact/);
   assert.equal(built.key, artifact.contentHash);
+  assert.equal(built.revenueDecision.sourceMode, 'commercial-artifact');
+  assert.equal(built.revenueDecision.sourceArtifactId, artifact.artifactId);
+  assert.equal(built.revenueDecision.sourceIntentId, artifact.intentId);
+  assert.equal(built.revenueDecision.productDomain, 'culture');
   assert.equal(built.personal, false);
   var expiredStore = store(Object.assign({}, artifact, { freshnessExpiresAt: now }));
   assert.equal(await Digest.latestCommercialArtifact('culture', expiredStore, now), null);

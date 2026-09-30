@@ -7,6 +7,7 @@ var Valves = require('../lib/civilization-valve-registry.js');
 var MotorCapability = require('../lib/product-domain-motor-capability.js');
 var SharedFulfillment = require('../handlers/domain-subscriber-fulfillment.js');
 var SharedObserver = require('../handlers/domain-subscriber-outcome-observer.js');
+var RevenueDecision = require('../lib/domain-revenue-decision.js');
 
 function clone(value) { return value == null ? value : JSON.parse(JSON.stringify(value)); }
 function Store() { this.values = new Map(); this.lists = new Map(); }
@@ -113,8 +114,12 @@ async function putSubscriber(store, value) {
   await store.set('subs:v1', catalog);
 }
 function digest(domain, suffix) {
-  return { subject: domain + ' current brief ' + suffix, body: 'Source-grounded ' + domain + ' detail ' + suffix,
-    key: domain + ':' + suffix };
+  var body = 'Source-grounded ' + domain + ' detail ' + suffix, key = domain + ':' + suffix;
+  var ownerDomain = domain === 'medicine' ? 'health' : domain;
+  return { subject: domain + ' current brief ' + suffix, body: body, key: key,
+    revenueDecision: RevenueDecision.create({ productDomain: domain, ownerDomain: ownerDomain,
+      sourceMode: RevenueDecision.MODES.DOMAIN_WIDE_LIVE_READ, sourceRef: domain + '-live',
+      digestKey: key, contentHash: RevenueDecision.hash(body) }) };
 }
 function openEnv(lane) {
   var env = {};
