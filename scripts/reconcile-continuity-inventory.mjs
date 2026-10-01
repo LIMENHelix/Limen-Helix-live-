@@ -31,6 +31,19 @@ if (routes.length !== 3468 || brokenLinks.length !== 27) throw new Error('Source
 const seen = new Set();
 const duplicates = [];
 for (const row of routes) { if (seen.has(row.route)) duplicates.push(row.route); seen.add(row.route); }
+// Distinct URLs may ship identical documents. Keep URL duplication and byte
+// duplication separate; neither is retirement or alias authority.
+const contentHashes = new Map();
+for (const row of routes) {
+  if (!row.localHtmlPresent) continue;
+  const file = row.route.slice(1) + '.html';
+  const digest = crypto.createHash('sha256').update(fs.readFileSync(path.join(root, file))).digest('hex');
+  const group = contentHashes.get(digest) || [];
+  group.push({ route: row.route, file });
+  contentHashes.set(digest, group);
+}
+const duplicateContentGroups = Array.from(contentHashes, ([sha256, entries]) => ({ sha256, entries }))
+  .filter(group => group.entries.length > 1);
 const htmlFiles = execFileSync('git', ['ls-files', '-z', '*.html'], { cwd: root, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 })
   .split('\0').filter(file => file && !file.startsWith('work/'));
 const references = new Map(brokenLinks.map(row => [row.route, []]));
@@ -67,12 +80,12 @@ const report = {
     operator: routes.filter(r => r.audience === 'Operator').length,
     customer: routes.filter(r => r.audience === 'Customer').length,
     unknownAudience: routes.filter(r => !['Operator', 'Customer'].includes(r.audience)).length,
-    duplicateRoutes: duplicates.length, brokenLinks: brokenLinks.length,
+    duplicateRoutes: duplicates.length, duplicateLocalContentGroups: duplicateContentGroups.length, brokenLinks: brokenLinks.length,
     localRemainingReferencedBrokenTargets: brokenLinks.filter(row => references.get(row.route).length > 0).length,
     localNavigationRepairedTargets: navigationRepairs ? navigationRepairs.repairedTargets : 0,
     legacy: { explicitlyRetiredLocalRoutes: explicitLegacyRoutes.length, sourcePageLegacyStatus: 'unresolved without explicit retirement provenance' },
     dataOnly: { localJsonAssets: dataAssets.length, scope: 'JSON asset files, not equivalent to rendered page routes; live data endpoint inventory unverified' }
-  }, explicitLegacyRoutes, dataAssets, duplicates, brokenLinks: brokenLinks.map(row => ({ ...row,
+  }, explicitLegacyRoutes, dataAssets, duplicates, duplicateContentGroups, brokenLinks: brokenLinks.map(row => ({ ...row,
     inFullInventory: seen.has(row.route), localHtmlPresent: fs.existsSync(path.join(root, row.route.slice(1) + '.html')),
     localReferences: references.get(row.route),
     disposition: navigationRepairs && navigationRepairs.repairs.some(repair => repair.missingTarget === row.route)
