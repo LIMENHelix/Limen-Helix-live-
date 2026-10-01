@@ -217,9 +217,14 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
   assert.match(el.innerHTML, /audit unavailable/);
   assert.doesNotMatch(el.innerHTML, /EXTERNAL-READY/);
   assert.doesNotMatch(el.innerHTML, /learning credit <b>0.75/);
+  const failedFinanceCard = el.innerHTML.split('<span class="exo-domain-name">finance</span>')[1].split('</article>')[0];
+  assert.match(failedFinanceCard, /WHY THIS IS NOT AUTONOMOUSLY EXTERNAL:[\s\S]*server-cognition-unavailable/);
+  assert.doesNotMatch(failedFinanceCard, /none reported/);
   fail = false;
   await window.LIMENExecutionObservatory.refresh();
   assert.match(el.innerHTML, /EXTERNAL-READY/);
+  const recoveredFinanceCard = el.innerHTML.split('<span class="exo-domain-name">finance</span>')[1].split('</article>')[0];
+  assert.doesNotMatch(recoveredFinanceCard, /server-cognition-unavailable/);
   assert.doesNotMatch(el.innerHTML, /read failure/);
   assert.match(el.innerHTML, /independent-outcome-missing/);
   assert.match(el.innerHTML, /dispatch gate <b>HELD<\/b> · domain-motor-receipt-missing/);

@@ -108,6 +108,7 @@
     // Learning credit and outcome signals do not establish earned revenue.
     var revenue = 'UNOBSERVED';
     var blockers = arr(receipt.blockers).concat(capability.reason ? [capability.reason] : []).concat(valve.reason ? [valve.reason] : []);
+    if (!serverSeen) blockers.push('server-cognition-unavailable');
     if (serverSeen && !fresh) blockers.push('server-cognition-stale-or-invalid-timestamp');
     var capabilityCurrent = fresh && capability.verified === true && typeof capability.validUntil === 'number' && capability.validUntil > Date.now();
     if (capability.verified === true && !capabilityCurrent) blockers.push('capability-expiry-missing-or-expired');
