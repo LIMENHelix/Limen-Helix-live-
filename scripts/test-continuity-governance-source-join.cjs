@@ -3,7 +3,7 @@ const assert = require('node:assert/strict'), fs = require('node:fs'), path = re
 const Module = require('node:module'), acorn = require('acorn');
 const root = path.resolve(__dirname, '..'), file = path.join(root, 'handlers/domain-snapshot.js');
 const mod = new Module(file, module); mod.filename = file; mod.paths = Module._nodeModulePaths(path.dirname(file));
-mod._compile(fs.readFileSync(file, 'utf8') + '\nmodule.exports.testBuildDomain = buildDomain;', file);
+mod._compile(fs.readFileSync(file, 'utf8') + '\nmodule.exports.testBuildDomain = buildDomain;module.exports.testTitleFetchers = { GovTrack: fetchGovTrack, CongressGov: fetchCongressGov, GAO: fetchGAOReports, CBO: fetchCBOPublications };', file);
 const H = mod.exports, Packet = require('../lib/civilization-server-packet.js'), Consumer = require('../lib/civilization-handoff-consumer.js');
 const Decision = require('../lib/governance-publication-decision.js'), Source = require('../lib/governance-publication-source.js');
 const harness = fs.readFileSync(path.join(__dirname, 'test-continuity-feed-spine.cjs'), 'utf8');
@@ -12,6 +12,24 @@ const sandbox = new Function('global', harness.slice(helper.start, helper.end) +
 const originalFetch = global.fetch;
 (async () => {
   const results = [];
+  const titleFetchers = [];
+  for (const [name, fetcher] of Object.entries(H.testTitleFetchers)) {
+    const suppliedUrl = 'https://fixture.invalid/governance/' + name;
+    const xml = '<rss><channel><item><title>LOCAL/FIXTURE ' + name + ' record</title><link>' + suppliedUrl +
+      '</link><pubDate>Wed, 30 Sep 2026 12:00:00 GMT</pubDate><source>Supplied label</source></item>' +
+      '<item><title>Missing provenance</title></item></channel></rss>';
+    const requested = [];
+    global.fetch = async url => { requested.push(String(url)); return { ok: true, status: 200, text: async () => xml }; };
+    const reading = await fetcher();
+    assert.equal(requested.length, 1, 'direct source succeeded without fallback');
+    assert.equal(reading.value, 2); assert.equal(reading.headlines.length, 2);
+    assert.equal(reading.headlineLinks[0], suppliedUrl);
+    assert.equal(reading.headlinePublishers[0], 'Supplied label');
+    assert.equal(reading.headlinePublishedAt[0], Date.parse('2026-09-30T12:00:00Z'));
+    assert.equal(reading.headlineLinks[1], null); assert.equal(reading.headlinePublishers[1], null); assert.equal(reading.headlinePublishedAt[1], null);
+    assert(reading.sourceUpdatedAt);
+    titleFetchers.push({ name, requested, headlines: reading.headlines, identity: reading.sourceUpdatedAt });
+  }
   for (const scenario of ['valid', 'effectiveness-unavailable', 'recovery']) {
     const requests = [];
     global.fetch = async url => {
@@ -68,6 +86,6 @@ const originalFetch = global.fetch;
       nextBoundary: 'source-grounded-governance-brief-required', providerCalled: false });
   }
   if (process.argv.includes('--write-evidence')) fs.writeFileSync(path.join(root, 'docs/audits/continuity-governance-source-join.json'),
-    JSON.stringify({ level: 'LOCAL/FIXTURE', externalFetches: false, injectedDiagnoses: false, injectedOpportunities: false, results }, null, 2) + '\n');
+    JSON.stringify({ level: 'LOCAL/FIXTURE', externalFetches: false, injectedDiagnoses: false, injectedOpportunities: false, titleFetchers, results }, null, 2) + '\n');
   console.log(JSON.stringify(results.map(({ scenario, stress, lowSignal, diagnoses, handoffs }) => ({ scenario, stress, lowSignal, diagnoses, handoffs }))));
 })().catch(error => { console.error(error); process.exitCode = 1; }).finally(() => { global.fetch = originalFetch; });

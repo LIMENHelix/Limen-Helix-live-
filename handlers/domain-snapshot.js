@@ -6365,7 +6365,7 @@ async function fetchGovTrack() {
     if (count > 0) {
       var act = clamp(count / 30, 0.05, 1.0);
       trackHealth('GovTrack', 'governance', 'live', null, count);
-      return { value: count, label: count + ' GovTrack legislative events', activity: round(act), channel: 'activity', signal: count + ' GovTrack legislative events', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'govtrack-active-bills') };
+      return Object.assign({ value: count, label: count + ' GovTrack legislative events', activity: round(act), channel: 'activity', signal: count + ' GovTrack legislative events', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'govtrack-active-bills') }, rssEvidence.extract(xml));
     }
     throw new Error('empty GovTrack RSS');
   } catch (e) {
@@ -6380,7 +6380,7 @@ async function fetchCongressGov() {
     if (count > 0) {
       var act = clamp(count / 25, 0.05, 1.0);
       trackHealth('Congress.gov', 'governance', 'live', null, count);
-      return { value: count, label: count + ' Congress.gov bills', activity: round(act), channel: 'activity', signal: count + ' Congress.gov most-viewed bills', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'congress-most-viewed') };
+      return Object.assign({ value: count, label: count + ' Congress.gov bills', activity: round(act), channel: 'activity', signal: count + ' Congress.gov most-viewed bills', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'congress-most-viewed') }, rssEvidence.extract(xml));
     }
     throw new Error('empty Congress.gov RSS');
   } catch (e) {
@@ -6395,7 +6395,7 @@ async function fetchGAOReports() {
     if (count > 0) {
       var act = clamp(count / 20, 0.05, 1.0);
       trackHealth('GAO Reports', 'governance', 'live', null, count);
-      return { value: count, label: count + ' GAO reports', activity: round(act), channel: 'activity', signal: count + ' Government Accountability Office reports', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'gao-reports') };
+      return Object.assign({ value: count, label: count + ' GAO reports', activity: round(act), channel: 'activity', signal: count + ' Government Accountability Office reports', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'gao-reports') }, rssEvidence.extract(xml));
     }
     throw new Error('empty GAO RSS');
   } catch (e) {
@@ -6410,7 +6410,7 @@ async function fetchCBOPublications() {
     if (count > 0) {
       var act = clamp(count / 15, 0.05, 1.0);
       trackHealth('CBO Publications', 'governance', 'live', null, count);
-      return { value: count, label: count + ' CBO publications', activity: round(act), channel: 'activity', signal: count + ' Congressional Budget Office publications', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'cbo-publications') };
+      return Object.assign({ value: count, label: count + ' CBO publications', activity: round(act), channel: 'activity', signal: count + ' Congressional Budget Office publications', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'cbo-publications') }, rssEvidence.extract(xml));
     }
     throw new Error('empty CBO RSS');
   } catch (e) {

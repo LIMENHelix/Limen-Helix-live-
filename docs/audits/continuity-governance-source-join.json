@@ -3,6 +3,52 @@
   "externalFetches": false,
   "injectedDiagnoses": false,
   "injectedOpportunities": false,
+  "titleFetchers": [
+    {
+      "name": "GovTrack",
+      "requested": [
+        "https://www.govtrack.us/events/events.rss?feeds=misc:activebills2"
+      ],
+      "headlines": [
+        "LOCAL/FIXTURE GovTrack record",
+        "Missing provenance"
+      ],
+      "identity": "rss-set-v1:govtrack-active-bills|items:2|sha256:3669f8cbea0ed8f404b90b423adda178f373eb3508a9e8bb68829af38773b8dd"
+    },
+    {
+      "name": "CongressGov",
+      "requested": [
+        "https://www.congress.gov/rss/most-viewed-bills.xml"
+      ],
+      "headlines": [
+        "LOCAL/FIXTURE CongressGov record",
+        "Missing provenance"
+      ],
+      "identity": "rss-set-v1:congress-most-viewed|items:2|sha256:44f76700308f1d828c8c5cf2819e278e8e108e562c8056744bb21ca0cf1e4ecd"
+    },
+    {
+      "name": "GAO",
+      "requested": [
+        "https://www.gao.gov/rss/reports.xml"
+      ],
+      "headlines": [
+        "LOCAL/FIXTURE GAO record",
+        "Missing provenance"
+      ],
+      "identity": "rss-set-v1:gao-reports|items:2|sha256:133824a7014a3fa0ae3922db8a86f36d314fc6d28ab3d85b7b34fbe4b2586424"
+    },
+    {
+      "name": "CBO",
+      "requested": [
+        "https://www.cbo.gov/publications/all/rss.xml"
+      ],
+      "headlines": [
+        "LOCAL/FIXTURE CBO record",
+        "Missing provenance"
+      ],
+      "identity": "rss-set-v1:cbo-publications|items:2|sha256:442df7ca44f443b65940309ef9230b0c5e0d65ee134431cd741dcb6b1e479695"
+    }
+  ],
   "results": [
     {
       "scenario": "valid",
@@ -22,7 +68,7 @@
             "name": "World Bank Gov Effectiveness",
             "live": true,
             "sourceUpdatedAt": "2025",
-            "fetchedAt": 1790881273567,
+            "fetchedAt": 1790881330363,
             "value": -0.6,
             "classification": "real",
             "failReason": null
@@ -31,7 +77,7 @@
             "name": "World Bank Rule of Law",
             "live": true,
             "sourceUpdatedAt": "2025",
-            "fetchedAt": 1790881273567,
+            "fetchedAt": 1790881330363,
             "value": -0.6,
             "classification": "real",
             "failReason": null
@@ -64,7 +110,7 @@
             "name": "World Bank Gov Effectiveness",
             "live": false,
             "sourceUpdatedAt": null,
-            "fetchedAt": 1790881273708,
+            "fetchedAt": 1790881330579,
             "value": null,
             "classification": "broken",
             "failReason": "no non-null value"
@@ -73,7 +119,7 @@
             "name": "World Bank Rule of Law",
             "live": true,
             "sourceUpdatedAt": "2025",
-            "fetchedAt": 1790881273708,
+            "fetchedAt": 1790881330579,
             "value": -0.6,
             "classification": "real",
             "failReason": null
@@ -106,7 +152,7 @@
             "name": "World Bank Gov Effectiveness",
             "live": true,
             "sourceUpdatedAt": "2025",
-            "fetchedAt": 1790881273812,
+            "fetchedAt": 1790881330690,
             "value": -0.6,
             "classification": "real",
             "failReason": null
@@ -115,7 +161,7 @@
             "name": "World Bank Rule of Law",
             "live": true,
             "sourceUpdatedAt": "2025",
-            "fetchedAt": 1790881273812,
+            "fetchedAt": 1790881330690,
             "value": -0.6,
             "classification": "real",
             "failReason": null
