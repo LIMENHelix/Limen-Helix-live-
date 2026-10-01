@@ -111,6 +111,7 @@ sb.LIMENDomains = fixtures;
   var DevelopmentalAuthority = require('../lib/research-paper-developmental-authority.js');
   var ResearchReadout = require('../lib/research-business-trace-readout.js');
   var CultureDecision = require('../lib/culture-hero-decision.js');
+  var CulturePolicy = require('../lib/culture-hero-policy.js');
   var shadowValues = new Map(), shadowLists = new Map();
   function shadowClone(value) { return value == null ? null : JSON.parse(JSON.stringify(value)); }
   var redisPath = require.resolve('../lib/brain-shadow-redis.js');
@@ -172,9 +173,37 @@ sb.LIMENDomains = fixtures;
           cultureAbstentions.push({ opportunityId: nativeOpportunity.id, path: nativeOpportunity.path, reason: cultureDecision.reason });
         }
         assert.equal(JSON.stringify(Array.from(values)), beforeCulture);
+        var cultureLists = new Map();
+        var cultureStore = Object.assign({}, store, {
+          assertDurable: function () {}, setIfAbsent: store.setNx,
+          set: async function (key, value) { values.set(key, JSON.parse(JSON.stringify(value))); return true; },
+          lpush: async function (key, value) { var rows = cultureLists.get(key) || []; rows.unshift(JSON.parse(JSON.stringify(value))); cultureLists.set(key, rows); return rows.length; },
+          lrange: async function (key, start, end) { return JSON.parse(JSON.stringify((cultureLists.get(key) || []).slice(start, end < 0 ? undefined : end + 1))); },
+          ltrim: async function (key, start, end) { cultureLists.set(key, (cultureLists.get(key) || []).slice(start, end + 1)); return true; }
+        });
+        var cultureCognition = Object.assign({}, JSON.parse(JSON.stringify(brain.state.cognition)), { domain: 'culture', serverPacket: packet,
+          brainOrgans: { resourceMetabolism: brain.state.resourceMetabolism, autonomousInternalEmission: brain.state.autonomousInternalEmission } });
+        var maintenance = CulturePolicy.candidate('culture', 'LOCAL/FIXTURE-model', 'missing-public-hero');
+        var maintenanceDecision = await CultureDecision.decide(cultureStore, maintenance, Date.parse(packet.generatedAt), {
+          cognition: { ts: Date.parse(packet.generatedAt), c: cultureCognition }
+        });
+        assert.notEqual(maintenanceDecision.reason, 'culture-b10-unavailable');
+        assert(maintenanceDecision.decisionReceiptId);
+        assert.equal(maintenanceDecision.culturePacketId, packet.packetId);
+        assert.deepEqual(await cultureStore.get(CultureDecision.key(maintenanceDecision.decisionReceiptId)), maintenanceDecision);
+        assert.equal(maintenanceDecision.providerCalled, false);
+        assert.equal(typeof cultureCognition.immune.immuneState, 'string');
+        assert.notEqual(cultureCognition.immune.immuneState, 'clear');
+        assert(maintenanceDecision.blockers.includes('culture-immune-veto'));
+        var maintenanceReplay = await CultureDecision.decide(cultureStore, maintenance, Date.parse(packet.generatedAt), { cognition: { ts: Date.parse(packet.generatedAt), c: cultureCognition } });
+        assert.equal(maintenanceReplay.decisionReceiptId, maintenanceDecision.decisionReceiptId);
         primaryIntakeBoundary = { ownerDomain: 'culture', lane: 'hero-image', nativeOpportunityChecks: cultureAbstentions,
           firstUnprovenBoundary: 'native-investment-research-opportunity-is-not-canonical-hero-maintenance-candidate',
           existingTrigger: 'handlers/hero-image.js missing-public-hero -> culture-hero-policy.candidate', providerCalled: false };
+        primaryIntakeBoundary.maintenanceJoin = { evidenceLevel: 'LOCAL/FIXTURE', trigger: 'identified fixture missing-public-hero',
+          nativeCognitionInjected: false, nativeOpportunityReclassified: false, decisionId: maintenanceDecision.decisionReceiptId,
+          status: maintenanceDecision.status, blockers: maintenanceDecision.blockers, sourcePacketId: maintenanceDecision.culturePacketId };
+        primaryIntakeBoundary.maintenanceJoin.nativeImmuneState = cultureCognition.immune.immuneState;
       }
       var researchIntake = ResearchCandidate.build({ c: { serverPacket: packet, serverPacketPersistence: consumed } }, row[0], Date.parse(packet.generatedAt));
       assert.equal(researchIntake.status, 'ABSTAINED');
