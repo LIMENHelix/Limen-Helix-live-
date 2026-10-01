@@ -993,8 +993,8 @@
             "decision": {
               "id": "chd_1506695bb1eb69338fe72c6e",
               "status": "NO_ACTION",
-              "decidedAt": 1790877499296,
-              "expiresAt": 1790878099296,
+              "decidedAt": 1790877719478,
+              "expiresAt": 1790878319478,
               "key": "culture_hero_decision:chd_1506695bb1eb69338fe72c6e",
               "packetId": "culture:2:fixture-native-source-snapshot",
               "reason": "culture-b10-held",
@@ -1338,7 +1338,25 @@
           "sourcePacketId": "defense:2:fixture-native-source-snapshot"
         }
       ],
-      "primaryIntakeBoundary": null,
+      "primaryIntakeBoundary": {
+        "ownerDomain": "defense",
+        "lane": "publication",
+        "candidateId": "dpc_f567dc9a2c381bd7a005f2fd",
+        "nativeOpportunityId": "DEFENSE_AIR_SYSTEM_FAILURE_researchable_t1",
+        "decisionId": "dpd_7564453ef85b44651e50de38",
+        "sourcePacketId": "defense:2:fixture-native-source-snapshot",
+        "status": "NO_ACTION",
+        "blockers": [
+          "defense-immune-veto",
+          "defense-b10-brake-held:brake-dampen",
+          "defense-b10-no-action-selected"
+        ],
+        "titleSourceLevel": "LOCAL/FIXTURE",
+        "providerCalled": false,
+        "executorGate": "defense-publication-exact-b10-decision-required",
+        "operatorReadout": "RECORDED",
+        "nextBoundary": "native-publication-release-not-proven"
+      },
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -2932,7 +2950,25 @@
           "sourcePacketId": "governance:2:fixture-native-source-snapshot"
         }
       ],
-      "primaryIntakeBoundary": null,
+      "primaryIntakeBoundary": {
+        "ownerDomain": "governance",
+        "lane": "publication",
+        "candidateId": "gpc_9986aded82fbd54e5bc8bf1d",
+        "nativeOpportunityId": "GOVERNANCE_SANCTIONS_SYSTEM_FAILURE_researchable_t1",
+        "decisionId": "gpd_866cd679b33adff035d9b977",
+        "sourcePacketId": "governance:2:fixture-native-source-snapshot",
+        "status": "NO_ACTION",
+        "blockers": [
+          "governance-immune-veto",
+          "governance-b10-brake-held:brake-dampen",
+          "governance-b10-no-action-selected"
+        ],
+        "titleSourceLevel": "LOCAL/FIXTURE",
+        "providerCalled": false,
+        "executorGate": "governance-publication-exact-b10-decision-required",
+        "operatorReadout": "RECORDED",
+        "nextBoundary": "native-publication-release-not-proven"
+      },
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -4791,7 +4827,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_62bc1485780c4ecb4e3ff9c352e881de8409a5f6d3c980f945743f409fdfffd1",
+            "id": "sel_episode_0f8726d35b99c95f5bf0d3a7fc514c3361ed5aa2f8ffbf8b8ad0f7402f5ff439",
             "status": "HELD",
             "ownerDomain": "health",
             "reasons": [
@@ -4833,7 +4869,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_3975c63f949e297d18e141baab753c8210aec90fe9bc6f4856db1c97744837f3",
+              "id": "sel_episode_eebd809426d3de78ee7c9a34898682e8273e68ae3ea3609fb7378bd06dc4d173",
               "status": "RELEASED",
               "reasons": []
             }
@@ -5969,7 +6005,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_6bb5541ce3abe5aca2e41e61b664875ff6e532b27a23207c85d2e215eef796b7",
+            "id": "sel_episode_167ad7bb48ce21e6f683b1c1c396ff5d6752fb83434d41b9fa08b18fd268743e",
             "status": "HELD",
             "ownerDomain": "research",
             "reasons": [
@@ -6011,7 +6047,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_aadfe526a32feaeb44f7b8d4a5d12b658d45525ef934ca5b1400b0a734a357bd",
+              "id": "sel_episode_83c6fe13076111de125046f5a60a452874be74229a682fa1b08226e1e8f0a167",
               "status": "RELEASED",
               "reasons": []
             }

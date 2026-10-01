@@ -163,6 +163,55 @@ sb.LIMENDomains = fixtures;
       assert.equal(consumed.ok, true, JSON.stringify(consumed.failures));
       assert.equal(consumed.handoffsCreated, handoffs.length);
       var primaryIntakeBoundary = null;
+      if (['defense', 'governance'].includes(row[0])) {
+        var publicationSource = require('../lib/' + row[0] + '-publication-source.js');
+        var publicationDecision = require('../lib/' + row[0] + '-publication-decision.js');
+        var publicationAt = Date.parse(packet.generatedAt);
+        var publicationCognition = { ts: publicationAt, c: Object.assign({}, JSON.parse(JSON.stringify(brain.state.cognition)), {
+          domain: row[0], serverPacket: packet, brainOrgans: { resourceMetabolism: brain.state.resourceMetabolism, autonomousInternalEmission: brain.state.domainAutoEmission || brain.state.energyAutoEmission || null }
+        }) };
+        var publicationTitles = [0, 1].map(function (feed) { return { t: publicationAt, d: row[0], f: 'LOCAL/FIXTURE public feed ' + feed, hh: feed,
+          items: [0, 1].map(function (item) { return { i: item, ti: 'Identified public fixture record ' + feed + ':' + item,
+            au: 'https://fixture.invalid/' + row[0] + '/' + feed + '/' + item, pa: publicationAt, pl: 'Fixture publisher ' + feed }; }) }; });
+        assert.equal(publicationSource.build([publicationTitles[0]], publicationCognition, publicationAt), null);
+        var publicationCandidate = publicationSource.build(publicationTitles, publicationCognition, publicationAt);
+        assert(publicationSource.validate(publicationCandidate));
+        assert(packet.truth.opportunities.some(function (opportunity) { return opportunity.id === publicationCandidate.brainSelection.id && opportunity.path === 'RESEARCHABLE'; }));
+        var publicationLists = new Map();
+        var publicationStore = Object.assign({}, store, { assertDurable: function () {}, setIfAbsent: store.setNx,
+          set: async function (key, value) { values.set(key, JSON.parse(JSON.stringify(value))); return true; },
+          lpush: async function (key, value) { var rows = publicationLists.get(key) || []; rows.unshift(JSON.parse(JSON.stringify(value))); publicationLists.set(key, rows); return rows.length; },
+          lrange: async function (key, start, end) { return JSON.parse(JSON.stringify((publicationLists.get(key) || []).slice(start, end < 0 ? undefined : end + 1))); },
+          ltrim: async function (key, start, end) { publicationLists.set(key, (publicationLists.get(key) || []).slice(start, end + 1)); return true; }
+        });
+        var publicationSelected = await publicationDecision.decide(publicationStore, publicationCandidate, publicationAt, publicationCognition);
+        assert(publicationSelected.decisionReceiptId, JSON.stringify(publicationSelected));
+        assert.equal(publicationSelected[row[0] + 'PacketId'], packet.packetId);
+        assert.deepEqual(await publicationStore.get(publicationDecision.key(publicationSelected.decisionReceiptId)), publicationSelected);
+        assert.equal(publicationSelected.providerCalled, false);
+        var publicationReplay = await publicationDecision.decide(publicationStore, publicationCandidate, publicationAt, publicationCognition);
+        assert.equal(publicationReplay.decisionReceiptId, publicationSelected.decisionReceiptId);
+        assert.equal(publicationSelected.status, 'NO_ACTION');
+        assert(publicationSelected.blockers.includes(row[0] + '-immune-veto'));
+        var beforePublicationDispatch = JSON.stringify(Array.from(values));
+        var publicationExecutor = require('../lib/' + row[0] + '-publication-executor.js');
+        var publicationHeld = await publicationExecutor.execute({ store: publicationStore, candidate: publicationCandidate,
+          decision: publicationSelected, now: publicationAt, publisher: { publish: async function () { throw new Error('held native decision must not publish'); } } });
+        assert.equal(publicationHeld.status, 'HELD');
+        assert.equal(publicationHeld.reason, row[0] + '-publication-exact-b10-decision-required');
+        assert.equal(publicationHeld.providerCalls, 0);
+        var publicationTrace = await require('../lib/product-domain-business-trace-readout.js').read(publicationStore, row[0], publicationAt + 1);
+        assert.equal(publicationTrace.status, 'RECORDED');
+        assert.equal(publicationTrace.decision.packetId, packet.packetId);
+        assert(publicationTrace.decision.blockers.includes(row[0] + '-immune-veto'));
+        assert.equal(publicationTrace.command, null);
+        assert.equal(publicationTrace.externalActionAuthorized, false);
+        assert.equal(JSON.stringify(Array.from(values)), beforePublicationDispatch);
+        primaryIntakeBoundary = { ownerDomain: row[0], lane: 'publication', candidateId: publicationCandidate.candidateId,
+          nativeOpportunityId: publicationCandidate.brainSelection.id, decisionId: publicationSelected.decisionReceiptId,
+          sourcePacketId: packet.packetId, status: publicationSelected.status, blockers: publicationSelected.blockers,
+          titleSourceLevel: 'LOCAL/FIXTURE', providerCalled: false, executorGate: publicationHeld.reason, operatorReadout: publicationTrace.status, nextBoundary: 'native-publication-release-not-proven' };
+      }
       if (row[0] === 'culture') {
         var beforeCulture = JSON.stringify(Array.from(values));
         var cultureAbstentions = [];
@@ -183,7 +232,7 @@ sb.LIMENDomains = fixtures;
           ltrim: async function (key, start, end) { cultureLists.set(key, (cultureLists.get(key) || []).slice(start, end + 1)); return true; }
         });
         var cultureCognition = Object.assign({}, JSON.parse(JSON.stringify(brain.state.cognition)), { domain: 'culture', serverPacket: packet,
-          brainOrgans: { resourceMetabolism: brain.state.resourceMetabolism, autonomousInternalEmission: brain.state.autonomousInternalEmission } });
+          brainOrgans: { resourceMetabolism: brain.state.resourceMetabolism, autonomousInternalEmission: brain.state.domainAutoEmission || brain.state.energyAutoEmission || null } });
         var maintenance = CulturePolicy.candidate('culture', 'LOCAL/FIXTURE-model', 'missing-public-hero');
         var maintenanceDecision = await CultureDecision.decide(cultureStore, maintenance, Date.parse(packet.generatedAt), {
           cognition: { ts: Date.parse(packet.generatedAt), c: cultureCognition }
