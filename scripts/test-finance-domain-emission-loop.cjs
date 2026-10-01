@@ -82,6 +82,11 @@ function fakeLearningStore() {
   assert.equal(intake.financeRelevant.length, 2);
   assert.equal(intake.financeRelevant[0].authority.sourceMayDecideInvestment, false);
   assert.equal(intake.financeRelevant[0].authority.executionInstruction, false);
+  const mismatchedStore = fakePacketStore([energyPacket]);
+  mismatchedStore.get = async () => agriculturePacket;
+  const mismatchedIntake = await Intake.read(mismatchedStore);
+  assert.equal(mismatchedIntake.records.length, 0, 'a different packet must not borrow an indexed identity');
+  assert.equal(mismatchedIntake.abstentions[0].reason, 'packet-key-identity-mismatch');
 
   const ready = Readiness.build({
     companyRegistry: { byCik: { '1234': { slug: 'example_co', ticker: 'EX' } } },
