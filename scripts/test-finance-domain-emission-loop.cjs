@@ -59,6 +59,15 @@ function fakeLearningStore() {
     assertDurable() {},
     async get(key) { StrictStore.assertKey(key); return data.has(key) ? data.get(key) : null; },
     async set(key, value) { StrictStore.assertKey(key); data.set(key, JSON.parse(JSON.stringify(value))); },
+    async setIfLockOwned(lockKey, lockValue, key, value) {
+      if (JSON.stringify(await this.get(lockKey)) !== JSON.stringify(lockValue)) return false;
+      await this.set(key, value); return true;
+    },
+    async deleteIfValue(key, value) {
+      StrictStore.assertKey(key);
+      if (JSON.stringify(data.get(key)) !== JSON.stringify(value)) return 0;
+      data.delete(key); return 1;
+    },
     async setIfAbsent(key, value) {
       StrictStore.assertKey(key);
       if (data.has(key)) return false;
@@ -143,6 +152,41 @@ function fakeLearningStore() {
   assert.equal(readout.signal.outcome, 'POSITIVE_PNL');
   const duplicate = await Afferent.record(learning, event, command, { ok: true, learningAccepted: true, assessment: { reward: 1 } });
   assert.equal(duplicate.duplicate, true);
+
+  const overlapStore = fakeLearningStore();
+  const overlap = await Promise.all([
+    Afferent.record(overlapStore, event, command, { ok: true }),
+    Afferent.record(overlapStore, event, command, { ok: true })
+  ]);
+  assert.equal(overlap.filter(result => result.signal).length, 1, 'overlapping returns must issue only one signal');
+  assert.equal((await overlapStore.get(Afferent.STATE_KEY)).resolvedCount, 1);
+
+  const distinctStore = fakeLearningStore();
+  const secondEvent = Object.assign({}, event, { eventId: 'second-overlapping-event' });
+  const distinct = await Promise.all([
+    Afferent.record(distinctStore, event, command, { ok: true }),
+    Afferent.record(distinctStore, secondEvent, command, { ok: true })
+  ]);
+  assert.equal(distinct.filter(result => result.signal).length, 1);
+  assert.equal(distinct.filter(result => result.reason === 'energy-finance-afferent-writer-busy').length, 1);
+  const heldEvent = distinct[0].signal ? secondEvent : event;
+  assert.equal((await Afferent.record(distinctStore, heldEvent, command, { ok: true })).resolvedCount, 2);
+  assert.equal(await distinctStore.get(Afferent.LOCK_KEY), null);
+
+  const expiredStore = fakeLearningStore();
+  const successor = { eventId: 'successor', nonce: 'successor-lease' };
+  const originalFencedWrite = expiredStore.setIfLockOwned;
+  expiredStore.setIfLockOwned = async function (lockKey, lockValue, key, value) {
+    await this.set(lockKey, successor); // Model expiry and a successor taking the lease.
+    return originalFencedWrite.call(this, lockKey, lockValue, key, value);
+  };
+  await assert.rejects(() => Afferent.record(expiredStore, event, command, { ok: true }), /writer lease lost/);
+  assert.equal(await expiredStore.get(Afferent.STATE_KEY), null);
+  assert.deepEqual(await expiredStore.get(Afferent.LOCK_KEY), successor, 'stale cleanup must preserve the successor lease');
+  assert.equal((await expiredStore.get(Afferent.causeKey(event.eventId))).status, 'PENDING');
+  await expiredStore.deleteIfValue(Afferent.LOCK_KEY, successor);
+  expiredStore.setIfLockOwned = originalFencedWrite;
+  assert.equal((await Afferent.record(expiredStore, event, command, { ok: true })).resolvedCount, 1);
 
   const agedStore = fakeLearningStore();
   for (let i = 0; i <= 2000; i++) {

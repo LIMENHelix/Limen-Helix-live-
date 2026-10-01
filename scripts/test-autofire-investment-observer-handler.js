@@ -47,6 +47,14 @@ async function invoke(handler, headers) {
     assertDurable: function () {},
     get: async function (key) { return afferentState.get(key) || null; },
     set: async function (key, value) { afferentState.set(key, JSON.parse(JSON.stringify(value))); },
+    setIfLockOwned: async function (lockKey, lockValue, key, value) {
+      if (JSON.stringify(afferentState.get(lockKey)) !== JSON.stringify(lockValue)) return false;
+      afferentState.set(key, JSON.parse(JSON.stringify(value))); return true;
+    },
+    deleteIfValue: async function (key, value) {
+      if (JSON.stringify(afferentState.get(key)) !== JSON.stringify(value)) return 0;
+      afferentState.delete(key); return 1;
+    },
     setIfAbsent: async function (key, value) {
       if (afferentState.has(key)) return false;
       afferentState.set(key, JSON.parse(JSON.stringify(value))); return true;
