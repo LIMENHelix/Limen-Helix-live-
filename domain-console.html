@@ -371,6 +371,7 @@ var __isDomainScoped = !!new URLSearchParams(window.location.search).get('domain
   <!-- ═══ HEADER replaced by global top bar (assets/js/limen-topbar.js) ═══ -->
   <!-- ═══ CLARITY VIEW (default — replaces 3-column dump) ═══ -->
   <div id="clarity-view"></div>
+  <div id="execution-observatory" data-execution-observatory></div>
 
   <!-- ═══ LEFT COLUMN: Events / Escalation / Investigations ═══ -->
   <div class="console-col" id="col-left">
@@ -611,6 +612,7 @@ if (!window.__isDomainPage) {
 <script src="assets/js/energy-neuro-substrate.js"></script>
 <script src="assets/js/analyst-report-builder.js" defer></script>
 <script src="assets/js/limen-bootstrap.js"></script>
+<script src="assets/js/civilization/execution-observatory.js"></script>
 <script>
 (function(){
   var iso = window.LIMENDomainIsolator;
