@@ -30,7 +30,11 @@ const profiles = [
   { domain: 'law', runtime: 'law', brain: 'LIMENLawBrain', first: 'CISA KEV', second: 'SEC Enforcement Actions',
     fetchFirst: H._fetchCISAKEV, fetchSecond: H._fetchSECEnforcement, family: 'automail', blocker: 'exact-address-content-and-lead-time-required' },
   { domain: 'religion', runtime: 'religion', brain: 'LIMENReligionBrain', first: 'RSS Religion News', second: 'RSS Religion Events',
-    fetchFirst: H.testReligionNews, fetchSecond: H.testReligionEvents, family: 'subscriber', blocker: 'paid-subscriber-candidate-invalid' }
+    fetchFirst: H.testReligionNews, fetchSecond: H.testReligionEvents, family: 'subscriber', blocker: 'paid-subscriber-candidate-invalid' },
+  { domain: 'education', runtime: 'education', brain: 'LIMENEducationBrain', first: 'World Bank Tertiary', second: 'OpenAlex Institutions',
+    firstIndicator: 'SE.TER.ENRR', fetchFirst: H._fetchWorldBankTertiary, fetchSecond: H._fetchOpenAlex, family: 'research-intake', blocker: 'owning-domain-semantic-identity-invalid' },
+  { domain: 'environment', runtime: 'environment', brain: 'LIMENEnvironmentBrain', first: 'NOAA Alerts', second: 'USGS Earthquakes',
+    fetchFirst: H._fetchNOAAAlerts, fetchSecond: H._fetchUSGSEarthquakes, family: 'research-intake', blocker: 'owning-domain-semantic-identity-invalid' }
 ];
 const originalFetch = global.fetch;
 (async () => {
@@ -56,7 +60,9 @@ const originalFetch = global.fetch;
           { date: '2023', value: missing ? null : fertility ? 1.6 : 9 }]];
       }
       else if (u === 'https://hacker-news.firebaseio.com/v0/topstories.json') body = scenario === 'first-source-unavailable' ? null : Array.from({ length: 120 }, (_, i) => 900000 + i);
-      else if (u.includes('api.weather.gov')) body = scenario === 'first-source-unavailable' && p.domain === 'energy' ? null : { updated: new Date().toISOString(), features:
+      else if (u.includes('api.openalex.org')) body = { results: [{ id: 'https://openalex.org/I123456', works_count: 1000000, updated_date: '2026-09-30' }] };
+      else if (u.includes('earthquake.usgs.gov')) body = { metadata: { generated: Date.now() }, features: [{ id: 'LOCAL-FIXTURE-earthquake', properties: { mag: 6.2, time: Date.now(), updated: Date.now() } }] };
+      else if (u.includes('api.weather.gov')) body = scenario === 'first-source-unavailable' && ['energy', 'environment'].includes(p.domain) ? null : { updated: new Date().toISOString(), features:
         Array.from({ length: 60 }, (_, i) => ({ id: 'LOCAL/FIXTURE-alert-' + i, properties: { event: 'Flood Warning', severity: 'Severe' } })) };
       else { assert(u.includes('www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json'));
         body = p.domain === 'law' && scenario === 'first-source-unavailable' ? null : { catalogVersion: 'LOCAL-FIXTURE', count: 18, dateReleased: new Date().toISOString(), vulnerabilities:
@@ -90,9 +96,15 @@ const originalFetch = global.fetch;
     if (['industry', 'trade'].includes(p.domain)) assert(consumed.handoffsCreated > 0);
     else if (consumed.handoffsCreated === 0) assert.equal(packet.truth.opportunities.filter(o => Packet.ACTIVE_LANES.includes(o.lane)).length, 0);
     for (const id of await store.members('handoffs')) assert.deepEqual((await store.get(store.handoffKey(id))).feedSourceEvidence, packet.truth.feedSourceEvidence);
-    const before = JSON.stringify(Array.from(values)), Decision = require('../lib/' + p.domain + '-' + p.family + '-decision.js');
+    const before = JSON.stringify(Array.from(values)), Decision = p.family === 'research-intake' ? null : require('../lib/' + p.domain + '-' + p.family + '-decision.js');
     const checks = [];
+    if (p.family === 'research-intake') {
+      const intake = require('../lib/domain-research-candidate.js').build({ c: { serverPacket: packet, serverPacketPersistence: consumed } }, p.domain, Date.parse(packet.generatedAt));
+      assert.equal(intake.status, 'ABSTAINED'); assert.equal(intake.candidate, null); assert.equal(intake.reason, p.blocker);
+      checks.push({ status: intake.status, reason: intake.reason });
+    }
     for (const opportunity of packet.truth.opportunities) {
+      if (p.family === 'research-intake') continue;
       if (p.family === 'investment' && opportunity.path !== 'INVESTABLE') continue;
       const refusal = await Decision.decide(store, opportunity, Date.parse(packet.generatedAt));
       assert.equal(refusal.status, 'NO_ACTION'); assert.deepEqual(refusal.blockers, [p.blocker]);
