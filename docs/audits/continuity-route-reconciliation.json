@@ -10,6 +10,12 @@
     "operator": 38,
     "customer": 3423,
     "unknownAudience": 7,
+    "unknownRouteDispositionCoverage": {
+      "excludedReferences": 4,
+      "excludedStaticWithObservedDynamicReplacement": 2,
+      "localRetirementWithUnresolvedPublicMapping": 1,
+      "historicalAudienceLabelsUnchanged": true
+    },
     "duplicateRoutes": 0,
     "duplicateLocalContentGroups": 1,
     "brokenLinks": 27,
@@ -24,6 +30,89 @@
       "scope": "JSON asset files, not equivalent to rendered page routes; live data endpoint inventory unverified"
     }
   },
+  "currentRouteDispositions": [
+    {
+      "route": "/LIMEN_Helix_Neuro_Business_CrossRef",
+      "kind": "INTERNAL_REFERENCE_EXCLUDED",
+      "replacement": null,
+      "disposition": "repository reference explicitly excluded from deployment",
+      "provenance": "docs/audits/continuity-route-exclusion-provenance-20261001.json",
+      "provenanceSha256": "cbd91bf94bf38876b26276f05da7d1edad9ec5a9a6498cc651a6edff64f892c6",
+      "liveObservationSource": "docs/audits/continuity-live-route-probe-20261001.json",
+      "replacementEvidence": [],
+      "scope": "saved observations at their recorded timestamps; no new crawl or publication authority"
+    },
+    {
+      "route": "/LIMEN_Helix_Neurology_Reference",
+      "kind": "INTERNAL_REFERENCE_EXCLUDED",
+      "replacement": null,
+      "disposition": "repository reference explicitly excluded from deployment",
+      "provenance": "docs/audits/continuity-route-exclusion-provenance-20261001.json",
+      "provenanceSha256": "cbd91bf94bf38876b26276f05da7d1edad9ec5a9a6498cc651a6edff64f892c6",
+      "liveObservationSource": "docs/audits/continuity-live-route-probe-20261001.json",
+      "replacementEvidence": [],
+      "scope": "saved observations at their recorded timestamps; no new crawl or publication authority"
+    },
+    {
+      "route": "/LIMEN_Helix_Neurology_Reference_1",
+      "kind": "INTERNAL_REFERENCE_EXCLUDED",
+      "replacement": null,
+      "disposition": "repository reference explicitly excluded from deployment",
+      "provenance": "docs/audits/continuity-route-exclusion-provenance-20261001.json",
+      "provenanceSha256": "cbd91bf94bf38876b26276f05da7d1edad9ec5a9a6498cc651a6edff64f892c6",
+      "liveObservationSource": "docs/audits/continuity-live-route-probe-20261001.json",
+      "replacementEvidence": [],
+      "scope": "saved observations at their recorded timestamps; no new crawl or publication authority"
+    },
+    {
+      "route": "/fl",
+      "kind": "EXTERNAL_SCRAPE_REFERENCE_EXCLUDED",
+      "replacement": null,
+      "disposition": "repository reference explicitly excluded from deployment",
+      "provenance": "docs/audits/continuity-route-exclusion-provenance-20261001.json",
+      "provenanceSha256": "cbd91bf94bf38876b26276f05da7d1edad9ec5a9a6498cc651a6edff64f892c6",
+      "liveObservationSource": "docs/audits/continuity-live-route-probe-20261001.json",
+      "replacementEvidence": [],
+      "scope": "saved observations at their recorded timestamps; no new crawl or publication authority"
+    },
+    {
+      "route": "/energy_datacenter_powerdemand_rackdensity_portal",
+      "kind": "DEEP_STATIC_PORTAL_EXCLUDED",
+      "replacement": "/portal?domain=energy&l2=datacenter&l3=powerdemand&l4=rackdensity",
+      "disposition": "excluded static file; dynamic replacement independently observed",
+      "provenance": "docs/audits/continuity-route-exclusion-provenance-20261001.json",
+      "provenanceSha256": "cbd91bf94bf38876b26276f05da7d1edad9ec5a9a6498cc651a6edff64f892c6",
+      "liveObservationSource": "docs/audits/continuity-live-route-probe-20261001.json",
+      "replacementEvidence": [
+        "docs/audits/continuity-dynamic-portal-probe-20261001.json",
+        "docs/audits/continuity-dynamic-portal-render-20261001.json"
+      ],
+      "scope": "saved observations at their recorded timestamps; no new crawl or publication authority"
+    },
+    {
+      "route": "/energy_datacenter_powerdemand_rackdensity_hvpower_portal",
+      "kind": "DEEP_STATIC_PORTAL_EXCLUDED",
+      "replacement": "/portal?domain=energy&l2=datacenter&l3=powerdemand&l4=rackdensity&l5=hvpower",
+      "disposition": "excluded static file; dynamic replacement independently observed",
+      "provenance": "docs/audits/continuity-route-exclusion-provenance-20261001.json",
+      "provenanceSha256": "cbd91bf94bf38876b26276f05da7d1edad9ec5a9a6498cc651a6edff64f892c6",
+      "liveObservationSource": "docs/audits/continuity-live-route-probe-20261001.json",
+      "replacementEvidence": [
+        "docs/audits/continuity-dynamic-portal-probe-20261001.json",
+        "docs/audits/continuity-dynamic-portal-render-20261001.json"
+      ],
+      "scope": "saved observations at their recorded timestamps; no new crawl or publication authority"
+    },
+    {
+      "route": "/relay-checkout",
+      "kind": "LOCAL_RETIRED_PAGE_PUBLIC_MAPPING_UNRESOLVED",
+      "disposition": "local page explicitly retires simulated checkout toward /relay; inventoried root URL mapping unresolved",
+      "source": "pages/relay-checkout.html",
+      "sourceSha256": "974b11026308e436c466cca60017ab115cb89b11b2bb2f3a9be7c067d4c4ab41",
+      "liveObservationSource": "docs/audits/continuity-live-route-probe-20261001.json",
+      "scope": "separate API registrations do not establish root page mapping; no new retirement or publication action"
+    }
+  ],
   "explicitLegacyRoutes": [
     {
       "route": "/api/relay-checkout",

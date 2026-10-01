@@ -70,6 +70,39 @@ const explicitLegacyRoutes = retiredApi.includes('api/relay-checkout — RETIRED
     source: 'handlers/relay-checkout.js', inSourcePageInventory: seen.has('/api/relay-checkout') }] : [];
 const repairPath = path.join(root, 'docs/audits/continuity-navigation-repair.json');
 const navigationRepairs = fs.existsSync(repairPath) ? JSON.parse(fs.readFileSync(repairPath, 'utf8')) : null;
+// Dispositions overlay the historical inventory; they do not rewrite its
+// audience or HTTP observations. Reject provenance drift before adopting it.
+const exclusionSource = 'docs/audits/continuity-route-exclusion-provenance-20261001.json';
+const exclusionRaw = fs.readFileSync(path.join(root, exclusionSource), 'utf8');
+const exclusions = JSON.parse(exclusionRaw);
+const sha256 = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
+if (sha256(fs.readFileSync(path.join(root, exclusions.ignoreFile))) !== exclusions.ignoreSha256)
+  throw new Error('Exclusion configuration drift; refresh provenance before reconciliation');
+const currentRouteDispositions = exclusions.routes.map(entry => {
+  if (!seen.has(entry.route) || sha256(fs.readFileSync(path.join(root, entry.file))) !== entry.fileSha256)
+    throw new Error(`Exclusion source drift: ${entry.route}`);
+  const dynamic = entry.kind === 'DEEP_STATIC_PORTAL_EXCLUDED';
+  const replacement = dynamic ? '/portal?domain=energy&l2=datacenter&l3=powerdemand&l4=rackdensity' +
+    (entry.route.includes('_hvpower_') ? '&l5=hvpower' : '') : null;
+  return { route: entry.route, kind: entry.kind, replacement,
+    disposition: dynamic ? 'excluded static file; dynamic replacement independently observed' : 'repository reference explicitly excluded from deployment',
+    provenance: exclusionSource, provenanceSha256: sha256(exclusionRaw),
+    liveObservationSource: entry.liveObservationSource,
+    replacementEvidence: dynamic ? ['docs/audits/continuity-dynamic-portal-probe-20261001.json',
+      'docs/audits/continuity-dynamic-portal-render-20261001.json'] : [],
+    scope: 'saved observations at their recorded timestamps; no new crawl or publication authority' };
+});
+const checkoutSource = 'pages/relay-checkout.html';
+const checkout = fs.readFileSync(path.join(root, checkoutSource), 'utf8');
+if (!checkout.includes('/relay') || !/retir/i.test(checkout)) throw new Error('Checkout retirement source changed');
+currentRouteDispositions.push({ route: exclusions.unresolved.route, kind: 'LOCAL_RETIRED_PAGE_PUBLIC_MAPPING_UNRESOLVED',
+  disposition: 'local page explicitly retires simulated checkout toward /relay; inventoried root URL mapping unresolved',
+  source: checkoutSource, sourceSha256: sha256(checkout), liveObservationSource: 'docs/audits/continuity-live-route-probe-20261001.json',
+  scope: 'separate API registrations do not establish root page mapping; no new retirement or publication action' });
+const unknownRoutes = routes.filter(row => !['Operator', 'Customer'].includes(row.audience));
+if (unknownRoutes.length !== currentRouteDispositions.length ||
+    unknownRoutes.some(row => !currentRouteDispositions.some(entry => entry.route === row.route)))
+  throw new Error('Unknown route coverage changed; inspect before adopting dispositions');
 const report = {
   schemaVersion: 'continuity-route-reconciliation/1.0',
   source: path.resolve(source), sourceSha256: crypto.createHash('sha256').update(raw).digest('hex'),
@@ -80,12 +113,17 @@ const report = {
     operator: routes.filter(r => r.audience === 'Operator').length,
     customer: routes.filter(r => r.audience === 'Customer').length,
     unknownAudience: routes.filter(r => !['Operator', 'Customer'].includes(r.audience)).length,
+    unknownRouteDispositionCoverage: {
+      excludedReferences: currentRouteDispositions.filter(row => ['INTERNAL_REFERENCE_EXCLUDED', 'EXTERNAL_SCRAPE_REFERENCE_EXCLUDED'].includes(row.kind)).length,
+      excludedStaticWithObservedDynamicReplacement: currentRouteDispositions.filter(row => row.kind === 'DEEP_STATIC_PORTAL_EXCLUDED').length,
+      localRetirementWithUnresolvedPublicMapping: currentRouteDispositions.filter(row => row.kind === 'LOCAL_RETIRED_PAGE_PUBLIC_MAPPING_UNRESOLVED').length,
+      historicalAudienceLabelsUnchanged: true },
     duplicateRoutes: duplicates.length, duplicateLocalContentGroups: duplicateContentGroups.length, brokenLinks: brokenLinks.length,
     localRemainingReferencedBrokenTargets: brokenLinks.filter(row => references.get(row.route).length > 0).length,
     localNavigationRepairedTargets: navigationRepairs ? navigationRepairs.repairedTargets : 0,
     legacy: { explicitlyRetiredLocalRoutes: explicitLegacyRoutes.length, sourcePageLegacyStatus: 'unresolved without explicit retirement provenance' },
     dataOnly: { localJsonAssets: dataAssets.length, scope: 'JSON asset files, not equivalent to rendered page routes; live data endpoint inventory unverified' }
-  }, explicitLegacyRoutes, dataAssets, duplicates, duplicateContentGroups, brokenLinks: brokenLinks.map(row => ({ ...row,
+  }, currentRouteDispositions, explicitLegacyRoutes, dataAssets, duplicates, duplicateContentGroups, brokenLinks: brokenLinks.map(row => ({ ...row,
     inFullInventory: seen.has(row.route), localHtmlPresent: fs.existsSync(path.join(root, row.route.slice(1) + '.html')),
     localReferences: references.get(row.route),
     disposition: navigationRepairs && navigationRepairs.repairs.some(repair => repair.missingTarget === row.route)
