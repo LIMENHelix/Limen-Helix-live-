@@ -107,6 +107,8 @@ sb.LIMENDomains = fixtures;
   var ResearchCandidate = require('../lib/domain-research-candidate.js');
   var DomainSemantic = require('../lib/domain-semantic-packet.js');
   var DomainBridge = require('../lib/autofire-domain-bridge.js');
+  var MotorAuthorization = require('../lib/product-domain-motor-authorization.js');
+  var DevelopmentalAuthority = require('../lib/research-paper-developmental-authority.js');
   var shadowValues = new Map(), shadowLists = new Map();
   function shadowClone(value) { return value == null ? null : JSON.parse(JSON.stringify(value)); }
   var redisPath = require.resolve('../lib/brain-shadow-redis.js');
@@ -217,12 +219,21 @@ sb.LIMENDomains = fixtures;
         assert.equal(runtimeSelection.receipt.candidate.sourcePacketId, enrichedPacket.packetId);
         assert(!runtimeSelection.receipt.reasons.includes('owning_domain_cycle_missing'));
         assert.deepEqual(await decisionStore.get('autofire_selection:' + runtimeSelection.receipt.id), runtimeSelection.receipt);
+        var beforeAuthorization = JSON.stringify(Array.from(values));
+        var motorAuthorization = await MotorAuthorization.authorize(decisionStore, row[0], 'research-papers', sourceAt + 2);
+        assert.equal(motorAuthorization.authorized, false);
+        assert.equal(motorAuthorization.reason, 'domain-motor-receipt-missing');
+        var developmentalAuthorization = await DevelopmentalAuthority.authorize(decisionStore, row[0], runtimeSelection.receipt, {}, sourceAt + 2);
+        assert.equal(developmentalAuthorization.authorized, false);
+        assert.equal(developmentalAuthorization.reason, 'research-developmental-switch-off');
+        assert.equal(JSON.stringify(Array.from(values)), beforeAuthorization, 'held authorization must not write a command or create capability evidence');
         enrichedResearch = { status: actor.status, sourcePacketId: enrichedPacket.packetId, ownerDomain: actor.candidate.ownerDomain,
           sourceKeys: semantic.observations.map(function (observation) { return observation.sourceIdentity.value; }),
           titleSourceLevel: 'LOCAL/FIXTURE', selection: { id: selection.receipt.id, status: selection.receipt.status, ownerDomain: selection.receipt.ownerDomain, reasons: selection.receipt.reasons },
           recordedRuntimeJoin: { fixture: 'brain-v2/fixtures/' + sourceDomain + '-recorder.json', rowsApplied: runtimeCycle.rowsApplied,
             domainFunction: runtimeCycle.domainFunction, selection: { id: runtimeSelection.receipt.id, status: runtimeSelection.receipt.status, reasons: runtimeSelection.receipt.reasons } },
-          nextBoundary: 'released-native-selection-to-command-capability-boundary-not-joined', providerCalled: false };
+          dispatchBoundary: { motor: motorAuthorization, developmental: developmentalAuthorization, commandCreated: false, providerCalled: false },
+          nextBoundary: 'domain-motor-receipt-and-capability-required-before-command', providerCalled: false };
       }
       var replay = await consumer.consumePacket(packet);
       assert.equal(replay.handoffsCreated, 0, 'same native packet cannot duplicate handoffs');

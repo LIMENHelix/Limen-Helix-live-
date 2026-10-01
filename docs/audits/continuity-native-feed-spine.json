@@ -4651,7 +4651,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_26840ea2024549adecdbb91e027768f2061681029be8eea67ef2c36753e7dcd8",
+            "id": "sel_episode_54d1c847ce0bee8c56b307ea392706a0c4c3de094b1e1c76ff4496ecff3b5b71",
             "status": "HELD",
             "ownerDomain": "health",
             "reasons": [
@@ -4693,12 +4693,33 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_9a9904668c84a17565d1369bb4c5660a56b340c07ccda3220e0c1a00e9de01b1",
+              "id": "sel_episode_386bbe1799000864c222960b33ffe16751c982c09925457ddcafe2eb64297cd8",
               "status": "RELEASED",
               "reasons": []
             }
           },
-          "nextBoundary": "released-native-selection-to-command-capability-boundary-not-joined",
+          "dispatchBoundary": {
+            "motor": {
+              "ok": true,
+              "authorized": false,
+              "status": "HELD",
+              "reason": "domain-motor-receipt-missing",
+              "receiptId": null,
+              "ownerDomain": null,
+              "lane": null,
+              "blockers": []
+            },
+            "developmental": {
+              "ok": true,
+              "authorized": false,
+              "status": "HELD",
+              "reason": "research-developmental-switch-off",
+              "detail": null
+            },
+            "commandCreated": false,
+            "providerCalled": false
+          },
+          "nextBoundary": "domain-motor-receipt-and-capability-required-before-command",
           "providerCalled": false
         }
       },
@@ -5805,7 +5826,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_30f97f3846be87e1a19b2f0c4f7fd11ea6ebd603edb5f05ad52af2b572deb1bc",
+            "id": "sel_episode_235d4de2827ec8d73f4ffbea06d435f0a8d057a3d822db227b81e376436b5b2c",
             "status": "HELD",
             "ownerDomain": "research",
             "reasons": [
@@ -5847,12 +5868,33 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_0c36ad633004997e3f7c3484c152435def457699c9ff1939fccdfe8db1890fbb",
+              "id": "sel_episode_f411aef2555b58c2ead391771f0ef43d16dab77c1110c97c3573704277bf50c6",
               "status": "RELEASED",
               "reasons": []
             }
           },
-          "nextBoundary": "released-native-selection-to-command-capability-boundary-not-joined",
+          "dispatchBoundary": {
+            "motor": {
+              "ok": true,
+              "authorized": false,
+              "status": "HELD",
+              "reason": "domain-motor-receipt-missing",
+              "receiptId": null,
+              "ownerDomain": null,
+              "lane": null,
+              "blockers": []
+            },
+            "developmental": {
+              "ok": true,
+              "authorized": false,
+              "status": "HELD",
+              "reason": "research-developmental-switch-off",
+              "detail": null
+            },
+            "commandCreated": false,
+            "providerCalled": false
+          },
+          "nextBoundary": "domain-motor-receipt-and-capability-required-before-command",
           "providerCalled": false
         }
       },
