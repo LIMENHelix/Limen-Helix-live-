@@ -566,6 +566,25 @@ sb.LIMENDomains = fixtures;
       assert.deepEqual(FinanceSource.domainEmissionsForCompany(intake.financeRelevant, { ticker: 'FIXTURE_UNMATCHED_COMPANY' }), [], 'unmatched company must not adopt broad domain context');
       assert.deepEqual(FinanceSource.domainEmissionsForCompany(intake.financeRelevant, {}), [], 'missing company identity must not adopt domain context');
       assert.equal(JSON.stringify(Array.from(values)), beforeIntake, 'Finance review intake is read-only');
+      var nativeFinanceReturnBoundary = null;
+      if (row[0] === 'energy') {
+        // Review context is not a Finance command or an independently observed
+        // outcome. Exercise the existing return reader on this same store.
+        var afferent = require('../lib/energy-finance-afferent-learning.js');
+        var returnStore = Object.assign({}, store, { assertDurable: function () {}, setIfAbsent: store.setNx,
+          set: async function (key, value) { values.set(key, JSON.parse(JSON.stringify(value))); return true; } });
+        var absentReturn = await afferent.readForBrain(returnStore);
+        assert.equal(absentReturn.status, 'ABSTAINED');
+        assert.equal(absentReturn.reason, 'energy-has-no-returned-finance-outcome');
+        assert.equal(absentReturn.signal, null); assert.equal(absentReturn.learningGate.ready, false);
+        var absentOutcome = await afferent.record(returnStore, null, null, null);
+        assert.equal(absentOutcome.ok, false); assert.equal(absentOutcome.reason, 'finance-investment-outcome-required');
+        assert.equal(JSON.stringify(Array.from(values)), beforeIntake, 'absent outcome must create no return cause or signal');
+        assert.equal(companyContexts.length, 0, 'this native Energy fixture has no explicit company association');
+        nativeFinanceReturnBoundary = { sourcePacketId: packet.packetId, intakeRecordIds: intake.records.map(function (r) { return r.recordId; }),
+          explicitCompanyContexts: 0, status: absentReturn.status, reason: absentReturn.reason,
+          outcomeGate: absentOutcome.reason, signal: null, learningReady: false, commandCreated: false, eventFabricated: false };
+      }
       var invalid = JSON.parse(JSON.stringify(packet));
       invalid.cycleId += ':missing-identity-fixture'; invalid = Packet.buildPacket(invalid);
       invalid.truth.opportunities = [Object.assign({}, packet.truth.opportunities.find(function (o) { return Packet.ACTIVE_LANES.includes(o.lane); }), { id: '' })];
@@ -588,7 +607,7 @@ sb.LIMENDomains = fixtures;
         semanticEvidenceInjected: false, evidenceLevel: 'LOCAL/FIXTURE', enrichedSourceIntake: enrichedResearch },
       financeReviewIntake: { status: intake.status, packetsRead: intake.packetsRead,
         recordsRead: intake.records.length, financiallyRelevant: intake.financeRelevant.length,
-        explicitCompanyContexts: companyContexts,
+        explicitCompanyContexts: companyContexts, nativeReturnBoundary: nativeFinanceReturnBoundary,
         nextBoundary: row[0] === 'finance' ? 'own-finance-packet-excluded-from-cross-domain-intake' : companyContexts.length ? 'company-context-to-finance-owned-admission-not-joined' : 'native-context-has-no-explicit-company-identity',
         opportunityReadLimit: 32, evidenceLevel: 'LOCAL/FIXTURE', decisionProven: false, motorProven: false },
       firstUnprovenBoundary: boundary, providerCalled: false });
