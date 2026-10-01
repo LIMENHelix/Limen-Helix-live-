@@ -3,7 +3,7 @@ const assert = require('node:assert/strict'), fs = require('node:fs'), path = re
 const Module = require('node:module'), acorn = require('acorn');
 const root = path.resolve(__dirname, '..'), filename = path.join(root, 'handlers/domain-snapshot.js');
 const mod = new Module(filename, module); mod.filename = filename; mod.paths = Module._nodeModulePaths(path.dirname(filename));
-mod._compile(fs.readFileSync(filename, 'utf8') + '\nmodule.exports.testBuildDomain = buildDomain;module.exports.testWBPopulation = fetchWorldBankPopulation;module.exports.testWBInternetUsers = fetchWBInternetUsers;', filename);
+mod._compile(fs.readFileSync(filename, 'utf8') + '\nmodule.exports.testBuildDomain = buildDomain;module.exports.testWBPopulation = fetchWorldBankPopulation;module.exports.testWBInternetUsers = fetchWBInternetUsers;module.exports.testReligionNews = fetchRSSReligion;module.exports.testReligionEvents = fetchRSSReligionEvents;', filename);
 const H = mod.exports, Packet = require('../lib/civilization-server-packet.js'), Consumer = require('../lib/civilization-handoff-consumer.js');
 const harness = fs.readFileSync(path.join(__dirname, 'test-continuity-feed-spine.cjs'), 'utf8');
 const helper = acorn.parse(harness, { ecmaVersion: 'latest' }).body.find(n => n.type === 'FunctionDeclaration' && n.id.name === 'sandbox');
@@ -26,7 +26,11 @@ const profiles = [
   { domain: 'energy', runtime: 'energy', brain: 'LIMENEnergyBrain', first: 'NOAA NWS Alerts', second: 'CISA KEV',
     fetchFirst: H._fetchNOAANWSAlerts, fetchSecond: H._fetchCISAKEV, family: 'investment', blocker: 'exact-paper-investment-record-required' },
   { domain: 'technology', runtime: 'technology', brain: 'LIMENTechnologyBrain', first: 'Hacker News', second: 'CISA KEV',
-    fetchFirst: H._fetchHackerNews, fetchSecond: H._fetchCISAKEV, family: 'investment', blocker: 'exact-paper-investment-record-required' }
+    fetchFirst: H._fetchHackerNews, fetchSecond: H._fetchCISAKEV, family: 'investment', blocker: 'exact-paper-investment-record-required' },
+  { domain: 'law', runtime: 'law', brain: 'LIMENLawBrain', first: 'CISA KEV', second: 'SEC Enforcement Actions',
+    fetchFirst: H._fetchCISAKEV, fetchSecond: H._fetchSECEnforcement, family: 'automail', blocker: 'exact-address-content-and-lead-time-required' },
+  { domain: 'religion', runtime: 'religion', brain: 'LIMENReligionBrain', first: 'RSS Religion News', second: 'RSS Religion Events',
+    fetchFirst: H.testReligionNews, fetchSecond: H.testReligionEvents, family: 'subscriber', blocker: 'paid-subscriber-candidate-invalid' }
 ];
 const originalFetch = global.fetch;
 (async () => {
@@ -35,8 +39,12 @@ const originalFetch = global.fetch;
     H._resetBLSRequestState(); const requests = [];
     global.fetch = async url => {
       const u = String(url); requests.push(u); let body;
-      if (u === 'https://feeds.bbci.co.uk/news/world/rss.xml' || u === 'https://www.cisa.gov/cybersecurity-advisories/all.xml') {
-        body = scenario === 'first-source-unavailable' ? '' : '<rss><channel>' + Array.from({ length: 20 }, (_, i) =>
+      if (u === 'https://feeds.bbci.co.uk/news/world/rss.xml' || u === 'https://www.cisa.gov/cybersecurity-advisories/all.xml' ||
+          u === 'https://www.sec.gov/news/pressreleases.rss' || u.startsWith('https://news.google.com/rss/search?')) {
+        const missing = scenario === 'first-source-unavailable' && (p.domain === 'communication' || p.domain === 'intelligence' ||
+          p.domain === 'religion' && decodeURIComponent(u).includes('religious conflict'));
+        if (missing && p.domain === 'religion') return { ok: false, status: 503, text: async () => { throw new Error('LOCAL/FIXTURE source unavailable'); } };
+        body = missing ? '' : '<rss><channel>' + Array.from({ length: 20 }, (_, i) =>
           '<item><title>LOCAL/FIXTURE critical ICS advisory ' + i + '</title><link>https://fixture.invalid/item/' + i + '</link><pubDate>' + new Date().toUTCString() + '</pubDate></item>').join('') + '</channel></rss>';
       }
       else if (u.includes('api.bls.gov')) body = { status: 'REQUEST_SUCCEEDED', Results: { series: scenario === 'first-source-unavailable' ? [] :
@@ -51,12 +59,12 @@ const originalFetch = global.fetch;
       else if (u.includes('api.weather.gov')) body = scenario === 'first-source-unavailable' && p.domain === 'energy' ? null : { updated: new Date().toISOString(), features:
         Array.from({ length: 60 }, (_, i) => ({ id: 'LOCAL/FIXTURE-alert-' + i, properties: { event: 'Flood Warning', severity: 'Severe' } })) };
       else { assert(u.includes('www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json'));
-        body = { catalogVersion: 'LOCAL-FIXTURE', count: 18, dateReleased: new Date().toISOString(), vulnerabilities:
+        body = p.domain === 'law' && scenario === 'first-source-unavailable' ? null : { catalogVersion: 'LOCAL-FIXTURE', count: 18, dateReleased: new Date().toISOString(), vulnerabilities:
           Array.from({ length: 18 }, (_, i) => ({ cveID: 'CVE-2026-' + (2000 + i), dateAdded: new Date().toISOString().slice(0, 10), knownRansomwareCampaignUse: 'Known' })) }; }
       return { ok: true, status: 200, json: async () => body, text: async () => body };
     };
     const first = await p.fetchFirst(), second = await p.fetchSecond(); assert(second);
-    assert.equal(first === null, scenario === 'first-source-unavailable');
+    assert.equal(first === null, scenario === 'first-source-unavailable', p.domain + ':' + scenario);
     const snapshot = H.testBuildDomain(p.runtime, [{ name: p.first, data: first }, { name: p.second, data: second }]);
     if (!first) { assert.equal(snapshot.sources[0].classification, 'broken'); assert.equal(snapshot.sources[0].value, null); assert(snapshot.lowSignal); }
     const sb = sandbox(global); sb.LIMENDomains = { [p.runtime]: snapshot };
@@ -88,7 +96,7 @@ const originalFetch = global.fetch;
       if (p.family === 'investment' && opportunity.path !== 'INVESTABLE') continue;
       const refusal = await Decision.decide(store, opportunity, Date.parse(packet.generatedAt));
       assert.equal(refusal.status, 'NO_ACTION'); assert.deepEqual(refusal.blockers, [p.blocker]);
-      if (p.domain === 'communication') { assert.equal(refusal.released, false); assert.equal(refusal.liveMoney, false); }
+      if (['communication', 'religion'].includes(p.domain)) { assert.equal(refusal.released, false); assert.equal(refusal.liveMoney, false); }
       else if (p.family === 'investment') { assert.equal(Decision.candidate(opportunity), null); assert.equal(refusal.liveMoney, false); }
       else assert.equal(refusal.providerCalled, false);
       checks.push({ opportunityId: opportunity.id, blockers: refusal.blockers });
