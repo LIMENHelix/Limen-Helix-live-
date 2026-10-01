@@ -256,5 +256,30 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
   await window.LIMENExecutionObservatory.refresh();
   assert.doesNotMatch(el.innerHTML, /EXTERNAL-READY/);
   assert.match(el.innerHTML, /capability-expiry-missing-or-expired/);
+  const nativeEvidence = JSON.parse(fs.readFileSync(path.join(__dirname, '../docs/audits/continuity-native-feed-spine.json'), 'utf8'));
+  const nativeRows = nativeEvidence.domains;
+  const nativeAgriculture = nativeRows.find(row => row.productDomain === 'agriculture').primaryIntakeBoundary.nativeReturnBoundary;
+  const nativeEnergy = nativeRows.find(row => row.productDomain === 'energy').financeReviewIntake.nativeReturnBoundary;
+  assert.equal(nativeAgriculture.observationOnly, true); assert.equal(nativeEnergy.eventFabricated, false);
+  delete cognition.cognition.agriculture.c.businessTrace;
+  cognition.cognition.agriculture.c.brainOrgans.externalActionLearning = {
+    domain: 'agriculture', status: 'ABSTAINED', reason: nativeAgriculture.reason, routedOutcomeReturn: nativeAgriculture
+  };
+  cognition.cognition.energy.c.brainOrgans.externalActionLearning = {
+    domain: 'energy', status: 'ABSTAINED', financialAfferent: { status: nativeEnergy.status, reason: nativeEnergy.reason, signalId: null }
+  };
+  await window.LIMENExecutionObservatory.refresh();
+  agricultureCard = el.innerHTML.split('<span class="exo-domain-name">agriculture</span>')[1].split('</article>')[0];
+  energyCard = el.innerHTML.split('<span class="exo-domain-name">energy</span>')[1].split('</article>')[0];
+  assert.match(agricultureCard, /agriculture-opportunity-owner-outcomes-not-yet-returned/);
+  assert.match(agricultureCard, /routed outcome return <b>ABSTAINED/);
+  assert.doesNotMatch(agricultureCard, /route-return-1|research-origin-return|destination-finance-release/);
+  assert.match(energyCard, /Finance afferent <b>ABSTAINED/);
+  assert.match(energyCard, /energy-has-no-returned-finance-outcome/);
+  assert.doesNotMatch(energyCard, /finance-to-energy-1|finance-command-1/);
+  for (const card of [agricultureCard, energyCard]) {
+    assert.match(card, /exo-chain-label">OBSERVED<\/span><span class="exo-badge exo-unobserved">UNOBSERVED/);
+    assert.match(card, /exo-chain-label">REVENUE<\/span><span class="exo-badge exo-unobserved">UNOBSERVED/);
+  }
   console.log('PASS observatory credit, failed-read readiness and recovery boundaries');
 })().catch(error => { console.error(error); process.exitCode = 1; });
