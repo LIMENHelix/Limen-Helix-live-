@@ -33,18 +33,20 @@ document.getElementById('domain').onchange = () => {document.getElementById('bra
 </script>`;
 const server = http.createServer((req, res) => {
   res.setHeader('Content-Security-Policy', "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'");
-  if (req.method === 'GET' && req.url === '/operator?domain=energy&mode=operator') {
+  const requestUrl = new URL(req.url, 'http://127.0.0.1:8932');
+  const domain = requestUrl.searchParams.get('domain');
+  if (req.method === 'GET' && requestUrl.pathname === '/operator' && domains.includes(domain) && requestUrl.searchParams.get('mode') === 'operator') {
     const page = fs.readFileSync('domain-console.html', 'utf8').replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
-    const operator = fs.readFileSync('assets/js/energy-clarity-operator.js', 'utf8');
-    const fixture = `<aside style="position:relative;z-index:999;background:#173544;padding:15px;color:white;font:16px system-ui">LOCAL/FIXTURE: original domain-console HTML and complete Energy operator script; fixture brain state, boot marker and responses. No business execution or production claim. <select id="fixture-mode"><option value="unavailable">Unavailable branch</option><option value="success">Populated success</option></select></aside>
+    const operator = fs.readFileSync('assets/js/' + domain + '-clarity-operator.js', 'utf8');
+    const fixture = `<aside style="position:relative;z-index:999;background:#173544;padding:15px;color:white;font:16px system-ui">LOCAL/FIXTURE: original domain-console HTML and complete ${domain} operator script; fixture brain state, boot marker and responses. No business execution or production claim. <select id="fixture-mode"><option value="unavailable">Unavailable branch</option><option value="success">Populated success</option></select></aside>
 <script>
-const fixtureState = {updated:1,stress:0,diagnoses:[],feeds:[],opportunities:[{title:'FIXTURE integration directive',source:'portal_directive',rank:1,_richness:2,_omittedSiblingCount:1,_directive:{nodeId:'fixture-node',ancestryPath:['energy','fixture'],depth:2},scores:{econRelevance:1},steps:['Fixture observation only'],explain:'UI fixture only; no execution authority'}]};
+const fixtureState = {updated:1,stress:0,diagnoses:[],feeds:[],opportunities:[{title:'FIXTURE integration directive',source:'portal_directive',rank:1,_richness:2,_omittedSiblingCount:1,_directive:{nodeId:'fixture-node',ancestryPath:[${JSON.stringify(domain)},'fixture'],depth:2},scores:{econRelevance:1},steps:['Fixture observation only'],explain:'UI fixture only; no execution authority'}]};
 window.LIMENDomainBrains = {get:()=>({getState:()=>fixtureState})};
 document.getElementById('clarity-view').innerHTML='<div id="dcb-exec">Fixture boot marker</div>';
 document.getElementById('console-grid').classList.add('dcb-active');
 window.fetch = async (path, options) => {
  if(options&&options.method==='HEAD')return {ok:false,status:404};
- if(path.includes('branch-index.json'))return {ok:true,json:async()=>({branches:[{nodeId:'fixture-node',ancestryPath:['energy','fixture'],portalDomainId:'fixture',treatmentLabel:'Fixture related branch',depth:2}]})};
+ if(path.includes('branch-index.json'))return {ok:true,json:async()=>({branches:[{nodeId:'fixture-node',ancestryPath:[${JSON.stringify(domain)},'fixture'],portalDomainId:'fixture',treatmentLabel:'Fixture related branch',depth:2}]})};
  if(document.getElementById('fixture-mode').value==='unavailable')return {ok:false,status:path.startsWith('/assets/')?404:500};
  return {ok:true,json:async()=>({activations:[{treatments:[{label:'Recovered integration branch',monitoring:'Fixture integration monitoring'}]}]})};
 };
