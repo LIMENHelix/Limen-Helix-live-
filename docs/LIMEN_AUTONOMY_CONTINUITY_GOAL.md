@@ -148,6 +148,8 @@ When stopped, state the exact boundary, evidence, safe next action, and what rem
 
 ## Ready-to-paste Goal prompt
 
+Business visibility checkpoint (2026-10-01): internal emissions, preparation permission and readiness receipts no longer populate the DECIDED/COMMAND/provider RECEIPT stages. Culture's existing keyed business decisions and commands now supply sanitized historical evidence with causal decision validation; provider acceptance requires its request identity. Other domains explicitly abstain until their own business readers connect. This is LOCAL/FIXTURE proof and a partial visibility repair; the complete all-domain autonomy goal remains active.
+
 Continuity checkpoint (2026-10-01): the existing Agriculture routing consumers now retain explicit origin/packet provenance through destination commands and return independently qualified owner outcomes as observation-only readouts. Research retains its learning and next-critic effect; Finance retains its investment learning rules. Agriculture receives no borrowed reward and Homestead remains excluded. LOCAL/FIXTURE coverage includes HOLD/reconsideration, negative Research and positive paper Finance outcomes, persistence, replay/index decay, write recovery, partial owner-read failure, and public endpoint/UI separation. Full suite: 361 passed, 1 external-corpus skip, 0 failed. Production source-to-outcome evidence, the joined spine for all origins, business decision/command UI evidence, and three unresolved route destinations remain outstanding. The goal is active; Google Docs implementation remains deferred until its definition of done is met.
 
 ```text

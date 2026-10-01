@@ -33,6 +33,15 @@ cognition.cognition.agriculture = { ts: Date.now(), c: { brainOrgans: { external
       sourceDomains: [{ sourceDomain: 'agriculture', sourcePacketId: 'agri-packet-1' }] } }
 } } } };
 cognition.count = 3;
+cognition.cognition.finance.c.brainOrgans.autonomousInternalEmission = { emittedCount: 12, stagedCount: 3 };
+cognition.cognition.finance.c.motorReceiptPersistence.gates.mayPrepare = true;
+cognition.cognition.culture = { ts: Date.now(), c: { businessTrace: {
+  schemaVersion: 'culture-business-trace-readout/1.0', ownerDomain: 'culture', lane: 'hero-image',
+  status: 'RECORDED', observationOnly: true, externalActionAuthorized: false,
+  decision: { id: 'culture-decision-1', status: 'NO_ACTION', packetId: 'culture-packet-1', decidedAt: Date.now() },
+  command: { id: 'culture-command-1', status: 'AMBIGUOUS', decisionId: 'culture-prior-decision', commandedAt: Date.now(), providerReceiptId: null }
+} } };
+cognition.count = 4;
 vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilization/execution-observatory.js'), 'utf8'), {
   window, document, Date, setInterval() {},
   fetch: async url => {
@@ -43,6 +52,23 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
 (async () => {
   await window.LIMENExecutionObservatory.refresh();
   assert.match(el.innerHTML, /EXTERNAL-READY/);
+  var financeCard = el.innerHTML.split('<span class="exo-domain-name">finance</span>')[1].split('</article>')[0];
+  ['DECIDED', 'COMMAND', 'RECEIPT'].forEach(function (stage) {
+    assert.match(financeCard, new RegExp('exo-chain-label">' + stage + '</span><span class="exo-badge exo-unobserved">UNOBSERVED'));
+  });
+  assert.match(financeCard, /internal emission <b>12/);
+  assert.match(financeCard, /preparation PERMITTED/);
+  var cultureCard = el.innerHTML.split('<span class="exo-domain-name">culture</span>')[1].split('</article>')[0];
+  assert.match(cultureCard, /RECORDED NO_ACTION/); assert.match(cultureCard, /RECORDED AMBIGUOUS/);
+  assert.match(cultureCard, /culture-prior-decision/);
+  assert.doesNotMatch(cultureCard, /PROVIDER-ACCEPTED/);
+  cognition.cognition.culture.c.businessTrace.command.providerReceiptId = 'provider-culture-1';
+  cognition.cognition.culture.c.businessTrace.command.status = 'GENERATED';
+  await window.LIMENExecutionObservatory.refresh();
+  assert.match(el.innerHTML, /PROVIDER-ACCEPTED/);
+  cognition.cognition.culture.c.businessTrace.status = 'UNAVAILABLE';
+  await window.LIMENExecutionObservatory.refresh();
+  assert.doesNotMatch(el.innerHTML, /PROVIDER-ACCEPTED/);
   assert.match(el.innerHTML, /learning credit <b>0.75<\/b> \(not revenue\)/);
   assert.doesNotMatch(el.innerHTML, /CREDIT 0.75/);
   assert.match(el.innerHTML, /exo-chain-label">REVENUE<\/span><span class="exo-badge exo-unobserved">UNOBSERVED/);

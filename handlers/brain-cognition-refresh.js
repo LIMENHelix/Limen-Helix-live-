@@ -20,6 +20,7 @@ const handoffConsumer = require('../lib/civilization-handoff-consumer.js');
 const efferenceStore = require('../lib/autofire-efference-store.js');
 const financePaperAdmission = require('../lib/finance-paper-admission.js');
 const productDomainMotorReceipt = require('../lib/product-domain-motor-receipt.js');
+const cultureBusinessTrace = require('../lib/culture-business-trace-readout.js');
 const productDomainMotorCapabilityOverlay = require('../lib/product-domain-motor-capability-overlay.js');
 const productDomainExternalValveOverlay = require('../lib/product-domain-external-valve-overlay.js');
 const productDomainLearningState = require('./product-domain-learning-state.js');
@@ -330,6 +331,7 @@ module.exports = async function handler(req, res) {
           } : _motorReceipt;
           c.motorCapabilityEvidence = _motorCapability;
           c.externalValveEvidence = _externalValve;
+          c.businessTrace = dom === 'culture' ? await cultureBusinessTrace.read(efferenceStore, Date.now()) : null;
           if (_motorReceipt.ok) motorReceiptsStored++;
           else motorReceiptFailures.push({ domain: dom, error: _motorReceipt.error, detail: _motorReceipt.detail });
           var _it = (_st.interoception && typeof _st.interoception === 'object') ? _st.interoception : (_st.cognition && _st.cognition.interoception) || null;
