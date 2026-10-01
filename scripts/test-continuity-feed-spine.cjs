@@ -350,7 +350,7 @@ sb.LIMENDomains = fixtures;
       assert.equal(researchIntake.candidate, null);
       assert.equal(researchIntake.reason, ['science', 'medicine', 'education', 'environment'].includes(row[0]) ? 'owning-domain-semantic-identity-invalid' : 'research-product-domain-not-enabled');
       var enrichedResearch = null;
-      if (['science', 'medicine'].includes(row[0])) {
+      if (['science', 'medicine', 'education', 'environment'].includes(row[0])) {
         var sourceDomain = DomainSemantic.sourceDomainFor(row[0]);
         var sourceAt = Date.parse(packet.generatedAt);
         var titleSets = [0, 1].map(function (feed) {
@@ -402,7 +402,11 @@ sb.LIMENDomains = fixtures;
         assert.equal(runtimeCycle.domain, sourceDomain);
         var runtimeSelection = await DomainBridge.select(decisionStore, { lane: 'research', candidate: actor.candidate, domainCycle: runtimeCycle, at: sourceAt + 1 });
         assert.equal(runtimeSelection.ok, true);
-        assert.equal(runtimeSelection.receipt.status, 'RELEASED');
+        assert.equal(runtimeSelection.receipt.status, ['science', 'medicine'].includes(row[0]) ? 'RELEASED' : 'HELD', JSON.stringify(runtimeSelection.receipt.reasons));
+        if (['education', 'environment'].includes(row[0])) {
+          if (row[0] === 'education') assert(runtimeSelection.receipt.reasons.includes('owning_domain_has_no_current_l3_evidence'));
+          assert(runtimeSelection.receipt.reasons.includes('owning_domain_has_no_declared_outward_consumer'), JSON.stringify(runtimeSelection.receipt.reasons));
+        }
         assert.equal(runtimeSelection.receipt.ownerDomain, sourceDomain);
         assert.equal(runtimeSelection.receipt.candidate.sourcePacketId, enrichedPacket.packetId);
         assert(!runtimeSelection.receipt.reasons.includes('owning_domain_cycle_missing'));
@@ -411,9 +415,9 @@ sb.LIMENDomains = fixtures;
         var motorAuthorization = await MotorAuthorization.authorize(decisionStore, row[0], 'research-papers', sourceAt + 2);
         assert.equal(motorAuthorization.authorized, false);
         assert.equal(motorAuthorization.reason, 'domain-motor-receipt-missing');
-        var developmentalAuthorization = await DevelopmentalAuthority.authorize(decisionStore, row[0], runtimeSelection.receipt, {}, sourceAt + 2);
+        var developmentalAuthorization = ['science', 'medicine'].includes(row[0]) ? await DevelopmentalAuthority.authorize(decisionStore, row[0], runtimeSelection.receipt, {}, sourceAt + 2) : { authorized: false, reason: 'not-evaluated-native-selection-held' };
         assert.equal(developmentalAuthorization.authorized, false);
-        assert.equal(developmentalAuthorization.reason, 'research-developmental-switch-off');
+        assert.equal(developmentalAuthorization.reason, ['science', 'medicine'].includes(row[0]) ? 'research-developmental-switch-off' : 'not-evaluated-native-selection-held');
         assert.equal(JSON.stringify(Array.from(values)), beforeAuthorization, 'held authorization must not write a command or create capability evidence');
         var operatorTrace = await ResearchReadout.read(decisionStore, row[0], sourceAt + 3);
         assert.equal(operatorTrace.status, 'RECORDED');
@@ -430,7 +434,7 @@ sb.LIMENDomains = fixtures;
           recordedRuntimeJoin: { fixture: 'brain-v2/fixtures/' + sourceDomain + '-recorder.json', rowsApplied: runtimeCycle.rowsApplied,
             domainFunction: runtimeCycle.domainFunction, selection: { id: runtimeSelection.receipt.id, status: runtimeSelection.receipt.status, reasons: runtimeSelection.receipt.reasons } },
           dispatchBoundary: { motor: motorAuthorization, developmental: developmentalAuthorization, commandCreated: false, providerCalled: false },
-          nextBoundary: 'domain-motor-receipt-and-capability-required-before-command', providerCalled: false };
+          nextBoundary: runtimeSelection.receipt.status === 'HELD' ? runtimeSelection.receipt.reasons.join(';') : 'domain-motor-receipt-and-capability-required-before-command', providerCalled: false };
       }
       var replay = await consumer.consumePacket(packet);
       assert.equal(replay.handoffsCreated, 0, 'same native packet cannot duplicate handoffs');
@@ -500,7 +504,7 @@ sb.LIMENDomains = fixtures;
       var rejected = await consumer.consumePacket(invalid);
       assert.equal(rejected.handoffsCreated, 0);
       assert.equal(rejected.failures.length, 1, 'missing native identity must fail at the handoff boundary');
-      boundary = primaryIntakeBoundary && primaryIntakeBoundary.nextBoundary || 'persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test';
+      boundary = primaryIntakeBoundary && primaryIntakeBoundary.nextBoundary || enrichedResearch && enrichedResearch.nextBoundary || 'persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test';
     } catch (err) { packetError = err.code || err.message; boundary = packetError; console.error(row[0], err); }
     assert.equal(packetError, null, row[0] + ' native packet/handoff chain failed');
     assert.equal(typeof brain.state.stress, 'number');
