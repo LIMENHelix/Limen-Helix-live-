@@ -1,0 +1,11 @@
+# Missing data-reference reconciliation — 2026-10-01
+
+Validated all47 missing literal JSON references from63e94b2a inventory against both implementation and canonical filesystems: none exists. Anonymous read-only HEAD requests to those exact /assets/data/*.json paths, with manual redirects and15s timeout, returned47HTTP404,0errors,0redirects. No API, cron, provider, POST or response body was requested. Saved per-path timestamps/status and inventory SHA256; exact unique target coverage validated.
+
+20 are branch-index outputs explicitly written by scripts/build-deep-directives.js:234 from assets/data/domains source trees. The generator was inspected, not run; naming does not establish a successful build or current output. Generating protected domain/neurology/source data is outside the current task. The other27 split into24domain sublayer files and3other indexes/substrate references; source provenance remains unresolved. Finance's credit/liquidity loader explicitly describes research-grade optional content, excludes it from validated diagnosis spine and falls back to null on404. That inspected behavior is not generalized to unreviewed domains.
+
+All five unmapped optional operator-authoring API call sites have now been inspected. Intelligence and Population, like previously inspected Agriculture/Communication/Industry, use POST; Intelligence explicitly rejects non-operator invocation, Population returns operator-trigger-required. These are not read-only data probes. No endpoint or replacement motor is invented and no protected brain source is edited.
+
+Evidence: continuity-missing-data-head-20261001.json and continuity-missing-data-dispositions-20261001.json retain exact references, local/live status, generator provenance and explicit unreviewed boundaries. Runtime unchanged; prior full suite367/1skip/0fail remains its last checkpoint. Diff check passed. Missing source/output provenance, live UI deployment and native consequence/return gaps prevent Done; Google Docs deferred.
+
+Next inspect existing operator drill-deeper rendering for these known missing branch-index outputs. Ensure UI exposes exact unavailable asset/reason rather than an apparent successful empty result. Preserve source content and existing missing-data gates; do not generate source JSON, alter neurology, or replace missing domain sublayers with invented data.
