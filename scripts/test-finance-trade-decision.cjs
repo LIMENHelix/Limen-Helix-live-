@@ -198,6 +198,58 @@ async function seeded() {
   assert.equal(providerCalls, 1);
   assert.deepEqual(b.calls, ['quote', 'quote', 'account', 'history:RKLB', 'history:SPY']);
 
+  const Trace = require('../lib/product-domain-business-trace-readout.js');
+  const Executor = require('../lib/finance-paper-executor.js');
+  let trace = await Trace.read(s, 'finance', Date.now());
+  assert.equal(trace.status, 'RECORDED', trace.reason);
+  assert.equal(trace.decision.id, result.receipt.selection.id);
+  assert.equal(trace.command, null, 'a selected trade intent is not a broker command');
+  const paperBroker = broker(0);
+  paperBroker.previewOrder = async function () { return { status: 'ok', result: true, cost: result.receipt.tradeIntent.quantity * result.receipt.tradeIntent.limitPrice }; };
+  let placed = 0;
+  paperBroker.placeOrder = async function () { placed++; return { id: 77, status: 'ok' }; };
+  const execution = await Executor.execute({ store: s, broker: paperBroker, packetId,
+    env: { TRADIER_SANDBOX_AUTONOMY_ENABLED: '1', TRADIER_SANDBOX_ORDER_AUTONOMY_ENABLED: '1' }, now: Date.now(),
+    motorAuthorization: { async authorize() { return { authorized: true, receiptId: 'fixture-finance-motor' }; } } });
+  assert.equal(execution.status, 'COMMAND_RECEIPTED');
+  trace = await Trace.read(s, 'finance', Date.now() + 1000);
+  assert.equal(trace.status, 'RECORDED', trace.reason);
+  assert.equal(trace.command.receipt.kind, 'PAPER-ORDER');
+  assert.equal(trace.command.receipt.id, '77');
+  assert.equal(trace.command.decisionId, result.receipt.selection.id);
+  assert.equal(trace.command.paperOnly, true);
+  assert.doesNotMatch(JSON.stringify(trace), /VA1|totalCash|fixture-finance-motor/);
+  const readonly = Object.create(s);
+  ['set', 'setIfAbsent', 'lpush', 'ltrim'].forEach(function (method) { readonly[method] = async function () { throw Error('readout must not write'); }; });
+  assert.equal((await Trace.read(readonly, 'finance', Date.now() + 1000)).status, 'RECORDED');
+  assert.equal(placed, 1, 'projection does not submit another order');
+  const commandKey = 'tradier_b14_command:' + execution.claim.commandId;
+  const persistedCommand = await s.get(commandKey);
+  await s.set(commandKey, Object.assign({}, persistedCommand, { intent: Object.assign({}, persistedCommand.intent, { ownerDomain: 'energy' }) }));
+  assert.equal((await Trace.read(readonly, 'finance', Date.now() + 1000)).reason, 'finance-b14-command-link-invalid');
+  await s.set(commandKey, Object.assign({}, persistedCommand, { receipt: Object.assign({}, persistedCommand.receipt, { orderId: 'another-order' }) }));
+  assert.equal((await Trace.read(readonly, 'finance', Date.now() + 1000)).reason, 'finance-order-receipt-invalid');
+  await s.set(commandKey, persistedCommand);
+  assert.equal((await Trace.read(readonly, 'finance', Date.now() + 1000)).status, 'RECORDED');
+  const claimKey = Executor.claimKey(packetId), originalClaim = await s.get(claimKey);
+  await s.set(claimKey, Object.assign({}, originalClaim, { status: 'CLAIMED', commandId: null, orderId: null }));
+  trace = await Trace.read(readonly, 'finance', Date.now() + 1000);
+  assert.equal(trace.command.status, 'CLAIMED');
+  assert.equal(trace.command.receipt, null, 'a durable claim is not a returned order receipt');
+  await s.set(claimKey, Object.assign({}, originalClaim, { safety: Object.assign({}, originalClaim.safety, { liveMoney: true }) }));
+  assert.equal((await Trace.read(readonly, 'finance', Date.now() + 1000)).reason, 'finance-execution-claim-invalid');
+  await s.set(claimKey, originalClaim);
+  s.values.delete(commandKey);
+  assert.equal((await Trace.read(readonly, 'finance', Date.now() + 1000)).reason, 'finance-b14-command-link-invalid');
+  await s.set(commandKey, persistedCommand);
+  const unavailable = Object.create(readonly);
+  unavailable.get = async function () { throw Error('store unavailable'); };
+  trace = await Trace.read(unavailable, 'finance', Date.now() + 1000);
+  assert.equal(trace.status, 'UNAVAILABLE');
+  assert.equal(trace.decision, null);
+  assert.equal(trace.command, null);
+  assert.equal((await Trace.read(readonly, 'finance', Date.now() + 1000)).status, 'RECORDED');
+
   const again = await Decision.execute(s, b, { approve: true, packetId }, { provider: async () => { throw new Error('must not repeat'); } });
   assert.equal(again.idempotent, true);
   assert.equal(providerCalls, 1);

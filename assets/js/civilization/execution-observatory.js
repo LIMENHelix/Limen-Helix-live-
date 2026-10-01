@@ -104,7 +104,7 @@
     var serverSeen = !!entry;
     var timestamp = entry && (typeof entry.ts === 'number' ? entry.ts : Date.parse(entry.ts));
     var fresh = !!(serverSeen && isFinite(timestamp) && timestamp > 0 && timestamp <= Date.now() && Date.now() - timestamp < COGNITION_TTL_MS);
-    var observed = !!(learning.latestSignalId || social.latestSignalId);
+    var observed = !!(learning.latestSignalId && learning.domain === (ALIASES[domain] || domain) && learning.status === 'ELIGIBLE');
     // Learning credit and outcome signals do not establish earned revenue.
     var revenue = 'UNOBSERVED';
     var blockers = arr(receipt.blockers).concat(capability.reason ? [capability.reason] : []).concat(valve.reason ? [valve.reason] : []);
@@ -173,7 +173,7 @@
     var receipt = businessReceipt && businessReceipt.id && ['PROVIDER-ACCEPTED', 'OWNED-PUBLICATION', 'PAPER-ORDER',
       'CRM-ACCEPTED', 'EMAIL-ACCEPTED', 'LETTER-ACCEPTED', 'INQUIRY-ACCEPTED', 'PLATFORM-POST', 'OWNED-LISTING', 'EMAIL-BATCH', 'PERSISTENCE-RECEIPT'].indexOf(businessReceipt.kind) >= 0
       ? businessReceipt.kind : 'UNOBSERVED';
-    var observation = row.observed ? 'SIGNAL ' + (row.learning.latestSignalId || row.social.latestSignalId) : 'UNOBSERVED';
+    var observation = row.observed ? 'SIGNAL ' + row.learning.latestSignalId : 'UNOBSERVED';
     var statusLine = row.serverSeen ? 'server ' + age(row.entry.ts) + ' · packet ' + (row.packetPersist.ok ? 'persisted' : 'held') : 'server cognition unavailable';
     var blockers = row.blockers.slice(0, 3).join(' · ');
     var afferent = row.learning.financialAfferent || {};

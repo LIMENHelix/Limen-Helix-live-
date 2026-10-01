@@ -123,6 +123,34 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
   });
   assert.match(financeCard, /internal emission <b>12/);
   assert.match(financeCard, /preparation PERMITTED/);
+  cognition.cognition.finance.c.businessTrace = {
+    schemaVersion: 'product-domain-business-trace-readout/1.0', ownerDomain: 'finance', lane: 'investments',
+    observationOnly: true, externalActionAuthorized: false, status: 'RECORDED',
+    reason: 'native Finance sandbox history; order receipt is not fill, profit or revenue',
+    decision: { id: 'finance-b10', status: 'TRADE_INTENT_SELECTED', packetId: 'finance-packet', decidedAt: Date.now() },
+    command: { id: 'finance-b14', status: 'RECEIPT_PERSISTED', decisionId: 'finance-b10', paperOnly: true,
+      commandedAt: Date.now(), receipt: { kind: 'PAPER-ORDER', id: 'finance-paper-order' } }
+  };
+  await window.LIMENExecutionObservatory.refresh();
+  financeCard = el.innerHTML.split('<span class="exo-domain-name">finance</span>')[1].split('</article>')[0];
+  assert.match(financeCard, /PAPER-ORDER/);
+  assert.match(financeCard, /PAPER ONLY/);
+  assert.match(financeCard, /order receipt is not fill, profit or revenue/);
+  ['OBSERVED', 'REVENUE'].forEach(function (stage) {
+    assert.match(financeCard, new RegExp('exo-chain-label">' + stage + '</span><span class="exo-badge exo-unobserved">UNOBSERVED'));
+  });
+  delete cognition.cognition.finance.c.businessTrace;
+  var financeLearning = cognition.cognition.finance.c.brainOrgans.externalActionLearning;
+  cognition.cognition.finance.c.brainOrgans.externalActionLearning = { domain: 'finance', status: 'ELIGIBLE', latestSignalId: 'finance-owned-outcome' };
+  await window.LIMENExecutionObservatory.refresh();
+  financeCard = el.innerHTML.split('<span class="exo-domain-name">finance</span>')[1].split('</article>')[0];
+  assert.match(financeCard, /SIGNAL finance-owned-outcome/);
+  cognition.cognition.finance.c.brainOrgans.externalActionLearning.domain = 'research';
+  await window.LIMENExecutionObservatory.refresh();
+  financeCard = el.innerHTML.split('<span class="exo-domain-name">finance</span>')[1].split('</article>')[0];
+  assert.doesNotMatch(financeCard, /SIGNAL finance-owned-outcome/);
+  cognition.cognition.finance.c.brainOrgans.externalActionLearning = financeLearning;
+  await window.LIMENExecutionObservatory.refresh();
   var tradeCard = el.innerHTML.split('<span class="exo-domain-name">trade</span>')[1].split('</article>')[0];
   assert.match(tradeCard, /OWNED-LISTING/); assert.match(tradeCard, /sale, order acceptance and payment are not authorized/);
   var religionCard = el.innerHTML.split('<span class="exo-domain-name">religion</span>')[1].split('</article>')[0];
