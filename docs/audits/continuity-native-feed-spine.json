@@ -376,7 +376,7 @@
             "name": "USDA Drought Monitor",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:agriculture",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 45,
             "classification": "real",
             "failReason": null
@@ -418,7 +418,15 @@
         "nextBoundary": "native-agriculture-handoff-is-not-eligible-autofire-actor-candidate",
         "destinationSelectionCreated": false,
         "agricultureMotorCreated": false,
-        "homesteadExcluded": true
+        "homesteadExcluded": true,
+        "nativeReturnBoundary": {
+          "status": "ABSTAINED",
+          "reason": "agriculture-opportunity-owner-outcomes-not-yet-returned",
+          "returnedCount": 0,
+          "observationOnly": true,
+          "failures": [],
+          "latest": null
+        }
       },
       "nativeResearchIntake": {
         "status": "ABSTAINED",
@@ -705,7 +713,7 @@
             "name": "communication identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:communication",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -1134,7 +1142,7 @@
             "name": "culture identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:culture",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -1251,8 +1259,8 @@
             "decision": {
               "id": "chd_1506695bb1eb69338fe72c6e",
               "status": "NO_ACTION",
-              "decidedAt": 1790882695178,
-              "expiresAt": 1790883295178,
+              "decidedAt": 1790882763343,
+              "expiresAt": 1790883363343,
               "key": "culture_hero_decision:chd_1506695bb1eb69338fe72c6e",
               "packetId": "culture:2:fixture-native-source-snapshot",
               "reason": "culture-b10-held",
@@ -1609,7 +1617,7 @@
             "name": "defense identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:defense",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -1621,7 +1629,7 @@
         "lane": "publication",
         "candidateId": "dpc_f567dc9a2c381bd7a005f2fd",
         "nativeOpportunityId": "DEFENSE_AIR_SYSTEM_FAILURE_researchable_t1",
-        "decisionId": "dpd_8115e777591a4bfd4a6a3749",
+        "decisionId": "dpd_bc2839a7310841a5d9577ddd",
         "sourcePacketId": "defense:2:fixture-native-source-snapshot",
         "status": "NO_ACTION",
         "blockers": [
@@ -2050,7 +2058,7 @@
             "name": "economy identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:economy",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -2424,7 +2432,7 @@
             "name": "education identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:education",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -2450,7 +2458,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_13575a9d13038a98544a8211624518d736d90a6c73bd165c1209b23720e44dfc",
+            "id": "sel_episode_76b1d79786a3248329085fbd5b7d360e31bb37cb64c877474104c0f463840702",
             "status": "HELD",
             "ownerDomain": "education",
             "reasons": [
@@ -2495,7 +2503,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_355c2015896e0d91da8e7df4a0a22c4ecdd2a870056070479a5a31ce78aa39f3",
+              "id": "sel_episode_426f10294ffb019215c094f2c27477a2757a35c676877e61415261ff94020228",
               "status": "HELD",
               "reasons": [
                 "owning_domain_has_no_current_l3_evidence",
@@ -2728,7 +2736,7 @@
             "name": "energy identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:energy",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -3058,7 +3066,7 @@
             "name": "environment identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:environment",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -3084,7 +3092,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_c2533cdd07bf002f24be973f5f85031bbc4f673f294f9afeae32ba4aac2be52b",
+            "id": "sel_episode_ca370e071476702514d9e9ee67e6badc9498b6234853aa5e529c5367ddf324fd",
             "status": "HELD",
             "ownerDomain": "environment",
             "reasons": [
@@ -3126,7 +3134,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_903f8484ae765f9319358e237590a2e60f6172319e8df0750a16878e7a868aea",
+              "id": "sel_episode_269b15dcc2939259cf2543665d8abfbe852f679c76269f0aaf85e77a492ccde4",
               "status": "HELD",
               "reasons": [
                 "owning_domain_has_no_declared_outward_consumer"
@@ -3405,7 +3413,7 @@
             "name": "finance identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:finance",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -4024,7 +4032,7 @@
             "name": "governance identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:governance",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -4036,7 +4044,7 @@
         "lane": "publication",
         "candidateId": "gpc_9986aded82fbd54e5bc8bf1d",
         "nativeOpportunityId": "GOVERNANCE_SANCTIONS_SYSTEM_FAILURE_researchable_t1",
-        "decisionId": "gpd_ebe6682bdf7edb3633bc0375",
+        "decisionId": "gpd_07e7aefffa85e3ee66a752f7",
         "sourcePacketId": "governance:2:fixture-native-source-snapshot",
         "status": "NO_ACTION",
         "blockers": [
@@ -4408,7 +4416,7 @@
             "name": "industry identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:industry",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -5069,7 +5077,7 @@
             "name": "infrastructure identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:infrastructure",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -5513,7 +5521,7 @@
             "name": "intelligence identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:intelligence",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -6120,7 +6128,7 @@
             "name": "law identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:law",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -6594,7 +6602,7 @@
             "name": "medicine identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:medicine",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -6620,7 +6628,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_05bd6d8e5bd5773397aac6bb4a3ffd20b410075945040a4fdb7e6ebf35e2722e",
+            "id": "sel_episode_ee1f93e0de5d9e71122d07e01aec27fb1d27a9384e5237b884c55afae30f6882",
             "status": "HELD",
             "ownerDomain": "health",
             "reasons": [
@@ -6662,7 +6670,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_6e06806fa0563cf37d114999218c72603bcac60e3899f404190bb8ea4bf7b008",
+              "id": "sel_episode_b2c4a07d63e2136c78637dedfdb551273036b5642979578ab37ae5548ab47374",
               "status": "RELEASED",
               "reasons": []
             }
@@ -7111,7 +7119,7 @@
             "name": "population identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:population",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -7641,7 +7649,7 @@
             "name": "religion identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:religion",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -8070,7 +8078,7 @@
             "name": "science identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:science",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -8096,7 +8104,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_a741236626cc2bd64c551f823f12661d1488a20b0bf6dd1378c3934dc1f18ecf",
+            "id": "sel_episode_a0add3d7b722718fb3174aaf09ceb9f1cfd1bfa1e97d0f885eff0b2ca9773931",
             "status": "HELD",
             "ownerDomain": "research",
             "reasons": [
@@ -8138,7 +8146,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_a5eb8a14d9da59d87f130c81aa114fb25c0f28c73c8ceb4a34b3d68b7dc96b4a",
+              "id": "sel_episode_fd2fb6007a4d866b8409897f307f8ed9ef7a61c2b0cbe2ed3898e03b6b66676c",
               "status": "RELEASED",
               "reasons": []
             }
@@ -8808,7 +8816,7 @@
             "name": "technology identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:technology",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -9149,7 +9157,7 @@
             "name": "trade identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:trade",
-            "fetchedAt": 1790882694252,
+            "fetchedAt": 1790882762348,
             "value": 0.72,
             "classification": "real",
             "failReason": null

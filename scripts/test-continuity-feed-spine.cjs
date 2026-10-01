@@ -224,11 +224,23 @@ sb.LIMENDomains = fixtures;
             lane: nativeHandoff.lane, eligible: false });
         }
         assert(nativeQueueChecks.length > 0);
+        var agricultureReturnStore = Object.assign({}, store, { assertDurable: function () {} });
+        var agricultureReturn = await require('../lib/autofire-learning.js').readAgricultureReturns(agricultureReturnStore);
+        assert.equal(agricultureReturn.status, 'ABSTAINED');
+        assert.equal(agricultureReturn.reason, 'agriculture-opportunity-owner-outcomes-not-yet-returned');
+        assert.equal(agricultureReturn.returnedCount, 0); assert.equal(agricultureReturn.latest, null);
+        assert.equal(agricultureReturn.observationOnly, true); assert.deepEqual(agricultureReturn.failures, []);
+        var agricultureProjection = require('../lib/brain-cognition-compact.js').learningReadout({ domain: 'agriculture',
+          status: 'ABSTAINED', reason: agricultureReturn.reason, routedOutcomeReturn: agricultureReturn });
+        assert.equal(agricultureProjection.routedOutcomeReturn.reason, agricultureReturn.reason);
+        assert.equal(agricultureProjection.routedOutcomeReturn.observationOnly, true);
+        assert.equal(agricultureProjection.routedOutcomeReturn.latest, null);
         assert.equal(JSON.stringify(Array.from(values)), beforeNativeQueue);
         primaryIntakeBoundary = { ownerDomain: 'agriculture', lane: 'origin-routing', sourcePacketId: packet.packetId,
           nativeQueueChecks: nativeQueueChecks, evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false,
           nextBoundary: 'native-agriculture-handoff-is-not-eligible-autofire-actor-candidate',
-          destinationSelectionCreated: false, agricultureMotorCreated: false, homesteadExcluded: true };
+          destinationSelectionCreated: false, agricultureMotorCreated: false, homesteadExcluded: true,
+          nativeReturnBoundary: agricultureProjection.routedOutcomeReturn };
       }
       if (['communication', 'trade', 'religion'].includes(row[0])) {
         var channelFamily = { communication: 'social', trade: 'auction', religion: 'subscriber' }[row[0]];
@@ -577,6 +589,11 @@ sb.LIMENDomains = fixtures;
         assert.equal(absentReturn.status, 'ABSTAINED');
         assert.equal(absentReturn.reason, 'energy-has-no-returned-finance-outcome');
         assert.equal(absentReturn.signal, null); assert.equal(absentReturn.learningGate.ready, false);
+        var energyProjection = require('../lib/brain-cognition-compact.js').learningReadout({ domain: 'energy',
+          status: 'ABSTAINED', financialAfferent: absentReturn });
+        assert.equal(energyProjection.financialAfferent.reason, absentReturn.reason);
+        assert.equal(energyProjection.financialAfferent.signalId, null);
+        assert.deepEqual(energyProjection.financialAfferent.sourceDomains, []);
         var absentOutcome = await afferent.record(returnStore, null, null, null);
         assert.equal(absentOutcome.ok, false); assert.equal(absentOutcome.reason, 'finance-investment-outcome-required');
         assert.equal(JSON.stringify(Array.from(values)), beforeIntake, 'absent outcome must create no return cause or signal');
