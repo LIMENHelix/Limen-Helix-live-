@@ -177,8 +177,8 @@ module.exports = async function handler(req, res) {
     // product brain's current durable packet, not from a company portal whose
     // identity is absent from those feeds. Only the bounded actor candidate is
     // queued here; B10 still competes it against no_action in autofire.
-    var domainResearch = { examined: 2, ready: 0, admitted: 0, refreshed: 0, deduped: 0, abstentions: [], retiredMismatched: [] };
-    var researchRecords = await Promise.all(['science', 'medicine'].map(function (domain) {
+    var domainResearch = { examined: 4, ready: 0, admitted: 0, refreshed: 0, deduped: 0, abstentions: [], retiredMismatched: [] };
+    var researchRecords = await Promise.all(['science', 'medicine', 'education', 'environment'].map(function (domain) {
       return redisGet('limen:brain:cognition:' + domain).then(function (record) {
         return { domain: domain, record: record };
       });

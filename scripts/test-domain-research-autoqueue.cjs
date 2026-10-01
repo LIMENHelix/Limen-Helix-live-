@@ -56,10 +56,13 @@ mock(path.join(ROOT, 'lib', 'limen-db.js'), {
   async get(key) { return values.has(key) ? values.get(key) : null; },
   async set(key, value) { values.set(key, value); return true; }
 });
+let includeNewOwners = false;
 mock(path.join(ROOT, 'lib', 'redis-kv.js'), {
   async redisGet(key) {
     if (key.endsWith(':science')) return cognition('science', 'research');
     if (key.endsWith(':medicine')) return cognition('medicine', 'health');
+    if (includeNewOwners && key.endsWith(':education')) return cognition('education', 'education');
+    if (includeNewOwners && key.endsWith(':environment')) return cognition('environment', 'environment');
     return null;
   }
 });
@@ -105,6 +108,22 @@ function invoke(handler) {
     assert.equal(refreshedQueue.length, 200);
     assert.ok(refreshedRows.every((row) => row.sourcePacketId.endsWith(String(packetNow))));
     assert.ok(refreshedRows.every((row) => firstPacketIds.includes(row.refreshedFromPacketId)));
+    includeNewOwners = true;
+    values.set('autoqueue', refreshedQueue.slice(0, 198));
+    const expanded = await invoke(handler);
+    assert.equal(expanded.json.domainResearch.examined, 4);
+    assert.equal(expanded.json.domainResearch.ready, 4);
+    assert.equal(expanded.json.domainResearch.admitted, 2);
+    for (const domain of ['education', 'environment']) {
+      const owned = values.get('autoqueue').find(row => row.source === 'domain-packet-research' && row.domain === domain);
+      assert(owned);
+      assert.equal(owned.ownerDomain, domain);
+      assert.equal(owned.cik, null);
+      assert.equal(owned.sourcePacketId, domain + ':3:' + packetNow);
+    }
+    const duplicate = await invoke(handler);
+    assert.equal(duplicate.json.domainResearch.admitted, 0);
+    assert.equal(duplicate.json.domainResearch.deduped, 4);
     console.log('domain research autoqueue: two source-owned brains replaced two unjoined company-research schedule rows');
   } finally {
     Date.now = realNow;

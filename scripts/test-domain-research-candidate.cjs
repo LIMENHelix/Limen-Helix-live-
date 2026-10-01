@@ -69,4 +69,16 @@ notDurable.c.serverPacketPersistence.ok = false;
 assert.equal(Producer.build(notDurable, 'science', now).reason, 'owning-domain-packet-not-durable');
 assert.equal(Producer.build(cognition('finance', 'finance', rows), 'finance', now).reason, 'research-product-domain-not-enabled');
 
+for (const domain of ['education', 'environment']) {
+  const ownedRows = rows.map(row => Object.assign({}, row, { sourceIdentity: { kind: row.sourceIdentity.kind, value: domain + ':' + row.sourceIdentity.value } }));
+  const result = Producer.build(cognition(domain, domain, ownedRows), domain, now);
+  assert.equal(result.status, 'READY_FOR_B10');
+  assert.equal(result.candidate.ownerDomain, domain);
+  assert.equal(result.candidate.domain, domain);
+  assert.equal(result.candidate.sourcePacketId, domain + ':3:packet');
+  assert.equal(result.candidate.cik, null);
+  assert.equal(result.candidate.researchContext.evidence.sourceBoundary.publisherIndependence, 'UNASSESSED');
+  assert.equal(Producer.build(cognition(domain, 'research', ownedRows), domain, now).reason, 'owning-domain-semantic-identity-invalid');
+  assert.equal(Producer.build(cognition(domain, domain, ownedRows.slice(0, 3)), domain, now).reason, 'owning-domain-semantic-coverage-insufficient');
+}
 console.log('domain research candidate: source-owned Science/Medicine evidence synthesis passed');

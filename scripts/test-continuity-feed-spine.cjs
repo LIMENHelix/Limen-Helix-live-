@@ -348,7 +348,7 @@ sb.LIMENDomains = fixtures;
       var researchIntake = ResearchCandidate.build({ c: { serverPacket: packet, serverPacketPersistence: consumed } }, row[0], Date.parse(packet.generatedAt));
       assert.equal(researchIntake.status, 'ABSTAINED');
       assert.equal(researchIntake.candidate, null);
-      assert.equal(researchIntake.reason, ['science', 'medicine'].includes(row[0]) ? 'owning-domain-semantic-identity-invalid' : 'research-product-domain-not-enabled');
+      assert.equal(researchIntake.reason, ['science', 'medicine', 'education', 'environment'].includes(row[0]) ? 'owning-domain-semantic-identity-invalid' : 'research-product-domain-not-enabled');
       var enrichedResearch = null;
       if (['science', 'medicine'].includes(row[0])) {
         var sourceDomain = DomainSemantic.sourceDomainFor(row[0]);
