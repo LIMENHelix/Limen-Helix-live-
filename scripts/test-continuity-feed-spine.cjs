@@ -101,6 +101,7 @@ sb.LIMENDomains = fixtures;
   var Packet = require('../lib/civilization-server-packet.js');
   var Consumer = require('../lib/civilization-handoff-consumer.js');
   var FinanceIntake = require('../lib/finance-domain-intake.js');
+  var FinanceSource = require('../lib/finance-source-universe.js');
   var results = [];
   for (var row of domains) {
     var brain = sb[row[1]];
@@ -168,6 +169,20 @@ sb.LIMENDomains = fixtures;
       } else assert.equal(intake.records.length, 0, 'Finance must not reimport its own source as cross-domain context');
       assert.equal(intake.authority.brokerTouched, false);
       assert.equal(intake.authority.orderPlaced, false);
+      var nativeTickers = Array.from(new Set(intake.financeRelevant.flatMap(function (record) { return FinanceSource.emissionTickers(record); })));
+      var companyContexts = nativeTickers.map(function (ticker) {
+        var matched = FinanceSource.domainEmissionsForCompany(intake.financeRelevant, { ticker: ticker });
+        assert(matched.length > 0, 'explicit native ticker must retain matching source context');
+        matched.forEach(function (record) {
+          assert.equal(record.sourcePacketId, packet.packetId);
+          assert.equal(record.sourceDomain, row[0]);
+          assert(FinanceSource.emissionTickers(record).includes(ticker));
+          assert.equal(record.authority.executionInstruction, false);
+        });
+        return { ticker: ticker, recordIds: matched.map(function (record) { return record.recordId; }) };
+      });
+      assert.deepEqual(FinanceSource.domainEmissionsForCompany(intake.financeRelevant, { ticker: 'FIXTURE_UNMATCHED_COMPANY' }), [], 'unmatched company must not adopt broad domain context');
+      assert.deepEqual(FinanceSource.domainEmissionsForCompany(intake.financeRelevant, {}), [], 'missing company identity must not adopt domain context');
       assert.equal(JSON.stringify(Array.from(values)), beforeIntake, 'Finance review intake is read-only');
       var invalid = JSON.parse(JSON.stringify(packet));
       invalid.cycleId += ':missing-identity-fixture'; invalid = Packet.buildPacket(invalid);
@@ -187,6 +202,8 @@ sb.LIMENDomains = fixtures;
       packetId: packet && packet.packetId, packetError: packetError, handoffs: handoffs,
       financeReviewIntake: { status: intake.status, packetsRead: intake.packetsRead,
         recordsRead: intake.records.length, financiallyRelevant: intake.financeRelevant.length,
+        explicitCompanyContexts: companyContexts,
+        nextBoundary: row[0] === 'finance' ? 'own-finance-packet-excluded-from-cross-domain-intake' : companyContexts.length ? 'company-context-to-finance-owned-admission-not-joined' : 'native-context-has-no-explicit-company-identity',
         opportunityReadLimit: 32, evidenceLevel: 'LOCAL/FIXTURE', decisionProven: false, motorProven: false },
       firstUnprovenBoundary: boundary, providerCalled: false });
   }

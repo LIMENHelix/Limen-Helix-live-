@@ -369,6 +369,8 @@
         "packetsRead": 1,
         "recordsRead": 8,
         "financiallyRelevant": 2,
+        "explicitCompanyContexts": [],
+        "nextBoundary": "native-context-has-no-explicit-company-identity",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -631,6 +633,8 @@
         "packetsRead": 1,
         "recordsRead": 24,
         "financiallyRelevant": 11,
+        "explicitCompanyContexts": [],
+        "nextBoundary": "native-context-has-no-explicit-company-identity",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -866,6 +870,8 @@
         "packetsRead": 1,
         "recordsRead": 22,
         "financiallyRelevant": 11,
+        "explicitCompanyContexts": [],
+        "nextBoundary": "native-context-has-no-explicit-company-identity",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -1185,6 +1191,45 @@
         "packetsRead": 1,
         "recordsRead": 26,
         "financiallyRelevant": 11,
+        "explicitCompanyContexts": [
+          {
+            "ticker": "AVAV",
+            "recordIds": [
+              "defense:2:fixture-native-source-snapshot:opportunity:company_surge_investable_t1"
+            ]
+          },
+          {
+            "ticker": "AXON",
+            "recordIds": [
+              "defense:2:fixture-native-source-snapshot:opportunity:company_surge_investable_t1"
+            ]
+          },
+          {
+            "ticker": "BKSY",
+            "recordIds": [
+              "defense:2:fixture-native-source-snapshot:opportunity:company_surge_investable_t1"
+            ]
+          },
+          {
+            "ticker": "BA",
+            "recordIds": [
+              "defense:2:fixture-native-source-snapshot:opportunity:company_surge_investable_t1"
+            ]
+          },
+          {
+            "ticker": "BAH",
+            "recordIds": [
+              "defense:2:fixture-native-source-snapshot:opportunity:company_surge_investable_t1"
+            ]
+          },
+          {
+            "ticker": "BWXT",
+            "recordIds": [
+              "defense:2:fixture-native-source-snapshot:opportunity:company_surge_investable_t1"
+            ]
+          }
+        ],
+        "nextBoundary": "company-context-to-finance-owned-admission-not-joined",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -1420,6 +1465,8 @@
         "packetsRead": 1,
         "recordsRead": 21,
         "financiallyRelevant": 11,
+        "explicitCompanyContexts": [],
+        "nextBoundary": "native-context-has-no-explicit-company-identity",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -1682,6 +1729,8 @@
         "packetsRead": 1,
         "recordsRead": 24,
         "financiallyRelevant": 12,
+        "explicitCompanyContexts": [],
+        "nextBoundary": "native-context-has-no-explicit-company-identity",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -1870,6 +1919,8 @@
         "packetsRead": 1,
         "recordsRead": 19,
         "financiallyRelevant": 8,
+        "explicitCompanyContexts": [],
+        "nextBoundary": "native-context-has-no-explicit-company-identity",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -2078,6 +2129,8 @@
         "packetsRead": 1,
         "recordsRead": 20,
         "financiallyRelevant": 9,
+        "explicitCompanyContexts": [],
+        "nextBoundary": "native-context-has-no-explicit-company-identity",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -2313,6 +2366,8 @@
         "packetsRead": 0,
         "recordsRead": 0,
         "financiallyRelevant": 0,
+        "explicitCompanyContexts": [],
+        "nextBoundary": "own-finance-packet-excluded-from-cross-domain-intake",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -2556,6 +2611,8 @@
         "packetsRead": 1,
         "recordsRead": 20,
         "financiallyRelevant": 9,
+        "explicitCompanyContexts": [],
+        "nextBoundary": "native-context-has-no-explicit-company-identity",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -2891,6 +2948,74 @@
         "packetsRead": 1,
         "recordsRead": 28,
         "financiallyRelevant": 15,
+        "explicitCompanyContexts": [
+          {
+            "ticker": "CAT",
+            "recordIds": [
+              "industry:2:fixture-native-source-snapshot:opportunity:FACTORY_CAPACITY_PINCH_investable_t1",
+              "industry:2:fixture-native-source-snapshot:opportunity:EQUIPMENT_LIFECYCLE_RISK_investable_t1"
+            ]
+          },
+          {
+            "ticker": "DE",
+            "recordIds": [
+              "industry:2:fixture-native-source-snapshot:opportunity:FACTORY_CAPACITY_PINCH_investable_t1"
+            ]
+          },
+          {
+            "ticker": "ITW",
+            "recordIds": [
+              "industry:2:fixture-native-source-snapshot:opportunity:FACTORY_CAPACITY_PINCH_investable_t1",
+              "industry:2:fixture-native-source-snapshot:opportunity:PRODUCTION_THROUGHPUT_BOTTLENECK_investable_t1"
+            ]
+          },
+          {
+            "ticker": "GEV",
+            "recordIds": [
+              "industry:2:fixture-native-source-snapshot:opportunity:EQUIPMENT_LIFECYCLE_RISK_investable_t1"
+            ]
+          },
+          {
+            "ticker": "DOV",
+            "recordIds": [
+              "industry:2:fixture-native-source-snapshot:opportunity:EQUIPMENT_LIFECYCLE_RISK_investable_t1"
+            ]
+          },
+          {
+            "ticker": "ROK",
+            "recordIds": [
+              "industry:2:fixture-native-source-snapshot:opportunity:PREDICTIVE_MAINTENANCE_EDGE_investable_t1",
+              "industry:2:fixture-native-source-snapshot:opportunity:AUTOMATION_INVESTMENT_OPPORTUNITY_investable_t1"
+            ]
+          },
+          {
+            "ticker": "EMR",
+            "recordIds": [
+              "industry:2:fixture-native-source-snapshot:opportunity:PREDICTIVE_MAINTENANCE_EDGE_investable_t1",
+              "industry:2:fixture-native-source-snapshot:opportunity:AUTOMATION_INVESTMENT_OPPORTUNITY_investable_t1"
+            ]
+          },
+          {
+            "ticker": "HON",
+            "recordIds": [
+              "industry:2:fixture-native-source-snapshot:opportunity:PREDICTIVE_MAINTENANCE_EDGE_investable_t1",
+              "industry:2:fixture-native-source-snapshot:opportunity:AUTOMATION_INVESTMENT_OPPORTUNITY_investable_t1"
+            ]
+          },
+          {
+            "ticker": "ETN",
+            "recordIds": [
+              "industry:2:fixture-native-source-snapshot:opportunity:PRODUCTION_THROUGHPUT_BOTTLENECK_investable_t1"
+            ]
+          },
+          {
+            "ticker": "PH",
+            "recordIds": [
+              "industry:2:fixture-native-source-snapshot:opportunity:PRODUCTION_THROUGHPUT_BOTTLENECK_investable_t1"
+            ]
+          }
+        ],
+        "nextBoundary": "company-context-to-finance-owned-admission-not-joined",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -3060,6 +3185,8 @@
         "packetsRead": 1,
         "recordsRead": 19,
         "financiallyRelevant": 5,
+        "explicitCompanyContexts": [],
+        "nextBoundary": "native-context-has-no-explicit-company-identity",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -3398,6 +3525,45 @@
         "packetsRead": 1,
         "recordsRead": 30,
         "financiallyRelevant": 15,
+        "explicitCompanyContexts": [
+          {
+            "ticker": "BBAI",
+            "recordIds": [
+              "intelligence:2:fixture-native-source-snapshot:opportunity:company_surge_investable_t1"
+            ]
+          },
+          {
+            "ticker": "BAH",
+            "recordIds": [
+              "intelligence:2:fixture-native-source-snapshot:opportunity:company_surge_investable_t1"
+            ]
+          },
+          {
+            "ticker": "AI",
+            "recordIds": [
+              "intelligence:2:fixture-native-source-snapshot:opportunity:company_surge_investable_t1"
+            ]
+          },
+          {
+            "ticker": "CACI",
+            "recordIds": [
+              "intelligence:2:fixture-native-source-snapshot:opportunity:company_surge_investable_t1"
+            ]
+          },
+          {
+            "ticker": "CTSH",
+            "recordIds": [
+              "intelligence:2:fixture-native-source-snapshot:opportunity:company_surge_investable_t1"
+            ]
+          },
+          {
+            "ticker": "CFLT",
+            "recordIds": [
+              "intelligence:2:fixture-native-source-snapshot:opportunity:company_surge_investable_t1"
+            ]
+          }
+        ],
+        "nextBoundary": "company-context-to-finance-owned-admission-not-joined",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -3606,6 +3772,49 @@
         "packetsRead": 1,
         "recordsRead": 25,
         "financiallyRelevant": 10,
+        "explicitCompanyContexts": [
+          {
+            "ticker": "BFAM",
+            "recordIds": [
+              "law:2:fixture-native-source-snapshot:opportunity:JUDICIAL_CRISIS_investable_t1",
+              "law:2:fixture-native-source-snapshot:opportunity:CONSTITUTIONAL_VIOLATION_investable_t1",
+              "law:2:fixture-native-source-snapshot:opportunity:REGULATORY_CAPTURE_investable_t1"
+            ]
+          },
+          {
+            "ticker": "CXW",
+            "recordIds": [
+              "law:2:fixture-native-source-snapshot:opportunity:JUDICIAL_CRISIS_investable_t1",
+              "law:2:fixture-native-source-snapshot:opportunity:CONSTITUTIONAL_VIOLATION_investable_t1",
+              "law:2:fixture-native-source-snapshot:opportunity:REGULATORY_CAPTURE_investable_t1"
+            ]
+          },
+          {
+            "ticker": "LAW",
+            "recordIds": [
+              "law:2:fixture-native-source-snapshot:opportunity:JUDICIAL_CRISIS_investable_t1",
+              "law:2:fixture-native-source-snapshot:opportunity:CONSTITUTIONAL_VIOLATION_investable_t1",
+              "law:2:fixture-native-source-snapshot:opportunity:REGULATORY_CAPTURE_investable_t1"
+            ]
+          },
+          {
+            "ticker": "DLO",
+            "recordIds": [
+              "law:2:fixture-native-source-snapshot:opportunity:JUDICIAL_CRISIS_investable_t1",
+              "law:2:fixture-native-source-snapshot:opportunity:CONSTITUTIONAL_VIOLATION_investable_t1",
+              "law:2:fixture-native-source-snapshot:opportunity:REGULATORY_CAPTURE_investable_t1"
+            ]
+          },
+          {
+            "ticker": "DOCU",
+            "recordIds": [
+              "law:2:fixture-native-source-snapshot:opportunity:JUDICIAL_CRISIS_investable_t1",
+              "law:2:fixture-native-source-snapshot:opportunity:CONSTITUTIONAL_VIOLATION_investable_t1",
+              "law:2:fixture-native-source-snapshot:opportunity:REGULATORY_CAPTURE_investable_t1"
+            ]
+          }
+        ],
+        "nextBoundary": "company-context-to-finance-owned-admission-not-joined",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -3777,6 +3986,57 @@
         "packetsRead": 1,
         "recordsRead": 18,
         "financiallyRelevant": 8,
+        "explicitCompanyContexts": [
+          {
+            "ticker": "ABT",
+            "recordIds": [
+              "medicine:2:fixture-native-source-snapshot:opportunity:workforce_capacity_investable_t3",
+              "medicine:2:fixture-native-source-snapshot:opportunity:CARE_ACCESS_FAILURE_investable_t1",
+              "medicine:2:fixture-native-source-snapshot:opportunity:CHRONIC_DISEASE_LOAD_investable_t1"
+            ]
+          },
+          {
+            "ticker": "ABBV",
+            "recordIds": [
+              "medicine:2:fixture-native-source-snapshot:opportunity:workforce_capacity_investable_t3",
+              "medicine:2:fixture-native-source-snapshot:opportunity:CARE_ACCESS_FAILURE_investable_t1",
+              "medicine:2:fixture-native-source-snapshot:opportunity:CHRONIC_DISEASE_LOAD_investable_t1"
+            ]
+          },
+          {
+            "ticker": "ACAD",
+            "recordIds": [
+              "medicine:2:fixture-native-source-snapshot:opportunity:workforce_capacity_investable_t3",
+              "medicine:2:fixture-native-source-snapshot:opportunity:CARE_ACCESS_FAILURE_investable_t1",
+              "medicine:2:fixture-native-source-snapshot:opportunity:CHRONIC_DISEASE_LOAD_investable_t1"
+            ]
+          },
+          {
+            "ticker": "ALKS",
+            "recordIds": [
+              "medicine:2:fixture-native-source-snapshot:opportunity:workforce_capacity_investable_t3",
+              "medicine:2:fixture-native-source-snapshot:opportunity:CARE_ACCESS_FAILURE_investable_t1",
+              "medicine:2:fixture-native-source-snapshot:opportunity:CHRONIC_DISEASE_LOAD_investable_t1"
+            ]
+          },
+          {
+            "ticker": "AMGN",
+            "recordIds": [
+              "medicine:2:fixture-native-source-snapshot:opportunity:workforce_capacity_investable_t3",
+              "medicine:2:fixture-native-source-snapshot:opportunity:CARE_ACCESS_FAILURE_investable_t1",
+              "medicine:2:fixture-native-source-snapshot:opportunity:CHRONIC_DISEASE_LOAD_investable_t1"
+            ]
+          },
+          {
+            "ticker": "AMWL",
+            "recordIds": [
+              "medicine:2:fixture-native-source-snapshot:opportunity:workforce_capacity_investable_t3",
+              "medicine:2:fixture-native-source-snapshot:opportunity:CARE_ACCESS_FAILURE_investable_t1",
+              "medicine:2:fixture-native-source-snapshot:opportunity:CHRONIC_DISEASE_LOAD_investable_t1"
+            ]
+          }
+        ],
+        "nextBoundary": "company-context-to-finance-owned-admission-not-joined",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -4012,6 +4272,57 @@
         "packetsRead": 1,
         "recordsRead": 22,
         "financiallyRelevant": 10,
+        "explicitCompanyContexts": [
+          {
+            "ticker": "AMED",
+            "recordIds": [
+              "population:2:fixture-native-source-snapshot:opportunity:POPULATION_COLLAPSE_investable_t1",
+              "population:2:fixture-native-source-snapshot:opportunity:MASS_MIGRATION_investable_t1",
+              "population:2:fixture-native-source-snapshot:opportunity:AGING_CRISIS_investable_t1"
+            ]
+          },
+          {
+            "ticker": "COO",
+            "recordIds": [
+              "population:2:fixture-native-source-snapshot:opportunity:POPULATION_COLLAPSE_investable_t1",
+              "population:2:fixture-native-source-snapshot:opportunity:MASS_MIGRATION_investable_t1",
+              "population:2:fixture-native-source-snapshot:opportunity:AGING_CRISIS_investable_t1"
+            ]
+          },
+          {
+            "ticker": "CORT",
+            "recordIds": [
+              "population:2:fixture-native-source-snapshot:opportunity:POPULATION_COLLAPSE_investable_t1",
+              "population:2:fixture-native-source-snapshot:opportunity:MASS_MIGRATION_investable_t1",
+              "population:2:fixture-native-source-snapshot:opportunity:AGING_CRISIS_investable_t1"
+            ]
+          },
+          {
+            "ticker": "CSGP",
+            "recordIds": [
+              "population:2:fixture-native-source-snapshot:opportunity:POPULATION_COLLAPSE_investable_t1",
+              "population:2:fixture-native-source-snapshot:opportunity:MASS_MIGRATION_investable_t1",
+              "population:2:fixture-native-source-snapshot:opportunity:AGING_CRISIS_investable_t1"
+            ]
+          },
+          {
+            "ticker": "HUM",
+            "recordIds": [
+              "population:2:fixture-native-source-snapshot:opportunity:POPULATION_COLLAPSE_investable_t1",
+              "population:2:fixture-native-source-snapshot:opportunity:MASS_MIGRATION_investable_t1",
+              "population:2:fixture-native-source-snapshot:opportunity:AGING_CRISIS_investable_t1"
+            ]
+          },
+          {
+            "ticker": "DLR",
+            "recordIds": [
+              "population:2:fixture-native-source-snapshot:opportunity:POPULATION_COLLAPSE_investable_t1",
+              "population:2:fixture-native-source-snapshot:opportunity:MASS_MIGRATION_investable_t1",
+              "population:2:fixture-native-source-snapshot:opportunity:AGING_CRISIS_investable_t1"
+            ]
+          }
+        ],
+        "nextBoundary": "company-context-to-finance-owned-admission-not-joined",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -4195,6 +4506,8 @@
         "packetsRead": 1,
         "recordsRead": 15,
         "financiallyRelevant": 9,
+        "explicitCompanyContexts": [],
+        "nextBoundary": "native-context-has-no-explicit-company-identity",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -4502,6 +4815,91 @@
         "packetsRead": 1,
         "recordsRead": 26,
         "financiallyRelevant": 12,
+        "explicitCompanyContexts": [
+          {
+            "ticker": "TMO",
+            "recordIds": [
+              "science:2:fixture-native-source-snapshot:opportunity:REPLICATION_CRISIS_investable_t1",
+              "science:2:fixture-native-source-snapshot:opportunity:FUNDING_COLLAPSE_investable_t1",
+              "science:2:fixture-native-source-snapshot:opportunity:PUBLICATION_BIAS_investable_t1",
+              "science:2:fixture-native-source-snapshot:opportunity:methodology_mod_investable_t3"
+            ]
+          },
+          {
+            "ticker": "DHR",
+            "recordIds": [
+              "science:2:fixture-native-source-snapshot:opportunity:REPLICATION_CRISIS_investable_t1",
+              "science:2:fixture-native-source-snapshot:opportunity:methodology_mod_investable_t3"
+            ]
+          },
+          {
+            "ticker": "IQV",
+            "recordIds": [
+              "science:2:fixture-native-source-snapshot:opportunity:REPLICATION_CRISIS_investable_t1",
+              "science:2:fixture-native-source-snapshot:opportunity:BRAIN_DRAIN_investable_t1",
+              "science:2:fixture-native-source-snapshot:opportunity:PUBLICATION_BIAS_investable_t1",
+              "science:2:fixture-native-source-snapshot:opportunity:workforce_dev_investable_t3",
+              "science:2:fixture-native-source-snapshot:opportunity:methodology_mod_investable_t3"
+            ]
+          },
+          {
+            "ticker": "ICLR",
+            "recordIds": [
+              "science:2:fixture-native-source-snapshot:opportunity:REPLICATION_CRISIS_investable_t1",
+              "science:2:fixture-native-source-snapshot:opportunity:BRAIN_DRAIN_investable_t1",
+              "science:2:fixture-native-source-snapshot:opportunity:workforce_dev_investable_t3",
+              "science:2:fixture-native-source-snapshot:opportunity:methodology_mod_investable_t3"
+            ]
+          },
+          {
+            "ticker": "A",
+            "recordIds": [
+              "science:2:fixture-native-source-snapshot:opportunity:FUNDING_COLLAPSE_investable_t1"
+            ]
+          },
+          {
+            "ticker": "MTD",
+            "recordIds": [
+              "science:2:fixture-native-source-snapshot:opportunity:FUNDING_COLLAPSE_investable_t1",
+              "science:2:fixture-native-source-snapshot:opportunity:PARADIGM_CONFLICT_investable_t1",
+              "science:2:fixture-native-source-snapshot:opportunity:research_translation_investable_t3"
+            ]
+          },
+          {
+            "ticker": "WAT",
+            "recordIds": [
+              "science:2:fixture-native-source-snapshot:opportunity:FUNDING_COLLAPSE_investable_t1",
+              "science:2:fixture-native-source-snapshot:opportunity:PARADIGM_CONFLICT_investable_t1",
+              "science:2:fixture-native-source-snapshot:opportunity:research_translation_investable_t3"
+            ]
+          },
+          {
+            "ticker": "ILMN",
+            "recordIds": [
+              "science:2:fixture-native-source-snapshot:opportunity:DATA_FRAUD_investable_t1"
+            ]
+          },
+          {
+            "ticker": "BIO",
+            "recordIds": [
+              "science:2:fixture-native-source-snapshot:opportunity:DATA_FRAUD_investable_t1"
+            ]
+          },
+          {
+            "ticker": "RVTY",
+            "recordIds": [
+              "science:2:fixture-native-source-snapshot:opportunity:DATA_FRAUD_investable_t1"
+            ]
+          },
+          {
+            "ticker": "BRKR",
+            "recordIds": [
+              "science:2:fixture-native-source-snapshot:opportunity:PARADIGM_CONFLICT_investable_t1",
+              "science:2:fixture-native-source-snapshot:opportunity:research_translation_investable_t3"
+            ]
+          }
+        ],
+        "nextBoundary": "company-context-to-finance-owned-admission-not-joined",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -4824,6 +5222,8 @@
         "packetsRead": 1,
         "recordsRead": 29,
         "financiallyRelevant": 14,
+        "explicitCompanyContexts": [],
+        "nextBoundary": "native-context-has-no-explicit-company-identity",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
@@ -5032,6 +5432,8 @@
         "packetsRead": 1,
         "recordsRead": 19,
         "financiallyRelevant": 10,
+        "explicitCompanyContexts": [],
+        "nextBoundary": "native-context-has-no-explicit-company-identity",
         "opportunityReadLimit": 32,
         "evidenceLevel": "LOCAL/FIXTURE",
         "decisionProven": false,
