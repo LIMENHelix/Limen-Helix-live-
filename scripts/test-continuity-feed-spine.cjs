@@ -104,6 +104,7 @@ sb.LIMENDomains = fixtures;
   var FinanceSource = require('../lib/finance-source-universe.js');
   var FinanceLedger = require('../lib/finance-input-ledger.js');
   var FinanceRegistry = require('../assets/data/finance-company-identities.json');
+  var ResearchCandidate = require('../lib/domain-research-candidate.js');
   var results = [];
   for (var row of domains) {
     var brain = sb[row[1]];
@@ -140,6 +141,10 @@ sb.LIMENDomains = fixtures;
       var consumed = await consumer.consumePacket(packet);
       assert.equal(consumed.ok, true, JSON.stringify(consumed.failures));
       assert.equal(consumed.handoffsCreated, handoffs.length);
+      var researchIntake = ResearchCandidate.build({ c: { serverPacket: packet, serverPacketPersistence: consumed } }, row[0], Date.parse(packet.generatedAt));
+      assert.equal(researchIntake.status, 'ABSTAINED');
+      assert.equal(researchIntake.candidate, null);
+      assert.equal(researchIntake.reason, ['science', 'medicine'].includes(row[0]) ? 'owning-domain-semantic-identity-invalid' : 'research-product-domain-not-enabled');
       var replay = await consumer.consumePacket(packet);
       assert.equal(replay.handoffsCreated, 0, 'same native packet cannot duplicate handoffs');
       Array.from(indexes.get('handoffs')).forEach(function (id) {
@@ -218,6 +223,8 @@ sb.LIMENDomains = fixtures;
       evidenceLevel: 'LOCAL/FIXTURE', source: fixtures[brain.snapshotKey].sources[0].name, sourceIngested: sensed,
       activeDiagnoses: active.map(function (d) { return d.id; }), typedOpportunities: typed.map(function (o) { return { id: o.id || null, path: o.path }; }),
       packetId: packet && packet.packetId, packetError: packetError, handoffs: handoffs,
+      nativeResearchIntake: { status: researchIntake.status, reason: researchIntake.reason, candidateCreated: false,
+        semanticEvidenceInjected: false, evidenceLevel: 'LOCAL/FIXTURE' },
       financeReviewIntake: { status: intake.status, packetsRead: intake.packetsRead,
         recordsRead: intake.records.length, financiallyRelevant: intake.financeRelevant.length,
         explicitCompanyContexts: companyContexts,
