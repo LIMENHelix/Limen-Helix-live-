@@ -1,0 +1,33 @@
+{
+  "level": "LOCAL/SOURCE",
+  "baseInventory": "docs/audits/continuity-client-data-references-serialization-delta-20261001.json",
+  "baseSha256": "9d70c60ea87231e22662f7d0f058dc9ee37b22f86d902216fcfaf315a4f5b42c",
+  "counts": {
+    "sourceFiles": 4325,
+    "references": 916,
+    "uniqueReferences": 421,
+    "api": 256,
+    "staticData": 165,
+    "dynamic": 116,
+    "cronReferences": 1,
+    "unmappedLiteralApis": 5,
+    "missingLiteralStaticFiles": 47
+  },
+  "validatedClientHashes": 4325,
+  "validatedRoutingHashes": 2,
+  "unchangedClientHashes": 4323,
+  "overrides": [
+    {
+      "file": "assets/js/feeds/limen-defense-signal-engine.js",
+      "sha256": "b6250a0e64c936a0e698a13cbcb684bfef0db4f918367430d8ed96d5f56db20d",
+      "previousSha256": "6c1ba3894d3076165c93ceb53813f98bdb5240359ecc09f93171141c02a03ead"
+    },
+    {
+      "file": "assets/js/limen-bootstrap.js",
+      "sha256": "1942d41a9ae2489ab52b96a9868883b71077b665427473c400f30170f63c6c00",
+      "previousSha256": "1871039f022c8632b166fee38bce23d0c9c940995625b9bd6d1042c5eee3afdd"
+    }
+  ],
+  "missingTargetsUnchanged": true,
+  "newNetworkProbe": false
+}

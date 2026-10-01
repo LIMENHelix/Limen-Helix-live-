@@ -20,6 +20,7 @@
   var _lastPollAt = 0;
   var _lastSignals = [];
   var _macroShock = false;
+  var _lastPollError = null;
 
   function _emit(name, detail) {
     if (typeof window !== 'undefined' && window.dispatchEvent) {
@@ -31,11 +32,18 @@
 
   function poll() {
     return fetch(ENDPOINT)
-      .then(function (r) { return r.json(); })
+      .then(function (r) {
+        if (!r.ok) throw new Error('defense-signals HTTP ' + r.status);
+        return r.json();
+      })
       .then(function (data) {
+        if (!data || !Array.isArray(data.signals) || !Array.isArray(data.domainSignals)) {
+          throw new Error('defense-signals invalid signal arrays');
+        }
         _lastPollAt = Date.now();
-        _lastSignals = data.signals || [];
+        _lastSignals = data.signals;
         _macroShock = data.macroShock && data.macroShock.detected;
+        _lastPollError = null;
 
         console.log('[LIMEN Defense] ' + data.totalArticles + ' articles, ' +
           data.signals.length + ' signal clusters, macro shock: ' + _macroShock);
@@ -62,6 +70,7 @@
         return data;
       })
       .catch(function (err) {
+        _lastPollError = err.message;
         console.error('[LIMEN Defense] Poll failed:', err.message);
         return null;
       });
@@ -134,6 +143,7 @@
     return {
       running: !!_pollTimer,
       lastPollAt: _lastPollAt,
+      lastPollError: _lastPollError,
       signalCount: _lastSignals.length,
       macroShock: _macroShock,
       signals: _lastSignals

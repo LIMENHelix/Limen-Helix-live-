@@ -40,6 +40,7 @@
   var debug = {
     loadedModules: [],
     startupErrors: [],
+    skippedModules: [],
     pageType: pageType,
     initializedAt: null
   };
@@ -77,7 +78,7 @@
     { name: 'command-bar',           api: 'LIMENCommandBar' },
     { name: 'biosensor-bridge',     api: 'LIMENBiosensorBridge' },
     // console-narrator (voice) removed
-    { name: 'report-console',      api: 'LIMENReportConsole' },
+    { name: 'report-console',      api: 'LIMENReportConsole', passive: true }, // self-initializes on DOM ready
     // philemon removed
     { name: 'console-clarity',     api: 'LIMENClarity' },
     { name: 'phase-domain-adapter', api: 'LIMENPhaseDomainAdapter' },
@@ -85,7 +86,7 @@
     { name: 'inter-brain-bus', api: 'LIMENInterBrainBus' },
     { name: 'action-selection-gate', api: 'LIMENActionGate' }, // Stage-4 basal-ganglia chokepoint; DARK unless window.LIMEN_ENABLE_ACTION_GATE
     { name: 'live-discoveries', api: 'LIMENLiveDiscoveriesUI' }, // Feed→Discovery; DARK unless window.LIMEN_ENABLE_LIVE_DISCOVERIES (folds into console-clarity)
-    { name: 'interoceptive-divergence', api: 'LIMENInteroception' } // multi-modal divergence INSTRUMENT (observe-only, no health-number effect); DARK unless window.LIMEN_ENABLE_INTEROCEPTION
+    { name: 'interoceptive-divergence', api: 'LIMENInteroception', enabledFlag: 'LIMEN_ENABLE_INTEROCEPTION' } // observe-only; DARK unless explicitly enabled
   ];
 
   // Minimal subset — started on connectome page
@@ -117,6 +118,10 @@
   // ─── Defensive startup ────────────────────────────────────────────────
 
   function _tryStart(moduleDef) {
+    if (moduleDef.enabledFlag && window[moduleDef.enabledFlag] !== true) {
+      debug.skippedModules.push({ module: moduleDef.name, reason: 'disabled', flag: moduleDef.enabledFlag });
+      return false;
+    }
     var obj = window[moduleDef.api];
 
     if (!obj) {
@@ -124,6 +129,11 @@
       console.warn(msg);
       debug.startupErrors.push({ module: moduleDef.name, error: msg, time: Date.now() });
       return false;
+    }
+
+    if (moduleDef.passive) {
+      debug.loadedModules.push(moduleDef.name);
+      return true;
     }
 
     if (typeof obj.start !== 'function') {

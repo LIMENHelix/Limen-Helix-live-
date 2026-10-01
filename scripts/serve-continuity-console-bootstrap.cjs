@@ -29,6 +29,9 @@ document.addEventListener('DOMContentLoaded',()=>{
  banner.style.cssText='position:relative;z-index:10000;padding:12px;background:#173544;color:white;font:16px system-ui';
  banner.textContent='LOCAL/STATIC STARTUP — original console and scripts. Existing local assets only; all API/provider reads unavailable and actions blocked. No production or business execution claim.';
  document.body.prepend(banner);
+ const trace=document.createElement('script');trace.type='application/json';trace.id='continuity-bootstrap-trace';document.body.append(trace);
+ function publishTrace(){trace.textContent=JSON.stringify({level:bootstrapTrace.level,errors:bootstrapTrace.errors,reads:bootstrapTrace.reads,cycles:bootstrapTrace.cycles,debug:window.LIMENDebug||null});}
+ publishTrace();setInterval(publishTrace,1000);
 });
 </script>`;
 const server = http.createServer((req,res)=>{
