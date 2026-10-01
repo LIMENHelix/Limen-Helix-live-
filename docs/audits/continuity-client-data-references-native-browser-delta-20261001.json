@@ -1,0 +1,33 @@
+{
+  "level": "LOCAL/SOURCE",
+  "baseInventory": "docs/audits/continuity-client-data-references-supplemental-20261001.json",
+  "baseSha256": "e168ff51174a0b2ebe37f1f778404a966a0d80ae4a7c624c13455cebb5cbf3ce",
+  "counts": {
+    "sourceFiles": 4325,
+    "references": 916,
+    "uniqueReferences": 421,
+    "api": 256,
+    "staticData": 165,
+    "dynamic": 116,
+    "cronReferences": 1,
+    "unmappedLiteralApis": 5,
+    "missingLiteralStaticFiles": 47
+  },
+  "validatedClientHashes": 4325,
+  "validatedRoutingHashes": 2,
+  "unchangedClientHashes": 4323,
+  "overrides": [
+    {
+      "file": "assets/js/civilization/domain-packet-adapter.js",
+      "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65",
+      "previousSha256": "0bffd34243e947932c5cff77d3162aa3877a6658c53ef7171bd72988cce004ca"
+    },
+    {
+      "file": "assets/js/domain-brain-adapter.js",
+      "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793",
+      "previousSha256": "cc49df8f40e8788db2e158193e6c96b9cf716faa2fd1430aaf26badb6ea31eed"
+    }
+  ],
+  "missingTargetsUnchanged": true,
+  "newNetworkProbe": false
+}

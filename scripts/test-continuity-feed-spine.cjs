@@ -47,7 +47,11 @@ function sandbox() {
   s.document = { createElement: elt, createElementNS: elt, head: { appendChild: noop }, body: { appendChild: noop },
     getElementById: function () { return null; }, querySelector: function () { return null; }, querySelectorAll: function () { return []; },
     addEventListener: noop, removeEventListener: noop, dispatchEvent: noop, documentElement: { style: {} }, readyState: 'complete' };
-  s.addEventListener = noop; s.removeEventListener = noop; s.dispatchEvent = noop;
+  s.nativeEvents = [];
+  s.addEventListener = noop; s.removeEventListener = noop;
+  s.dispatchEvent = function (event) {
+    if (event.type === 'limen:domain-brain-update') s.nativeEvents.push(event);
+  };
   s.location = { href: 'https://local.invalid/', pathname: '/', search: '', origin: 'https://local.invalid' };
   s.navigator = { userAgent: 'domain-local-runtime-test' };
   s.fetch = function () { return Promise.resolve({ ok: false, status: 404, json: function () { return Promise.resolve({}); }, text: function () { return Promise.resolve(''); } }); };
@@ -133,6 +137,10 @@ sb.LIMENDomains = fixtures;
   for (var row of domains) {
     var brain = sb[row[1]];
     await brain.cycle();
+    var nativeEvent = sb.nativeEvents.find(function (event) { return event.detail.domainId === brain.domainId; });
+    assert(nativeEvent, row[0] + ' actual cycle must emit its owning browser event');
+    assert.equal(nativeEvent.detail.state, brain.state);
+    var browserObservation = require('./continuity-native-browser-observation.cjs').observe(nativeEvent);
     var feeds = brain.state.feeds || [], diagnoses = brain.state.diagnoses || [], opportunities = brain.state.opportunities || [];
     var active = diagnoses.filter(function (d) { return d.active === true; });
     var typed = opportunities.filter(function (o) { return typeof o.path === 'string' && o.path; });
@@ -615,6 +623,7 @@ sb.LIMENDomains = fixtures;
     assert.equal(Array.isArray(diagnoses), true);
     assert.equal(Array.isArray(opportunities), true);
     results.push({ productDomain: row[0], runtimeOwner: brain.domainId, snapshotKey: brain.snapshotKey,
+      browserObservation: browserObservation,
       evidenceLevel: 'LOCAL/FIXTURE', source: fixtures[brain.snapshotKey].sources[0].name, sourceIngested: sensed,
       activeDiagnoses: active.map(function (d) { return d.id; }), typedOpportunities: typed.map(function (o) { return { id: o.id || null, path: o.path }; }),
       packetId: packet && packet.packetId, packetError: packetError, handoffs: handoffs,

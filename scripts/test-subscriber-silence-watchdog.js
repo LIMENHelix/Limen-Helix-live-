@@ -126,7 +126,9 @@ var watchdog = require('../lib/subscriber-delivery-health');
 var DigestHandler = require('../handlers/subscriber-digest');
 var SharedObserver = require('../handlers/domain-subscriber-outcome-observer');
 
-var NOW = Date.now();
+// The same-day dedup scenario advances by an hour. Keep its premise true
+// when the suite runs near UTC midnight; the production day key is unchanged.
+var NOW = Math.floor(Date.now() / 86400000) * 86400000 + 12 * 3600000;
 var DAY = 86400000;
 
 function invoke(handler, req) {
@@ -219,6 +221,7 @@ async function main() {
     assert.equal(exc[key].lastDelivered, null);
     assert.equal(exc[key].reason, 'no-delivery-in-7-days');
 
+    assert.equal(watchdog.dayKey(NOW + 3600000), watchdog.dayKey(NOW), 'dedup fixture stays on the same UTC day');
     var again = await SharedObserver.run({ store: motorStore, now: NOW + 3600000, domains: [] });
     assert.equal(again.silence.raised.length, 0, 'same domain+day never re-raises');
     assert.equal(again.silence.open, 1);

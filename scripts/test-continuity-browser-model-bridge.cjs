@@ -85,6 +85,23 @@ function check(profile, index) {
     mismatch.emit('education', state);
     assert.equal(mismatch.window.LIMENDomains.education[payloadField], null, 'New model projection must not borrow another owner');
   }
+  if (domain === 'industry' || domain === 'education') {
+    const rootField = domain + 'DomainDiagnosisPacket';
+    const projectedField = domain === 'industry' ? 'brainIndustryDiagnosisPacket' : 'brainEducationDiagnosisPacket';
+    const root = runtime();
+    const rootState = { ...state, [stateField]: { cycle: 1 }, [rootField]: diagnosisPacket };
+    root.emit(domain, rootState);
+    assert.deepEqual(clone(root.window.LIMENCivilizationAdapter.rebuildNow()[domain].deepBrain.domainDiagnosisPacket), diagnosisPacket);
+    assert.equal(root.window.LIMENMainBrainHandoff.recompute().totalPackets, 0, 'Separate diagnosis packet remains observation only');
+    root.emit(domain, { ...rootState, [rootField]: null });
+    assert.equal(root.window.LIMENCivilizationAdapter.rebuildNow()[domain].deepBrain.domainDiagnosisPacket, null, 'Absent native root packet replaces earlier observation');
+    const mismatched = runtime();
+    mismatched.emit('energy', rootState);
+    assert.equal(mismatched.window.LIMENDomains.energy[projectedField], null, 'Separate packet must not borrow another event owner');
+    const preferred = runtime();
+    preferred.emit(domain, { ...state, [rootField]: { identity: { diagnosisId: 'root-must-not-replace-model-packet' } } });
+    assert.deepEqual(clone(preferred.window.LIMENCivilizationAdapter.rebuildNow()[domain].deepBrain.domainDiagnosisPacket), diagnosisPacket, 'Existing model packet precedence retained');
+  }
   return { domain, stateField, payloadField, packetPreserved: true, canonicalArraysUnchanged: true,
     handoffs: 0, ttlRespected: true, absenceReplaced: true };
 }

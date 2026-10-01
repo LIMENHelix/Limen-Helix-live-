@@ -170,6 +170,9 @@
       brainFinanceModel: modelOwnerMatches && modelOwner === 'finance' ? _obj(bs.financeModel) : null,
       brainEconomyModel: modelOwnerMatches && modelOwner === 'economy' ? _obj(bs.economyModel) : null,
       brainIndustryModel: modelOwnerMatches && modelOwner === 'industry' ? _obj(bs.industryModel) : null,
+      // These two native builders store their packets beside the model.
+      brainIndustryDiagnosisPacket: modelOwnerMatches && modelOwner === 'industry' ? _obj(bs.industryDomainDiagnosisPacket) : null,
+      brainEducationDiagnosisPacket: modelOwnerMatches && modelOwner === 'education' ? _obj(bs.educationDomainDiagnosisPacket) : null,
       brainPopulationModel: modelOwnerMatches && modelOwner === 'population' ? _obj(bs.populationModel) : null,
       brainLawModel: modelOwnerMatches && modelOwner === 'law' ? _obj(bs.lawModel) : null,
 

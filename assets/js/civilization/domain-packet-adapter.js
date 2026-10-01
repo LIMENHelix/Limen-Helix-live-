@@ -1098,6 +1098,7 @@
       maintenanceDowntimeAccum:  _num(_bum.maintenanceDowntimeAccum),
       orderBacklogTrend:         _num(_bum.orderBacklogTrend),
       domainDiagnosisPacket: _emO(_bum.domainIndustryPacket) || _emO(_bum.domainDiagnosisPacket)
+        || (domainId === 'industry' ? _emO(slot && slot.brainIndustryDiagnosisPacket) : null)
     } : _ben ? {
       // Environmental-health lifecycle mapped onto the shared recurrent envelope.
       // climateCycle → cycle, climateRegulationState → regulation,
@@ -1448,6 +1449,7 @@
       stemWorkforcePipelineTrend: _num(_bedm.stemWorkforcePipelineTrend != null ? _bedm.stemWorkforcePipelineTrend : _bedm.stemPipelineTrend),
       credentialDevaluationRisk:  _num(_bedm.credentialDevaluationRisk),
       domainDiagnosisPacket: _emO(_bedm.domainEducationPacket) || _emO(_bedm.domainDiagnosisPacket)
+        || (domainId === 'education' ? _emO(slot && slot.brainEducationDiagnosisPacket) : null)
     } : _bpopm ? {
       // Demographic-lifecycle mapped onto the shared recurrent envelope.
       // populationCycle (demographic-transition phase) → cycle,

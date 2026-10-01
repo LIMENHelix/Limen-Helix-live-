@@ -300,6 +300,49 @@
       "productDomain": "agriculture",
       "runtimeOwner": "agriculture",
       "snapshotKey": "agriculture",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "agriculture",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": false,
+        "modelStateField": null,
+        "modelPresent": false,
+        "diagnosisPacketPresent": false,
+        "firstObservationBoundary": "no-existing-domain-specific-model-reader",
+        "decision": {
+          "domain": "agriculture",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "USDA Drought Monitor",
       "sourceIngested": true,
@@ -376,7 +419,7 @@
             "name": "USDA Drought Monitor",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:agriculture",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 45,
             "classification": "real",
             "failReason": null
@@ -456,6 +499,49 @@
       "productDomain": "communication",
       "runtimeOwner": "communication",
       "snapshotKey": "communication",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "communication",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": false,
+        "modelStateField": null,
+        "modelPresent": false,
+        "diagnosisPacketPresent": false,
+        "firstObservationBoundary": "no-existing-domain-specific-model-reader",
+        "decision": {
+          "domain": "communication",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "communication identified fixture source",
       "sourceIngested": true,
@@ -713,7 +799,7 @@
             "name": "communication identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:communication",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -912,6 +998,49 @@
       "productDomain": "culture",
       "runtimeOwner": "culture",
       "snapshotKey": "culture",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "culture",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": true,
+        "modelStateField": "cultureModel",
+        "modelPresent": true,
+        "diagnosisPacketPresent": true,
+        "firstObservationBoundary": "native-diagnosis-packet-observed",
+        "decision": {
+          "domain": "culture",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "culture identified fixture source",
       "sourceIngested": true,
@@ -1142,7 +1271,7 @@
             "name": "culture identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:culture",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -1259,8 +1388,8 @@
             "decision": {
               "id": "chd_1506695bb1eb69338fe72c6e",
               "status": "NO_ACTION",
-              "decidedAt": 1790882763343,
-              "expiresAt": 1790883363343,
+              "decidedAt": 1790895467528,
+              "expiresAt": 1790896067528,
               "key": "culture_hero_decision:chd_1506695bb1eb69338fe72c6e",
               "packetId": "culture:2:fixture-native-source-snapshot",
               "reason": "culture-b10-held",
@@ -1303,6 +1432,49 @@
       "productDomain": "defense",
       "runtimeOwner": "defense",
       "snapshotKey": "defense",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "defense",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": false,
+        "modelStateField": null,
+        "modelPresent": false,
+        "diagnosisPacketPresent": false,
+        "firstObservationBoundary": "no-existing-domain-specific-model-reader",
+        "decision": {
+          "domain": "defense",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "defense identified fixture source",
       "sourceIngested": true,
@@ -1617,7 +1789,7 @@
             "name": "defense identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:defense",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -1629,7 +1801,7 @@
         "lane": "publication",
         "candidateId": "dpc_f567dc9a2c381bd7a005f2fd",
         "nativeOpportunityId": "DEFENSE_AIR_SYSTEM_FAILURE_researchable_t1",
-        "decisionId": "dpd_bc2839a7310841a5d9577ddd",
+        "decisionId": "dpd_37aa9e28cf75fae74fdf6f40",
         "sourcePacketId": "defense:2:fixture-native-source-snapshot",
         "status": "NO_ACTION",
         "blockers": [
@@ -1828,6 +2000,49 @@
       "productDomain": "economy",
       "runtimeOwner": "economy",
       "snapshotKey": "economy",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "economy",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": true,
+        "modelStateField": "economyModel",
+        "modelPresent": true,
+        "diagnosisPacketPresent": true,
+        "firstObservationBoundary": "native-diagnosis-packet-observed",
+        "decision": {
+          "domain": "economy",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "economy identified fixture source",
       "sourceIngested": true,
@@ -2058,7 +2273,7 @@
             "name": "economy identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:economy",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -2175,6 +2390,49 @@
       "productDomain": "education",
       "runtimeOwner": "education",
       "snapshotKey": "education",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "education",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": true,
+        "modelStateField": "educationModel",
+        "modelPresent": true,
+        "diagnosisPacketPresent": true,
+        "firstObservationBoundary": "native-diagnosis-packet-observed",
+        "decision": {
+          "domain": "education",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "education identified fixture source",
       "sourceIngested": true,
@@ -2432,7 +2690,7 @@
             "name": "education identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:education",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -2458,7 +2716,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_76b1d79786a3248329085fbd5b7d360e31bb37cb64c877474104c0f463840702",
+            "id": "sel_episode_826a24f1a88d21fc77b3abd26b7b3dd8548ee4fc31bb50b2d0d9629c99f141a4",
             "status": "HELD",
             "ownerDomain": "education",
             "reasons": [
@@ -2503,7 +2761,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_426f10294ffb019215c094f2c27477a2757a35c676877e61415261ff94020228",
+              "id": "sel_episode_9dbde050fa970ed8be4a30cd514f2c5dd2d17cedf450e32f0ee29386eea02039",
               "status": "HELD",
               "reasons": [
                 "owning_domain_has_no_current_l3_evidence",
@@ -2553,6 +2811,49 @@
       "productDomain": "energy",
       "runtimeOwner": "energy",
       "snapshotKey": "energy",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "energy",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": true,
+        "modelStateField": "energyModel",
+        "modelPresent": true,
+        "diagnosisPacketPresent": true,
+        "firstObservationBoundary": "native-diagnosis-packet-observed",
+        "decision": {
+          "domain": "energy",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "energy identified fixture source",
       "sourceIngested": true,
@@ -2736,7 +3037,7 @@
             "name": "energy identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:energy",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -2863,6 +3164,49 @@
       "productDomain": "environment",
       "runtimeOwner": "environment",
       "snapshotKey": "environment",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "environment",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": true,
+        "modelStateField": "environmentModel",
+        "modelPresent": true,
+        "diagnosisPacketPresent": true,
+        "firstObservationBoundary": "native-diagnosis-packet-observed",
+        "decision": {
+          "domain": "environment",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "environment identified fixture source",
       "sourceIngested": true,
@@ -3066,7 +3410,7 @@
             "name": "environment identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:environment",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -3092,7 +3436,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_ca370e071476702514d9e9ee67e6badc9498b6234853aa5e529c5367ddf324fd",
+            "id": "sel_episode_5385031b2de284941e2a5aa982ba0d932fae85fac7a476769059002b11860b66",
             "status": "HELD",
             "ownerDomain": "environment",
             "reasons": [
@@ -3134,7 +3478,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_269b15dcc2939259cf2543665d8abfbe852f679c76269f0aaf85e77a492ccde4",
+              "id": "sel_episode_738212ea17e4c127b49a6da2f86384794ba7ba99ee6e129fd73f6b3f03f9c07c",
               "status": "HELD",
               "reasons": [
                 "owning_domain_has_no_declared_outward_consumer"
@@ -3183,6 +3527,49 @@
       "productDomain": "finance",
       "runtimeOwner": "finance",
       "snapshotKey": "finance",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "finance",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": true,
+        "modelStateField": "financeModel",
+        "modelPresent": true,
+        "diagnosisPacketPresent": true,
+        "firstObservationBoundary": "native-diagnosis-packet-observed",
+        "decision": {
+          "domain": "finance",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "finance identified fixture source",
       "sourceIngested": true,
@@ -3413,7 +3800,7 @@
             "name": "finance identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:finance",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -3794,6 +4181,49 @@
       "productDomain": "governance",
       "runtimeOwner": "governance",
       "snapshotKey": "governance",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "governance",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": true,
+        "modelStateField": "governanceModel",
+        "modelPresent": true,
+        "diagnosisPacketPresent": true,
+        "firstObservationBoundary": "native-diagnosis-packet-observed",
+        "decision": {
+          "domain": "governance",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "governance identified fixture source",
       "sourceIngested": true,
@@ -4032,7 +4462,7 @@
             "name": "governance identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:governance",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -4044,7 +4474,7 @@
         "lane": "publication",
         "candidateId": "gpc_9986aded82fbd54e5bc8bf1d",
         "nativeOpportunityId": "GOVERNANCE_SANCTIONS_SYSTEM_FAILURE_researchable_t1",
-        "decisionId": "gpd_07e7aefffa85e3ee66a752f7",
+        "decisionId": "gpd_6cbe0339a7ebb0eff9d9bea5",
         "sourcePacketId": "governance:2:fixture-native-source-snapshot",
         "status": "NO_ACTION",
         "blockers": [
@@ -4086,6 +4516,49 @@
       "productDomain": "industry",
       "runtimeOwner": "industry",
       "snapshotKey": "industry",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "industry",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": true,
+        "modelStateField": "industryModel",
+        "modelPresent": true,
+        "diagnosisPacketPresent": true,
+        "firstObservationBoundary": "native-diagnosis-packet-observed",
+        "decision": {
+          "domain": "industry",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "industry identified fixture source",
       "sourceIngested": true,
@@ -4416,7 +4889,7 @@
             "name": "industry identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:industry",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -4913,6 +5386,49 @@
       "productDomain": "infrastructure",
       "runtimeOwner": "infrastructure",
       "snapshotKey": "infrastructure",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "infrastructure",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": true,
+        "modelStateField": "infraModel",
+        "modelPresent": true,
+        "diagnosisPacketPresent": true,
+        "firstObservationBoundary": "native-diagnosis-packet-observed",
+        "decision": {
+          "domain": "infrastructure",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "infrastructure identified fixture source",
       "sourceIngested": true,
@@ -5077,7 +5593,7 @@
             "name": "infrastructure identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:infrastructure",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -5188,6 +5704,49 @@
       "productDomain": "intelligence",
       "runtimeOwner": "intelligence",
       "snapshotKey": "intelligence",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "intelligence",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": false,
+        "modelStateField": null,
+        "modelPresent": false,
+        "diagnosisPacketPresent": false,
+        "firstObservationBoundary": "no-existing-domain-specific-model-reader",
+        "decision": {
+          "domain": "intelligence",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "intelligence identified fixture source",
       "sourceIngested": true,
@@ -5521,7 +6080,7 @@
             "name": "intelligence identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:intelligence",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -5925,6 +6484,49 @@
       "productDomain": "law",
       "runtimeOwner": "law",
       "snapshotKey": "law",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "law",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": true,
+        "modelStateField": "lawModel",
+        "modelPresent": true,
+        "diagnosisPacketPresent": true,
+        "firstObservationBoundary": "native-diagnosis-packet-observed",
+        "decision": {
+          "domain": "law",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "law identified fixture source",
       "sourceIngested": true,
@@ -6128,7 +6730,7 @@
             "name": "law identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:law",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -6436,6 +7038,49 @@
       "productDomain": "medicine",
       "runtimeOwner": "health",
       "snapshotKey": "health",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "health",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": true,
+        "modelStateField": "healthModel",
+        "modelPresent": true,
+        "diagnosisPacketPresent": true,
+        "firstObservationBoundary": "native-diagnosis-packet-observed",
+        "decision": {
+          "domain": "health",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "medicine identified fixture source",
       "sourceIngested": true,
@@ -6602,7 +7247,7 @@
             "name": "medicine identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:medicine",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -6628,7 +7273,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_ee1f93e0de5d9e71122d07e01aec27fb1d27a9384e5237b884c55afae30f6882",
+            "id": "sel_episode_3c5349d7a19c478bd4f2e844c754746a8605c95b7d9ca4bd1dd65596a5be2eda",
             "status": "HELD",
             "ownerDomain": "health",
             "reasons": [
@@ -6670,7 +7315,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_b2c4a07d63e2136c78637dedfdb551273036b5642979578ab37ae5548ab47374",
+              "id": "sel_episode_a1e716943ea4b76e290ba265af9df128783a707c4296fe435bda058d1d9ee2ee",
               "status": "RELEASED",
               "reasons": []
             }
@@ -6889,6 +7534,49 @@
       "productDomain": "population",
       "runtimeOwner": "population",
       "snapshotKey": "population",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "population",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": true,
+        "modelStateField": "populationModel",
+        "modelPresent": true,
+        "diagnosisPacketPresent": true,
+        "firstObservationBoundary": "native-diagnosis-packet-observed",
+        "decision": {
+          "domain": "population",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "population identified fixture source",
       "sourceIngested": true,
@@ -7119,7 +7807,7 @@
             "name": "population identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:population",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -7471,6 +8159,50 @@
       "productDomain": "religion",
       "runtimeOwner": "religion",
       "snapshotKey": "religion",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "religion",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": false,
+        "modelStateField": null,
+        "modelPresent": false,
+        "diagnosisPacketPresent": false,
+        "firstObservationBoundary": "no-existing-domain-specific-model-reader",
+        "decision": {
+          "domain": "religion",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "act",
+          "choice": "Sectarian Conflict — community engagement and participation rebuild",
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": false,
+          "rationale": [
+            "an actionable opportunity is available",
+            "confidence low or phase from fallback (interpretive): recommend only, do not escalate"
+          ],
+          "boundedAction": "recommend",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "religion identified fixture source",
       "sourceIngested": true,
@@ -7649,7 +8381,7 @@
             "name": "religion identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:religion",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -7776,6 +8508,49 @@
       "productDomain": "science",
       "runtimeOwner": "research",
       "snapshotKey": "research",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "research",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": false,
+        "modelStateField": null,
+        "modelPresent": false,
+        "diagnosisPacketPresent": false,
+        "firstObservationBoundary": "no-existing-domain-specific-model-reader",
+        "decision": {
+          "domain": "research",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "science identified fixture source",
       "sourceIngested": true,
@@ -8078,7 +8853,7 @@
             "name": "science identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:science",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -8104,7 +8879,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_a0add3d7b722718fb3174aaf09ceb9f1cfd1bfa1e97d0f885eff0b2ca9773931",
+            "id": "sel_episode_5755bed7cefe7f89192ceda4075f2dfdecd75542d3eb323ea2ae760cf62562e9",
             "status": "HELD",
             "ownerDomain": "research",
             "reasons": [
@@ -8146,7 +8921,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_fd2fb6007a4d866b8409897f307f8ed9ef7a61c2b0cbe2ed3898e03b6b66676c",
+              "id": "sel_episode_447f89055727e15a4b9dc107cf8105d3acce7851daf0357724fcca34950f440c",
               "status": "RELEASED",
               "reasons": []
             }
@@ -8499,6 +9274,49 @@
       "productDomain": "technology",
       "runtimeOwner": "technology",
       "snapshotKey": "technology",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "technology",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": false,
+        "modelStateField": null,
+        "modelPresent": false,
+        "diagnosisPacketPresent": false,
+        "firstObservationBoundary": "no-existing-domain-specific-model-reader",
+        "decision": {
+          "domain": "technology",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "technology identified fixture source",
       "sourceIngested": true,
@@ -8816,7 +9634,7 @@
             "name": "technology identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:technology",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -8954,6 +9772,49 @@
       "productDomain": "trade",
       "runtimeOwner": "supplyChain",
       "snapshotKey": "supplyChain",
+      "browserObservation": {
+        "level": "LOCAL/NATIVE FIXTURE EVENT",
+        "emittedOwner": "supplyChain",
+        "canonicalDiagnosesPreserved": true,
+        "canonicalOpportunitiesPreserved": true,
+        "modelReaderExists": true,
+        "modelStateField": "supplyChainModel",
+        "modelPresent": true,
+        "diagnosisPacketPresent": true,
+        "firstObservationBoundary": "native-diagnosis-packet-observed",
+        "decision": {
+          "domain": "supplyChain",
+          "situation": "stress 72/100, phase P0, immune active",
+          "posture": "monitor",
+          "choice": null,
+          "confidence": 0.85,
+          "phaseSource": "fallback",
+          "vetoed": false,
+          "cautioned": true,
+          "rationale": [
+            "conscience flags this signal as unproven (overclaim / insufficient source): monitoring only, recommending nothing off a signal the domain distrusts"
+          ],
+          "boundedAction": "monitor",
+          "interpretive": true,
+          "validated": false
+        },
+        "motorExecutionProven": false,
+        "externalRequests": 0,
+        "sources": [
+          {
+            "file": "assets/js/domain-brain-adapter.js",
+            "sha256": "094cfcbca99b307fa5564a43c242ea5c91bd109b07991ecf72d7ed88a7c54793"
+          },
+          {
+            "file": "assets/js/civilization/domain-packet-adapter.js",
+            "sha256": "d2c2c830eeb9ea603dc67550667b2307944055ba478586b880314d7b53c69c65"
+          },
+          {
+            "file": "assets/js/limen-decision.js",
+            "sha256": "b04a89aca723b01bfc7d71b4e70262c4b630c0736ad4166b94375086654592cf"
+          }
+        ]
+      },
       "evidenceLevel": "LOCAL/FIXTURE",
       "source": "trade identified fixture source",
       "sourceIngested": true,
@@ -9157,7 +10018,7 @@
             "name": "trade identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:trade",
-            "fetchedAt": 1790882762348,
+            "fetchedAt": 1790895466271,
             "value": 0.72,
             "classification": "real",
             "failReason": null
