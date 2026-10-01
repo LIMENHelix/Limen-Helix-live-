@@ -102,6 +102,8 @@ sb.LIMENDomains = fixtures;
   var Consumer = require('../lib/civilization-handoff-consumer.js');
   var FinanceIntake = require('../lib/finance-domain-intake.js');
   var FinanceSource = require('../lib/finance-source-universe.js');
+  var FinanceLedger = require('../lib/finance-input-ledger.js');
+  var FinanceRegistry = require('../assets/data/finance-company-identities.json');
   var results = [];
   for (var row of domains) {
     var brain = sb[row[1]];
@@ -179,7 +181,23 @@ sb.LIMENDomains = fixtures;
           assert(FinanceSource.emissionTickers(record).includes(ticker));
           assert.equal(record.authority.executionInstruction, false);
         });
-        return { ticker: ticker, recordIds: matched.map(function (record) { return record.recordId; }) };
+        var identities = Object.entries(FinanceRegistry.byCik).filter(function (entry) { return entry[1].ticker === ticker; });
+        var gate = null;
+        if (identities.length === 1) {
+          var company = Object.assign({ cik: identities[0][0] }, identities[0][1]);
+          // Native cross-domain context supplies no Finance cycle, manager,
+          // market observation or semantic company evidence. Do not fabricate it.
+          var ledger = FinanceLedger.build({ company: company, domainEmissions: matched, domainIntake: intake });
+          assert.equal(ledger.status, 'ABSTAINED');
+          assert(ledger.blockers.includes('finance_cycle_missing_or_not_ok'));
+          assert(ledger.blockers.includes('semantic_feed_evidence_required'));
+          assert(ledger.blockers.includes('market_data_snapshot_invalid'));
+          assert.deepEqual(ledger.ledger.domainEmissions, matched);
+          assert.equal(ledger.ledger.company.ticker, ticker);
+          gate = { status: ledger.status, blockers: ledger.blockers, company: company };
+        }
+        return { ticker: ticker, recordIds: matched.map(function (record) { return record.recordId; }),
+          financeInputGate: gate || { status: 'ABSTAINED', blockers: [identities.length ? 'company-registry-identity-ambiguous' : 'company-not-in-finance-registry'] } };
       });
       assert.deepEqual(FinanceSource.domainEmissionsForCompany(intake.financeRelevant, { ticker: 'FIXTURE_UNMATCHED_COMPANY' }), [], 'unmatched company must not adopt broad domain context');
       assert.deepEqual(FinanceSource.domainEmissionsForCompany(intake.financeRelevant, {}), [], 'missing company identity must not adopt domain context');
