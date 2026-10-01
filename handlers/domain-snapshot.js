@@ -4184,7 +4184,7 @@ async function fetchDefenseNews() {
     if (count > 0) {
       var act = clamp(count / 25, 0.05, 1.0);
       trackHealth('Defense News', 'defense', 'live', null, count);
-      return { value: count, label: count + ' Defense News items', activity: round(act), channel: 'activity', signal: count + ' Defense News industry items', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'defense-news') };
+      return Object.assign({ value: count, label: count + ' Defense News items', activity: round(act), channel: 'activity', signal: count + ' Defense News industry items', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'defense-news') }, rssEvidence.extract(xml));
     }
     throw new Error('empty Defense News RSS');
   } catch (e) {
@@ -4244,7 +4244,7 @@ async function fetchNATONews() {
     if (count > 0) {
       var act = clamp(count / 15, 0.05, 1.0);
       trackHealth('NATO News', 'defense', 'live', null, count);
-      return { value: count, label: count + ' NATO updates', activity: round(act), channel: 'activity', signal: count + ' NATO official news and announcements', updated: Date.now(), fetchedAt: Date.now() };
+      return Object.assign({ value: count, label: count + ' NATO updates', activity: round(act), channel: 'activity', signal: count + ' NATO official news and announcements', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'nato-news') }, rssEvidence.extract(xml));
     }
     throw new Error('empty NATO RSS');
   } catch (e) {

@@ -9,7 +9,7 @@ const root = path.resolve(__dirname, '..');
 const filename = path.join(root, 'handlers/domain-snapshot.js');
 const mod = new Module(filename, module);
 mod.filename = filename; mod.paths = Module._nodeModulePaths(path.dirname(filename));
-mod._compile(fs.readFileSync(filename, 'utf8') + '\nmodule.exports.testBuildDomain = buildDomain;', filename);
+mod._compile(fs.readFileSync(filename, 'utf8') + '\nmodule.exports.testBuildDomain = buildDomain;module.exports.testDefenseNews = fetchDefenseNews;module.exports.testNATONews = fetchNATONews;', filename);
 const H = mod.exports;
 const harness = fs.readFileSync(path.join(__dirname, 'test-continuity-feed-spine.cjs'), 'utf8');
 const helper = acorn.parse(harness, { ecmaVersion: 'latest' }).body.find(n => n.type === 'FunctionDeclaration' && n.id.name === 'sandbox');
@@ -22,6 +22,43 @@ const PublicationExecutor = require('../lib/defense-publication-executor.js');
 const originalFetch = global.fetch;
 (async () => {
   const results = [];
+  // Actual direct RSS fetchers -> actual snapshot -> actual recorder title store.
+  const xmlFor = feed => '<rss><channel>' + [0, 1].map(i => '<item><title>LOCAL/FIXTURE ' + feed + ' record ' + i +
+    '</title><link>https://fixture.invalid/' + feed + '/' + i + '</link><pubDate>' + new Date().toUTCString() +
+    '</pubDate>' + (i === 0 ? '<source>Supplied fixture label</source>' : '') + '</item>').join('') + '</channel></rss>';
+  global.fetch = async url => {
+    const feed = String(url).includes('defensenews.com') ? 'defense-news' : 'nato-news';
+    assert(/defensenews\.com|www\.nato\.int/.test(String(url)));
+    return { ok: true, status: 200, text: async () => xmlFor(feed) };
+  };
+  const directNews = await H.testDefenseNews(), directNato = await H.testNATONews();
+  for (const reading of [directNews, directNato]) {
+    assert.equal(reading.headlines.length, 2); assert.equal(reading.value, 2);
+    assert.equal(reading.headlinePublishers[1], null);
+    assert(reading.sourceUpdatedAt);
+  }
+  const titleSnapshot = H.testBuildDomain('defense', [{ name: 'Defense News', data: directNews }, { name: 'NATO News', data: directNato }]);
+  const memory = new Map(), lists = new Map(), copy = v => v == null ? null : JSON.parse(JSON.stringify(v));
+  const db = { getBackend: () => 'TEST_MEMORY', get: async k => copy(memory.get(k)), set: async (k, v) => { memory.set(k, copy(v)); return true; },
+    lpush: async (k, v) => { const a = lists.get(k) || []; a.unshift(copy(v)); lists.set(k, a); return a.length; },
+    lrange: async (k, a, b) => copy((lists.get(k) || []).slice(a, b < 0 ? undefined : b + 1)),
+    ltrim: async (k, a, b) => { lists.set(k, (lists.get(k) || []).slice(a, b + 1)); return true; } };
+  const recorderFile = path.join(root, 'handlers/feed-record.js'), recorder = new Module(recorderFile, module);
+  recorder.filename = recorderFile; recorder.paths = Module._nodeModulePaths(path.dirname(recorderFile));
+  const requireActual = recorder.require.bind(recorder);
+  recorder.require = id => id === '../lib/limen-db' ? db : id === '../lib/cron-auth' ? { enforce: () => true } :
+    id === '../lib/heartbeat' ? { wrap: (_, handler) => handler } : requireActual(id);
+  recorder._compile(fs.readFileSync(recorderFile, 'utf8'), recorderFile);
+  global.fetch = async () => ({ json: async () => ({ domains: { defense: titleSnapshot }, meta: {} }) });
+  let recorded;
+  const response = { setHeader() {}, status() { return this; }, json(body) { recorded = body; return this; } };
+  await recorder.exports({ url: '/api/feed-record', headers: {} }, response);
+  assert(recorded && recorded.ok, JSON.stringify(recorded));
+  const titleSets = await db.lrange('feedtitles:defense', 0, -1);
+  assert.equal(titleSets.length, 2);
+  assert.equal(PublicationSource.collect(titleSets, Date.now()).length, 4);
+  const titleTransport = { level: 'LOCAL/FIXTURE', sourceFeeds: titleSets.map(s => s.f), sourceItems: 4,
+    titleSetsPersisted: 2, auth: 'test-only stub; no production permission', publisherIndependence: 'unassessed' };
   for (const scenario of ['valid', 'ofac-unavailable', 'recovery']) {
     const requests = [];
     const html = '<html>' + 'official source '.repeat(25) + '<div class="views-row"><a href="/recent-actions/20260929">' +
@@ -108,7 +145,7 @@ const originalFetch = global.fetch;
       nextBoundary: 'source-grounded-defense-brief-required', providerCalled: false });
   }
   if (process.argv.includes('--write-evidence')) fs.writeFileSync(path.join(root, 'docs/audits/continuity-defense-source-join.json'),
-    JSON.stringify({ level: 'LOCAL/FIXTURE', externalFetches: false, injectedDiagnoses: false, injectedOpportunities: false, results }, null, 2) + '\n');
+    JSON.stringify({ level: 'LOCAL/FIXTURE', externalFetches: false, injectedDiagnoses: false, injectedOpportunities: false, titleTransport, results }, null, 2) + '\n');
   console.log(JSON.stringify(results.map(({ scenario, snapshotStress, lowSignal, diagnoses, opportunities, handoffs }) =>
     ({ scenario, snapshotStress, lowSignal, diagnoses, opportunities, handoffs }))));
 })().catch(error => { console.error(error); process.exitCode = 1; }).finally(() => { global.fetch = originalFetch; });
