@@ -23,7 +23,7 @@ function fakeStore(failOn) {
     packetKey: function (id) { return 'p:' + id; }, handoffKey: function (id) { return 'h:' + id; },
     setNx: async function (key, value) { calls.push(['setNx', key]); if (failOn === key) { var e = new Error('injected persistence failure'); e.code = 'INJECTED'; throw e; } if (seen[key]) return false; seen[key] = value; return true; },
     add: async function (key, value) { calls.push(['add', key, value]); return 1; },
-    get: async function () { return null; }, members: async function () { return []; }, calls: calls
+    get: async function (key) { return seen[key] ? JSON.parse(JSON.stringify(seen[key])) : null; }, members: async function () { return []; }, calls: calls
   };
 }
 
@@ -40,15 +40,29 @@ function fakeStore(failOn) {
   eq(first.abstentions.map(function (x) { return x.code; }), ['lane-unassigned', 'lane-ambiguous'], 'abstention reasons are explicit');
   eq(s.calls.filter(function (x) { return x[0] === 'setNx'; }).length, 2, 'packet and handoff each use SET NX');
 
-  var dup = await c.consumePacket(base([{ id: 'i1', title: 'Invest', lane: 'investments' }]));
+  var dup = await c.consumePacket(base([{ id: 'i1', title: 'Invest', lane: 'investments' }, { id: 'u1', title: 'Unassigned' }, { id: 'a1', title: 'Ambiguous', lanes: ['investments', 'research-papers'] }]));
   ok(dup.ok, 'duplicate packet remains successful');
   eq(dup.packetCreated, false, 'duplicate packet is not rewritten');
   eq(dup.handoffsCreated, 0, 'duplicate handoff is not counted as new');
+  var collision = await c.consumePacket(base([{ id: 'different-opportunity', title: 'Changed', lane: 'investments' }]));
+  eq(collision.ok, false, 'a changed packet cannot reuse the durable source identity');
+  eq(collision.error.code, 'PACKET_READBACK_MISMATCH', 'collision identifies the first failed durable boundary');
+  eq(collision.handoffsCreated, undefined, 'collision stops before opportunity processing');
+  var failedRead = fakeStore(); failedRead.get = async function () { return null; };
+  eq((await consumerMod.createConsumer({ store: failedRead }).consumePacket(base([]))).error.code,
+    'PACKET_READBACK_MISMATCH', 'missing packet readback fails closed');
+  var failedHandoff = fakeStore(), normalGet = failedHandoff.get;
+  failedHandoff.get = async function (key) { return key.indexOf('h:') === 0 ? null : normalGet(key); };
+  var lost = await consumerMod.createConsumer({ store: failedHandoff }).consumePacket(base([{ id: 'lost', lane: 'investments' }]));
+  eq(lost.ok, false, 'missing handoff readback fails closed');
+  eq(lost.failures[0].code, 'HANDOFF_READBACK_MISMATCH', 'missing handoff boundary is named');
+  eq(lost.handoffsCreated, 0, 'unconfirmed handoff cannot be counted as created');
 
+  var callsBeforeInvalid = s.calls.length;
   var bad = await c.consumePacket({ schemaVersion: 'wrong' });
   eq(bad.ok, false, 'invalid packet is refused');
   eq(bad.packetId, null, 'invalid packet has no identity');
-  eq(s.calls.filter(function (x) { return x[0] === 'setNx'; }).length, 4, 'invalid packet does not persist');
+  eq(s.calls.length, callsBeforeInvalid, 'invalid packet does not persist');
 
   var failing = fakeStore('p:science:4:snap-1');
   var failed = await consumerMod.createConsumer({ store: failing }).consumePacket(base([{ id: 'i2', lane: 'investments' }]));
@@ -74,5 +88,5 @@ function fakeStore(failOn) {
   if (oldUrl !== undefined) process.env.TEST_CIV_URL = oldUrl;
   if (oldToken !== undefined) process.env.TEST_CIV_TOKEN = oldToken;
 
-  console.log(passed + '/20 passed');
+  console.log(passed + ' checks passed');
 })().catch(function (e) { console.error(e.stack || e); process.exitCode = 1; });

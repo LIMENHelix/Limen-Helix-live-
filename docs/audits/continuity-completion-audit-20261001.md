@@ -18,3 +18,5 @@ Result: **NOT COMPLETE**. Scope is the full `LIMEN_AUTONOMY_CONTINUITY_GOAL.md` 
 Next work: join the now-proven native source/brain/packet/handoff chain to existing domain-owned motor consumers without changing neurology; inspect the seven unknown route audiences and legacy/data provenance at the actual local targets; preserve exact unresolved Medicine/Spiral target blockers. Repeat this audit against final current state before marking the goal Done. Google Docs adoption/editing follows only after that audit proves the current goal complete.
 
 This increment's validation: 361 passed, 1 existing external-corpus skip, 0 failed (200.5s), with repository/harness checks passing. This strengthens regression evidence; it does not close the source/feed or inventory provenance requirements above.
+
+Handoff durability checkpoint: reproduced and repaired changed input under an existing packet identity and missing keyed readback. Existing consumer now validates packet/handoff readback before publishing indexes or counting creation. See continuity-handoff-readback-20261001.md. The owning business motor join remains outstanding.

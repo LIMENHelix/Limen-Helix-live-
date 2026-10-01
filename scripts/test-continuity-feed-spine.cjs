@@ -129,6 +129,7 @@ sb.LIMENDomains = fixtures;
       var store = { packetIndexKey: 'packets', handoffIndexKey: 'handoffs',
         packetKey: function (id) { return 'packet:' + id; }, handoffKey: function (id) { return 'handoff:' + id; },
         setNx: async function (key, value) { if (values.has(key)) return false; values.set(key, JSON.parse(JSON.stringify(value))); return true; },
+        get: async function (key) { return values.has(key) ? JSON.parse(JSON.stringify(values.get(key))) : null; },
         add: async function (key, value) { var entries = indexes.get(key) || new Set(); entries.add(value); indexes.set(key, entries); return entries.size; } };
       var consumer = Consumer.createConsumer({ store: store });
       var consumed = await consumer.consumePacket(packet);
@@ -144,6 +145,7 @@ sb.LIMENDomains = fixtures;
         assert.equal(persisted.opportunity.id, persisted.opportunityId);
       });
       var invalid = JSON.parse(JSON.stringify(packet));
+      invalid.cycleId += ':missing-identity-fixture'; invalid = Packet.buildPacket(invalid);
       invalid.truth.opportunities = [Object.assign({}, packet.truth.opportunities.find(function (o) { return Packet.ACTIVE_LANES.includes(o.lane); }), { id: '' })];
       var rejected = await consumer.consumePacket(invalid);
       assert.equal(rejected.handoffsCreated, 0);
