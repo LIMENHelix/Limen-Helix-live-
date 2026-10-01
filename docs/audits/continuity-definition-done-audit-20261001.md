@@ -1,5 +1,7 @@
 # Continuity definition-of-Done audit
 
+Current evidence addendum: completed HEAD observations now cover all 3494 distinct inventory/broken-link targets (continuity-route-head-probe-20261001.json and validated summary). The broad fresh page-status gap is closed at HTTP availability level: 3449 direct200, five redirects,37HTTP404, three intentionally skipped API routes, no errors. Current live rendered links, data endpoint coverage, retirement/destination authority and deployment of local repairs remain unverified. Native Agriculture/Energy return readers and compact projections now prove exact no-return abstention on their source stores; actual observatory generated HTML preserves those reasons and UNOBSERVED outcome/revenue. This does not establish an independent native consequence. The earlier table is the initial audit snapshot; this addendum supersedes its statements that broad fresh HTTP status and native absent-return projection have not been checked. Result remains NOT COMPLETE.
+
 Audited application HEAD: 8d5781d6. Result: NOT COMPLETE. This audit evaluates the original goal, not a replacement goal limited to fixture coverage. All selected-parser integration evidence is LOCAL/FIXTURE. No deployment or consequential external action is authorized by this audit.
 
 | Original requirement | Current authoritative evidence | Assessment / remaining proof |
