@@ -5,7 +5,7 @@ Derived from the current native integration evidence at a2bc1515. This supersede
 
 | Domain | Evidence classification | First boundary |
 | --- | --- | --- |
-| agriculture | ROUTING_JOIN_UNPROVEN | native-origin-destination-selection-and-return-not-joined |
+| agriculture | TESTED_NATIVE_QUEUE_ELIGIBILITY_BOUNDARY | native-agriculture-handoff-is-not-eligible-autofire-actor-candidate |
 | communication | TESTED_NATIVE_PRIMARY_BOUNDARY | candidate-identity-missing |
 | culture | TESTED_SEPARATE_MAINTENANCE_TRIGGER | culture-immune-veto |
 | defense | TESTED_NATIVE_PRIMARY_BOUNDARY | native-publication-release-not-proven |

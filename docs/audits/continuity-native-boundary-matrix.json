@@ -2,15 +2,15 @@
   "schemaVersion": "continuity-native-boundary-matrix/1.0",
   "baseSha": "a2bc15159b442fd4398674f2871622de0f1fd244",
   "source": "docs/audits/continuity-native-feed-spine.json",
-  "sourceSha256": "f4907d8802115b916e8fea09a375fe7146655aaef0d90269b7c05ecedfbfa46f",
+  "sourceSha256": "6f0415ef7d4b2a1fa8e24886fc6467e6c70e416ab2ca645c3a3615085d6bbdac",
   "domainCount": 20,
   "result": "NOT_COMPLETE",
   "scope": "Identified LOCAL/FIXTURE sources and native primary intake boundaries; no production source authenticity or executed motor inferred",
   "domains": [
     {
       "domain": "agriculture",
-      "classification": "ROUTING_JOIN_UNPROVEN",
-      "firstBoundary": "native-origin-destination-selection-and-return-not-joined",
+      "classification": "TESTED_NATIVE_QUEUE_ELIGIBILITY_BOUNDARY",
+      "firstBoundary": "native-agriculture-handoff-is-not-eligible-autofire-actor-candidate",
       "sourcePacketId": "agriculture:2:fixture-native-source-snapshot",
       "evidenceLevel": "LOCAL/FIXTURE",
       "providerCalled": false

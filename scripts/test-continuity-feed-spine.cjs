@@ -163,6 +163,26 @@ sb.LIMENDomains = fixtures;
       assert.equal(consumed.ok, true, JSON.stringify(consumed.failures));
       assert.equal(consumed.handoffsCreated, handoffs.length);
       var primaryIntakeBoundary = null;
+      if (row[0] === 'agriculture') {
+        var nativeWorker = require('../handlers/limen-worker-autofire.js');
+        var beforeNativeQueue = JSON.stringify(Array.from(values));
+        var nativeQueueChecks = [];
+        for (var nativeHandoffId of indexes.get('handoffs')) {
+          var nativeHandoff = await store.get(store.handoffKey(nativeHandoffId));
+          assert.equal(nativeWorker.isEligibleCandidate(nativeHandoff, Date.parse(packet.generatedAt)), false);
+          assert.equal(nativeWorker.isEligibleCandidate(nativeHandoff.opportunity, Date.parse(packet.generatedAt)), false);
+          assert.equal(nativeHandoff.sourcePacketId, packet.packetId);
+          assert.equal(nativeHandoff.opportunityId, nativeHandoff.opportunity.id);
+          nativeQueueChecks.push({ handoffId: nativeHandoffId, opportunityId: nativeHandoff.opportunityId,
+            lane: nativeHandoff.lane, eligible: false });
+        }
+        assert(nativeQueueChecks.length > 0);
+        assert.equal(JSON.stringify(Array.from(values)), beforeNativeQueue);
+        primaryIntakeBoundary = { ownerDomain: 'agriculture', lane: 'origin-routing', sourcePacketId: packet.packetId,
+          nativeQueueChecks: nativeQueueChecks, evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false,
+          nextBoundary: 'native-agriculture-handoff-is-not-eligible-autofire-actor-candidate',
+          destinationSelectionCreated: false, agricultureMotorCreated: false, homesteadExcluded: true };
+      }
       if (['communication', 'trade', 'religion'].includes(row[0])) {
         var channelFamily = { communication: 'social', trade: 'auction', religion: 'subscriber' }[row[0]];
         var channelDecision = require('../lib/' + row[0] + '-' + channelFamily + '-decision.js');

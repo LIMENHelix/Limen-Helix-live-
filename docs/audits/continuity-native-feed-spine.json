@@ -364,7 +364,43 @@
           "sourcePacketId": "agriculture:2:fixture-native-source-snapshot"
         }
       ],
-      "primaryIntakeBoundary": null,
+      "primaryIntakeBoundary": {
+        "ownerDomain": "agriculture",
+        "lane": "origin-routing",
+        "sourcePacketId": "agriculture:2:fixture-native-source-snapshot",
+        "nativeQueueChecks": [
+          {
+            "handoffId": "agriculture:2:fixture-native-source-snapshot:research-papers:DROUGHT_researchable_t1",
+            "opportunityId": "DROUGHT_researchable_t1",
+            "lane": "research-papers",
+            "eligible": false
+          },
+          {
+            "handoffId": "agriculture:2:fixture-native-source-snapshot:investments:DROUGHT_investable_t1",
+            "opportunityId": "DROUGHT_investable_t1",
+            "lane": "investments",
+            "eligible": false
+          },
+          {
+            "handoffId": "agriculture:2:fixture-native-source-snapshot:investments:lagging_investable_t3",
+            "opportunityId": "lagging_investable_t3",
+            "lane": "investments",
+            "eligible": false
+          },
+          {
+            "handoffId": "agriculture:2:fixture-native-source-snapshot:research-papers:lagging_researchable_t3",
+            "opportunityId": "lagging_researchable_t3",
+            "lane": "research-papers",
+            "eligible": false
+          }
+        ],
+        "evidenceLevel": "LOCAL/FIXTURE",
+        "providerCalled": false,
+        "nextBoundary": "native-agriculture-handoff-is-not-eligible-autofire-actor-candidate",
+        "destinationSelectionCreated": false,
+        "agricultureMotorCreated": false,
+        "homesteadExcluded": true
+      },
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -385,7 +421,7 @@
         "decisionProven": false,
         "motorProven": false
       },
-      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "firstUnprovenBoundary": "native-agriculture-handoff-is-not-eligible-autofire-actor-candidate",
       "providerCalled": false
     },
     {
@@ -1156,8 +1192,8 @@
             "decision": {
               "id": "chd_1506695bb1eb69338fe72c6e",
               "status": "NO_ACTION",
-              "decidedAt": 1790878549386,
-              "expiresAt": 1790879149386,
+              "decidedAt": 1790878699998,
+              "expiresAt": 1790879299998,
               "key": "culture_hero_decision:chd_1506695bb1eb69338fe72c6e",
               "packetId": "culture:2:fixture-native-source-snapshot",
               "reason": "culture-b10-held",
@@ -1506,7 +1542,7 @@
         "lane": "publication",
         "candidateId": "dpc_f567dc9a2c381bd7a005f2fd",
         "nativeOpportunityId": "DEFENSE_AIR_SYSTEM_FAILURE_researchable_t1",
-        "decisionId": "dpd_9506878281bd2b433626241a",
+        "decisionId": "dpd_e4eb27fb55bb096cb73df28b",
         "sourcePacketId": "defense:2:fixture-native-source-snapshot",
         "status": "NO_ACTION",
         "blockers": [
@@ -2295,7 +2331,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_03b882c9395943c3fe1a3934049e0497a94c234f82ba668a2cd272c624091052",
+            "id": "sel_episode_7f2b721b02d4f0956c5e786ecb34ea2bb2d9fa56f7236afb8b280c8da79c3d7e",
             "status": "HELD",
             "ownerDomain": "education",
             "reasons": [
@@ -2340,7 +2376,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_398777cfb1c6dd9cce9f088dc79f03b50e87a3ec0676ab80a9861e5bf73505ad",
+              "id": "sel_episode_219d8dff4099480889d26f4c266f487a3c9769a348c675cd70a405f5ff8a8688",
               "status": "HELD",
               "reasons": [
                 "owning_domain_has_no_current_l3_evidence",
@@ -2858,7 +2894,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_f25460f892de7a75b24fc787dc91ba22b49c1a7bfac5c58f844f7df761170284",
+            "id": "sel_episode_620fd47af711badcfa5ecbc193a8e83664b0c0e7e3adc8e6a30de104646b852e",
             "status": "HELD",
             "ownerDomain": "environment",
             "reasons": [
@@ -2900,7 +2936,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_8c763e25c6bff770316e9bfbae0b5a444cc108d48a1952c7c4a6746891175b5a",
+              "id": "sel_episode_33f933264d00fc6cc8b797c558425ab22a6b8e2396d0a352adeb5258f8cfac0a",
               "status": "HELD",
               "reasons": [
                 "owning_domain_has_no_declared_outward_consumer"
@@ -3425,7 +3461,7 @@
         "lane": "publication",
         "candidateId": "gpc_9986aded82fbd54e5bc8bf1d",
         "nativeOpportunityId": "GOVERNANCE_SANCTIONS_SYSTEM_FAILURE_researchable_t1",
-        "decisionId": "gpd_2d6130a249c955f66912b1ba",
+        "decisionId": "gpd_077d00a23ad226391090f219",
         "sourcePacketId": "governance:2:fixture-native-source-snapshot",
         "status": "NO_ACTION",
         "blockers": [
@@ -5909,7 +5945,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_d62e13722dfd22d6c5a3830f8de8ecf4de6f116d36d735c4707e7fff2162a243",
+            "id": "sel_episode_2f810c2e1194a27188ebdd357d821f419a7a05c927dc51b30f8b8d18211b1dfb",
             "status": "HELD",
             "ownerDomain": "health",
             "reasons": [
@@ -5951,7 +5987,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_8eaf7fa4603e48288440046f9e43f2284b882c60f0ddecc12e9b6d01361f2f54",
+              "id": "sel_episode_12c1bce537f1129174c2ac40ed436121a18b4f29ffbc5ac30aa52e0cb77859bb",
               "status": "RELEASED",
               "reasons": []
             }
@@ -7325,7 +7361,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_a4bbf9beb11e76382a68502abbb1aec664f323dbbbbdf5bb416a50d9a13eaafb",
+            "id": "sel_episode_3fef08db789aaed9f13e662d78eb956262889af83fb0a3b482ced65918978888",
             "status": "HELD",
             "ownerDomain": "research",
             "reasons": [
@@ -7367,7 +7403,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_7e8e6661b84e07ffde3a026d3cf3404bde0741eb51b589c78f580c7312c8af4a",
+              "id": "sel_episode_8ceec31d51b417137fbc2a24d45910acbd1dc064643fa89fd3e35c081f10a735",
               "status": "RELEASED",
               "reasons": []
             }
