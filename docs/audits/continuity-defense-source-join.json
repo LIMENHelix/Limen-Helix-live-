@@ -1,0 +1,140 @@
+{
+  "level": "LOCAL/FIXTURE",
+  "externalFetches": false,
+  "injectedDiagnoses": false,
+  "injectedOpportunities": false,
+  "results": [
+    {
+      "scenario": "valid",
+      "requests": [
+        "https://ofac.treasury.gov/recent-actions",
+        "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+      ],
+      "snapshotStress": 0.3,
+      "stressBasis": "measured",
+      "lowSignal": false,
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "defense",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "measured",
+        "stressUsable": true,
+        "sources": [
+          {
+            "name": "OFAC Recent Actions",
+            "live": true,
+            "sourceUpdatedAt": "ofac-set-v1:items:1|sha256:12dbacce5bccbd49214f278889f5e80db49ed76f24583b0d55c6388f00a901a1",
+            "fetchedAt": 1790880581816,
+            "value": 24,
+            "classification": "real",
+            "failReason": null
+          },
+          {
+            "name": "CISA KEV",
+            "live": true,
+            "sourceUpdatedAt": "cisa-kev-version:LOCAL-FIXTURE-1|released:2026-10-01T18:49:41.814Z|count:18",
+            "fetchedAt": 1790880581818,
+            "value": 18,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
+      "packetId": "defense:2:fixture-defense-source-valid",
+      "diagnoses": 4,
+      "opportunities": 8,
+      "handoffs": 8,
+      "nextBoundary": "parser-derived-defense-handoff-to-publication-decision-not-joined",
+      "providerCalled": false
+    },
+    {
+      "scenario": "ofac-unavailable",
+      "requests": [
+        "https://ofac.treasury.gov/recent-actions",
+        "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+      ],
+      "snapshotStress": 0.3,
+      "stressBasis": "clamped",
+      "lowSignal": true,
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "defense",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "clamped",
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "OFAC Recent Actions",
+            "live": false,
+            "sourceUpdatedAt": null,
+            "fetchedAt": 1790880582078,
+            "value": null,
+            "classification": "broken",
+            "failReason": "empty response"
+          },
+          {
+            "name": "CISA KEV",
+            "live": true,
+            "sourceUpdatedAt": "cisa-kev-version:LOCAL-FIXTURE-1|released:2026-10-01T18:49:42.078Z|count:18",
+            "fetchedAt": 1790880582078,
+            "value": 18,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
+      "packetId": "defense:2:fixture-defense-source-ofac-unavailable",
+      "diagnoses": 3,
+      "opportunities": 6,
+      "handoffs": 6,
+      "nextBoundary": "parser-derived-defense-handoff-to-publication-decision-not-joined",
+      "providerCalled": false
+    },
+    {
+      "scenario": "recovery",
+      "requests": [
+        "https://ofac.treasury.gov/recent-actions",
+        "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+      ],
+      "snapshotStress": 0.3,
+      "stressBasis": "measured",
+      "lowSignal": false,
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "defense",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "measured",
+        "stressUsable": true,
+        "sources": [
+          {
+            "name": "OFAC Recent Actions",
+            "live": true,
+            "sourceUpdatedAt": "ofac-set-v1:items:1|sha256:12dbacce5bccbd49214f278889f5e80db49ed76f24583b0d55c6388f00a901a1",
+            "fetchedAt": 1790880582258,
+            "value": 24,
+            "classification": "real",
+            "failReason": null
+          },
+          {
+            "name": "CISA KEV",
+            "live": true,
+            "sourceUpdatedAt": "cisa-kev-version:LOCAL-FIXTURE-1|released:2026-10-01T18:49:42.258Z|count:18",
+            "fetchedAt": 1790880582258,
+            "value": 18,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
+      "packetId": "defense:2:fixture-defense-source-recovery",
+      "diagnoses": 4,
+      "opportunities": 8,
+      "handoffs": 8,
+      "nextBoundary": "parser-derived-defense-handoff-to-publication-decision-not-joined",
+      "providerCalled": false
+    }
+  ]
+}
