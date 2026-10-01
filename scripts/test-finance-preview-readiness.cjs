@@ -45,4 +45,10 @@ assert.equal(noQuote.status, 'ABSTAINED');
 assert.equal(noQuote.universe.candidates.length, 0);
 assert(noQuote.universe.abstentions[0].blockers.includes('market_data_snapshot_invalid'));
 
-console.log('finance preview readiness: 18/18 passed');
+const noTitles = Readiness.build({ companyRegistry: registry, financeCycle: cycle, packets });
+assert.equal(noTitles.status, 'ABSTAINED');
+assert.equal(noTitles.inputs.marketTickersRequested, 0);
+assert(noTitles.sourceAbstentions.some((row) => row.reason === 'semantic_feed_evidence_required'));
+const Preview = require('../lib/finance-preview-execution.js');
+assert.equal(Preview.audit({ input: { companyRegistry: registry, financeCycle: cycle, packets } }).blockers.semantic_feed_evidence_required, 1);
+console.log('finance preview readiness: positive and missing-input boundaries passed');
