@@ -189,3 +189,5 @@ Do not fabricate provider receipts, call external providers, trade, spend, publi
 
 
 Handoff durability checkpoint (2026-10-01): existing packet/handoff consumer now refuses mismatched or missing keyed records before index publication. Exact replay remains idempotent; changed payload cannot borrow an existing packet identity. See docs/audits/continuity-handoff-readback-20261001.md. Full goal remains active; Google Docs deferred.
+
+Native Finance intake checkpoint (2026-10-01): the actual twenty-domain source/brain/packet test now invokes the existing Finance packet reader on the same persisted records. Nineteen non-Finance origins retain packet/source/opportunity identity and explicit financial relevance within the existing 32-opportunity read limit; Finance excludes its own packet. Intake is read-only review context, never an investment decision or command. No handoff-index motor consumer is inferred. The native packet-to-Finance-review edge is proven LOCAL/FIXTURE; owning decision/motor and upstream/inventory gaps remain. Google Docs remains deferred.

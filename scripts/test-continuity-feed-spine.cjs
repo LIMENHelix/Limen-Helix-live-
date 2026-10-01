@@ -100,6 +100,7 @@ sb.LIMENDomains = fixtures;
 (async function () {
   var Packet = require('../lib/civilization-server-packet.js');
   var Consumer = require('../lib/civilization-handoff-consumer.js');
+  var FinanceIntake = require('../lib/finance-domain-intake.js');
   var results = [];
   for (var row of domains) {
     var brain = sb[row[1]];
@@ -130,6 +131,7 @@ sb.LIMENDomains = fixtures;
         packetKey: function (id) { return 'packet:' + id; }, handoffKey: function (id) { return 'handoff:' + id; },
         setNx: async function (key, value) { if (values.has(key)) return false; values.set(key, JSON.parse(JSON.stringify(value))); return true; },
         get: async function (key) { return values.has(key) ? JSON.parse(JSON.stringify(values.get(key))) : null; },
+        members: async function (key) { return Array.from(indexes.get(key) || []); },
         add: async function (key, value) { var entries = indexes.get(key) || new Set(); entries.add(value); indexes.set(key, entries); return entries.size; } };
       var consumer = Consumer.createConsumer({ store: store });
       var consumed = await consumer.consumePacket(packet);
@@ -144,6 +146,29 @@ sb.LIMENDomains = fixtures;
         assert.deepEqual(persisted.sourceDiagnoses, packet.truth.activeDiagnoses);
         assert.equal(persisted.opportunity.id, persisted.opportunityId);
       });
+      // Finance's existing consumer reads packets, not the handoff index.
+      // Join the actual native output without supplying a ticker or decision.
+      var beforeIntake = JSON.stringify(Array.from(values));
+      var intake = await FinanceIntake.read(store);
+      assert.equal(intake.status, 'OBSERVED');
+      assert.equal(intake.packetsRead, row[0] === 'finance' ? 0 : 1);
+      if (row[0] !== 'finance') {
+        assert.equal(intake.packets[0].packetId, packet.packetId);
+        assert.deepEqual(intake.packets[0].sourceIdentity, packet.sourceIdentity);
+        packet.truth.opportunities.slice(0, 32).forEach(function (opportunity) {
+          var record = intake.records.find(function (r) { return r.opportunityId === opportunity.id; });
+          assert(record, row[0] + ' native opportunity must survive Finance review intake');
+          assert.equal(record.sourceDomain, row[0]);
+          assert.equal(record.sourcePacketId, packet.packetId);
+          assert.deepEqual(record.payload, opportunity);
+          assert.equal(record.authority.sourceMayDecideInvestment, false);
+          assert.equal(record.authority.executionInstruction, false);
+          assert.equal(intake.financeRelevant.some(function (r) { return r.recordId === record.recordId; }), FinanceIntake.opportunityRelevant(opportunity));
+        });
+      } else assert.equal(intake.records.length, 0, 'Finance must not reimport its own source as cross-domain context');
+      assert.equal(intake.authority.brokerTouched, false);
+      assert.equal(intake.authority.orderPlaced, false);
+      assert.equal(JSON.stringify(Array.from(values)), beforeIntake, 'Finance review intake is read-only');
       var invalid = JSON.parse(JSON.stringify(packet));
       invalid.cycleId += ':missing-identity-fixture'; invalid = Packet.buildPacket(invalid);
       invalid.truth.opportunities = [Object.assign({}, packet.truth.opportunities.find(function (o) { return Packet.ACTIVE_LANES.includes(o.lane); }), { id: '' })];
@@ -160,6 +185,9 @@ sb.LIMENDomains = fixtures;
       evidenceLevel: 'LOCAL/FIXTURE', source: fixtures[brain.snapshotKey].sources[0].name, sourceIngested: sensed,
       activeDiagnoses: active.map(function (d) { return d.id; }), typedOpportunities: typed.map(function (o) { return { id: o.id || null, path: o.path }; }),
       packetId: packet && packet.packetId, packetError: packetError, handoffs: handoffs,
+      financeReviewIntake: { status: intake.status, packetsRead: intake.packetsRead,
+        recordsRead: intake.records.length, financiallyRelevant: intake.financeRelevant.length,
+        opportunityReadLimit: 32, evidenceLevel: 'LOCAL/FIXTURE', decisionProven: false, motorProven: false },
       firstUnprovenBoundary: boundary, providerCalled: false });
   }
   assert.equal(results.length, 20);
