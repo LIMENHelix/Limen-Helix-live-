@@ -544,16 +544,24 @@
     if (contentEl.style.display !== 'none') { contentEl.style.display = 'none'; return; }
     contentEl.style.display = 'block';
     contentEl.innerHTML = '<div style="color:#807868;font-size:0.28rem">Loading ' + portalDomainId + '\u2026</div>';
-    fetch('/assets/data/domains/' + encodeURIComponent(portalDomainId) + '.json').then(function(r) { if (r.ok) return r; return fetch('/api/fetch-portal?domainId=' + encodeURIComponent(portalDomainId)); })
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    var fallbackPath = '/api/fetch-portal?domainId=' + encodeURIComponent(portalDomainId);
+    var assetPath = '/assets/data/domains/' + encodeURIComponent(portalDomainId) + '.json';
+    var attempted = assetPath;
+    fetch(assetPath).then(function (r) {
+      if (r.ok) return r;
+      attempted += ' (HTTP ' + r.status + '); ' + fallbackPath;
+      return fetch(fallbackPath);
+    })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(function (data) {
+        if (!data || !Array.isArray(data.activations)) throw new Error('invalid branch content: activations must be an array');
         var h = ''; var acts = data.activations || [];
         for (var ai = 0; ai < acts.length; ai++) { var a = acts[ai]; for (var ti = 0; ti < (a.treatments || []).length; ti++) { var t = a.treatments[ti]; if (!t.monitoring && !t.escalation && !t.citation && !t.cite) continue; h += '<div style="margin-bottom:8px"><div style="font-size:0.30rem;color:#d0c8b8;font-weight:600">' + esc(t.label || '') + '</div>'; if (t.monitoring) h += '<div style="margin-top:3px"><span style="font-size:0.22rem;color:rgba(74,143,212,0.6);letter-spacing:1px">MONITORING</span><br><span style="font-size:0.28rem;color:#a09888">' + esc(typeof t.monitoring === 'string' ? t.monitoring.substring(0, 400) : '') + '</span></div>'; if (t.escalation) h += '<div style="margin-top:3px"><span style="font-size:0.22rem;color:rgba(74,143,212,0.6);letter-spacing:1px">IF THIS FAILS</span><br><span style="font-size:0.28rem;color:#a09888">' + esc(typeof t.escalation === 'string' ? t.escalation.substring(0, 400) : '') + '</span></div>'; if (t.cite) h += '<div style="margin-top:3px"><span style="font-size:0.22rem;color:rgba(74,143,212,0.6);letter-spacing:1px">SOURCES</span><br><span style="font-size:0.26rem;color:#908878">' + esc(typeof t.cite === 'string' ? t.cite.substring(0, 300) : '') + '</span></div>'; h += '</div>'; break; } }
         if (!h) h = '<div style="color:#807868;font-size:0.28rem">No deep content in this branch</div>';
         h += '<div style="margin-top:6px"><button class="eos-deep-toggle" data-portal-source="' + portalDomainId + '" style="font-size:0.22rem;letter-spacing:1px;color:rgba(74,143,212,0.6);border:1px solid rgba(74,143,212,0.15);padding:2px 8px;border-radius:2px">\u{1F50E} OPEN SOURCE PORTAL</button><div id="portal-inline-' + portalDomainId + '" style="display:none;margin-top:6px;padding:8px;border-left:2px solid rgba(74,143,212,0.15);background:rgba(74,143,212,0.02)"></div></div>';
         contentEl.innerHTML = h;
       })
-      .catch(function () { contentEl.innerHTML = '<div style="color:#e85454;font-size:0.28rem">Failed to load branch</div>'; });
+      .catch(function (error) { contentEl.innerHTML = '<div style="color:#e85454;font-size:0.28rem">Branch unavailable: ' + esc(attempted) + ' (' + esc(error && error.message || 'request failed') + '). Close and reopen LOAD BRANCH to retry.</div>'; });
   }
 
   // ══════════════════════════════════════════════════════════════════════

@@ -744,9 +744,17 @@
     contentEl.style.display = 'block';
     contentEl.innerHTML = '<div style="color:#807868;font-size:0.28rem">Loading ' + portalDomainId + '\u2026</div>';
 
-    fetch('/assets/data/domains/' + encodeURIComponent(portalDomainId) + '.json').then(function(r) { if (r.ok) return r; return fetch('/api/fetch-portal?domainId=' + encodeURIComponent(portalDomainId)); })
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    var fallbackPath = '/api/fetch-portal?domainId=' + encodeURIComponent(portalDomainId);
+    var assetPath = '/assets/data/domains/' + encodeURIComponent(portalDomainId) + '.json';
+    var attempted = assetPath;
+    fetch(assetPath).then(function (r) {
+      if (r.ok) return r;
+      attempted += ' (HTTP ' + r.status + '); ' + fallbackPath;
+      return fetch(fallbackPath);
+    })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(function (data) {
+        if (!data || !Array.isArray(data.activations)) throw new Error('invalid branch content: activations must be an array');
         var h = '';
         var acts = data.activations || [];
         for (var ai = 0; ai < acts.length; ai++) {
@@ -764,10 +772,10 @@
           }
         }
         if (!h) h = '<div style="color:#807868;font-size:0.28rem">No deep content in this branch</div>';
-        h += '<div style="margin-top:6px"><button class="eos-deep-toggle" data-portal-source="' + pid + '" style="font-size:0.22rem;letter-spacing:1px;color:rgba(74,143,212,0.6);border:1px solid rgba(74,143,212,0.15);padding:2px 8px;border-radius:2px">\u{1F50E} OPEN SOURCE PORTAL</button><div id="portal-inline-' + pid + '" style="display:none;margin-top:6px;padding:8px;border-left:2px solid rgba(74,143,212,0.15);background:rgba(74,143,212,0.02)"></div></div>';
+        h += '<div style="margin-top:6px"><button class="eos-deep-toggle" data-portal-source="' + portalDomainId + '" style="font-size:0.22rem;letter-spacing:1px;color:rgba(74,143,212,0.6);border:1px solid rgba(74,143,212,0.15);padding:2px 8px;border-radius:2px">\u{1F50E} OPEN SOURCE PORTAL</button><div id="portal-inline-' + portalDomainId + '" style="display:none;margin-top:6px;padding:8px;border-left:2px solid rgba(74,143,212,0.15);background:rgba(74,143,212,0.02)"></div></div>';
         contentEl.innerHTML = h;
       })
-      .catch(function () { contentEl.innerHTML = '<div style="color:#e85454;font-size:0.28rem">Failed to load branch</div>'; });
+      .catch(function (error) { contentEl.innerHTML = '<div style="color:#e85454;font-size:0.28rem">Branch unavailable: ' + esc(attempted) + ' (' + esc(error && error.message || 'request failed') + '). Close and reopen LOAD BRANCH to retry.</div>'; });
   }
 
   // ══════════════════════════════════════════════════════════════════════

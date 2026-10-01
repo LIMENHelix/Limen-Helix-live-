@@ -463,9 +463,17 @@
     if (el.style.display !== 'none') { el.style.display = 'none'; return; }
     el.style.display = 'block';
     el.innerHTML = '<div style="color:#807868;font-size:0.28rem">Loading branch\u2026</div>';
-    fetch('/assets/data/domains/' + encodeURIComponent(pid) + '.json').then(function(r) { if (r.ok) return r; return fetch('/api/fetch-portal?domainId=' + encodeURIComponent(pid)); })
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    var fallbackPath = '/api/fetch-portal?domainId=' + encodeURIComponent(pid);
+    var assetPath = '/assets/data/domains/' + encodeURIComponent(pid) + '.json';
+    var attempted = assetPath;
+    fetch(assetPath).then(function (r) {
+      if (r.ok) return r;
+      attempted += ' (HTTP ' + r.status + '); ' + fallbackPath;
+      return fetch(fallbackPath);
+    })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(function (data) {
+        if (!data || !Array.isArray(data.activations)) throw new Error('invalid branch content: activations must be an array');
         var h = '';
         for (var ai = 0; ai < (data.activations || []).length; ai++) {
           var a = data.activations[ai];
@@ -483,7 +491,7 @@
         if (!h) h = '<div style="color:#807868;font-size:0.28rem">No deep content in this branch</div>';
         el.innerHTML = h;
       })
-      .catch(function () { el.innerHTML = '<div style="color:#e85454;font-size:0.28rem">Failed to load branch</div>'; });
+      .catch(function (error) { el.innerHTML = '<div style="color:#e85454;font-size:0.28rem">Branch unavailable: ' + esc(attempted) + ' (' + esc(error && error.message || 'request failed') + '). Close and reopen LOAD BRANCH to retry.</div>'; });
   }
 
   // ══════════════════════════════════════════════════════════════════════

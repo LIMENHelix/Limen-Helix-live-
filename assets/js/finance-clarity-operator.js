@@ -700,6 +700,7 @@
     })
       .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(function (data) {
+        if (!data || !Array.isArray(data.activations)) throw new Error('invalid branch content: activations must be an array');
         var h = '';
         var acts = data.activations || [];
         for (var ai = 0; ai < acts.length; ai++) {
