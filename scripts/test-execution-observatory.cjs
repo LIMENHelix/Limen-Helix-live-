@@ -119,6 +119,7 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
   }
 });
 (async () => {
+  cognition.cognition.science.c.businessTrace.dispatchGate = { status: 'HELD', reason: 'domain-motor-receipt-missing', readAt: Date.now(), observationOnly: true };
   await window.LIMENExecutionObservatory.refresh();
   assert.match(el.innerHTML, /EXTERNAL-READY/);
   ['science', 'medicine', 'education', 'environment'].forEach(function (domain) {
@@ -221,6 +222,7 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
   assert.match(el.innerHTML, /EXTERNAL-READY/);
   assert.doesNotMatch(el.innerHTML, /read failure/);
   assert.match(el.innerHTML, /independent-outcome-missing/);
+  assert.match(el.innerHTML, /dispatch gate <b>HELD<\/b> · domain-motor-receipt-missing/);
   assert.match(el.innerHTML, /\/api\/product-domain-learning-state\?domain=finance/);
   var agricultureCard = el.innerHTML.split('<span class="exo-domain-name">agriculture</span>')[1].split('</article>')[0];
   assert.match(agricultureCard, /route-return-1/);

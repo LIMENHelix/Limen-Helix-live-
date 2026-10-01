@@ -109,6 +109,7 @@ sb.LIMENDomains = fixtures;
   var DomainBridge = require('../lib/autofire-domain-bridge.js');
   var MotorAuthorization = require('../lib/product-domain-motor-authorization.js');
   var DevelopmentalAuthority = require('../lib/research-paper-developmental-authority.js');
+  var ResearchReadout = require('../lib/research-business-trace-readout.js');
   var shadowValues = new Map(), shadowLists = new Map();
   function shadowClone(value) { return value == null ? null : JSON.parse(JSON.stringify(value)); }
   var redisPath = require.resolve('../lib/brain-shadow-redis.js');
@@ -199,6 +200,7 @@ sb.LIMENDomains = fixtures;
           lpush: async function (key, value) { var rows = decisionLists.get(key) || []; rows.unshift(JSON.parse(JSON.stringify(value))); decisionLists.set(key, rows); return rows.length; },
           ltrim: async function (key, start, end) { decisionLists.set(key, (decisionLists.get(key) || []).slice(start, end + 1)); return true; }
         });
+        decisionStore.lrange = async function (key, start, end) { return JSON.parse(JSON.stringify((decisionLists.get(key) || []).slice(start, end < 0 ? undefined : end + 1))); };
         var selection = await DomainBridge.select(decisionStore, { lane: 'research', candidate: actor.candidate, domainCycle: null, at: sourceAt });
         assert.equal(selection.ok, true);
         assert.equal(selection.receipt.status, 'HELD');
@@ -227,6 +229,15 @@ sb.LIMENDomains = fixtures;
         assert.equal(developmentalAuthorization.authorized, false);
         assert.equal(developmentalAuthorization.reason, 'research-developmental-switch-off');
         assert.equal(JSON.stringify(Array.from(values)), beforeAuthorization, 'held authorization must not write a command or create capability evidence');
+        var operatorTrace = await ResearchReadout.read(decisionStore, row[0], sourceAt + 3);
+        assert.equal(operatorTrace.status, 'RECORDED');
+        assert.equal(operatorTrace.decision.id, runtimeSelection.receipt.id);
+        assert.equal(operatorTrace.decision.packetId, enrichedPacket.packetId);
+        assert.equal(operatorTrace.command, null);
+        assert.equal(operatorTrace.dispatchGate.reason, motorAuthorization.reason);
+        assert.equal(operatorTrace.dispatchGate.status, 'HELD');
+        assert.equal(operatorTrace.externalActionAuthorized, false);
+        assert.equal(JSON.stringify(Array.from(values)), beforeAuthorization, 'operator read must not mutate business state');
         enrichedResearch = { status: actor.status, sourcePacketId: enrichedPacket.packetId, ownerDomain: actor.candidate.ownerDomain,
           sourceKeys: semantic.observations.map(function (observation) { return observation.sourceIdentity.value; }),
           titleSourceLevel: 'LOCAL/FIXTURE', selection: { id: selection.receipt.id, status: selection.receipt.status, ownerDomain: selection.receipt.ownerDomain, reasons: selection.receipt.reasons },
