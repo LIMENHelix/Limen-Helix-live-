@@ -40,5 +40,6 @@ const counts={sourceFiles:files.length,references:rows.reduce((n,r)=>n+r.referen
 const inventory={schemaVersion:'continuity-client-data-references/1',level:'LOCAL/SOURCE',generator:'scripts/inventory-continuity-data-references.mjs',head:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),counts,
  routingSources:['vercel.json','api/[...route].js'].map(file=>({file,sha256:hash(fs.readFileSync(file))})),sources,rows,
  limits:['Lexical quoted absolute references, including comments; not proof of executed requests or request method.','Dynamic concatenation and template references are marked; computed variables, relative URLs, Python aliases and runtime/generated URLs require further reconciliation.','Static function precedence and literal Hono mappings are recorded; rewrites are source matches, not live behavior.','No API or network request is made. Every API needs method/effect review before probing.','Missing tracked files do not prove deployed 404 or authorize deletion/replacement.']};
-fs.writeFileSync('docs/audits/continuity-client-data-references-20261001.json',JSON.stringify(inventory,null,2)+'\n');
+// Optional output preserves earlier inventories referenced by live-probe hashes.
+fs.writeFileSync(process.argv[2] || 'docs/audits/continuity-client-data-references-20261001.json',JSON.stringify(inventory,null,2)+'\n');
 console.log(JSON.stringify(counts));
