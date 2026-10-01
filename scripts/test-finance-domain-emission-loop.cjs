@@ -139,6 +139,84 @@ function fakeLearningStore() {
   const duplicate = await Afferent.record(learning, event, command, { ok: true, learningAccepted: true, assessment: { reward: 1 } });
   assert.equal(duplicate.duplicate, true);
 
+  const agedStore = fakeLearningStore();
+  for (let i = 0; i <= 2000; i++) {
+    await Afferent.record(agedStore, Object.assign({}, event, { eventId: 'aged-event-' + i }), command, { ok: true, learningAccepted: true });
+  }
+  const agedBefore = JSON.stringify(await agedStore.get(Afferent.STATE_KEY));
+  const agedReplay = await Afferent.record(agedStore, Object.assign({}, event, { eventId: 'aged-event-0' }), command, { ok: true, learningAccepted: true });
+  assert.equal(agedReplay.duplicate, true);
+  assert.equal(agedReplay.signal, undefined, 'a permanently recorded old event must not issue a second return signal');
+  assert.equal(JSON.stringify(await agedStore.get(Afferent.STATE_KEY)), agedBefore, 'aged replay must not earn resolved credit twice');
+
+  await assert.rejects(() => Afferent.record(agedStore, Object.assign({}, event, { eventId: 'aged-event-0', actionId: 'different-action' }), command, { ok: true, learningAccepted: true }), /cause identity mismatch/);
+  assert.equal(JSON.stringify(await agedStore.get(Afferent.STATE_KEY)), agedBefore);
+
+  const interruptedStore = fakeLearningStore();
+  const interruptedSet = interruptedStore.set;
+  let failState = true;
+  interruptedStore.set = async (key, value) => {
+    if (key === Afferent.STATE_KEY && failState) throw new Error('simulated state write failure');
+    return interruptedSet(key, value);
+  };
+  await assert.rejects(() => Afferent.record(interruptedStore, event, command, { ok: true }), /simulated state write failure/);
+  assert.equal((await interruptedStore.get(Afferent.causeKey(event.eventId))).status, 'PENDING');
+  assert.equal(await interruptedStore.get(Afferent.STATE_KEY), null);
+  failState = false;
+  const repairedPending = await Afferent.record(interruptedStore, event, command, { ok: true });
+  assert.equal(repairedPending.resolvedCount, 1);
+  assert.equal((await interruptedStore.get(Afferent.causeKey(event.eventId))).status, 'RECORDED');
+
+  const completionStore = fakeLearningStore();
+  const completionSet = completionStore.set;
+  let failCompletion = true;
+  completionStore.set = async (key, value) => {
+    if (key === Afferent.causeKey(event.eventId) && failCompletion) throw new Error('simulated completion write failure');
+    return completionSet(key, value);
+  };
+  await assert.rejects(() => Afferent.record(completionStore, event, command, { ok: true }), /simulated completion write failure/);
+  assert.equal((await completionStore.get(Afferent.STATE_KEY)).resolvedCount, 1);
+  failCompletion = false;
+  const completedRetry = await Afferent.record(completionStore, event, command, { ok: true });
+  assert.equal(completedRetry.duplicate, true);
+  assert.equal(completedRetry.signal, undefined);
+  assert.equal((await completionStore.get(Afferent.STATE_KEY)).resolvedCount, 1);
+  assert.equal((await completionStore.get(Afferent.causeKey(event.eventId))).status, 'RECORDED');
+
+  const pendingAgedStore = fakeLearningStore();
+  const pendingAgedSet = pendingAgedStore.set;
+  pendingAgedStore.set = async (key, value) => {
+    if (key === Afferent.causeKey(event.eventId)) throw new Error('completion unavailable');
+    return pendingAgedSet(key, value);
+  };
+  await assert.rejects(() => Afferent.record(pendingAgedStore, event, command, { ok: true }), /completion unavailable/);
+  pendingAgedStore.set = pendingAgedSet;
+  // Model retained state after other events advanced and evicted this pending ID.
+  const advanced = await pendingAgedStore.get(Afferent.STATE_KEY);
+  advanced.processedEventIds = [];
+  advanced.signals = [];
+  advanced.resolvedCount = 2001;
+  await pendingAgedStore.set(Afferent.STATE_KEY, advanced);
+  const pendingAgedBefore = JSON.stringify(await pendingAgedStore.get(Afferent.STATE_KEY));
+  const pendingAgedReplay = await Afferent.record(pendingAgedStore, event, command, { ok: true });
+  assert.equal(pendingAgedReplay.reason, 'energy-finance-afferent-pending-cause-reconciliation-required');
+  assert.equal(JSON.stringify(await pendingAgedStore.get(Afferent.STATE_KEY)), pendingAgedBefore);
+
+  const legacyStore = fakeLearningStore();
+  await legacyStore.set(Afferent.causeKey(event.eventId), { schemaVersion: Afferent.SCHEMA, eventId: event.eventId, sourceDomains: command.intent.decisionContext.sourceDomains });
+  const legacy = await Afferent.record(legacyStore, event, command, { ok: true });
+  assert.equal(legacy.reason, 'energy-finance-afferent-legacy-cause-reconciliation-required');
+  assert.equal(await legacyStore.get(Afferent.STATE_KEY), null);
+
+  const wrongReadStore = fakeLearningStore();
+  const originalGet = wrongReadStore.get;
+  wrongReadStore.get = async key => {
+    const value = await originalGet(key);
+    return key === Afferent.causeKey(event.eventId) && value ? Object.assign({}, value, { eventId: 'wrong-key-event' }) : value;
+  };
+  await assert.rejects(() => Afferent.record(wrongReadStore, event, command, { ok: true }), /cause readback invalid/);
+  assert.equal(await wrongReadStore.get(Afferent.STATE_KEY), null);
+
   const quarantined = await EnergyExecutor.execute({
     broker: { quote: async () => { throw new Error('broker must not be called'); } },
     b14: { createPreview: async () => { throw new Error('B14 must not be called'); } }
