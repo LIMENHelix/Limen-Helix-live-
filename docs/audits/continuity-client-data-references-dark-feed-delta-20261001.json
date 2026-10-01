@@ -1,0 +1,28 @@
+{
+  "level": "LOCAL/SOURCE",
+  "baseInventory": "docs/audits/continuity-client-data-references-bootstrap-delta-20261001.json",
+  "baseSha256": "51f8acaa4c07e4f4c4cb882ea447e5731aa924d964ae83a180eda96b77554130",
+  "counts": {
+    "sourceFiles": 4325,
+    "references": 916,
+    "uniqueReferences": 421,
+    "api": 256,
+    "staticData": 165,
+    "dynamic": 116,
+    "cronReferences": 1,
+    "unmappedLiteralApis": 5,
+    "missingLiteralStaticFiles": 47
+  },
+  "validatedClientHashes": 4325,
+  "validatedRoutingHashes": 2,
+  "unchangedClientHashes": 4324,
+  "overrides": [
+    {
+      "file": "assets/js/domain-brains/domain-console-brain.js",
+      "sha256": "a3ee81aa469e222a7d7c3fc7f525eecfb77e95727d6d02077314c2eedb3afbb4",
+      "previousSha256": "197a200fdd5c92d687da4a7b2db93f8dab91454b29a35278a1906fda0a518695"
+    }
+  ],
+  "missingTargetsUnchanged": true,
+  "newNetworkProbe": false
+}

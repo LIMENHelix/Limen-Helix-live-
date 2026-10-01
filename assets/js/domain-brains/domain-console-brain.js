@@ -610,18 +610,24 @@
     var stressPct = Math.round(stress * 100);
     var confPct = Math.round(conf * 100);
     var liveFeeds = feeds.filter(function (f) { return f.live; });
+    var hasLiveFeeds = liveFeeds.length > 0;
     var prevStress = stressHistory.length >= 2 ? (typeof stressHistory[stressHistory.length - 2] === 'number' ? stressHistory[stressHistory.length - 2] : stressHistory[stressHistory.length - 2].stress || 0) : stress;
     var trendDir = stress > prevStress + 0.01 ? 'rising' : stress < prevStress - 0.01 ? 'falling' : 'stable';
     var trendWord = trendDir === 'rising' ? '\u25B2 RISING' : trendDir === 'falling' ? '\u25BC FALLING' : '\u25C6 STABLE';
     var trendColor = trendDir === 'rising' ? '#e85454' : trendDir === 'falling' ? '#5ab5a0' : '#C9A94E';
+    if (!hasLiveFeeds) { trendWord = 'TRAJECTORY UNVERIFIED'; trendColor = '#C9A94E'; }
 
     // Severity classification
     var severity = stressPct >= 75 ? 'CRITICAL' : stressPct >= 55 ? 'ELEVATED' : stressPct >= 35 ? 'MODERATE' : 'CONTAINED';
     var sevColor = severity === 'CRITICAL' ? '#e85454' : severity === 'ELEVATED' ? '#C9A94E' : severity === 'MODERATE' ? '#4a8fd4' : '#5ab5a0';
+    var retainedSeverity = severity;
+    if (!hasLiveFeeds) { severity = 'CURRENT STATE UNVERIFIED'; sevColor = '#C9A94E'; }
 
     // Build executive intelligence summary — the "what is happening" line
     var execSummary = '';
-    if (activeDx.length === 0 && stressPct < 30) {
+    if (!hasLiveFeeds) {
+      execSummary = DOMAIN_LABEL + ' current conditions are unverified: no feeds are live. Retained assessment: ' + stressPct + '% stress (' + retainedSeverity + '), ' + activeDx.length + ' active diagnosis pathway' + (activeDx.length === 1 ? '' : 's') + ' and ' + treatments.length + ' associated treatments. These values do not establish current conditions.';
+    } else if (activeDx.length === 0 && stressPct < 30) {
       execSummary = DOMAIN_LABEL + ' operating within nominal parameters. No diagnosis pathways activated. Signal coverage ' + (conf >= 0.5 ? 'adequate' : 'limited') + '.';
     } else if (activeDx.length === 0 && stressPct >= 30) {
       execSummary = DOMAIN_LABEL + ' stress at ' + stressPct + '% without mapped diagnosis activation. Pressure is present but has not yet resolved into a recognized threat pattern. Monitor for escalation.';
@@ -641,15 +647,16 @@
     if (_safety) execSummary = _safety.sanitize(execSummary, 'console_exec_summary');
 
     // State assessment narrative — deeper than summary
-    var stateNarr = DOMAIN_LABEL + ' aggregate stress: ' + stressPct + '%. ';
+    var stateNarr = DOMAIN_LABEL + (hasLiveFeeds ? ' aggregate stress: ' : ' retained aggregate stress: ') + stressPct + '%. ';
     stateNarr += 'Signal confidence: ' + confPct + '%' + (conf < 0.3 ? ' (LOW \u2014 assessments should be treated as provisional)' : conf < 0.6 ? ' (MODERATE)' : ' (HIGH)') + '. ';
-    stateNarr += 'Trajectory: ' + trendDir + ' over recent cycles';
-    if (trendDir === 'rising' && stressPct >= 50) stateNarr += ' \u2014 if this continues, expect downstream impact on infrastructure operations and capital deployment windows';
-    else if (trendDir === 'falling' && activeDx.length > 0) stateNarr += ' \u2014 decompression underway but active diagnoses have not yet resolved';
+    stateNarr += hasLiveFeeds ? 'Trajectory: ' + trendDir + ' over recent cycles' : 'Current trajectory unverified; recorded history is retained';
+    if (hasLiveFeeds && trendDir === 'rising' && stressPct >= 50) stateNarr += ' \u2014 if this continues, expect downstream impact on infrastructure operations and capital deployment windows';
+    else if (hasLiveFeeds && trendDir === 'falling' && activeDx.length > 0) stateNarr += ' \u2014 decompression underway but active diagnoses have not yet resolved';
     stateNarr += '. ';
     stateNarr += liveFeeds.length + '/' + feeds.length + ' feeds live. ';
     if (liveFeeds.length === 0 && feeds.length > 0) stateNarr += 'ALL FEEDS DARK \u2014 assessment based on last known state, not current observation. ';
-    if (state.maturity === 'STRUCTURAL') stateNarr += 'Maturity: STRUCTURAL. This is not a transient spike \u2014 the stress pattern has persisted long enough to indicate a systemic condition requiring deliberate intervention, not watchful waiting.';
+    if (feeds.length === 0) stateNarr += 'NO FEED OBSERVATIONS \u2014 current conditions have not been established. ';
+    if (state.maturity === 'STRUCTURAL') stateNarr += hasLiveFeeds ? 'Maturity: STRUCTURAL. This is not a transient spike \u2014 the stress pattern has persisted long enough to indicate a systemic condition requiring deliberate intervention, not watchful waiting.' : 'Retained maturity classification: STRUCTURAL; current persistence is unverified.';
 
     // Safety layer: sanitize state narrative
     if (_safety) stateNarr = _safety.sanitize(stateNarr, 'console_state_narr');
@@ -701,7 +708,7 @@
     h += '<span class="dcb-stress-big" style="color:' + sc + '">' + stressPct + '%</span>';
     h += '<span style="font-size:0.34rem;letter-spacing:2px;color:' + sevColor + ';font-family:monospace">' + severity + '</span>';
     h += '<span class="dcb-meta" style="color:' + trendColor + '">' + trendWord + '</span>';
-    h += '<span class="dcb-meta">' + activeDx.length + ' dx <b style="color:' + (hasFiring ? '#e85454' : '#5ab5a0') + '">' + (hasFiring ? 'FIRING' : 'CLEAR') + '</b></span>';
+    h += '<span class="dcb-meta">' + activeDx.length + ' dx <b style="color:' + (hasFiring ? '#e85454' : hasLiveFeeds ? '#5ab5a0' : '#C9A94E') + '">' + (hasLiveFeeds ? (hasFiring ? 'FIRING' : 'CLEAR') : (hasFiring ? 'RETAINED ACTIVE' : 'UNVERIFIED')) + '</b></span>';
     h += '<span class="dcb-meta">' + treatments.length + ' treatments</span>';
     h += '<span class="dcb-meta">' + liveFeeds.length + '/' + feeds.length + ' feeds</span>';
     // removed: BIO regulation label + HR STRAP connect button (biosensor UI off-site)
@@ -889,7 +896,7 @@
     h += '<div style="font-size:0.32rem;color:#c0b8a5;line-height:1.6;margin-top:6px">' + esc(stateNarr) + '</div>';
     // Stress trend sparkline
     if (stressHistory.length >= 2) {
-      h += '<div class="dcb-meta" style="margin-top:6px">STRESS TRAJECTORY: ';
+      h += '<div class="dcb-meta" style="margin-top:6px">' + (hasLiveFeeds ? 'STRESS TRAJECTORY: ' : 'RETAINED STRESS HISTORY: ');
       var histLen = Math.min(stressHistory.length, 15);
       for (var hi = stressHistory.length - histLen; hi < stressHistory.length; hi++) {
         var hv = typeof stressHistory[hi] === 'number' ? stressHistory[hi] : (stressHistory[hi].stress || 0);
