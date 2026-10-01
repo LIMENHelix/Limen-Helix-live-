@@ -163,6 +163,29 @@ sb.LIMENDomains = fixtures;
       assert.equal(consumed.ok, true, JSON.stringify(consumed.failures));
       assert.equal(consumed.handoffsCreated, handoffs.length);
       var primaryIntakeBoundary = null;
+      if (['communication', 'trade', 'religion'].includes(row[0])) {
+        var channelFamily = { communication: 'social', trade: 'auction', religion: 'subscriber' }[row[0]];
+        var channelDecision = require('../lib/' + row[0] + '-' + channelFamily + '-decision.js');
+        var beforeChannel = JSON.stringify(Array.from(values));
+        var channelChecks = [];
+        for (var channelOpportunity of packet.truth.opportunities) {
+          if (channelDecision.candidate) assert.equal(channelDecision.candidate(channelOpportunity), null);
+          var channelRefused = await channelDecision.decide(store, channelOpportunity, Date.parse(packet.generatedAt));
+          assert.equal(channelRefused.status, 'NO_ACTION');
+          assert.equal(channelRefused.released, false);
+          assert.equal(channelRefused.liveMoney, false);
+          var requiredBlocker = { communication: 'candidate-identity-missing', trade: 'exact-owned-asset-auction-listing-record-required', religion: 'paid-subscriber-candidate-invalid' }[row[0]];
+          assert(channelRefused.blockers.includes(requiredBlocker));
+          channelChecks.push({ opportunityId: channelOpportunity.id, path: channelOpportunity.path,
+            reason: channelRefused.reason, blockers: channelRefused.blockers });
+        }
+        assert(channelChecks.length > 0);
+        assert.equal(JSON.stringify(Array.from(values)), beforeChannel);
+        primaryIntakeBoundary = { ownerDomain: row[0] === 'trade' ? 'supplyChain' : row[0], lane: channelFamily,
+          sourcePacketId: packet.packetId, evidenceLevel: 'LOCAL/FIXTURE', nativeOpportunityChecks: channelChecks,
+          nextBoundary: requiredBlocker, providerCalled: false, candidateFabricated: false,
+          assetRightsOrSubscriberOrContentAuthorityInferred: false };
+      }
       var operationProfiles = {
         industry: ['crm', 'source-grounded-work-first-WARN-record-required'],
         intelligence: ['autopilot', 'exact-lead-email-action-required'],

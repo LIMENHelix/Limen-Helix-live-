@@ -637,7 +637,170 @@
           "sourcePacketId": "communication:2:fixture-native-source-snapshot"
         }
       ],
-      "primaryIntakeBoundary": null,
+      "primaryIntakeBoundary": {
+        "ownerDomain": "communication",
+        "lane": "social",
+        "sourcePacketId": "communication:2:fixture-native-source-snapshot",
+        "evidenceLevel": "LOCAL/FIXTURE",
+        "nativeOpportunityChecks": [
+          {
+            "opportunityId": "DISINFORMATION_CRISIS_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          },
+          {
+            "opportunityId": "TELECOM_FAILURE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          },
+          {
+            "opportunityId": "CENSORSHIP_OVERREACH_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          },
+          {
+            "opportunityId": "MEDIA_MONOPOLY_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          },
+          {
+            "opportunityId": "CYBER_PROPAGANDA_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          },
+          {
+            "opportunityId": "COMMUNICATION_ACCESSCOMM_CAPACITY_OVERLOAD_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          },
+          {
+            "opportunityId": "COMMUNICATION_ACCESSCOMM_CAPACITY_OVERLOAD_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          },
+          {
+            "opportunityId": "COMMUNICATION_ADVERTISING_TVADS_CAPACITY_OVERLOAD_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          },
+          {
+            "opportunityId": "secure_comms_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          },
+          {
+            "opportunityId": "DISINFORMATION_CRISIS_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          },
+          {
+            "opportunityId": "TELECOM_FAILURE_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          },
+          {
+            "opportunityId": "CENSORSHIP_OVERREACH_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          },
+          {
+            "opportunityId": "MEDIA_MONOPOLY_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          },
+          {
+            "opportunityId": "CYBER_PROPAGANDA_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          },
+          {
+            "opportunityId": "content_auth_researchable_t3",
+            "path": "RESEARCHABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          },
+          {
+            "opportunityId": "misinfo_detect_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          },
+          {
+            "opportunityId": "telecom_resilience_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          },
+          {
+            "opportunityId": "COMMUNICATION_ADVERTISING_TVADS_CAPACITY_OVERLOAD_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          },
+          {
+            "opportunityId": "media_literacy_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "communication-b10-candidate-refused",
+            "blockers": [
+              "candidate-identity-missing"
+            ]
+          }
+        ],
+        "nextBoundary": "candidate-identity-missing",
+        "providerCalled": false,
+        "candidateFabricated": false,
+        "assetRightsOrSubscriberOrContentAuthorityInferred": false
+      },
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -658,7 +821,7 @@
         "decisionProven": false,
         "motorProven": false
       },
-      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "firstUnprovenBoundary": "candidate-identity-missing",
       "providerCalled": false
     },
     {
@@ -993,8 +1156,8 @@
             "decision": {
               "id": "chd_1506695bb1eb69338fe72c6e",
               "status": "NO_ACTION",
-              "decidedAt": 1790877889889,
-              "expiresAt": 1790878489889,
+              "decidedAt": 1790877945989,
+              "expiresAt": 1790878545989,
               "key": "culture_hero_decision:chd_1506695bb1eb69338fe72c6e",
               "packetId": "culture:2:fixture-native-source-snapshot",
               "reason": "culture-b10-held",
@@ -1343,7 +1506,7 @@
         "lane": "publication",
         "candidateId": "dpc_f567dc9a2c381bd7a005f2fd",
         "nativeOpportunityId": "DEFENSE_AIR_SYSTEM_FAILURE_researchable_t1",
-        "decisionId": "dpd_d6999bcf64f62def4fafda78",
+        "decisionId": "dpd_57e69676c4be32604e39db2c",
         "sourcePacketId": "defense:2:fixture-native-source-snapshot",
         "status": "NO_ACTION",
         "blockers": [
@@ -3096,7 +3259,7 @@
         "lane": "publication",
         "candidateId": "gpc_9986aded82fbd54e5bc8bf1d",
         "nativeOpportunityId": "GOVERNANCE_SANCTIONS_SYSTEM_FAILURE_researchable_t1",
-        "decisionId": "gpd_4dd858326c8d69454931f938",
+        "decisionId": "gpd_600be031463f89cc2592ff75",
         "sourcePacketId": "governance:2:fixture-native-source-snapshot",
         "status": "NO_ACTION",
         "blockers": [
@@ -5580,7 +5743,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_0183ceff827762257129c434b60a475bc4d42e51dfce42aa1a282a5404e7a5d4",
+            "id": "sel_episode_17c645f53832858b36d4ef51c521a74c5d97e1b17a45e6e59dd26a01a1dff133",
             "status": "HELD",
             "ownerDomain": "health",
             "reasons": [
@@ -5622,7 +5785,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_a88b12c53a3e02526dbccb678683c6e44bc2fec9d96946c202b852043e0db240",
+              "id": "sel_episode_040837d600c748cc547a26a34f905132bbd987bec83c06af6a57e7723542e3f7",
               "status": "RELEASED",
               "reasons": []
             }
@@ -6568,7 +6731,98 @@
           "sourcePacketId": "religion:2:fixture-native-source-snapshot"
         }
       ],
-      "primaryIntakeBoundary": null,
+      "primaryIntakeBoundary": {
+        "ownerDomain": "religion",
+        "lane": "subscriber",
+        "sourcePacketId": "religion:2:fixture-native-source-snapshot",
+        "evidenceLevel": "LOCAL/FIXTURE",
+        "nativeOpportunityChecks": [
+          {
+            "opportunityId": "SECTARIAN_CONFLICT_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "religion-b10-candidate-refused",
+            "blockers": [
+              "paid-subscriber-candidate-invalid"
+            ]
+          },
+          {
+            "opportunityId": "INSTITUTIONAL_ABUSE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "religion-b10-candidate-refused",
+            "blockers": [
+              "paid-subscriber-candidate-invalid"
+            ]
+          },
+          {
+            "opportunityId": "RADICALIZATION_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "religion-b10-candidate-refused",
+            "blockers": [
+              "paid-subscriber-candidate-invalid"
+            ]
+          },
+          {
+            "opportunityId": "SECULARIZATION_CRISIS_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "religion-b10-candidate-refused",
+            "blockers": [
+              "paid-subscriber-candidate-invalid"
+            ]
+          },
+          {
+            "opportunityId": "THEOLOGICAL_SCHISM_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "religion-b10-candidate-refused",
+            "blockers": [
+              "paid-subscriber-candidate-invalid"
+            ]
+          },
+          {
+            "opportunityId": "youth_engage_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "religion-b10-candidate-refused",
+            "blockers": [
+              "paid-subscriber-candidate-invalid"
+            ]
+          },
+          {
+            "opportunityId": "deradicalize_researchable_t3",
+            "path": "RESEARCHABLE",
+            "reason": "religion-b10-candidate-refused",
+            "blockers": [
+              "paid-subscriber-candidate-invalid"
+            ]
+          },
+          {
+            "opportunityId": "service_infra_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "religion-b10-candidate-refused",
+            "blockers": [
+              "paid-subscriber-candidate-invalid"
+            ]
+          },
+          {
+            "opportunityId": "interfaith_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "religion-b10-candidate-refused",
+            "blockers": [
+              "paid-subscriber-candidate-invalid"
+            ]
+          },
+          {
+            "opportunityId": "accountability_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "religion-b10-candidate-refused",
+            "blockers": [
+              "paid-subscriber-candidate-invalid"
+            ]
+          }
+        ],
+        "nextBoundary": "paid-subscriber-candidate-invalid",
+        "providerCalled": false,
+        "candidateFabricated": false,
+        "assetRightsOrSubscriberOrContentAuthorityInferred": false
+      },
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -6589,7 +6843,7 @@
         "decisionProven": false,
         "motorProven": false
       },
-      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "firstUnprovenBoundary": "paid-subscriber-candidate-invalid",
       "providerCalled": false
     },
     {
@@ -6905,7 +7159,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_2542699867dd897910e1abadb140726fbe8af4a53e3a64233b33214ac2122c8a",
+            "id": "sel_episode_2871fb4ca5de813700ba9c7f3e026061908e853f0d85195a7ccf49a86b04346a",
             "status": "HELD",
             "ownerDomain": "research",
             "reasons": [
@@ -6947,7 +7201,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_6eeb608f17e5e65d4b0356fee0e4d45128485c6eb0be43331400c55f87e00cf1",
+              "id": "sel_episode_90c6f29abcc44bc3bc04df7f996bd96f5357b7f8c9bd02c95ce268cc84fe949e",
               "status": "RELEASED",
               "reasons": []
             }
@@ -7925,7 +8179,138 @@
           "sourcePacketId": "trade:2:fixture-native-source-snapshot"
         }
       ],
-      "primaryIntakeBoundary": null,
+      "primaryIntakeBoundary": {
+        "ownerDomain": "supplyChain",
+        "lane": "auction",
+        "sourcePacketId": "trade:2:fixture-native-source-snapshot",
+        "evidenceLevel": "LOCAL/FIXTURE",
+        "nativeOpportunityChecks": [
+          {
+            "opportunityId": "SUPPLY_CHAIN_COLLAPSE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "trade-auction-candidate-invalid",
+            "blockers": [
+              "exact-owned-asset-auction-listing-record-required"
+            ]
+          },
+          {
+            "opportunityId": "PORT_BLOCKADE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "trade-auction-candidate-invalid",
+            "blockers": [
+              "exact-owned-asset-auction-listing-record-required"
+            ]
+          },
+          {
+            "opportunityId": "TRADE_WAR_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "trade-auction-candidate-invalid",
+            "blockers": [
+              "exact-owned-asset-auction-listing-record-required"
+            ]
+          },
+          {
+            "opportunityId": "SHIPPING_CRISIS_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "trade-auction-candidate-invalid",
+            "blockers": [
+              "exact-owned-asset-auction-listing-record-required"
+            ]
+          },
+          {
+            "opportunityId": "CUSTOMS_DISRUPTION_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "trade-auction-candidate-invalid",
+            "blockers": [
+              "exact-owned-asset-auction-listing-record-required"
+            ]
+          },
+          {
+            "opportunityId": "warehouse_hardening_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "trade-auction-candidate-invalid",
+            "blockers": [
+              "exact-owned-asset-auction-listing-record-required"
+            ]
+          },
+          {
+            "opportunityId": "SUPPLY_CHAIN_COLLAPSE_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "trade-auction-candidate-invalid",
+            "blockers": [
+              "exact-owned-asset-auction-listing-record-required"
+            ]
+          },
+          {
+            "opportunityId": "PORT_BLOCKADE_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "trade-auction-candidate-invalid",
+            "blockers": [
+              "exact-owned-asset-auction-listing-record-required"
+            ]
+          },
+          {
+            "opportunityId": "SHIPPING_CRISIS_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "trade-auction-candidate-invalid",
+            "blockers": [
+              "exact-owned-asset-auction-listing-record-required"
+            ]
+          },
+          {
+            "opportunityId": "CUSTOMS_DISRUPTION_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "trade-auction-candidate-invalid",
+            "blockers": [
+              "exact-owned-asset-auction-listing-record-required"
+            ]
+          },
+          {
+            "opportunityId": "bottleneck_position_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "trade-auction-candidate-invalid",
+            "blockers": [
+              "exact-owned-asset-auction-listing-record-required"
+            ]
+          },
+          {
+            "opportunityId": "nearshoring_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "trade-auction-candidate-invalid",
+            "blockers": [
+              "exact-owned-asset-auction-listing-record-required"
+            ]
+          },
+          {
+            "opportunityId": "supplier_diversification_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "trade-auction-candidate-invalid",
+            "blockers": [
+              "exact-owned-asset-auction-listing-record-required"
+            ]
+          },
+          {
+            "opportunityId": "TRADE_WAR_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "trade-auction-candidate-invalid",
+            "blockers": [
+              "exact-owned-asset-auction-listing-record-required"
+            ]
+          },
+          {
+            "opportunityId": "regulatory_response_researchable_t3",
+            "path": "RESEARCHABLE",
+            "reason": "trade-auction-candidate-invalid",
+            "blockers": [
+              "exact-owned-asset-auction-listing-record-required"
+            ]
+          }
+        ],
+        "nextBoundary": "exact-owned-asset-auction-listing-record-required",
+        "providerCalled": false,
+        "candidateFabricated": false,
+        "assetRightsOrSubscriberOrContentAuthorityInferred": false
+      },
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -7946,7 +8331,7 @@
         "decisionProven": false,
         "motorProven": false
       },
-      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "firstUnprovenBoundary": "exact-owned-asset-auction-listing-record-required",
       "providerCalled": false
     }
   ]
