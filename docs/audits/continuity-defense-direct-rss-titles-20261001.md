@@ -19,9 +19,18 @@ test module; this grants no production authorization. Two whole title sets/four
 linked items persist and the existing publication source collector accepts the
 four source records. Missing second publisher label remains null.
 
-This title transport is separately tested from the OFAC/CISA native brain path.
-It does not yet prove a combined same-snapshot native publication decision, and
-the count-only inputs remain correctly source-refused. No external feed or
+The subsequent combined-title-feeds scenario composes all four actual parser
+outputs into one snapshot. That same snapshot enters the actual title recorder
+and native Defense brain. The publication candidate uses the resulting stored
+titles and exact native packet/research opportunity. Actual native cognition
+records NO_ACTION with `defense-immune-veto`, keyed durable readback and stable
+decision replay. The executor remains HELD with zero publisher calls. Existing
+operator readout retains exact packet/blockers with no command or external
+authority, and execution/readout leave stored values unchanged.
+
+The count-only inputs remain separately tested and correctly source-refused.
+No immune permission, diagnosis, opportunity, title-set receipt, command,
+publication, independent outcome or revenue is fabricated. No external feed or
 production Redis/provider was accessed. Full-suite validation passed:
 365 passed, one existing external-corpus skip, zero failures in 220.1 seconds.
 

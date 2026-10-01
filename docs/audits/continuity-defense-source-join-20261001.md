@@ -29,6 +29,19 @@ publisher independence, provider, publication, outcome, revenue, publisher
 authenticity or current production feed is invented. The next safe boundary
 for these exact inputs is `source-grounded-defense-brief-required`.
 
+The additional combined-title-feeds scenario includes actual Defense News and
+NATO direct RSS readings in the same assembled snapshot as OFAC/CISA. Actual
+feed-record writes its two title sets from that snapshot, and the native brain
+uses that snapshot to derive the exact packet. Those stored source titles yield
+a valid publication candidate referencing its native RESEARCHABLE opportunity.
+Native cognition produces a durable NO_ACTION decision with
+`defense-immune-veto`, `defense-b10-brake-held:brake-absent` and
+`defense-b10-no-action-selected`. Exact decision replay/readback passes. The
+executor refuses at its existing exact-B10 gate, with zero provider calls;
+the operator reader exposes exact packet/blockers and null command, without
+external authority or store mutation. The count-only source blocker is retained
+as a separate scenario; titles are not inferred from count records.
+
 Focused Defense join and source-collection contracts pass. Runtime code is
 unchanged since the 364-pass full checkpoint. Agriculture and Defense now have
 actual parser/assembler-to-native fixture joins; eighteen other domains still

@@ -59,7 +59,7 @@ const originalFetch = global.fetch;
   assert.equal(PublicationSource.collect(titleSets, Date.now()).length, 4);
   const titleTransport = { level: 'LOCAL/FIXTURE', sourceFeeds: titleSets.map(s => s.f), sourceItems: 4,
     titleSetsPersisted: 2, auth: 'test-only stub; no production permission', publisherIndependence: 'unassessed' };
-  for (const scenario of ['valid', 'ofac-unavailable', 'recovery']) {
+  for (const scenario of ['valid', 'ofac-unavailable', 'recovery', 'combined-title-feeds']) {
     const requests = [];
     const html = '<html>' + 'official source '.repeat(25) + '<div class="views-row"><a href="/recent-actions/20260929">' +
       'sanctions designation '.repeat(12) + '</a></div></html>';
@@ -75,7 +75,18 @@ const originalFetch = global.fetch;
     const ofac = await H._fetchOFACRecentActions(), cisa = await H._fetchCISAKEV();
     assert(cisa && cisa.sourceUpdatedAt);
     assert.equal(ofac === null, scenario === 'ofac-unavailable');
-    const snapshot = H.testBuildDomain('defense', [{ name: 'OFAC Recent Actions', data: ofac }, { name: 'CISA KEV', data: cisa }]);
+    const inputs = [{ name: 'OFAC Recent Actions', data: ofac }, { name: 'CISA KEV', data: cisa }];
+    if (scenario === 'combined-title-feeds') inputs.push({ name: 'Defense News', data: directNews }, { name: 'NATO News', data: directNato });
+    const snapshot = H.testBuildDomain('defense', inputs);
+    let combinedTitles = [];
+    if (scenario === 'combined-title-feeds') {
+      memory.clear(); lists.clear();
+      global.fetch = async () => ({ json: async () => ({ domains: { defense: snapshot }, meta: {} }) });
+      await recorder.exports({ url: '/api/feed-record', headers: {} }, response);
+      combinedTitles = await db.lrange('feedtitles:defense', 0, -1);
+      assert.equal(combinedTitles.length, 2);
+      assert.equal(PublicationSource.collect(combinedTitles, Date.now()).length, 4);
+    }
     assert.equal(snapshot.sources[0].live, scenario !== 'ofac-unavailable');
     if (!ofac) { assert.equal(snapshot.sources[0].classification, 'broken'); assert.equal(snapshot.sources[0].value, null); assert.equal(snapshot.lowSignal, true); }
     const sb = makeSandbox(global);
@@ -138,11 +149,42 @@ const originalFetch = global.fetch;
       refusals.push({ opportunityId: opportunity.id, reason: refused.reason, blockers: refused.blockers, executorReason: held.reason });
     }
     assert.equal(JSON.stringify(Array.from(values)), before);
+    let combinedDecision = null;
+    if (scenario === 'combined-title-feeds') {
+      const candidate = PublicationSource.build(combinedTitles, cognition, at);
+      assert(PublicationSource.validate(candidate));
+      assert.equal(candidate.defensePacketId, packet.packetId);
+      assert(packet.truth.opportunities.some(o => o.id === candidate.brainSelection.id && o.path === 'RESEARCHABLE'));
+      const decisionLists = new Map();
+      const decisionStore = Object.assign({}, store, { assertDurable() {}, setIfAbsent: store.setNx,
+        lpush: async (k, v) => { const a = decisionLists.get(k) || []; a.unshift(clone(v)); decisionLists.set(k, a); return a.length; },
+        lrange: async (k, a, b) => clone((decisionLists.get(k) || []).slice(a, b < 0 ? undefined : b + 1)),
+        ltrim: async (k, a, b) => { decisionLists.set(k, (decisionLists.get(k) || []).slice(a, b + 1)); return true; } });
+      const selected = await PublicationDecision.decide(decisionStore, candidate, at, cognition);
+      assert(selected.decisionReceiptId, JSON.stringify(selected));
+      assert.equal(selected.status, 'NO_ACTION');
+      assert(selected.blockers.includes('defense-immune-veto'));
+      assert.deepEqual(await store.get(PublicationDecision.key(selected.decisionReceiptId)), selected);
+      assert.equal((await PublicationDecision.decide(decisionStore, candidate, at, cognition)).decisionReceiptId, selected.decisionReceiptId);
+      const beforeDispatch = JSON.stringify(Array.from(values));
+      const held = await PublicationExecutor.execute({ store: decisionStore, candidate, decision: selected, now: at,
+        publisher: { publish: async () => { throw new Error('native immune veto must not publish'); } } });
+      assert.equal(held.providerCalls, 0);
+      assert.equal(held.reason, 'defense-publication-exact-b10-decision-required');
+      const trace = await require('../lib/product-domain-business-trace-readout.js').read(decisionStore, 'defense', at + 1);
+      assert.equal(trace.status, 'RECORDED'); assert.equal(trace.decision.packetId, packet.packetId);
+      assert(trace.decision.blockers.includes('defense-immune-veto'));
+      assert.equal(trace.command, null); assert.equal(trace.externalActionAuthorized, false);
+      assert.equal(JSON.stringify(Array.from(values)), beforeDispatch);
+      combinedDecision = { candidateId: candidate.candidateId, nativeOpportunityId: candidate.brainSelection.id,
+        sources: candidate.sources, decisionId: selected.decisionReceiptId, status: selected.status, blockers: selected.blockers,
+        operatorReadout: trace.status, command: null, providerCalls: held.providerCalls };
+    }
     results.push({ scenario, requests, snapshotStress: snapshot.stress, stressBasis: snapshot.stressBasis,
       lowSignal: snapshot.lowSignal, feedSourceEvidence: packet.truth.feedSourceEvidence, packetId: packet.packetId,
       diagnoses: packet.truth.activeDiagnoses.length, opportunities: packet.truth.opportunities.length, handoffs: handoffs.length,
       publicationIntake: { candidateCreated: false, headlineSetsInvented: false, refusals, storedValuesUnchanged: true },
-      nextBoundary: 'source-grounded-defense-brief-required', providerCalled: false });
+      combinedDecision, nextBoundary: combinedDecision ? combinedDecision.blockers.join(';') : 'source-grounded-defense-brief-required', providerCalled: false });
   }
   if (process.argv.includes('--write-evidence')) fs.writeFileSync(path.join(root, 'docs/audits/continuity-defense-source-join.json'),
     JSON.stringify({ level: 'LOCAL/FIXTURE', externalFetches: false, injectedDiagnoses: false, injectedOpportunities: false, titleTransport, results }, null, 2) + '\n');
