@@ -1192,8 +1192,8 @@
             "decision": {
               "id": "chd_1506695bb1eb69338fe72c6e",
               "status": "NO_ACTION",
-              "decidedAt": 1790878699998,
-              "expiresAt": 1790879299998,
+              "decidedAt": 1790878794563,
+              "expiresAt": 1790879394563,
               "key": "culture_hero_decision:chd_1506695bb1eb69338fe72c6e",
               "packetId": "culture:2:fixture-native-source-snapshot",
               "reason": "culture-b10-held",
@@ -1542,7 +1542,7 @@
         "lane": "publication",
         "candidateId": "dpc_f567dc9a2c381bd7a005f2fd",
         "nativeOpportunityId": "DEFENSE_AIR_SYSTEM_FAILURE_researchable_t1",
-        "decisionId": "dpd_e4eb27fb55bb096cb73df28b",
+        "decisionId": "dpd_4814ae7d125a6fe496f4be9a",
         "sourcePacketId": "defense:2:fixture-native-source-snapshot",
         "status": "NO_ACTION",
         "blockers": [
@@ -2331,7 +2331,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_7f2b721b02d4f0956c5e786ecb34ea2bb2d9fa56f7236afb8b280c8da79c3d7e",
+            "id": "sel_episode_aae82ca7d88fdbcb5f2619b7b87b55e0f34baa61ef73355d367f200b9b360932",
             "status": "HELD",
             "ownerDomain": "education",
             "reasons": [
@@ -2376,7 +2376,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_219d8dff4099480889d26f4c266f487a3c9769a348c675cd70a405f5ff8a8688",
+              "id": "sel_episode_806dca8928c1fa4a7c726f720d7231c85762fcbc29aa2dd7d9a3dc7c94b8c422",
               "status": "HELD",
               "reasons": [
                 "owning_domain_has_no_current_l3_evidence",
@@ -2894,7 +2894,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_620fd47af711badcfa5ecbc193a8e83664b0c0e7e3adc8e6a30de104646b852e",
+            "id": "sel_episode_85bf2ef151c0c56c5bf98b651c5096c03ed1ac54b639628e4882fd8b08add5d6",
             "status": "HELD",
             "ownerDomain": "environment",
             "reasons": [
@@ -2936,7 +2936,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_33f933264d00fc6cc8b797c558425ab22a6b8e2396d0a352adeb5258f8cfac0a",
+              "id": "sel_episode_f68bcc45993466602438a2c01a35771ebac41917be9f0b03f827eb5defc445e1",
               "status": "HELD",
               "reasons": [
                 "owning_domain_has_no_declared_outward_consumer"
@@ -3202,7 +3202,352 @@
           "sourcePacketId": "finance:2:fixture-native-source-snapshot"
         }
       ],
-      "primaryIntakeBoundary": null,
+      "primaryIntakeBoundary": {
+        "ownerDomain": "finance",
+        "lane": "investment",
+        "sourcePacketId": "finance:2:fixture-native-source-snapshot",
+        "evidenceLevel": "LOCAL/FIXTURE",
+        "nativeOpportunityChecks": [
+          {
+            "opportunityId": "SYSTEMIC_CONTAGION_investable_t1",
+            "blockers": [
+              "finance_input_ledger_not_ready",
+              "proposal_schema_required",
+              "proposal_company_must_match_ledger",
+              "proposal_thesis_required",
+              "proposal_horizon_must_be_supported_multiscale_days",
+              "proposal_invalidation_required",
+              "proposal_two_scenarios_required",
+              "proposal_must_be_paper_only",
+              "publisher_independence_must_remain_explicitly_unassessed",
+              "proposal_provenance_required",
+              "proposal_evidence_refs_required",
+              "proposal_semantic_evidence_required",
+              "proposal_market_evidence_required",
+              "proposal_network_evidence_required"
+            ]
+          },
+          {
+            "opportunityId": "BANKING_CRISIS_investable_t1",
+            "blockers": [
+              "finance_input_ledger_not_ready",
+              "proposal_schema_required",
+              "proposal_company_must_match_ledger",
+              "proposal_thesis_required",
+              "proposal_horizon_must_be_supported_multiscale_days",
+              "proposal_invalidation_required",
+              "proposal_two_scenarios_required",
+              "proposal_must_be_paper_only",
+              "publisher_independence_must_remain_explicitly_unassessed",
+              "proposal_provenance_required",
+              "proposal_evidence_refs_required",
+              "proposal_semantic_evidence_required",
+              "proposal_market_evidence_required",
+              "proposal_network_evidence_required"
+            ]
+          },
+          {
+            "opportunityId": "MARKET_CRASH_investable_t1",
+            "blockers": [
+              "finance_input_ledger_not_ready",
+              "proposal_schema_required",
+              "proposal_company_must_match_ledger",
+              "proposal_thesis_required",
+              "proposal_horizon_must_be_supported_multiscale_days",
+              "proposal_invalidation_required",
+              "proposal_two_scenarios_required",
+              "proposal_must_be_paper_only",
+              "publisher_independence_must_remain_explicitly_unassessed",
+              "proposal_provenance_required",
+              "proposal_evidence_refs_required",
+              "proposal_semantic_evidence_required",
+              "proposal_market_evidence_required",
+              "proposal_network_evidence_required"
+            ]
+          },
+          {
+            "opportunityId": "CURRENCY_COLLAPSE_investable_t1",
+            "blockers": [
+              "finance_input_ledger_not_ready",
+              "proposal_schema_required",
+              "proposal_company_must_match_ledger",
+              "proposal_thesis_required",
+              "proposal_horizon_must_be_supported_multiscale_days",
+              "proposal_invalidation_required",
+              "proposal_two_scenarios_required",
+              "proposal_must_be_paper_only",
+              "publisher_independence_must_remain_explicitly_unassessed",
+              "proposal_provenance_required",
+              "proposal_evidence_refs_required",
+              "proposal_semantic_evidence_required",
+              "proposal_market_evidence_required",
+              "proposal_network_evidence_required"
+            ]
+          },
+          {
+            "opportunityId": "CREDIT_FREEZE_investable_t1",
+            "blockers": [
+              "finance_input_ledger_not_ready",
+              "proposal_schema_required",
+              "proposal_company_must_match_ledger",
+              "proposal_thesis_required",
+              "proposal_horizon_must_be_supported_multiscale_days",
+              "proposal_invalidation_required",
+              "proposal_two_scenarios_required",
+              "proposal_must_be_paper_only",
+              "publisher_independence_must_remain_explicitly_unassessed",
+              "proposal_provenance_required",
+              "proposal_evidence_refs_required",
+              "proposal_semantic_evidence_required",
+              "proposal_market_evidence_required",
+              "proposal_network_evidence_required"
+            ]
+          },
+          {
+            "opportunityId": "FRAUD_SCANDAL_investable_t1",
+            "blockers": [
+              "finance_input_ledger_not_ready",
+              "proposal_schema_required",
+              "proposal_company_must_match_ledger",
+              "proposal_thesis_required",
+              "proposal_horizon_must_be_supported_multiscale_days",
+              "proposal_invalidation_required",
+              "proposal_two_scenarios_required",
+              "proposal_must_be_paper_only",
+              "publisher_independence_must_remain_explicitly_unassessed",
+              "proposal_provenance_required",
+              "proposal_evidence_refs_required",
+              "proposal_semantic_evidence_required",
+              "proposal_market_evidence_required",
+              "proposal_network_evidence_required"
+            ]
+          },
+          {
+            "opportunityId": "infrastructure_hardening_investable_t3",
+            "blockers": [
+              "finance_input_ledger_not_ready",
+              "proposal_schema_required",
+              "proposal_company_must_match_ledger",
+              "proposal_thesis_required",
+              "proposal_horizon_must_be_supported_multiscale_days",
+              "proposal_invalidation_required",
+              "proposal_two_scenarios_required",
+              "proposal_must_be_paper_only",
+              "publisher_independence_must_remain_explicitly_unassessed",
+              "proposal_provenance_required",
+              "proposal_evidence_refs_required",
+              "proposal_semantic_evidence_required",
+              "proposal_market_evidence_required",
+              "proposal_network_evidence_required"
+            ]
+          },
+          {
+            "opportunityId": "SYSTEMIC_CONTAGION_researchable_t1",
+            "blockers": [
+              "finance_input_ledger_not_ready",
+              "proposal_schema_required",
+              "proposal_company_must_match_ledger",
+              "proposal_thesis_required",
+              "proposal_horizon_must_be_supported_multiscale_days",
+              "proposal_invalidation_required",
+              "proposal_two_scenarios_required",
+              "proposal_must_be_paper_only",
+              "publisher_independence_must_remain_explicitly_unassessed",
+              "proposal_provenance_required",
+              "proposal_evidence_refs_required",
+              "proposal_semantic_evidence_required",
+              "proposal_market_evidence_required",
+              "proposal_network_evidence_required"
+            ]
+          },
+          {
+            "opportunityId": "BANKING_CRISIS_researchable_t1",
+            "blockers": [
+              "finance_input_ledger_not_ready",
+              "proposal_schema_required",
+              "proposal_company_must_match_ledger",
+              "proposal_thesis_required",
+              "proposal_horizon_must_be_supported_multiscale_days",
+              "proposal_invalidation_required",
+              "proposal_two_scenarios_required",
+              "proposal_must_be_paper_only",
+              "publisher_independence_must_remain_explicitly_unassessed",
+              "proposal_provenance_required",
+              "proposal_evidence_refs_required",
+              "proposal_semantic_evidence_required",
+              "proposal_market_evidence_required",
+              "proposal_network_evidence_required"
+            ]
+          },
+          {
+            "opportunityId": "MARKET_CRASH_researchable_t1",
+            "blockers": [
+              "finance_input_ledger_not_ready",
+              "proposal_schema_required",
+              "proposal_company_must_match_ledger",
+              "proposal_thesis_required",
+              "proposal_horizon_must_be_supported_multiscale_days",
+              "proposal_invalidation_required",
+              "proposal_two_scenarios_required",
+              "proposal_must_be_paper_only",
+              "publisher_independence_must_remain_explicitly_unassessed",
+              "proposal_provenance_required",
+              "proposal_evidence_refs_required",
+              "proposal_semantic_evidence_required",
+              "proposal_market_evidence_required",
+              "proposal_network_evidence_required"
+            ]
+          },
+          {
+            "opportunityId": "CURRENCY_COLLAPSE_researchable_t1",
+            "blockers": [
+              "finance_input_ledger_not_ready",
+              "proposal_schema_required",
+              "proposal_company_must_match_ledger",
+              "proposal_thesis_required",
+              "proposal_horizon_must_be_supported_multiscale_days",
+              "proposal_invalidation_required",
+              "proposal_two_scenarios_required",
+              "proposal_must_be_paper_only",
+              "publisher_independence_must_remain_explicitly_unassessed",
+              "proposal_provenance_required",
+              "proposal_evidence_refs_required",
+              "proposal_semantic_evidence_required",
+              "proposal_market_evidence_required",
+              "proposal_network_evidence_required"
+            ]
+          },
+          {
+            "opportunityId": "CREDIT_FREEZE_researchable_t1",
+            "blockers": [
+              "finance_input_ledger_not_ready",
+              "proposal_schema_required",
+              "proposal_company_must_match_ledger",
+              "proposal_thesis_required",
+              "proposal_horizon_must_be_supported_multiscale_days",
+              "proposal_invalidation_required",
+              "proposal_two_scenarios_required",
+              "proposal_must_be_paper_only",
+              "publisher_independence_must_remain_explicitly_unassessed",
+              "proposal_provenance_required",
+              "proposal_evidence_refs_required",
+              "proposal_semantic_evidence_required",
+              "proposal_market_evidence_required",
+              "proposal_network_evidence_required"
+            ]
+          },
+          {
+            "opportunityId": "FRAUD_SCANDAL_researchable_t1",
+            "blockers": [
+              "finance_input_ledger_not_ready",
+              "proposal_schema_required",
+              "proposal_company_must_match_ledger",
+              "proposal_thesis_required",
+              "proposal_horizon_must_be_supported_multiscale_days",
+              "proposal_invalidation_required",
+              "proposal_two_scenarios_required",
+              "proposal_must_be_paper_only",
+              "publisher_independence_must_remain_explicitly_unassessed",
+              "proposal_provenance_required",
+              "proposal_evidence_refs_required",
+              "proposal_semantic_evidence_required",
+              "proposal_market_evidence_required",
+              "proposal_network_evidence_required"
+            ]
+          },
+          {
+            "opportunityId": "distressed_assets_investable_t3",
+            "blockers": [
+              "finance_input_ledger_not_ready",
+              "proposal_schema_required",
+              "proposal_company_must_match_ledger",
+              "proposal_thesis_required",
+              "proposal_horizon_must_be_supported_multiscale_days",
+              "proposal_invalidation_required",
+              "proposal_two_scenarios_required",
+              "proposal_must_be_paper_only",
+              "publisher_independence_must_remain_explicitly_unassessed",
+              "proposal_provenance_required",
+              "proposal_evidence_refs_required",
+              "proposal_semantic_evidence_required",
+              "proposal_market_evidence_required",
+              "proposal_network_evidence_required"
+            ]
+          },
+          {
+            "opportunityId": "alternative_finance_researchable_t3",
+            "blockers": [
+              "finance_input_ledger_not_ready",
+              "proposal_schema_required",
+              "proposal_company_must_match_ledger",
+              "proposal_thesis_required",
+              "proposal_horizon_must_be_supported_multiscale_days",
+              "proposal_invalidation_required",
+              "proposal_two_scenarios_required",
+              "proposal_must_be_paper_only",
+              "publisher_independence_must_remain_explicitly_unassessed",
+              "proposal_provenance_required",
+              "proposal_evidence_refs_required",
+              "proposal_semantic_evidence_required",
+              "proposal_market_evidence_required",
+              "proposal_network_evidence_required"
+            ]
+          },
+          {
+            "opportunityId": "capital_rotation_investable_t3",
+            "blockers": [
+              "finance_input_ledger_not_ready",
+              "proposal_schema_required",
+              "proposal_company_must_match_ledger",
+              "proposal_thesis_required",
+              "proposal_horizon_must_be_supported_multiscale_days",
+              "proposal_invalidation_required",
+              "proposal_two_scenarios_required",
+              "proposal_must_be_paper_only",
+              "publisher_independence_must_remain_explicitly_unassessed",
+              "proposal_provenance_required",
+              "proposal_evidence_refs_required",
+              "proposal_semantic_evidence_required",
+              "proposal_market_evidence_required",
+              "proposal_network_evidence_required"
+            ]
+          },
+          {
+            "opportunityId": "regulatory_response_investable_t3",
+            "blockers": [
+              "finance_input_ledger_not_ready",
+              "proposal_schema_required",
+              "proposal_company_must_match_ledger",
+              "proposal_thesis_required",
+              "proposal_horizon_must_be_supported_multiscale_days",
+              "proposal_invalidation_required",
+              "proposal_two_scenarios_required",
+              "proposal_must_be_paper_only",
+              "publisher_independence_must_remain_explicitly_unassessed",
+              "proposal_provenance_required",
+              "proposal_evidence_refs_required",
+              "proposal_semantic_evidence_required",
+              "proposal_market_evidence_required",
+              "proposal_network_evidence_required"
+            ]
+          }
+        ],
+        "admission": {
+          "status": "ABSTAINED",
+          "blockers": [
+            "finance_preview_receipt_required",
+            "finance_preview_paper_candidate_required",
+            "finance_preview_provider_receipt_required",
+            "finance_preview_candidate_required",
+            "finance_candidate_must_be_paper_only",
+            "finance_preview_safety_boundary_invalid"
+          ]
+        },
+        "nextBoundary": "finance_input_ledger_not_ready;proposal_schema_required",
+        "providerCalled": false,
+        "companyOrProposalInferred": false,
+        "candidateFabricated": false
+      },
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -3223,7 +3568,7 @@
         "decisionProven": false,
         "motorProven": false
       },
-      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "firstUnprovenBoundary": "finance_input_ledger_not_ready;proposal_schema_required",
       "providerCalled": false
     },
     {
@@ -3461,7 +3806,7 @@
         "lane": "publication",
         "candidateId": "gpc_9986aded82fbd54e5bc8bf1d",
         "nativeOpportunityId": "GOVERNANCE_SANCTIONS_SYSTEM_FAILURE_researchable_t1",
-        "decisionId": "gpd_077d00a23ad226391090f219",
+        "decisionId": "gpd_53ab518f33e4a9c8d838e490",
         "sourcePacketId": "governance:2:fixture-native-source-snapshot",
         "status": "NO_ACTION",
         "blockers": [
@@ -5945,7 +6290,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_2f810c2e1194a27188ebdd357d821f419a7a05c927dc51b30f8b8d18211b1dfb",
+            "id": "sel_episode_417546594f533183ec5d243d572f0496da9a05fbd7343983386d5292b7251923",
             "status": "HELD",
             "ownerDomain": "health",
             "reasons": [
@@ -5987,7 +6332,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_12c1bce537f1129174c2ac40ed436121a18b4f29ffbc5ac30aa52e0cb77859bb",
+              "id": "sel_episode_46bec011c30a493e6c16586e26bd4d0828ea4b5e1475c59bd81ab8e7332a52e0",
               "status": "RELEASED",
               "reasons": []
             }
@@ -7361,7 +7706,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_3fef08db789aaed9f13e662d78eb956262889af83fb0a3b482ced65918978888",
+            "id": "sel_episode_fd0205a648744b1b18bcfefb01c96a72e535d3be6d2efddcbd56767d02873458",
             "status": "HELD",
             "ownerDomain": "research",
             "reasons": [
@@ -7403,7 +7748,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_8ceec31d51b417137fbc2a24d45910acbd1dc064643fa89fd3e35c081f10a735",
+              "id": "sel_episode_02084bf4198d21a7728a646c19257a11680823682a9478ec9a8706dd788b7408",
               "status": "RELEASED",
               "reasons": []
             }

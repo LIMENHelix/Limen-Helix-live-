@@ -2,7 +2,7 @@
   "schemaVersion": "continuity-native-boundary-matrix/1.0",
   "baseSha": "a2bc15159b442fd4398674f2871622de0f1fd244",
   "source": "docs/audits/continuity-native-feed-spine.json",
-  "sourceSha256": "6f0415ef7d4b2a1fa8e24886fc6467e6c70e416ab2ca645c3a3615085d6bbdac",
+  "sourceSha256": "372f0fe0b3a7f1d451a8a1a9447919903f0763133ff36d48e10179d61062a048",
   "domainCount": 20,
   "result": "NOT_COMPLETE",
   "scope": "Identified LOCAL/FIXTURE sources and native primary intake boundaries; no production source authenticity or executed motor inferred",
@@ -73,8 +73,8 @@
     },
     {
       "domain": "finance",
-      "classification": "PRIMARY_JOIN_UNPROVEN",
-      "firstBoundary": "native-finance-packet-to-admitted-company-trade-candidate-not-joined",
+      "classification": "TESTED_NATIVE_PRIMARY_BOUNDARY",
+      "firstBoundary": "finance_input_ledger_not_ready;proposal_schema_required",
       "sourcePacketId": "finance:2:fixture-native-source-snapshot",
       "evidenceLevel": "LOCAL/FIXTURE",
       "providerCalled": false

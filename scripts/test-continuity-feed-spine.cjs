@@ -163,6 +163,33 @@ sb.LIMENDomains = fixtures;
       assert.equal(consumed.ok, true, JSON.stringify(consumed.failures));
       assert.equal(consumed.handoffsCreated, handoffs.length);
       var primaryIntakeBoundary = null;
+      if (row[0] === 'finance') {
+        var nativeFinanceProducer = require('../lib/finance-opportunity-producer.js');
+        var nativeFinanceAdmission = require('../lib/finance-paper-admission.js');
+        var beforeNativeFinance = JSON.stringify(Array.from(values));
+        var nativeFinanceChecks = packet.truth.opportunities.map(function (opportunity) {
+          var refused = nativeFinanceProducer.build({ proposal: opportunity });
+          assert.equal(refused.status, 'ABSTAINED');
+          assert.equal(refused.company, null);
+          assert.equal(refused.simulationOnly, true);
+          assert.equal(refused.liveExecution, false);
+          assert(refused.blockers.includes('finance_input_ledger_not_ready'));
+          assert(refused.blockers.includes('proposal_schema_required'));
+          return { opportunityId: opportunity.id, blockers: refused.blockers };
+        });
+        var nativeAdmissionStore = Object.assign({}, store, { assertDurable: function () {}, setIfAbsent: store.setNx });
+        var nativeAdmissionAudit = await nativeFinanceAdmission.audit(nativeAdmissionStore, packet.packetId);
+        assert.equal(nativeAdmissionAudit.status, 'ABSTAINED');
+        assert(nativeAdmissionAudit.blockers.includes('finance_preview_receipt_required'));
+        assert.equal(nativeAdmissionAudit.brokerTouched, false);
+        assert.equal(nativeAdmissionAudit.orderPlaced, false);
+        assert.equal(JSON.stringify(Array.from(values)), beforeNativeFinance);
+        primaryIntakeBoundary = { ownerDomain: 'finance', lane: 'investment', sourcePacketId: packet.packetId,
+          evidenceLevel: 'LOCAL/FIXTURE', nativeOpportunityChecks: nativeFinanceChecks,
+          admission: { status: nativeAdmissionAudit.status, blockers: nativeAdmissionAudit.blockers },
+          nextBoundary: 'finance_input_ledger_not_ready;proposal_schema_required', providerCalled: false,
+          companyOrProposalInferred: false, candidateFabricated: false };
+      }
       if (row[0] === 'agriculture') {
         var nativeWorker = require('../handlers/limen-worker-autofire.js');
         var beforeNativeQueue = JSON.stringify(Array.from(values));

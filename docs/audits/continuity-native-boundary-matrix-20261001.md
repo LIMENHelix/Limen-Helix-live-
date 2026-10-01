@@ -13,7 +13,7 @@ Derived from the current native integration evidence at a2bc1515. This supersede
 | education | TESTED_NATIVE_PRIMARY_BOUNDARY | owning_domain_has_no_current_l3_evidence;owning_domain_has_no_declared_outward_consumer |
 | energy | TESTED_NATIVE_PRIMARY_BOUNDARY | exact-paper-investment-record-required |
 | environment | TESTED_NATIVE_PRIMARY_BOUNDARY | owning_domain_has_no_declared_outward_consumer |
-| finance | PRIMARY_JOIN_UNPROVEN | native-finance-packet-to-admitted-company-trade-candidate-not-joined |
+| finance | TESTED_NATIVE_PRIMARY_BOUNDARY | finance_input_ledger_not_ready;proposal_schema_required |
 | governance | TESTED_NATIVE_PRIMARY_BOUNDARY | native-publication-release-not-proven |
 | industry | TESTED_NATIVE_PRIMARY_BOUNDARY | source-grounded-work-first-WARN-record-required |
 | infrastructure | TESTED_NATIVE_PRIMARY_BOUNDARY | exact-non-binding-property-interest-record-required |
