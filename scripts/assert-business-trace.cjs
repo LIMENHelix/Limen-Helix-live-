@@ -3,9 +3,11 @@
 var assert = require('node:assert/strict');
 var Trace = require('../lib/product-domain-business-trace-readout.js');
 module.exports = async function (store, domain, command, expectedKind, now, packetId) {
-  var Decision = require('../lib/' + domain + (expectedKind === 'PAPER-ORDER' ? '-investment' : '-publication') + '-decision.js');
-  var Executor = require('../lib/' + domain + (expectedKind === 'PAPER-ORDER' ? '-investment' : '-publication') + '-executor.js');
-  var readonly = Object.assign({}, store);
+  var family = { 'PAPER-ORDER': 'investment', 'OWNED-PUBLICATION': 'publication', 'CRM-ACCEPTED': 'crm',
+    'EMAIL-ACCEPTED': 'autopilot', 'LETTER-ACCEPTED': 'automail', 'INQUIRY-ACCEPTED': 'real-estate' }[expectedKind];
+  var Decision = require('../lib/' + domain + '-' + family + '-decision.js');
+  var Executor = require('../lib/' + domain + '-' + family + '-executor.js');
+  var readonly = Object.create(store);
   ['set', 'setIfAbsent', 'lpush', 'ltrim', 'del'].forEach(function (method) {
     readonly[method] = async function () { throw Error('observation attempted write: ' + method); };
   });
@@ -22,6 +24,7 @@ module.exports = async function (store, domain, command, expectedKind, now, pack
     assert((await store.lrange(Executor.PENDING_LOG_KEY, 0, 19)).some(function (row) { return row.commandId === command.commandId; }));
   }
   assert(!JSON.stringify(result).includes('accountId'));
+  assert(!JSON.stringify(result).includes('@'), 'recipient addresses must not be projected');
   var key = Executor.commandKey(command.commandId), original = structuredClone(await store.get(key));
   await store.set(key, Object.assign({}, original, { ownerDomain: 'finance' }));
   var wrong = await Trace.read(readonly, domain, now);
@@ -31,6 +34,26 @@ module.exports = async function (store, domain, command, expectedKind, now, pack
   await store.set(key, Object.assign({}, original, { commandedAt: now + 1 }));
   assert.equal((await Trace.read(readonly, domain, now)).reason, 'command-readback-invalid');
   await store.set(key, original);
+  if (family === 'real-estate') {
+    await store.set(key, Object.assign({}, original, { contractAuthorized: true }));
+    assert.equal((await Trace.read(readonly, domain, now)).reason, 'command-readback-invalid');
+    await store.set(key, original);
+  }
+  if (family !== 'investment' && family !== 'publication') {
+    await store.set(key, Object.assign({}, original, { readbackVerified: false }));
+    var noReceipt = await Trace.read(readonly, domain, now);
+    assert.equal(noReceipt.status, 'RECORDED'); assert.equal(noReceipt.command.receipt, null);
+    await store.set(key, original);
+    await store.set(key, Object.assign({}, original, { status: 'AMBIGUOUS' }));
+    assert.equal((await Trace.read(readonly, domain, now)).command.receipt, null);
+    await store.set(key, original);
+    var pendingRead = Object.create(readonly);
+    pendingRead.lrange = async function (log, start, stop) { return log === Executor.LOG_KEY ? [] : store.lrange(log, start, stop); };
+    await store.set(key, Object.assign({}, original, { status: 'DISPATCHING' }));
+    var pendingCommand = await Trace.read(pendingRead, domain, now);
+    assert.equal(pendingCommand.command.status, 'DISPATCHING'); assert.equal(pendingCommand.command.receipt, null);
+    await store.set(key, original);
+  }
   if (expectedKind === 'PAPER-ORDER') {
     await store.set(key, Object.assign({}, original, { brokerReceipt: { orderId: 'unrelated-order' } }));
     var invalidReceipt = await Trace.read(readonly, domain, now);
@@ -38,7 +61,7 @@ module.exports = async function (store, domain, command, expectedKind, now, pack
     await store.set(key, original);
   }
   if (expectedKind === 'PAPER-ORDER') {
-    var pendingOnly = Object.assign({}, readonly, { lrange: async function (log, start, stop) {
+    var pendingOnly = Object.assign(Object.create(readonly), { lrange: async function (log, start, stop) {
       return log === Executor.LOG_KEY ? [] : store.lrange(log, start, stop);
     } });
     await store.set(key, Object.assign({}, original, { status: 'DISPATCHING', brokerOrderId: null, brokerReceipt: null }));

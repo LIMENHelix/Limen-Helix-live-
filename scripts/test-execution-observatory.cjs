@@ -56,6 +56,19 @@ cognition.cognition.defense = { ts: Date.now(), c: { businessTrace: {
     receipt: { kind: 'OWNED-PUBLICATION', id: 'owned-article-1' } }
 } } };
 cognition.count = 6;
+var operationKinds = { industry: 'CRM-ACCEPTED', intelligence: 'EMAIL-ACCEPTED', law: 'LETTER-ACCEPTED',
+  infrastructure: 'INQUIRY-ACCEPTED', population: 'INQUIRY-ACCEPTED' };
+Object.keys(operationKinds).forEach(function (domain) {
+  cognition.cognition[domain] = { ts: Date.now(), c: { businessTrace: {
+    schemaVersion: 'product-domain-business-trace-readout/1.0', ownerDomain: domain,
+    status: 'RECORDED', observationOnly: true, externalActionAuthorized: false,
+    decision: { id: domain + '-decision', status: 'NO_ACTION', reason: 'independent-negative-outcome', blockers: ['reassessment-required'] },
+    command: { id: domain + '-command', status: 'ACCEPTED', decisionId: domain + '-prior-decision',
+      nonBinding: /population|infrastructure/.test(domain), commissioningOnly: domain === 'intelligence',
+      receipt: { kind: operationKinds[domain], id: domain + '-receipt' } }
+  } } };
+});
+cognition.count = 11;
 vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilization/execution-observatory.js'), 'utf8'), {
   window, document, Date, setInterval() {},
   fetch: async url => {
@@ -72,8 +85,19 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
   });
   assert.match(financeCard, /internal emission <b>12/);
   assert.match(financeCard, /preparation PERMITTED/);
+  Object.keys(operationKinds).forEach(function (domain) {
+    var card = el.innerHTML.split('<span class="exo-domain-name">' + domain + '</span>')[1].split('</article>')[0];
+    assert.match(card, new RegExp(operationKinds[domain])); assert.match(card, new RegExp(domain + '-prior-decision'));
+    assert.match(card, /independent-negative-outcome/); assert.match(card, /reassessment-required/);
+    ['OBSERVED', 'REVENUE'].forEach(function (stage) {
+      assert.match(card, new RegExp('exo-chain-label">' + stage + '</span><span class="exo-badge exo-unobserved">UNOBSERVED'));
+    });
+    if (/population|infrastructure/.test(domain)) assert.match(card, /NON-BINDING INQUIRY/);
+    if (domain === 'intelligence') assert.match(card, /COMMISSIONING ONLY/);
+  });
   var economyCard = el.innerHTML.split('<span class="exo-domain-name">economy</span>')[1].split('</article>')[0];
   assert.match(economyCard, /PAPER-ORDER/); assert.match(economyCard, /PAPER ONLY/);
+  assert.match(economyCard, /exo-badge exo-paper">PAPER/);
   assert.doesNotMatch(economyCard, /PROVIDER-ACCEPTED/);
   assert.match(economyCard, /exo-chain-label">REVENUE<\/span><span class="exo-badge exo-unobserved">UNOBSERVED/);
   var defenseCard = el.innerHTML.split('<span class="exo-domain-name">defense</span>')[1].split('</article>')[0];
@@ -87,6 +111,7 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
   await window.LIMENExecutionObservatory.refresh();
   var cultureCard = el.innerHTML.split('<span class="exo-domain-name">culture</span>')[1].split('</article>')[0];
   assert.match(cultureCard, /RECORDED NO_ACTION/); assert.match(cultureCard, /RECORDED AMBIGUOUS/);
+  assert.doesNotMatch(cultureCard, /exo-badge exo-paper">PAPER/, 'unverified capability does not establish paper execution');
   assert.match(cultureCard, /culture-prior-decision/);
   assert.doesNotMatch(cultureCard, /PROVIDER-ACCEPTED/);
   cognition.cognition.culture.c.businessTrace.command.providerReceiptId = 'provider-culture-1';

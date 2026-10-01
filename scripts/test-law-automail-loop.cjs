@@ -49,5 +49,6 @@ function motor(id) { return { authorize: async function () { return { authorized
   assert.equal(recovery.status, 'CANCELED_VERIFIED'); assert.equal(canceled, 1); assert.equal(reads, 1);
   var persisted = JSON.stringify(Array.from(store.values.values()).concat(Array.from(store.lists.values())));
   assert.equal(persisted.includes('123 Private St'), false); assert.equal(persisted.includes('Private Owner'), false); assert.equal(persisted.includes('parcel-secret'), false);
-  console.log('law sovereign B10/B14/Lob observation/cancel loop: PASS');
+  await require('./assert-business-trace.cjs')(store, 'law', command, 'LETTER-ACCEPTED', now + 1000, 'law-packet-false');
+  console.log('law sovereign B10/B14/Lob observation/cancel loop and business trace: PASS');
 })().catch(function (error) { console.error(error); process.exitCode = 1; });

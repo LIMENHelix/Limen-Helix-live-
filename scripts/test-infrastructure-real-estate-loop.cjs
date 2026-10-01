@@ -97,5 +97,6 @@ function invoke(handler, raw, headers) { return new Promise(function (resolve) {
   assert.equal(recovery.status, 'FUTURE_INQUIRIES_SUPPRESSED'); assert.equal(recovery.strictSuppressionReadback, true); assert.equal(recovery.irreversiblePriorInquiry, true);
   var held = await Executor.execute({ store: store, candidate: candidate, decision: decision, now: now + 3, motorAuthorization: motor, emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailyRequestCap: 2, transport: { send: async function () { calls++; } } });
   assert.equal(held.reason, 'infrastructure-real-estate-counterparty-property-suppressed'); assert.equal(calls, 1);
-  console.log('infrastructure real-estate: sovereign non-binding decision, capped B14 inquiry, signed-inbound observation, zero-credit learning, and recovery passed');
+  await require('./assert-business-trace.cjs')(store, 'infrastructure', command, 'INQUIRY-ACCEPTED', now + 2000, 'infra_packet_1');
+  console.log('infrastructure real-estate: sovereign non-binding decision, capped B14 inquiry, signed-inbound observation, zero-credit learning, recovery and business trace passed');
 })().catch(function (error) { console.error(error); process.exit(1); });

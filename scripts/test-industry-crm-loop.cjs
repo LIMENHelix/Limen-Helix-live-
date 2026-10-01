@@ -293,7 +293,8 @@ function warnDeal(overrides) {
   assert.equal(requests[2].url, Provider.BASE + '/hs_adapter_1');
   assert.equal(requests[2].options.method, 'DELETE');
 
-  console.log('industry crm: ranked WARN queue, cost gate, B10/B14 create, no ambiguous retry, independent stage learning, verified archive, and exact HubSpot adapter passed');
+  await require('./assert-business-trace.cjs')(store, 'industry', command, 'CRM-ACCEPTED', now + 1000, 'industry_packet_1');
+  console.log('industry crm: ranked WARN queue, cost gate, B10/B14 create, no ambiguous retry, independent stage learning, verified archive, exact HubSpot adapter and business trace passed');
 })().catch(function (error) {
   console.error(error);
   process.exit(1);
