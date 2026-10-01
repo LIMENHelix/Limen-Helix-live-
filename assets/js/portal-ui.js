@@ -1531,6 +1531,23 @@ var PortalUI = (function() {
   // with activated===true from the domain JSON activations array.
   // Grouping source: node.domainGroup (set from activation.group in domain JSON).
   // Group ordering: config.groupOrder (from static HTML or portal-registry.json).
+  // Project loaded data into the summary; registry placeholders are not counts.
+  function _projectPortalLoad(data) {
+    var desc = document.getElementById('reDesc');
+    var stats = document.getElementById('reStats');
+    if (!data) {
+      if (desc) desc.textContent = 'Portal data unavailable.';
+      if (stats) stats.textContent = 'UNOBSERVED · portal data unavailable';
+      return;
+    }
+    var nodes = Engine.getActivatedNodes ? Engine.getActivatedNodes() : null;
+    if (stats) stats.textContent = Array.isArray(nodes)
+      ? nodes.length + ' active nodes · 123 brain regions'
+      : 'UNOBSERVED · active-node count unavailable';
+    if (desc && (desc.textContent === 'Deep portal — loading from API.' || desc.textContent === 'Portal data unavailable.')) {
+      desc.textContent = data.description || data.desc || 'Portal data loaded.';
+    }
+  }
   function buildNodeList() {
     var activated = Engine.getActivatedNodes() || [];
     var container = document.getElementById('nodeList');
@@ -3439,6 +3456,7 @@ var PortalUI = (function() {
           console.log('[PortalUI] loadActivation callback — actData?', !!actData, 'err?', err ? (err.message || 'object') : 'none');
           if (actData) {
             DATA = actData;
+            _projectPortalLoad(actData);
             // Harvest domain JSON into remedy registry if available
             if (window.LIMENRemedyRegistryManager && typeof window.LIMENRemedyRegistryManager.harvestFromPortal === 'function') {
               try {
@@ -3464,6 +3482,7 @@ var PortalUI = (function() {
                 if (proxyData) {
                   if (Engine.applyActivation) Engine.applyActivation(proxyData);
                   DATA = proxyData;
+                  _projectPortalLoad(proxyData);
                   _ensureIssues(DATA);   // synthesize issues from activations if none authored
                   // Harvest into registry if available
                   if (window.LIMENRemedyRegistryManager && typeof window.LIMENRemedyRegistryManager.harvestFromPortal === 'function') {
@@ -3474,9 +3493,9 @@ var PortalUI = (function() {
                   _injectEmptyStateIntelligence();
                   _injectPortalReportButton();
                   _restorePortalSelection();
-                }
+                } else { _projectPortalLoad(null); }
               })
-              .catch(function(e) { console.error('[PortalUI] API proxy failed:', e); });
+              .catch(function(e) { _projectPortalLoad(null); console.error('[PortalUI] API proxy failed:', e); });
           }
         });
       });
