@@ -139,6 +139,20 @@ function jsonResponse(body) {
     global.fetch = function () { return Promise.resolve(textResponse(droughtCsv)); };
     var droughtReading = await H._fetchUSDADroughtMonitor();
     assert.equal(droughtReading.sourceUpdatedAt, '20260818');
+    assert.equal(droughtReading.value, 14.5);
+    assert.equal(droughtReading.stress, 0.29);
+    for (var invalidDrought of [['bad', '5.5'], ['', '5.5'], ['14.5junk', '5.5'],
+      ['Infinity', '5.5'], ['-1', '0'], ['101', '5.5'], ['14.5', 'bad'], ['14.5', ''], ['14.5', '15']]) {
+      var invalidCsv = droughtCsv.replace('14.5,5.5', invalidDrought.join(','));
+      global.fetch = function () { return Promise.resolve(textResponse(invalidCsv)); };
+      assert.equal(await H._fetchUSDADroughtMonitor(), null, 'invalid drought row must abstain: ' + invalidDrought);
+    }
+    global.fetch = function () { return Promise.resolve(textResponse(droughtCsv.replace('14.5,5.5', '0,0'))); };
+    var zeroDrought = await H._fetchUSDADroughtMonitor();
+    assert.equal(zeroDrought.value, 0);
+    assert.equal(zeroDrought.stress, 0);
+    global.fetch = function () { return Promise.resolve(textResponse(droughtCsv)); };
+    assert.equal((await H._fetchUSDADroughtMonitor()).value, 14.5, 'valid source recovers after failures');
 
     var alerts = { updated: '2026-08-25T11:17:21+00:00', features: [
       { properties: { event: 'Freeze Warning' } }
@@ -171,7 +185,7 @@ function jsonResponse(body) {
     var nvdReading = await H._fetchNVDRecent();
     assert.equal(nvdReading.sourceUpdatedAt, nvdIdentity);
 
-    console.log('source collection contracts: 34/34 passed');
+    console.log('source collection contracts passed, including invalid drought abstention, zero and recovery');
   } finally {
     global.fetch = realFetch;
     H._resetBLSRequestState();

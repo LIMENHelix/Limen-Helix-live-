@@ -4840,9 +4840,15 @@ async function fetchUSDADroughtMonitor() {
       if (cols[1] === 'CONUS') { latestRow = cols; break; }
     }
     if (!latestRow) { trackHealth('USDA Drought Monitor', 'agriculture', 'fallback', 'no CONUS row'); return null; }
-    var d2plus = parseFloat(latestRow[5]) || 0;
-    var d3plus = parseFloat(latestRow[6]) || 0;
-    if (isNaN(d2plus)) { trackHealth('USDA Drought Monitor', 'agriculture', 'fallback', 'non-numeric D2'); return null; }
+    // Missing/malformed data must not become a drought-free live observation.
+    // Number (unlike parseFloat) also rejects a numeric prefix with trailing text.
+    var d2raw = String(latestRow[5] || '').trim();
+    var d3raw = String(latestRow[6] || '').trim();
+    var d2plus = Number(d2raw), d3plus = Number(d3raw);
+    if (!d2raw || !d3raw || !isFinite(d2plus) || !isFinite(d3plus) ||
+        d2plus < 0 || d2plus > 100 || d3plus < 0 || d3plus > d2plus) {
+      trackHealth('USDA Drought Monitor', 'agriculture', 'fallback', 'invalid cumulative D2/D3 percentages'); return null;
+    }
     var stress = clamp(d2plus / 50, 0, 1);
     trackHealth('USDA Drought Monitor', 'agriculture', 'live', null, d2plus);
     return { value: d2plus, label: d2plus.toFixed(1) + '% CONUS in D2+ drought', stress: round(stress), signal: d2plus.toFixed(1) + '% of CONUS in D2-D4 drought, ' + d3plus.toFixed(1) + '% in D3-D4', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: latestRow[0] || null };
