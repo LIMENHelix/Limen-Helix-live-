@@ -24,7 +24,7 @@
             "name": "BLS Manufacturing PPI",
             "live": true,
             "sourceUpdatedAt": "bls-series:PCUOMFG--OMFG--|year:2026|period:M09",
-            "fetchedAt": 1790881746924,
+            "fetchedAt": 1790881862090,
             "value": 150,
             "classification": "real",
             "failReason": null
@@ -32,8 +32,8 @@
           {
             "name": "World Bank Manufacturing",
             "live": true,
-            "sourceUpdatedAt": "2025",
-            "fetchedAt": 1790881746924,
+            "sourceUpdatedAt": "2024",
+            "fetchedAt": 1790881862090,
             "value": 8,
             "classification": "real",
             "failReason": null
@@ -99,7 +99,7 @@
     {
       "domain": "industry",
       "runtime": "industry",
-      "scenario": "bls-unavailable",
+      "scenario": "first-source-unavailable",
       "requests": [
         "https://api.bls.gov/publicAPI/v2/timeseries/data/",
         "https://api.worldbank.org/v2/country/USA/indicator/NV.IND.MANF.ZS?format=json&per_page=100"
@@ -116,7 +116,7 @@
             "name": "BLS Manufacturing PPI",
             "live": false,
             "sourceUpdatedAt": null,
-            "fetchedAt": 1790881747189,
+            "fetchedAt": 1790881862318,
             "value": null,
             "classification": "broken",
             "failReason": "BLS status: REQUEST_SUCCEEDED"
@@ -124,8 +124,8 @@
           {
             "name": "World Bank Manufacturing",
             "live": true,
-            "sourceUpdatedAt": "2025",
-            "fetchedAt": 1790881747189,
+            "sourceUpdatedAt": "2024",
+            "fetchedAt": 1790881862318,
             "value": 8,
             "classification": "real",
             "failReason": null
@@ -134,7 +134,7 @@
       },
       "stress": 0.3,
       "lowSignal": true,
-      "packetId": "industry:2:fixture-industry-bls-unavailable",
+      "packetId": "industry:2:fixture-industry-first-source-unavailable",
       "handoffs": 4,
       "checks": [
         {
@@ -184,7 +184,7 @@
             "name": "BLS Manufacturing PPI",
             "live": true,
             "sourceUpdatedAt": "bls-series:PCUOMFG--OMFG--|year:2026|period:M09",
-            "fetchedAt": 1790881747297,
+            "fetchedAt": 1790881862436,
             "value": 150,
             "classification": "real",
             "failReason": null
@@ -192,8 +192,8 @@
           {
             "name": "World Bank Manufacturing",
             "live": true,
-            "sourceUpdatedAt": "2025",
-            "fetchedAt": 1790881747297,
+            "sourceUpdatedAt": "2024",
+            "fetchedAt": 1790881862436,
             "value": 8,
             "classification": "real",
             "failReason": null
@@ -276,7 +276,7 @@
             "name": "BLS Freight PPI",
             "live": true,
             "sourceUpdatedAt": "2026-M09",
-            "fetchedAt": 1790881747515,
+            "fetchedAt": 1790881862615,
             "value": 150,
             "classification": "real",
             "failReason": null
@@ -284,8 +284,8 @@
           {
             "name": "CISA KEV",
             "live": true,
-            "sourceUpdatedAt": "cisa-kev-version:LOCAL-FIXTURE|released:2026-10-01T19:09:07.516Z|count:18",
-            "fetchedAt": 1790881747516,
+            "sourceUpdatedAt": "cisa-kev-version:LOCAL-FIXTURE|released:2026-10-01T19:11:02.615Z|count:18",
+            "fetchedAt": 1790881862616,
             "value": 18,
             "classification": "real",
             "failReason": null
@@ -357,7 +357,7 @@
     {
       "domain": "trade",
       "runtime": "supplyChain",
-      "scenario": "bls-unavailable",
+      "scenario": "first-source-unavailable",
       "requests": [
         "https://api.bls.gov/publicAPI/v2/timeseries/data/",
         "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
@@ -374,7 +374,7 @@
             "name": "BLS Freight PPI",
             "live": false,
             "sourceUpdatedAt": null,
-            "fetchedAt": 1790881747813,
+            "fetchedAt": 1790881862830,
             "value": null,
             "classification": "broken",
             "failReason": "empty series data"
@@ -382,8 +382,8 @@
           {
             "name": "CISA KEV",
             "live": true,
-            "sourceUpdatedAt": "cisa-kev-version:LOCAL-FIXTURE|released:2026-10-01T19:09:07.812Z|count:18",
-            "fetchedAt": 1790881747813,
+            "sourceUpdatedAt": "cisa-kev-version:LOCAL-FIXTURE|released:2026-10-01T19:11:02.830Z|count:18",
+            "fetchedAt": 1790881862830,
             "value": 18,
             "classification": "real",
             "failReason": null
@@ -392,7 +392,7 @@
       },
       "stress": 0.3,
       "lowSignal": true,
-      "packetId": "trade:2:fixture-trade-bls-unavailable",
+      "packetId": "trade:2:fixture-trade-first-source-unavailable",
       "handoffs": 1,
       "checks": [
         {
@@ -424,7 +424,7 @@
             "name": "BLS Freight PPI",
             "live": true,
             "sourceUpdatedAt": "2026-M09",
-            "fetchedAt": 1790881747935,
+            "fetchedAt": 1790881862925,
             "value": 150,
             "classification": "real",
             "failReason": null
@@ -432,8 +432,8 @@
           {
             "name": "CISA KEV",
             "live": true,
-            "sourceUpdatedAt": "cisa-kev-version:LOCAL-FIXTURE|released:2026-10-01T19:09:07.935Z|count:18",
-            "fetchedAt": 1790881747935,
+            "sourceUpdatedAt": "cisa-kev-version:LOCAL-FIXTURE|released:2026-10-01T19:11:02.925Z|count:18",
+            "fetchedAt": 1790881862925,
             "value": 18,
             "classification": "real",
             "failReason": null
@@ -501,6 +501,303 @@
         }
       ],
       "nextBoundary": "exact-owned-asset-auction-listing-record-required"
+    },
+    {
+      "domain": "infrastructure",
+      "runtime": "infrastructure",
+      "scenario": "valid",
+      "requests": [
+        "https://api.worldbank.org/v2/country/USA/indicator/IS.RRS.TOTL.KM?format=json&date=2010:2024&per_page=10",
+        "https://api.weather.gov/alerts/active?status=actual"
+      ],
+      "sources": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "infrastructure",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "clamped",
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "World Bank Infrastructure",
+            "live": true,
+            "sourceUpdatedAt": "2024",
+            "fetchedAt": 1790881863103,
+            "value": 8,
+            "classification": "degraded",
+            "failReason": null
+          },
+          {
+            "name": "NOAA NWS Alerts",
+            "live": true,
+            "sourceUpdatedAt": "2026-10-01T19:11:03.103Z",
+            "fetchedAt": 1790881863104,
+            "value": 60,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
+      "stress": 0.3,
+      "lowSignal": true,
+      "packetId": "infrastructure:2:fixture-infrastructure-valid",
+      "handoffs": 0,
+      "checks": [],
+      "nextBoundary": "native-snapshot-has-no-active-investment-or-research-handoff"
+    },
+    {
+      "domain": "infrastructure",
+      "runtime": "infrastructure",
+      "scenario": "first-source-unavailable",
+      "requests": [
+        "https://api.worldbank.org/v2/country/USA/indicator/IS.RRS.TOTL.KM?format=json&date=2010:2024&per_page=10",
+        "https://api.weather.gov/alerts/active?status=actual"
+      ],
+      "sources": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "infrastructure",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "clamped",
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "World Bank Infrastructure",
+            "live": false,
+            "sourceUpdatedAt": null,
+            "fetchedAt": 1790881863157,
+            "value": null,
+            "classification": "broken",
+            "failReason": "no non-null value"
+          },
+          {
+            "name": "NOAA NWS Alerts",
+            "live": true,
+            "sourceUpdatedAt": "2026-10-01T19:11:03.157Z",
+            "fetchedAt": 1790881863157,
+            "value": 60,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
+      "stress": 0.3,
+      "lowSignal": true,
+      "packetId": "infrastructure:2:fixture-infrastructure-first-source-unavailable",
+      "handoffs": 0,
+      "checks": [],
+      "nextBoundary": "native-snapshot-has-no-active-investment-or-research-handoff"
+    },
+    {
+      "domain": "infrastructure",
+      "runtime": "infrastructure",
+      "scenario": "recovery",
+      "requests": [
+        "https://api.worldbank.org/v2/country/USA/indicator/IS.RRS.TOTL.KM?format=json&date=2010:2024&per_page=10",
+        "https://api.weather.gov/alerts/active?status=actual"
+      ],
+      "sources": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "infrastructure",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "clamped",
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "World Bank Infrastructure",
+            "live": true,
+            "sourceUpdatedAt": "2024",
+            "fetchedAt": 1790881863185,
+            "value": 8,
+            "classification": "degraded",
+            "failReason": null
+          },
+          {
+            "name": "NOAA NWS Alerts",
+            "live": true,
+            "sourceUpdatedAt": "2026-10-01T19:11:03.185Z",
+            "fetchedAt": 1790881863185,
+            "value": 60,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
+      "stress": 0.3,
+      "lowSignal": true,
+      "packetId": "infrastructure:2:fixture-infrastructure-recovery",
+      "handoffs": 0,
+      "checks": [],
+      "nextBoundary": "native-snapshot-has-no-active-investment-or-research-handoff"
+    },
+    {
+      "domain": "population",
+      "runtime": "population",
+      "scenario": "valid",
+      "requests": [
+        "https://api.worldbank.org/v2/country/USA/indicator/SP.POP.TOTL?format=json&date=2015:2024&per_page=5",
+        "https://api.worldbank.org/v2/country/USA/indicator/SP.DYN.TFRT.IN?format=json&per_page=10"
+      ],
+      "sources": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "population",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "clamped",
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "World Bank Population",
+            "live": true,
+            "sourceUpdatedAt": "2024",
+            "fetchedAt": 1790881863212,
+            "value": 340000000,
+            "classification": "degraded",
+            "failReason": null
+          },
+          {
+            "name": "World Bank Fertility",
+            "live": true,
+            "sourceUpdatedAt": "2024",
+            "fetchedAt": 1790881863212,
+            "value": 1.5,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
+      "stress": 0.3,
+      "lowSignal": true,
+      "packetId": "population:2:fixture-population-valid",
+      "handoffs": 2,
+      "checks": [
+        {
+          "opportunityId": "POPULATION_COLLAPSE_researchable_t1",
+          "blockers": [
+            "exact-non-binding-property-interest-record-required"
+          ]
+        },
+        {
+          "opportunityId": "POPULATION_COLLAPSE_investable_t1",
+          "blockers": [
+            "exact-non-binding-property-interest-record-required"
+          ]
+        }
+      ],
+      "nextBoundary": "exact-non-binding-property-interest-record-required"
+    },
+    {
+      "domain": "population",
+      "runtime": "population",
+      "scenario": "first-source-unavailable",
+      "requests": [
+        "https://api.worldbank.org/v2/country/USA/indicator/SP.POP.TOTL?format=json&date=2015:2024&per_page=5",
+        "https://api.worldbank.org/v2/country/USA/indicator/SP.DYN.TFRT.IN?format=json&per_page=10"
+      ],
+      "sources": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "population",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "clamped",
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "World Bank Population",
+            "live": false,
+            "sourceUpdatedAt": null,
+            "fetchedAt": 1790881863292,
+            "value": null,
+            "classification": "broken",
+            "failReason": "no non-null value"
+          },
+          {
+            "name": "World Bank Fertility",
+            "live": true,
+            "sourceUpdatedAt": "2024",
+            "fetchedAt": 1790881863292,
+            "value": 1.5,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
+      "stress": 0.3,
+      "lowSignal": true,
+      "packetId": "population:2:fixture-population-first-source-unavailable",
+      "handoffs": 2,
+      "checks": [
+        {
+          "opportunityId": "POPULATION_COLLAPSE_researchable_t1",
+          "blockers": [
+            "exact-non-binding-property-interest-record-required"
+          ]
+        },
+        {
+          "opportunityId": "POPULATION_COLLAPSE_investable_t1",
+          "blockers": [
+            "exact-non-binding-property-interest-record-required"
+          ]
+        }
+      ],
+      "nextBoundary": "exact-non-binding-property-interest-record-required"
+    },
+    {
+      "domain": "population",
+      "runtime": "population",
+      "scenario": "recovery",
+      "requests": [
+        "https://api.worldbank.org/v2/country/USA/indicator/SP.POP.TOTL?format=json&date=2015:2024&per_page=5",
+        "https://api.worldbank.org/v2/country/USA/indicator/SP.DYN.TFRT.IN?format=json&per_page=10"
+      ],
+      "sources": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "population",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "clamped",
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "World Bank Population",
+            "live": true,
+            "sourceUpdatedAt": "2024",
+            "fetchedAt": 1790881863369,
+            "value": 340000000,
+            "classification": "degraded",
+            "failReason": null
+          },
+          {
+            "name": "World Bank Fertility",
+            "live": true,
+            "sourceUpdatedAt": "2024",
+            "fetchedAt": 1790881863369,
+            "value": 1.5,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
+      "stress": 0.3,
+      "lowSignal": true,
+      "packetId": "population:2:fixture-population-recovery",
+      "handoffs": 2,
+      "checks": [
+        {
+          "opportunityId": "POPULATION_COLLAPSE_researchable_t1",
+          "blockers": [
+            "exact-non-binding-property-interest-record-required"
+          ]
+        },
+        {
+          "opportunityId": "POPULATION_COLLAPSE_investable_t1",
+          "blockers": [
+            "exact-non-binding-property-interest-record-required"
+          ]
+        }
+      ],
+      "nextBoundary": "exact-non-binding-property-interest-record-required"
     }
   ]
 }

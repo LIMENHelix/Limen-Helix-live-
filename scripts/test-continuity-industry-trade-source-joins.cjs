@@ -3,7 +3,7 @@ const assert = require('node:assert/strict'), fs = require('node:fs'), path = re
 const Module = require('node:module'), acorn = require('acorn');
 const root = path.resolve(__dirname, '..'), filename = path.join(root, 'handlers/domain-snapshot.js');
 const mod = new Module(filename, module); mod.filename = filename; mod.paths = Module._nodeModulePaths(path.dirname(filename));
-mod._compile(fs.readFileSync(filename, 'utf8') + '\nmodule.exports.testBuildDomain = buildDomain;', filename);
+mod._compile(fs.readFileSync(filename, 'utf8') + '\nmodule.exports.testBuildDomain = buildDomain;module.exports.testWBPopulation = fetchWorldBankPopulation;', filename);
 const H = mod.exports, Packet = require('../lib/civilization-server-packet.js'), Consumer = require('../lib/civilization-handoff-consumer.js');
 const harness = fs.readFileSync(path.join(__dirname, 'test-continuity-feed-spine.cjs'), 'utf8');
 const helper = acorn.parse(harness, { ecmaVersion: 'latest' }).body.find(n => n.type === 'FunctionDeclaration' && n.id.name === 'sandbox');
@@ -12,25 +12,36 @@ const profiles = [
   { domain: 'industry', runtime: 'industry', brain: 'LIMENIndustryBrain', series: 'PCUOMFG--OMFG--', first: 'BLS Manufacturing PPI', second: 'World Bank Manufacturing',
     fetchFirst: H._fetchBLSManufacturing, fetchSecond: H._fetchWBManufacturing, family: 'crm', blocker: 'source-grounded-work-first-WARN-record-required' },
   { domain: 'trade', runtime: 'supplyChain', brain: 'LIMENSupplyChainBrain', series: 'PCU484121484121', first: 'BLS Freight PPI', second: 'CISA KEV',
-    fetchFirst: H._fetchBLSFreight, fetchSecond: H._fetchCISAKEV, family: 'auction', blocker: 'exact-owned-asset-auction-listing-record-required' }
+    fetchFirst: H._fetchBLSFreight, fetchSecond: H._fetchCISAKEV, family: 'auction', blocker: 'exact-owned-asset-auction-listing-record-required' },
+  { domain: 'infrastructure', runtime: 'infrastructure', brain: 'LIMENInfrastructureBrain', first: 'World Bank Infrastructure', second: 'NOAA NWS Alerts',
+    firstIndicator: 'IS.RRS.TOTL.KM', fetchFirst: H._fetchWorldBankInfra, fetchSecond: H._fetchNOAANWSAlerts, family: 'real-estate', blocker: 'exact-non-binding-property-interest-record-required' },
+  { domain: 'population', runtime: 'population', brain: 'LIMENPopulationBrain', first: 'World Bank Population', second: 'World Bank Fertility',
+    firstIndicator: 'SP.POP.TOTL', fetchFirst: H.testWBPopulation, fetchSecond: H._fetchWorldBankFertility, family: 'real-estate', blocker: 'exact-non-binding-property-interest-record-required' }
 ];
 const originalFetch = global.fetch;
 (async () => {
   const results = [];
-  for (const p of profiles) for (const scenario of ['valid', 'bls-unavailable', 'recovery']) {
+  for (const p of profiles) for (const scenario of ['valid', 'first-source-unavailable', 'recovery']) {
     H._resetBLSRequestState(); const requests = [];
     global.fetch = async url => {
       const u = String(url); requests.push(u); let body;
-      if (u.includes('api.bls.gov')) body = { status: 'REQUEST_SUCCEEDED', Results: { series: scenario === 'bls-unavailable' ? [] :
+      if (u.includes('api.bls.gov')) body = { status: 'REQUEST_SUCCEEDED', Results: { series: scenario === 'first-source-unavailable' ? [] :
         [{ seriesID: p.series, data: [{ year: '2026', period: 'M09', value: '150' }] }] } };
-      else if (u.includes('api.worldbank.org')) body = [{ page: 1 }, [{ date: '2025', value: 8 }]];
+      else if (u.includes('api.worldbank.org')) {
+        const missing = scenario === 'first-source-unavailable' && p.firstIndicator && u.includes(p.firstIndicator);
+        const fertility = u.includes('SP.DYN.TFRT.IN');
+        body = [{ page: 1 }, [{ date: '2024', value: missing ? null : fertility ? 1.5 : p.domain === 'population' ? 340000000 : 8 },
+          { date: '2023', value: missing ? null : fertility ? 1.6 : 9 }]];
+      }
+      else if (u.includes('api.weather.gov')) body = { updated: new Date().toISOString(), features:
+        Array.from({ length: 60 }, (_, i) => ({ id: 'LOCAL/FIXTURE-alert-' + i, properties: { event: 'Flood Warning', severity: 'Severe' } })) };
       else { assert(u.includes('www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json'));
         body = { catalogVersion: 'LOCAL-FIXTURE', count: 18, dateReleased: new Date().toISOString(), vulnerabilities:
           Array.from({ length: 18 }, (_, i) => ({ cveID: 'CVE-2026-' + (2000 + i), dateAdded: new Date().toISOString().slice(0, 10), knownRansomwareCampaignUse: 'Known' })) }; }
       return { ok: true, status: 200, json: async () => body };
     };
     const first = await p.fetchFirst(), second = await p.fetchSecond(); assert(second);
-    assert.equal(first === null, scenario === 'bls-unavailable');
+    assert.equal(first === null, scenario === 'first-source-unavailable');
     const snapshot = H.testBuildDomain(p.runtime, [{ name: p.first, data: first }, { name: p.second, data: second }]);
     if (!first) { assert.equal(snapshot.sources[0].classification, 'broken'); assert.equal(snapshot.sources[0].value, null); assert(snapshot.lowSignal); }
     const sb = sandbox(global); sb.LIMENDomains = { [p.runtime]: snapshot };
@@ -52,7 +63,9 @@ const originalFetch = global.fetch;
     const store = { packetIndexKey: 'packets', handoffIndexKey: 'handoffs', packetKey: id => 'packet:' + id, handoffKey: id => 'handoff:' + id,
       setNx: async (k, v) => { if (values.has(k)) return false; values.set(k, clone(v)); return true; }, get: async k => clone(values.get(k)),
       members: async k => Array.from(indexes.get(k) || []), add: async (k, v) => { const a = indexes.get(k) || new Set(); a.add(v); indexes.set(k, a); return a.size; } };
-    const consumer = Consumer.createConsumer({ store }), consumed = await consumer.consumePacket(packet); assert(consumed.ok); assert(consumed.handoffsCreated > 0);
+    const consumer = Consumer.createConsumer({ store }), consumed = await consumer.consumePacket(packet); assert(consumed.ok);
+    if (['industry', 'trade'].includes(p.domain)) assert(consumed.handoffsCreated > 0);
+    else if (consumed.handoffsCreated === 0) assert.equal(packet.truth.opportunities.filter(o => Packet.ACTIVE_LANES.includes(o.lane)).length, 0);
     for (const id of await store.members('handoffs')) assert.deepEqual((await store.get(store.handoffKey(id))).feedSourceEvidence, packet.truth.feedSourceEvidence);
     const before = JSON.stringify(Array.from(values)), Decision = require('../lib/' + p.domain + '-' + p.family + '-decision.js');
     const checks = [];
@@ -63,7 +76,8 @@ const originalFetch = global.fetch;
     }
     assert.equal((await consumer.consumePacket(packet)).handoffsCreated, 0); assert.equal(JSON.stringify(Array.from(values)), before);
     results.push({ domain: p.domain, runtime: p.runtime, scenario, requests, sources: packet.truth.feedSourceEvidence,
-      stress: snapshot.stress, lowSignal: snapshot.lowSignal, packetId: packet.packetId, handoffs: consumed.handoffsCreated, checks, nextBoundary: p.blocker });
+      stress: snapshot.stress, lowSignal: snapshot.lowSignal, packetId: packet.packetId, handoffs: consumed.handoffsCreated, checks,
+      nextBoundary: consumed.handoffsCreated ? p.blocker : 'native-snapshot-has-no-active-investment-or-research-handoff' });
   }
   if (process.argv.includes('--write-evidence')) fs.writeFileSync(path.join(root, 'docs/audits/continuity-industry-trade-source-joins.json'),
     JSON.stringify({ level: 'LOCAL/FIXTURE', externalFetches: false, injectedDiagnoses: false, injectedOpportunities: false, results }, null, 2) + '\n');
