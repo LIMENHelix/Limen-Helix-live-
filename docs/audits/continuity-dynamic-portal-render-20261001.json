@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "continuity-dynamic-portal-render/1.0",
+  "baseSha": "907d25e145ba7af1ea1c352f41c808ec7bdd6f6f",
+  "checkedAt": "2026-10-01T18:25:55.3814330Z",
+  "method": "Codex in-app browser accessibility snapshots after native loading",
+  "runtimeModified": false,
+  "pages": [
+    {
+      "activeNodes": 4,
+      "summaryStats": "0 ACTIVE NODES · 123 BRAIN REGIONS",
+      "backTarget": "https://limenhelix.com/portal?domain=energy&l2=datacenter&l3=powerdemand",
+      "url": "https://limenhelix.com/portal?domain=energy&l2=datacenter&l3=powerdemand&l4=rackdensity",
+      "summaryText": "Deep portal — loading from API.",
+      "diagnosis": "Power Delivery Below Rack Density",
+      "title": "LIMEN HELIX · RACKDENSITY"
+    },
+    {
+      "activeNodes": 3,
+      "summaryStats": "0 ACTIVE NODES · 123 BRAIN REGIONS",
+      "backTarget": "https://limenhelix.com/portal?domain=energy&l2=datacenter&l3=powerdemand&l4=rackdensity",
+      "url": "https://limenhelix.com/portal?domain=energy&l2=datacenter&l3=powerdemand&l4=rackdensity&l5=hvpower",
+      "summaryText": "Deep portal — loading from API.",
+      "diagnosis": "OCP 48V Rack Bus",
+      "title": "LIMEN HELIX · HVPOWER"
+    }
+  ],
+  "result": "DATA_RENDERED_WITH_STALE_SUMMARY",
+  "sourceProjection": "assets/js/portal-router.js:97 fallback desc,166-168 registry-derived summary; PortalUI.init later loads data",
+  "proofLimits": "Read-only visible page state, no motor/readiness/revenue inferred; synthetic portal data remains source material, not live brain evidence"
+}
