@@ -34,7 +34,11 @@ const profiles = [
   { domain: 'education', runtime: 'education', brain: 'LIMENEducationBrain', first: 'World Bank Tertiary', second: 'OpenAlex Institutions',
     firstIndicator: 'SE.TER.ENRR', fetchFirst: H._fetchWorldBankTertiary, fetchSecond: H._fetchOpenAlex, family: 'research-intake', blocker: 'owning-domain-semantic-identity-invalid' },
   { domain: 'environment', runtime: 'environment', brain: 'LIMENEnvironmentBrain', first: 'NOAA Alerts', second: 'USGS Earthquakes',
-    fetchFirst: H._fetchNOAAAlerts, fetchSecond: H._fetchUSGSEarthquakes, family: 'research-intake', blocker: 'owning-domain-semantic-identity-invalid' }
+    fetchFirst: H._fetchNOAAAlerts, fetchSecond: H._fetchUSGSEarthquakes, family: 'research-intake', blocker: 'owning-domain-semantic-identity-invalid' },
+  { domain: 'science', runtime: 'research', brain: 'LIMENResearchBrain', first: 'PubMed', second: 'arXiv All',
+    fetchFirst: H._fetchPubMed, fetchSecond: H._fetchArXivAll, family: 'research-intake', blocker: 'owning-domain-semantic-identity-invalid' },
+  { domain: 'medicine', runtime: 'health', brain: 'LIMENHealthBrain', first: 'openFDA Recalls', second: 'PubMed',
+    fetchFirst: H._fetchFDARecalls, fetchSecond: H._fetchPubMed, family: 'research-intake', blocker: 'owning-domain-semantic-identity-invalid' }
 ];
 const originalFetch = global.fetch;
 (async () => {
@@ -60,6 +64,9 @@ const originalFetch = global.fetch;
           { date: '2023', value: missing ? null : fertility ? 1.6 : 9 }]];
       }
       else if (u === 'https://hacker-news.firebaseio.com/v0/topstories.json') body = scenario === 'first-source-unavailable' ? null : Array.from({ length: 120 }, (_, i) => 900000 + i);
+      else if (u.startsWith('https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?')) body = p.domain === 'science' && scenario === 'first-source-unavailable' ? '' : '<eSearchResult><Count>1000000</Count></eSearchResult>';
+      else if (u.startsWith('https://export.arxiv.org/api/query?')) body = '<feed><updated>2026-09-30T12:00:00Z</updated><opensearch:totalResults>2200000</opensearch:totalResults></feed>';
+      else if (u.startsWith('https://api.fda.gov/drug/enforcement.json?')) body = scenario === 'first-source-unavailable' ? null : { meta: { last_updated: '2026-09-30', results: { total: 65 } } };
       else if (u.includes('api.openalex.org')) body = { results: [{ id: 'https://openalex.org/I123456', works_count: 1000000, updated_date: '2026-09-30' }] };
       else if (u.includes('earthquake.usgs.gov')) body = { metadata: { generated: Date.now() }, features: [{ id: 'LOCAL-FIXTURE-earthquake', properties: { mag: 6.2, time: Date.now(), updated: Date.now() } }] };
       else if (u.includes('api.weather.gov')) body = scenario === 'first-source-unavailable' && ['energy', 'environment'].includes(p.domain) ? null : { updated: new Date().toISOString(), features:
