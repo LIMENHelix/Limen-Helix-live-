@@ -95,6 +95,18 @@ The P0–P10 extract and the live-link inventory were readable local source file
 - Saved the source-only 20-domain boundary snapshot and route reconciliation under `docs/audits/continuity-*`. Route counts match the supplied source; all 27 broken links have 56 local file/line references. Legacy retirement and data-only classifications remain explicit provenance gaps. No live crawl or route replacement is claimed.
 - Checkpoint validation: repository/harness passed; full suite 360 passed, 1 skipped (external corpus unavailable), 0 failed; coordination tests 17/17 passed. This remains an active goal, not a claim of all-domain production autonomy or completed Google Docs adoption.
 
+### Returned-learning and navigation checkpoint — 2026-10-01
+
+- Server cognition now preserves learner abstention reasons, owning domain, signal/action/event identities, observation time and source identity; preparation/dispatch gates are projected from the existing readiness receipt. Energy's Finance afferent stays separate from Energy motor learning/authority.
+- The observatory links to the existing read-only result endpoint, shows readiness storage keys and learner qualification, and holds expired/future-dated server cognition using the server's three-hour storage TTL. No learner or reward authority was expanded.
+- Capability verification now projects the earlier executor/observer expiry. The observatory additionally holds missing/expired capability leases; a cached verification flag cannot outlive its actual pair. Dispatch still revalidates the existing owner receipt, capability and switches.
+- Repaired 24 reported broken targets locally: 23 missing breadcrumb parents now use the existing owning-domain parent, and four Relay checkout references use the documented storefront cart flow. The 50 reference corrections change navigation only. These changes are not deployed.
+- Three targets remain explicit destination/function blockers: `/portals/medicine/mens_health`, `/portals/medicine/reports/trt_patient_report`, and `/spiral`. No equivalent route/report generator was established; medical and neurology content were preserved.
+- Route reconciliation now separately identifies 4,944 tracked JSON data assets and the explicitly retired `/api/relay-checkout` endpoint. Source HTTP counts remain historical; asset files are not counted as autonomous pages or motors.
+- `docs/audits/continuity-learning-evidence.md` maps all 20 domains to focused fixture evidence and the first unproven boundary. A full joined origin-to-return trace remains unproven. Agriculture's missing return is a safe engineering seam, not authority to borrow Finance/Research reward.
+- Next identified seam: the worker keeps `originDomain` when normalizing research opportunities, but the protected selection policy's compact candidate does not include it; `lib/autofire-learning.js` also stores only artifact/pattern fields in command decision provenance. Inspect and repair the existing bridge/command consumer to retain independently supplied origin and packet identity without changing protected policy or destination ownership.
+- Final validation: fresh full suite 360 passed, 1 skipped (external corpus unavailable), 0 failed; repository/harness checks passed. The earlier source-text projection assertion was replaced by wiring plus behavioral company-count validation. Focused capability tests additionally prove the pair uses its earlier observer expiry. Goal completion remains unproven.
+
 1. Read the current control record, task scope, working tree, and this document.
 2. Inventory one domain's complete causal path from input to returned learning.
 3. Identify the first missing transition with exact file, route, state key, and owner.

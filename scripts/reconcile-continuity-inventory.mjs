@@ -47,6 +47,16 @@ for (const file of htmlFiles) {
     }
   });
 }
+const dataAssets = execFileSync('git', ['ls-files', '-z', 'assets/data/*.json'], { cwd: root, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 })
+  .split('\0').filter(Boolean);
+// This is a local asset category, not an assertion that each file is an HTTP
+// page or that a dynamically rendered page cannot consume it.
+const retiredApi = fs.readFileSync(path.join(root, 'handlers/relay-checkout.js'), 'utf8');
+const explicitLegacyRoutes = retiredApi.includes('api/relay-checkout — RETIRED.') && retiredApi.includes('410')
+  ? [{ route: '/api/relay-checkout', disposition: 'registered retired endpoint; returns 410',
+    source: 'handlers/relay-checkout.js', inSourcePageInventory: seen.has('/api/relay-checkout') }] : [];
+const repairPath = path.join(root, 'docs/audits/continuity-navigation-repair.json');
+const navigationRepairs = fs.existsSync(repairPath) ? JSON.parse(fs.readFileSync(repairPath, 'utf8')) : null;
 const report = {
   schemaVersion: 'continuity-route-reconciliation/1.0',
   source: path.resolve(source), sourceSha256: crypto.createHash('sha256').update(raw).digest('hex'),
@@ -58,12 +68,16 @@ const report = {
     customer: routes.filter(r => r.audience === 'Customer').length,
     unknownAudience: routes.filter(r => !['Operator', 'Customer'].includes(r.audience)).length,
     duplicateRoutes: duplicates.length, brokenLinks: brokenLinks.length,
-    legacy: 'unresolved: requires explicit provenance/retirement evidence',
-    dataOnly: 'unresolved: HTML inventory does not enumerate data endpoints'
-  }, duplicates, brokenLinks: brokenLinks.map(row => ({ ...row,
+    localRemainingReferencedBrokenTargets: brokenLinks.filter(row => references.get(row.route).length > 0).length,
+    localNavigationRepairedTargets: navigationRepairs ? navigationRepairs.repairedTargets : 0,
+    legacy: { explicitlyRetiredLocalRoutes: explicitLegacyRoutes.length, sourcePageLegacyStatus: 'unresolved without explicit retirement provenance' },
+    dataOnly: { localJsonAssets: dataAssets.length, scope: 'JSON asset files, not equivalent to rendered page routes; live data endpoint inventory unverified' }
+  }, explicitLegacyRoutes, dataAssets, duplicates, brokenLinks: brokenLinks.map(row => ({ ...row,
     inFullInventory: seen.has(row.route), localHtmlPresent: fs.existsSync(path.join(root, row.route.slice(1) + '.html')),
     localReferences: references.get(row.route),
-    disposition: 'confirmed source-reported broken link; destination ownership/provenance must be inspected before replacement'
+    disposition: navigationRepairs && navigationRepairs.repairs.some(repair => repair.missingTarget === row.route)
+      ? 'locally repaired navigation; historical source HTTP status retained; not deployed'
+      : 'source-reported broken link; unresolved destination/function; local references retained'
   })), routes
 };
 const output = path.join(root, 'docs/audits/continuity-route-reconciliation.json');

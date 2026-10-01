@@ -19,6 +19,7 @@
   ];
   var ALIASES = { trade: 'supplyChain', medicine: 'health', science: 'research' };
   var POLL_MS = 30000;
+  var COGNITION_TTL_MS = 3 * 3600 * 1000; // server cognition storage TTL
   var state = { cognition: {}, cognitionCount: 0, cognitionTs: 0, autofire: null, error: null, loading: true, lastRefreshAt: 0 };
   var mounted = false;
   var pollTimer = null;
@@ -101,17 +102,23 @@
     var gates = receipt.gates || {};
     var lanes = laneCounts(packet);
     var serverSeen = !!entry;
+    var timestamp = entry && (typeof entry.ts === 'number' ? entry.ts : Date.parse(entry.ts));
+    var fresh = !!(serverSeen && isFinite(timestamp) && timestamp > 0 && timestamp <= Date.now() && Date.now() - timestamp < COGNITION_TTL_MS);
     var observed = !!(learning.latestSignalId || social.latestSignalId);
     // Learning credit and outcome signals do not establish earned revenue.
     var revenue = 'UNOBSERVED';
     var blockers = arr(receipt.blockers).concat(capability.reason ? [capability.reason] : []).concat(valve.reason ? [valve.reason] : []);
-    var externallyReady = capability.verified === true && valve.eligible === true && gates.mayDispatchExternal === true;
-    var stateLabel = !serverSeen ? 'UNOBSERVED' : externallyReady ? 'EXTERNAL-READY' : capability.verified === true ? 'CAPABILITY-VERIFIED' : blockers.length ? 'HELD' : 'PAPER';
+    if (serverSeen && !fresh) blockers.push('server-cognition-stale-or-invalid-timestamp');
+    var capabilityCurrent = fresh && capability.verified === true && typeof capability.validUntil === 'number' && capability.validUntil > Date.now();
+    if (capability.verified === true && !capabilityCurrent) blockers.push('capability-expiry-missing-or-expired');
+    var externallyReady = capabilityCurrent && valve.eligible === true && gates.mayDispatchExternal === true;
+    var stateLabel = !serverSeen ? 'UNOBSERVED' : !fresh ? 'HELD' : externallyReady ? 'EXTERNAL-READY' : capabilityCurrent ? 'CAPABILITY-VERIFIED' : blockers.length ? 'HELD' : 'PAPER';
     return {
       domain: domain, entry: entry, c: c, packet: packet, truth: truth, browser: browser,
       receipt: receipt, capability: capability, valve: valve, organs: organs,
       emission: emission, metabolism: metabolism, learning: learning,
       commercial: commercial, social: social, packetPersist: packetPersist,
+      fresh: fresh,
       gates: gates, lanes: lanes, serverSeen: serverSeen, observed: observed,
       revenue: revenue, blockers: blockers, stateLabel: stateLabel
     };
@@ -155,6 +162,9 @@
     var observation = row.observed ? 'SIGNAL ' + (row.learning.latestSignalId || row.social.latestSignalId) : 'UNOBSERVED';
     var statusLine = row.serverSeen ? 'server ' + age(row.entry.ts) + ' · packet ' + (row.packetPersist.ok ? 'persisted' : 'held') : 'server cognition unavailable';
     var blockers = row.blockers.slice(0, 3).join(' · ');
+    var afferent = row.learning.financialAfferent || {};
+    var learningOwner = row.learning.domain || ALIASES[row.domain] || row.domain;
+    var resultUrl = '/api/product-domain-learning-state?domain=' + encodeURIComponent(learningOwner);
     if (!blockers) blockers = row.stateLabel === 'PAPER' ? 'provider-owned executor/observer evidence is not present in the server read' : 'none reported';
     return '<article class="exo-domain exo-state-' + cls(row.stateLabel) + '">' +
       '<div class="exo-domain-head"><span class="exo-domain-name">' + esc(row.domain) + '</span>' + badge(row.stateLabel, row.stateLabel) + '<span class="exo-domain-meta">phase ' + esc(phase) + ' · stress ' + esc(stress == null ? '—' : Number(stress).toFixed(2)) + ' · conf ' + esc(confidence == null ? '—' : Number(confidence).toFixed(2)) + '</span></div>' +
@@ -173,9 +183,15 @@
         '<span>executor <b>' + esc(yes(row.capability.executorVerified)) + '</b></span>' +
         '<span>outcome observer <b>' + esc(yes(row.capability.independentOutcomeObserverVerified)) + '</b></span>' +
         '<span>external valve <b>' + esc(row.valve.eligible === true ? 'ELIGIBLE' : 'HELD') + '</b></span>' +
+        '<span>capability expires <b>' + esc(time(row.capability.validUntil)) + '</b> · dispatch revalidates current authority</span>' +
         '<span>packet <b>' + esc(row.packetPersist.ok === true ? 'PERSISTED' : 'HELD') + '</b></span>' +
         '<span>commercial reflex <b>' + esc(row.commercial.status || 'UNOBSERVED') + '</b></span>' +
         '<span>learning credit <b>' + esc(row.social.normalizedCredit == null ? 'UNOBSERVED' : row.social.normalizedCredit) + '</b> (not revenue)</span>' +
+        '<span>returned learning <b>' + esc(row.learning.status || 'UNOBSERVED') + '</b> · ' + esc(row.learning.reason || row.learning.latestSignalId || 'no signal') + '</span>' +
+        '<span>learner gate <b>' + esc(row.learning.learningGate && row.learning.learningGate.ready === true ? 'READY' : 'HELD') + '</b> · resolved ' + esc(n(row.learning.resolvedCount)) + '</span>' +
+        '<span>action <b>' + esc(row.learning.actionId || 'UNOBSERVED') + '</b> · event ' + esc(row.learning.eventId || 'UNOBSERVED') + ' · observed ' + esc(time(row.learning.observedAt)) + '</span>' +
+        (afferent.status ? '<span>Finance afferent <b>' + esc(afferent.status) + '</b> · ' + esc(afferent.signalId || afferent.reason || 'no signal') + ' · action ' + esc(afferent.actionId || 'UNOBSERVED') + ' · separate from motor authority</span>' : '') +
+        '<span>result read <a href="' + esc(resultUrl) + '">' + esc(resultUrl) + '</a> · readiness key ' + esc(row.receipt.key || 'UNOBSERVED') + '</span>' +
       '</div>' +
       '<div class="exo-blockers"><span>WHY THIS IS NOT AUTONOMOUSLY EXTERNAL:</span> ' + esc(blockers) + '</div>' +
       '</article>';

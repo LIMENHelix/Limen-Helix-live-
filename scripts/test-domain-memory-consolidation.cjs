@@ -44,6 +44,10 @@ assert(financeExecutor.indexOf('learning.recordCommand') < financeExecutor.index
   'Finance must encode the action cause before Tradier paper dispatch');
 assert(refresh.includes("target.pathname === '/api/product-domain-learning-state'"),
   'the autonomous hosted runner must return resolved outcome memory to the owning brain');
-assert(refresh.includes('companyPatternCount:'), 'cognition must expose receipt that company memory reached the brain');
+assert(refresh.includes('externalActionLearning: cognitionProjection.learningReadout(_dl)'),
+  'cognition must project the readout captured from the owning brain');
+assert.equal(require('../lib/brain-cognition-compact.js').learningReadout({
+  companyPatterns: [{ companyId: 'owner-company-1' }, { companyId: 'owner-company-2' }]
+}).companyPatternCount, 2, 'cognition must expose receipt that company memory reached the brain');
 
 console.log('domain memory consolidation: transient buffers decay; decision, efference, outcome, and learned engrams persist');

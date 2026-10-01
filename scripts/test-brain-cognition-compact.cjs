@@ -50,3 +50,25 @@ assert.equal(control.awareness.knownCount, 1);
 assert.equal(control.awareness.uncertaintyCount, 1);
 
 console.log('brain cognition compact: projection helpers, local control state, and review gates preserve source truth');
+
+var learning = projection.learningReadout({
+  domain: 'energy', status: 'ABSTAINED', reason: 'no-owned-outcome', resolvedCount: 0,
+  learningGate: { ready: false },
+  financialAfferent: { domain: 'energy', status: 'ELIGIBLE', resolvedCount: 1,
+    signal: { signalId: 'finance-return-1', actionId: 'finance-action-1', eventId: 'finance-event-1',
+      sourceDomain: 'finance', observedAt: 1000,
+      sourceDomains: [{ sourceDomain: 'energy', opportunityId: 'energy-opportunity-1' }],
+      authority: { financeRemainsDecisionOwner: true, energyBrokerageAuthority: false } } }
+});
+assert.equal(learning.status, 'ABSTAINED');
+assert.equal(learning.reason, 'no-owned-outcome');
+assert.equal(learning.latestSignalId, null, 'a Finance afferent must not become an Energy motor signal');
+assert.equal(learning.learningGate.ready, false);
+assert.equal(learning.financialAfferent.actionId, 'finance-action-1');
+assert.equal(learning.financialAfferent.authority.energyBrokerageAuthority, false);
+assert.equal(learning.financialAfferent.sourceDomains[0].opportunityId, 'energy-opportunity-1');
+assert.equal(projection.learningReadout(null), null);
+var held = projection.learningReadout({ domain: 'agriculture', status: 'ABSTAINED',
+  reason: 'agriculture-opportunity-owner-outcomes-not-yet-returned', resolvedCount: 0 });
+assert.equal(held.reason, 'agriculture-opportunity-owner-outcomes-not-yet-returned');
+assert.equal(held.latestSignalId, null);

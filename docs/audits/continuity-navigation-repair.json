@@ -1,0 +1,188 @@
+{
+  "evidenceLevel": "LOCAL navigation fix; no deployment or current live HTTP claim",
+  "repairedTargets": 24,
+  "repairedReferences": 50,
+  "repairs": [
+    {
+      "file": "culture_cultural_econ_portal.html",
+      "missingTarget": "/culture_cultural_portal",
+      "backTarget": "/culture_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "culture_digital_cult_portal.html",
+      "missingTarget": "/culture_digital_portal",
+      "backTarget": "/culture_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "culture_education_cult_portal.html",
+      "missingTarget": "/culture_education_portal",
+      "backTarget": "/culture_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "defense_special_ops_portal.html",
+      "missingTarget": "/defense_special_portal",
+      "backTarget": "/defense_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "economy_agri_econ_portal.html",
+      "missingTarget": "/economy_agri_portal",
+      "backTarget": "/economy_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "economy_digital_econ_portal.html",
+      "missingTarget": "/economy_digital_portal",
+      "backTarget": "/economy_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "economy_energy_econ_portal.html",
+      "missingTarget": "/economy_energy_portal",
+      "backTarget": "/economy_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "economy_supply_chain_portal.html",
+      "missingTarget": "/economy_supply_portal",
+      "backTarget": "/economy_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "education_finance_edu_portal.html",
+      "missingTarget": "/education_finance_portal",
+      "backTarget": "/education_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "education_governance_edu_portal.html",
+      "missingTarget": "/education_governance_portal",
+      "backTarget": "/education_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "education_research_edu_portal.html",
+      "missingTarget": "/education_research_portal",
+      "backTarget": "/education_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "education_workforce_dev_portal.html",
+      "missingTarget": "/education_workforce_portal",
+      "backTarget": "/education_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "energy_carbon_cap_portal.html",
+      "missingTarget": "/energy_carbon_portal",
+      "backTarget": "/energy_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "environment_urban_env_portal.html",
+      "missingTarget": "/environment_urban_portal",
+      "backTarget": "/environment_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "finance_realestate_fin_portal.html",
+      "missingTarget": "/finance_realestate_portal",
+      "backTarget": "/finance_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "industry_defense_ind_portal.html",
+      "missingTarget": "/industry_defense_portal",
+      "backTarget": "/industry_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "infrastructure_waste_infra_portal.html",
+      "missingTarget": "/infrastructure_waste_portal",
+      "backTarget": "/infrastructure_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "law_banking_law_portal.html",
+      "missingTarget": "/law_banking_portal",
+      "backTarget": "/law_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "law_immigration_law_portal.html",
+      "missingTarget": "/law_immigration_portal",
+      "backTarget": "/law_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "law_tech_law_portal.html",
+      "missingTarget": "/law_tech_portal",
+      "backTarget": "/law_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "medicine_pediatric_med_portal.html",
+      "missingTarget": "/medicine_pediatric_portal",
+      "backTarget": "/medicine_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "science_policy_sci_portal.html",
+      "missingTarget": "/science_policy_portal",
+      "backTarget": "/science_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "trade_services_trade_portal.html",
+      "missingTarget": "/trade_services_portal",
+      "backTarget": "/trade_portal",
+      "scope": "breadcrumb/back navigation only"
+    },
+    {
+      "file": "pages/relay-admin.html",
+      "missingTarget": "/relay-checkout",
+      "backTarget": "/relay",
+      "scope": "navigation only; canonical storefront cart flow per handlers/relay-checkout.js"
+    },
+    {
+      "file": "relay-admin-login.html",
+      "missingTarget": "/relay-checkout",
+      "backTarget": "/relay",
+      "scope": "navigation only; canonical storefront cart flow per handlers/relay-checkout.js"
+    },
+    {
+      "file": "relay-marketplace-control.html",
+      "missingTarget": "/relay-checkout",
+      "backTarget": "/relay",
+      "scope": "navigation only; canonical storefront cart flow per handlers/relay-checkout.js"
+    },
+    {
+      "file": "relay-vinted-scraper.html",
+      "missingTarget": "/relay-checkout",
+      "backTarget": "/relay",
+      "scope": "navigation only; canonical storefront cart flow per handlers/relay-checkout.js"
+    }
+  ],
+  "remainingTargets": [
+    "/portals/medicine/mens_health",
+    "/portals/medicine/reports/trt_patient_report",
+    "/spiral"
+  ],
+  "remainingBlockers": [
+    {
+      "target": "/portals/medicine/mens_health",
+      "reason": "no existing target or registered replacement found; preserve medical content"
+    },
+    {
+      "target": "/portals/medicine/reports/trt_patient_report",
+      "reason": "no existing report target or generator found; cannot invent a patient-report function"
+    },
+    {
+      "target": "/spiral",
+      "reason": "no existing Spiral target or registered replacement found; no neurology/navigation equivalence established"
+    }
+  ]
+}

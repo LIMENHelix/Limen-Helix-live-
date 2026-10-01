@@ -324,6 +324,7 @@ module.exports = async function handler(req, res) {
             contractId: _motorReceipt.receipt.contractId,
             lane: _motorReceipt.receipt.lane,
             status: _motorReceipt.receipt.status,
+            gates: _motorReceipt.receipt.gates,
             blockers: _motorReceipt.receipt.blockers,
             safety: _motorReceipt.receipt.safety
           } : _motorReceipt;
@@ -363,12 +364,7 @@ module.exports = async function handler(req, res) {
               outwardAuthority: false
             } : null,
             resourceMetabolism: _rm ? { ownerDomain: val(_rm.ownerDomain), state: val(_rm.state), gates: val(_rm.gates) } : null,
-            externalActionLearning: _dl ? {
-              status: val(_dl.status), resolvedCount: num(_dl.resolvedCount),
-              learningGate: val(_dl.learningGate),
-              latestSignalId: val(_dl.signal && _dl.signal.signalId),
-              companyPatternCount: arr(_dl.companyPatterns).length
-            } : null,
+            externalActionLearning: cognitionProjection.learningReadout(_dl),
             commercialReflex: _commercial ? {
               schemaVersion: val(_commercial.schemaVersion),
               status: val(_commercial.status),
