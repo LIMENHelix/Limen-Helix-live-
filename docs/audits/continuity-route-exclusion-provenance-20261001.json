@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "continuity-route-exclusion-provenance/1.0",
+  "baseSha": "7f59d9543bcc8236f629b00ed601fae63f0c3e43",
+  "ignoreFile": ".vercelignore",
+  "ignoreSha256": "dd4c8eb6aec7db694f081c71fae37573023132b8826339e292e028594e9911ea",
+  "canonicalIgnoreSha256": "566a745c955f6672f61370aefc96bf35df9e05d3a0091e4666ae5bcf370b321a",
+  "evidenceLevel": "Local configured exclusions correlate with observed live404; no current deployment build manifest inspected",
+  "routes": [
+    {
+      "fileSha256": "c2e15c0391099d6b9b90261751b7c72771e448110d807246d4bfe067e0233193",
+      "route": "/LIMEN_Helix_Neuro_Business_CrossRef",
+      "ruleLine": 207,
+      "kind": "INTERNAL_REFERENCE_EXCLUDED",
+      "rule": "LIMEN_Helix_Neuro_Business_CrossRef.html",
+      "file": "LIMEN_Helix_Neuro_Business_CrossRef.html",
+      "liveObservationSource": "docs/audits/continuity-live-route-probe-20261001.json"
+    },
+    {
+      "fileSha256": "7e705df48e748f0f4d218752dc93db9ad27eba18f69c9ba544b32054f69f7150",
+      "route": "/LIMEN_Helix_Neurology_Reference",
+      "ruleLine": 208,
+      "kind": "INTERNAL_REFERENCE_EXCLUDED",
+      "rule": "LIMEN_Helix_Neurology_Reference.html",
+      "file": "LIMEN_Helix_Neurology_Reference.html",
+      "liveObservationSource": "docs/audits/continuity-live-route-probe-20261001.json"
+    },
+    {
+      "fileSha256": "7e705df48e748f0f4d218752dc93db9ad27eba18f69c9ba544b32054f69f7150",
+      "route": "/LIMEN_Helix_Neurology_Reference_1",
+      "ruleLine": 209,
+      "kind": "INTERNAL_REFERENCE_EXCLUDED",
+      "rule": "LIMEN_Helix_Neurology_Reference_1.html",
+      "file": "LIMEN_Helix_Neurology_Reference_1.html",
+      "liveObservationSource": "docs/audits/continuity-live-route-probe-20261001.json"
+    },
+    {
+      "fileSha256": "1eb7d11526738378538fd752e2925ce38f110eddfd3d849318479879763a6291",
+      "route": "/fl",
+      "ruleLine": 212,
+      "kind": "EXTERNAL_SCRAPE_REFERENCE_EXCLUDED",
+      "rule": "fl.html",
+      "file": "fl.html",
+      "liveObservationSource": "docs/audits/continuity-live-route-probe-20261001.json"
+    },
+    {
+      "fileSha256": "7dbe0043daec9647daf255f92f22fe2d66901dc49e1e7fd19bb7e480f4662889",
+      "route": "/energy_datacenter_powerdemand_rackdensity_portal",
+      "ruleLine": 15,
+      "kind": "DEEP_STATIC_PORTAL_EXCLUDED",
+      "rule": "*_*_*_*_portal.html",
+      "file": "energy_datacenter_powerdemand_rackdensity_portal.html",
+      "liveObservationSource": "docs/audits/continuity-live-route-probe-20261001.json"
+    },
+    {
+      "fileSha256": "83cb4d26e26107d514f8336e668f7c1274d5155bc4e92bfae8b2c89444ada3ca",
+      "route": "/energy_datacenter_powerdemand_rackdensity_hvpower_portal",
+      "ruleLine": 15,
+      "kind": "DEEP_STATIC_PORTAL_EXCLUDED",
+      "rule": "*_*_*_*_portal.html",
+      "file": "energy_datacenter_powerdemand_rackdensity_hvpower_portal.html",
+      "liveObservationSource": "docs/audits/continuity-live-route-probe-20261001.json"
+    }
+  ],
+  "unresolved": {
+    "reason": "page file is under pages/; no explicit root rewrite verified; separate API registration does not establish page mapping",
+    "route": "/relay-checkout"
+  },
+  "authority": "observation-only; no publication, retirement or configuration change",
+  "canonicalComparison": "All six relevant rules match. Whole ignore files differ only in the existing diagnosis-manifest exclusion (Finance-only canonical vs per-domain wildcard isolated); no changes made."
+}
