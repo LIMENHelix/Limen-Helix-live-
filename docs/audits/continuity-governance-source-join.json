@@ -1,0 +1,134 @@
+{
+  "level": "LOCAL/FIXTURE",
+  "externalFetches": false,
+  "injectedDiagnoses": false,
+  "injectedOpportunities": false,
+  "results": [
+    {
+      "scenario": "valid",
+      "requests": [
+        "https://api.worldbank.org/v2/country/USA/indicator/GOV_WGI_GE.EST?source=3&format=json&per_page=100",
+        "https://api.worldbank.org/v2/country/USA/indicator/GOV_WGI_RL.EST?source=3&format=json&per_page=100"
+      ],
+      "sources": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "governance",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "measured",
+        "stressUsable": true,
+        "sources": [
+          {
+            "name": "World Bank Gov Effectiveness",
+            "live": true,
+            "sourceUpdatedAt": "2025",
+            "fetchedAt": 1790881273567,
+            "value": -0.6,
+            "classification": "real",
+            "failReason": null
+          },
+          {
+            "name": "World Bank Rule of Law",
+            "live": true,
+            "sourceUpdatedAt": "2025",
+            "fetchedAt": 1790881273567,
+            "value": -0.6,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
+      "stress": 0.7,
+      "lowSignal": false,
+      "packetId": "governance:2:fixture-governance-valid",
+      "diagnoses": 1,
+      "handoffs": 4,
+      "nextBoundary": "source-grounded-governance-brief-required",
+      "providerCalled": false
+    },
+    {
+      "scenario": "effectiveness-unavailable",
+      "requests": [
+        "https://api.worldbank.org/v2/country/USA/indicator/GOV_WGI_GE.EST?source=3&format=json&per_page=100",
+        "https://api.worldbank.org/v2/country/USA/indicator/GOV_WGI_RL.EST?source=3&format=json&per_page=100"
+      ],
+      "sources": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "governance",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "clamped",
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "World Bank Gov Effectiveness",
+            "live": false,
+            "sourceUpdatedAt": null,
+            "fetchedAt": 1790881273708,
+            "value": null,
+            "classification": "broken",
+            "failReason": "no non-null value"
+          },
+          {
+            "name": "World Bank Rule of Law",
+            "live": true,
+            "sourceUpdatedAt": "2025",
+            "fetchedAt": 1790881273708,
+            "value": -0.6,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
+      "stress": 0.3,
+      "lowSignal": true,
+      "packetId": "governance:2:fixture-governance-effectiveness-unavailable",
+      "diagnoses": 1,
+      "handoffs": 1,
+      "nextBoundary": "source-grounded-governance-brief-required",
+      "providerCalled": false
+    },
+    {
+      "scenario": "recovery",
+      "requests": [
+        "https://api.worldbank.org/v2/country/USA/indicator/GOV_WGI_GE.EST?source=3&format=json&per_page=100",
+        "https://api.worldbank.org/v2/country/USA/indicator/GOV_WGI_RL.EST?source=3&format=json&per_page=100"
+      ],
+      "sources": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "governance",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "measured",
+        "stressUsable": true,
+        "sources": [
+          {
+            "name": "World Bank Gov Effectiveness",
+            "live": true,
+            "sourceUpdatedAt": "2025",
+            "fetchedAt": 1790881273812,
+            "value": -0.6,
+            "classification": "real",
+            "failReason": null
+          },
+          {
+            "name": "World Bank Rule of Law",
+            "live": true,
+            "sourceUpdatedAt": "2025",
+            "fetchedAt": 1790881273812,
+            "value": -0.6,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
+      "stress": 0.7,
+      "lowSignal": false,
+      "packetId": "governance:2:fixture-governance-recovery",
+      "diagnoses": 1,
+      "handoffs": 4,
+      "nextBoundary": "source-grounded-governance-brief-required",
+      "providerCalled": false
+    }
+  ]
+}
