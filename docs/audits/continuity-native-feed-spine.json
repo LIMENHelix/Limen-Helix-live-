@@ -422,7 +422,7 @@
             "name": "USDA Drought Monitor",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:agriculture",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 45,
             "classification": "real",
             "failReason": null
@@ -805,7 +805,7 @@
             "name": "communication identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:communication",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -1280,7 +1280,7 @@
             "name": "culture identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:culture",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -1397,8 +1397,8 @@
             "decision": {
               "id": "chd_1506695bb1eb69338fe72c6e",
               "status": "NO_ACTION",
-              "decidedAt": 1790896220108,
-              "expiresAt": 1790896820108,
+              "decidedAt": 1790898711796,
+              "expiresAt": 1790899311796,
               "key": "culture_hero_decision:chd_1506695bb1eb69338fe72c6e",
               "packetId": "culture:2:fixture-native-source-snapshot",
               "reason": "culture-b10-held",
@@ -1801,7 +1801,7 @@
             "name": "defense identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:defense",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -1813,7 +1813,7 @@
         "lane": "publication",
         "candidateId": "dpc_f567dc9a2c381bd7a005f2fd",
         "nativeOpportunityId": "DEFENSE_AIR_SYSTEM_FAILURE_researchable_t1",
-        "decisionId": "dpd_10f2fe037580091694392f2e",
+        "decisionId": "dpd_6a357190adb4b2bad4e88c8d",
         "sourcePacketId": "defense:2:fixture-native-source-snapshot",
         "status": "NO_ACTION",
         "blockers": [
@@ -2288,7 +2288,7 @@
             "name": "economy identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:economy",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -2708,7 +2708,7 @@
             "name": "education identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:education",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -2726,6 +2726,20 @@
           "status": "READY_FOR_B10",
           "sourcePacketId": "education:2:fixture-native-source-snapshot",
           "ownerDomain": "education",
+          "activeWorkerAdmission": {
+            "consumer": "handlers/limen-worker-autofire.js",
+            "eligible": true,
+            "originDomain": "education",
+            "routedOwnerDomain": "research",
+            "subjectId": "education:evidence-synthesis:6f781ca1f4f63c08af9a",
+            "staleRejected": true,
+            "futureRejected": true,
+            "terminalRejected": true,
+            "eligibilityRevokedRejected": true,
+            "sourceWindowIdentityPreserved": true,
+            "handlerInvoked": false,
+            "providerCalled": false
+          },
           "sourceKeys": [
             "education:LOCAL/FIXTURE education feed 0:0:0",
             "education:LOCAL/FIXTURE education feed 0:0:1",
@@ -2734,7 +2748,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_0645c819e855a6fe0a25fad8dd407f7faa1c8df34c98ff5443e136b1caf4b250",
+            "id": "sel_episode_6ca89a3e38206e07c407355658e241390fb77e8baa40b38af698280d8f8fe5a7",
             "status": "HELD",
             "ownerDomain": "education",
             "reasons": [
@@ -2779,7 +2793,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_7f43db5d554894fc7d8e4da13dfcfdc14caf8fbce4529c0bd608cb4bddeb1e5d",
+              "id": "sel_episode_faa27f1c59d979c5b9e5e71aa6272ff1d00970c7902eaf7eaa8280c900c6445e",
               "status": "HELD",
               "reasons": [
                 "owning_domain_has_no_current_l3_evidence",
@@ -3058,7 +3072,7 @@
             "name": "energy identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:energy",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -3434,7 +3448,7 @@
             "name": "environment identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:environment",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -3452,6 +3466,20 @@
           "status": "READY_FOR_B10",
           "sourcePacketId": "environment:2:fixture-native-source-snapshot",
           "ownerDomain": "environment",
+          "activeWorkerAdmission": {
+            "consumer": "handlers/limen-worker-autofire.js",
+            "eligible": true,
+            "originDomain": "environment",
+            "routedOwnerDomain": "research",
+            "subjectId": "environment:evidence-synthesis:2a6270119c13737ae2ac",
+            "staleRejected": true,
+            "futureRejected": true,
+            "terminalRejected": true,
+            "eligibilityRevokedRejected": true,
+            "sourceWindowIdentityPreserved": true,
+            "handlerInvoked": false,
+            "providerCalled": false
+          },
           "sourceKeys": [
             "environment:LOCAL/FIXTURE environment feed 0:0:0",
             "environment:LOCAL/FIXTURE environment feed 0:0:1",
@@ -3460,7 +3488,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_48260436dfc0b4c75ce663fb6d712e99118031724e1447487d35dbc878a2e53d",
+            "id": "sel_episode_bf8bee356c3a83b1c330aebb5a1fd39144e0e9d7b315a96e51f7527f6894f737",
             "status": "HELD",
             "ownerDomain": "environment",
             "reasons": [
@@ -3502,7 +3530,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_9e0c0434785917fffb4d569a72a1e635cd3184479f04217cae7b2b8371b3b1a1",
+              "id": "sel_episode_c065cf812c838371e9b9b6a64860c3a88b2f2f70714023f3aba1bcd807645ca8",
               "status": "HELD",
               "reasons": [
                 "owning_domain_has_no_declared_outward_consumer"
@@ -3827,7 +3855,7 @@
             "name": "finance identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:finance",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -4492,7 +4520,7 @@
             "name": "governance identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:governance",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -4504,7 +4532,7 @@
         "lane": "publication",
         "candidateId": "gpc_9986aded82fbd54e5bc8bf1d",
         "nativeOpportunityId": "GOVERNANCE_SANCTIONS_SYSTEM_FAILURE_researchable_t1",
-        "decisionId": "gpd_5e2e4854a0c62b6ebf4a3582",
+        "decisionId": "gpd_84aa1ee7ebe83b0e5aa5e1ab",
         "sourcePacketId": "governance:2:fixture-native-source-snapshot",
         "status": "NO_ACTION",
         "blockers": [
@@ -4922,7 +4950,7 @@
             "name": "industry identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:industry",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -5629,7 +5657,7 @@
             "name": "infrastructure identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:infrastructure",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -6119,7 +6147,7 @@
             "name": "intelligence identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:intelligence",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -6772,7 +6800,7 @@
             "name": "law identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:law",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -7292,7 +7320,7 @@
             "name": "medicine identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:medicine",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -7310,6 +7338,20 @@
           "status": "READY_FOR_B10",
           "sourcePacketId": "medicine:2:fixture-native-source-snapshot",
           "ownerDomain": "health",
+          "activeWorkerAdmission": {
+            "consumer": "handlers/limen-worker-autofire.js",
+            "eligible": true,
+            "originDomain": "medicine",
+            "routedOwnerDomain": "research",
+            "subjectId": "medicine:evidence-synthesis:4343068712e165fb6c88",
+            "staleRejected": true,
+            "futureRejected": true,
+            "terminalRejected": true,
+            "eligibilityRevokedRejected": true,
+            "sourceWindowIdentityPreserved": true,
+            "handlerInvoked": false,
+            "providerCalled": false
+          },
           "sourceKeys": [
             "health:LOCAL/FIXTURE health feed 0:0:0",
             "health:LOCAL/FIXTURE health feed 0:0:1",
@@ -7318,7 +7360,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_c8fa77861f1bab8f26bd2a5ba438044cf7a86ef58b12eeedb19066dec30cdc22",
+            "id": "sel_episode_9788b8681ddb66b1963f239e451a153fab9e842b19f1165ad121b7d151019817",
             "status": "HELD",
             "ownerDomain": "health",
             "reasons": [
@@ -7360,7 +7402,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_e5ddffbcab9dc6e327f3268009d168292028f0273e5ac44046dd43fc940a7202",
+              "id": "sel_episode_9e3867b04872f2346817f51607e6d15a5d2401db58755103173852dd540d8c50",
               "status": "RELEASED",
               "reasons": []
             }
@@ -7855,7 +7897,7 @@
             "name": "population identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:population",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -8432,7 +8474,7 @@
             "name": "religion identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:religion",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -8907,7 +8949,7 @@
             "name": "science identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:science",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -8925,6 +8967,20 @@
           "status": "READY_FOR_B10",
           "sourcePacketId": "science:2:fixture-native-source-snapshot",
           "ownerDomain": "research",
+          "activeWorkerAdmission": {
+            "consumer": "handlers/limen-worker-autofire.js",
+            "eligible": true,
+            "originDomain": "science",
+            "routedOwnerDomain": "research",
+            "subjectId": "science:evidence-synthesis:0075f20a04427b0923fe",
+            "staleRejected": true,
+            "futureRejected": true,
+            "terminalRejected": true,
+            "eligibilityRevokedRejected": true,
+            "sourceWindowIdentityPreserved": true,
+            "handlerInvoked": false,
+            "providerCalled": false
+          },
           "sourceKeys": [
             "research:LOCAL/FIXTURE research feed 0:0:0",
             "research:LOCAL/FIXTURE research feed 0:0:1",
@@ -8933,7 +8989,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_506de108efbc8c7bf4e622e9176b4c81fafd5437458cea6e3bc1f1e8801003f6",
+            "id": "sel_episode_f0b71295684779788c8cbeac1263c4fc61574f9cbec4a2873e4a2befe8fb5907",
             "status": "HELD",
             "ownerDomain": "research",
             "reasons": [
@@ -8975,7 +9031,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_a7b1ccdce754bb69e1aed57581710fbee7339e1125a5c1473c0b2e8f2d380a64",
+              "id": "sel_episode_94bd74412fdb5381693195d06c946c47c05a7ba0fb7304a0acf3c4fb4590a114",
               "status": "RELEASED",
               "reasons": []
             }
@@ -9691,7 +9747,7 @@
             "name": "technology identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:technology",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null
@@ -10078,7 +10134,7 @@
             "name": "trade identified fixture source",
             "live": true,
             "sourceUpdatedAt": "LOCAL/FIXTURE source-record:trade",
-            "fetchedAt": 1790896218412,
+            "fetchedAt": 1790898709653,
             "value": 0.72,
             "classification": "real",
             "failReason": null

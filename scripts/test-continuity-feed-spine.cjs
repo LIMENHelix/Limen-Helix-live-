@@ -133,6 +133,7 @@ sb.LIMENDomains = fixtures;
     ltrim: async function (key, start, end) { shadowLists.set(key, (shadowLists.get(key) || []).slice(start, end + 1)); return true; }
   } };
   var ShadowRuntime = require('../lib/brain-shadow-runtime.js');
+  var ArtifactWorker = require('../handlers/limen-worker-autofire.js');
   var results = [];
   for (var row of domains) {
     var brain = sb[row[1]];
@@ -461,6 +462,24 @@ sb.LIMENDomains = fixtures;
         assert.equal(actor.status, 'READY_FOR_B10');
         assert.equal(actor.candidate.sourcePacketId, enrichedPacket.packetId);
         assert.equal(actor.candidate.ownerDomain, sourceDomain);
+        // Join the actual native actor to the active worker's admission path.
+        // Admission is scheduling evidence, never motor or provider authority.
+        var admittedCandidate = Object.assign({}, actor.candidate, { status: 'PENDING' });
+        var beforeAdmission = JSON.stringify(admittedCandidate);
+        assert.equal(ArtifactWorker.isEligibleCandidate(admittedCandidate, sourceAt), true);
+        assert.equal(ArtifactWorker.routedDomain(admittedCandidate), 'research');
+        assert.equal(ArtifactWorker.selectionCandidate(admittedCandidate).domain, 'research');
+        assert.equal(ArtifactWorker.selectionCandidate(admittedCandidate).originDomain, row[0]);
+        assert.equal(ArtifactWorker.schedulerGroup(admittedCandidate), 'research:science');
+        assert.equal(ArtifactWorker.candidateIdentity(admittedCandidate), 'subject:' + actor.candidate.subjectId);
+        assert(ArtifactWorker.laneDedupeKey(admittedCandidate));
+        assert.equal(ArtifactWorker.sameCandidate(admittedCandidate, JSON.parse(beforeAdmission)), true);
+        assert.equal(ArtifactWorker.sameCandidate(admittedCandidate, Object.assign({}, admittedCandidate, { sourceArtifactRef: 'different-source-window' })), false);
+        assert.equal(ArtifactWorker.isEligibleCandidate(admittedCandidate, sourceAt + ResearchCandidate.MAX_PACKET_AGE_MS + 1), false);
+        assert.equal(ArtifactWorker.isEligibleCandidate(admittedCandidate, sourceAt - 1), false);
+        assert.equal(ArtifactWorker.isEligibleCandidate(Object.assign({}, admittedCandidate, { status: 'FIRED' }), sourceAt), false);
+        assert.equal(ArtifactWorker.isEligibleCandidate(Object.assign({}, admittedCandidate, { autofireEligible: false }), sourceAt), false);
+        assert.equal(JSON.stringify(admittedCandidate), beforeAdmission, 'worker admission must not mutate the native candidate');
         assert.deepEqual(actor.candidate.researchContext.evidence.news.map(function (news) { return JSON.stringify(news.sourceIdentity); }).sort(), semantic.observations.map(function (observation) { return JSON.stringify(observation.sourceIdentity); }).sort());
         assert.equal(actor.candidate.researchContext.evidence.sourceBoundary.publisherIndependence, 'UNASSESSED');
         var undurable = JSON.parse(JSON.stringify(enrichedRecord)); undurable.c.serverPacketPersistence.ok = false;
@@ -517,6 +536,9 @@ sb.LIMENDomains = fixtures;
         assert.equal(operatorTrace.externalActionAuthorized, false);
         assert.equal(JSON.stringify(Array.from(values)), beforeAuthorization, 'operator read must not mutate business state');
         enrichedResearch = { status: actor.status, sourcePacketId: enrichedPacket.packetId, ownerDomain: actor.candidate.ownerDomain,
+          activeWorkerAdmission: { consumer: 'handlers/limen-worker-autofire.js', eligible: true, originDomain: row[0], routedOwnerDomain: 'research',
+            subjectId: admittedCandidate.subjectId, staleRejected: true, futureRejected: true, terminalRejected: true,
+            eligibilityRevokedRejected: true, sourceWindowIdentityPreserved: true, handlerInvoked: false, providerCalled: false },
           sourceKeys: semantic.observations.map(function (observation) { return observation.sourceIdentity.value; }),
           titleSourceLevel: 'LOCAL/FIXTURE', selection: { id: selection.receipt.id, status: selection.receipt.status, ownerDomain: selection.receipt.ownerDomain, reasons: selection.receipt.reasons },
           recordedRuntimeJoin: { fixture: 'brain-v2/fixtures/' + sourceDomain + '-recorder.json', rowsApplied: runtimeCycle.rowsApplied,

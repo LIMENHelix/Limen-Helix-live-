@@ -432,6 +432,17 @@ async function handlerProof() {
       heldResearch.json.skipped === 1 && heldResearch.json.results[0].reason === 'product-domain-research-motor-held' && heldResearch.json.results[0].billableAttempt === false);
     ok('Science motor hold occurs before B14 command persistence', commandCountAfterHold === commandCountBeforeHold);
     ok('Science motor hold makes no provider or artifact request', network.length === 0);
+    for (const originDomain of ['medicine', 'education', 'environment']) {
+      const candidate = researchEntry(originDomain, 'science-owned-held');
+      fakeDb.values.set('autoqueue', [candidate]);
+      const beforeCommands = Array.from(fakeEfferenceStore.values.keys()).filter(k => k.startsWith('autofire_efference:')).length;
+      const beforeCalls = productMotorCalls.length;
+      const held = await invoke(handler, request('GET', '/api/limen-worker-autofire'));
+      ok(originDomain + ' paper asks the Science motor', productMotorCalls.length === beforeCalls + 1 && productMotorCalls[beforeCalls].productDomain === 'science');
+      ok(originDomain + ' paper preserves its packet identity under Science hold', held.json.results[0].sourcePacketId === candidate.sourcePacketId && held.json.results[0].subjectId === candidate.subjectId);
+      ok(originDomain + ' paper remains held and non-billable', held.json.results[0].reason === 'product-domain-research-motor-held' && held.json.results[0].billableAttempt === false);
+      ok(originDomain + ' paper hold writes no command and makes no network request', network.length === 0 && Array.from(fakeEfferenceStore.values.keys()).filter(k => k.startsWith('autofire_efference:')).length === beforeCommands);
+    }
 
     console.log('\nT5a2: separate developmental authority releases one internal Science artifact');
     fakeDb.values.set('autoqueue', [researchEntry('science', 'developmental')]);
