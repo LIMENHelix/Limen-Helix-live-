@@ -1,0 +1,28 @@
+{
+  "level": "LOCAL/SOURCE",
+  "baseInventory": "docs/audits/continuity-client-data-references-supplemental-20261001.json",
+  "baseSha256": "e168ff51174a0b2ebe37f1f778404a966a0d80ae4a7c624c13455cebb5cbf3ce",
+  "counts": {
+    "sourceFiles": 4325,
+    "references": 916,
+    "uniqueReferences": 421,
+    "api": 256,
+    "staticData": 165,
+    "dynamic": 116,
+    "cronReferences": 1,
+    "unmappedLiteralApis": 5,
+    "missingLiteralStaticFiles": 47
+  },
+  "validatedClientHashes": 4325,
+  "validatedRoutingHashes": 2,
+  "unchangedClientHashes": 4324,
+  "overrides": [
+    {
+      "file": "assets/js/domain-brain-adapter.js",
+      "sha256": "9318f0afce10e97f098501309e72d1c51d004413ec5f766a5d6e404cb5eaa810",
+      "previousSha256": "cc49df8f40e8788db2e158193e6c96b9cf716faa2fd1430aaf26badb6ea31eed"
+    }
+  ],
+  "missingTargetsUnchanged": true,
+  "newNetworkProbe": false
+}

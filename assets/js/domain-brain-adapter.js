@@ -135,7 +135,9 @@
     // credential, so the adapter deliberately has no server-memory write path.
   }
 
-  function _buildPayload(bs) {
+  function _buildPayload(bs, eventDomainId) {
+    var modelOwner = eventDomainId || bs.domainId;
+    var modelOwnerMatches = bs.domainId === modelOwner;
     var opps = _arr(bs.opportunities);
     var dirs = _arr(bs.directives);
     return {
@@ -159,6 +161,17 @@
       brainHealthModel: _obj(bs.healthModel), // F0.medicine: carry recurrent disease-burden/clinical-pipeline lifecycle model (medicine uses 'health' snapshot key; null elsewhere)
       brainEducationModel: _obj(bs.educationModel), // F0.education: carry recurrent human-capital-lifecycle model (curriculum-delivery phase, accreditation/credentialing regulation, enrollment-capacity stress, prior learning-outcome/literacy health; education only, null elsewhere)
       brainResearchModel: _obj(bs.researchModel), // F0.science: carry recurrent R&D-pipeline/discovery-cycle lifecycle model (exploratory→applied→prototype→technology-transfer phase, research-funding/IP-protection/open-science regulation, innovation-funnel stress, prior discovery-output/publication-momentum health; science uses 'research' snapshot key, null elsewhere)
+      // Existing Civilization recurrent-model readers require these owning
+      // fields. Carry observations only; never borrow a model across owners.
+      // Economy's separate brainEconomyModel is a macro interpretation, not
+      // the recurrent economyModel that contains its diagnosis packet.
+      brainInfrastructureModel: modelOwnerMatches && modelOwner === 'infrastructure' ? _obj(bs.infraModel) : null,
+      brainCultureModel: modelOwnerMatches && modelOwner === 'culture' ? _obj(bs.cultureModel) : null,
+      brainFinanceModel: modelOwnerMatches && modelOwner === 'finance' ? _obj(bs.financeModel) : null,
+      brainEconomyModel: modelOwnerMatches && modelOwner === 'economy' ? _obj(bs.economyModel) : null,
+      brainIndustryModel: modelOwnerMatches && modelOwner === 'industry' ? _obj(bs.industryModel) : null,
+      brainPopulationModel: modelOwnerMatches && modelOwner === 'population' ? _obj(bs.populationModel) : null,
+      brainLawModel: modelOwnerMatches && modelOwner === 'law' ? _obj(bs.lawModel) : null,
 
       // === A. Identity & timing (additive) ===
       brainDomainId:              _val(bs.domainId),
@@ -263,7 +276,7 @@
       var target = window.LIMENDomains;
 
       // If LIMENDomains doesn't exist yet, still cache so we can apply later
-      var payload = _buildPayload(bs);
+      var payload = _buildPayload(bs, domainId);
       _payloadCache[domainId] = { payload: payload, capturedAt: Date.now() };
       _mirrorCognition(domainId, bs);   // mirror self-model (+interoception/stress/phase) to browser-local working memory
 

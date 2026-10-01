@@ -1,0 +1,445 @@
+{
+  "level": "LOCAL/TRANSPORT FIXTURE",
+  "nativeCognitionProof": false,
+  "providerCalls": 0,
+  "runtimeChanged": false,
+  "fixturePath": "docs/audits/continuity-supplemental-provenance-20261001.json",
+  "fixtureSha256": "c6e158c29674f52519aec15346bfe729d02d1ba574f5a531cb6a0cf8be2c79fc",
+  "sources": [
+    {
+      "file": "lib/civilization-server-packet.js",
+      "sha256": "d4daf4344bfa5a4e45d8a2294e3ce3e394047a00c18ee2f4e4218222e2794d4a"
+    },
+    {
+      "file": "lib/civilization-handoff-consumer.js",
+      "sha256": "345cf5dfff5cf0c017055a04b8a104ca5a20c2efe04e906270593a786a199332"
+    },
+    {
+      "file": "handlers/expand-artifact.js",
+      "sha256": "e91f5e7835ee3b8ea3a4f4fb22bbddb0f787d9ba712ca74a1fa0efde69fc34cb"
+    },
+    {
+      "file": "handlers/brain-cognition-refresh.js",
+      "sha256": "4562f9ca55bd3f4554ec78ff7ce2fbb705e55bafaf5dee8d7c7ffa9c66a0dd11"
+    },
+    {
+      "file": "assets/js/domain-brain-adapter.js",
+      "sha256": "9318f0afce10e97f098501309e72d1c51d004413ec5f766a5d6e404cb5eaa810"
+    },
+    {
+      "file": "assets/js/civilization/domain-packet-adapter.js",
+      "sha256": "0bffd34243e947932c5cff77d3162aa3877a6658c53ef7171bd72988cce004ca"
+    },
+    {
+      "file": "assets/js/civilization/handoff-contract.js",
+      "sha256": "18c3204a16e206fde20b036ef57bc7957bcd66336f60eeea3388cea2540c0699"
+    },
+    {
+      "file": "assets/js/civilization/artifact-packet-builder.js",
+      "sha256": "ff2716360bfdece94a0c9fb0580ffbd36af9f9ed7be003657cd0f7e9d0b9b801"
+    }
+  ],
+  "results": [
+    {
+      "domain": "agriculture",
+      "mode": "all-404",
+      "field": "cropCycleLayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "agriculture",
+      "mode": "existing-local-files",
+      "field": "cropCycleLayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "communication",
+      "mode": "all-404",
+      "field": "networkLayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "communication",
+      "mode": "existing-local-files",
+      "field": "networkLayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "culture",
+      "mode": "all-404",
+      "field": "sceneLayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "culture",
+      "mode": "existing-local-files",
+      "field": "sceneLayer",
+      "supplementalLoaded": true,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "defense",
+      "mode": "all-404",
+      "field": "readinessPostureLayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "defense",
+      "mode": "existing-local-files",
+      "field": "readinessPostureLayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "economy",
+      "mode": "all-404",
+      "field": "macroRegimeSublayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "economy",
+      "mode": "existing-local-files",
+      "field": "macroRegimeSublayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "education",
+      "mode": "all-404",
+      "field": "learningOutcomesLayer",
+      "supplementalLoaded": true,
+      "supplementalSourceMode": "hand-authored",
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "education",
+      "mode": "existing-local-files",
+      "field": "learningOutcomesLayer",
+      "supplementalLoaded": true,
+      "supplementalSourceMode": "hand-authored",
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "environment",
+      "mode": "all-404",
+      "field": "climateRiskLayer",
+      "supplementalLoaded": true,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "environment",
+      "mode": "existing-local-files",
+      "field": "climateRiskLayer",
+      "supplementalLoaded": true,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "finance",
+      "mode": "all-404",
+      "field": "creditSublayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "finance",
+      "mode": "existing-local-files",
+      "field": "creditSublayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "governance",
+      "mode": "all-404",
+      "field": "governanceInstitutionalIntegrityLayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "governance",
+      "mode": "existing-local-files",
+      "field": "governanceInstitutionalIntegrityLayer",
+      "supplementalLoaded": true,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "industry",
+      "mode": "all-404",
+      "field": "productionCapacityLayer",
+      "supplementalLoaded": true,
+      "supplementalSourceMode": "hand-authored",
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "industry",
+      "mode": "existing-local-files",
+      "field": "productionCapacityLayer",
+      "supplementalLoaded": true,
+      "supplementalSourceMode": "hand-authored",
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "infrastructure",
+      "mode": "all-404",
+      "field": "gridLayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "infrastructure",
+      "mode": "existing-local-files",
+      "field": "gridLayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "intelligence",
+      "mode": "all-404",
+      "field": "intelligenceCollectionPostureLayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "intelligence",
+      "mode": "existing-local-files",
+      "field": "intelligenceCollectionPostureLayer",
+      "supplementalLoaded": true,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "law",
+      "mode": "all-404",
+      "field": "lawRuleOfLawLayer",
+      "supplementalLoaded": true,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "law",
+      "mode": "existing-local-files",
+      "field": "lawRuleOfLawLayer",
+      "supplementalLoaded": true,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "medicine",
+      "mode": "all-404",
+      "field": "clinicalPipelineLayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "medicine",
+      "mode": "existing-local-files",
+      "field": "clinicalPipelineLayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "religion",
+      "mode": "all-404",
+      "field": "affiliationLayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "religion",
+      "mode": "existing-local-files",
+      "field": "affiliationLayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "science",
+      "mode": "all-404",
+      "field": "_discoveryPipelineCache",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "science",
+      "mode": "existing-local-files",
+      "field": "_discoveryPipelineCache",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "technology",
+      "mode": "all-404",
+      "field": "innovationLayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "technology",
+      "mode": "existing-local-files",
+      "field": "innovationLayer",
+      "supplementalLoaded": false,
+      "supplementalSourceMode": null,
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "trade",
+      "mode": "all-404",
+      "field": "freightFlowLayer",
+      "supplementalLoaded": true,
+      "supplementalSourceMode": "hand-authored-fallback",
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    },
+    {
+      "domain": "trade",
+      "mode": "existing-local-files",
+      "field": "freightFlowLayer",
+      "supplementalLoaded": true,
+      "supplementalSourceMode": "hand-authored-fallback",
+      "packetUnchanged": true,
+      "canonicalHandoffs": 1,
+      "replayHandoffs": 0,
+      "optionalOnlyHandoffs": 0
+    }
+  ],
+  "retiredExpander": {
+    "status": 410,
+    "error": "LANE_RETIRED",
+    "historicalHelperPresent": false
+  }
+}
