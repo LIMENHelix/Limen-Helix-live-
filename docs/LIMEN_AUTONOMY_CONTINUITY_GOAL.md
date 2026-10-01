@@ -37,6 +37,7 @@ The first missing load-bearing transition is repaired one domain at a time. Cont
 - Agriculture investment opportunities route to Finance.
 - Agriculture research opportunities route to Science/research.
 - Homestead is a separate property-availability lookup/publication surface. It is not Agriculture's stress loop and must not be used as Agriculture end-to-end execution evidence.
+- If an older repository document describes an Agriculture Homestead/Farm Operations motor, treat that as historical or conflicting evidence. The current owner clarification controls this goal: do not restore that Agriculture execution lane.
 - No domain may borrow another domain's cognition, motor receipt, provider identity, or authority.
 
 ### P0–P10 fidelity
