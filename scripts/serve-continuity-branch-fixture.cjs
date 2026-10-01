@@ -35,6 +35,33 @@ const server = http.createServer((req, res) => {
   res.setHeader('Content-Security-Policy', "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'");
   const requestUrl = new URL(req.url, 'http://127.0.0.1:8932');
   const domain = requestUrl.searchParams.get('domain');
+  if (req.method === 'GET' && requestUrl.pathname === '/supplemental') {
+    const page = fs.readFileSync('domain-console.html', 'utf8').replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
+    const observer = fs.readFileSync('assets/js/civilization/execution-observatory.js', 'utf8');
+    const evidence = JSON.parse(fs.readFileSync('docs/audits/continuity-supplemental-provenance-20261001.json', 'utf8'));
+    const fixture = `<aside style="position:relative;z-index:999;background:#173544;padding:15px;color:white;font:16px system-ui">LOCAL/FIXTURE: original domain-console HTML and actual Execution Observatory script. Supplemental state comes from actual loader/builder fixtures; no native brain startup, motor, live source freshness or production claim. <label>Data fixture <select id="fixture-source-mode"><option value="all-404">All optional data unavailable</option><option value="existing-local-files">Existing local fallback files</option></select></label></aside>
+<script>
+const supplementalRows = ${JSON.stringify(evidence.rows).replace(/</g, '\\u003c')};
+const fixtureBrains = {};
+const aliases = {trade:'supplyChain',medicine:'health',science:'research'};
+window.LIMENDomainBrains = {getAll:()=>fixtureBrains};
+function chooseSourceFixture() {
+ Object.keys(fixtureBrains).forEach(key=>delete fixtureBrains[key]);
+ supplementalRows.filter(row=>row.mode===document.getElementById('fixture-source-mode').value).forEach(row=>{
+  fixtureBrains[aliases[row.domain]||row.domain]={state:{[row.field]:row.layer}};
+ });
+ if(window.LIMENExecutionObservatory)window.LIMENExecutionObservatory.refresh();
+}
+window.fetch=async path=>{
+ if(!['/api/brain-cognition','/api/limen-autofire-log?limit=50'].includes(path))throw Error('Unexpected fixture request');
+ return {ok:true,json:async()=>({cognition:{},count:0,cycles:[]})};
+};
+document.getElementById('fixture-source-mode').addEventListener('change',chooseSourceFixture);
+chooseSourceFixture();
+</script><script>${observer}</script>`;
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    return res.end(page.replace('</body>', () => fixture + '</body>'));
+  }
   if (req.method === 'GET' && requestUrl.pathname === '/operator' && domains.includes(domain) && requestUrl.searchParams.get('mode') === 'operator') {
     const page = fs.readFileSync('domain-console.html', 'utf8').replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
     const operator = fs.readFileSync('assets/js/' + domain + '-clarity-operator.js', 'utf8');

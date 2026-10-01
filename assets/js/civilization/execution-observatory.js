@@ -18,6 +18,29 @@
     'education', 'population', 'science', 'law', 'religion'
   ];
   var ALIASES = { trade: 'supplyChain', medicine: 'health', science: 'research' };
+  // Read the existing optional layers by their owning browser-state fields.
+  // These are supplemental interpretation, never server motor evidence. Paths
+  // describe loader configuration; this projection does not fetch the files.
+  var SUPPLEMENTAL = {
+    agriculture: { field: 'cropCycleLayer', label: 'Crop cycle / food security', paths: ['/assets/data/domains/agriculture_cropcycle.json', '/assets/data/domains/agriculture_foodsecurity.json'] },
+    communication: { field: 'networkLayer', label: 'Network infrastructure', paths: ['/assets/data/domains/communication_network.json'] },
+    culture: { field: 'sceneLayer', label: 'Music scene', paths: ['/assets/data/domains/culture_scene.json', '/assets/data/domains/culture_music.json'] },
+    defense: { field: 'readinessPostureLayer', label: 'Readiness / threat posture', paths: ['/assets/data/defense-readiness-index.json', '/assets/data/domains/defense_readiness.json'] },
+    economy: { field: 'macroRegimeSublayer', label: 'Business cycle / macro regime', paths: ['/assets/data/domains/economy_macro-regime.json', '/assets/data/domains/economy_business-cycle.json'] },
+    education: { field: 'learningOutcomesLayer', label: 'Learning outcomes', paths: ['/assets/data/domains/education_learning_outcomes.json'] },
+    environment: { field: 'climateRiskLayer', label: 'Climate risk / emissions', interpretation: 'HAND AUTHORED', paths: ['/assets/data/domains/environment_climate_risk.json', '/assets/data/domains/environment_emissions.json'] },
+    finance: { field: 'creditSublayer', label: 'Credit / liquidity', paths: ['/assets/data/domains/finance_credit.json', '/assets/data/domains/finance_liquidity.json'] },
+    governance: { field: 'governanceInstitutionalIntegrityLayer', label: 'Institutional integrity', paths: ['/assets/data/domains/governance_institutional-integrity.json', '/assets/data/domains/governance_govaudit_intaudit.json'] },
+    industry: { field: 'productionCapacityLayer', label: 'Production capacity', paths: ['/assets/data/domains/industry_capacity_flows.json'] },
+    infrastructure: { field: 'gridLayer', label: 'Grid', paths: ['/assets/data/domains/infrastructure_grid.json'] },
+    intelligence: { field: 'intelligenceCollectionPostureLayer', label: 'Collection / threat warning', paths: ['/assets/data/intelligence-collection-index.json', '/assets/data/domains/intelligence_collection.json'] },
+    law: { field: 'lawRuleOfLawLayer', label: 'Rule of law', interpretation: 'INTERPRETIVE', paths: ['/assets/data/domains/law_rule-of-law.json', '/assets/data/domains/law_courts.json'] },
+    medicine: { field: 'clinicalPipelineLayer', label: 'Clinical pipeline', paths: ['/assets/data/domains/medicine_clinical-pipeline.json'] },
+    religion: { field: 'affiliationLayer', label: 'Affiliation / vitality', paths: ['/assets/data/domains/religion_affiliation-vitality.json'] },
+    science: { field: '_discoveryPipelineCache', label: 'Research discovery', paths: ['/assets/data/domains/research_discoveries.json', '/assets/data/domains/research_innovation.json'] },
+    technology: { field: 'innovationLayer', label: 'Innovation / compute', paths: ['/assets/data/domains/technology_innovation.json', '/assets/data/domains/technology_compute.json'] },
+    trade: { field: 'freightFlowLayer', label: 'Freight flows', paths: ['/assets/data/domains/trade_freight_flows.json'] }
+  };
   var POLL_MS = 30000;
   var COGNITION_TTL_MS = 3 * 3600 * 1000; // server cognition storage TTL
   var state = { cognition: {}, cognitionCount: 0, cognitionTs: 0, autofire: null, error: null, loading: true, lastRefreshAt: 0 };
@@ -134,6 +157,29 @@
       '</span>' + badge(value, kind || value) + '</div>';
   }
 
+  function renderSupplemental(row) {
+    var config = SUPPLEMENTAL[row.domain];
+    if (!config) return '';
+    var value = row.browser[config.field];
+    var layer = value && typeof value === 'object' && !Array.isArray(value) ? value : null;
+    var status = 'NOT REPORTED';
+    if (layer) {
+      if (layer.loaded === false) status = 'DATA UNAVAILABLE';
+      else if (layer.loaded !== true) status = 'STATE UNVERIFIED';
+      else if (config.interpretation) status = config.interpretation;
+      else if (layer.sourceMode === 'hand-authored' || layer.sourceMode === 'hand-authored-fallback') status = 'HAND AUTHORED';
+      else if (layer.sourceMode === 'file' || layer.sourceMode === 'sub-portal') status = 'FILE SOURCED / UNVERIFIED';
+      else status = 'SOURCE UNVERIFIED';
+    }
+    return '<details class="exo-supplemental" data-supplemental-domain="' + esc(row.domain) + '">' +
+      '<summary>Browser supplemental data · ' + esc(config.label) + ' · ' + esc(status) + '</summary>' +
+      '<div class="exo-facts"><span>state <b>' + esc(config.field) + '</b> · browser observation only · source freshness unverified</span>' +
+      '<span>source mode <b>' + esc(layer && (layer.sourceMode || config.interpretation) || 'UNREPORTED') + '</b> · loaded ' + esc(layer && typeof layer.loaded === 'boolean' ? String(layer.loaded) : 'UNREPORTED') + '</span>' +
+      '<span>' + esc(layer && layer.note || 'Supplemental state has not been reported by this browser brain; file availability is unverified.') + '</span>' +
+      '<span>configured data paths <b>' + config.paths.map(esc).join(' · ') + '</b></span>' +
+      '<span>Supplemental interpretation does not establish validated source evidence, a business decision, a receipt, or revenue.</span></div></details>';
+  }
+
   function renderGlobal() {
     var fire = state.autofire || {};
     var cycles = arr(fire.cycles);
@@ -226,6 +272,7 @@
         (routedReturn.status ? '<span>routed outcome return <b>' + esc(routedReturn.status) + '</b> · ' + esc(returnedResult.returnId || routedReturn.reason || 'no return') + ' · owner ' + esc(returnedResult.ownerDomain || 'UNOBSERVED') + ' · action ' + esc(returnedResult.actionId || 'UNOBSERVED') + ' · source packet ' + esc(originRef.sourcePacketId || originRef.sourceArtifactRef || 'UNOBSERVED') + ' · learning stays with destination; origin observation only' + (routedReturn.reason ? ' · ' + esc(routedReturn.reason) : '') + arr(routedReturn.failures).map(function (failure) { return ' · ' + esc(failure.ownerDomain + ': ' + failure.reason); }).join('') + '</span>' : '') +
         '<span>result read <a href="' + esc(resultUrl) + '">' + esc(resultUrl) + '</a> · readiness key ' + esc(row.receipt.key || 'UNOBSERVED') + '</span>' +
       '</div>' +
+      renderSupplemental(row) +
       '<div class="exo-blockers"><span>WHY THIS IS NOT AUTONOMOUSLY EXTERNAL:</span> ' + esc(blockers) + '</div>' +
       '</article>';
   }

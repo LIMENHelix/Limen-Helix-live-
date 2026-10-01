@@ -5,6 +5,8 @@ Native origin-return checkpoint (2026-10-01): selected configured-parser fixture
 **Date:** 2026-10-01  
 **Purpose:** Keep the implementation focused while the LIMEN Helix system is made genuinely observable, domain-sovereign, economically closed-loop, and safe to continue improving.
 
+Supplemental provenance checkpoint (2026-10-01): all 27 missing nonbranch references now have actual local consumer/utility evidence. The existing read-only Execution Observatory shows absence, hand-authored fallback, interpretive state, source mode, configured paths and source-freshness uncertainty for the 18 affected domains. These browser layers cannot establish motor readiness or revenue. Two local modes and all 18 expanded browser disclosures passed; full suite 373 passed, one external-corpus skip, zero failed. Protected brains/source JSON remain unchanged. Next trace provenance into existing packet consumers; joined native outcomes, complete startup and production visibility remain unproved. Full goal remains NOT DONE; Google Docs remains deferred.
+
 ## The single objective
 
 Build and prove the smallest honest end-to-end autonomy spine for every sovereign domain:
