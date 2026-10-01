@@ -479,12 +479,23 @@
   // ══════════════════════════════════════════════════════════════════════
   // DRILL DEEPER BRANCH RESEARCH
   // ══════════════════════════════════════════════════════════════════════
-  var _branchIndex = null, _branchIndexFailed = false;
+  var _branchIndex = null;
+  var _branchIndexError = '';
+  var _branchIndexPath = '/assets/data/deep/trade-branch-index.json';
+
   function _loadBranchIndex() {
     if (_branchIndex) return Promise.resolve(_branchIndex);
-    if (_branchIndexFailed) return Promise.resolve(null);
-    return fetch('/assets/data/deep/trade-branch-index.json').then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}).then(function(d){_branchIndex=d;return d;}).catch(function(){_branchIndexFailed=true;return null;});
+    return fetch(_branchIndexPath)
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function (data) {
+        if (!data || !Array.isArray(data.branches)) throw new Error('invalid branch index: branches must be an array');
+        _branchIndexError = '';
+        _branchIndex = data;
+        return data;
+      })
+      .catch(function (error) { _branchIndexError = error && error.message || 'request failed'; return null; });
   }
+
   function renderDrillDeeper(opp) {
     if (!opp || !opp._omittedSiblingCount || opp._omittedSiblingCount <= 0) return '';
     var dir = opp._directive || {}; var drillId = 'drill-' + (++_deepToggleCounter);
@@ -495,7 +506,7 @@
     if (c.classList.contains('open')) { c.classList.remove('open'); return; }
     c.innerHTML = '<div style="color:#807868;padding:8px">Loading\u2026</div>'; c.classList.add('open');
     _loadBranchIndex().then(function(idx) {
-      if (!idx||!idx.branches){c.innerHTML='<div style="color:#807868;padding:8px">Unavailable</div>';return;}
+      if (!idx || !idx.branches) { c.innerHTML = '<div style="color:#807868;padding:8px">Branch index unavailable: ' + esc(_branchIndexPath) + ' (' + esc(_branchIndexError) + '). Close and reopen DRILL DEEPER to retry.</div>'; return; }
       var anc = ancestryStr?ancestryStr.split(','):[]; var root = anc.length>=2?anc[1]:'';
       var rel = []; for (var i=0;i<idx.branches.length;i++){var b=idx.branches[i];var s=0;if(b.nodeId===nodeId)s+=10;if(root&&b.ancestryPath&&b.ancestryPath.length>=2&&b.ancestryPath[1]===root)s+=5;if(s>0){b._rel=s+(b.richness||0);rel.push(b);}}
       rel.sort(function(a,b){return b._rel-a._rel;}); rel=rel.slice(0,20);

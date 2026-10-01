@@ -610,15 +610,20 @@
   // ══════════════════════════════════════════════════════════════════════
 
   var _branchIndex = null;
-  var _branchIndexFailed = false;
+  var _branchIndexError = '';
+  var _branchIndexPath = '/assets/data/deep/communication-branch-index.json';
 
   function _loadBranchIndex() {
     if (_branchIndex) return Promise.resolve(_branchIndex);
-    if (_branchIndexFailed) return Promise.resolve(null);
-    return fetch('/assets/data/deep/communication-branch-index.json')
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(function (data) { _branchIndex = data; return data; })
-      .catch(function () { _branchIndexFailed = true; return null; });
+    return fetch(_branchIndexPath)
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function (data) {
+        if (!data || !Array.isArray(data.branches)) throw new Error('invalid branch index: branches must be an array');
+        _branchIndexError = '';
+        _branchIndex = data;
+        return data;
+      })
+      .catch(function (error) { _branchIndexError = error && error.message || 'request failed'; return null; });
   }
 
   function renderDrillDeeper(opp) {
@@ -642,7 +647,7 @@
     container.classList.add('open');
 
     _loadBranchIndex().then(function (idx) {
-      if (!idx || !idx.branches) { container.innerHTML = '<div style="color:#807868;padding:8px">Branch index unavailable</div>'; return; }
+      if (!idx || !idx.branches) { container.innerHTML = '<div style="color:#807868;padding:8px">Branch index unavailable: ' + esc(_branchIndexPath) + ' (' + esc(_branchIndexError) + '). Close and reopen DRILL DEEPER to retry.</div>'; return; }
       var ancestry = ancestryStr ? ancestryStr.split(',') : [];
       var ancestryRoot = ancestry.length >= 2 ? ancestry[1] : '';
 
