@@ -1,0 +1,256 @@
+{
+  "level": "LOCAL/FIXTURE",
+  "externalFetches": false,
+  "injectedDiagnoses": false,
+  "injectedOpportunities": false,
+  "results": [
+    {
+      "scenario": "measured",
+      "upstreamRequests": [
+        "https://usdmdataservices.unl.edu/api/USStatistics/GetDroughtSeverityStatisticsByAreaPercent?aoi=us&startdate=9%2F17%2F2026&enddate=10%2F1%2F2026&statisticsType=1",
+        "https://www.cpc.ncep.noaa.gov/products/expert_assessment/sdo_summary.php"
+      ],
+      "sources": [
+        {
+          "name": "USDA Drought Monitor",
+          "value": 45,
+          "label": "45.0% CONUS in D2+ drought",
+          "channel": "stress",
+          "quality": 1,
+          "classification": "real",
+          "signalType": "structural",
+          "updated": 1790880028688,
+          "fetchedAt": 1790880028688,
+          "sourceUpdatedAt": "20260929",
+          "live": true,
+          "signal": "45.0% of CONUS in D2-D4 drought, 10.0% in D3-D4"
+        },
+        {
+          "name": "NOAA CPC Drought",
+          "value": 16,
+          "label": "CPC net drought intensification 16",
+          "channel": "stress",
+          "quality": 1,
+          "classification": "real",
+          "signalType": "structural",
+          "updated": 1790880028688,
+          "fetchedAt": 1790880028688,
+          "sourceUpdatedAt": "html-section-v1:noaa-cpc-drought|sha256:a652e9b6e0e04f1c7e23591a047a2a72f93b5a7b6079cfe16835e3df2015f558",
+          "live": true,
+          "signal": "CPC seasonal outlook: 16 intensification mentions, 0 improvement mentions"
+        }
+      ],
+      "stress": 0.77,
+      "stressBasis": "measured",
+      "lowSignal": false,
+      "packetId": "agriculture:2:fixture-upstream-agriculture-measured",
+      "diagnoses": 1,
+      "opportunities": 4,
+      "handoffs": [
+        {
+          "handoffId": "agriculture:2:fixture-upstream-agriculture-measured:research-papers:DROUGHT_researchable_t1",
+          "opportunityId": "DROUGHT_researchable_t1",
+          "lane": "research-papers",
+          "eligible": false
+        },
+        {
+          "handoffId": "agriculture:2:fixture-upstream-agriculture-measured:investments:DROUGHT_investable_t1",
+          "opportunityId": "DROUGHT_investable_t1",
+          "lane": "investments",
+          "eligible": false
+        },
+        {
+          "handoffId": "agriculture:2:fixture-upstream-agriculture-measured:investments:lagging_investable_t3",
+          "opportunityId": "lagging_investable_t3",
+          "lane": "investments",
+          "eligible": false
+        },
+        {
+          "handoffId": "agriculture:2:fixture-upstream-agriculture-measured:research-papers:lagging_researchable_t3",
+          "opportunityId": "lagging_researchable_t3",
+          "lane": "research-papers",
+          "eligible": false
+        }
+      ],
+      "nextBoundary": "native-agriculture-handoff-is-not-eligible-autofire-actor-candidate",
+      "providerCalled": false
+    },
+    {
+      "scenario": "invalid",
+      "upstreamRequests": [
+        "https://usdmdataservices.unl.edu/api/USStatistics/GetDroughtSeverityStatisticsByAreaPercent?aoi=us&startdate=9%2F17%2F2026&enddate=10%2F1%2F2026&statisticsType=1",
+        "https://www.cpc.ncep.noaa.gov/products/expert_assessment/sdo_summary.php"
+      ],
+      "sources": [
+        {
+          "name": "USDA Drought Monitor",
+          "value": null,
+          "label": "invalid cumulative D2/D3 percentages",
+          "channel": null,
+          "quality": 0,
+          "classification": "broken",
+          "signalType": "broken",
+          "updated": null,
+          "fetchedAt": 1790880028848,
+          "sourceUpdatedAt": null,
+          "live": false,
+          "failReason": "invalid cumulative D2/D3 percentages"
+        },
+        {
+          "name": "NOAA CPC Drought",
+          "value": 16,
+          "label": "CPC net drought intensification 16",
+          "channel": "stress",
+          "quality": 1,
+          "classification": "real",
+          "signalType": "structural",
+          "updated": 1790880028848,
+          "fetchedAt": 1790880028848,
+          "sourceUpdatedAt": "html-section-v1:noaa-cpc-drought|sha256:a652e9b6e0e04f1c7e23591a047a2a72f93b5a7b6079cfe16835e3df2015f558",
+          "live": true,
+          "signal": "CPC seasonal outlook: 16 intensification mentions, 0 improvement mentions"
+        }
+      ],
+      "stress": 0.3,
+      "stressBasis": "clamped",
+      "lowSignal": true,
+      "packetId": "agriculture:2:fixture-upstream-agriculture-invalid",
+      "diagnoses": 1,
+      "opportunities": 1,
+      "handoffs": [
+        {
+          "handoffId": "agriculture:2:fixture-upstream-agriculture-invalid:research-papers:DROUGHT_researchable_t1",
+          "opportunityId": "DROUGHT_researchable_t1",
+          "lane": "research-papers",
+          "eligible": false
+        }
+      ],
+      "nextBoundary": "native-agriculture-handoff-is-not-eligible-autofire-actor-candidate",
+      "providerCalled": false
+    },
+    {
+      "scenario": "zero",
+      "upstreamRequests": [
+        "https://usdmdataservices.unl.edu/api/USStatistics/GetDroughtSeverityStatisticsByAreaPercent?aoi=us&startdate=9%2F17%2F2026&enddate=10%2F1%2F2026&statisticsType=1",
+        "https://www.cpc.ncep.noaa.gov/products/expert_assessment/sdo_summary.php"
+      ],
+      "sources": [
+        {
+          "name": "USDA Drought Monitor",
+          "value": 0,
+          "label": "0.0% CONUS in D2+ drought",
+          "channel": "stress",
+          "quality": 1,
+          "classification": "real",
+          "signalType": "structural",
+          "updated": 1790880028931,
+          "fetchedAt": 1790880028931,
+          "sourceUpdatedAt": "20260929",
+          "live": true,
+          "signal": "0.0% of CONUS in D2-D4 drought, 0.0% in D3-D4"
+        },
+        {
+          "name": "NOAA CPC Drought",
+          "value": 16,
+          "label": "CPC net drought intensification 16",
+          "channel": "stress",
+          "quality": 1,
+          "classification": "real",
+          "signalType": "structural",
+          "updated": 1790880028931,
+          "fetchedAt": 1790880028931,
+          "sourceUpdatedAt": "html-section-v1:noaa-cpc-drought|sha256:a652e9b6e0e04f1c7e23591a047a2a72f93b5a7b6079cfe16835e3df2015f558",
+          "live": true,
+          "signal": "CPC seasonal outlook: 16 intensification mentions, 0 improvement mentions"
+        }
+      ],
+      "stress": 0.32,
+      "stressBasis": "measured",
+      "lowSignal": false,
+      "packetId": "agriculture:2:fixture-upstream-agriculture-zero",
+      "diagnoses": 1,
+      "opportunities": 1,
+      "handoffs": [
+        {
+          "handoffId": "agriculture:2:fixture-upstream-agriculture-zero:research-papers:DROUGHT_researchable_t1",
+          "opportunityId": "DROUGHT_researchable_t1",
+          "lane": "research-papers",
+          "eligible": false
+        }
+      ],
+      "nextBoundary": "native-agriculture-handoff-is-not-eligible-autofire-actor-candidate",
+      "providerCalled": false
+    },
+    {
+      "scenario": "recovery",
+      "upstreamRequests": [
+        "https://usdmdataservices.unl.edu/api/USStatistics/GetDroughtSeverityStatisticsByAreaPercent?aoi=us&startdate=9%2F17%2F2026&enddate=10%2F1%2F2026&statisticsType=1",
+        "https://www.cpc.ncep.noaa.gov/products/expert_assessment/sdo_summary.php"
+      ],
+      "sources": [
+        {
+          "name": "USDA Drought Monitor",
+          "value": 45,
+          "label": "45.0% CONUS in D2+ drought",
+          "channel": "stress",
+          "quality": 1,
+          "classification": "real",
+          "signalType": "structural",
+          "updated": 1790880029020,
+          "fetchedAt": 1790880029020,
+          "sourceUpdatedAt": "20260929",
+          "live": true,
+          "signal": "45.0% of CONUS in D2-D4 drought, 10.0% in D3-D4"
+        },
+        {
+          "name": "NOAA CPC Drought",
+          "value": 16,
+          "label": "CPC net drought intensification 16",
+          "channel": "stress",
+          "quality": 1,
+          "classification": "real",
+          "signalType": "structural",
+          "updated": 1790880029020,
+          "fetchedAt": 1790880029020,
+          "sourceUpdatedAt": "html-section-v1:noaa-cpc-drought|sha256:a652e9b6e0e04f1c7e23591a047a2a72f93b5a7b6079cfe16835e3df2015f558",
+          "live": true,
+          "signal": "CPC seasonal outlook: 16 intensification mentions, 0 improvement mentions"
+        }
+      ],
+      "stress": 0.77,
+      "stressBasis": "measured",
+      "lowSignal": false,
+      "packetId": "agriculture:2:fixture-upstream-agriculture-recovery",
+      "diagnoses": 1,
+      "opportunities": 4,
+      "handoffs": [
+        {
+          "handoffId": "agriculture:2:fixture-upstream-agriculture-recovery:research-papers:DROUGHT_researchable_t1",
+          "opportunityId": "DROUGHT_researchable_t1",
+          "lane": "research-papers",
+          "eligible": false
+        },
+        {
+          "handoffId": "agriculture:2:fixture-upstream-agriculture-recovery:investments:DROUGHT_investable_t1",
+          "opportunityId": "DROUGHT_investable_t1",
+          "lane": "investments",
+          "eligible": false
+        },
+        {
+          "handoffId": "agriculture:2:fixture-upstream-agriculture-recovery:investments:lagging_investable_t3",
+          "opportunityId": "lagging_investable_t3",
+          "lane": "investments",
+          "eligible": false
+        },
+        {
+          "handoffId": "agriculture:2:fixture-upstream-agriculture-recovery:research-papers:lagging_researchable_t3",
+          "opportunityId": "lagging_researchable_t3",
+          "lane": "research-papers",
+          "eligible": false
+        }
+      ],
+      "nextBoundary": "native-agriculture-handoff-is-not-eligible-autofire-actor-candidate",
+      "providerCalled": false
+    }
+  ]
+}
