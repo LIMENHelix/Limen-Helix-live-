@@ -3,7 +3,7 @@ const assert = require('node:assert/strict'), fs = require('node:fs'), path = re
 const Module = require('node:module'), acorn = require('acorn');
 const root = path.resolve(__dirname, '..'), filename = path.join(root, 'handlers/domain-snapshot.js');
 const mod = new Module(filename, module); mod.filename = filename; mod.paths = Module._nodeModulePaths(path.dirname(filename));
-mod._compile(fs.readFileSync(filename, 'utf8') + '\nmodule.exports.testBuildDomain = buildDomain;module.exports.testWBPopulation = fetchWorldBankPopulation;', filename);
+mod._compile(fs.readFileSync(filename, 'utf8') + '\nmodule.exports.testBuildDomain = buildDomain;module.exports.testWBPopulation = fetchWorldBankPopulation;module.exports.testWBInternetUsers = fetchWBInternetUsers;', filename);
 const H = mod.exports, Packet = require('../lib/civilization-server-packet.js'), Consumer = require('../lib/civilization-handoff-consumer.js');
 const harness = fs.readFileSync(path.join(__dirname, 'test-continuity-feed-spine.cjs'), 'utf8');
 const helper = acorn.parse(harness, { ecmaVersion: 'latest' }).body.find(n => n.type === 'FunctionDeclaration' && n.id.name === 'sandbox');
@@ -16,7 +16,11 @@ const profiles = [
   { domain: 'infrastructure', runtime: 'infrastructure', brain: 'LIMENInfrastructureBrain', first: 'World Bank Infrastructure', second: 'NOAA NWS Alerts',
     firstIndicator: 'IS.RRS.TOTL.KM', fetchFirst: H._fetchWorldBankInfra, fetchSecond: H._fetchNOAANWSAlerts, family: 'real-estate', blocker: 'exact-non-binding-property-interest-record-required' },
   { domain: 'population', runtime: 'population', brain: 'LIMENPopulationBrain', first: 'World Bank Population', second: 'World Bank Fertility',
-    firstIndicator: 'SP.POP.TOTL', fetchFirst: H.testWBPopulation, fetchSecond: H._fetchWorldBankFertility, family: 'real-estate', blocker: 'exact-non-binding-property-interest-record-required' }
+    firstIndicator: 'SP.POP.TOTL', fetchFirst: H.testWBPopulation, fetchSecond: H._fetchWorldBankFertility, family: 'real-estate', blocker: 'exact-non-binding-property-interest-record-required' },
+  { domain: 'communication', runtime: 'communication', brain: 'LIMENCommunicationBrain', first: 'BBC World News', second: 'World Bank Internet Users',
+    fetchFirst: H._fetchBBCWorldNews, fetchSecond: H.testWBInternetUsers, family: 'social', blocker: 'candidate-identity-missing' },
+  { domain: 'intelligence', runtime: 'intelligence', brain: 'LIMENIntelligenceBrain', first: 'CISA Advisories', second: 'CISA KEV',
+    fetchFirst: H._fetchCISAAdvisories, fetchSecond: H._fetchCISAKEV, family: 'autopilot', blocker: 'exact-lead-email-action-required' }
 ];
 const originalFetch = global.fetch;
 (async () => {
@@ -25,12 +29,16 @@ const originalFetch = global.fetch;
     H._resetBLSRequestState(); const requests = [];
     global.fetch = async url => {
       const u = String(url); requests.push(u); let body;
-      if (u.includes('api.bls.gov')) body = { status: 'REQUEST_SUCCEEDED', Results: { series: scenario === 'first-source-unavailable' ? [] :
+      if (u === 'https://feeds.bbci.co.uk/news/world/rss.xml' || u === 'https://www.cisa.gov/cybersecurity-advisories/all.xml') {
+        body = scenario === 'first-source-unavailable' ? '' : '<rss><channel>' + Array.from({ length: 20 }, (_, i) =>
+          '<item><title>LOCAL/FIXTURE critical ICS advisory ' + i + '</title><link>https://fixture.invalid/item/' + i + '</link><pubDate>' + new Date().toUTCString() + '</pubDate></item>').join('') + '</channel></rss>';
+      }
+      else if (u.includes('api.bls.gov')) body = { status: 'REQUEST_SUCCEEDED', Results: { series: scenario === 'first-source-unavailable' ? [] :
         [{ seriesID: p.series, data: [{ year: '2026', period: 'M09', value: '150' }] }] } };
       else if (u.includes('api.worldbank.org')) {
         const missing = scenario === 'first-source-unavailable' && p.firstIndicator && u.includes(p.firstIndicator);
         const fertility = u.includes('SP.DYN.TFRT.IN');
-        body = [{ page: 1 }, [{ date: '2024', value: missing ? null : fertility ? 1.5 : p.domain === 'population' ? 340000000 : 8 },
+        body = [{ page: 1 }, [{ date: '2024', value: missing ? null : fertility ? 1.5 : p.domain === 'population' ? 340000000 : p.domain === 'communication' ? 35 : 8 },
           { date: '2023', value: missing ? null : fertility ? 1.6 : 9 }]];
       }
       else if (u.includes('api.weather.gov')) body = { updated: new Date().toISOString(), features:
@@ -38,7 +46,7 @@ const originalFetch = global.fetch;
       else { assert(u.includes('www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json'));
         body = { catalogVersion: 'LOCAL-FIXTURE', count: 18, dateReleased: new Date().toISOString(), vulnerabilities:
           Array.from({ length: 18 }, (_, i) => ({ cveID: 'CVE-2026-' + (2000 + i), dateAdded: new Date().toISOString().slice(0, 10), knownRansomwareCampaignUse: 'Known' })) }; }
-      return { ok: true, status: 200, json: async () => body };
+      return { ok: true, status: 200, json: async () => body, text: async () => body };
     };
     const first = await p.fetchFirst(), second = await p.fetchSecond(); assert(second);
     assert.equal(first === null, scenario === 'first-source-unavailable');
@@ -71,7 +79,9 @@ const originalFetch = global.fetch;
     const checks = [];
     for (const opportunity of packet.truth.opportunities) {
       const refusal = await Decision.decide(store, opportunity, Date.parse(packet.generatedAt));
-      assert.equal(refusal.status, 'NO_ACTION'); assert.deepEqual(refusal.blockers, [p.blocker]); assert.equal(refusal.providerCalled, false);
+      assert.equal(refusal.status, 'NO_ACTION'); assert.deepEqual(refusal.blockers, [p.blocker]);
+      if (p.domain === 'communication') { assert.equal(refusal.released, false); assert.equal(refusal.liveMoney, false); }
+      else assert.equal(refusal.providerCalled, false);
       checks.push({ opportunityId: opportunity.id, blockers: refusal.blockers });
     }
     assert.equal((await consumer.consumePacket(packet)).handoffsCreated, 0); assert.equal(JSON.stringify(Array.from(values)), before);
