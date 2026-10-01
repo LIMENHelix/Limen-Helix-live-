@@ -84,6 +84,17 @@ The P0–P10 extract and the live-link inventory were readable local source file
 
 ## Work sequence
 
+### Recovery checkpoint — 2026-10-01
+
+- Resumed the clean `codex/all-domain-e2e` worktree at `fdc03171`; the canonical checkout remains untouched. Its HEAD matches the control task's candidate base, while the original archival baseline still reports a HEAD mismatch and unchanged fingerprints for all 79 paused files.
+- Reproduced the spider-web producer/Redis/queue/autofire contract with 11 local assertions. This proves a fixture-backed signal handoff, not provider execution or production learning.
+- Corrected the Execution Observatory: normalized learning credit is shown separately and cannot populate the revenue stage. Revenue remains `UNOBSERVED` because this read surface has no independently verified revenue record.
+- Failed cognition/audit refreshes now discard cached readiness together; a later successful refresh restores the evidence. Partial endpoint success cannot silently restore readiness after the other endpoint fails.
+- Protected brain, phase, portal, provider and production configuration components remain unchanged. Google Docs implementation stays deferred until this goal's definition of done is met.
+- Next unproven work: enumerate each domain's first safe blocker and bidirectional outcome/learning evidence, then reconcile the route inventory. The current capability audit alone does not establish all definition-of-done items.
+- Saved the source-only 20-domain boundary snapshot and route reconciliation under `docs/audits/continuity-*`. Route counts match the supplied source; all 27 broken links have 56 local file/line references. Legacy retirement and data-only classifications remain explicit provenance gaps. No live crawl or route replacement is claimed.
+- Checkpoint validation: repository/harness passed; full suite 360 passed, 1 skipped (external corpus unavailable), 0 failed; coordination tests 17/17 passed. This remains an active goal, not a claim of all-domain production autonomy or completed Google Docs adoption.
+
 1. Read the current control record, task scope, working tree, and this document.
 2. Inventory one domain's complete causal path from input to returned learning.
 3. Identify the first missing transition with exact file, route, state key, and owner.

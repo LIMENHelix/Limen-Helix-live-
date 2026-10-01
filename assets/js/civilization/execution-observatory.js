@@ -102,7 +102,8 @@
     var lanes = laneCounts(packet);
     var serverSeen = !!entry;
     var observed = !!(learning.latestSignalId || social.latestSignalId);
-    var revenue = social.normalizedCredit != null ? 'CREDIT ' + social.normalizedCredit : (observed ? 'OBSERVED' : 'UNOBSERVED');
+    // Learning credit and outcome signals do not establish earned revenue.
+    var revenue = 'UNOBSERVED';
     var blockers = arr(receipt.blockers).concat(capability.reason ? [capability.reason] : []).concat(valve.reason ? [valve.reason] : []);
     var externallyReady = capability.verified === true && valve.eligible === true && gates.mayDispatchExternal === true;
     var stateLabel = !serverSeen ? 'UNOBSERVED' : externallyReady ? 'EXTERNAL-READY' : capability.verified === true ? 'CAPABILITY-VERIFIED' : blockers.length ? 'HELD' : 'PAPER';
@@ -166,7 +167,7 @@
         chainItem('COMMAND', command, command === 'PREPARE' ? 'ready' : command === 'UNOBSERVED' ? 'unobserved' : 'held') +
         chainItem('RECEIPT', receipt, receipt === 'EXECUTOR_PENDING' ? 'pending' : receipt === 'HELD' ? 'held' : 'persisted') +
         chainItem('OBSERVED', observation, row.observed ? 'observed' : 'unobserved') +
-        chainItem('REVENUE', row.revenue, row.social.normalizedCredit != null ? 'credit' : row.observed ? 'observed' : 'unobserved') +
+        chainItem('REVENUE', row.revenue, 'unobserved') +
       '</div>' +
       '<div class="exo-facts">' +
         '<span>executor <b>' + esc(yes(row.capability.executorVerified)) + '</b></span>' +
@@ -174,6 +175,7 @@
         '<span>external valve <b>' + esc(row.valve.eligible === true ? 'ELIGIBLE' : 'HELD') + '</b></span>' +
         '<span>packet <b>' + esc(row.packetPersist.ok === true ? 'PERSISTED' : 'HELD') + '</b></span>' +
         '<span>commercial reflex <b>' + esc(row.commercial.status || 'UNOBSERVED') + '</b></span>' +
+        '<span>learning credit <b>' + esc(row.social.normalizedCredit == null ? 'UNOBSERVED' : row.social.normalizedCredit) + '</b> (not revenue)</span>' +
       '</div>' +
       '<div class="exo-blockers"><span>WHY THIS IS NOT AUTONOMOUSLY EXTERNAL:</span> ' + esc(blockers) + '</div>' +
       '</article>';
@@ -231,16 +233,22 @@
     state.loading = true;
     render();
     return Promise.all([
-      api('/api/brain-cognition').then(function (data) {
-        state.cognition = data && data.cognition || {};
-        state.cognitionCount = n(data && data.count);
-        state.cognitionTs = data && data.newest || 0;
-      }),
-      api('/api/limen-autofire-log?limit=50').then(function (data) { state.autofire = data || {}; })
-    ]).then(function () {
+      api('/api/brain-cognition'),
+      api('/api/limen-autofire-log?limit=50')
+    ]).then(function (results) {
+      var data = results[0];
+      state.cognition = data && data.cognition || {};
+      state.cognitionCount = n(data && data.count);
+      state.cognitionTs = data && data.newest || 0;
+      state.autofire = results[1] || {};
       state.error = null;
     }).catch(function (error) {
       state.error = String(error && error.message || error);
+      // A failed read cannot continue to advertise previously cached readiness.
+      state.cognition = {};
+      state.cognitionCount = 0;
+      state.cognitionTs = 0;
+      state.autofire = null;
     }).then(function () {
       state.loading = false;
       state.lastRefreshAt = Date.now();

@@ -1,0 +1,835 @@
+{
+  "schemaVersion": "product-domain-business-executor-audit/1.2",
+  "measuredAt": "2026-10-01T15:40:28.654Z",
+  "readOnly": true,
+  "semantics": {
+    "executor": "production code imports product-domain motor authorization and binds an exact owner/lane before the effect",
+    "receipt": "the effect path records a provider or broker identity; strength states whether strict durability is established",
+    "observer": "a separate path can measure an external result; self-reported send/publish success is not an independent outcome",
+    "brain": "the owning product brain has its own complete core, authority parity, identity, and explicit opportunity routing where applicable; no external provider is required",
+    "businessMotor": "the outward lane has a domain-bound executor, durable receipt, independent observer, rollback, and switch/budget enforcement",
+    "businessCapability": "a separate product-domain executor and independent-observer capability pair has been verified from actual lane evidence",
+    "ready": "business motor source chain complete plus business capability verification plus both external switches enabled; this is not the brain completion criterion"
+  },
+  "summary": {
+    "domains": 20,
+    "contractsDeclared": 20,
+    "domainBoundExecutorsImplemented": 19,
+    "actionReceiptsImplemented": 19,
+    "independentOutcomeObserversImplemented": 19,
+    "domainAuthorizedRollbacksImplemented": 19,
+    "sourceChainsComplete": 19,
+    "brainContractComplete": 20,
+    "businessMotorCapabilityVerified": 0,
+    "businessMotorReady": 0,
+    "productionVerifiedByDomain": 0,
+    "autonomousExternalReady": 0
+  },
+  "laneSurfaces": [
+    {
+      "lane": "research-papers",
+      "filesPresent": true,
+      "files": [
+        "handlers/limen-worker-autofire.js",
+        "handlers/limen-outcome-observer.js"
+      ],
+      "status": "INTERNAL_ARTIFACT_AND_PUBLICATION_RECEIPT_ONLY",
+      "warning": "surface presence does not establish domain binding, receipt durability, outcome independence, or authority"
+    },
+    {
+      "lane": "investments",
+      "filesPresent": true,
+      "files": [
+        "handlers/economy-investment-cycle.js",
+        "handlers/economy-investment-outcome-observer.js",
+        "handlers/energy-investment-cycle.js",
+        "handlers/energy-investment-outcome-observer.js",
+        "handlers/technology-investment-cycle.js",
+        "handlers/technology-investment-outcome-observer.js"
+      ],
+      "status": "DOMAIN_BOUND_PAPER_EXECUTORS_ECONOMY_ENERGY_AND_TECHNOLOGY",
+      "warning": "surface presence does not establish domain binding, receipt durability, outcome independence, or authority"
+    },
+    {
+      "lane": "publication",
+      "filesPresent": true,
+      "files": [
+        "handlers/defense-publication-cycle.js",
+        "handlers/defense-publication-public.js",
+        "handlers/defense-publication-outcome-observer.js"
+      ],
+      "status": "DOMAIN_BOUND_EXECUTOR",
+      "warning": "surface presence does not establish domain binding, receipt durability, outcome independence, or authority"
+    },
+    {
+      "lane": "social",
+      "filesPresent": true,
+      "files": [
+        "handlers/social-cron.js",
+        "lib/social-post.js"
+      ],
+      "status": "DOMAIN_BOUND_EXECUTOR",
+      "warning": "surface presence does not establish domain binding, receipt durability, outcome independence, or authority"
+    },
+    {
+      "lane": "subscriber-email",
+      "filesPresent": true,
+      "files": [
+        "handlers/subscriber-digest.js",
+        "lib/crm-send.js"
+      ],
+      "status": "DOMAIN_BOUND_EXECUTOR",
+      "warning": "surface presence does not establish domain binding, receipt durability, outcome independence, or authority"
+    },
+    {
+      "lane": "automail",
+      "filesPresent": true,
+      "files": [
+        "handlers/homestead-automail.js"
+      ],
+      "status": "DOMAIN_BOUND_EXECUTOR",
+      "warning": "surface presence does not establish domain binding, receipt durability, outcome independence, or authority"
+    },
+    {
+      "lane": "autopilot",
+      "filesPresent": true,
+      "files": [
+        "handlers/autopilot.js"
+      ],
+      "status": "DOMAIN_BOUND_EXECUTOR",
+      "warning": "surface presence does not establish domain binding, receipt durability, outcome independence, or authority"
+    },
+    {
+      "lane": "hero-image",
+      "filesPresent": true,
+      "files": [
+        "handlers/hero-image.js"
+      ],
+      "status": "DOMAIN_BOUND_EXECUTOR",
+      "warning": "surface presence does not establish domain binding, receipt durability, outcome independence, or authority"
+    },
+    {
+      "lane": "auction",
+      "filesPresent": true,
+      "files": [
+        "handlers/trade-auction-cycle.js",
+        "handlers/trade-auction-outcome-observer.js"
+      ],
+      "status": "DOMAIN_BOUND_EXECUTOR",
+      "warning": "surface presence does not establish domain binding, receipt durability, outcome independence, or authority"
+    },
+    {
+      "lane": "homestead",
+      "filesPresent": true,
+      "files": [
+        "handlers/homestead.js",
+        "handlers/homestead-status.js",
+        "handlers/homestead-validation.js"
+      ],
+      "status": "INDEPENDENT_PROPERTY_AVAILABILITY_CATALOG",
+      "warning": "surface presence does not establish domain binding, receipt durability, outcome independence, or authority"
+    },
+    {
+      "lane": "crm",
+      "filesPresent": true,
+      "files": [
+        "handlers/industry-crm-cycle.js",
+        "handlers/industry-crm-outcome-observer.js"
+      ],
+      "status": "DOMAIN_BOUND_EXECUTOR",
+      "warning": "surface presence does not establish domain binding, receipt durability, outcome independence, or authority"
+    },
+    {
+      "lane": "real-estate",
+      "filesPresent": true,
+      "files": [
+        "handlers/infrastructure-real-estate-cycle.js",
+        "handlers/infrastructure-real-estate-inbound.js",
+        "handlers/infrastructure-real-estate-recovery.js"
+      ],
+      "status": "DOMAIN_BOUND_EXECUTOR",
+      "warning": "surface presence does not establish domain binding, receipt durability, outcome independence, or authority"
+    },
+    {
+      "lane": "broker/order",
+      "filesPresent": true,
+      "files": [
+        "lib/finance-paper-executor.js",
+        "lib/tradier-b14.js"
+      ],
+      "status": "DOMAIN_BOUND_SANDBOX_EXECUTOR",
+      "warning": "surface presence does not establish domain binding, receipt durability, outcome independence, or authority"
+    }
+  ],
+  "domains": [
+    {
+      "productDomain": "agriculture",
+      "runtimeOwner": "agriculture",
+      "lane": "opportunities",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": false,
+      "actionReceiptImplemented": false,
+      "actionReceiptStrength": "NONE",
+      "independentOutcomeObserverImplemented": false,
+      "observerScope": "NONE",
+      "domainAuthorizedRollbackImplemented": false,
+      "rollbackNote": "no exact domain-bound executor exists",
+      "switchAndBudgetEnforcedInExecutor": false,
+      "sourceChainComplete": false,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": {
+        "investment": "finance:broker-order",
+        "research": "science:research-papers",
+        "homestead": null,
+        "implemented": true
+      },
+      "gaps": [
+        "domain-bound-production-executor-missing",
+        "executor-action-receipt-missing-or-insufficient",
+        "independent-outcome-observer-missing",
+        "domain-authorized-rollback-missing",
+        "executor-switch-or-budget-enforcement-missing",
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    },
+    {
+      "productDomain": "communication",
+      "runtimeOwner": "communication",
+      "lane": "social",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_IDEMPOTENT_PLATFORM_COMMAND_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "PUBLIC_APPVIEW_ENGAGEMENT_SNAPSHOT",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "fresh Communication motor authorization claims one identity-bound delete command after independent presence observation and verifies public absence through AppView",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": true,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain"
+      ]
+    },
+    {
+      "productDomain": "culture",
+      "runtimeOwner": "culture",
+      "lane": "hero-image",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_B10_B14_ONE_SHOT_ASSET_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "PUBLIC_ASSET_BYTES_CONTENT_TYPE_AND_HASH",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "fresh Culture motor authority suppresses the identity-bound asset from LIMEN public catalogs and records independent public absence; provider-host deletion is not claimed",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    },
+    {
+      "productDomain": "defense",
+      "runtimeOwner": "defense",
+      "lane": "publication",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_B10_B14_OWNED_PUBLIC_ARTICLE_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "PUBLIC_ARTICLE_PRESENCE_AND_ANONYMOUS_SOURCE_LINK_ENGAGEMENT",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "fresh Defense publication motor unpublishes the exact article, suppresses its source fingerprint, and independently verifies the public route returns absence",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    },
+    {
+      "productDomain": "economy",
+      "runtimeOwner": "economy",
+      "lane": "investments",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_B10_B14_DOMAIN_OWNED_PAPER_BROKER_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "ECONOMY_PAPER_30_60_90_INDEPENDENT_ACCOUNT_AND_MARKET_RESOLUTION",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "fresh Economy recovery authority cancels an unfilled paper order or submits an identity-bound opposite-side close for measured filled exposure",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    },
+    {
+      "productDomain": "education",
+      "runtimeOwner": "education",
+      "lane": "research-papers",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_B14_COMMAND_AND_ARTIFACT_READBACK_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "EXTERNAL_EVALUATION_INPUT_GATED",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "explicit source-separated Education retraction evidence can create an Education-authorized identity-bound durable withdrawal command with strict artifact and receipt readback",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    },
+    {
+      "productDomain": "energy",
+      "runtimeOwner": "energy",
+      "lane": "investments",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_B10_B14_DOMAIN_OWNED_PAPER_BROKER_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "ENERGY_PAPER_30_60_90_INDEPENDENT_ACCOUNT_AND_MARKET_RESOLUTION",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "fresh Energy recovery authority cancels an unfilled paper order or submits an identity-bound opposite-side close for measured filled exposure",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    },
+    {
+      "productDomain": "environment",
+      "runtimeOwner": "environment",
+      "lane": "research-papers",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_B14_COMMAND_AND_ARTIFACT_READBACK_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "EXTERNAL_EVALUATION_INPUT_GATED",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "explicit source-separated Environment retraction evidence can create an Environment-authorized identity-bound durable withdrawal command with strict artifact and receipt readback",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    },
+    {
+      "productDomain": "finance",
+      "runtimeOwner": "finance",
+      "lane": "broker/order",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_IDEMPOTENT_SANDBOX_COMMAND_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "PAPER_30_60_90_PENDING_ELIGIBLE_COMMAND_AND_HORIZON",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "sandbox cancel is identity-bound and separately receipted",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    },
+    {
+      "productDomain": "governance",
+      "runtimeOwner": "governance",
+      "lane": "publication",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_B10_B14_OWNED_PUBLIC_ARTICLE_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "PUBLIC_ARTICLE_PRESENCE_AND_ANONYMOUS_SOURCE_LINK_ENGAGEMENT",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "fresh Governance publication motor unpublishes the exact article, suppresses its source fingerprint, and independently verifies the public route returns absence",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    },
+    {
+      "productDomain": "industry",
+      "runtimeOwner": "industry",
+      "lane": "crm",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_B10_B14_HUBSPOT_COMPANY_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "HUBSPOT_COMPANY_LIFECYCLE_HISTORY",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "fresh Industry motor archives the exact HubSpot company, independently verifies archived state, and suppresses replay of that WARN/company identity",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    },
+    {
+      "productDomain": "infrastructure",
+      "runtimeOwner": "infrastructure",
+      "lane": "real-estate",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_B10_B14_NON_BINDING_PROPERTY_INQUIRY_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "RESEND_SIGNED_INBOUND_COUNTERPARTY_RESPONSE_UNCLASSIFIED_ZERO_CREDIT",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "fresh Infrastructure real-estate motor suppresses the exact counterparty/property pair; the prior inquiry is explicitly non-binding and cannot create a contract or funds-transfer authority",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    },
+    {
+      "productDomain": "intelligence",
+      "runtimeOwner": "intelligence",
+      "lane": "autopilot",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_B10_B14_IDEMPOTENT_EMAIL_ACCEPTANCE_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "RESEND_READ_API_MAIL_SERVER_LAST_EVENT",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "fresh Intelligence motor suppresses future delivery after negative independent outcome or policy trigger; prior email is irreversible",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    },
+    {
+      "productDomain": "law",
+      "runtimeOwner": "law",
+      "lane": "automail",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_B10_B14_IDEMPOTENT_LOB_ACCEPTANCE_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "LOB_EXACT_LETTER_READ_RENDER_AND_EXPECTED_DELIVERY_STATE",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "separate fresh Law motor may cancel an exact observed Lob letter inside the provider cancellation window and independently verify deleted state; otherwise residual physical production is explicit",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    },
+    {
+      "productDomain": "medicine",
+      "runtimeOwner": "health",
+      "lane": "research-papers",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_B14_COMMAND_AND_ARTIFACT_READBACK_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "EXTERNAL_EVALUATION_INPUT_GATED",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "explicit source-separated retraction evidence can create an identity-bound durable withdrawal command with strict artifact and receipt readback",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    },
+    {
+      "productDomain": "population",
+      "runtimeOwner": "population",
+      "lane": "real-estate",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_B10_B14_NON_BINDING_PROPERTY_INQUIRY_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "RESEND_SIGNED_INBOUND_COUNTERPARTY_RESPONSE_UNCLASSIFIED_ZERO_CREDIT",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "fresh Population real-estate motor suppresses the exact counterparty/property pair; the prior inquiry is explicitly non-binding and cannot create a contract or funds-transfer authority",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    },
+    {
+      "productDomain": "religion",
+      "runtimeOwner": "religion",
+      "lane": "subscriber-email",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_CAPPED_IDEMPOTENT_EMAIL_ACCEPTANCE_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "RESEND_READ_API_MAIL_SERVER_LAST_EVENT",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "fresh Religion motor authority suppresses future delivery after a negative independent outcome or policy trigger; prior email is explicitly irreversible and no recall is claimed",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    },
+    {
+      "productDomain": "science",
+      "runtimeOwner": "research",
+      "lane": "research-papers",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_B14_COMMAND_AND_ARTIFACT_READBACK_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "EXTERNAL_EVALUATION_INPUT_GATED",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "explicit source-separated retraction evidence can create an identity-bound durable withdrawal command with strict artifact and receipt readback",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    },
+    {
+      "productDomain": "technology",
+      "runtimeOwner": "technology",
+      "lane": "investments",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_B10_B14_DOMAIN_OWNED_PAPER_BROKER_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "TECHNOLOGY_PAPER_30_60_90_INDEPENDENT_ACCOUNT_AND_MARKET_RESOLUTION",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "fresh Technology recovery authority cancels an unfilled paper order or submits an identity-bound opposite-side close for measured filled exposure",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    },
+    {
+      "productDomain": "trade",
+      "runtimeOwner": "supplyChain",
+      "lane": "auction",
+      "contractsDeclared": true,
+      "domainBoundExecutorImplemented": true,
+      "actionReceiptImplemented": true,
+      "actionReceiptStrength": "DURABLE_B10_B14_OWNED_MARKETPLACE_LISTING_RECEIPT",
+      "independentOutcomeObserverImplemented": true,
+      "observerScope": "PUBLIC_OWNED_MARKETPLACE_LISTING_PRESENCE_ZERO_CREDIT_NO_ORDER_OR_SALE",
+      "domainAuthorizedRollbackImplemented": true,
+      "rollbackNote": "fresh Trade auction motor closes the exact owned-marketplace listing, suppresses the asset identity, and independently verifies public absence; no order, payment, or binding sale is authorized",
+      "switchAndBudgetEnforcedInExecutor": true,
+      "sourceChainComplete": true,
+      "brainContractComplete": true,
+      "brain": {
+        "complete": true,
+        "coreComplete": true,
+        "authorityParityComplete": true,
+        "identityMatches": true,
+        "opportunityRoutingComplete": true
+      },
+      "businessMotorCapabilityVerified": false,
+      "externalEnabled": false,
+      "businessMotorReady": false,
+      "productionVerifiedByDomain": false,
+      "autonomousExternalReady": false,
+      "opportunityRouting": null,
+      "gaps": [
+        "executor-and-observer-not-production-verified-by-domain",
+        "external-domain-switches-off"
+      ]
+    }
+  ]
+}
