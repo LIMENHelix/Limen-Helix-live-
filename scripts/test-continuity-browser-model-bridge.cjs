@@ -102,6 +102,27 @@ function check(profile, index) {
     preferred.emit(domain, { ...state, [rootField]: { identity: { diagnosisId: 'root-must-not-replace-model-packet' } } });
     assert.deepEqual(clone(preferred.window.LIMENCivilizationAdapter.rebuildNow()[domain].deepBrain.domainDiagnosisPacket), diagnosisPacket, 'Existing model packet precedence retained');
   }
+  if (domain === 'law') {
+    const circular = runtime();
+    const auditPacket = { identity: { diagnosisId: 'cycle-transport-fixture' }, audit: {} };
+    const auditModel = { cycle: 1, domainDiagnosisPacket: auditPacket };
+    auditPacket.audit.lawModel = auditModel;
+    const shared = { retained: 'ordinary sibling alias' };
+    auditPacket.sharedA = shared; auditPacket.sharedB = shared;
+    auditPacket['a/b~'] = {}; auditPacket['a/b~'].self = auditPacket['a/b~'];
+    auditPacket.array = []; auditPacket.array.push(auditPacket.array);
+    circular.emit(domain, { ...state, [stateField]: auditModel });
+    const transported = JSON.parse(JSON.stringify(circular.window.LIMENCivilizationAdapter.rebuildNow()[domain]));
+    const projected = transported.deepBrain.domainDiagnosisPacket;
+    assert.deepEqual(projected.audit.lawModel.domainDiagnosisPacket, { $limenObservationRef: '#/domainDiagnosisPacket', $limenObservationRoot: 'deepBrain' });
+    assert.deepEqual(projected.sharedA, shared); assert.deepEqual(projected.sharedB, shared);
+    assert.equal(projected['a/b~'].self.$limenObservationRef, '#/domainDiagnosisPacket/a~1b~0');
+    assert.equal(projected.array[0].$limenObservationRef, '#/domainDiagnosisPacket/array');
+    assert.equal(auditModel.domainDiagnosisPacket, auditPacket, 'Native model graph is not rewritten');
+    assert.equal(auditPacket.audit.lawModel, auditModel, 'Native audit graph is not rewritten');
+    assert.deepEqual(transported.truth.opportunities, []);
+    assert.equal(circular.window.LIMENMainBrainHandoff.recompute().totalPackets, 0);
+  }
   return { domain, stateField, payloadField, packetPreserved: true, canonicalArraysUnchanged: true,
     handoffs: 0, ttlRespected: true, absenceReplaced: true };
 }

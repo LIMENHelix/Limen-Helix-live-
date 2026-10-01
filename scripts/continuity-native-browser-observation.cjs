@@ -25,6 +25,20 @@ function clone(value, seen = new Map()) {
   for (const key of Object.keys(value)) out[key] = clone(value[key], seen);
   return out;
 }
+function jsonGraph(value, seen = new Map()) {
+  if (value == null) return value;
+  if (typeof value === 'number' && !Number.isFinite(value)) return null;
+  if (typeof value !== 'object') return typeof value === 'function' ? undefined : value;
+  if (seen.has(value)) return seen.get(value);
+  const out = Array.isArray(value) ? [] : {};
+  seen.set(value, out);
+  for (const key of Object.keys(value)) {
+    const child = jsonGraph(value[key], seen);
+    if (child !== undefined) out[key] = child;
+    else if (Array.isArray(value)) out[key] = null;
+  }
+  return out;
+}
 exports.observe = function (event) {
   const { domainId, state } = event.detail;
   const before = clone(state), listeners = new Map();
@@ -43,6 +57,24 @@ exports.observe = function (event) {
   assert.deepEqual(clone(slot.brainOpportunities), clone(state.opportunities));
   const packet = window.LIMENCivilizationAdapter.rebuildNow()[domainId];
   assert(packet, domainId + ': actual packet reader must observe owner');
+  assert.doesNotThrow(function () { JSON.stringify(packet); }, domainId + ': native browser observation packet must be serializable');
+  const restored = JSON.parse(JSON.stringify(packet.deepBrain));
+  let cycleReferences = 0;
+  function resolveReferences(node) {
+    if (!node || typeof node !== 'object') return;
+    for (const key of Object.keys(node)) {
+      const item = node[key];
+      if (item && item.$limenObservationRoot === 'deepBrain' && typeof item.$limenObservationRef === 'string') {
+        assert.equal(Object.keys(item).length, 2, 'Cycle pointer is explicitly scoped, not fabricated model data');
+        assert.ok(item.$limenObservationRef === '#' || item.$limenObservationRef.startsWith('#/'));
+        node[key] = item.$limenObservationRef.slice(2).split('/').filter(Boolean).reduce((target, segment) =>
+          target[segment.replace(/~1/g, '/').replace(/~0/g, '~')], restored);
+        assert.ok(node[key], 'Cycle pointer resolves inside the observation envelope');
+        cycleReferences++;
+      } else resolveReferences(item);
+    }
+  }
+  resolveReferences(restored);
   assert.deepEqual(clone(packet.truth.opportunities), clone(state.opportunities));
   const profile = models[domainId];
   const model = profile && state[profile[0]];
@@ -51,10 +83,10 @@ exports.observe = function (event) {
   if (profile) {
     assert.deepEqual(clone(slot[profile[1]]), model && typeof model === 'object' && !Array.isArray(model) ? clone(model) : null);
     assert.equal(!!packet.deepBrain, !!model, domainId + ': actual model presence must survive');
-    if (model && model.domainDiagnosisPacket) assert.deepEqual(clone(packet.deepBrain.domainDiagnosisPacket), clone(model.domainDiagnosisPacket));
+    if (model && model.domainDiagnosisPacket) assert.deepEqual(clone(restored.domainDiagnosisPacket), jsonGraph(model.domainDiagnosisPacket));
     if (rootPacket) {
       assert.ok(packet.deepBrain.domainDiagnosisPacket, domainId + ': separately stored native diagnosis packet is missing');
-      assert.deepEqual(clone(packet.deepBrain.domainDiagnosisPacket), clone(rootPacket), domainId + ': actual separately stored native diagnosis packet must reach the existing observation envelope');
+      assert.deepEqual(clone(restored.domainDiagnosisPacket), jsonGraph(rootPacket), domainId + ': actual separately stored native diagnosis packet must reach the existing observation envelope');
     }
   } else assert.equal(packet.deepBrain, null, 'Absent domain-specific reader cannot fabricate a model');
   assert.deepEqual(clone(state), before, 'Observation must not mutate native brain state');
@@ -65,5 +97,6 @@ exports.observe = function (event) {
     firstObservationBoundary: !profile ? 'no-existing-domain-specific-model-reader' : !model ? 'native-cycle-produced-no-model' :
       !packet.deepBrain.domainDiagnosisPacket ? 'native-model-produced-no-diagnosis-packet' : 'native-diagnosis-packet-observed',
     decision: slot.decision ? clone(slot.decision) : null, motorExecutionProven: false, externalRequests: 0,
+    jsonRoundTrip: true, cycleReferences: cycleReferences, diagnosticGraphRestored: true,
     sources: files.map(file => ({ file, sha256: crypto.createHash('sha256').update(fs.readFileSync(path.join(__dirname, '..', file))).digest('hex') })) };
 };

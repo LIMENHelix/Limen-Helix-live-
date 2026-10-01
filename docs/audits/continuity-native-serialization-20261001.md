@@ -1,0 +1,17 @@
+# Native browser observation JSON transport
+
+Level: LOCAL/NATIVE FIXTURE. Full goal remains NOT COMPLETE; Google Docs deferred.
+
+The actual native Law cycle produces a diagnosis packet whose audit contains its owning Law model; that model points back to the same packet. Passing the actual emitted event through the existing browser adapters preserved the graph in memory but `JSON.stringify` of the resulting packet failed. The native twenty-domain regression reproduced that exact serialization failure without injected diagnoses, opportunities or models.
+
+The existing Civilization packet reader now projects only its deepBrain observation envelope through ordinary JSON serialization. Cyclic references become explicit markers with `$limenObservationRef` and `$limenObservationRoot: "deepBrain"`. The reference is a JSON pointer scoped to that envelope, not a new observation, source, decision, command or readiness claim. Acyclic sibling aliases retain ordinary duplicated JSON values; undefined fields follow normal JSON behavior. Canonical truth arrays and source brain graphs are untouched. Protected diagnosis builders and neurology remain unchanged.
+
+All twenty actual native fixture packets now serialize and round-trip. Thirteen retain their existing domain model diagnosis packets. The test resolves the markers within the envelope and compares the restored JSON diagnostic graph with the original, including native blockers, warnings and model audit. Law has one back-reference; the other nineteen have none. A separate focused fixture exercises model/packet cycles, circular arrays, pointer escaping for slash/tilde keys, repeated acyclic siblings, no source mutation and zero fabricated handoffs. All existing ownership, TTL, absent replacement, model precedence and supplemental canonical transport checks pass.
+
+Evidence is bound to current source hashes in `continuity-native-serialization-20261001.json` and the current native spine artifact. Prior native-browser-join evidence remains historical at commit47532e8b; its prior source/evidence hashes are not current serialization proof. The new source inventory delta validates4,325client and two routing hashes against the preserved supplemental baseline. Reference counts and exact47missing targets are unchanged; no new network probe.
+
+The first full-suite and repository-check session handles disappeared during an environment refresh. Process inventory confirmed neither test runner nor repository check remained alive. Their terminal results were unavailable and are not claimed. The fresh full suite completed with375passed,1external-corpus prerequisite skip,0failed in298.7seconds; durable log and exit marker confirm exit0. Repository validation,350-module boot,harness and diff checks pass. Protected native brain hashes also match the prior join checkpoint.
+
+Scope limits: packet JSON transport is verified locally; active artifact dispatch, complete console bootstrap, current deployed behavior and independent business consequence/return remain unproved. Retired finalizer stays retired. No provider, trading, spending, email, deployment, merge or Google Docs action occurred. Paused work and protected sources remain preserved.
+
+Next: verify full domain-console bootstrap under explicit local read fixtures and inspect any active artifact consumer against the same native observation packets, preserving exact owning business gates and the original completion audit.

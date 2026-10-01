@@ -1,0 +1,252 @@
+{
+  "level": "LOCAL/NATIVE FIXTURE",
+  "injectedDiagnoses": false,
+  "injectedOpportunities": false,
+  "injectedModels": false,
+  "externalRequests": 0,
+  "nativeEvidence": {
+    "file": "docs/audits/continuity-native-feed-spine.json",
+    "sha256": "563b272e07315130d2c1420439bc66ea5342dc731bae8c714293bf15388d5da6"
+  },
+  "sources": [
+    {
+      "file": "scripts/continuity-native-browser-observation.cjs",
+      "sha256": "aee7bd063b7d4a025f4e9846232859eb217a17f50b1d3c5b6a0110af692dd243"
+    },
+    {
+      "file": "scripts/test-continuity-browser-model-bridge.cjs",
+      "sha256": "5b67df6f0364e6f2c1a404f82ff9e8d2b070c4b86f1a7ba831fa858d93711d99"
+    },
+    {
+      "file": "scripts/test-continuity-feed-spine.cjs",
+      "sha256": "06c69262d5978eab314eda8cb7f70094d4314eb69c1434cf5d88b4d7deb091eb"
+    },
+    {
+      "file": "assets/js/civilization/domain-packet-adapter.js",
+      "sha256": "3487c8b5b9b58399bf481a8166b188bcd816eabf53cfc0cc36cc3ee863984ce1"
+    }
+  ],
+  "domains": [
+    {
+      "domain": "agriculture",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "communication",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "culture",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "defense",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "economy",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "education",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "energy",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "environment",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "finance",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "governance",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "industry",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "infrastructure",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "intelligence",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "law",
+      "jsonRoundTrip": true,
+      "cycleReferences": 1,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "medicine",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "population",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "religion",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "science",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "technology",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    },
+    {
+      "domain": "trade",
+      "jsonRoundTrip": true,
+      "cycleReferences": 0,
+      "diagnosticGraphRestored": true
+    }
+  ],
+  "productionVerified": false,
+  "businessExecutionVerified": false,
+  "protectedBrainSources": [
+    {
+      "file": "assets/js/domain-brains/domain-brain-base.js",
+      "sha256": "8f26193b2bf077e769379356e69fbcc22601009f5c098a0235e84805e72856c2"
+    },
+    {
+      "file": "assets/js/domain-brains/agriculture-brain.js",
+      "sha256": "9354ec30fa5b86d7a6718de5374dbd29c49dd269d6a5d336b321ff499e4335a6"
+    },
+    {
+      "file": "assets/js/domain-brains/communication-brain.js",
+      "sha256": "14ab67fce17d595a36f7ff45ea30e5f25cd5e065c7b967c735eaee708c01cb04"
+    },
+    {
+      "file": "assets/js/domain-brains/culture-brain.js",
+      "sha256": "bce65deba81c32f6294719697448c1db133b21e1527140c8c703acda0a4cbb0e"
+    },
+    {
+      "file": "assets/js/domain-brains/defense-brain.js",
+      "sha256": "44e3b2a732d762b80bed57aa1750b9d85404017eb3892f78e7170cb1e7cbb8f0"
+    },
+    {
+      "file": "assets/js/domain-brains/economy-brain.js",
+      "sha256": "06bced960a90218bdd5cc092bbde98935333857068e46d40a16495cda65edce9"
+    },
+    {
+      "file": "assets/js/domain-brains/education-brain.js",
+      "sha256": "180586a8268fa476adcbff901321a297391f935b185caaa45a1a5722066e7771"
+    },
+    {
+      "file": "assets/js/domain-brains/energy-brain.js",
+      "sha256": "00b68ee44f41c6f7d37b64b8a4270756bd27f3d23c129c66c0d1d8d1dae93e56"
+    },
+    {
+      "file": "assets/js/domain-brains/environment-brain.js",
+      "sha256": "b6755e8cf6cd21e324447dc828106a452621ce52a38bb9eda9d7e04d9952f20d"
+    },
+    {
+      "file": "assets/js/domain-brains/finance-brain.js",
+      "sha256": "b60d3e4c792f7eef43f13c4c61da30be0161b8f5e0652899fbdc4e436145028a"
+    },
+    {
+      "file": "assets/js/domain-brains/governance-brain.js",
+      "sha256": "19d6faec6c392dbd337042946c8a60e07c877b11362571b9e80d243e00898d7a"
+    },
+    {
+      "file": "assets/js/domain-brains/industry-brain.js",
+      "sha256": "54b904571b4eb4db818e88a3a87ec1d95793dda655e762929b9a9f6dda214a3a"
+    },
+    {
+      "file": "assets/js/domain-brains/infrastructure-brain.js",
+      "sha256": "b9f1c612077c184f7ed09439dff05c21551952ecae6aa45ab772781cd777c8ac"
+    },
+    {
+      "file": "assets/js/domain-brains/intelligence-brain.js",
+      "sha256": "9495ae8521861e8cfb547d8f5247b7c0147b5baee0dafc047ab8ee041d3f26b3"
+    },
+    {
+      "file": "assets/js/domain-brains/law-brain.js",
+      "sha256": "b15607f103be9a63cc357ac3eb2967c59189f73ab8605a161cc654848f65fd34"
+    },
+    {
+      "file": "assets/js/domain-brains/medicine-brain.js",
+      "sha256": "f25d6311b74152675c26d2b2aaa4ca0b7c6c888d049dba2d4fea66f3086d5870"
+    },
+    {
+      "file": "assets/js/domain-brains/population-brain.js",
+      "sha256": "9c961301bf38c1d3d588f21efc54904c4c7afc96d0fca28203d2f32c8d32a1ed"
+    },
+    {
+      "file": "assets/js/domain-brains/religion-brain.js",
+      "sha256": "98b781bd2b89e934a44fe00ec1433fc75c1c3cfb72c901f6119d55ff18dfa478"
+    },
+    {
+      "file": "assets/js/domain-brains/science-brain.js",
+      "sha256": "066dca4e58abc832ecb29b1aa35fbb4cce512b04f6c9802a0298097cfe3257da"
+    },
+    {
+      "file": "assets/js/domain-brains/technology-brain.js",
+      "sha256": "e885ad90c4ce4910cb74677025def793228ce71d212daded36aaa1412879f22e"
+    },
+    {
+      "file": "assets/js/domain-brains/trade-brain.js",
+      "sha256": "9586b071d5804aad14c8044d982fdf5386357cfa045d132fba66749e3e95fe2b"
+    }
+  ],
+  "validation": {
+    "fullSuite": {
+      "passed": 375,
+      "skipped": 1,
+      "failed": 0,
+      "seconds": 298.7,
+      "skip": "external corpus prerequisite unavailable",
+      "logSha256": "2bc541f863277278b3b642374afe7d3cbfbeedfc41d3bbcdde67e051f85f5c2b"
+    },
+    "repository": true,
+    "bootModules": 350,
+    "harness": true
+  }
+}

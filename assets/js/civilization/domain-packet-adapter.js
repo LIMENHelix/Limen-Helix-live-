@@ -1662,6 +1662,30 @@
       domainDiagnosisPacket: _emO(_blawm.domainLawPacket) || _emO(_blawm.domainDiagnosisPacket)
     } : null;
 
+    // Native diagnostic audit graphs can refer back to their owning model.
+    // Project only this observation envelope for JSON transport; never mutate
+    // the brain or canonical truth arrays. Repeated sibling objects retain
+    // ordinary JSON semantics. Cycles carry an explicit deepBrain-local pointer.
+    if (deepBrain) {
+      var observationAncestors = [], observationPaths = [];
+      deepBrain = JSON.parse(JSON.stringify(deepBrain, function (key, value) {
+        if (!value || typeof value !== 'object') return value;
+        while (observationAncestors.length && observationAncestors[observationAncestors.length - 1] !== this) {
+          observationAncestors.pop(); observationPaths.pop();
+        }
+        var ancestorIndex = observationAncestors.indexOf(value);
+        if (ancestorIndex !== -1) return {
+          $limenObservationRef: observationPaths[ancestorIndex],
+          $limenObservationRoot: 'deepBrain'
+        };
+        var parentPath = observationPaths.length ? observationPaths[observationPaths.length - 1] : '#';
+        observationAncestors.push(value);
+        observationPaths.push(observationAncestors.length === 1 ? '#'
+          : parentPath + '/' + String(key).replace(/~/g, '~0').replace(/\//g, '~1'));
+        return value;
+      }));
+    }
+
     // Feed health. Configured count is the MAX of every honest declaration
     // available — the snapshot's full source list (live + dead), the brain's
     // own count, and the registry's declared feeds. Trusting brain alone (or
