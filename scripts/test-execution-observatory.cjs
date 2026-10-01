@@ -69,6 +69,25 @@ Object.keys(operationKinds).forEach(function (domain) {
   } } };
 });
 cognition.count = 11;
+cognition.cognition.trade = { ts: Date.now(), c: { businessTrace: {
+  schemaVersion: 'product-domain-business-trace-readout/1.0', ownerDomain: 'supplyChain', lane: 'auction',
+  status: 'RECORDED', observationOnly: true, externalActionAuthorized: false,
+  command: { id: 'trade-command', status: 'LISTED', decisionId: 'trade-decision', listingOnly: true,
+    receipt: { kind: 'OWNED-LISTING', id: 'listing-001' } }
+} } };
+cognition.cognition.communication = { ts: Date.now(), c: { businessTrace: {
+  schemaVersion: 'product-domain-business-trace-readout/1.0', ownerDomain: 'communication', lane: 'social',
+  status: 'RECORDED', observationOnly: true, externalActionAuthorized: false,
+  command: { id: 'social-command', status: 'POSTED', decisionId: 'social-decision', receipt: { kind: 'PLATFORM-POST', id: 'at://fixture/post/1' } }
+} } };
+cognition.cognition.religion = { ts: Date.now(), c: { businessTrace: {
+  schemaVersion: 'product-domain-business-trace-readout/1.0', ownerDomain: 'religion', lane: 'subscriber-email',
+  status: 'RECORDED', observationOnly: true, externalActionAuthorized: false,
+  command: { id: 'batch-command', status: 'RECEIPTS_PERSISTED', receipt: { kind: 'EMAIL-BATCH', id: 'batch-command', acceptedCount: 1, itemCount: 2 },
+    items: [{ actionId: 'item-1', decisionId: 'item-decision-1', status: 'ACCEPTED', receipt: { id: 'email-1', commandId: 'original-batch' } },
+      { actionId: 'item-2', decisionId: 'item-decision-2', status: 'BUDGET_HELD', receipt: null }] }
+} } };
+cognition.count = 14;
 vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilization/execution-observatory.js'), 'utf8'), {
   window, document, Date, setInterval() {},
   fetch: async url => {
@@ -85,6 +104,14 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
   });
   assert.match(financeCard, /internal emission <b>12/);
   assert.match(financeCard, /preparation PERMITTED/);
+  var tradeCard = el.innerHTML.split('<span class="exo-domain-name">trade</span>')[1].split('</article>')[0];
+  assert.match(tradeCard, /OWNED-LISTING/); assert.match(tradeCard, /sale, order acceptance and payment are not authorized/);
+  var religionCard = el.innerHTML.split('<span class="exo-domain-name">religion</span>')[1].split('</article>')[0];
+  assert.match(religionCard, /EMAIL-BATCH/); assert.match(religionCard, /BUDGET_HELD/); assert.match(religionCard, /original-batch/);
+  ['trade', 'religion', 'communication'].forEach(function (domain) {
+    var card = el.innerHTML.split('<span class="exo-domain-name">' + domain + '</span>')[1].split('</article>')[0];
+    ['OBSERVED', 'REVENUE'].forEach(function (stage) { assert.match(card, new RegExp('exo-chain-label">' + stage + '</span><span class="exo-badge exo-unobserved">UNOBSERVED')); });
+  });
   Object.keys(operationKinds).forEach(function (domain) {
     var card = el.innerHTML.split('<span class="exo-domain-name">' + domain + '</span>')[1].split('</article>')[0];
     assert.match(card, new RegExp(operationKinds[domain])); assert.match(card, new RegExp(domain + '-prior-decision'));

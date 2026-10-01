@@ -59,6 +59,8 @@ function budget() { return { emailCostUsd: 0.01, dailyBudgetUsd: 0.05, dailySend
   assert.equal(laterMotor.accepted, 1); assert.equal(sends, 1);
 
   var budgetStore = new Store(), budgetSends = 0;
+  await Decision.decide(budgetStore, c1, now, { cognition: cognition(now, false) });
+  await Decision.decide(budgetStore, c2, now, { cognition: cognition(now, false) });
   var budgetLimited = await Executor.execute({ store: budgetStore,
     specs: [{ candidate: c1, decision: released }, { candidate: c2, decision: d2 }], maxSends: 2, now: now,
     emailCostUsd: 0.01, dailyBudgetUsd: 0.01, dailySendCap: 5,
@@ -103,5 +105,31 @@ function budget() { return { emailCostUsd: 0.01, dailyBudgetUsd: 0.05, dailySend
 
   var persisted = JSON.stringify(Array.from(store.values.values()).concat(Array.from(store.lists.values())));
   assert.equal(persisted.includes('buyer@example.com'), false); assert.equal(persisted.includes('sub-secret'), false); assert.equal(persisted.includes('cus-secret'), false);
-  console.log('religion subscriber sovereign B10/B14/delivery/recovery loop: PASS');
+  var Trace = require('../lib/product-domain-business-trace-readout.js');
+  var readOnly = Object.create(store);
+  ['set', 'setIfAbsent', 'lpush', 'ltrim'].forEach(function (method) { readOnly[method] = async function () { throw Error('reader attempted write'); }; });
+  var trace = await Trace.read(readOnly, 'religion', now + 1000);
+  assert.equal(trace.status, 'RECORDED', trace.reason); assert.equal(trace.externalActionAuthorized, false);
+  assert.equal(trace.command.items.length, 1); assert.equal(trace.command.items[0].decisionId, released.decisionReceiptId);
+  assert.equal(trace.command.items[0].receipt.id, 'email-provider-1');
+  assert.equal(trace.command.items[0].receipt.commandId, result.commandId, 'a reused receipt retains its actual originating command');
+  assert(!JSON.stringify(trace).includes('@')); assert(!JSON.stringify(trace).includes('sub-secret'));
+  var partial = await Trace.read(budgetStore, 'religion', now + 1000);
+  assert.equal(partial.status, 'RECORDED', partial.reason); assert.equal(partial.command.receipt.kind, 'EMAIL-BATCH');
+  assert.equal(partial.command.receipt.acceptedCount, 1); assert.equal(partial.command.receipt.itemCount, 2);
+  assert.equal(partial.command.items[1].status, 'BUDGET_HELD'); assert.equal(partial.command.items[1].receipt, null);
+  var saved = await budgetStore.get(Executor.commandKey(budgetLimited.commandId));
+  var invalid = structuredClone(saved); invalid.items[1].decisionReceiptId = 'missing';
+  await budgetStore.set(Executor.commandKey(saved.commandId), invalid);
+  assert.equal((await Trace.read(budgetStore, 'religion', now + 1000)).reason, 'subscriber-item-decision-link-invalid');
+  invalid = structuredClone(saved); invalid.items[1].actionId = invalid.items[0].actionId;
+  await budgetStore.set(Executor.commandKey(saved.commandId), invalid);
+  assert.equal((await Trace.read(budgetStore, 'religion', now + 1000)).reason, 'subscriber-item-invalid');
+  await budgetStore.set(Executor.commandKey(saved.commandId), saved);
+  assert.equal((await Trace.read(budgetStore, 'religion', now + 1000)).status, 'RECORDED');
+  var actionKey = Executor.actionKey(saved.items[0].actionId), actionCopy = await budgetStore.get(actionKey);
+  await budgetStore.set(actionKey, Object.assign({}, actionCopy, { commandId: 'unrelated-command' }));
+  assert.equal((await Trace.read(budgetStore, 'religion', now + 1000)).reason, 'subscriber-receipt-command-link-invalid');
+  await budgetStore.set(actionKey, actionCopy);
+  console.log('religion subscriber sovereign B10/B14/delivery/recovery loop and per-item business trace: PASS');
 })().catch(function (error) { console.error(error); process.exitCode = 1; });

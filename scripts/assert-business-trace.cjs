@@ -4,9 +4,11 @@ var assert = require('node:assert/strict');
 var Trace = require('../lib/product-domain-business-trace-readout.js');
 module.exports = async function (store, domain, command, expectedKind, now, packetId) {
   var family = { 'PAPER-ORDER': 'investment', 'OWNED-PUBLICATION': 'publication', 'CRM-ACCEPTED': 'crm',
-    'EMAIL-ACCEPTED': 'autopilot', 'LETTER-ACCEPTED': 'automail', 'INQUIRY-ACCEPTED': 'real-estate' }[expectedKind];
-  var Decision = require('../lib/' + domain + '-' + family + '-decision.js');
-  var Executor = require('../lib/' + domain + '-' + family + '-executor.js');
+    'EMAIL-ACCEPTED': 'autopilot', 'LETTER-ACCEPTED': 'automail', 'INQUIRY-ACCEPTED': 'real-estate', 'PLATFORM-POST': 'social', 'OWNED-LISTING': 'auction' }[expectedKind];
+  var moduleDomain = domain === 'supplyChain' ? 'trade' : domain;
+  var Decision = require('../lib/' + moduleDomain + '-' + family + '-decision.js');
+  var Executor = require('../lib/' + moduleDomain + '-' + family + '-executor.js');
+  var decisionKey = Decision.key || Decision.decisionKey;
   var readonly = Object.create(store);
   ['set', 'setIfAbsent', 'lpush', 'ltrim', 'del'].forEach(function (method) {
     readonly[method] = async function () { throw Error('observation attempted write: ' + method); };
@@ -40,11 +42,12 @@ module.exports = async function (store, domain, command, expectedKind, now, pack
     await store.set(key, original);
   }
   if (family !== 'investment' && family !== 'publication') {
-    await store.set(key, Object.assign({}, original, { readbackVerified: false }));
+    await store.set(key, Object.assign({}, original, { readbackVerified: false, durableReceiptReadbackVerified: false,
+      receipt: Object.assign({}, original.receipt, { readbackVerified: false }) }));
     var noReceipt = await Trace.read(readonly, domain, now);
     assert.equal(noReceipt.status, 'RECORDED'); assert.equal(noReceipt.command.receipt, null);
     await store.set(key, original);
-    await store.set(key, Object.assign({}, original, { status: 'AMBIGUOUS' }));
+    await store.set(key, Object.assign({}, original, { status: family === 'social' ? 'DISPATCHING' : 'AMBIGUOUS' }));
     assert.equal((await Trace.read(readonly, domain, now)).command.receipt, null);
     await store.set(key, original);
     var pendingRead = Object.create(readonly);
@@ -69,7 +72,7 @@ module.exports = async function (store, domain, command, expectedKind, now, pack
     assert.equal(pending.command.status, 'DISPATCHING'); assert.equal(pending.command.receipt, null);
     await store.set(key, original);
   }
-  var causeKey = Decision.key(command.decisionReceiptId), cause = structuredClone(await store.get(causeKey));
+  var causeKey = decisionKey(command.decisionReceiptId), cause = structuredClone(await store.get(causeKey));
   await store.set(causeKey, Object.assign({}, cause, { expiresAt: original.commandedAt }));
   assert.equal((await Trace.read(readonly, domain, now)).reason, 'command-decision-link-invalid');
   await store.set(causeKey, cause);

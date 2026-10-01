@@ -163,7 +163,7 @@
     var trace = row.c.businessTrace || {};
     var traceValid = (trace.schemaVersion === 'product-domain-business-trace-readout/1.0' ||
       (trace.schemaVersion === 'culture-business-trace-readout/1.0' && row.domain === 'culture')) &&
-      trace.ownerDomain === row.domain && trace.observationOnly === true && trace.externalActionAuthorized === false && trace.status === 'RECORDED';
+      trace.ownerDomain === (ALIASES[row.domain] || row.domain) && trace.observationOnly === true && trace.externalActionAuthorized === false && trace.status === 'RECORDED';
     var businessDecision = traceValid && trace.decision;
     var businessCommand = traceValid && trace.command;
     var decided = businessDecision ? 'RECORDED ' + businessDecision.status : 'UNOBSERVED';
@@ -171,7 +171,7 @@
     var businessReceipt = businessCommand && businessCommand.receipt || (businessCommand && businessCommand.providerReceiptId
       ? { kind: 'PROVIDER-ACCEPTED', id: businessCommand.providerReceiptId } : null);
     var receipt = businessReceipt && businessReceipt.id && ['PROVIDER-ACCEPTED', 'OWNED-PUBLICATION', 'PAPER-ORDER',
-      'CRM-ACCEPTED', 'EMAIL-ACCEPTED', 'LETTER-ACCEPTED', 'INQUIRY-ACCEPTED'].indexOf(businessReceipt.kind) >= 0
+      'CRM-ACCEPTED', 'EMAIL-ACCEPTED', 'LETTER-ACCEPTED', 'INQUIRY-ACCEPTED', 'PLATFORM-POST', 'OWNED-LISTING', 'EMAIL-BATCH'].indexOf(businessReceipt.kind) >= 0
       ? businessReceipt.kind : 'UNOBSERVED';
     var observation = row.observed ? 'SIGNAL ' + (row.learning.latestSignalId || row.social.latestSignalId) : 'UNOBSERVED';
     var statusLine = row.serverSeen ? 'server ' + age(row.entry.ts) + ' · packet ' + (row.packetPersist.ok ? 'persisted' : 'held') : 'server cognition unavailable';
@@ -202,6 +202,8 @@
         '<span>business trace <b>' + esc(trace.status || 'UNOBSERVED') + '</b> · ' + esc(trace.reason || (traceValid ? 'historical records; dispatch revalidates authority' : 'business decision/command read not connected for this domain')) + '</span>' +
         (businessDecision ? '<span>decision <b>' + esc(businessDecision.id) + '</b> · packet ' + esc(businessDecision.packetId || 'UNOBSERVED') + ' · ' + esc(time(businessDecision.decidedAt)) + ' · key ' + esc(businessDecision.key) + '</span>' : '') +
         (businessDecision && (businessDecision.reason || arr(businessDecision.blockers).length) ? '<span>business hold <b>' + esc(businessDecision.reason || 'decision held') + '</b> · ' + esc(arr(businessDecision.blockers).join(' · ')) + '</span>' : '') +
+        (businessCommand && businessCommand.listingOnly ? '<span>listing only <b>sale, order acceptance and payment are not authorized</b></span>' : '') +
+        (businessCommand && businessCommand.items ? arr(businessCommand.items).map(function (item) { return '<span>batch item <b>' + esc(item.actionId) + '</b> · decision ' + esc(item.decisionId) + ' · ' + esc(item.status) + ' · receipt ' + esc(item.receipt && item.receipt.id || 'UNOBSERVED') + ' · receipt command ' + esc(item.receipt && item.receipt.commandId || 'UNOBSERVED') + '</span>'; }).join('') : '') +
         (businessCommand ? '<span>command <b>' + esc(businessCommand.id) + '</b> · decision ' + esc(businessCommand.decisionId) + ' · ' + esc(time(businessCommand.commandedAt)) + ' · key ' + esc(businessCommand.key) + ' · receipt ' + esc(businessReceipt && businessReceipt.id || 'UNOBSERVED') + (businessCommand.paperOnly === true ? ' · PAPER ONLY' : '') + (businessCommand.nonBinding === true ? ' · NON-BINDING INQUIRY' : '') + (businessCommand.commissioningOnly === true ? ' · COMMISSIONING ONLY' : '') + (businessCommand.reason ? ' · ' + esc(businessCommand.reason) : '') + '</span>' : '') +
         '<span>executor <b>' + esc(yes(row.capability.executorVerified)) + '</b></span>' +
         '<span>outcome observer <b>' + esc(yes(row.capability.independentOutcomeObserverVerified)) + '</b></span>' +

@@ -18,6 +18,7 @@ Store.prototype.deleteIfValue = async function (key, value) {
 };
 Store.prototype.lpush = async function (key, value) { this.log.unshift({ key: key, value: JSON.parse(JSON.stringify(value)) }); return this.log.length; };
 Store.prototype.ltrim = async function () { return true; };
+Store.prototype.lrange = async function (key, start, stop) { return structuredClone(this.log.filter(function (row) { return row.key === key; }).slice(start, stop + 1).map(function (row) { return row.value; })); };
 
 function brain(domain, now) {
   return { ts: now, c: {
@@ -103,5 +104,6 @@ function responsePost(likes) {
   assert.equal(nextDecision.returnedOutcome.effect, 'HOLD_FOR_NEW_COMMUNICATION_EVIDENCE');
   assert.equal(nextDecision.returnedOutcome.actionId, command.commandId);
 
-  console.log('communication social loop: decision -> posted receipt -> independent AppView observation -> returned negative learning -> next decision hold PASS');
+  await require('./assert-business-trace.cjs')(store, 'communication', command, 'PLATFORM-POST', now + 1000, nextDecision.communicationPacketId);
+  console.log('communication social loop: decision -> posted receipt -> independent AppView observation -> returned negative learning -> next decision hold and business trace PASS');
 })().catch(function (error) { console.error(error && error.stack || error); process.exit(1); });
