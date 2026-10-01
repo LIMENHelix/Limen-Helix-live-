@@ -1,0 +1,506 @@
+{
+  "level": "LOCAL/FIXTURE",
+  "externalFetches": false,
+  "injectedDiagnoses": false,
+  "injectedOpportunities": false,
+  "results": [
+    {
+      "domain": "industry",
+      "runtime": "industry",
+      "scenario": "valid",
+      "requests": [
+        "https://api.bls.gov/publicAPI/v2/timeseries/data/",
+        "https://api.worldbank.org/v2/country/USA/indicator/NV.IND.MANF.ZS?format=json&per_page=100"
+      ],
+      "sources": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "industry",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "measured",
+        "stressUsable": true,
+        "sources": [
+          {
+            "name": "BLS Manufacturing PPI",
+            "live": true,
+            "sourceUpdatedAt": "bls-series:PCUOMFG--OMFG--|year:2026|period:M09",
+            "fetchedAt": 1790881746924,
+            "value": 150,
+            "classification": "real",
+            "failReason": null
+          },
+          {
+            "name": "World Bank Manufacturing",
+            "live": true,
+            "sourceUpdatedAt": "2025",
+            "fetchedAt": 1790881746924,
+            "value": 8,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
+      "stress": 0.66,
+      "lowSignal": false,
+      "packetId": "industry:2:fixture-industry-valid",
+      "handoffs": 8,
+      "checks": [
+        {
+          "opportunityId": "AUTOMATION_FAILURE_investable_t1",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        },
+        {
+          "opportunityId": "TOXIC_SPILL_investable_t1",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        },
+        {
+          "opportunityId": "QUALITY_CRISIS_investable_t1",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        },
+        {
+          "opportunityId": "AUTOMATION_FAILURE_researchable_t1",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        },
+        {
+          "opportunityId": "lagging_investable_t3",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        },
+        {
+          "opportunityId": "lagging_researchable_t3",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        },
+        {
+          "opportunityId": "TOXIC_SPILL_researchable_t1",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        },
+        {
+          "opportunityId": "QUALITY_CRISIS_researchable_t1",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        }
+      ],
+      "nextBoundary": "source-grounded-work-first-WARN-record-required"
+    },
+    {
+      "domain": "industry",
+      "runtime": "industry",
+      "scenario": "bls-unavailable",
+      "requests": [
+        "https://api.bls.gov/publicAPI/v2/timeseries/data/",
+        "https://api.worldbank.org/v2/country/USA/indicator/NV.IND.MANF.ZS?format=json&per_page=100"
+      ],
+      "sources": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "industry",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "clamped",
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "BLS Manufacturing PPI",
+            "live": false,
+            "sourceUpdatedAt": null,
+            "fetchedAt": 1790881747189,
+            "value": null,
+            "classification": "broken",
+            "failReason": "BLS status: REQUEST_SUCCEEDED"
+          },
+          {
+            "name": "World Bank Manufacturing",
+            "live": true,
+            "sourceUpdatedAt": "2025",
+            "fetchedAt": 1790881747189,
+            "value": 8,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
+      "stress": 0.3,
+      "lowSignal": true,
+      "packetId": "industry:2:fixture-industry-bls-unavailable",
+      "handoffs": 4,
+      "checks": [
+        {
+          "opportunityId": "AUTOMATION_FAILURE_researchable_t1",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        },
+        {
+          "opportunityId": "AUTOMATION_FAILURE_investable_t1",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        },
+        {
+          "opportunityId": "TOXIC_SPILL_researchable_t1",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        },
+        {
+          "opportunityId": "TOXIC_SPILL_investable_t1",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        }
+      ],
+      "nextBoundary": "source-grounded-work-first-WARN-record-required"
+    },
+    {
+      "domain": "industry",
+      "runtime": "industry",
+      "scenario": "recovery",
+      "requests": [
+        "https://api.bls.gov/publicAPI/v2/timeseries/data/",
+        "https://api.worldbank.org/v2/country/USA/indicator/NV.IND.MANF.ZS?format=json&per_page=100"
+      ],
+      "sources": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "industry",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "measured",
+        "stressUsable": true,
+        "sources": [
+          {
+            "name": "BLS Manufacturing PPI",
+            "live": true,
+            "sourceUpdatedAt": "bls-series:PCUOMFG--OMFG--|year:2026|period:M09",
+            "fetchedAt": 1790881747297,
+            "value": 150,
+            "classification": "real",
+            "failReason": null
+          },
+          {
+            "name": "World Bank Manufacturing",
+            "live": true,
+            "sourceUpdatedAt": "2025",
+            "fetchedAt": 1790881747297,
+            "value": 8,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
+      "stress": 0.66,
+      "lowSignal": false,
+      "packetId": "industry:2:fixture-industry-recovery",
+      "handoffs": 8,
+      "checks": [
+        {
+          "opportunityId": "AUTOMATION_FAILURE_investable_t1",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        },
+        {
+          "opportunityId": "TOXIC_SPILL_investable_t1",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        },
+        {
+          "opportunityId": "QUALITY_CRISIS_investable_t1",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        },
+        {
+          "opportunityId": "AUTOMATION_FAILURE_researchable_t1",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        },
+        {
+          "opportunityId": "lagging_investable_t3",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        },
+        {
+          "opportunityId": "lagging_researchable_t3",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        },
+        {
+          "opportunityId": "TOXIC_SPILL_researchable_t1",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        },
+        {
+          "opportunityId": "QUALITY_CRISIS_researchable_t1",
+          "blockers": [
+            "source-grounded-work-first-WARN-record-required"
+          ]
+        }
+      ],
+      "nextBoundary": "source-grounded-work-first-WARN-record-required"
+    },
+    {
+      "domain": "trade",
+      "runtime": "supplyChain",
+      "scenario": "valid",
+      "requests": [
+        "https://api.bls.gov/publicAPI/v2/timeseries/data/",
+        "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+      ],
+      "sources": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "trade",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "measured",
+        "stressUsable": true,
+        "sources": [
+          {
+            "name": "BLS Freight PPI",
+            "live": true,
+            "sourceUpdatedAt": "2026-M09",
+            "fetchedAt": 1790881747515,
+            "value": 150,
+            "classification": "real",
+            "failReason": null
+          },
+          {
+            "name": "CISA KEV",
+            "live": true,
+            "sourceUpdatedAt": "cisa-kev-version:LOCAL-FIXTURE|released:2026-10-01T19:09:07.516Z|count:18",
+            "fetchedAt": 1790881747516,
+            "value": 18,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
+      "stress": 0.78,
+      "lowSignal": false,
+      "packetId": "trade:2:fixture-trade-valid",
+      "handoffs": 9,
+      "checks": [
+        {
+          "opportunityId": "SHIPPING_CRISIS_investable_t1",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        },
+        {
+          "opportunityId": "warehouse_hardening_investable_t3",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        },
+        {
+          "opportunityId": "bottleneck_position_investable_t3",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        },
+        {
+          "opportunityId": "nearshoring_investable_t3",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        },
+        {
+          "opportunityId": "supplier_diversification_investable_t3",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        },
+        {
+          "opportunityId": "regulatory_response_researchable_t3",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        },
+        {
+          "opportunityId": "SHIPPING_CRISIS_researchable_t1",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        },
+        {
+          "opportunityId": "SUPPLY_CHAIN_COLLAPSE_researchable_t1",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        },
+        {
+          "opportunityId": "SUPPLY_CHAIN_COLLAPSE_investable_t1",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        }
+      ],
+      "nextBoundary": "exact-owned-asset-auction-listing-record-required"
+    },
+    {
+      "domain": "trade",
+      "runtime": "supplyChain",
+      "scenario": "bls-unavailable",
+      "requests": [
+        "https://api.bls.gov/publicAPI/v2/timeseries/data/",
+        "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+      ],
+      "sources": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "trade",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "clamped",
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "BLS Freight PPI",
+            "live": false,
+            "sourceUpdatedAt": null,
+            "fetchedAt": 1790881747813,
+            "value": null,
+            "classification": "broken",
+            "failReason": "empty series data"
+          },
+          {
+            "name": "CISA KEV",
+            "live": true,
+            "sourceUpdatedAt": "cisa-kev-version:LOCAL-FIXTURE|released:2026-10-01T19:09:07.812Z|count:18",
+            "fetchedAt": 1790881747813,
+            "value": 18,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
+      "stress": 0.3,
+      "lowSignal": true,
+      "packetId": "trade:2:fixture-trade-bls-unavailable",
+      "handoffs": 1,
+      "checks": [
+        {
+          "opportunityId": "SUPPLY_CHAIN_COLLAPSE_researchable_t1",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        }
+      ],
+      "nextBoundary": "exact-owned-asset-auction-listing-record-required"
+    },
+    {
+      "domain": "trade",
+      "runtime": "supplyChain",
+      "scenario": "recovery",
+      "requests": [
+        "https://api.bls.gov/publicAPI/v2/timeseries/data/",
+        "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+      ],
+      "sources": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "trade",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "measured",
+        "stressUsable": true,
+        "sources": [
+          {
+            "name": "BLS Freight PPI",
+            "live": true,
+            "sourceUpdatedAt": "2026-M09",
+            "fetchedAt": 1790881747935,
+            "value": 150,
+            "classification": "real",
+            "failReason": null
+          },
+          {
+            "name": "CISA KEV",
+            "live": true,
+            "sourceUpdatedAt": "cisa-kev-version:LOCAL-FIXTURE|released:2026-10-01T19:09:07.935Z|count:18",
+            "fetchedAt": 1790881747935,
+            "value": 18,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
+      "stress": 0.78,
+      "lowSignal": false,
+      "packetId": "trade:2:fixture-trade-recovery",
+      "handoffs": 9,
+      "checks": [
+        {
+          "opportunityId": "SHIPPING_CRISIS_investable_t1",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        },
+        {
+          "opportunityId": "warehouse_hardening_investable_t3",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        },
+        {
+          "opportunityId": "bottleneck_position_investable_t3",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        },
+        {
+          "opportunityId": "nearshoring_investable_t3",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        },
+        {
+          "opportunityId": "supplier_diversification_investable_t3",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        },
+        {
+          "opportunityId": "regulatory_response_researchable_t3",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        },
+        {
+          "opportunityId": "SHIPPING_CRISIS_researchable_t1",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        },
+        {
+          "opportunityId": "SUPPLY_CHAIN_COLLAPSE_researchable_t1",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        },
+        {
+          "opportunityId": "SUPPLY_CHAIN_COLLAPSE_investable_t1",
+          "blockers": [
+            "exact-owned-asset-auction-listing-record-required"
+          ]
+        }
+      ],
+      "nextBoundary": "exact-owned-asset-auction-listing-record-required"
+    }
+  ]
+}
