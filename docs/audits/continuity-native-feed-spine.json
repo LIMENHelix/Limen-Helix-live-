@@ -987,7 +987,26 @@
             "culture-immune-veto"
           ],
           "sourcePacketId": "culture:2:fixture-native-source-snapshot",
-          "nativeImmuneState": "active"
+          "nativeImmuneState": "active",
+          "operatorReadout": {
+            "status": "RECORDED",
+            "decision": {
+              "id": "chd_1506695bb1eb69338fe72c6e",
+              "status": "NO_ACTION",
+              "decidedAt": 1790877499296,
+              "expiresAt": 1790878099296,
+              "key": "culture_hero_decision:chd_1506695bb1eb69338fe72c6e",
+              "packetId": "culture:2:fixture-native-source-snapshot",
+              "reason": "culture-b10-held",
+              "blockers": [
+                "culture-immune-veto"
+              ]
+            },
+            "command": null,
+            "externalActionAuthorized": false,
+            "wrongOwnerReadFailsClosed": true,
+            "recoveryVerified": true
+          }
         }
       },
       "nativeResearchIntake": {
@@ -4772,7 +4791,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_1aa0b2cc748049ba313178921f62486e46b4cace711c78575dd7728eab60eb5c",
+            "id": "sel_episode_62bc1485780c4ecb4e3ff9c352e881de8409a5f6d3c980f945743f409fdfffd1",
             "status": "HELD",
             "ownerDomain": "health",
             "reasons": [
@@ -4814,7 +4833,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_25af1f5a500a0a96ac0a648fca91861aa09f7214a8ad4d94c4153a169b17bd28",
+              "id": "sel_episode_3975c63f949e297d18e141baab753c8210aec90fe9bc6f4856db1c97744837f3",
               "status": "RELEASED",
               "reasons": []
             }
@@ -5950,7 +5969,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_5ea5983b3f1b47f59910f43fbf6ad1c9249036b5678112ccb929e2437e37e0df",
+            "id": "sel_episode_6bb5541ce3abe5aca2e41e61b664875ff6e532b27a23207c85d2e215eef796b7",
             "status": "HELD",
             "ownerDomain": "research",
             "reasons": [
@@ -5992,7 +6011,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_1469a4971d7a61799160cb90ec6d85db9090caff9080983fc517fa410b40d2e3",
+              "id": "sel_episode_aadfe526a32feaeb44f7b8d4a5d12b658d45525ef934ca5b1400b0a734a357bd",
               "status": "RELEASED",
               "reasons": []
             }

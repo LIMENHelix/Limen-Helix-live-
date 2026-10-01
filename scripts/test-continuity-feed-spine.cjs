@@ -112,6 +112,7 @@ sb.LIMENDomains = fixtures;
   var ResearchReadout = require('../lib/research-business-trace-readout.js');
   var CultureDecision = require('../lib/culture-hero-decision.js');
   var CulturePolicy = require('../lib/culture-hero-policy.js');
+  var CultureReadout = require('../lib/culture-business-trace-readout.js');
   var shadowValues = new Map(), shadowLists = new Map();
   function shadowClone(value) { return value == null ? null : JSON.parse(JSON.stringify(value)); }
   var redisPath = require.resolve('../lib/brain-shadow-redis.js');
@@ -197,6 +198,23 @@ sb.LIMENDomains = fixtures;
         assert(maintenanceDecision.blockers.includes('culture-immune-veto'));
         var maintenanceReplay = await CultureDecision.decide(cultureStore, maintenance, Date.parse(packet.generatedAt), { cognition: { ts: Date.parse(packet.generatedAt), c: cultureCognition } });
         assert.equal(maintenanceReplay.decisionReceiptId, maintenanceDecision.decisionReceiptId);
+        var beforeCultureRead = JSON.stringify(Array.from(values));
+        var cultureTrace = await CultureReadout.read(cultureStore, Date.parse(packet.generatedAt) + 1);
+        assert.equal(cultureTrace.status, 'RECORDED');
+        assert.equal(cultureTrace.decision.id, maintenanceDecision.decisionReceiptId);
+        assert.equal(cultureTrace.decision.packetId, packet.packetId);
+        assert(cultureTrace.decision.blockers.includes('culture-immune-veto'));
+        assert.equal(cultureTrace.command, null);
+        assert.equal(cultureTrace.externalActionAuthorized, false);
+        assert.equal(JSON.stringify(Array.from(values)), beforeCultureRead);
+        var cultureKey = CultureDecision.key(maintenanceDecision.decisionReceiptId);
+        values.set(cultureKey, Object.assign({}, maintenanceDecision, { ownerDomain: 'finance' }));
+        var unavailableCulture = await CultureReadout.read(cultureStore, Date.parse(packet.generatedAt) + 1);
+        assert.equal(unavailableCulture.status, 'UNAVAILABLE');
+        assert.equal(unavailableCulture.decision, null);
+        assert.equal(unavailableCulture.command, null);
+        values.set(cultureKey, JSON.parse(JSON.stringify(maintenanceDecision)));
+        assert.equal((await CultureReadout.read(cultureStore, Date.parse(packet.generatedAt) + 1)).status, 'RECORDED');
         primaryIntakeBoundary = { ownerDomain: 'culture', lane: 'hero-image', nativeOpportunityChecks: cultureAbstentions,
           firstUnprovenBoundary: 'native-investment-research-opportunity-is-not-canonical-hero-maintenance-candidate',
           existingTrigger: 'handlers/hero-image.js missing-public-hero -> culture-hero-policy.candidate', providerCalled: false };
@@ -204,6 +222,8 @@ sb.LIMENDomains = fixtures;
           nativeCognitionInjected: false, nativeOpportunityReclassified: false, decisionId: maintenanceDecision.decisionReceiptId,
           status: maintenanceDecision.status, blockers: maintenanceDecision.blockers, sourcePacketId: maintenanceDecision.culturePacketId };
         primaryIntakeBoundary.maintenanceJoin.nativeImmuneState = cultureCognition.immune.immuneState;
+        primaryIntakeBoundary.maintenanceJoin.operatorReadout = { status: cultureTrace.status, decision: cultureTrace.decision,
+          command: null, externalActionAuthorized: false, wrongOwnerReadFailsClosed: true, recoveryVerified: true };
       }
       var researchIntake = ResearchCandidate.build({ c: { serverPacket: packet, serverPacketPersistence: consumed } }, row[0], Date.parse(packet.generatedAt));
       assert.equal(researchIntake.status, 'ABSTAINED');
