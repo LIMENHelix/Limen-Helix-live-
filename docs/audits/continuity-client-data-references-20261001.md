@@ -1,0 +1,11 @@
+# Client data-reference inventory — 2026-10-01
+
+Read-only source extraction from4325 tracked HTML/client JavaScript files produced887 reference occurrences and421 unique quoted references:256 API and165 static-data references.116 dynamic/template/concatenated/directory-prefix references remain explicitly unresolved. This is lexical source evidence, including comments, not proof that a request ran, its method, or deployed behavior.
+
+The reproducible script records exact file/line references, source hashes, route-config/router hashes, dedicated-function precedence, literal Hono handler mappings, matching rewrites, local tracked-file existence and cron membership. It neither imports application handlers nor makes a network request. All API rows are semantics-not-reviewed with liveProbeAuthorized:false. The inventory does not turn GET into side-effect-free authority.
+
+Five literal API references have no matching local handler/function/rewrite: ai-author-node-business, communication-node-business, industry-node-business, intelligence-node-business and population-node-business. Inspected Agriculture/Communication/Industry call sites use POST for optional operator business authoring and fail safely when absent; these are not safe data probes or a reason to invent new motors. Protected brain files are read only. Next inspect remaining two call sites before assigning disposition.
+
+47 literal static-data references lack matching tracked files. Directory prefixes are excluded from this missing-file count. Missing local files are not deployed404 proof: generated/ignored/deployment assets need reconciliation. Existing4944JSON asset inventory is separate; references are not a replacement asset count. Dynamic relative/computed URLs, Python routes and runtime-generated references are excluded/explicit coverage gaps.
+
+Verification: node syntax check and git diff check passed; extraction ran twice while correcting directory-prefix classification. No runtime changed, so prior frozen full suite305b0d0f367pass/1skip/0fail remains the runtime checkpoint. Next reconcile47missing literal files against deployment/include/generation evidence and review the relevant observational API handlers before any live read. No providers, cron handlers or mutation endpoints were invoked. Full original audit remains NOTCOMPLETE; Google Docs deferred.
