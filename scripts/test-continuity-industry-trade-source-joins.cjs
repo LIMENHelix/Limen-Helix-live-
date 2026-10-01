@@ -3,7 +3,7 @@ const assert = require('node:assert/strict'), fs = require('node:fs'), path = re
 const Module = require('node:module'), acorn = require('acorn');
 const root = path.resolve(__dirname, '..'), filename = path.join(root, 'handlers/domain-snapshot.js');
 const mod = new Module(filename, module); mod.filename = filename; mod.paths = Module._nodeModulePaths(path.dirname(filename));
-mod._compile(fs.readFileSync(filename, 'utf8') + '\nmodule.exports.testBuildDomain = buildDomain;module.exports.testWBPopulation = fetchWorldBankPopulation;module.exports.testWBInternetUsers = fetchWBInternetUsers;module.exports.testReligionNews = fetchRSSReligion;module.exports.testReligionEvents = fetchRSSReligionEvents;', filename);
+mod._compile(fs.readFileSync(filename, 'utf8') + '\nmodule.exports.testBuildDomain = buildDomain;module.exports.testWBPopulation = fetchWorldBankPopulation;module.exports.testWBInternetUsers = fetchWBInternetUsers;module.exports.testReligionNews = fetchRSSReligion;module.exports.testReligionEvents = fetchRSSReligionEvents;module.exports.testCultureRSS = fetchRSSCulture;module.exports.testUNESCO = fetchUNESCOCulture;', filename);
 const H = mod.exports, Packet = require('../lib/civilization-server-packet.js'), Consumer = require('../lib/civilization-handoff-consumer.js');
 const harness = fs.readFileSync(path.join(__dirname, 'test-continuity-feed-spine.cjs'), 'utf8');
 const helper = acorn.parse(harness, { ecmaVersion: 'latest' }).body.find(n => n.type === 'FunctionDeclaration' && n.id.name === 'sandbox');
@@ -38,7 +38,11 @@ const profiles = [
   { domain: 'science', runtime: 'research', brain: 'LIMENResearchBrain', first: 'PubMed', second: 'arXiv All',
     fetchFirst: H._fetchPubMed, fetchSecond: H._fetchArXivAll, family: 'research-intake', blocker: 'owning-domain-semantic-identity-invalid' },
   { domain: 'medicine', runtime: 'health', brain: 'LIMENHealthBrain', first: 'openFDA Recalls', second: 'PubMed',
-    fetchFirst: H._fetchFDARecalls, fetchSecond: H._fetchPubMed, family: 'research-intake', blocker: 'owning-domain-semantic-identity-invalid' }
+    fetchFirst: H._fetchFDARecalls, fetchSecond: H._fetchPubMed, family: 'research-intake', blocker: 'owning-domain-semantic-identity-invalid' },
+  { domain: 'finance', runtime: 'finance', brain: 'LIMENFinanceBrain', first: 'NY Fed SOFR', second: 'CFTC Press',
+    fetchFirst: H._fetchNYFedSOFR, fetchSecond: H._fetchCFTCPress, family: 'finance-intake', blocker: 'finance_input_ledger_not_ready;proposal_schema_required' },
+  { domain: 'culture', runtime: 'culture', brain: 'LIMENCultureBrain', first: 'RSS Culture', second: 'UNESCO Culture',
+    fetchFirst: H.testCultureRSS, fetchSecond: H.testUNESCO, family: 'hero', blocker: 'native-investment-research-opportunity-is-not-canonical-hero-maintenance-candidate' }
 ];
 const originalFetch = global.fetch;
 (async () => {
@@ -48,10 +52,11 @@ const originalFetch = global.fetch;
     global.fetch = async url => {
       const u = String(url); requests.push(u); let body;
       if (u === 'https://feeds.bbci.co.uk/news/world/rss.xml' || u === 'https://www.cisa.gov/cybersecurity-advisories/all.xml' ||
-          u === 'https://www.sec.gov/news/pressreleases.rss' || u.startsWith('https://news.google.com/rss/search?')) {
+          u === 'https://www.sec.gov/news/pressreleases.rss' || u === 'https://www.cftc.gov/RSS/RSSENF/rssenf.xml' || u.startsWith('https://news.google.com/rss/search?')) {
         const missing = scenario === 'first-source-unavailable' && (p.domain === 'communication' || p.domain === 'intelligence' ||
-          p.domain === 'religion' && decodeURIComponent(u).includes('religious conflict'));
-        if (missing && p.domain === 'religion') return { ok: false, status: 503, text: async () => { throw new Error('LOCAL/FIXTURE source unavailable'); } };
+          p.domain === 'religion' && decodeURIComponent(u).includes('religious conflict') ||
+          p.domain === 'culture' && decodeURIComponent(u).includes('cultural event'));
+        if (missing && ['religion', 'culture'].includes(p.domain)) return { ok: false, status: 503, text: async () => { throw new Error('LOCAL/FIXTURE source unavailable'); } };
         body = missing ? '' : '<rss><channel>' + Array.from({ length: 20 }, (_, i) =>
           '<item><title>LOCAL/FIXTURE critical ICS advisory ' + i + '</title><link>https://fixture.invalid/item/' + i + '</link><pubDate>' + new Date().toUTCString() + '</pubDate></item>').join('') + '</channel></rss>';
       }
@@ -64,6 +69,7 @@ const originalFetch = global.fetch;
           { date: '2023', value: missing ? null : fertility ? 1.6 : 9 }]];
       }
       else if (u === 'https://hacker-news.firebaseio.com/v0/topstories.json') body = scenario === 'first-source-unavailable' ? null : Array.from({ length: 120 }, (_, i) => 900000 + i);
+      else if (u === 'https://markets.newyorkfed.org/api/rates/secured/sofr/last/1.json') body = scenario === 'first-source-unavailable' ? null : { refRates: [{ effectiveDate: '2026-09-30', percentRate: '6.5' }] };
       else if (u.startsWith('https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?')) body = p.domain === 'science' && scenario === 'first-source-unavailable' ? '' : '<eSearchResult><Count>1000000</Count></eSearchResult>';
       else if (u.startsWith('https://export.arxiv.org/api/query?')) body = '<feed><updated>2026-09-30T12:00:00Z</updated><opensearch:totalResults>2200000</opensearch:totalResults></feed>';
       else if (u.startsWith('https://api.fda.gov/drug/enforcement.json?')) body = scenario === 'first-source-unavailable' ? null : { meta: { last_updated: '2026-09-30', results: { total: 65 } } };
@@ -103,7 +109,7 @@ const originalFetch = global.fetch;
     if (['industry', 'trade'].includes(p.domain)) assert(consumed.handoffsCreated > 0);
     else if (consumed.handoffsCreated === 0) assert.equal(packet.truth.opportunities.filter(o => Packet.ACTIVE_LANES.includes(o.lane)).length, 0);
     for (const id of await store.members('handoffs')) assert.deepEqual((await store.get(store.handoffKey(id))).feedSourceEvidence, packet.truth.feedSourceEvidence);
-    const before = JSON.stringify(Array.from(values)), Decision = p.family === 'research-intake' ? null : require('../lib/' + p.domain + '-' + p.family + '-decision.js');
+    const before = JSON.stringify(Array.from(values)), Decision = ['research-intake', 'finance-intake'].includes(p.family) ? null : require('../lib/' + p.domain + '-' + p.family + '-decision.js');
     const checks = [];
     if (p.family === 'research-intake') {
       const intake = require('../lib/domain-research-candidate.js').build({ c: { serverPacket: packet, serverPacketPersistence: consumed } }, p.domain, Date.parse(packet.generatedAt));
@@ -112,9 +118,17 @@ const originalFetch = global.fetch;
     }
     for (const opportunity of packet.truth.opportunities) {
       if (p.family === 'research-intake') continue;
+      if (p.family === 'finance-intake') {
+        const refusal = require('../lib/finance-opportunity-producer.js').build({ proposal: opportunity });
+        assert.equal(refusal.status, 'ABSTAINED'); assert.equal(refusal.company, null); assert.equal(refusal.liveExecution, false);
+        assert(refusal.blockers.includes('finance_input_ledger_not_ready')); assert(refusal.blockers.includes('proposal_schema_required'));
+        checks.push({ opportunityId: opportunity.id, blockers: refusal.blockers }); continue;
+      }
       if (p.family === 'investment' && opportunity.path !== 'INVESTABLE') continue;
       const refusal = await Decision.decide(store, opportunity, Date.parse(packet.generatedAt));
-      assert.equal(refusal.status, 'NO_ACTION'); assert.deepEqual(refusal.blockers, [p.blocker]);
+      assert.equal(refusal.status, 'NO_ACTION');
+      if (p.domain === 'culture') assert.equal(refusal.reason, 'culture-b10-candidate-refused');
+      else assert.deepEqual(refusal.blockers, [p.blocker]);
       if (['communication', 'religion'].includes(p.domain)) { assert.equal(refusal.released, false); assert.equal(refusal.liveMoney, false); }
       else if (p.family === 'investment') { assert.equal(Decision.candidate(opportunity), null); assert.equal(refusal.liveMoney, false); }
       else assert.equal(refusal.providerCalled, false);
