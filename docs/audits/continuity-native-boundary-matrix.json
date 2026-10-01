@@ -1,0 +1,171 @@
+{
+  "schemaVersion": "continuity-native-boundary-matrix/1.0",
+  "baseSha": "a2bc15159b442fd4398674f2871622de0f1fd244",
+  "source": "docs/audits/continuity-native-feed-spine.json",
+  "sourceSha256": "f4907d8802115b916e8fea09a375fe7146655aaef0d90269b7c05ecedfbfa46f",
+  "domainCount": 20,
+  "result": "NOT_COMPLETE",
+  "scope": "Identified LOCAL/FIXTURE sources and native primary intake boundaries; no production source authenticity or executed motor inferred",
+  "domains": [
+    {
+      "domain": "agriculture",
+      "classification": "ROUTING_JOIN_UNPROVEN",
+      "firstBoundary": "native-origin-destination-selection-and-return-not-joined",
+      "sourcePacketId": "agriculture:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "communication",
+      "classification": "TESTED_NATIVE_PRIMARY_BOUNDARY",
+      "firstBoundary": "candidate-identity-missing",
+      "sourcePacketId": "communication:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "culture",
+      "classification": "TESTED_SEPARATE_MAINTENANCE_TRIGGER",
+      "firstBoundary": "culture-immune-veto",
+      "sourcePacketId": "culture:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "defense",
+      "classification": "TESTED_NATIVE_PRIMARY_BOUNDARY",
+      "firstBoundary": "native-publication-release-not-proven",
+      "sourcePacketId": "defense:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "economy",
+      "classification": "TESTED_NATIVE_PRIMARY_BOUNDARY",
+      "firstBoundary": "exact-paper-investment-record-required",
+      "sourcePacketId": "economy:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "education",
+      "classification": "TESTED_NATIVE_PRIMARY_BOUNDARY",
+      "firstBoundary": "owning_domain_has_no_current_l3_evidence;owning_domain_has_no_declared_outward_consumer",
+      "sourcePacketId": "education:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "energy",
+      "classification": "TESTED_NATIVE_PRIMARY_BOUNDARY",
+      "firstBoundary": "exact-paper-investment-record-required",
+      "sourcePacketId": "energy:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "environment",
+      "classification": "TESTED_NATIVE_PRIMARY_BOUNDARY",
+      "firstBoundary": "owning_domain_has_no_declared_outward_consumer",
+      "sourcePacketId": "environment:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "finance",
+      "classification": "PRIMARY_JOIN_UNPROVEN",
+      "firstBoundary": "native-finance-packet-to-admitted-company-trade-candidate-not-joined",
+      "sourcePacketId": "finance:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "governance",
+      "classification": "TESTED_NATIVE_PRIMARY_BOUNDARY",
+      "firstBoundary": "native-publication-release-not-proven",
+      "sourcePacketId": "governance:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "industry",
+      "classification": "TESTED_NATIVE_PRIMARY_BOUNDARY",
+      "firstBoundary": "source-grounded-work-first-WARN-record-required",
+      "sourcePacketId": "industry:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "infrastructure",
+      "classification": "TESTED_NATIVE_PRIMARY_BOUNDARY",
+      "firstBoundary": "exact-non-binding-property-interest-record-required",
+      "sourcePacketId": "infrastructure:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "intelligence",
+      "classification": "TESTED_NATIVE_PRIMARY_BOUNDARY",
+      "firstBoundary": "exact-lead-email-action-required",
+      "sourcePacketId": "intelligence:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "law",
+      "classification": "TESTED_NATIVE_PRIMARY_BOUNDARY",
+      "firstBoundary": "exact-address-content-and-lead-time-required",
+      "sourcePacketId": "law:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "medicine",
+      "classification": "TESTED_NATIVE_PRIMARY_BOUNDARY",
+      "firstBoundary": "domain-motor-receipt-and-capability-required-before-command",
+      "sourcePacketId": "medicine:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "population",
+      "classification": "TESTED_NATIVE_PRIMARY_BOUNDARY",
+      "firstBoundary": "exact-non-binding-property-interest-record-required",
+      "sourcePacketId": "population:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "religion",
+      "classification": "TESTED_NATIVE_PRIMARY_BOUNDARY",
+      "firstBoundary": "paid-subscriber-candidate-invalid",
+      "sourcePacketId": "religion:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "science",
+      "classification": "TESTED_NATIVE_PRIMARY_BOUNDARY",
+      "firstBoundary": "domain-motor-receipt-and-capability-required-before-command",
+      "sourcePacketId": "science:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "technology",
+      "classification": "TESTED_NATIVE_PRIMARY_BOUNDARY",
+      "firstBoundary": "exact-paper-investment-record-required",
+      "sourcePacketId": "technology:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    },
+    {
+      "domain": "trade",
+      "classification": "TESTED_NATIVE_PRIMARY_BOUNDARY",
+      "firstBoundary": "exact-owned-asset-auction-listing-record-required",
+      "sourcePacketId": "trade:2:fixture-native-source-snapshot",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "providerCalled": false
+    }
+  ]
+}
