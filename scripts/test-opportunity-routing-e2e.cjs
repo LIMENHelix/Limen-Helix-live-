@@ -21,6 +21,7 @@ function Store() { this.values = Object.create(null); this.lists = Object.create
 Store.prototype.assertDurable = function () { return true; };
 Store.prototype.get = async function (key) { return this.values[key] === undefined ? null : JSON.parse(JSON.stringify(this.values[key])); };
 Store.prototype.set = async function (key, value) { this.values[key] = JSON.parse(JSON.stringify(value)); return true; };
+Store.prototype.setIfAbsent = async function (key, value) { if (this.values[key] !== undefined) return false; this.values[key] = JSON.parse(JSON.stringify(value)); return true; };
 Store.prototype.lpush = async function (key, value) { (this.lists[key] || (this.lists[key] = [])).unshift(JSON.parse(JSON.stringify(value))); return this.lists[key].length; };
 Store.prototype.ltrim = async function (key, start, stop) { this.lists[key] = (this.lists[key] || []).slice(start, stop + 1); return true; };
 

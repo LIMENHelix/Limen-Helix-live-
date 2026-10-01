@@ -67,10 +67,37 @@ function evaluated(progress) {
   var next = await Bridge.select(store, { lane: 'research', candidate: item, domainCycle: cycle(), at: now + 101 });
   assert.equal(next.ok, true);
   assert.equal(next.receipt.ownerDomain, 'education');
+  assert.notEqual(next.receipt.id, first.receipt.id, 'later evaluation must have its own durable decision episode');
+  assert.deepEqual(await store.get('autofire_selection:' + first.receipt.id), first.receipt,
+    'the earlier command cause remains unchanged after learning and reevaluation');
   assert.equal(next.receipt.criticDecision.ranked.some(function (row) {
     return row.kind === 'generate_research_artifact' && row.historicalN === 1 && row.historicalEffect === -1;
   }), true, 'the next Education selection consumes its own returned research outcome');
   assert.equal((await Learning._load(store, 'education')).outwardGate.outcomeHistory.generate_research_artifact.n, 1);
+
+  assert.equal(next.receipt.policySelectionId, first.receipt.policySelectionId,
+    'the original policy candidate identity is retained without changing brain policy');
+  var priorCause = await store.get(Learning.causeKey(command.copy.actionId));
+  assert.equal(priorCause.selectionId, first.receipt.id);
+  var retryStore = new Store();
+  retryStore.values['autofire_selection:' + first.receipt.id] = JSON.parse(JSON.stringify(first.receipt));
+  var replay = await Bridge.select(retryStore, { lane: 'research', candidate: item, domainCycle: cycle(), at: now });
+  assert.equal(replay.ok, true);
+  assert.equal(replay.receipt.id, first.receipt.id, 'an identical decision snapshot retains its episode identity');
+  await store.ltrim(Bridge.LOG_KEY, 0, 0);
+  assert.deepEqual(await store.get('autofire_selection:' + priorCause.selectionId), first.receipt,
+    'index decay does not remove the addressable command decision');
+  var broken = new Store();
+  broken.setIfAbsent = async function () { return false; };
+  var failed = await Bridge.select(broken, { lane: 'research', candidate: item, domainCycle: cycle(), at: now });
+  assert.equal(failed.ok, false);
+  assert.match(failed.detail, /selection episode readback failed/);
+  assert.equal((broken.lists[Bridge.LOG_KEY] || []).length, 0, 'missing keyed decision cannot be advertised in the index');
+  var corrupt = new Store();
+  corrupt.setIfAbsent = async function (key, value) { this.values[key] = Object.assign({}, value, { ownerDomain: 'finance' }); return false; };
+  var conflict = await Bridge.select(corrupt, { lane: 'research', candidate: item, domainCycle: cycle(), at: now });
+  assert.equal(conflict.ok, false);
+  assert.match(conflict.detail, /selection episode readback failed/);
 
   console.log('education research loop: sovereign selection -> durable efference/artifact receipt -> independent evaluated outcome -> next Education critic consumes own learning PASS');
 })().catch(function (error) { console.error(error && error.stack || error); process.exit(1); });
