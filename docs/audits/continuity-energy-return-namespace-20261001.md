@@ -1,0 +1,11 @@
+# Energy return strict-store namespace repair — 2026-10-01
+
+At cd77b031, actual autofire-efference-store.assertKey refuses both declared Energy return keys: energy_finance_afferent_state and energy_finance_afferent_cause:<eventId>. The existing return writer and Energy product learning reader therefore cannot use their configured strict store, even though unconstrained fixture stores passed. This is a persistence integration defect, not missing Redis credentials or new provider authority.
+
+The existing return fixture now applies the real strict store's key validator to every read/write/create operation. Pre-fix regression failed at the actual state read. Added only the exact state key and nonempty event-cause prefix to the existing strict-store allowlist. Empty cause ID, unrelated suffix/key remain rejected. No broad namespace or configuration change.
+
+Focused return, observer12/12 and strict efference66/66 checks pass. Frozen full suite31046 completed exit0:367 passed,1 external prerequisite skip,0 failed456.8s. Repository/harness/diff64585 completed exit0. The long loop test passed130s within its300s cap; the existing process was polled rather than restarted.
+
+Changed runtime lib/autofire-efference-store.js; existing test scripts/test-finance-domain-emission-loop.cjs; this audit and continuity checkpoint. Protected brain/phase/source/portal/provider/config unchanged. All79 paused canonical file fingerprints preserved. No production Redis write, outcome, deployment or secret is used. Namespace admission alone does not establish production persistence or concurrent-writer serialization.
+
+Independent next-boundary reproduction during frozen verification: two concurrent record calls for the same fixture event/command on cloned durable-shaped storage both resolved ok:true, duplicate:false, signal:true while persisted resolvedCount was1. This does not falsify namespace admission, but contradicts concurrent exactly-once return delivery. Existing strict store exposes setIfAbsent with TTL, setIfLockOwned and deleteIfValue. Next capture deterministic overlap and lease-expiry regressions and repair the existing writer with fenced persistence; do not infer concurrency safety from a process-local lock. No concurrency repair is included in this commit. Full goal active; Google Docs deferred.

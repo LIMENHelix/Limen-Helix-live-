@@ -6,6 +6,7 @@ const Packet = require('../lib/civilization-server-packet.js');
 const Intake = require('../lib/finance-domain-intake.js');
 const Readiness = require('../lib/finance-preview-readiness.js');
 const Afferent = require('../lib/energy-finance-afferent-learning.js');
+const StrictStore = require('../lib/autofire-efference-store.js');
 const EnergyExecutor = require('../lib/energy-investment-executor.js');
 const homology = require('./test-finance-homology.cjs')();
 
@@ -56,9 +57,10 @@ function fakeLearningStore() {
   const data = new Map();
   return {
     assertDurable() {},
-    async get(key) { return data.has(key) ? data.get(key) : null; },
-    async set(key, value) { data.set(key, JSON.parse(JSON.stringify(value))); },
+    async get(key) { StrictStore.assertKey(key); return data.has(key) ? data.get(key) : null; },
+    async set(key, value) { StrictStore.assertKey(key); data.set(key, JSON.parse(JSON.stringify(value))); },
     async setIfAbsent(key, value) {
+      StrictStore.assertKey(key);
       if (data.has(key)) return false;
       data.set(key, JSON.parse(JSON.stringify(value)));
       return true;
@@ -67,6 +69,9 @@ function fakeLearningStore() {
 }
 
 (async function () {
+  assert.throws(() => StrictStore.assertKey('energy_finance_afferent_cause:'), /refusing key/);
+  assert.throws(() => StrictStore.assertKey('energy_finance_afferent_state:other'), /refusing key/);
+  assert.throws(() => StrictStore.assertKey('energy_finance_afferent_unrelated'), /refusing key/);
   const energyPacket = packet('energy', {
     id: 'energy-opp-1', title: 'Grid resilience company', path: 'INVESTABLE', ticker: 'EX',
     evidenceIds: ['energy-evidence-1']
