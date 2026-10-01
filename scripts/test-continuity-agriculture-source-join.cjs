@@ -74,8 +74,15 @@ const scenarios = [['measured', '45', '10'], ['invalid', 'bad', '10'], ['zero', 
     assert.equal(brain.state.feeds[0].live, snapshot.sources[0].live);
     assert.equal(brain.state.feeds[0].value, snapshot.sources[0].value);
     const packet = Packet.fromBrainState('agriculture', brain.state,
-      { snapshotId: 'fixture-upstream-agriculture-' + name, fetchedAt: Date.now() }, 'fixture-source-join', new Date().toISOString());
+      { snapshotId: 'fixture-upstream-agriculture-' + name, fetchedAt: Date.now() }, 'fixture-source-join', new Date().toISOString(),
+      { feedSourceEvidence: Packet.feedSourceEvidence('agriculture', snapshot) });
     assert.equal(packet.domainId, 'agriculture');
+    assert.equal(packet.truth.feedSourceEvidence.sources[0].sourceUpdatedAt, name === 'invalid' ? null : '20260929');
+    assert.equal(packet.truth.feedSourceEvidence.sources[0].live, name !== 'invalid');
+    assert.equal(packet.truth.feedSourceEvidence.authority, 'observation-only');
+    assert.throws(() => Packet.buildPacket(Object.assign({}, packet, { truth: Object.assign({}, packet.truth,
+      { feedSourceEvidence: Object.assign({}, packet.truth.feedSourceEvidence, { ownerDomain: 'finance' }) }) })),
+      error => error.code === 'FEED_SOURCE_OWNER_MISMATCH');
     const values = new Map(), indexes = new Map();
     const clone = value => value == null ? null : JSON.parse(JSON.stringify(value));
     const store = { packetIndexKey: 'packets', handoffIndexKey: 'handoffs',
@@ -92,6 +99,7 @@ const scenarios = [['measured', '45', '10'], ['invalid', 'bad', '10'], ['zero', 
     for (const id of await store.members('handoffs')) {
       const handoff = await store.get(store.handoffKey(id));
       assert.equal(handoff.sourcePacketId, packet.packetId);
+      assert.deepEqual(handoff.feedSourceEvidence, packet.truth.feedSourceEvidence);
       assert.equal(Worker.isEligibleCandidate(handoff, Date.parse(packet.generatedAt)), false);
       assert.equal(Worker.isEligibleCandidate(handoff.opportunity, Date.parse(packet.generatedAt)), false);
       handoffs.push({ handoffId: id, opportunityId: handoff.opportunityId, lane: handoff.lane, eligible: false });
@@ -103,6 +111,7 @@ const scenarios = [['measured', '45', '10'], ['invalid', 'bad', '10'], ['zero', 
     results.push({ scenario: name, upstreamRequests: requested, sources: snapshot.sources,
       stress: snapshot.stress, stressBasis: snapshot.stressBasis, lowSignal: snapshot.lowSignal,
       packetId: packet.packetId, diagnoses: packet.truth.activeDiagnoses.length, opportunities: packet.truth.opportunities.length,
+      packetFeedSourceEvidence: packet.truth.feedSourceEvidence,
       handoffs, nextBoundary: 'native-agriculture-handoff-is-not-eligible-autofire-actor-candidate', providerCalled: false });
   }
   if (process.argv.includes('--write-evidence')) fs.writeFileSync(path.join(root, 'docs/audits/continuity-agriculture-source-join.json'),

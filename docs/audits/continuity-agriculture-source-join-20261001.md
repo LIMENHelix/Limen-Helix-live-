@@ -34,12 +34,18 @@ separate evidence, not a composed result of these native handoffs.
 Fixture bodies use identified upstream URL shapes and a fixture source date.
 This does not establish publisher authenticity, current live availability or
 current production observations. Individual source dates are retained by the
-snapshot assembler; the protected base brain's feed projection omits
-`sourceUpdatedAt`, so the downstream packet carries snapshot identity, not a
-claim of complete per-source date continuity. Protected brain changes remain
-outside current scope. The saved JSON makes these levels inspectable.
+snapshot assembler. The protected base brain's feed projection omits
+`sourceUpdatedAt`. A subsequent repair now projects the refresh handler's same
+snapshot source evidence separately into the server packet and keyed handoff,
+including source date, fetched time, value, live/classification/failure fields
+and stress basis. It preserves observation-only owner identity; mismatched
+owner is refused. The protected brain remains unchanged. This records snapshot
+provenance rather than authenticating a publisher or granting release authority.
+The saved JSON makes these levels inspectable.
 
 Focused source-join and existing twenty-domain native-spine tests passed.
-The previous runtime parser repair passed the full suite (363/1 skip/0 failures);
-this increment adds test and evidence only. Google Docs remains deferred until
-the complete goal audit passes.
+The previous runtime parser repair passed the full suite (363/1 skip/0 failures).
+The source-evidence capture repair now also passes a fresh full suite: 364 passed,
+one existing external-corpus skip, zero failures in 204.3 seconds. Repository,
+harness, packet and snapshot-input contracts pass. Google Docs remains deferred
+until the complete goal audit passes.

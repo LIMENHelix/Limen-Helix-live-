@@ -412,6 +412,9 @@ module.exports = async function handler(req, res) {
             };
             _packetExtras.crossDomainEmissions = Array.isArray(_st.crossDomainEmissions)
               ? _st.crossDomainEmissions.slice(0, 32) : [];
+            _packetExtras.feedSourceEvidence = serverPacket.feedSourceEvidence(
+              dom, cognitionSnapshotInput.readDomain(snap.domains, dom)
+            );
             var _semantic = domainSemantic[dom];
             _packetExtras.semanticEvidence = _semantic && _semantic.observations || [];
             _packetExtras.semanticEvidenceMeta = _semantic && _semantic.meta || {
