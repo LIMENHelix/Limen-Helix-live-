@@ -42,6 +42,20 @@ cognition.cognition.culture = { ts: Date.now(), c: { businessTrace: {
   command: { id: 'culture-command-1', status: 'AMBIGUOUS', decisionId: 'culture-prior-decision', commandedAt: Date.now(), providerReceiptId: null }
 } } };
 cognition.count = 4;
+cognition.cognition.economy = { ts: Date.now(), c: { businessTrace: {
+  schemaVersion: 'product-domain-business-trace-readout/1.0', ownerDomain: 'economy', lane: 'investments',
+  status: 'RECORDED', observationOnly: true, externalActionAuthorized: false,
+  decision: { id: 'economy-decision-1', status: 'RELEASED', packetId: 'economy-packet-1' },
+  command: { id: 'economy-command-1', status: 'COMMAND_RECEIPTED', decisionId: 'economy-decision-1', paperOnly: true,
+    receipt: { kind: 'PAPER-ORDER', id: 'paper-order-1' } }
+} } };
+cognition.cognition.defense = { ts: Date.now(), c: { businessTrace: {
+  schemaVersion: 'product-domain-business-trace-readout/1.0', ownerDomain: 'defense', lane: 'publication',
+  status: 'RECORDED', observationOnly: true, externalActionAuthorized: false,
+  command: { id: 'defense-command-1', status: 'PUBLISHED', decisionId: 'defense-decision-1',
+    receipt: { kind: 'OWNED-PUBLICATION', id: 'owned-article-1' } }
+} } };
+cognition.count = 6;
 vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilization/execution-observatory.js'), 'utf8'), {
   window, document, Date, setInterval() {},
   fetch: async url => {
@@ -58,6 +72,19 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
   });
   assert.match(financeCard, /internal emission <b>12/);
   assert.match(financeCard, /preparation PERMITTED/);
+  var economyCard = el.innerHTML.split('<span class="exo-domain-name">economy</span>')[1].split('</article>')[0];
+  assert.match(economyCard, /PAPER-ORDER/); assert.match(economyCard, /PAPER ONLY/);
+  assert.doesNotMatch(economyCard, /PROVIDER-ACCEPTED/);
+  assert.match(economyCard, /exo-chain-label">REVENUE<\/span><span class="exo-badge exo-unobserved">UNOBSERVED/);
+  var defenseCard = el.innerHTML.split('<span class="exo-domain-name">defense</span>')[1].split('</article>')[0];
+  assert.match(defenseCard, /OWNED-PUBLICATION/); assert.match(defenseCard, /owned-article-1/);
+  assert.match(defenseCard, /exo-chain-label">OBSERVED<\/span><span class="exo-badge exo-unobserved">UNOBSERVED/);
+  cognition.cognition.economy.c.businessTrace.ownerDomain = 'finance';
+  await window.LIMENExecutionObservatory.refresh();
+  economyCard = el.innerHTML.split('<span class="exo-domain-name">economy</span>')[1].split('</article>')[0];
+  assert.doesNotMatch(economyCard, /PAPER-ORDER/);
+  cognition.cognition.economy.c.businessTrace.ownerDomain = 'economy';
+  await window.LIMENExecutionObservatory.refresh();
   var cultureCard = el.innerHTML.split('<span class="exo-domain-name">culture</span>')[1].split('</article>')[0];
   assert.match(cultureCard, /RECORDED NO_ACTION/); assert.match(cultureCard, /RECORDED AMBIGUOUS/);
   assert.match(cultureCard, /culture-prior-decision/);

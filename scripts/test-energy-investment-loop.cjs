@@ -63,5 +63,18 @@ function cognition(now, immune) { return { ts: now, c: { domain: 'energy', immun
   var held = await Decision.decide(store, candidate, now, { cognition: cognition(now), titleSets: titleSets.slice(0, 1), maxNotionalUsd: 150 });
   assert.equal(held.status, 'NO_ACTION');
   assert(held.blockers.includes('energy-exact-current-feed-evidence-not-confirmed'));
-  console.log('energy investment loop: source-gated decision, Energy-owned paper motor boundary, and recovery passed');
+  var paper = await Executor.execute({ store: store, candidate: candidate, decision: decision, now: now + 1,
+    env: { ENERGY_INVESTMENT_PAPER_ORDER_ENABLED: '1', ENERGY_INVESTMENT_RECOVERY_ENABLED: '1' },
+    maxNotionalUsd: 150, dailyNotionalBudgetUsd: 200, dailyOrderCap: 2,
+    motorAuthorization: { authorize: async function () { return { authorized: true, receiptId: 'fixture-energy-motor' }; } },
+    broker: { quote: async function (symbol) { return { last: symbol === 'SPY' ? 500 : 10 }; }, accountSnapshot: async function () { return { totalCash: 1000 }; } },
+    b14: { createPreview: async function () { await require('./assert-business-trace.cjs').beforeProvider(store, 'energy', now + 1000); return { previewId: 'fixture-energy-preview', confirmationSummary: 'fixture only' }; },
+      submitApproved: async function (_store, _broker, input) {
+        assert.equal(input.approval.ownerDomain, 'energy');
+        return { commandId: 'fixture-energy-broker-command', receipt: { orderId: 'fixture-energy-paper-order' } };
+      } } });
+  assert.equal(paper.status, 'COMMAND_RECEIPTED');
+  await require('./assert-business-trace.cjs')(store, 'energy', paper, 'PAPER-ORDER', now + 1000);
+  await require('./assert-business-trace.cjs').journalFailure(memory(), 'energy', candidate, decision, now + 1);
+  console.log('energy investment loop: source-gated decision, Energy-owned paper motor boundary, recovery and read-only business trace passed');
 })().catch(function (error) { console.error(error.stack || error); process.exit(1); });

@@ -168,5 +168,8 @@ function cognition(now) {
   assert.match(page, /defense-publication-public/);
   assert.match(page, /defense-publication-engagement/);
   assert.match(page, /do not independently verify events/);
-  console.log('defense publication: sovereign evidence, B10/B14 public receipt, independent human-like click learning, and verified unpublish passed');
+  await require('./assert-business-trace.cjs')(store, 'defense', command, 'OWNED-PUBLICATION', now + 1000, 'defense:7:snapshot-1');
+  var businessTrace = await require('../lib/product-domain-business-trace-readout.js').read(ambiguousStore, 'defense', now + 1000);
+  assert.equal(businessTrace.command.status, 'AMBIGUOUS'); assert.equal(businessTrace.command.receipt, null);
+  console.log('defense publication: sovereign evidence, B10/B14 public receipt, independent learning, verified unpublish and read-only business trace passed');
 })().catch(function (error) { console.error(error); process.exit(1); });

@@ -34,7 +34,7 @@ function cognition(now) { return { ts: now, c: { domain: 'technology', immune: {
   var decision = await Decision.decide(store, candidate, now, { cognition: cognition(now), titleSets: titleSets, maxNotionalUsd: 150 });
   assert.equal(decision.status, 'RELEASED');
   assert.equal(decision.returnedOutcome.status, 'UNOBSERVED');
-  var b14 = { createPreview: async function (_s, _b, intent) { assert.equal(intent.ownerDomain, 'technology'); return { previewId: 'epv1', confirmationSummary: 'confirm' }; },
+  var b14 = { createPreview: async function (_s, _b, intent) { assert.equal(intent.ownerDomain, 'technology'); await require('./assert-business-trace.cjs').beforeProvider(store, 'technology', now + 1000); return { previewId: 'epv1', confirmationSummary: 'confirm' }; },
     submitApproved: async function (_s, _b, input) { assert.deepEqual(input.approval, { mode: 'domain-autonomous', actor: 'technology-brain', ownerDomain: 'technology', authorizationReceiptId: 'technology-motor-receipt-1', authorizationMode: 'mature-production-capability' }); assert(await store.get(Learning.causeKey(decision.actionId))); return { commandId: 'broker-command-1', receipt: { orderId: 'paper-order-1' }, rollback: { confirmationSummary: 'cancel' } }; } };
   var broker = { quote: async function (s) { return { symbol: s, last: s === 'SPY' ? 500 : 10, bid: s === 'SPY' ? 499 : 9.99, ask: s === 'SPY' ? 501 : 10.01 }; }, accountSnapshot: async function () { return { totalCash: 1000 }; } };
   var authorization = { authorize: async function () { return { authorized: true, receiptId: 'technology-motor-receipt-1' }; } };
@@ -77,5 +77,7 @@ function cognition(now) { return { ts: now, c: { domain: 'technology', immune: {
   assert.equal(nextDecision.returnedOutcome.effect, 'HOLD_FOR_NEW_TECHNOLOGY_EVIDENCE');
   var held = await Decision.decide(store, candidate, now, { cognition: cognition(now), titleSets: titleSets.slice(0, 1), maxNotionalUsd: 150 });
   assert.equal(held.status, 'NO_ACTION'); assert(held.blockers.includes('technology-exact-current-feed-evidence-not-confirmed'));
-  console.log('technology investment loop: source-gated decision, durable paper receipt, and cancel recovery passed');
+  await require('./assert-business-trace.cjs')(store, 'technology', result, 'PAPER-ORDER', now + 1000);
+  await require('./assert-business-trace.cjs').journalFailure(memory(), 'technology', candidate, decision, now + 1);
+  console.log('technology investment loop: source-gated decision, durable paper receipt, cancel recovery and read-only business trace passed');
 })().catch(function (error) { console.error(error); process.exit(1); });

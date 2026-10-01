@@ -157,13 +157,17 @@
     var diagnosed = diagnosisCount ? diagnosisCount + ' ACTIVE' : 'NONE';
     var routed = (row.lanes.investments + row.lanes.research) > 0 ? row.lanes.investments + ' INV · ' + row.lanes.research + ' RES' : (opportunityCount ? opportunityCount + ' OTHER' : 'NONE');
     var trace = row.c.businessTrace || {};
-    var traceValid = trace.schemaVersion === 'culture-business-trace-readout/1.0' && row.domain === 'culture' &&
+    var traceValid = (trace.schemaVersion === 'product-domain-business-trace-readout/1.0' ||
+      (trace.schemaVersion === 'culture-business-trace-readout/1.0' && row.domain === 'culture')) &&
       trace.ownerDomain === row.domain && trace.observationOnly === true && trace.externalActionAuthorized === false && trace.status === 'RECORDED';
     var businessDecision = traceValid && trace.decision;
     var businessCommand = traceValid && trace.command;
     var decided = businessDecision ? 'RECORDED ' + businessDecision.status : 'UNOBSERVED';
     var command = businessCommand ? 'RECORDED ' + businessCommand.status : 'UNOBSERVED';
-    var receipt = businessCommand && businessCommand.providerReceiptId ? 'PROVIDER-ACCEPTED' : 'UNOBSERVED';
+    var businessReceipt = businessCommand && businessCommand.receipt || (businessCommand && businessCommand.providerReceiptId
+      ? { kind: 'PROVIDER-ACCEPTED', id: businessCommand.providerReceiptId } : null);
+    var receipt = businessReceipt && businessReceipt.id && ['PROVIDER-ACCEPTED', 'OWNED-PUBLICATION', 'PAPER-ORDER'].indexOf(businessReceipt.kind) >= 0
+      ? businessReceipt.kind : 'UNOBSERVED';
     var observation = row.observed ? 'SIGNAL ' + (row.learning.latestSignalId || row.social.latestSignalId) : 'UNOBSERVED';
     var statusLine = row.serverSeen ? 'server ' + age(row.entry.ts) + ' · packet ' + (row.packetPersist.ok ? 'persisted' : 'held') : 'server cognition unavailable';
     var blockers = row.blockers.slice(0, 3).join(' · ');
@@ -183,7 +187,7 @@
         chainItem('ROUTED', routed, (row.lanes.investments + row.lanes.research) ? 'routed' : opportunityCount ? 'present' : 'held') +
         chainItem('DECIDED', decided, businessDecision ? 'persisted' : 'unobserved') +
         chainItem('COMMAND', command, businessCommand ? 'persisted' : 'unobserved') +
-        chainItem('RECEIPT', receipt, receipt === 'PROVIDER-ACCEPTED' ? 'persisted' : 'unobserved') +
+        chainItem('RECEIPT', receipt, receipt === 'UNOBSERVED' ? 'unobserved' : 'persisted') +
         chainItem('OBSERVED', observation, row.observed ? 'observed' : 'unobserved') +
         chainItem('REVENUE', row.revenue, 'unobserved') +
       '</div>' +
@@ -192,7 +196,7 @@
         '<span>readiness receipt <b>' + esc(row.receipt.status || (row.receipt.ok ? 'PERSISTED' : 'UNOBSERVED')) + '</b> · preparation ' + esc(row.gates.mayPrepare === true ? 'PERMITTED' : 'HELD') + '</span>' +
         '<span>business trace <b>' + esc(trace.status || 'UNOBSERVED') + '</b> · ' + esc(trace.reason || (traceValid ? 'historical records; dispatch revalidates authority' : 'business decision/command read not connected for this domain')) + '</span>' +
         (businessDecision ? '<span>decision <b>' + esc(businessDecision.id) + '</b> · packet ' + esc(businessDecision.packetId || 'UNOBSERVED') + ' · ' + esc(time(businessDecision.decidedAt)) + ' · key ' + esc(businessDecision.key) + '</span>' : '') +
-        (businessCommand ? '<span>command <b>' + esc(businessCommand.id) + '</b> · decision ' + esc(businessCommand.decisionId) + ' · ' + esc(time(businessCommand.commandedAt)) + ' · key ' + esc(businessCommand.key) + ' · provider receipt ' + esc(businessCommand.providerReceiptId || 'UNOBSERVED') + '</span>' : '') +
+        (businessCommand ? '<span>command <b>' + esc(businessCommand.id) + '</b> · decision ' + esc(businessCommand.decisionId) + ' · ' + esc(time(businessCommand.commandedAt)) + ' · key ' + esc(businessCommand.key) + ' · receipt ' + esc(businessReceipt && businessReceipt.id || 'UNOBSERVED') + (businessCommand.paperOnly === true ? ' · PAPER ONLY' : '') + '</span>' : '') +
         '<span>executor <b>' + esc(yes(row.capability.executorVerified)) + '</b></span>' +
         '<span>outcome observer <b>' + esc(yes(row.capability.independentOutcomeObserverVerified)) + '</b></span>' +
         '<span>external valve <b>' + esc(row.valve.eligible === true ? 'ELIGIBLE' : 'HELD') + '</b></span>' +

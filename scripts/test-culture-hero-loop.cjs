@@ -137,6 +137,10 @@ function motor(receipt) { return { authorize: async function () { return { autho
   await store.set(Executor.commandKey(original.commandId), Object.assign({}, original, { promptHash: null }));
   assert.equal((await Trace.read(store, now + 10)).reason, 'command-readback-invalid');
   await store.set(Executor.commandKey(original.commandId), original);
+  var originalCause = await store.get(Decision.key(original.decisionReceiptId));
+  await store.set(Decision.key(original.decisionReceiptId), Object.assign({}, originalCause, { expiresAt: original.commandedAt }));
+  assert.equal((await Trace.read(store, now + 10)).reason, 'command-decision-link-invalid');
+  await store.set(Decision.key(original.decisionReceiptId), originalCause);
   assert.equal((await Trace.read(store, now + 10)).status, 'RECORDED');
   var pendingOnly = new Store();
   await pendingOnly.set(Decision.key(released.decisionReceiptId), released);
