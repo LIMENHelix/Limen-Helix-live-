@@ -13,6 +13,7 @@ const originalFetch = global.fetch;
 (async () => {
   const results = [];
   const titleFetchers = [];
+  const titleInputs = [];
   for (const [name, fetcher] of Object.entries(H.testTitleFetchers)) {
     const suppliedUrl = 'https://fixture.invalid/governance/' + name;
     const xml = '<rss><channel><item><title>LOCAL/FIXTURE ' + name + ' record</title><link>' + suppliedUrl +
@@ -28,9 +29,11 @@ const originalFetch = global.fetch;
     assert.equal(reading.headlinePublishedAt[0], Date.parse('2026-09-30T12:00:00Z'));
     assert.equal(reading.headlineLinks[1], null); assert.equal(reading.headlinePublishers[1], null); assert.equal(reading.headlinePublishedAt[1], null);
     assert(reading.sourceUpdatedAt);
+    const sourceNames = { GovTrack: 'GovTrack', CongressGov: 'Congress.gov', GAO: 'GAO Reports', CBO: 'CBO Publications' };
+    titleInputs.push({ name: sourceNames[name], data: reading });
     titleFetchers.push({ name, requested, headlines: reading.headlines, identity: reading.sourceUpdatedAt });
   }
-  for (const scenario of ['valid', 'effectiveness-unavailable', 'recovery']) {
+  for (const scenario of ['valid', 'effectiveness-unavailable', 'recovery', 'combined-title-feeds']) {
     const requests = [];
     global.fetch = async url => {
       const u = String(url); requests.push(u);
@@ -40,7 +43,31 @@ const originalFetch = global.fetch;
     };
     const effectiveness = await H._fetchWBGovEffectiveness(), law = await H._fetchWBRuleOfLaw();
     assert.equal(effectiveness === null, scenario === 'effectiveness-unavailable'); assert(law);
-    const snapshot = H.testBuildDomain('governance', [{ name: 'World Bank Gov Effectiveness', data: effectiveness }, { name: 'World Bank Rule of Law', data: law }]);
+    const inputs = [{ name: 'World Bank Gov Effectiveness', data: effectiveness }, { name: 'World Bank Rule of Law', data: law }];
+    if (scenario === 'combined-title-feeds') inputs.push(...titleInputs);
+    const snapshot = H.testBuildDomain('governance', inputs);
+    let recordedTitles = [];
+    if (scenario === 'combined-title-feeds') {
+      const memory = new Map(), lists = new Map(), copy = v => v == null ? null : JSON.parse(JSON.stringify(v));
+      const db = { getBackend: () => 'TEST_MEMORY', get: async k => copy(memory.get(k)), set: async (k, v) => { memory.set(k, copy(v)); return true; },
+        lpush: async (k, v) => { const a = lists.get(k) || []; a.unshift(copy(v)); lists.set(k, a); return a.length; },
+        lrange: async (k, a, b) => copy((lists.get(k) || []).slice(a, b < 0 ? undefined : b + 1)),
+        ltrim: async (k, a, b) => { lists.set(k, (lists.get(k) || []).slice(a, b + 1)); return true; } };
+      const recorderFile = path.join(root, 'handlers/feed-record.js'), recorder = new Module(recorderFile, module);
+      recorder.filename = recorderFile; recorder.paths = Module._nodeModulePaths(path.dirname(recorderFile));
+      const actualRequire = recorder.require.bind(recorder);
+      recorder.require = id => id === '../lib/limen-db' ? db : id === '../lib/cron-auth' ? { enforce: () => true } :
+        id === '../lib/heartbeat' ? { wrap: (_, handler) => handler } : actualRequire(id);
+      recorder._compile(fs.readFileSync(recorderFile, 'utf8'), recorderFile);
+      global.fetch = async () => ({ json: async () => ({ domains: { governance: snapshot }, meta: {} }) });
+      let recorded;
+      const response = { setHeader() {}, status() { return this; }, json(body) { recorded = body; return this; } };
+      await recorder.exports({ url: '/api/feed-record', headers: {} }, response);
+      assert(recorded && recorded.ok);
+      recordedTitles = await db.lrange('feedtitles:governance', 0, -1);
+      assert.equal(recordedTitles.length, 4);
+      assert.equal(Source.collect(recordedTitles, Date.now()).length, 4);
+    }
     assert.equal(snapshot.sources[0].live, scenario !== 'effectiveness-unavailable');
     if (!effectiveness) { assert.equal(snapshot.sources[0].classification, 'broken'); assert.equal(snapshot.sources[0].value, null); assert(snapshot.lowSignal); }
     const sb = sandbox(global); sb.LIMENDomains = { governance: snapshot };
@@ -81,9 +108,35 @@ const originalFetch = global.fetch;
     }
     assert.equal((await consumer.consumePacket(packet)).handoffsCreated, 0);
     assert.equal(JSON.stringify(Array.from(values)), before);
+    let publication = null;
+    if (scenario === 'combined-title-feeds') {
+      const candidate = Source.build(recordedTitles, cognition, at);
+      assert(Source.validate(candidate)); assert.equal(candidate.governancePacketId, packet.packetId);
+      assert(packet.truth.opportunities.some(o => o.id === candidate.brainSelection.id && o.path === 'RESEARCHABLE'));
+      const lists = new Map();
+      const decisionStore = Object.assign({}, store, { assertDurable() {}, setIfAbsent: store.setNx,
+        lpush: async (k, v) => { const a = lists.get(k) || []; a.unshift(clone(v)); lists.set(k, a); return a.length; },
+        lrange: async (k, a, b) => clone((lists.get(k) || []).slice(a, b < 0 ? undefined : b + 1)),
+        ltrim: async (k, a, b) => { lists.set(k, (lists.get(k) || []).slice(a, b + 1)); return true; } });
+      const selected = await Decision.decide(decisionStore, candidate, at, cognition);
+      assert(selected.decisionReceiptId, JSON.stringify(selected));
+      assert.equal(selected.status, 'NO_ACTION'); assert(selected.blockers.includes('governance-immune-veto'));
+      assert.deepEqual(await store.get(Decision.key(selected.decisionReceiptId)), selected);
+      assert.equal((await Decision.decide(decisionStore, candidate, at, cognition)).decisionReceiptId, selected.decisionReceiptId);
+      const beforeDispatch = JSON.stringify(Array.from(values));
+      const held = await require('../lib/governance-publication-executor.js').execute({ store: decisionStore, candidate, decision: selected, now: at,
+        publisher: { publish: async () => { throw new Error('native veto must not publish'); } } });
+      assert.equal(held.reason, 'governance-publication-exact-b10-decision-required'); assert.equal(held.providerCalls, 0);
+      const trace = await require('../lib/product-domain-business-trace-readout.js').read(decisionStore, 'governance', at + 1);
+      assert.equal(trace.status, 'RECORDED'); assert.equal(trace.decision.packetId, packet.packetId);
+      assert(trace.decision.blockers.includes('governance-immune-veto')); assert.equal(trace.command, null); assert.equal(trace.externalActionAuthorized, false);
+      assert.equal(JSON.stringify(Array.from(values)), beforeDispatch);
+      publication = { candidateId: candidate.candidateId, selectedOpportunityId: candidate.brainSelection.id, titleSets: recordedTitles.length,
+        sources: candidate.sources, decisionId: selected.decisionReceiptId, blockers: selected.blockers, operatorReadout: trace.status, providerCalls: held.providerCalls };
+    }
     results.push({ scenario, requests, sources: packet.truth.feedSourceEvidence, stress: snapshot.stress, lowSignal: snapshot.lowSignal,
       packetId: packet.packetId, diagnoses: packet.truth.activeDiagnoses.length, handoffs: consumed.handoffsCreated,
-      nextBoundary: 'source-grounded-governance-brief-required', providerCalled: false });
+      publication, nextBoundary: publication ? publication.blockers.join(';') : 'source-grounded-governance-brief-required', providerCalled: false });
   }
   if (process.argv.includes('--write-evidence')) fs.writeFileSync(path.join(root, 'docs/audits/continuity-governance-source-join.json'),
     JSON.stringify({ level: 'LOCAL/FIXTURE', externalFetches: false, injectedDiagnoses: false, injectedOpportunities: false, titleFetchers, results }, null, 2) + '\n');

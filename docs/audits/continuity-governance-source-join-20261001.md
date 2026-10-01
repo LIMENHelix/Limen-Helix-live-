@@ -19,6 +19,16 @@ opportunity enters the existing Governance decision and is refused with
 candidate refusal, not a durable publication B10 receipt, permission or command.
 No headline, publisher independence, provider outcome or revenue is invented.
 
+The subsequent combined-title-feeds scenario includes actual configured
+GovTrack/Congress.gov/GAO/CBO parser readings in that same snapshot. Actual title
+recorder persists four source sets before the native brain derives three
+diagnoses/eight handoffs. A valid publication candidate references that exact
+packet and selected research opportunity. Actual native cognition records
+NO_ACTION with governance-immune-veto; durable readback/replay, zero-call executor
+HOLD and operator RECORDED exact packet/blockers/null command all pass. This
+supersedes the missing-title boundary for the combined scenario, while retaining
+the original count-only refusal scenarios. No external action is inferred.
+
 Focused join and Governance publication regressions pass. Runtime is unchanged
 since the 365-pass full checkpoint. Agriculture, Defense and Governance now have
 actual parser/assembler-to-native fixture joins; seventeen domains remain.

@@ -68,7 +68,7 @@
             "name": "World Bank Gov Effectiveness",
             "live": true,
             "sourceUpdatedAt": "2025",
-            "fetchedAt": 1790881330363,
+            "fetchedAt": 1790881627364,
             "value": -0.6,
             "classification": "real",
             "failReason": null
@@ -77,7 +77,7 @@
             "name": "World Bank Rule of Law",
             "live": true,
             "sourceUpdatedAt": "2025",
-            "fetchedAt": 1790881330363,
+            "fetchedAt": 1790881627364,
             "value": -0.6,
             "classification": "real",
             "failReason": null
@@ -89,6 +89,7 @@
       "packetId": "governance:2:fixture-governance-valid",
       "diagnoses": 1,
       "handoffs": 4,
+      "publication": null,
       "nextBoundary": "source-grounded-governance-brief-required",
       "providerCalled": false
     },
@@ -110,7 +111,7 @@
             "name": "World Bank Gov Effectiveness",
             "live": false,
             "sourceUpdatedAt": null,
-            "fetchedAt": 1790881330579,
+            "fetchedAt": 1790881627540,
             "value": null,
             "classification": "broken",
             "failReason": "no non-null value"
@@ -119,7 +120,7 @@
             "name": "World Bank Rule of Law",
             "live": true,
             "sourceUpdatedAt": "2025",
-            "fetchedAt": 1790881330579,
+            "fetchedAt": 1790881627540,
             "value": -0.6,
             "classification": "real",
             "failReason": null
@@ -131,6 +132,7 @@
       "packetId": "governance:2:fixture-governance-effectiveness-unavailable",
       "diagnoses": 1,
       "handoffs": 1,
+      "publication": null,
       "nextBoundary": "source-grounded-governance-brief-required",
       "providerCalled": false
     },
@@ -152,7 +154,7 @@
             "name": "World Bank Gov Effectiveness",
             "live": true,
             "sourceUpdatedAt": "2025",
-            "fetchedAt": 1790881330690,
+            "fetchedAt": 1790881627695,
             "value": -0.6,
             "classification": "real",
             "failReason": null
@@ -161,7 +163,7 @@
             "name": "World Bank Rule of Law",
             "live": true,
             "sourceUpdatedAt": "2025",
-            "fetchedAt": 1790881330690,
+            "fetchedAt": 1790881627695,
             "value": -0.6,
             "classification": "real",
             "failReason": null
@@ -173,7 +175,153 @@
       "packetId": "governance:2:fixture-governance-recovery",
       "diagnoses": 1,
       "handoffs": 4,
+      "publication": null,
       "nextBoundary": "source-grounded-governance-brief-required",
+      "providerCalled": false
+    },
+    {
+      "scenario": "combined-title-feeds",
+      "requests": [
+        "https://api.worldbank.org/v2/country/USA/indicator/GOV_WGI_GE.EST?source=3&format=json&per_page=100",
+        "https://api.worldbank.org/v2/country/USA/indicator/GOV_WGI_RL.EST?source=3&format=json&per_page=100"
+      ],
+      "sources": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "governance",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": "measured",
+        "stressUsable": true,
+        "sources": [
+          {
+            "name": "World Bank Gov Effectiveness",
+            "live": true,
+            "sourceUpdatedAt": "2025",
+            "fetchedAt": 1790881627868,
+            "value": -0.6,
+            "classification": "real",
+            "failReason": null
+          },
+          {
+            "name": "World Bank Rule of Law",
+            "live": true,
+            "sourceUpdatedAt": "2025",
+            "fetchedAt": 1790881627868,
+            "value": -0.6,
+            "classification": "real",
+            "failReason": null
+          },
+          {
+            "name": "GovTrack",
+            "live": true,
+            "sourceUpdatedAt": "rss-set-v1:govtrack-active-bills|items:2|sha256:3669f8cbea0ed8f404b90b423adda178f373eb3508a9e8bb68829af38773b8dd",
+            "fetchedAt": 1790881627360,
+            "value": 2,
+            "classification": "degraded",
+            "failReason": null
+          },
+          {
+            "name": "Congress.gov",
+            "live": true,
+            "sourceUpdatedAt": "rss-set-v1:congress-most-viewed|items:2|sha256:44f76700308f1d828c8c5cf2819e278e8e108e562c8056744bb21ca0cf1e4ecd",
+            "fetchedAt": 1790881627363,
+            "value": 2,
+            "classification": "degraded",
+            "failReason": null
+          },
+          {
+            "name": "GAO Reports",
+            "live": true,
+            "sourceUpdatedAt": "rss-set-v1:gao-reports|items:2|sha256:133824a7014a3fa0ae3922db8a86f36d314fc6d28ab3d85b7b34fbe4b2586424",
+            "fetchedAt": 1790881627364,
+            "value": 2,
+            "classification": "degraded",
+            "failReason": null
+          },
+          {
+            "name": "CBO Publications",
+            "live": true,
+            "sourceUpdatedAt": "rss-set-v1:cbo-publications|items:2|sha256:442df7ca44f443b65940309ef9230b0c5e0d65ee134431cd741dcb6b1e479695",
+            "fetchedAt": 1790881627364,
+            "value": 2,
+            "classification": "degraded",
+            "failReason": null
+          }
+        ]
+      },
+      "stress": 0.7,
+      "lowSignal": false,
+      "packetId": "governance:2:fixture-governance-combined-title-feeds",
+      "diagnoses": 3,
+      "handoffs": 8,
+      "publication": {
+        "candidateId": "gpc_7e1c575a8cce6015dc5e0714",
+        "selectedOpportunityId": "lagging_researchable_t3",
+        "titleSets": 4,
+        "sources": [
+          {
+            "sourceIdentity": {
+              "kind": "headline-title",
+              "value": "governance:CBO Publications:3062060025:0:dab56b7d28381574"
+            },
+            "title": "LOCAL/FIXTURE CBO record",
+            "url": "https://fixture.invalid/governance/CBO",
+            "publisher": "Supplied label",
+            "feedName": "CBO Publications",
+            "recordedAt": "2026-10-01T19:07:07.871Z",
+            "sourcePublishedAt": "2026-09-30T12:00:00.000Z",
+            "publisherIndependence": "unassessed"
+          },
+          {
+            "sourceIdentity": {
+              "kind": "headline-title",
+              "value": "governance:GAO Reports:3182055006:0:23fab248e2264ce7"
+            },
+            "title": "LOCAL/FIXTURE GAO record",
+            "url": "https://fixture.invalid/governance/GAO",
+            "publisher": "Supplied label",
+            "feedName": "GAO Reports",
+            "recordedAt": "2026-10-01T19:07:07.871Z",
+            "sourcePublishedAt": "2026-09-30T12:00:00.000Z",
+            "publisherIndependence": "unassessed"
+          },
+          {
+            "sourceIdentity": {
+              "kind": "headline-title",
+              "value": "governance:Congress.gov:481699259:0:457efae62ce0c10b"
+            },
+            "title": "LOCAL/FIXTURE CongressGov record",
+            "url": "https://fixture.invalid/governance/CongressGov",
+            "publisher": "Supplied label",
+            "feedName": "Congress.gov",
+            "recordedAt": "2026-10-01T19:07:07.871Z",
+            "sourcePublishedAt": "2026-09-30T12:00:00.000Z",
+            "publisherIndependence": "unassessed"
+          },
+          {
+            "sourceIdentity": {
+              "kind": "headline-title",
+              "value": "governance:GovTrack:3130517350:0:531a935b65aa88fb"
+            },
+            "title": "LOCAL/FIXTURE GovTrack record",
+            "url": "https://fixture.invalid/governance/GovTrack",
+            "publisher": "Supplied label",
+            "feedName": "GovTrack",
+            "recordedAt": "2026-10-01T19:07:07.871Z",
+            "sourcePublishedAt": "2026-09-30T12:00:00.000Z",
+            "publisherIndependence": "unassessed"
+          }
+        ],
+        "decisionId": "gpd_984461c6ccf3656e86998556",
+        "blockers": [
+          "governance-immune-veto",
+          "governance-b10-brake-held:brake-absent",
+          "governance-b10-no-action-selected"
+        ],
+        "operatorReadout": "RECORDED",
+        "providerCalls": 0
+      },
+      "nextBoundary": "governance-immune-veto;governance-b10-brake-held:brake-absent;governance-b10-no-action-selected",
       "providerCalled": false
     }
   ]
