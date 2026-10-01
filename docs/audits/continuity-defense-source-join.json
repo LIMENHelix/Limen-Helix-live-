@@ -25,7 +25,7 @@
             "name": "OFAC Recent Actions",
             "live": true,
             "sourceUpdatedAt": "ofac-set-v1:items:1|sha256:12dbacce5bccbd49214f278889f5e80db49ed76f24583b0d55c6388f00a901a1",
-            "fetchedAt": 1790880581816,
+            "fetchedAt": 1790880710298,
             "value": 24,
             "classification": "real",
             "failReason": null
@@ -33,8 +33,8 @@
           {
             "name": "CISA KEV",
             "live": true,
-            "sourceUpdatedAt": "cisa-kev-version:LOCAL-FIXTURE-1|released:2026-10-01T18:49:41.814Z|count:18",
-            "fetchedAt": 1790880581818,
+            "sourceUpdatedAt": "cisa-kev-version:LOCAL-FIXTURE-1|released:2026-10-01T18:51:50.295Z|count:18",
+            "fetchedAt": 1790880710300,
             "value": 18,
             "classification": "real",
             "failReason": null
@@ -45,7 +45,78 @@
       "diagnoses": 4,
       "opportunities": 8,
       "handoffs": 8,
-      "nextBoundary": "parser-derived-defense-handoff-to-publication-decision-not-joined",
+      "publicationIntake": {
+        "candidateCreated": false,
+        "headlineSetsInvented": false,
+        "refusals": [
+          {
+            "opportunityId": "CYBER_ATTACK_researchable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "CYBER_ATTACK_investable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "INTELLIGENCE_FAILURE_researchable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "LOGISTICS_COLLAPSE_researchable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "NUCLEAR_THREAT_researchable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "INTELLIGENCE_FAILURE_investable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "LOGISTICS_COLLAPSE_investable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "NUCLEAR_THREAT_investable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          }
+        ],
+        "storedValuesUnchanged": true
+      },
+      "nextBoundary": "source-grounded-defense-brief-required",
       "providerCalled": false
     },
     {
@@ -69,7 +140,7 @@
             "name": "OFAC Recent Actions",
             "live": false,
             "sourceUpdatedAt": null,
-            "fetchedAt": 1790880582078,
+            "fetchedAt": 1790880710804,
             "value": null,
             "classification": "broken",
             "failReason": "empty response"
@@ -77,8 +148,8 @@
           {
             "name": "CISA KEV",
             "live": true,
-            "sourceUpdatedAt": "cisa-kev-version:LOCAL-FIXTURE-1|released:2026-10-01T18:49:42.078Z|count:18",
-            "fetchedAt": 1790880582078,
+            "sourceUpdatedAt": "cisa-kev-version:LOCAL-FIXTURE-1|released:2026-10-01T18:51:50.804Z|count:18",
+            "fetchedAt": 1790880710804,
             "value": 18,
             "classification": "real",
             "failReason": null
@@ -89,7 +160,62 @@
       "diagnoses": 3,
       "opportunities": 6,
       "handoffs": 6,
-      "nextBoundary": "parser-derived-defense-handoff-to-publication-decision-not-joined",
+      "publicationIntake": {
+        "candidateCreated": false,
+        "headlineSetsInvented": false,
+        "refusals": [
+          {
+            "opportunityId": "CYBER_ATTACK_researchable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "CYBER_ATTACK_investable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "INTELLIGENCE_FAILURE_researchable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "LOGISTICS_COLLAPSE_researchable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "INTELLIGENCE_FAILURE_investable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "LOGISTICS_COLLAPSE_investable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          }
+        ],
+        "storedValuesUnchanged": true
+      },
+      "nextBoundary": "source-grounded-defense-brief-required",
       "providerCalled": false
     },
     {
@@ -113,7 +239,7 @@
             "name": "OFAC Recent Actions",
             "live": true,
             "sourceUpdatedAt": "ofac-set-v1:items:1|sha256:12dbacce5bccbd49214f278889f5e80db49ed76f24583b0d55c6388f00a901a1",
-            "fetchedAt": 1790880582258,
+            "fetchedAt": 1790880710997,
             "value": 24,
             "classification": "real",
             "failReason": null
@@ -121,8 +247,8 @@
           {
             "name": "CISA KEV",
             "live": true,
-            "sourceUpdatedAt": "cisa-kev-version:LOCAL-FIXTURE-1|released:2026-10-01T18:49:42.258Z|count:18",
-            "fetchedAt": 1790880582258,
+            "sourceUpdatedAt": "cisa-kev-version:LOCAL-FIXTURE-1|released:2026-10-01T18:51:50.997Z|count:18",
+            "fetchedAt": 1790880710997,
             "value": 18,
             "classification": "real",
             "failReason": null
@@ -133,7 +259,78 @@
       "diagnoses": 4,
       "opportunities": 8,
       "handoffs": 8,
-      "nextBoundary": "parser-derived-defense-handoff-to-publication-decision-not-joined",
+      "publicationIntake": {
+        "candidateCreated": false,
+        "headlineSetsInvented": false,
+        "refusals": [
+          {
+            "opportunityId": "CYBER_ATTACK_researchable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "CYBER_ATTACK_investable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "INTELLIGENCE_FAILURE_researchable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "LOGISTICS_COLLAPSE_researchable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "NUCLEAR_THREAT_researchable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "INTELLIGENCE_FAILURE_investable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "LOGISTICS_COLLAPSE_investable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          },
+          {
+            "opportunityId": "NUCLEAR_THREAT_investable_t1",
+            "reason": "defense-publication-candidate-invalid",
+            "blockers": [
+              "source-grounded-defense-brief-required"
+            ],
+            "executorReason": "defense-publication-exact-b10-decision-required"
+          }
+        ],
+        "storedValuesUnchanged": true
+      },
+      "nextBoundary": "source-grounded-defense-brief-required",
       "providerCalled": false
     }
   ]

@@ -16,6 +16,9 @@ const helper = acorn.parse(harness, { ecmaVersion: 'latest' }).body.find(n => n.
 const makeSandbox = new Function('global', harness.slice(helper.start, helper.end) + ';return sandbox();');
 const Packet = require('../lib/civilization-server-packet.js');
 const Consumer = require('../lib/civilization-handoff-consumer.js');
+const PublicationSource = require('../lib/defense-publication-source.js');
+const PublicationDecision = require('../lib/defense-publication-decision.js');
+const PublicationExecutor = require('../lib/defense-publication-executor.js');
 const originalFetch = global.fetch;
 (async () => {
   const results = [];
@@ -74,10 +77,35 @@ const originalFetch = global.fetch;
     const before = JSON.stringify(Array.from(values));
     assert.equal((await consumer.consumePacket(packet)).handoffsCreated, 0);
     assert.equal(JSON.stringify(Array.from(values)), before);
+    const at = Date.parse(packet.generatedAt);
+    const cognition = { ts: at, c: Object.assign({}, JSON.parse(JSON.stringify(brain.state.cognition)), {
+      domain: 'defense', serverPacket: packet, brainOrgans: { resourceMetabolism: brain.state.resourceMetabolism,
+        autonomousInternalEmission: brain.state.domainAutoEmission || brain.state.energyAutoEmission || null } }) };
+    // These parsers produce count/collection identities, not publication title sets.
+    // Do not manufacture headline URLs or publisher independence from them.
+    assert.equal(ofac && ofac.headlines || null, null);
+    assert.equal(cisa.headlines || null, null);
+    const publicationCandidate = PublicationSource.build([], cognition, at);
+    assert.equal(publicationCandidate, null);
+    const refusals = [];
+    for (const opportunity of packet.truth.opportunities) {
+      const refused = await PublicationDecision.decide(store, opportunity, at, cognition);
+      assert.equal(refused.status, 'NO_ACTION');
+      assert.equal(refused.reason, 'defense-publication-candidate-invalid');
+      assert.deepEqual(refused.blockers, ['source-grounded-defense-brief-required']);
+      const held = await PublicationExecutor.execute({ store, candidate: opportunity, decision: refused, now: at,
+        publisher: { publish: async () => { throw new Error('source-refused native opportunity cannot publish'); } } });
+      assert.equal(held.status, 'HELD');
+      assert.equal(held.reason, 'defense-publication-exact-b10-decision-required');
+      assert.equal(held.providerCalls, 0);
+      refusals.push({ opportunityId: opportunity.id, reason: refused.reason, blockers: refused.blockers, executorReason: held.reason });
+    }
+    assert.equal(JSON.stringify(Array.from(values)), before);
     results.push({ scenario, requests, snapshotStress: snapshot.stress, stressBasis: snapshot.stressBasis,
       lowSignal: snapshot.lowSignal, feedSourceEvidence: packet.truth.feedSourceEvidence, packetId: packet.packetId,
       diagnoses: packet.truth.activeDiagnoses.length, opportunities: packet.truth.opportunities.length, handoffs: handoffs.length,
-      nextBoundary: 'parser-derived-defense-handoff-to-publication-decision-not-joined', providerCalled: false });
+      publicationIntake: { candidateCreated: false, headlineSetsInvented: false, refusals, storedValuesUnchanged: true },
+      nextBoundary: 'source-grounded-defense-brief-required', providerCalled: false });
   }
   if (process.argv.includes('--write-evidence')) fs.writeFileSync(path.join(root, 'docs/audits/continuity-defense-source-join.json'),
     JSON.stringify({ level: 'LOCAL/FIXTURE', externalFetches: false, injectedDiagnoses: false, injectedOpportunities: false, results }, null, 2) + '\n');

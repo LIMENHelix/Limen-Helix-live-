@@ -13,11 +13,21 @@ identities and observation-only ownership; exact replay adds no handoff or
 stored-value change. CISA fixture count must match its vulnerability collection
 for the actual identity helper to identify it.
 
-The next boundary is
-`parser-derived-defense-handoff-to-publication-decision-not-joined`.
-The earlier native publication-veto test uses different identified snapshot
-inputs, so it is not substituted for this join. No provider, publication,
-outcome, revenue, publisher authenticity or current production feed is proved.
+The exact parser-derived packets now enter the existing publication intake
+using actual native cognition. Both parsers produce count/collection evidence,
+not linked title sets. The existing source candidate builder with no title
+sets returns null. Every actual native opportunity is refused by the existing
+decision as NO_ACTION / `defense-publication-candidate-invalid`, with exact
+blocker `source-grounded-defense-brief-required`. The executor returns HELD /
+`defense-publication-exact-b10-decision-required`, zero publisher calls, and
+leaves stored values unchanged. The candidate-validation refusal is not a
+durable B10 decision receipt; none is fabricated or claimed.
+
+The earlier native publication-veto test uses different identified title
+fixtures and is not substituted for this source requirement. No title, URL,
+publisher independence, provider, publication, outcome, revenue, publisher
+authenticity or current production feed is invented. The next safe boundary
+for these exact inputs is `source-grounded-defense-brief-required`.
 
 Focused Defense join and source-collection contracts pass. Runtime code is
 unchanged since the 364-pass full checkpoint. Agriculture and Defense now have
