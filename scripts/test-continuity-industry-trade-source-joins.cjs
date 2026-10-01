@@ -20,7 +20,13 @@ const profiles = [
   { domain: 'communication', runtime: 'communication', brain: 'LIMENCommunicationBrain', first: 'BBC World News', second: 'World Bank Internet Users',
     fetchFirst: H._fetchBBCWorldNews, fetchSecond: H.testWBInternetUsers, family: 'social', blocker: 'candidate-identity-missing' },
   { domain: 'intelligence', runtime: 'intelligence', brain: 'LIMENIntelligenceBrain', first: 'CISA Advisories', second: 'CISA KEV',
-    fetchFirst: H._fetchCISAAdvisories, fetchSecond: H._fetchCISAKEV, family: 'autopilot', blocker: 'exact-lead-email-action-required' }
+    fetchFirst: H._fetchCISAAdvisories, fetchSecond: H._fetchCISAKEV, family: 'autopilot', blocker: 'exact-lead-email-action-required' },
+  { domain: 'economy', runtime: 'economy', brain: 'LIMENEconomyBrain', first: 'World Bank GDP Growth', second: 'World Bank Inflation',
+    firstIndicator: 'NY.GDP.MKTP.KD.ZG', fetchFirst: H._fetchWorldBankGDPGrowth, fetchSecond: H._fetchWorldBankInflation, family: 'investment', blocker: 'exact-paper-investment-record-required' },
+  { domain: 'energy', runtime: 'energy', brain: 'LIMENEnergyBrain', first: 'NOAA NWS Alerts', second: 'CISA KEV',
+    fetchFirst: H._fetchNOAANWSAlerts, fetchSecond: H._fetchCISAKEV, family: 'investment', blocker: 'exact-paper-investment-record-required' },
+  { domain: 'technology', runtime: 'technology', brain: 'LIMENTechnologyBrain', first: 'Hacker News', second: 'CISA KEV',
+    fetchFirst: H._fetchHackerNews, fetchSecond: H._fetchCISAKEV, family: 'investment', blocker: 'exact-paper-investment-record-required' }
 ];
 const originalFetch = global.fetch;
 (async () => {
@@ -41,7 +47,8 @@ const originalFetch = global.fetch;
         body = [{ page: 1 }, [{ date: '2024', value: missing ? null : fertility ? 1.5 : p.domain === 'population' ? 340000000 : p.domain === 'communication' ? 35 : 8 },
           { date: '2023', value: missing ? null : fertility ? 1.6 : 9 }]];
       }
-      else if (u.includes('api.weather.gov')) body = { updated: new Date().toISOString(), features:
+      else if (u === 'https://hacker-news.firebaseio.com/v0/topstories.json') body = scenario === 'first-source-unavailable' ? null : Array.from({ length: 120 }, (_, i) => 900000 + i);
+      else if (u.includes('api.weather.gov')) body = scenario === 'first-source-unavailable' && p.domain === 'energy' ? null : { updated: new Date().toISOString(), features:
         Array.from({ length: 60 }, (_, i) => ({ id: 'LOCAL/FIXTURE-alert-' + i, properties: { event: 'Flood Warning', severity: 'Severe' } })) };
       else { assert(u.includes('www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json'));
         body = { catalogVersion: 'LOCAL-FIXTURE', count: 18, dateReleased: new Date().toISOString(), vulnerabilities:
@@ -78,16 +85,20 @@ const originalFetch = global.fetch;
     const before = JSON.stringify(Array.from(values)), Decision = require('../lib/' + p.domain + '-' + p.family + '-decision.js');
     const checks = [];
     for (const opportunity of packet.truth.opportunities) {
+      if (p.family === 'investment' && opportunity.path !== 'INVESTABLE') continue;
       const refusal = await Decision.decide(store, opportunity, Date.parse(packet.generatedAt));
       assert.equal(refusal.status, 'NO_ACTION'); assert.deepEqual(refusal.blockers, [p.blocker]);
       if (p.domain === 'communication') { assert.equal(refusal.released, false); assert.equal(refusal.liveMoney, false); }
+      else if (p.family === 'investment') { assert.equal(Decision.candidate(opportunity), null); assert.equal(refusal.liveMoney, false); }
       else assert.equal(refusal.providerCalled, false);
       checks.push({ opportunityId: opportunity.id, blockers: refusal.blockers });
     }
+    if (p.family === 'investment' && checks.length === 0) assert.equal(packet.truth.opportunities.filter(o => o.path === 'INVESTABLE').length, 0);
     assert.equal((await consumer.consumePacket(packet)).handoffsCreated, 0); assert.equal(JSON.stringify(Array.from(values)), before);
     results.push({ domain: p.domain, runtime: p.runtime, scenario, requests, sources: packet.truth.feedSourceEvidence,
       stress: snapshot.stress, lowSignal: snapshot.lowSignal, packetId: packet.packetId, handoffs: consumed.handoffsCreated, checks,
-      nextBoundary: consumed.handoffsCreated ? p.blocker : 'native-snapshot-has-no-active-investment-or-research-handoff' });
+      nextBoundary: p.family === 'investment' && checks.length === 0 ? 'native-snapshot-has-no-investable-opportunity' :
+        consumed.handoffsCreated ? p.blocker : 'native-snapshot-has-no-active-investment-or-research-handoff' });
   }
   if (process.argv.includes('--write-evidence')) fs.writeFileSync(path.join(root, 'docs/audits/continuity-industry-trade-source-joins.json'),
     JSON.stringify({ level: 'LOCAL/FIXTURE', externalFetches: false, injectedDiagnoses: false, injectedOpportunities: false, results }, null, 2) + '\n');
