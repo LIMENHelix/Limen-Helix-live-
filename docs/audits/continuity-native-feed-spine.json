@@ -993,8 +993,8 @@
             "decision": {
               "id": "chd_1506695bb1eb69338fe72c6e",
               "status": "NO_ACTION",
-              "decidedAt": 1790877719478,
-              "expiresAt": 1790878319478,
+              "decidedAt": 1790877784783,
+              "expiresAt": 1790878384783,
               "key": "culture_hero_decision:chd_1506695bb1eb69338fe72c6e",
               "packetId": "culture:2:fixture-native-source-snapshot",
               "reason": "culture-b10-held",
@@ -1343,7 +1343,7 @@
         "lane": "publication",
         "candidateId": "dpc_f567dc9a2c381bd7a005f2fd",
         "nativeOpportunityId": "DEFENSE_AIR_SYSTEM_FAILURE_researchable_t1",
-        "decisionId": "dpd_7564453ef85b44651e50de38",
+        "decisionId": "dpd_3c4d683a1a4868f92c812a2a",
         "sourcePacketId": "defense:2:fixture-native-source-snapshot",
         "status": "NO_ACTION",
         "blockers": [
@@ -1759,7 +1759,88 @@
           "sourcePacketId": "economy:2:fixture-native-source-snapshot"
         }
       ],
-      "primaryIntakeBoundary": null,
+      "primaryIntakeBoundary": {
+        "ownerDomain": "economy",
+        "lane": "investments",
+        "sourcePacketId": "economy:2:fixture-native-source-snapshot",
+        "evidenceLevel": "LOCAL/FIXTURE",
+        "nativeOpportunityChecks": [
+          {
+            "opportunityId": "RECESSION_investable_t1",
+            "reason": "economy-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "HYPERINFLATION_investable_t1",
+            "reason": "economy-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "BANKING_CRISIS_investable_t1",
+            "reason": "economy-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "TRADE_WAR_investable_t1",
+            "reason": "economy-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "DEBT_CRISIS_investable_t1",
+            "reason": "economy-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "MARKET_CRASH_investable_t1",
+            "reason": "economy-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "consumer_infra_investable_t3",
+            "reason": "economy-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "credit_reposition_investable_t3",
+            "reason": "economy-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "workforce_redeploy_investable_t3",
+            "reason": "economy-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "recession_prep_investable_t3",
+            "reason": "economy-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          }
+        ],
+        "providerCalled": false,
+        "nextBoundary": "exact-paper-investment-record-required",
+        "issuerOrSymbolInferred": false,
+        "candidateFabricated": false
+      },
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -2231,7 +2312,67 @@
           "sourcePacketId": "energy:2:fixture-native-source-snapshot"
         }
       ],
-      "primaryIntakeBoundary": null,
+      "primaryIntakeBoundary": {
+        "ownerDomain": "energy",
+        "lane": "investments",
+        "sourcePacketId": "energy:2:fixture-native-source-snapshot",
+        "evidenceLevel": "LOCAL/FIXTURE",
+        "nativeOpportunityChecks": [
+          {
+            "opportunityId": "GRID_COLLAPSE_investable_t1",
+            "reason": "energy-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "OIL_SHOCK_investable_t1",
+            "reason": "energy-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "NUCLEAR_INCIDENT_investable_t1",
+            "reason": "energy-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "RENEWABLE_INTERMITTENCY_investable_t1",
+            "reason": "energy-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "PIPELINE_DISRUPTION_investable_t1",
+            "reason": "energy-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "SYSTEMIC_ENERGY_STRESS_investable_t1",
+            "reason": "energy-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "GRID_COLLAPSE_investable_t3",
+            "reason": "energy-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          }
+        ],
+        "providerCalled": false,
+        "nextBoundary": "exact-paper-investment-record-required",
+        "issuerOrSymbolInferred": false,
+        "candidateFabricated": false
+      },
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -2955,7 +3096,7 @@
         "lane": "publication",
         "candidateId": "gpc_9986aded82fbd54e5bc8bf1d",
         "nativeOpportunityId": "GOVERNANCE_SANCTIONS_SYSTEM_FAILURE_researchable_t1",
-        "decisionId": "gpd_866cd679b33adff035d9b977",
+        "decisionId": "gpd_4f1d7fe2582d98805c6a4e51",
         "sourcePacketId": "governance:2:fixture-native-source-snapshot",
         "status": "NO_ACTION",
         "blockers": [
@@ -4827,7 +4968,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_0f8726d35b99c95f5bf0d3a7fc514c3361ed5aa2f8ffbf8b8ad0f7402f5ff439",
+            "id": "sel_episode_6de771fc0d0afd42a81fb8b5749b17af779ef889c600620495b2d18aaf341365",
             "status": "HELD",
             "ownerDomain": "health",
             "reasons": [
@@ -4869,7 +5010,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_eebd809426d3de78ee7c9a34898682e8273e68ae3ea3609fb7378bd06dc4d173",
+              "id": "sel_episode_82be947a4262a26987c0fccfd975cd278a941270582328cdf3479f20aeee2cc9",
               "status": "RELEASED",
               "reasons": []
             }
@@ -6005,7 +6146,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_167ad7bb48ce21e6f683b1c1c396ff5d6752fb83434d41b9fa08b18fd268743e",
+            "id": "sel_episode_651eca28c2ecbdf53a38941aba652a435e87b5f57d8f84dd119cfbf32e117fe4",
             "status": "HELD",
             "ownerDomain": "research",
             "reasons": [
@@ -6047,7 +6188,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_83c6fe13076111de125046f5a60a452874be74229a682fa1b08226e1e8f0a167",
+              "id": "sel_episode_d8ff90b241bb8feade6eddce8c8e808c118ae6af89099db3c4898d0101f2338a",
               "status": "RELEASED",
               "reasons": []
             }
@@ -6704,7 +6845,109 @@
           "sourcePacketId": "technology:2:fixture-native-source-snapshot"
         }
       ],
-      "primaryIntakeBoundary": null,
+      "primaryIntakeBoundary": {
+        "ownerDomain": "technology",
+        "lane": "investments",
+        "sourcePacketId": "technology:2:fixture-native-source-snapshot",
+        "evidenceLevel": "LOCAL/FIXTURE",
+        "nativeOpportunityChecks": [
+          {
+            "opportunityId": "TECHNOLOGY_ARVR_CAPACITY_OVERLOAD_investable_t1",
+            "reason": "technology-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "ai_governance_investable_t3",
+            "reason": "technology-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "AI_ALIGNMENT_FAILURE_investable_t1",
+            "reason": "technology-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "DATA_BREACH_investable_t1",
+            "reason": "technology-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "CYBER_ATTACK_investable_t1",
+            "reason": "technology-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "INFRASTRUCTURE_COLLAPSE_investable_t1",
+            "reason": "technology-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "CHIP_SHORTAGE_investable_t1",
+            "reason": "technology-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "PLATFORM_MONOPOLY_investable_t1",
+            "reason": "technology-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "cloud_resilience_investable_t3",
+            "reason": "technology-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "zero_trust_investable_t3",
+            "reason": "technology-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "TECHNOLOGY_ARTIFICIAL_GENERATIVEAI_CAPACITY_OVERLOAD_investable_t1",
+            "reason": "technology-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "chip_resilience_investable_t3",
+            "reason": "technology-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          },
+          {
+            "opportunityId": "cross_domain_investable_t2",
+            "reason": "technology-investment-candidate-invalid",
+            "blockers": [
+              "exact-paper-investment-record-required"
+            ]
+          }
+        ],
+        "providerCalled": false,
+        "nextBoundary": "exact-paper-investment-record-required",
+        "issuerOrSymbolInferred": false,
+        "candidateFabricated": false
+      },
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",

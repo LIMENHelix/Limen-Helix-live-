@@ -163,6 +163,25 @@ sb.LIMENDomains = fixtures;
       assert.equal(consumed.ok, true, JSON.stringify(consumed.failures));
       assert.equal(consumed.handoffsCreated, handoffs.length);
       var primaryIntakeBoundary = null;
+      if (['economy', 'energy', 'technology'].includes(row[0])) {
+        var investmentDecision = require('../lib/' + row[0] + '-investment-decision.js');
+        var beforeInvestmentIntake = JSON.stringify(Array.from(values));
+        var investmentChecks = [];
+        for (var investmentOpportunity of packet.truth.opportunities.filter(function (opportunity) { return opportunity.path === 'INVESTABLE'; })) {
+          assert.equal(investmentDecision.candidate(investmentOpportunity), null);
+          var investmentRefused = await investmentDecision.decide(store, investmentOpportunity, Date.parse(packet.generatedAt));
+          assert.equal(investmentRefused.status, 'NO_ACTION');
+          assert.equal(investmentRefused.reason, row[0] + '-investment-candidate-invalid');
+          assert.deepEqual(investmentRefused.blockers, ['exact-paper-investment-record-required']);
+          assert.equal(investmentRefused.liveMoney, false);
+          investmentChecks.push({ opportunityId: investmentOpportunity.id, reason: investmentRefused.reason, blockers: investmentRefused.blockers });
+        }
+        assert(investmentChecks.length > 0, row[0] + ' native investment opportunities required');
+        assert.equal(JSON.stringify(Array.from(values)), beforeInvestmentIntake);
+        primaryIntakeBoundary = { ownerDomain: row[0], lane: 'investments', sourcePacketId: packet.packetId,
+          evidenceLevel: 'LOCAL/FIXTURE', nativeOpportunityChecks: investmentChecks, providerCalled: false,
+          nextBoundary: 'exact-paper-investment-record-required', issuerOrSymbolInferred: false, candidateFabricated: false };
+      }
       if (['defense', 'governance'].includes(row[0])) {
         var publicationSource = require('../lib/' + row[0] + '-publication-source.js');
         var publicationDecision = require('../lib/' + row[0] + '-publication-decision.js');
