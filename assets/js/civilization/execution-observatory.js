@@ -165,6 +165,8 @@
       (trace.schemaVersion === 'culture-business-trace-readout/1.0' && row.domain === 'culture')) &&
       trace.ownerDomain === (ALIASES[row.domain] || row.domain) && trace.observationOnly === true && trace.externalActionAuthorized === false && trace.status === 'RECORDED';
     var businessDecision = traceValid && trace.decision;
+    var originTraceValid = row.domain === 'agriculture' && trace.schemaVersion === 'product-domain-business-trace-readout/1.0' &&
+      trace.ownerDomain === 'agriculture' && trace.status === 'ROUTING_ONLY' && trace.observationOnly === true && trace.externalActionAuthorized === false;
     var businessCommand = traceValid && trace.command;
     var decided = businessDecision ? 'RECORDED ' + businessDecision.status : 'UNOBSERVED';
     var command = businessCommand ? 'RECORDED ' + businessCommand.status : 'UNOBSERVED';
@@ -200,6 +202,8 @@
         '<span>internal emission <b>' + esc(n(row.emission.emittedCount)) + '</b> · staged ' + esc(n(row.emission.stagedCount)) + '</span>' +
         '<span>readiness receipt <b>' + esc(row.receipt.status || (row.receipt.ok ? 'PERSISTED' : 'UNOBSERVED')) + '</b> · preparation ' + esc(row.gates.mayPrepare === true ? 'PERMITTED' : 'HELD') + '</span>' +
         '<span>business trace <b>' + esc(trace.status || 'UNOBSERVED') + '</b> · ' + esc(trace.reason || (traceValid ? 'historical records; dispatch revalidates authority' : 'business decision/command read not connected for this domain')) + '</span>' +
+        (originTraceValid ? arr(trace.originRoutes).map(function (route) { return '<span>origin route <b>' + esc(route.lane) + ' → ' + esc(route.destinationOwner) + '</b> · destination decision ' + esc(route.destinationDecisionId) + ' · ' + esc(route.status) + ' · packet ' + esc(route.sourcePacketId || 'UNOBSERVED') + ' · ' + esc(time(route.decidedAt)) + ' · key ' + esc(route.destinationDecisionKey) + ' · ' + esc(arr(route.blockers).join(' · ')) + '</span>'; }).join('') : '') +
+        (originTraceValid && trace.originReturns ? '<span>origin return read <b>' + esc(trace.originReturns.status) + '</b> · ' + esc(trace.originReturns.reason || 'observation only; destination keeps learning') + ' · ' + esc(arr(trace.originReturns.failures).map(function (failure) { return failure.ownerDomain + ': ' + failure.reason; }).join(' · ')) + '</span>' + arr(trace.originReturns.observations).map(function (result) { return '<span>destination return <b>' + esc(result.returnId) + '</b> · owner ' + esc(result.destinationOwner) + ' · decision ' + esc(result.destinationSelectionId) + ' · action ' + esc(result.actionId) + ' · ' + esc(result.outcome) + ' · ' + esc(time(result.observedAt)) + ' · packet ' + esc(arr(result.sourcePackets).join(' · ')) + '</span>'; }).join('') : '') +
         (businessDecision ? '<span>decision <b>' + esc(businessDecision.id) + '</b> · packet ' + esc(businessDecision.packetId || 'UNOBSERVED') + ' · ' + esc(time(businessDecision.decidedAt)) + ' · key ' + esc(businessDecision.key) + '</span>' : '') +
         (businessDecision && (businessDecision.reason || arr(businessDecision.blockers).length) ? '<span>business hold <b>' + esc(businessDecision.reason || 'decision held') + '</b> · ' + esc(arr(businessDecision.blockers).join(' · ')) + '</span>' : '') +
         (businessCommand && businessCommand.listingOnly ? '<span>listing only <b>sale, order acceptance and payment are not authorized</b></span>' : '') +

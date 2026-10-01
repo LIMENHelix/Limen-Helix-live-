@@ -98,6 +98,19 @@ cognition.count = 14;
   } } };
 });
 cognition.count = 18;
+cognition.cognition.agriculture.c.businessTrace = {
+  schemaVersion: 'product-domain-business-trace-readout/1.0', ownerDomain: 'agriculture', lane: 'origin-routing',
+  observationOnly: true, externalActionAuthorized: false, status: 'ROUTING_ONLY',
+  reason: 'Homestead is separate; no Agriculture motor or borrowed reward',
+  originRoutes: [
+    { destinationOwner: 'finance', lane: 'investment', destinationDecisionId: 'destination-finance-release', status: 'RELEASED', sourcePacketId: 'agri-outward-packet', decidedAt: Date.now() },
+    { destinationOwner: 'research', lane: 'research', destinationDecisionId: 'destination-research-held', status: 'HELD', sourcePacketId: 'agri-outward-packet', decidedAt: Date.now(), blockers: ['owner-evidence-incomplete'] }
+  ],
+  originReturns: { status: 'PARTIAL', failures: [{ ownerDomain: 'finance', reason: 'destination-read-unavailable' }],
+    observations: [{ returnId: 'research-origin-return', destinationOwner: 'research', destinationSelectionId: 'research-prior-release', actionId: 'research-owned-action', outcome: 'REGRESSION', observedAt: Date.now(), sourcePackets: ['agri-outward-packet'] }] },
+  decision: { id: 'borrowed-destination-decision', status: 'RELEASED' },
+  command: { id: 'borrowed-destination-command', receipt: { kind: 'PAPER-ORDER', id: 'borrowed-destination-order' } }
+};
 vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilization/execution-observatory.js'), 'utf8'), {
   window, document, Date, setInterval() {},
   fetch: async url => {
@@ -213,6 +226,16 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
   assert.match(agricultureCard, /route-return-1/);
   assert.match(agricultureCard, /agri-packet-1/);
   assert.match(agricultureCard, /learning stays with destination; origin observation only/);
+  assert.match(agricultureCard, /investment → finance/);
+  assert.match(agricultureCard, /research → research/);
+  assert.match(agricultureCard, /destination-finance-release/);
+  assert.match(agricultureCard, /destination-research-held/);
+  assert.match(agricultureCard, /research-origin-return/);
+  assert.match(agricultureCard, /finance: destination-read-unavailable/);
+  assert.doesNotMatch(agricultureCard, /borrowed-destination/);
+  ['DECIDED', 'COMMAND', 'RECEIPT', 'OBSERVED', 'REVENUE'].forEach(function (stage) {
+    assert.match(agricultureCard, new RegExp('exo-chain-label">' + stage + '</span><span class="exo-badge exo-unobserved">UNOBSERVED'));
+  });
   assert.match(agricultureCard, /exo-chain-label">OBSERVED<\/span><span class="exo-badge exo-unobserved">UNOBSERVED/);
   var energyCard = el.innerHTML.split('<span class="exo-domain-name">energy</span>')[1].split('</article>')[0];
   assert.match(energyCard, /finance-to-energy-1/);

@@ -17,6 +17,7 @@ class Store {
     if (this.values.has(key)) return false; return this.set(key, value); }
   async lpush(key, value) { const rows = this.lists.get(key) || []; rows.unshift(JSON.parse(JSON.stringify(value))); this.lists.set(key, rows); return rows.length; }
   async ltrim(key, start, end) { this.lists.set(key, (this.lists.get(key) || []).slice(start, end + 1)); return true; }
+  async lrange(key, start, end) { return JSON.parse(JSON.stringify((this.lists.get(key) || []).slice(start, end + 1))); }
   async del(key) { return this.values.delete(key) ? 1 : 0; }
 }
 const cycle = owner => ({ domain: owner, ok: true, startedAt: 100, cursorAfter: 99,
@@ -140,11 +141,37 @@ const evaluated = progress => ({ progress, evidenceIds: ['independent-study-1'],
   assert.equal((await Learning._load(restarted, 'research')).externalLearning.resolvedCount, 2,
     'repair of the durable return receipt cannot duplicate the already-applied reward');
   assert.equal((await Learning.readAgricultureReturns(restarted)).latest.outcome, 'PROGRESS');
+  const Trace = require('../lib/product-domain-business-trace-readout.js');
+  const readonly = Object.create(restarted);
+  ['set', 'setIfAbsent', 'lpush', 'ltrim', 'del'].forEach(method => { readonly[method] = async () => { throw Error('routing read must not write'); }; });
+  let routing = await Trace.read(readonly, 'agriculture', 1500);
+  assert.equal(routing.status, 'ROUTING_ONLY', routing.reason);
+  assert.deepEqual(routing.originRoutes.map(row => row.destinationOwner).sort(), ['finance', 'research']);
+  assert.equal(routing.decision, null); assert.equal(routing.command, null);
+  assert.equal(routing.originReturns.returnedCount, 3);
+  assert.equal(routing.externalActionAuthorized, false);
+  assert.equal(await restarted.get(Learning.stateKey('agriculture')), null);
+  const routeKey = 'autofire_selection:' + next.receipt.id;
+  const storedRoute = await restarted.get(routeKey);
+  await restarted.set(routeKey, { ...storedRoute, ownerDomain: 'health' });
+  routing = await Trace.read(readonly, 'agriculture', 1500);
+  assert.equal(routing.status, 'UNAVAILABLE'); assert.equal(routing.originRoutes.length, 0);
+  assert.equal(routing.originReturns, null);
+  await restarted.set(routeKey, storedRoute);
+  assert.equal((await Trace.read(readonly, 'agriculture', 1500)).status, 'ROUTING_ONLY');
+  assert.equal((await Trace.read(readonly, 'agriculture', 1000)).status, 'UNAVAILABLE', 'future route/return evidence cannot be displayed');
+  const emptyView = await Trace.read(new Store(), 'agriculture', 1500);
+  assert.equal(emptyView.status, 'ROUTING_ONLY'); assert.equal(emptyView.originRoutes.length, 0);
+  assert.match(emptyView.reason, /explicit outward selection not observed/);
   const state = await restarted.get(Learning.stateKey('finance')); state.routedOutcomes[0].ownerDomain = 'health';
   await restarted.set(Learning.stateKey('finance'), state);
   const partial = await Learning.readAgricultureReturns(restarted);
   assert.equal(partial.status, 'PARTIAL'); assert.equal(partial.returnedCount, 2);
   assert.equal(partial.failures[0].ownerDomain, 'finance', 'bad Finance return cannot hide or adopt the valid Research observation');
+  routing = await Trace.read(readonly, 'agriculture', 1500);
+  assert.equal(routing.status, 'ROUTING_ONLY'); assert.equal(routing.originReturns.status, 'PARTIAL');
+  assert.equal(routing.originReturns.failures[0].ownerDomain, 'finance');
+  assert.equal(routing.originReturns.observations.every(row => row.destinationOwner === 'research'), true);
   const legacyStore = new Store();
   const unlabeled = { ...candidate('research'), domain: 'research' }; delete unlabeled.originDomain;
   const legacySelection = await Bridge.select(legacyStore, { lane: 'research', candidate: unlabeled, domainCycle: cycle('research'), at: 1500 });
@@ -153,5 +180,6 @@ const evaluated = progress => ({ progress, evidenceIds: ['independent-study-1'],
   assert.equal((await Learning.recordCommand(legacyStore, { selection: legacySelection.receipt, efferenceCopy: legacyCopy })).ok, true);
   assert.equal((await Learning.recordOutcome(legacyStore, { ...event, eventId: 'legacy-event', actionId: legacyCopy.actionId, ts: 1502 })).ok, true);
   assert.equal((await Learning.readAgricultureReturns(legacyStore)).returnedCount, 0);
+  assert.equal((await Trace.read(legacyStore, 'agriculture', 1600)).originRoutes.length, 0, 'an Agriculture string does not prove explicit origin routing');
   console.log('PASS Agriculture routed source -> sovereign decision -> durable command/fixture receipt -> independent outcome -> owner learning/next critic -> origin observation, with replay and fail-closed boundaries');
 })().catch(error => { console.error(error); process.exitCode = 1; });
