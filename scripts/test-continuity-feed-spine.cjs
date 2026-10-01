@@ -105,6 +105,7 @@ sb.LIMENDomains = fixtures;
   var FinanceLedger = require('../lib/finance-input-ledger.js');
   var FinanceRegistry = require('../assets/data/finance-company-identities.json');
   var ResearchCandidate = require('../lib/domain-research-candidate.js');
+  var DomainSemantic = require('../lib/domain-semantic-packet.js');
   var results = [];
   for (var row of domains) {
     var brain = sb[row[1]];
@@ -145,6 +146,40 @@ sb.LIMENDomains = fixtures;
       assert.equal(researchIntake.status, 'ABSTAINED');
       assert.equal(researchIntake.candidate, null);
       assert.equal(researchIntake.reason, ['science', 'medicine'].includes(row[0]) ? 'owning-domain-semantic-identity-invalid' : 'research-product-domain-not-enabled');
+      var enrichedResearch = null;
+      if (['science', 'medicine'].includes(row[0])) {
+        var sourceDomain = DomainSemantic.sourceDomainFor(row[0]);
+        var sourceAt = Date.parse(packet.generatedAt);
+        var titleSets = [0, 1].map(function (feed) {
+          return { t: packet.generatedAt, d: sourceDomain, f: 'LOCAL/FIXTURE ' + sourceDomain + ' feed ' + feed, hh: feed, ck: 'headline_title',
+            items: [0, 1].map(function (item) { return { i: item, ti: 'Identified fixture observation ' + feed + ':' + item,
+              au: 'https://fixture.invalid/' + sourceDomain + '/' + feed + '/' + item, pa: packet.generatedAt, pl: 'Fixture publisher ' + feed }; }) };
+        });
+        var semantic = DomainSemantic.build(titleSets, sourceDomain, sourceAt);
+        semantic.meta.ownerDomain = row[0]; semantic.meta.sourceDomain = sourceDomain;
+        var enrichedPacket = Packet.fromBrainState(row[0], brain.state, { snapshotId: 'fixture-native-source-snapshot', fetchedAt: sourceAt },
+          'fixture-native-semantic-refresh', packet.generatedAt, { semanticEvidence: semantic.observations, semanticEvidenceMeta: semantic.meta });
+        var enrichedConsumer = Consumer.createConsumer({ store: Object.assign({}, store, {
+          packetIndexKey: 'semantic-packets', handoffIndexKey: 'semantic-handoffs',
+          packetKey: function (id) { return 'semantic-packet:' + id; }, handoffKey: function (id) { return 'semantic-handoff:' + id; }
+        }) });
+        var enrichedPersistence = await enrichedConsumer.consumePacket(enrichedPacket);
+        assert.equal(enrichedPersistence.ok, true);
+        var enrichedRecord = { c: { serverPacket: enrichedPacket, serverPacketPersistence: enrichedPersistence } };
+        var actor = ResearchCandidate.build(enrichedRecord, row[0], sourceAt);
+        assert.equal(actor.status, 'READY_FOR_B10');
+        assert.equal(actor.candidate.sourcePacketId, enrichedPacket.packetId);
+        assert.equal(actor.candidate.ownerDomain, sourceDomain);
+        assert.deepEqual(actor.candidate.researchContext.evidence.news.map(function (news) { return JSON.stringify(news.sourceIdentity); }).sort(), semantic.observations.map(function (observation) { return JSON.stringify(observation.sourceIdentity); }).sort());
+        assert.equal(actor.candidate.researchContext.evidence.sourceBoundary.publisherIndependence, 'UNASSESSED');
+        var undurable = JSON.parse(JSON.stringify(enrichedRecord)); undurable.c.serverPacketPersistence.ok = false;
+        assert.equal(ResearchCandidate.build(undurable, row[0], sourceAt).reason, 'owning-domain-packet-not-durable');
+        var wrongOwner = JSON.parse(JSON.stringify(enrichedRecord)); wrongOwner.c.serverPacket.truth.semanticEvidenceMeta.ownerDomain = 'agriculture';
+        assert.equal(ResearchCandidate.build(wrongOwner, row[0], sourceAt).reason, 'owning-domain-semantic-identity-invalid');
+        enrichedResearch = { status: actor.status, sourcePacketId: enrichedPacket.packetId, ownerDomain: actor.candidate.ownerDomain,
+          sourceKeys: semantic.observations.map(function (observation) { return observation.sourceIdentity.value; }),
+          titleSourceLevel: 'LOCAL/FIXTURE', nextBoundary: 'candidate-to-owning-B10-selection-not-joined', providerCalled: false };
+      }
       var replay = await consumer.consumePacket(packet);
       assert.equal(replay.handoffsCreated, 0, 'same native packet cannot duplicate handoffs');
       Array.from(indexes.get('handoffs')).forEach(function (id) {
@@ -214,7 +249,7 @@ sb.LIMENDomains = fixtures;
       assert.equal(rejected.handoffsCreated, 0);
       assert.equal(rejected.failures.length, 1, 'missing native identity must fail at the handoff boundary');
       boundary = 'persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test';
-    } catch (err) { packetError = err.code || err.message; boundary = packetError; }
+    } catch (err) { packetError = err.code || err.message; boundary = packetError; console.error(row[0], err); }
     assert.equal(packetError, null, row[0] + ' native packet/handoff chain failed');
     assert.equal(typeof brain.state.stress, 'number');
     assert.equal(Array.isArray(diagnoses), true);
@@ -224,7 +259,7 @@ sb.LIMENDomains = fixtures;
       activeDiagnoses: active.map(function (d) { return d.id; }), typedOpportunities: typed.map(function (o) { return { id: o.id || null, path: o.path }; }),
       packetId: packet && packet.packetId, packetError: packetError, handoffs: handoffs,
       nativeResearchIntake: { status: researchIntake.status, reason: researchIntake.reason, candidateCreated: false,
-        semanticEvidenceInjected: false, evidenceLevel: 'LOCAL/FIXTURE' },
+        semanticEvidenceInjected: false, evidenceLevel: 'LOCAL/FIXTURE', enrichedSourceIntake: enrichedResearch },
       financeReviewIntake: { status: intake.status, packetsRead: intake.packetsRead,
         recordsRead: intake.records.length, financiallyRelevant: intake.financeRelevant.length,
         explicitCompanyContexts: companyContexts,
