@@ -163,6 +163,35 @@ sb.LIMENDomains = fixtures;
       assert.equal(consumed.ok, true, JSON.stringify(consumed.failures));
       assert.equal(consumed.handoffsCreated, handoffs.length);
       var primaryIntakeBoundary = null;
+      var operationProfiles = {
+        industry: ['crm', 'source-grounded-work-first-WARN-record-required'],
+        intelligence: ['autopilot', 'exact-lead-email-action-required'],
+        law: ['automail', 'exact-address-content-and-lead-time-required'],
+        infrastructure: ['real-estate', 'exact-non-binding-property-interest-record-required'],
+        population: ['real-estate', 'exact-non-binding-property-interest-record-required']
+      };
+      if (operationProfiles[row[0]]) {
+        var operationProfile = operationProfiles[row[0]];
+        var operationDecision = require('../lib/' + row[0] + '-' + operationProfile[0] + '-decision.js');
+        var beforeOperation = JSON.stringify(Array.from(values));
+        var operationChecks = [];
+        for (var operationOpportunity of packet.truth.opportunities) {
+          assert.equal(operationDecision.candidate(operationOpportunity), null);
+          var operationRefused = await operationDecision.decide(store, operationOpportunity, Date.parse(packet.generatedAt));
+          assert.equal(operationRefused.status, 'NO_ACTION');
+          assert.equal(operationRefused.reason, row[0] + '-' + operationProfile[0] + '-candidate-invalid');
+          assert.deepEqual(operationRefused.blockers, [operationProfile[1]]);
+          assert.equal(operationRefused.providerCalled, false);
+          assert.equal(operationRefused.liveMoney, false);
+          operationChecks.push({ opportunityId: operationOpportunity.id, path: operationOpportunity.path,
+            reason: operationRefused.reason, blockers: operationRefused.blockers });
+        }
+        assert(operationChecks.length > 0);
+        assert.equal(JSON.stringify(Array.from(values)), beforeOperation);
+        primaryIntakeBoundary = { ownerDomain: row[0], lane: operationProfile[0], sourcePacketId: packet.packetId,
+          evidenceLevel: 'LOCAL/FIXTURE', nativeOpportunityChecks: operationChecks, providerCalled: false,
+          nextBoundary: operationProfile[1], candidateFabricated: false, counterpartyOrConsentInferred: false };
+      }
       if (['economy', 'energy', 'technology'].includes(row[0])) {
         var investmentDecision = require('../lib/' + row[0] + '-investment-decision.js');
         var beforeInvestmentIntake = JSON.stringify(Array.from(values));
@@ -448,7 +477,7 @@ sb.LIMENDomains = fixtures;
       var rejected = await consumer.consumePacket(invalid);
       assert.equal(rejected.handoffsCreated, 0);
       assert.equal(rejected.failures.length, 1, 'missing native identity must fail at the handoff boundary');
-      boundary = 'persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test';
+      boundary = primaryIntakeBoundary && primaryIntakeBoundary.nextBoundary || 'persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test';
     } catch (err) { packetError = err.code || err.message; boundary = packetError; console.error(row[0], err); }
     assert.equal(packetError, null, row[0] + ' native packet/handoff chain failed');
     assert.equal(typeof brain.state.stress, 'number');

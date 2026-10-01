@@ -993,8 +993,8 @@
             "decision": {
               "id": "chd_1506695bb1eb69338fe72c6e",
               "status": "NO_ACTION",
-              "decidedAt": 1790877784783,
-              "expiresAt": 1790878384783,
+              "decidedAt": 1790877889889,
+              "expiresAt": 1790878489889,
               "key": "culture_hero_decision:chd_1506695bb1eb69338fe72c6e",
               "packetId": "culture:2:fixture-native-source-snapshot",
               "reason": "culture-b10-held",
@@ -1343,7 +1343,7 @@
         "lane": "publication",
         "candidateId": "dpc_f567dc9a2c381bd7a005f2fd",
         "nativeOpportunityId": "DEFENSE_AIR_SYSTEM_FAILURE_researchable_t1",
-        "decisionId": "dpd_3c4d683a1a4868f92c812a2a",
+        "decisionId": "dpd_d6999bcf64f62def4fafda78",
         "sourcePacketId": "defense:2:fixture-native-source-snapshot",
         "status": "NO_ACTION",
         "blockers": [
@@ -1534,7 +1534,7 @@
         "decisionProven": false,
         "motorProven": false
       },
-      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "firstUnprovenBoundary": "native-publication-release-not-proven",
       "providerCalled": false
     },
     {
@@ -1861,7 +1861,7 @@
         "decisionProven": false,
         "motorProven": false
       },
-      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "firstUnprovenBoundary": "exact-paper-investment-record-required",
       "providerCalled": false
     },
     {
@@ -2393,7 +2393,7 @@
         "decisionProven": false,
         "motorProven": false
       },
-      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "firstUnprovenBoundary": "exact-paper-investment-record-required",
       "providerCalled": false
     },
     {
@@ -3096,7 +3096,7 @@
         "lane": "publication",
         "candidateId": "gpc_9986aded82fbd54e5bc8bf1d",
         "nativeOpportunityId": "GOVERNANCE_SANCTIONS_SYSTEM_FAILURE_researchable_t1",
-        "decisionId": "gpd_4f1d7fe2582d98805c6a4e51",
+        "decisionId": "gpd_4dd858326c8d69454931f938",
         "sourcePacketId": "governance:2:fixture-native-source-snapshot",
         "status": "NO_ACTION",
         "blockers": [
@@ -3130,7 +3130,7 @@
         "decisionProven": false,
         "motorProven": false
       },
-      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "firstUnprovenBoundary": "native-publication-release-not-proven",
       "providerCalled": false
     },
     {
@@ -3455,7 +3455,202 @@
           "sourcePacketId": "industry:2:fixture-native-source-snapshot"
         }
       ],
-      "primaryIntakeBoundary": null,
+      "primaryIntakeBoundary": {
+        "ownerDomain": "industry",
+        "lane": "crm",
+        "sourcePacketId": "industry:2:fixture-native-source-snapshot",
+        "evidenceLevel": "LOCAL/FIXTURE",
+        "nativeOpportunityChecks": [
+          {
+            "opportunityId": "AUTOMATION_FAILURE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "SUPPLY_CHAIN_COLLAPSE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "TOXIC_SPILL_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "QUALITY_CRISIS_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "WORKFORCE_SHORTAGE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "INDUSTRY_METALS_CAPACITY_OVERLOAD_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "INDUSTRY_METALS_CAPACITY_OVERLOAD_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "INDUSTRY_DEFENSE_IND_CAPACITY_OVERLOAD_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "INDUSTRY_ASSEMBLY_ELECTRONICS_PACKAGING_SYSTEM_FAILURE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "lagging_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "AUTOMATION_FAILURE_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "SUPPLY_CHAIN_COLLAPSE_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "TOXIC_SPILL_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "QUALITY_CRISIS_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "WORKFORCE_SHORTAGE_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "lagging_researchable_t3",
+            "path": "RESEARCHABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "INDUSTRY_DEFENSE_IND_CAPACITY_OVERLOAD_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "INDUSTRY_ASSEMBLY_ELECTRONICS_PACKAGING_SYSTEM_FAILURE_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "FACTORY_CAPACITY_PINCH_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "EQUIPMENT_LIFECYCLE_RISK_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "PREDICTIVE_MAINTENANCE_EDGE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "AUTOMATION_INVESTMENT_OPPORTUNITY_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          },
+          {
+            "opportunityId": "PRODUCTION_THROUGHPUT_BOTTLENECK_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "industry-crm-candidate-invalid",
+            "blockers": [
+              "source-grounded-work-first-WARN-record-required"
+            ]
+          }
+        ],
+        "providerCalled": false,
+        "nextBoundary": "source-grounded-work-first-WARN-record-required",
+        "candidateFabricated": false,
+        "counterpartyOrConsentInferred": false
+      },
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -3742,7 +3937,7 @@
         "decisionProven": false,
         "motorProven": false
       },
-      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "firstUnprovenBoundary": "source-grounded-work-first-WARN-record-required",
       "providerCalled": false
     },
     {
@@ -3901,7 +4096,82 @@
           "sourcePacketId": "infrastructure:2:fixture-native-source-snapshot"
         }
       ],
-      "primaryIntakeBoundary": null,
+      "primaryIntakeBoundary": {
+        "ownerDomain": "infrastructure",
+        "lane": "real-estate",
+        "sourcePacketId": "infrastructure:2:fixture-native-source-snapshot",
+        "evidenceLevel": "LOCAL/FIXTURE",
+        "nativeOpportunityChecks": [
+          {
+            "opportunityId": "GRID_DEGRADATION_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "infrastructure-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "MAINTENANCE_DEFICIT_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "infrastructure-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "CYBER_PHYSICAL_ATTACK_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "infrastructure-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "GRID_DEGRADATION_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "infrastructure-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "GRID_DEGRADATION_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "infrastructure-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "MAINTENANCE_DEFICIT_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "infrastructure-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "CYBER_PHYSICAL_ATTACK_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "infrastructure-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "GRID_DEGRADATION_researchable_t3",
+            "path": "RESEARCHABLE",
+            "reason": "infrastructure-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          }
+        ],
+        "providerCalled": false,
+        "nextBoundary": "exact-non-binding-property-interest-record-required",
+        "candidateFabricated": false,
+        "counterpartyOrConsentInferred": false
+      },
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -3922,7 +4192,7 @@
         "decisionProven": false,
         "motorProven": false
       },
-      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "firstUnprovenBoundary": "exact-non-binding-property-interest-record-required",
       "providerCalled": false
     },
     {
@@ -4250,7 +4520,218 @@
           "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
         }
       ],
-      "primaryIntakeBoundary": null,
+      "primaryIntakeBoundary": {
+        "ownerDomain": "intelligence",
+        "lane": "autopilot",
+        "sourcePacketId": "intelligence:2:fixture-native-source-snapshot",
+        "evidenceLevel": "LOCAL/FIXTURE",
+        "nativeOpportunityChecks": [
+          {
+            "opportunityId": "company_surge_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "INTELLIGENCE_FAILURE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "MASS_SURVEILLANCE_SCANDAL_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "CYBER_ESPIONAGE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "WHISTLEBLOWER_CRISIS_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "FOREIGN_INTERFERENCE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "INTELLIGENCE_COUNTERTERROR_SYSTEM_FAILURE_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "INTELLIGENCE_COUNTERTERROR_SYSTEM_FAILURE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "INTELLIGENCE_BIOINTEL_PANDEMIC_SYSTEM_FAILURE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "INTELLIGENCE_BIOINTEL_HEALTHINT_DISEASE_SYSTEM_FAILURE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "INTELLIGENCE_BIOINTEL_AGRIBIO_CROP_THR_SYSTEM_FAILURE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "company_surge_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "data_fusion_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "MASS_SURVEILLANCE_SCANDAL_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "CYBER_ESPIONAGE_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "WHISTLEBLOWER_CRISIS_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "FOREIGN_INTERFERENCE_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "early_warning_researchable_t3",
+            "path": "RESEARCHABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "INTELLIGENCE_BIOINTEL_PANDEMIC_SYSTEM_FAILURE_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "cyber_infra_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "trust_verify_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "INTELLIGENCE_FAILURE_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "INTELLIGENCE_BIOINTEL_HEALTHINT_DISEASE_SYSTEM_FAILURE_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "INTELLIGENCE_BIOINTEL_AGRIBIO_CROP_THR_SYSTEM_FAILURE_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          },
+          {
+            "opportunityId": "oversight_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "intelligence-autopilot-candidate-invalid",
+            "blockers": [
+              "exact-lead-email-action-required"
+            ]
+          }
+        ],
+        "providerCalled": false,
+        "nextBoundary": "exact-lead-email-action-required",
+        "candidateFabricated": false,
+        "counterpartyOrConsentInferred": false
+      },
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -4428,7 +4909,7 @@
         "decisionProven": false,
         "motorProven": false
       },
-      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "firstUnprovenBoundary": "exact-lead-email-action-required",
       "providerCalled": false
     },
     {
@@ -4626,7 +5107,138 @@
           "sourcePacketId": "law:2:fixture-native-source-snapshot"
         }
       ],
-      "primaryIntakeBoundary": null,
+      "primaryIntakeBoundary": {
+        "ownerDomain": "law",
+        "lane": "automail",
+        "sourcePacketId": "law:2:fixture-native-source-snapshot",
+        "evidenceLevel": "LOCAL/FIXTURE",
+        "nativeOpportunityChecks": [
+          {
+            "opportunityId": "JUDICIAL_CRISIS_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "law-automail-candidate-invalid",
+            "blockers": [
+              "exact-address-content-and-lead-time-required"
+            ]
+          },
+          {
+            "opportunityId": "CONSTITUTIONAL_VIOLATION_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "law-automail-candidate-invalid",
+            "blockers": [
+              "exact-address-content-and-lead-time-required"
+            ]
+          },
+          {
+            "opportunityId": "REGULATORY_CAPTURE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "law-automail-candidate-invalid",
+            "blockers": [
+              "exact-address-content-and-lead-time-required"
+            ]
+          },
+          {
+            "opportunityId": "MASS_INCARCERATION_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "law-automail-candidate-invalid",
+            "blockers": [
+              "exact-address-content-and-lead-time-required"
+            ]
+          },
+          {
+            "opportunityId": "INTERNATIONAL_LAW_BREAKDOWN_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "law-automail-candidate-invalid",
+            "blockers": [
+              "exact-address-content-and-lead-time-required"
+            ]
+          },
+          {
+            "opportunityId": "court_modernization_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "law-automail-candidate-invalid",
+            "blockers": [
+              "exact-address-content-and-lead-time-required"
+            ]
+          },
+          {
+            "opportunityId": "JUDICIAL_CRISIS_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "law-automail-candidate-invalid",
+            "blockers": [
+              "exact-address-content-and-lead-time-required"
+            ]
+          },
+          {
+            "opportunityId": "CONSTITUTIONAL_VIOLATION_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "law-automail-candidate-invalid",
+            "blockers": [
+              "exact-address-content-and-lead-time-required"
+            ]
+          },
+          {
+            "opportunityId": "REGULATORY_CAPTURE_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "law-automail-candidate-invalid",
+            "blockers": [
+              "exact-address-content-and-lead-time-required"
+            ]
+          },
+          {
+            "opportunityId": "MASS_INCARCERATION_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "law-automail-candidate-invalid",
+            "blockers": [
+              "exact-address-content-and-lead-time-required"
+            ]
+          },
+          {
+            "opportunityId": "INTERNATIONAL_LAW_BREAKDOWN_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "law-automail-candidate-invalid",
+            "blockers": [
+              "exact-address-content-and-lead-time-required"
+            ]
+          },
+          {
+            "opportunityId": "policy_navigation_researchable_t3",
+            "path": "RESEARCHABLE",
+            "reason": "law-automail-candidate-invalid",
+            "blockers": [
+              "exact-address-content-and-lead-time-required"
+            ]
+          },
+          {
+            "opportunityId": "permitting_accel_researchable_t3",
+            "path": "RESEARCHABLE",
+            "reason": "law-automail-candidate-invalid",
+            "blockers": [
+              "exact-address-content-and-lead-time-required"
+            ]
+          },
+          {
+            "opportunityId": "adr_positioning_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "law-automail-candidate-invalid",
+            "blockers": [
+              "exact-address-content-and-lead-time-required"
+            ]
+          },
+          {
+            "opportunityId": "harmonization_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "law-automail-candidate-invalid",
+            "blockers": [
+              "exact-address-content-and-lead-time-required"
+            ]
+          }
+        ],
+        "providerCalled": false,
+        "nextBoundary": "exact-address-content-and-lead-time-required",
+        "candidateFabricated": false,
+        "counterpartyOrConsentInferred": false
+      },
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -4788,7 +5400,7 @@
         "decisionProven": false,
         "motorProven": false
       },
-      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "firstUnprovenBoundary": "exact-address-content-and-lead-time-required",
       "providerCalled": false
     },
     {
@@ -4968,7 +5580,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_6de771fc0d0afd42a81fb8b5749b17af779ef889c600620495b2d18aaf341365",
+            "id": "sel_episode_0183ceff827762257129c434b60a475bc4d42e51dfce42aa1a282a5404e7a5d4",
             "status": "HELD",
             "ownerDomain": "health",
             "reasons": [
@@ -5010,7 +5622,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_82be947a4262a26987c0fccfd975cd278a941270582328cdf3479f20aeee2cc9",
+              "id": "sel_episode_a88b12c53a3e02526dbccb678683c6e44bc2fec9d96946c202b852043e0db240",
               "status": "RELEASED",
               "reasons": []
             }
@@ -5446,7 +6058,154 @@
           "sourcePacketId": "population:2:fixture-native-source-snapshot"
         }
       ],
-      "primaryIntakeBoundary": null,
+      "primaryIntakeBoundary": {
+        "ownerDomain": "population",
+        "lane": "real-estate",
+        "sourcePacketId": "population:2:fixture-native-source-snapshot",
+        "evidenceLevel": "LOCAL/FIXTURE",
+        "nativeOpportunityChecks": [
+          {
+            "opportunityId": "POPULATION_COLLAPSE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "population-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "MASS_MIGRATION_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "population-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "AGING_CRISIS_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "population-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "URBANIZATION_OVERLOAD_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "population-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "PANDEMIC_DEMOGRAPHIC_SHOCK_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "population-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "POPULATION_REFUGEES_SYSTEM_FAILURE_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "population-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "POPULATION_REFUGEES_SYSTEM_FAILURE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "population-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "elder_care_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "population-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "MASS_MIGRATION_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "population-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "AGING_CRISIS_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "population-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "URBANIZATION_OVERLOAD_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "population-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "PANDEMIC_DEMOGRAPHIC_SHOCK_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "population-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "urban_density_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "population-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "migration_integration_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "population-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "public_health_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "population-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "demographic_monitoring_researchable_t3",
+            "path": "RESEARCHABLE",
+            "reason": "population-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          },
+          {
+            "opportunityId": "POPULATION_COLLAPSE_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "population-real-estate-candidate-invalid",
+            "blockers": [
+              "exact-non-binding-property-interest-record-required"
+            ]
+          }
+        ],
+        "providerCalled": false,
+        "nextBoundary": "exact-non-binding-property-interest-record-required",
+        "candidateFabricated": false,
+        "counterpartyOrConsentInferred": false
+      },
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -5636,7 +6395,7 @@
         "decisionProven": false,
         "motorProven": false
       },
-      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "firstUnprovenBoundary": "exact-non-binding-property-interest-record-required",
       "providerCalled": false
     },
     {
@@ -6146,7 +6905,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_651eca28c2ecbdf53a38941aba652a435e87b5f57d8f84dd119cfbf32e117fe4",
+            "id": "sel_episode_2542699867dd897910e1abadb140726fbe8af4a53e3a64233b33214ac2122c8a",
             "status": "HELD",
             "ownerDomain": "research",
             "reasons": [
@@ -6188,7 +6947,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_d8ff90b241bb8feade6eddce8c8e808c118ae6af89099db3c4898d0101f2338a",
+              "id": "sel_episode_6eeb608f17e5e65d4b0356fee0e4d45128485c6eb0be43331400c55f87e00cf1",
               "status": "RELEASED",
               "reasons": []
             }
@@ -6968,7 +7727,7 @@
         "decisionProven": false,
         "motorProven": false
       },
-      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "firstUnprovenBoundary": "exact-paper-investment-record-required",
       "providerCalled": false
     },
     {
