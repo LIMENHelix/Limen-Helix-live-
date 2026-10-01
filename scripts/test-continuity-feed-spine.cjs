@@ -107,6 +107,19 @@ sb.LIMENDomains = fixtures;
   var ResearchCandidate = require('../lib/domain-research-candidate.js');
   var DomainSemantic = require('../lib/domain-semantic-packet.js');
   var DomainBridge = require('../lib/autofire-domain-bridge.js');
+  var shadowValues = new Map(), shadowLists = new Map();
+  function shadowClone(value) { return value == null ? null : JSON.parse(JSON.stringify(value)); }
+  var redisPath = require.resolve('../lib/brain-shadow-redis.js');
+  require.cache[redisPath] = { id: redisPath, filename: redisPath, loaded: true, exports: {
+    NAMESPACE_PREFIX: 'limen:', assertConfigured: function () { return true; },
+    get: async function (key) { return shadowClone(shadowValues.get(key)); },
+    set: async function (key, value) { shadowValues.set(key, shadowClone(value)); return true; },
+    setNX: async function (key, value) { if (shadowValues.has(key)) return false; shadowValues.set(key, shadowClone(value)); return true; },
+    lpush: async function (key, value) { var list = shadowLists.get(key) || []; list.unshift(shadowClone(value)); shadowLists.set(key, list); return list.length; },
+    lrange: async function (key, start, end) { return shadowClone((shadowLists.get(key) || []).slice(start, end < 0 ? undefined : end + 1)); },
+    ltrim: async function (key, start, end) { shadowLists.set(key, (shadowLists.get(key) || []).slice(start, end + 1)); return true; }
+  } };
+  var ShadowRuntime = require('../lib/brain-shadow-runtime.js');
   var results = [];
   for (var row of domains) {
     var brain = sb[row[1]];
@@ -193,10 +206,23 @@ sb.LIMENDomains = fixtures;
         assert.deepEqual(await decisionStore.get('autofire_selection:' + selection.receipt.id), selection.receipt);
         var selectionReplay = await DomainBridge.select(decisionStore, { lane: 'research', candidate: actor.candidate, domainCycle: null, at: sourceAt });
         assert.equal(selectionReplay.receipt.id, selection.receipt.id);
+        var recorded = JSON.parse(fs.readFileSync(path.join(ROOT, 'brain-v2/fixtures/' + sourceDomain + '-recorder.json'), 'utf8'));
+        var runtimeCycle = await ShadowRuntime.runDomain(row[0], { rows: recorded.rows, now: sourceAt });
+        assert.equal(runtimeCycle.ok, true, runtimeCycle.error);
+        assert.equal(runtimeCycle.domain, sourceDomain);
+        var runtimeSelection = await DomainBridge.select(decisionStore, { lane: 'research', candidate: actor.candidate, domainCycle: runtimeCycle, at: sourceAt + 1 });
+        assert.equal(runtimeSelection.ok, true);
+        assert.equal(runtimeSelection.receipt.status, 'RELEASED');
+        assert.equal(runtimeSelection.receipt.ownerDomain, sourceDomain);
+        assert.equal(runtimeSelection.receipt.candidate.sourcePacketId, enrichedPacket.packetId);
+        assert(!runtimeSelection.receipt.reasons.includes('owning_domain_cycle_missing'));
+        assert.deepEqual(await decisionStore.get('autofire_selection:' + runtimeSelection.receipt.id), runtimeSelection.receipt);
         enrichedResearch = { status: actor.status, sourcePacketId: enrichedPacket.packetId, ownerDomain: actor.candidate.ownerDomain,
           sourceKeys: semantic.observations.map(function (observation) { return observation.sourceIdentity.value; }),
           titleSourceLevel: 'LOCAL/FIXTURE', selection: { id: selection.receipt.id, status: selection.receipt.status, ownerDomain: selection.receipt.ownerDomain, reasons: selection.receipt.reasons },
-          nextBoundary: 'owning-runtime-cycle-evidence-required-before-B10-release', providerCalled: false };
+          recordedRuntimeJoin: { fixture: 'brain-v2/fixtures/' + sourceDomain + '-recorder.json', rowsApplied: runtimeCycle.rowsApplied,
+            domainFunction: runtimeCycle.domainFunction, selection: { id: runtimeSelection.receipt.id, status: runtimeSelection.receipt.status, reasons: runtimeSelection.receipt.reasons } },
+          nextBoundary: 'released-native-selection-to-command-capability-boundary-not-joined', providerCalled: false };
       }
       var replay = await consumer.consumePacket(packet);
       assert.equal(replay.handoffsCreated, 0, 'same native packet cannot duplicate handoffs');

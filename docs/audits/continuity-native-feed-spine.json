@@ -4651,7 +4651,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_706a6f924ceb6ecee0a696d34c096203122ec794e1ce2945256c540efcfb2338",
+            "id": "sel_episode_26840ea2024549adecdbb91e027768f2061681029be8eea67ef2c36753e7dcd8",
             "status": "HELD",
             "ownerDomain": "health",
             "reasons": [
@@ -4660,7 +4660,45 @@
               "owning_domain_has_no_declared_outward_consumer"
             ]
           },
-          "nextBoundary": "owning-runtime-cycle-evidence-required-before-B10-release",
+          "recordedRuntimeJoin": {
+            "fixture": "brain-v2/fixtures/health-recorder.json",
+            "rowsApplied": 120,
+            "domainFunction": {
+              "ticksObserved": 120,
+              "observations": {
+                "admitted": 977,
+                "rejected": 0
+              },
+              "states": {
+                "emitted": 51,
+                "abstained": 69
+              },
+              "dysregulationsDetected": 0,
+              "findingsFired": 0,
+              "predictions": {
+                "open": 44,
+                "resolved": 38
+              },
+              "internalActionsExecuted": 116,
+              "outwardConsumersDeclared": 1,
+              "evidence": {
+                "loopExecuted": true,
+                "realObservationAdmitted": true,
+                "measuredStateEmitted": true,
+                "predictionGraded": true,
+                "l3CurrentEvidenceComplete": true,
+                "outwardConnected": true
+              },
+              "missing": [],
+              "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
+            },
+            "selection": {
+              "id": "sel_episode_9a9904668c84a17565d1369bb4c5660a56b340c07ccda3220e0c1a00e9de01b1",
+              "status": "RELEASED",
+              "reasons": []
+            }
+          },
+          "nextBoundary": "released-native-selection-to-command-capability-boundary-not-joined",
           "providerCalled": false
         }
       },
@@ -5767,7 +5805,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_80271ad789a43f2b4f83c32c7f0b8eca2718e173535f3d7e6645b262fbbe38c7",
+            "id": "sel_episode_30f97f3846be87e1a19b2f0c4f7fd11ea6ebd603edb5f05ad52af2b572deb1bc",
             "status": "HELD",
             "ownerDomain": "research",
             "reasons": [
@@ -5776,7 +5814,45 @@
               "owning_domain_has_no_declared_outward_consumer"
             ]
           },
-          "nextBoundary": "owning-runtime-cycle-evidence-required-before-B10-release",
+          "recordedRuntimeJoin": {
+            "fixture": "brain-v2/fixtures/research-recorder.json",
+            "rowsApplied": 120,
+            "domainFunction": {
+              "ticksObserved": 120,
+              "observations": {
+                "admitted": 937,
+                "rejected": 0
+              },
+              "states": {
+                "emitted": 51,
+                "abstained": 69
+              },
+              "dysregulationsDetected": 0,
+              "findingsFired": 0,
+              "predictions": {
+                "open": 44,
+                "resolved": 38
+              },
+              "internalActionsExecuted": 116,
+              "outwardConsumersDeclared": 1,
+              "evidence": {
+                "loopExecuted": true,
+                "realObservationAdmitted": true,
+                "measuredStateEmitted": true,
+                "predictionGraded": true,
+                "l3CurrentEvidenceComplete": true,
+                "outwardConnected": true
+              },
+              "missing": [],
+              "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
+            },
+            "selection": {
+              "id": "sel_episode_0c36ad633004997e3f7c3484c152435def457699c9ff1939fccdfe8db1890fbb",
+              "status": "RELEASED",
+              "reasons": []
+            }
+          },
+          "nextBoundary": "released-native-selection-to-command-capability-boundary-not-joined",
           "providerCalled": false
         }
       },
