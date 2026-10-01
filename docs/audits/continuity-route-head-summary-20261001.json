@@ -1,0 +1,463 @@
+{
+  "schemaVersion": "continuity-route-probe-summary/1.0",
+  "sourceSha256": "c5861593a50b44dbeed073195b438d1d9c1128fc6d8199cdd27a64def32bb5ef",
+  "startedAt": "2026-10-01T19:28:16.101Z",
+  "updatedAt": "2026-10-01T19:34:56.625Z",
+  "method": "HEAD",
+  "complete": true,
+  "scope": "HTTP page availability only; no rendered content, data endpoint or autonomy claim",
+  "targets": 3494,
+  "counts": {
+    "200": 3449,
+    "301": 1,
+    "307": 3,
+    "308": 1,
+    "404": 37,
+    "SKIPPED": 3
+  },
+  "audiences": {
+    "Unknown (404)": {
+      "404": 7
+    },
+    "Customer": {
+      "200": 3417,
+      "307": 3,
+      "308": 1,
+      "SKIPPED": 2
+    },
+    "Operator": {
+      "200": 32,
+      "301": 1,
+      "404": 4,
+      "SKIPPED": 1
+    },
+    "Reported broken target outside full route inventory": {
+      "404": 26
+    }
+  },
+  "changes": [
+    {
+      "route": "/fractal-connectome",
+      "historicalStatus": 200,
+      "currentHeadStatus": 301
+    },
+    {
+      "route": "/index",
+      "historicalStatus": 200,
+      "currentHeadStatus": 308
+    },
+    {
+      "route": "/relay-sourced",
+      "historicalStatus": 200,
+      "currentHeadStatus": 307
+    }
+  ],
+  "unresolved": [
+    {
+      "route": "/LIMEN_Helix_Neurology_Reference",
+      "observedAt": "2026-10-01T19:28:16.150Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Unknown (404)",
+      "historicalStatus": 404
+    },
+    {
+      "route": "/LIMEN_Helix_Neurology_Reference_1",
+      "observedAt": "2026-10-01T19:28:16.151Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Unknown (404)",
+      "historicalStatus": 404
+    },
+    {
+      "route": "/LIMEN_Helix_Neuro_Business_CrossRef",
+      "observedAt": "2026-10-01T19:28:16.103Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Unknown (404)",
+      "historicalStatus": 404
+    },
+    {
+      "route": "/api/checkout",
+      "observedAt": "2026-10-01T19:28:17.939Z",
+      "skipped": "outside-page-only-scope",
+      "audience": "Customer",
+      "historicalStatus": 200
+    },
+    {
+      "route": "/api/relay",
+      "observedAt": "2026-10-01T19:28:18.000Z",
+      "skipped": "outside-page-only-scope",
+      "audience": "Customer",
+      "historicalStatus": 200
+    },
+    {
+      "route": "/api/relay-admin-page",
+      "observedAt": "2026-10-01T19:28:18.048Z",
+      "skipped": "outside-page-only-scope",
+      "audience": "Operator",
+      "historicalStatus": 200
+    },
+    {
+      "route": "/atlas-companion",
+      "observedAt": "2026-10-01T19:28:18.157Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Operator",
+      "historicalStatus": 404
+    },
+    {
+      "route": "/autonomous-regulator",
+      "observedAt": "2026-10-01T19:28:18.359Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Operator",
+      "historicalStatus": 404
+    },
+    {
+      "route": "/business-operations-atlas",
+      "observedAt": "2026-10-01T19:28:18.545Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Operator",
+      "historicalStatus": 404
+    },
+    {
+      "route": "/energy_datacenter_powerdemand_rackdensity_hvpower_portal",
+      "observedAt": "2026-10-01T19:29:49.726Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Unknown (404)",
+      "historicalStatus": 404
+    },
+    {
+      "route": "/energy_datacenter_powerdemand_rackdensity_portal",
+      "observedAt": "2026-10-01T19:29:49.813Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Unknown (404)",
+      "historicalStatus": 404
+    },
+    {
+      "route": "/fl",
+      "observedAt": "2026-10-01T19:30:56.600Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Unknown (404)",
+      "historicalStatus": 404
+    },
+    {
+      "route": "/fractal-connectome",
+      "observedAt": "2026-10-01T19:30:56.711Z",
+      "status": 301,
+      "location": "/civilization",
+      "contentType": "text/plain",
+      "audience": "Operator",
+      "historicalStatus": 200
+    },
+    {
+      "route": "/index",
+      "observedAt": "2026-10-01T19:31:20.980Z",
+      "status": 308,
+      "location": "/",
+      "contentType": "text/plain",
+      "audience": "Customer",
+      "historicalStatus": 200
+    },
+    {
+      "route": "/meeting-test",
+      "observedAt": "2026-10-01T19:33:04.714Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Operator",
+      "historicalStatus": 404
+    },
+    {
+      "route": "/relay",
+      "observedAt": "2026-10-01T19:33:31.900Z",
+      "status": 307,
+      "location": "https://0abp5n-dy.myshopify.com/",
+      "contentType": "text/plain",
+      "audience": "Customer",
+      "historicalStatus": 307
+    },
+    {
+      "route": "/relay-checkout",
+      "observedAt": "2026-10-01T19:33:32.255Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Unknown (404)",
+      "historicalStatus": 404
+    },
+    {
+      "route": "/relay-sourced",
+      "observedAt": "2026-10-01T19:33:32.671Z",
+      "status": 307,
+      "location": "/api/relay?view=store",
+      "contentType": "text/plain",
+      "audience": "Customer",
+      "historicalStatus": 200
+    },
+    {
+      "route": "/shop",
+      "observedAt": "2026-10-01T19:34:11.439Z",
+      "status": 307,
+      "location": "https://0abp5n-dy.myshopify.com/",
+      "contentType": "text/plain",
+      "audience": "Customer",
+      "historicalStatus": 307
+    },
+    {
+      "route": "/culture_cultural_portal",
+      "observedAt": "2026-10-01T19:34:53.871Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/culture_digital_portal",
+      "observedAt": "2026-10-01T19:34:54.011Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/culture_education_portal",
+      "observedAt": "2026-10-01T19:34:54.163Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/defense_special_portal",
+      "observedAt": "2026-10-01T19:34:54.209Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/economy_agri_portal",
+      "observedAt": "2026-10-01T19:34:54.318Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/economy_digital_portal",
+      "observedAt": "2026-10-01T19:34:54.349Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/economy_energy_portal",
+      "observedAt": "2026-10-01T19:34:54.520Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/economy_supply_portal",
+      "observedAt": "2026-10-01T19:34:54.578Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/education_finance_portal",
+      "observedAt": "2026-10-01T19:34:54.669Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/education_governance_portal",
+      "observedAt": "2026-10-01T19:34:54.747Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/education_research_portal",
+      "observedAt": "2026-10-01T19:34:54.862Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/education_workforce_portal",
+      "observedAt": "2026-10-01T19:34:54.939Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/energy_carbon_portal",
+      "observedAt": "2026-10-01T19:34:55.078Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/environment_urban_portal",
+      "observedAt": "2026-10-01T19:34:55.098Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/industry_defense_portal",
+      "observedAt": "2026-10-01T19:34:55.297Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/finance_realestate_portal",
+      "observedAt": "2026-10-01T19:34:55.250Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/infrastructure_waste_portal",
+      "observedAt": "2026-10-01T19:34:55.436Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/law_banking_portal",
+      "observedAt": "2026-10-01T19:34:55.469Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/law_immigration_portal",
+      "observedAt": "2026-10-01T19:34:55.642Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/law_tech_portal",
+      "observedAt": "2026-10-01T19:34:55.658Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/portals/medicine/mens_health",
+      "observedAt": "2026-10-01T19:34:55.845Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/medicine_pediatric_portal",
+      "observedAt": "2026-10-01T19:34:55.843Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/portals/medicine/reports/trt_patient_report",
+      "observedAt": "2026-10-01T19:34:56.015Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/science_policy_portal",
+      "observedAt": "2026-10-01T19:34:56.076Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/spiral",
+      "observedAt": "2026-10-01T19:34:56.221Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    },
+    {
+      "route": "/trade_services_portal",
+      "observedAt": "2026-10-01T19:34:56.245Z",
+      "status": 404,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "audience": "Reported broken target outside full route inventory",
+      "historicalStatus": null
+    }
+  ],
+  "limits": [
+    "HEAD status is not rendered content or link validation",
+    "Redirect destinations not followed",
+    "API routes intentionally skipped",
+    "Historical audience/retirement labels unchanged",
+    "No deployment or route mutation"
+  ]
+}
