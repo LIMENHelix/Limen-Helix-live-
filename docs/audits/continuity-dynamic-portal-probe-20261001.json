@@ -1,0 +1,187 @@
+{
+  "schemaVersion": "continuity-dynamic-portal-probe/1.0",
+  "baseSha": "58ebbc65effe55a67e3c01a822c87156a5f33a07",
+  "routerSource": "assets/js/portal-router.js",
+  "pathsDerivedFrom": "domain/l2-l8 query parsing and pathKey underscore domainId",
+  "scope": "Two replacement shells, registry dependencies and read-only data retrieval; no dispatch",
+  "observations": [
+    {
+      "path": "/portal?domain=energy&l2=datacenter&l3=powerdemand&l4=rackdensity",
+      "method": "GET",
+      "curlExit": 0,
+      "statusLine": "HTTP/1.1 200 OK",
+      "checkedAt": "2026-10-01T18:23:53.5678441Z",
+      "headers": [
+        "HTTP/1.1 200 OK",
+        "Accept-Ranges: bytes",
+        "Access-Control-Allow-Origin: *",
+        "Age: 0",
+        "Cache-Control: public, max-age=0, must-revalidate",
+        "Content-Disposition: inline; filename=\"portal\"",
+        "Content-Length: 3582",
+        "Content-Type: text/html; charset=utf-8",
+        "Date: Thu, 01 Oct 2026 18:24:12 GMT",
+        "Etag: \"e786c6f665eb9f31c7b200896518d492\"",
+        "Last-Modified: Thu, 01 Oct 2026 18:24:12 GMT",
+        "Server: Vercel",
+        "Strict-Transport-Security: max-age=63072000",
+        "X-Vercel-Cache: MISS",
+        "X-Vercel-Id: cle1::9rsdd-1790879052469-75cbfa5c5ece",
+        ""
+      ]
+    },
+    {
+      "path": "/portal?domain=energy&l2=datacenter&l3=powerdemand&l4=rackdensity&l5=hvpower",
+      "method": "GET",
+      "curlExit": 0,
+      "statusLine": "HTTP/1.1 200 OK",
+      "checkedAt": "2026-10-01T18:23:53.8716407Z",
+      "headers": [
+        "HTTP/1.1 200 OK",
+        "Accept-Ranges: bytes",
+        "Access-Control-Allow-Origin: *",
+        "Age: 0",
+        "Cache-Control: public, max-age=0, must-revalidate",
+        "Content-Disposition: inline; filename=\"portal\"",
+        "Content-Length: 3582",
+        "Content-Type: text/html; charset=utf-8",
+        "Date: Thu, 01 Oct 2026 18:24:12 GMT",
+        "Etag: \"e786c6f665eb9f31c7b200896518d492\"",
+        "Last-Modified: Thu, 01 Oct 2026 18:24:12 GMT",
+        "Server: Vercel",
+        "Strict-Transport-Security: max-age=63072000",
+        "X-Vercel-Cache: HIT",
+        "X-Vercel-Id: cle1::f9pjb-1790879052896-781a79107aca",
+        ""
+      ]
+    },
+    {
+      "path": "/assets/data/registry/portal-registry-energy.json",
+      "method": "GET",
+      "curlExit": 0,
+      "statusLine": "HTTP/1.1 404 Not Found",
+      "checkedAt": "2026-10-01T18:23:54.2020505Z",
+      "headers": [
+        "HTTP/1.1 404 Not Found",
+        "Cache-Control: public, max-age=0, must-revalidate",
+        "Content-Length: 79",
+        "Content-Type: text/plain; charset=utf-8",
+        "Date: Thu, 01 Oct 2026 18:24:13 GMT",
+        "Server: Vercel",
+        "Strict-Transport-Security: max-age=63072000",
+        "X-Vercel-Error: NOT_FOUND",
+        "X-Vercel-Id: cle1::b7zqp-1790879053234-e7c1aed2d9ef",
+        ""
+      ]
+    },
+    {
+      "path": "/assets/data/registry/portal-registry.json",
+      "method": "GET",
+      "curlExit": 0,
+      "statusLine": "HTTP/1.1 200 OK",
+      "checkedAt": "2026-10-01T18:23:57.3560594Z",
+      "headers": [
+        "HTTP/1.1 200 OK",
+        "Accept-Ranges: bytes",
+        "Access-Control-Allow-Origin: *",
+        "Age: 0",
+        "Cache-Control: public, max-age=0, must-revalidate",
+        "Content-Disposition: inline; filename=\"portal-registry.json\"",
+        "Content-Length: 64753097",
+        "Content-Type: application/json; charset=utf-8",
+        "Date: Thu, 01 Oct 2026 18:24:14 GMT",
+        "Etag: \"3f3ffd91586a1e87da47f8f8f06d071b\"",
+        "Last-Modified: Thu, 01 Oct 2026 18:24:13 GMT",
+        "Server: Vercel",
+        "Strict-Transport-Security: max-age=63072000",
+        "X-Vercel-Cache: MISS",
+        "X-Vercel-Id: cle1::swjhv-1790879053550-ffec082c0a53",
+        ""
+      ]
+    },
+    {
+      "path": "/api/fetch-portal?domainId=energy_datacenter_powerdemand_rackdensity",
+      "method": "GET",
+      "curlExit": 0,
+      "statusLine": "HTTP/1.1 200 OK",
+      "checkedAt": "2026-10-01T18:23:58.3996198Z",
+      "headers": [
+        "HTTP/1.1 200 OK",
+        "Age: 0",
+        "Cache-Control: public",
+        "Content-Length: 5047",
+        "Content-Type: application/json; charset=utf-8",
+        "Date: Thu, 01 Oct 2026 18:24:17 GMT",
+        "Etag: W/\"13b7-CnCxUfqyCcx1P7j6h9O0XYZjLqc\"",
+        "Server: Vercel",
+        "Strict-Transport-Security: max-age=63072000",
+        "X-Vercel-Cache: MISS",
+        "X-Vercel-Id: cle1::iad1::9jsfj-1790879056675-8083be1953a3",
+        ""
+      ]
+    },
+    {
+      "path": "/api/fetch-portal?domainId=energy_datacenter_powerdemand_rackdensity_hvpower",
+      "method": "GET",
+      "curlExit": 0,
+      "statusLine": "HTTP/1.1 200 OK",
+      "checkedAt": "2026-10-01T18:23:59.5378633Z",
+      "headers": [
+        "HTTP/1.1 200 OK",
+        "Age: 0",
+        "Cache-Control: public",
+        "Content-Length: 2882",
+        "Content-Type: application/json; charset=utf-8",
+        "Date: Thu, 01 Oct 2026 18:24:18 GMT",
+        "Etag: W/\"b42-ELKUoeql9z657yxi7jd1L+LERy4\"",
+        "Server: Vercel",
+        "Strict-Transport-Security: max-age=63072000",
+        "X-Vercel-Cache: MISS",
+        "X-Vercel-Id: cle1::iad1::gwkv8-1790879057753-f86ed990ac49",
+        ""
+      ]
+    }
+  ],
+  "dataChecks": [
+    {
+      "domainId": "energy_datacenter_powerdemand_rackdensity",
+      "topLevelFields": [
+        "domainId",
+        "title",
+        "parentPortal",
+        "parentLabel",
+        "phase",
+        "_authoring",
+        "activations",
+        "edges",
+        "issues"
+      ],
+      "returnedDomainId": "energy",
+      "hasError": false,
+      "bodySha256": "541c0397117efa6dacf6fdc569d125460993f9656df84f28bf29eafa698fbde5",
+      "title": "Rack Power Density",
+      "localTitleAndDomainMatch": true,
+      "activationCount": 4
+    },
+    {
+      "domainId": "energy_datacenter_powerdemand_rackdensity_hvpower",
+      "topLevelFields": [
+        "domainId",
+        "title",
+        "parentPortal",
+        "parentLabel",
+        "phase",
+        "_authoring",
+        "activations",
+        "edges",
+        "issues"
+      ],
+      "returnedDomainId": "energy",
+      "hasError": false,
+      "bodySha256": "80f26f7405782748d0d6c4381735da5e4ddc4b5c77aa8124e87d9e5753f307ed",
+      "title": "High-Voltage Rack Power",
+      "localTitleAndDomainMatch": true,
+      "activationCount": 3
+    }
+  ]
+}
