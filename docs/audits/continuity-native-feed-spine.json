@@ -4650,7 +4650,17 @@
             "health:LOCAL/FIXTURE health feed 1:1:1"
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
-          "nextBoundary": "candidate-to-owning-B10-selection-not-joined",
+          "selection": {
+            "id": "sel_episode_706a6f924ceb6ecee0a696d34c096203122ec794e1ce2945256c540efcfb2338",
+            "status": "HELD",
+            "ownerDomain": "health",
+            "reasons": [
+              "owning_domain_cycle_missing",
+              "owning_domain_has_no_current_l3_evidence",
+              "owning_domain_has_no_declared_outward_consumer"
+            ]
+          },
+          "nextBoundary": "owning-runtime-cycle-evidence-required-before-B10-release",
           "providerCalled": false
         }
       },
@@ -5756,7 +5766,17 @@
             "research:LOCAL/FIXTURE research feed 1:1:1"
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
-          "nextBoundary": "candidate-to-owning-B10-selection-not-joined",
+          "selection": {
+            "id": "sel_episode_80271ad789a43f2b4f83c32c7f0b8eca2718e173535f3d7e6645b262fbbe38c7",
+            "status": "HELD",
+            "ownerDomain": "research",
+            "reasons": [
+              "owning_domain_cycle_missing",
+              "owning_domain_has_no_current_l3_evidence",
+              "owning_domain_has_no_declared_outward_consumer"
+            ]
+          },
+          "nextBoundary": "owning-runtime-cycle-evidence-required-before-B10-release",
           "providerCalled": false
         }
       },

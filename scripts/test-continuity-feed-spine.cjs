@@ -106,6 +106,7 @@ sb.LIMENDomains = fixtures;
   var FinanceRegistry = require('../assets/data/finance-company-identities.json');
   var ResearchCandidate = require('../lib/domain-research-candidate.js');
   var DomainSemantic = require('../lib/domain-semantic-packet.js');
+  var DomainBridge = require('../lib/autofire-domain-bridge.js');
   var results = [];
   for (var row of domains) {
     var brain = sb[row[1]];
@@ -176,9 +177,26 @@ sb.LIMENDomains = fixtures;
         assert.equal(ResearchCandidate.build(undurable, row[0], sourceAt).reason, 'owning-domain-packet-not-durable');
         var wrongOwner = JSON.parse(JSON.stringify(enrichedRecord)); wrongOwner.c.serverPacket.truth.semanticEvidenceMeta.ownerDomain = 'agriculture';
         assert.equal(ResearchCandidate.build(wrongOwner, row[0], sourceAt).reason, 'owning-domain-semantic-identity-invalid');
+        var decisionLists = new Map();
+        var decisionStore = Object.assign({}, store, {
+          assertDurable: function () {}, setIfAbsent: store.setNx,
+          set: async function (key, value) { values.set(key, JSON.parse(JSON.stringify(value))); return true; },
+          lpush: async function (key, value) { var rows = decisionLists.get(key) || []; rows.unshift(JSON.parse(JSON.stringify(value))); decisionLists.set(key, rows); return rows.length; },
+          ltrim: async function (key, start, end) { decisionLists.set(key, (decisionLists.get(key) || []).slice(start, end + 1)); return true; }
+        });
+        var selection = await DomainBridge.select(decisionStore, { lane: 'research', candidate: actor.candidate, domainCycle: null, at: sourceAt });
+        assert.equal(selection.ok, true);
+        assert.equal(selection.receipt.status, 'HELD');
+        assert.equal(selection.receipt.ownerDomain, sourceDomain);
+        assert.equal(selection.receipt.candidate.sourcePacketId, enrichedPacket.packetId);
+        assert(selection.receipt.reasons.includes('owning_domain_cycle_missing'));
+        assert.deepEqual(await decisionStore.get('autofire_selection:' + selection.receipt.id), selection.receipt);
+        var selectionReplay = await DomainBridge.select(decisionStore, { lane: 'research', candidate: actor.candidate, domainCycle: null, at: sourceAt });
+        assert.equal(selectionReplay.receipt.id, selection.receipt.id);
         enrichedResearch = { status: actor.status, sourcePacketId: enrichedPacket.packetId, ownerDomain: actor.candidate.ownerDomain,
           sourceKeys: semantic.observations.map(function (observation) { return observation.sourceIdentity.value; }),
-          titleSourceLevel: 'LOCAL/FIXTURE', nextBoundary: 'candidate-to-owning-B10-selection-not-joined', providerCalled: false };
+          titleSourceLevel: 'LOCAL/FIXTURE', selection: { id: selection.receipt.id, status: selection.receipt.status, ownerDomain: selection.receipt.ownerDomain, reasons: selection.receipt.reasons },
+          nextBoundary: 'owning-runtime-cycle-evidence-required-before-B10-release', providerCalled: false };
       }
       var replay = await consumer.consumePacket(packet);
       assert.equal(replay.handoffsCreated, 0, 'same native packet cannot duplicate handoffs');
