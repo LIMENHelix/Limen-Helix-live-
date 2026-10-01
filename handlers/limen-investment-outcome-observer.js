@@ -126,10 +126,11 @@ module.exports = async function handler(req, res) {
         eligible += result.events.length;
         for (var e = 0; e < result.events.length; e++) {
           var recordedResult = await outcome.recordAutonomousOutcome(result.events[e]);
-          var afferentResult = await energyFinanceAfferent.record(store, result.events[e], current, recordedResult);
+          var returnedEvent = Object.assign({}, result.events[e], recordedResult && recordedResult.event || {});
+          var afferentResult = await energyFinanceAfferent.record(store, returnedEvent, current, recordedResult);
           if (afferentResult && afferentResult.ok && afferentResult.signal) returnedToEnergy++;
           else if (afferentResult && afferentResult.status === 'ABSTAINED') returnAbstentions.push({
-            commandId: current.commandId, eventId: result.events[e].eventId, reason: afferentResult.reason
+            commandId: current.commandId, eventId: returnedEvent.eventId, reason: afferentResult.reason
           });
           if (recordedResult && recordedResult.ok && recordedResult.learningAccepted !== false) {
             if (recordedResult.duplicate) duplicates++;

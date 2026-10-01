@@ -21,7 +21,7 @@ function command() {
   return {
     commandId: 'tcmd-handler', status: 'RECONCILED_TERMINAL', emittedAt: new Date(t).toISOString(),
     receipt: { orderId: 'order-handler', receivedAt: new Date(t).toISOString() },
-    intent: { symbol: 'SPY', side: 'buy', actionId: 'act-handler', benchmarkSymbol: 'QQQ', benchmarkBaselineValue: 400, riskLimitPct: 20 },
+    intent: { decisionContext: { sourceDomains: [{ sourceDomain: 'energy', sourcePacketId: 'energy-origin-packet' }] }, symbol: 'SPY', side: 'buy', actionId: 'act-handler', benchmarkSymbol: 'QQQ', benchmarkBaselineValue: 400, riskLimitPct: 20 },
     accountBefore: { accountId: 'VA123', positions: [] },
     order: { id: 'order-handler', status: 'filled', executedQuantity: 1, averageFillPrice: 100, transactionAt: new Date(t).toISOString() },
     reafference: { matchedSelfEffect: { executedQuantity: 1, averageFillPrice: 100 } },
@@ -40,10 +40,17 @@ async function invoke(handler, headers) {
   process.env.CRON_SECRET = 'investment-observer-secret';
   var replacements = [];
   var writes = [];
+  var afferentState = new Map();
   var recorded = [];
   var rejectLearning = false;
   mock(STORE, {
     assertDurable: function () {},
+    get: async function (key) { return afferentState.get(key) || null; },
+    set: async function (key, value) { afferentState.set(key, JSON.parse(JSON.stringify(value))); },
+    setIfAbsent: async function (key, value) {
+      if (afferentState.has(key)) return false;
+      afferentState.set(key, JSON.parse(JSON.stringify(value))); return true;
+    },
     lrange: async function (key) {
       if (key === 'tradier_b14_log') return [{ commandId: 'tcmd-handler' }];
       return [{ snapshotId: 'prior', positionMarketValue: 100, observedAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString() }];
@@ -57,7 +64,10 @@ async function invoke(handler, headers) {
     quote: async function (symbol) { return { provider: 'tradier', symbol: symbol, last: 440 }; }
   }, replacements);
   mock(OUTCOME, { recordAutonomousOutcome: async function (event) {
+    event = Object.assign({}, event, { eventId: 'evt_handler_observed', ts: Date.parse(event.observedAt) });
     recorded.push(event);
+    event = Object.assign({}, event);
+    delete event.sourceIdentity;
     return rejectLearning ? { ok: true, learningAccepted: false, status: 503, event: event } : { ok: true, event: event };
   } }, replacements);
   delete require.cache[require.resolve(HANDLER)];
@@ -72,8 +82,14 @@ async function invoke(handler, headers) {
     ok('paper outcome reaches durable outcome path', recorded.length === 1 && recorded[0].eventType === 'OUTCOME_INVESTMENT_PNL' && recorded[0].outcomeData.executionMode === 'paper');
     ok('command identity reaches outcome path', recorded[0].commandId === 'tcmd-handler');
     ok('no live order is made', good.json.liveOrders === 0);
+    ok('accepted Finance result returns Energy evidence', good.json.returnedToEnergy === 1);
+    var returnedState = afferentState.get('energy_finance_afferent_state');
+    ok('canonical identity and observed provider provenance survive return', returnedState.signals[0].eventId === 'evt_handler_observed' && returnedState.signals[0].sourceIdentity.provider === 'tradier');
+    var priorAfferent = JSON.stringify(Array.from(afferentState));
     rejectLearning = true;
     var learningFailure = await invoke(handler, { authorization: 'Bearer investment-observer-secret' });
+    ok('rejected Finance result names return abstention', learningFailure.json.returnedToEnergy === 0 && learningFailure.json.returnAbstentions[0].reason === 'finance-outcome-record-not-accepted');
+    ok('rejected Finance result leaves returned evidence unchanged', JSON.stringify(Array.from(afferentState)) === priorAfferent);
     ok('rejected investment learning write is surfaced', learningFailure.code === 503 && learningFailure.json.ok === false && learningFailure.json.failures.length === 1);
   } finally {
     if (oldSecret === undefined) delete process.env.CRON_SECRET; else process.env.CRON_SECRET = oldSecret;

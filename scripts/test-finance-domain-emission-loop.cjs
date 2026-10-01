@@ -113,13 +113,30 @@ function fakeLearningStore() {
     outcomeData: { netPnl: 4.25 }
   };
   const command = { intent: { decisionContext: { sourceDomains: [{ sourceDomain: 'energy', sourcePacketId: energyPacket.packetId, opportunityId: 'energy-opp-1' }] } } };
-  const returned = await Afferent.record(learning, event, command, { assessment: { reward: 1 } });
+  const rejectedStore = fakeLearningStore();
+  for (const rejectedResult of [null, {}, { ok: false }, { ok: true, learningAccepted: false }]) {
+    const rejected = await Afferent.record(rejectedStore, event, command, rejectedResult);
+    assert.equal(rejected.status, 'ABSTAINED');
+    assert.equal(rejected.reason, 'finance-outcome-record-not-accepted');
+    assert.equal((await Afferent.readForBrain(rejectedStore)).status, 'ABSTAINED');
+    assert.equal(await rejectedStore.get(Afferent.causeKey(event.eventId)), null);
+    assert.equal(await rejectedStore.get(Afferent.STATE_KEY), null);
+  }
+  const recovered = await Afferent.record(rejectedStore, event, command, { ok: true, learningAccepted: true, assessment: { reward: 1 } });
+  assert.equal(recovered.ok, true);
+  assert.equal(recovered.resolvedCount, 1);
+  assert.equal((await Afferent.readForBrain(rejectedStore)).signal.eventId, event.eventId);
+  const beforeRejectedReplay = JSON.stringify(await rejectedStore.get(Afferent.STATE_KEY));
+  const rejectedReplay = await Afferent.record(rejectedStore, event, command, { ok: false });
+  assert.equal(rejectedReplay.reason, 'finance-outcome-record-not-accepted');
+  assert.equal(JSON.stringify(await rejectedStore.get(Afferent.STATE_KEY)), beforeRejectedReplay);
+  const returned = await Afferent.record(learning, event, command, { ok: true, learningAccepted: true, assessment: { reward: 1 } });
   assert.equal(returned.ok, true);
   assert.equal(returned.signal.sourceDomains[0].sourceDomain, 'energy');
   const readout = await Afferent.readForBrain(learning);
   assert.equal(readout.status, 'ELIGIBLE');
   assert.equal(readout.signal.outcome, 'POSITIVE_PNL');
-  const duplicate = await Afferent.record(learning, event, command, { assessment: { reward: 1 } });
+  const duplicate = await Afferent.record(learning, event, command, { ok: true, learningAccepted: true, assessment: { reward: 1 } });
   assert.equal(duplicate.duplicate, true);
 
   const quarantined = await EnergyExecutor.execute({

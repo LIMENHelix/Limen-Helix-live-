@@ -1,0 +1,13 @@
+# Finance-to-Energy accepted outcome boundary — 2026-10-01
+
+Two LOCAL/FIXTURE defects were reproduced. First, energy-finance-afferent-learning.record accepted a rejected Finance recording result and produced ELIGIBLE Energy evidence with two durable writes. Its pre-fix regression failed. The existing return writer now abstains finance-outcome-record-not-accepted before writes for absent/non-ok results or explicitly rejected learning.
+
+Second, the actual investment observer builds a raw event without eventId, while recordAutonomousOutcome assigns that durable identity. The return call used the raw event, so the positive handler join refused finance-investment-outcome-required. The handler now combines observed provider identity with canonical recorded event fields, and reports the canonical return event identity. The handler fixture models the recorder response's assigned identity and omitted sourceIdentity. No provider or production recording is executed by verification.
+
+Focused return tests verify missing result, missing ok, rejected record, rejected learning, zero writes on rejection, same-store recovery, duplicate return, and rejected replay preserving accepted state. Actual observer handler fixture verifies accepted return, canonical identity/provider provenance and rejected-learning return abstention with unchanged state: 12/12 passed.
+
+Final frozen-code full suite58779 completed exit0:367 passed,1 external prerequisite skip,0 failed231.2s. It includes native20 spine and both modified regressions. Final repository/harness/diff checks33052 completed exit0. The earlier suite83036 (367/1/0,251.1s) predates the final handler changes and is not used as final combined validation.
+
+Changed runtime: handlers/limen-investment-outcome-observer.js and lib/energy-finance-afferent-learning.js. Changed tests: scripts/test-autofire-investment-observer-handler.js and scripts/test-finance-domain-emission-loop.cjs. This audit and the continuity checkpoint record the bounded repair. Protected neurology/phase/source corpus/portal/config unchanged; canonical79 paused fingerprints preserved.
+
+Proof limits: handler transport/store/recorder are fixture substitutes. The actual observer and return writer are joined under identified sandbox fixture observations; no current native source-to-Finance admission, provider consequence, live outcome, economic sustainability or production deployment is claimed. Existing no-native-return states remain unobserved. Google Docs deferred. Next inspect permanent Energy return cause identity and replay retention against the same store, then continue remaining original completion gaps without inventing outcomes or authority.
