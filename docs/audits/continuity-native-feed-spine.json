@@ -1,0 +1,4844 @@
+{
+  "schemaVersion": "continuity-native-feed-spine/1.0",
+  "generatedBy": "scripts/test-continuity-feed-spine.cjs",
+  "level": "LOCAL/FIXTURE",
+  "injectedDiagnoses": false,
+  "injectedOpportunities": false,
+  "externalFetches": false,
+  "localPortalReads": [
+    "assets/data/domains/culture_music.json",
+    "assets/data/domains/governance_govaudit_intaudit.json",
+    "assets/data/domains/intelligence_collection.json",
+    "assets/data/domains/infrastructure.json",
+    "assets/data/domains/technology.json",
+    "assets/data/domains/p2_agri.json",
+    "assets/data/domains/communication.json",
+    "assets/data/domains/culture.json",
+    "assets/data/domains/defense.json",
+    "assets/data/domains/economy.json",
+    "assets/data/domains/education.json",
+    "assets/data/domains/energy.json",
+    "assets/data/domains/environment.json",
+    "assets/data/domains/finance.json",
+    "assets/data/domains/governance.json",
+    "assets/data/domains/industry.json",
+    "assets/data/domains/intelligence.json",
+    "assets/data/domains/medicine.json",
+    "assets/data/domains/population.json",
+    "assets/data/domains/religion.json",
+    "assets/data/domains/science.json",
+    "assets/data/domains/trade.json",
+    "assets/data/domains/law.json",
+    "assets/data/deep/infrastructure-diagnosis-digest.json",
+    "assets/data/deep/infrastructure-fold.json",
+    "assets/data/canonical-nodes.json",
+    "assets/data/diagnosis-node-overrides.json",
+    "assets/data/diagnosis-ancestor-map.json",
+    "assets/data/command-board-data.json",
+    "assets/data/deep/technology-diagnosis-digest.json",
+    "assets/data/deep/technology-fold.json",
+    "assets/data/deep/p2_agri-diagnosis-digest.json",
+    "assets/data/deep/p2_agri-fold.json",
+    "assets/data/deep/communication-diagnosis-digest.json",
+    "assets/data/deep/communication-fold.json",
+    "assets/data/deep/culture-diagnosis-digest.json",
+    "assets/data/deep/culture-fold.json",
+    "assets/data/deep/defense-diagnosis-digest.json",
+    "assets/data/deep/defense-fold.json",
+    "assets/data/deep/economy-diagnosis-digest.json",
+    "assets/data/deep/economy-fold.json",
+    "assets/data/deep/education-diagnosis-digest.json",
+    "assets/data/deep/education-fold.json",
+    "assets/data/deep/energy-diagnosis-digest.json",
+    "assets/data/deep/energy-fold.json",
+    "assets/data/deep/environment-diagnosis-digest.json",
+    "assets/data/deep/environment-fold.json",
+    "assets/data/deep/finance-diagnosis-digest.json",
+    "assets/data/deep/finance-fold.json",
+    "assets/data/deep/governance-diagnosis-digest.json",
+    "assets/data/deep/governance-fold.json",
+    "assets/data/deep/industry-diagnosis-digest.json",
+    "assets/data/deep/industry-fold.json",
+    "assets/data/deep/intelligence-diagnosis-digest.json",
+    "assets/data/deep/intelligence-fold.json",
+    "assets/data/deep/medicine-diagnosis-digest.json",
+    "assets/data/deep/medicine-fold.json",
+    "assets/data/deep/population-diagnosis-digest.json",
+    "assets/data/deep/population-fold.json",
+    "assets/data/deep/religion-diagnosis-digest.json",
+    "assets/data/deep/religion-fold.json",
+    "assets/data/deep/science-diagnosis-digest.json",
+    "assets/data/deep/science-fold.json",
+    "assets/data/deep/trade-diagnosis-digest.json",
+    "assets/data/deep/trade-fold.json",
+    "assets/data/deep/law-diagnosis-digest.json",
+    "assets/data/deep/law-fold.json",
+    "assets/data/domains/technology_artificial.json",
+    "assets/data/domains/technology_machine.json",
+    "assets/data/domains/technology_techethics.json",
+    "assets/data/domains/technology_cybersecurity.json",
+    "assets/data/domains/technology_data.json",
+    "assets/data/domains/technology_cloud.json",
+    "assets/data/domains/technology_networking.json",
+    "assets/data/domains/p2_agri_climate.json",
+    "assets/data/domains/p2_agri_water.json",
+    "assets/data/domains/p2_agri_soil.json",
+    "assets/data/domains/p2_agri_crop.json",
+    "assets/data/domains/p2_agri_landuse.json",
+    "assets/data/domains/communication_disinfo.json",
+    "assets/data/domains/communication_social.json",
+    "assets/data/domains/communication_journalism.json",
+    "assets/data/domains/communication_public.json",
+    "assets/data/domains/intelligence_allsource.json",
+    "assets/data/domains/defense_logistics.json",
+    "assets/data/domains/defense_ground.json",
+    "assets/data/domains/defense_procurement.json",
+    "assets/data/domains/education_equity.json",
+    "assets/data/domains/education_k12.json",
+    "assets/data/domains/education_literacy.json",
+    "assets/data/domains/education_learning.json",
+    "assets/data/domains/governance_policy.json",
+    "assets/data/domains/governance_regulatory.json",
+    "assets/data/domains/governance_federalism.json",
+    "assets/data/domains/governance_intergovt.json",
+    "assets/data/domains/industry_automation.json",
+    "assets/data/domains/industry_robotics.json",
+    "assets/data/domains/industry_assembly.json",
+    "assets/data/domains/industry_quality.json",
+    "assets/data/domains/science_replication.json",
+    "assets/data/domains/science_experimental.json",
+    "assets/data/domains/science_peer.json",
+    "assets/data/domains/science_funding.json",
+    "assets/data/domains/science_metrics.json",
+    "assets/data/domains/population_lifespan_agingpop.json",
+    "assets/data/domains/population_labor_migration.json",
+    "assets/data/domains/communication_telecom.json",
+    "assets/data/domains/communication_datacomm.json",
+    "assets/data/domains/communication_satellite.json",
+    "assets/data/domains/communication_internet.json",
+    "assets/data/domains/communication_medialaw.json",
+    "assets/data/domains/communication_accesscomm.json",
+    "assets/data/domains/communication_broadcasting.json",
+    "assets/data/domains/communication_publishing.json",
+    "assets/data/domains/communication_advertising.json",
+    "assets/data/domains/communication_analytics.json",
+    "assets/data/domains/culture_cultural_econ.json",
+    "assets/data/domains/culture_dance.json",
+    "assets/data/domains/culture_criticism.json",
+    "assets/data/domains/culture_culinary.json",
+    "assets/data/domains/culture_cultpolicy.json",
+    "assets/data/domains/culture_architecture.json",
+    "assets/data/domains/culture_crafts.json",
+    "assets/data/domains/defense_air.json",
+    "assets/data/domains/defense_command.json",
+    "assets/data/domains/defense_naval.json",
+    "assets/data/domains/defense_missile.json",
+    "assets/data/domains/defense_nuclear.json",
+    "assets/data/domains/defense_alliances.json",
+    "assets/data/domains/defense_defreform.json",
+    "assets/data/domains/defense_personnel.json",
+    "assets/data/domains/economy_gdp.json",
+    "assets/data/domains/economy_labor.json",
+    "assets/data/domains/economy_consumer.json",
+    "assets/data/domains/economy_industrial.json",
+    "assets/data/domains/economy_inflation.json",
+    "assets/data/domains/economy_monetary.json",
+    "assets/data/domains/economy_fiscal.json",
+    "assets/data/domains/finance_commercial.json",
+    "assets/data/domains/finance_centralbank.json",
+    "assets/data/domains/finance_insurance.json",
+    "assets/data/domains/finance_reinsurance.json",
+    "assets/data/domains/trade_tradepolicy.json",
+    "assets/data/domains/trade_customs.json",
+    "assets/data/domains/trade_tradezone.json",
+    "assets/data/domains/trade_wto.json",
+    "assets/data/domains/trade_tradecompliance.json",
+    "assets/data/domains/economy_debt.json",
+    "assets/data/domains/economy_capital.json",
+    "assets/data/domains/finance_stock.json",
+    "assets/data/domains/finance_derivatives.json",
+    "assets/data/domains/finance_private.json",
+    "assets/data/domains/finance_venture.json",
+    "assets/data/domains/education_higher.json",
+    "assets/data/domains/education_special.json",
+    "assets/data/domains/education_vocational.json",
+    "assets/data/domains/education_international.json",
+    "assets/data/domains/education_edtech.json",
+    "assets/data/domains/education_distance.json",
+    "assets/data/domains/energy_grid.json",
+    "assets/data/domains/energy_transmission.json",
+    "assets/data/domains/energy_gridmod.json",
+    "assets/data/domains/energy_distribution.json",
+    "assets/data/domains/energy_power.json",
+    "assets/data/domains/energy_fossil.json",
+    "assets/data/domains/energy_pipeline.json",
+    "assets/data/domains/energy_energytrade.json",
+    "assets/data/domains/energy_nuclear.json",
+    "assets/data/domains/energy_energypolicy.json",
+    "assets/data/domains/energy_solar.json",
+    "assets/data/domains/energy_hydro.json",
+    "assets/data/domains/energy_battery.json",
+    "assets/data/domains/energy_storage.json",
+    "assets/data/domains/energy_offgrid.json",
+    "assets/data/domains/environment_climate.json",
+    "assets/data/domains/environment_airquality.json",
+    "assets/data/domains/environment_water.json",
+    "assets/data/domains/environment_conservation.json",
+    "assets/data/domains/environment_wildlife.json",
+    "assets/data/domains/environment_ocean.json",
+    "assets/data/domains/environment_biodiversity.json",
+    "assets/data/domains/environment_pollution.json",
+    "assets/data/domains/environment_soil.json",
+    "assets/data/domains/finance_compliance.json",
+    "assets/data/domains/finance_forex.json",
+    "assets/data/domains/finance_sovereign.json",
+    "assets/data/domains/finance_bond.json",
+    "assets/data/domains/finance_microfinance.json",
+    "assets/data/domains/finance_accounting.json",
+    "assets/data/domains/finance_corporatefin.json",
+    "assets/data/domains/governance_judicial.json",
+    "assets/data/domains/governance_legislative.json",
+    "assets/data/domains/governance_executive.json",
+    "assets/data/domains/governance_succession.json",
+    "assets/data/domains/governance_crisis.json",
+    "assets/data/domains/governance_electoral.json",
+    "assets/data/domains/governance_anticorruption.json",
+    "assets/data/domains/governance_govaudit.json",
+    "assets/data/domains/governance_public.json",
+    "assets/data/domains/governance_diplomatic.json",
+    "assets/data/domains/governance_sanctions.json",
+    "assets/data/domains/governance_intelligence.json",
+    "assets/data/domains/trade_supply.json",
+    "assets/data/domains/trade_container.json",
+    "assets/data/domains/trade_warehousing.json",
+    "assets/data/domains/trade_trucking.json",
+    "assets/data/domains/trade_rail.json",
+    "assets/data/domains/industry_safety.json",
+    "assets/data/domains/industry_indsafety.json",
+    "assets/data/domains/industry_sustainability.json",
+    "assets/data/domains/industry_qualitymgmt.json",
+    "assets/data/domains/industry_design.json",
+    "assets/data/domains/industry_industrial.json",
+    "assets/data/domains/industry_indpolicy.json",
+    "assets/data/domains/infrastructure_electrical.json",
+    "assets/data/domains/infrastructure_pipeline.json",
+    "assets/data/domains/infrastructure_resilience.json",
+    "assets/data/domains/infrastructure_smartcity.json",
+    "assets/data/domains/infrastructure_maintenance.json",
+    "assets/data/domains/infrastructure_bridges.json",
+    "assets/data/domains/infrastructure_dams.json",
+    "assets/data/domains/infrastructure_water.json",
+    "assets/data/domains/infrastructure_digital.json",
+    "assets/data/domains/infrastructure_telecom.json",
+    "assets/data/domains/intelligence_oversight.json",
+    "assets/data/domains/intelligence_sigint.json",
+    "assets/data/domains/intelligence_cyber.json",
+    "assets/data/domains/intelligence_counterintelligence.json",
+    "assets/data/domains/intelligence_covert.json",
+    "assets/data/domains/law_judiciary.json",
+    "assets/data/domains/law_criminal.json",
+    "assets/data/domains/law_civil.json",
+    "assets/data/domains/law_administrative.json",
+    "assets/data/domains/law_constitutional.json",
+    "assets/data/domains/law_regulatory.json",
+    "assets/data/domains/law_health.json",
+    "assets/data/domains/law_prosecution.json",
+    "assets/data/domains/law_legal.json",
+    "assets/data/domains/law_intl.json",
+    "assets/data/domains/law_maritime.json",
+    "assets/data/domains/law_arbitration.json",
+    "assets/data/domains/medicine_primary.json",
+    "assets/data/domains/medicine_telehealth.json",
+    "assets/data/domains/medicine_emergency.json",
+    "assets/data/domains/medicine_publichealth.json",
+    "assets/data/domains/medicine_metabolic.json",
+    "assets/data/domains/medicine_cardiology.json",
+    "assets/data/domains/medicine_rehabilitation.json",
+    "assets/data/domains/medicine_radiology.json",
+    "assets/data/domains/medicine_neurology.json",
+    "assets/data/domains/medicine_diagnostics.json",
+    "assets/data/domains/medicine_pharmacy.json",
+    "assets/data/domains/medicine_oncology.json",
+    "assets/data/domains/medicine_medresearch.json",
+    "assets/data/domains/population_birth.json",
+    "assets/data/domains/population_aging.json",
+    "assets/data/domains/population_labor.json",
+    "assets/data/domains/population_popdata.json",
+    "assets/data/domains/population_migration.json",
+    "assets/data/domains/population_refugees.json",
+    "assets/data/domains/population_urbanization.json",
+    "assets/data/domains/population_pophealth.json",
+    "assets/data/domains/population_mortality.json",
+    "assets/data/domains/religion_theological.json",
+    "assets/data/domains/religion_relethics.json",
+    "assets/data/domains/religion_relorg.json",
+    "assets/data/domains/religion_releduc.json",
+    "assets/data/domains/religion_ritual.json",
+    "assets/data/domains/science_workforce.json",
+    "assets/data/domains/science_laboratory.json",
+    "assets/data/domains/science_integrity.json",
+    "assets/data/domains/science_ethics.json",
+    "assets/data/domains/science_data.json",
+    "assets/data/domains/science_hypothesis.json",
+    "assets/data/domains/science_openscience.json",
+    "assets/data/domains/science_collaboration.json",
+    "assets/data/domains/science_publication.json",
+    "assets/data/domains/science_citation.json",
+    "assets/data/domains/technology_devops.json",
+    "assets/data/domains/technology_hardware.json",
+    "assets/data/domains/technology_semiconductors.json",
+    "assets/data/domains/technology_chipindustry.json",
+    "assets/data/domains/technology_software.json",
+    "assets/data/domains/technology_opensource.json",
+    "assets/data/domains/trade_port.json",
+    "assets/data/domains/trade_air.json",
+    "assets/data/domains/trade_lastmile.json",
+    "assets/data/domains/trade_origincert.json"
+  ],
+  "domains": [
+    {
+      "productDomain": "agriculture",
+      "runtimeOwner": "agriculture",
+      "snapshotKey": "agriculture",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "USDA Drought Monitor",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "DROUGHT"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "DROUGHT_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "DROUGHT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DROUGHT_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "DROUGHT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "lagging_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "lagging_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "lagging_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "lagging_researchable_t3",
+          "path": "RESEARCHABLE"
+        }
+      ],
+      "packetId": "agriculture:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "DROUGHT_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "agriculture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "DROUGHT_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "agriculture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "lagging_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "agriculture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "lagging_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "agriculture:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "communication",
+      "runtimeOwner": "communication",
+      "snapshotKey": "communication",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "communication identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "DISINFORMATION_CRISIS",
+        "TELECOM_FAILURE",
+        "CENSORSHIP_OVERREACH",
+        "MEDIA_MONOPOLY",
+        "CYBER_PROPAGANDA",
+        "COMMUNICATION_ACCESSCOMM_CAPACITY_OVERLOAD",
+        "COMMUNICATION_ADVERTISING_TVADS_CAPACITY_OVERLOAD"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "DISINFORMATION_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TELECOM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CENSORSHIP_OVERREACH_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MEDIA_MONOPOLY_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CYBER_PROPAGANDA_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "COMMUNICATION_ACCESSCOMM_CAPACITY_OVERLOAD_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "COMMUNICATION_ACCESSCOMM_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "COMMUNICATION_ADVERTISING_TVADS_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "COMMUNICATION_ACCESSCOMM_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "secure_comms_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DISINFORMATION_CRISIS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "TELECOM_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CENSORSHIP_OVERREACH_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "MEDIA_MONOPOLY_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CYBER_PROPAGANDA_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "content_auth_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "misinfo_detect_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "telecom_resilience_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "COMMUNICATION_ADVERTISING_TVADS_CAPACITY_OVERLOAD_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "media_literacy_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DISINFORMATION_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TELECOM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CENSORSHIP_OVERREACH_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MEDIA_MONOPOLY_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CYBER_PROPAGANDA_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "COMMUNICATION_ACCESSCOMM_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "COMMUNICATION_ADVERTISING_TVADS_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DISINFORMATION_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TELECOM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CENSORSHIP_OVERREACH_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MEDIA_MONOPOLY_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CYBER_PROPAGANDA_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "COMMUNICATION_ADVERTISING_TVADS_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        }
+      ],
+      "packetId": "communication:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "DISINFORMATION_CRISIS_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "TELECOM_FAILURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CENSORSHIP_OVERREACH_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "MEDIA_MONOPOLY_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CYBER_PROPAGANDA_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "COMMUNICATION_ACCESSCOMM_CAPACITY_OVERLOAD_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "COMMUNICATION_ACCESSCOMM_CAPACITY_OVERLOAD_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "COMMUNICATION_ADVERTISING_TVADS_CAPACITY_OVERLOAD_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "secure_comms_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "DISINFORMATION_CRISIS_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "TELECOM_FAILURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CENSORSHIP_OVERREACH_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "MEDIA_MONOPOLY_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CYBER_PROPAGANDA_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "content_auth_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "misinfo_detect_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "telecom_resilience_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "COMMUNICATION_ADVERTISING_TVADS_CAPACITY_OVERLOAD_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "media_literacy_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "communication:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "culture",
+      "runtimeOwner": "culture",
+      "snapshotKey": "culture",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "culture identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "CREATIVE_STAGNATION",
+        "CULTURAL_ERASURE",
+        "HERITAGE_DESTRUCTION",
+        "CENSORSHIP",
+        "IDENTITY_CRISIS",
+        "CULTURE_CULINARY_CAPACITY_OVERLOAD"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "CREATIVE_STAGNATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CULTURAL_ERASURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "HERITAGE_DESTRUCTION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CENSORSHIP_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "IDENTITY_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CULTURE_CULINARY_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CULTURE_CULINARY_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CULTURE_CULINARY_CAPACITY_OVERLOAD_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "creative_economy_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CREATIVE_STAGNATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CULTURAL_ERASURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "HERITAGE_DESTRUCTION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CENSORSHIP_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "IDENTITY_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "cultural_literacy_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "heritage_preserve_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "intercultural_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "civic_engage_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CREATIVE_STAGNATION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CULTURAL_ERASURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "HERITAGE_DESTRUCTION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CENSORSHIP_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "IDENTITY_CRISIS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CULTURE_CULINARY_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CREATIVE_STAGNATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CULTURAL_ERASURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "HERITAGE_DESTRUCTION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CENSORSHIP_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "IDENTITY_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        }
+      ],
+      "packetId": "culture:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "CREATIVE_STAGNATION_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "culture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CULTURAL_ERASURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "culture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "HERITAGE_DESTRUCTION_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "culture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CENSORSHIP_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "culture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "IDENTITY_CRISIS_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "culture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CULTURE_CULINARY_CAPACITY_OVERLOAD_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "culture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CULTURE_CULINARY_CAPACITY_OVERLOAD_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "culture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "creative_economy_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "culture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "cultural_literacy_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "culture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "heritage_preserve_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "culture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "intercultural_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "culture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "civic_engage_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "culture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CREATIVE_STAGNATION_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "culture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CULTURAL_ERASURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "culture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "HERITAGE_DESTRUCTION_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "culture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CENSORSHIP_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "culture:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "IDENTITY_CRISIS_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "culture:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "defense",
+      "runtimeOwner": "defense",
+      "snapshotKey": "defense",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "defense identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "INTELLIGENCE_FAILURE",
+        "LOGISTICS_COLLAPSE",
+        "INVASION",
+        "CYBER_ATTACK",
+        "NUCLEAR_THREAT",
+        "CIVIL_UNREST",
+        "DEFENSE_AIR_SYSTEM_FAILURE",
+        "DEFENSE_SPECIAL_OPS_CAPACITY_OVERLOAD",
+        "DEFENSE_VETERANS_VETHOMELES_HOUSING_SYSTEM_FAILURE"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "company_surge_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INTELLIGENCE_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "LOGISTICS_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INVASION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CYBER_ATTACK_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "NUCLEAR_THREAT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CIVIL_UNREST_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DEFENSE_AIR_SYSTEM_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "DEFENSE_AIR_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DEFENSE_SPECIAL_OPS_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DEFENSE_VETERANS_VETHOMELES_HOUSING_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "company_surge_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "company_surge_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "DEFENSE_AIR_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "lagging_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INTELLIGENCE_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "LOGISTICS_COLLAPSE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INVASION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CYBER_ATTACK_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "NUCLEAR_THREAT_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CIVIL_UNREST_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "lagging_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "lagging_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DEFENSE_SPECIAL_OPS_CAPACITY_OVERLOAD_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "DEFENSE_VETERANS_VETHOMELES_HOUSING_SYSTEM_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "lagging_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INTELLIGENCE_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "LOGISTICS_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INVASION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CYBER_ATTACK_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "NUCLEAR_THREAT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CIVIL_UNREST_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DEFENSE_AIR_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DEFENSE_SPECIAL_OPS_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DEFENSE_VETERANS_VETHOMELES_HOUSING_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INTELLIGENCE_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "LOGISTICS_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INVASION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CYBER_ATTACK_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "NUCLEAR_THREAT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CIVIL_UNREST_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DEFENSE_SPECIAL_OPS_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DEFENSE_VETERANS_VETHOMELES_HOUSING_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        }
+      ],
+      "packetId": "defense:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "company_surge_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INTELLIGENCE_FAILURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "LOGISTICS_COLLAPSE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INVASION_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CYBER_ATTACK_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "NUCLEAR_THREAT_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CIVIL_UNREST_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "DEFENSE_AIR_SYSTEM_FAILURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "DEFENSE_AIR_SYSTEM_FAILURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "DEFENSE_SPECIAL_OPS_CAPACITY_OVERLOAD_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "DEFENSE_VETERANS_VETHOMELES_HOUSING_SYSTEM_FAILURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "company_surge_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "lagging_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INTELLIGENCE_FAILURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "LOGISTICS_COLLAPSE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INVASION_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CYBER_ATTACK_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "NUCLEAR_THREAT_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CIVIL_UNREST_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "lagging_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "DEFENSE_SPECIAL_OPS_CAPACITY_OVERLOAD_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "DEFENSE_VETERANS_VETHOMELES_HOUSING_SYSTEM_FAILURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "defense:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "economy",
+      "runtimeOwner": "economy",
+      "snapshotKey": "economy",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "economy identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "RECESSION",
+        "HYPERINFLATION",
+        "BANKING_CRISIS",
+        "TRADE_WAR",
+        "DEBT_CRISIS",
+        "MARKET_CRASH"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "RECESSION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "HYPERINFLATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "BANKING_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TRADE_WAR_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DEBT_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MARKET_CRASH_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "consumer_infra_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "RECESSION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "HYPERINFLATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "BANKING_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TRADE_WAR_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DEBT_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MARKET_CRASH_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "macro_bottleneck_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "credit_reposition_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "workforce_redeploy_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "recession_prep_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "RECESSION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "HYPERINFLATION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "BANKING_CRISIS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "TRADE_WAR_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "DEBT_CRISIS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "MARKET_CRASH_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "RECESSION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "HYPERINFLATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "BANKING_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TRADE_WAR_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DEBT_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MARKET_CRASH_investable_t1",
+          "path": "INVESTABLE"
+        }
+      ],
+      "packetId": "economy:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "RECESSION_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "economy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "HYPERINFLATION_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "economy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "BANKING_CRISIS_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "economy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "TRADE_WAR_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "economy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "DEBT_CRISIS_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "economy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "MARKET_CRASH_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "economy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "consumer_infra_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "economy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "macro_bottleneck_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "economy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "credit_reposition_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "economy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "workforce_redeploy_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "economy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "recession_prep_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "economy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "RECESSION_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "economy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "HYPERINFLATION_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "economy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "BANKING_CRISIS_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "economy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "TRADE_WAR_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "economy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "DEBT_CRISIS_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "economy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "MARKET_CRASH_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "economy:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "education",
+      "runtimeOwner": "education",
+      "snapshotKey": "education",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "education identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "ACHIEVEMENT_GAP",
+        "FUNDING_CRISIS",
+        "TEACHER_SHORTAGE",
+        "ACCREDITATION_FAILURE",
+        "TECHNOLOGY_DISRUPTION",
+        "EDUCATION_ADMISSIONS_CAPACITY_OVERLOAD",
+        "EDUCATION_GOVERNANCE_EDU_CAPACITY_OVERLOAD"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "ACHIEVEMENT_GAP_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "FUNDING_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TEACHER_SHORTAGE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "ACCREDITATION_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TECHNOLOGY_DISRUPTION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "EDUCATION_ADMISSIONS_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "EDUCATION_ADMISSIONS_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "EDUCATION_GOVERNANCE_EDU_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "EDUCATION_ADMISSIONS_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "curriculum_mod_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "ACHIEVEMENT_GAP_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TEACHER_SHORTAGE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "ACCREDITATION_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "alt_credential_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "teacher_retain_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "school_infra_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "FUNDING_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TECHNOLOGY_DISRUPTION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "EDUCATION_GOVERNANCE_EDU_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "digital_access_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "ACHIEVEMENT_GAP_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TEACHER_SHORTAGE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "ACCREDITATION_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "EDUCATION_ADMISSIONS_CAPACITY_OVERLOAD_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "FUNDING_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TECHNOLOGY_DISRUPTION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "EDUCATION_GOVERNANCE_EDU_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "ACHIEVEMENT_GAP_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "TEACHER_SHORTAGE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "ACCREDITATION_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "FUNDING_CRISIS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "TECHNOLOGY_DISRUPTION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "EDUCATION_GOVERNANCE_EDU_CAPACITY_OVERLOAD_researchable_t1",
+          "path": "RESEARCHABLE"
+        }
+      ],
+      "packetId": "education:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "ACHIEVEMENT_GAP_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "FUNDING_CRISIS_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "TEACHER_SHORTAGE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "ACCREDITATION_FAILURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "TECHNOLOGY_DISRUPTION_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "EDUCATION_ADMISSIONS_CAPACITY_OVERLOAD_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "EDUCATION_GOVERNANCE_EDU_CAPACITY_OVERLOAD_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "curriculum_mod_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "alt_credential_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "teacher_retain_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "school_infra_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "digital_access_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "EDUCATION_ADMISSIONS_CAPACITY_OVERLOAD_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "ACHIEVEMENT_GAP_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "TEACHER_SHORTAGE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "ACCREDITATION_FAILURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "FUNDING_CRISIS_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "TECHNOLOGY_DISRUPTION_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "EDUCATION_GOVERNANCE_EDU_CAPACITY_OVERLOAD_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "education:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "energy",
+      "runtimeOwner": "energy",
+      "snapshotKey": "energy",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "energy identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "GRID_COLLAPSE",
+        "OIL_SHOCK",
+        "NUCLEAR_INCIDENT",
+        "RENEWABLE_INTERMITTENCY",
+        "PIPELINE_DISRUPTION",
+        "SYSTEMIC_ENERGY_STRESS"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "GRID_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "OIL_SHOCK_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "NUCLEAR_INCIDENT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "RENEWABLE_INTERMITTENCY_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PIPELINE_DISRUPTION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SYSTEMIC_ENERGY_STRESS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "GRID_COLLAPSE_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "GRID_COLLAPSE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "OIL_SHOCK_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "NUCLEAR_INCIDENT_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "GRID_COLLAPSE_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "RENEWABLE_INTERMITTENCY_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "PIPELINE_DISRUPTION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "GRID_COLLAPSE_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "SYSTEMIC_ENERGY_STRESS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "GRID_COLLAPSE_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "GRID_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "OIL_SHOCK_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "NUCLEAR_INCIDENT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "RENEWABLE_INTERMITTENCY_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PIPELINE_DISRUPTION_investable_t1",
+          "path": "INVESTABLE"
+        }
+      ],
+      "packetId": "energy:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "GRID_COLLAPSE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "energy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "OIL_SHOCK_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "energy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "NUCLEAR_INCIDENT_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "energy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "RENEWABLE_INTERMITTENCY_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "energy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "PIPELINE_DISRUPTION_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "energy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "SYSTEMIC_ENERGY_STRESS_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "energy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "GRID_COLLAPSE_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "energy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "GRID_COLLAPSE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "energy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "OIL_SHOCK_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "energy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "NUCLEAR_INCIDENT_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "energy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "RENEWABLE_INTERMITTENCY_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "energy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "PIPELINE_DISRUPTION_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "energy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "GRID_COLLAPSE_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "energy:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "SYSTEMIC_ENERGY_STRESS_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "energy:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "environment",
+      "runtimeOwner": "environment",
+      "snapshotKey": "environment",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "environment identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "CLIMATE_TIPPING_POINT",
+        "MASS_EXTINCTION",
+        "OCEAN_ACIDIFICATION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "CLIMATE_TIPPING_POINT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MASS_EXTINCTION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "OCEAN_ACIDIFICATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DEFORESTATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TOXIC_CONTAMINATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "pollution_mitigation_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CLIMATE_TIPPING_POINT_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "MASS_EXTINCTION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "OCEAN_ACIDIFICATION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "DEFORESTATION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "TOXIC_CONTAMINATION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "biodiversity_restoration_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "water_management_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "carbon_capture_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "regulatory_compliance_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CLIMATE_TIPPING_POINT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MASS_EXTINCTION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "OCEAN_ACIDIFICATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DEFORESTATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TOXIC_CONTAMINATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CLIMATE_TIPPING_POINT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MASS_EXTINCTION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "OCEAN_ACIDIFICATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DEFORESTATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TOXIC_CONTAMINATION_investable_t1",
+          "path": "INVESTABLE"
+        }
+      ],
+      "packetId": "environment:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "CLIMATE_TIPPING_POINT_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "environment:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "MASS_EXTINCTION_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "environment:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "OCEAN_ACIDIFICATION_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "environment:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "DEFORESTATION_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "environment:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "TOXIC_CONTAMINATION_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "environment:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "pollution_mitigation_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "environment:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CLIMATE_TIPPING_POINT_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "environment:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "MASS_EXTINCTION_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "environment:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "OCEAN_ACIDIFICATION_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "environment:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "DEFORESTATION_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "environment:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "TOXIC_CONTAMINATION_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "environment:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "biodiversity_restoration_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "environment:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "water_management_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "environment:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "carbon_capture_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "environment:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "regulatory_compliance_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "environment:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "finance",
+      "runtimeOwner": "finance",
+      "snapshotKey": "finance",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "finance identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "SYSTEMIC_CONTAGION",
+        "BANKING_CRISIS",
+        "MARKET_CRASH",
+        "CURRENCY_COLLAPSE",
+        "CREDIT_FREEZE",
+        "FRAUD_SCANDAL"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "SYSTEMIC_CONTAGION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "BANKING_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MARKET_CRASH_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CURRENCY_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CREDIT_FREEZE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "FRAUD_SCANDAL_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "infrastructure_hardening_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SYSTEMIC_CONTAGION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "BANKING_CRISIS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "MARKET_CRASH_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CURRENCY_COLLAPSE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CREDIT_FREEZE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "FRAUD_SCANDAL_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "distressed_assets_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "alternative_finance_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "capital_rotation_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "regulatory_response_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SYSTEMIC_CONTAGION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "BANKING_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MARKET_CRASH_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CURRENCY_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CREDIT_FREEZE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "FRAUD_SCANDAL_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SYSTEMIC_CONTAGION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "BANKING_CRISIS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "MARKET_CRASH_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CURRENCY_COLLAPSE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CREDIT_FREEZE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "FRAUD_SCANDAL_researchable_t1",
+          "path": "RESEARCHABLE"
+        }
+      ],
+      "packetId": "finance:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "SYSTEMIC_CONTAGION_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "finance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "BANKING_CRISIS_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "finance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "MARKET_CRASH_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "finance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CURRENCY_COLLAPSE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "finance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CREDIT_FREEZE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "finance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "FRAUD_SCANDAL_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "finance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "infrastructure_hardening_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "finance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "SYSTEMIC_CONTAGION_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "finance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "BANKING_CRISIS_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "finance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "MARKET_CRASH_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "finance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CURRENCY_COLLAPSE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "finance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CREDIT_FREEZE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "finance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "FRAUD_SCANDAL_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "finance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "distressed_assets_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "finance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "alternative_finance_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "finance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "capital_rotation_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "finance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "regulatory_response_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "finance:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "governance",
+      "runtimeOwner": "governance",
+      "snapshotKey": "governance",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "governance identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "POLICY_FAILURE",
+        "CONSTITUTIONAL_CRISIS",
+        "REGIME_INSTABILITY",
+        "CORRUPTION_SCANDAL",
+        "DIPLOMATIC_BREAKDOWN",
+        "MILITARY_OVERREACH",
+        "GOVERNANCE_SANCTIONS_SYSTEM_FAILURE"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "POLICY_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CONSTITUTIONAL_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "REGIME_INSTABILITY_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CORRUPTION_SCANDAL_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DIPLOMATIC_BREAKDOWN_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MILITARY_OVERREACH_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "GOVERNANCE_SANCTIONS_SYSTEM_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "GOVERNANCE_SANCTIONS_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "GOVERNANCE_SANCTIONS_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "lagging_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "POLICY_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CONSTITUTIONAL_CRISIS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "REGIME_INSTABILITY_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CORRUPTION_SCANDAL_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "DIPLOMATIC_BREAKDOWN_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "MILITARY_OVERREACH_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "lagging_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "lagging_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "lagging_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "POLICY_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CONSTITUTIONAL_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "REGIME_INSTABILITY_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CORRUPTION_SCANDAL_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DIPLOMATIC_BREAKDOWN_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MILITARY_OVERREACH_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "GOVERNANCE_SANCTIONS_SYSTEM_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "POLICY_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CONSTITUTIONAL_CRISIS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "REGIME_INSTABILITY_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CORRUPTION_SCANDAL_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "DIPLOMATIC_BREAKDOWN_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "MILITARY_OVERREACH_researchable_t1",
+          "path": "RESEARCHABLE"
+        }
+      ],
+      "packetId": "governance:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "POLICY_FAILURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "governance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CONSTITUTIONAL_CRISIS_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "governance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "REGIME_INSTABILITY_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "governance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CORRUPTION_SCANDAL_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "governance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "DIPLOMATIC_BREAKDOWN_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "governance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "MILITARY_OVERREACH_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "governance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "GOVERNANCE_SANCTIONS_SYSTEM_FAILURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "governance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "GOVERNANCE_SANCTIONS_SYSTEM_FAILURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "governance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "lagging_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "governance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "POLICY_FAILURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "governance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CONSTITUTIONAL_CRISIS_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "governance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "REGIME_INSTABILITY_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "governance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CORRUPTION_SCANDAL_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "governance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "DIPLOMATIC_BREAKDOWN_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "governance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "MILITARY_OVERREACH_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "governance:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "lagging_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "governance:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "industry",
+      "runtimeOwner": "industry",
+      "snapshotKey": "industry",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "industry identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "AUTOMATION_FAILURE",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TOXIC_SPILL",
+        "QUALITY_CRISIS",
+        "WORKFORCE_SHORTAGE",
+        "INDUSTRY_METALS_CAPACITY_OVERLOAD",
+        "INDUSTRY_DEFENSE_IND_CAPACITY_OVERLOAD",
+        "INDUSTRY_ASSEMBLY_ELECTRONICS_PACKAGING_SYSTEM_FAILURE"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "AUTOMATION_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SUPPLY_CHAIN_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TOXIC_SPILL_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "QUALITY_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "WORKFORCE_SHORTAGE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INDUSTRY_METALS_CAPACITY_OVERLOAD_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INDUSTRY_METALS_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INDUSTRY_DEFENSE_IND_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INDUSTRY_ASSEMBLY_ELECTRONICS_PACKAGING_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INDUSTRY_METALS_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "lagging_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "AUTOMATION_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "SUPPLY_CHAIN_COLLAPSE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "TOXIC_SPILL_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "QUALITY_CRISIS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "WORKFORCE_SHORTAGE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "lagging_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "lagging_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INDUSTRY_DEFENSE_IND_CAPACITY_OVERLOAD_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INDUSTRY_ASSEMBLY_ELECTRONICS_PACKAGING_SYSTEM_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "lagging_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "AUTOMATION_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SUPPLY_CHAIN_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TOXIC_SPILL_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "QUALITY_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "WORKFORCE_SHORTAGE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INDUSTRY_METALS_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INDUSTRY_DEFENSE_IND_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INDUSTRY_ASSEMBLY_ELECTRONICS_PACKAGING_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "AUTOMATION_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SUPPLY_CHAIN_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TOXIC_SPILL_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "QUALITY_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "WORKFORCE_SHORTAGE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INDUSTRY_DEFENSE_IND_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INDUSTRY_ASSEMBLY_ELECTRONICS_PACKAGING_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "FACTORY_CAPACITY_PINCH_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "FACTORY_CAPACITY_PINCH_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "EQUIPMENT_LIFECYCLE_RISK_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PREDICTIVE_MAINTENANCE_EDGE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "EQUIPMENT_LIFECYCLE_RISK_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PREDICTIVE_MAINTENANCE_EDGE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "AUTOMATION_INVESTMENT_OPPORTUNITY_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PRODUCTION_THROUGHPUT_BOTTLENECK_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "AUTOMATION_INVESTMENT_OPPORTUNITY_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PRODUCTION_THROUGHPUT_BOTTLENECK_investable_t1",
+          "path": "INVESTABLE"
+        }
+      ],
+      "packetId": "industry:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "AUTOMATION_FAILURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "SUPPLY_CHAIN_COLLAPSE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "TOXIC_SPILL_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "QUALITY_CRISIS_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "WORKFORCE_SHORTAGE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INDUSTRY_METALS_CAPACITY_OVERLOAD_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INDUSTRY_METALS_CAPACITY_OVERLOAD_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INDUSTRY_DEFENSE_IND_CAPACITY_OVERLOAD_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INDUSTRY_ASSEMBLY_ELECTRONICS_PACKAGING_SYSTEM_FAILURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "lagging_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "AUTOMATION_FAILURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "SUPPLY_CHAIN_COLLAPSE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "TOXIC_SPILL_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "QUALITY_CRISIS_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "WORKFORCE_SHORTAGE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "lagging_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INDUSTRY_DEFENSE_IND_CAPACITY_OVERLOAD_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INDUSTRY_ASSEMBLY_ELECTRONICS_PACKAGING_SYSTEM_FAILURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "FACTORY_CAPACITY_PINCH_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "EQUIPMENT_LIFECYCLE_RISK_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "PREDICTIVE_MAINTENANCE_EDGE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "AUTOMATION_INVESTMENT_OPPORTUNITY_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "PRODUCTION_THROUGHPUT_BOTTLENECK_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "industry:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "infrastructure",
+      "runtimeOwner": "infrastructure",
+      "snapshotKey": "infrastructure",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "infrastructure identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "GRID_DEGRADATION",
+        "MAINTENANCE_DEFICIT",
+        "MAINTENANCE_DEFICIT",
+        "CYBER_PHYSICAL_ATTACK",
+        "MAINTENANCE_DEFICIT"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "GRID_DEGRADATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MAINTENANCE_DEFICIT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MAINTENANCE_DEFICIT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CYBER_PHYSICAL_ATTACK_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MAINTENANCE_DEFICIT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "GRID_DEGRADATION_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "GRID_DEGRADATION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "MAINTENANCE_DEFICIT_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "MAINTENANCE_DEFICIT_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CYBER_PHYSICAL_ATTACK_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "MAINTENANCE_DEFICIT_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "GRID_DEGRADATION_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "GRID_DEGRADATION_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "GRID_DEGRADATION_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "GRID_DEGRADATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MAINTENANCE_DEFICIT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MAINTENANCE_DEFICIT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CYBER_PHYSICAL_ATTACK_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MAINTENANCE_DEFICIT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "GRID_DEGRADATION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "MAINTENANCE_DEFICIT_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "MAINTENANCE_DEFICIT_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CYBER_PHYSICAL_ATTACK_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "MAINTENANCE_DEFICIT_researchable_t1",
+          "path": "RESEARCHABLE"
+        }
+      ],
+      "packetId": "infrastructure:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "GRID_DEGRADATION_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "infrastructure:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "MAINTENANCE_DEFICIT_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "infrastructure:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CYBER_PHYSICAL_ATTACK_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "infrastructure:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "GRID_DEGRADATION_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "infrastructure:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "GRID_DEGRADATION_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "infrastructure:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "MAINTENANCE_DEFICIT_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "infrastructure:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CYBER_PHYSICAL_ATTACK_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "infrastructure:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "GRID_DEGRADATION_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "infrastructure:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "intelligence",
+      "runtimeOwner": "intelligence",
+      "snapshotKey": "intelligence",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "intelligence identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "INTELLIGENCE_FAILURE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "CYBER_ESPIONAGE",
+        "WHISTLEBLOWER_CRISIS",
+        "FOREIGN_INTERFERENCE",
+        "INTELLIGENCE_COUNTERTERROR_SYSTEM_FAILURE",
+        "INTELLIGENCE_BIOINTEL_PANDEMIC_SYSTEM_FAILURE",
+        "INTELLIGENCE_BIOINTEL_HEALTHINT_DISEASE_SYSTEM_FAILURE",
+        "INTELLIGENCE_BIOINTEL_AGRIBIO_CROP_THR_SYSTEM_FAILURE"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "company_surge_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INTELLIGENCE_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CYBER_ESPIONAGE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INTELLIGENCE_COUNTERTERROR_SYSTEM_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INTELLIGENCE_COUNTERTERROR_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INTELLIGENCE_BIOINTEL_PANDEMIC_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INTELLIGENCE_BIOINTEL_HEALTHINT_DISEASE_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INTELLIGENCE_BIOINTEL_AGRIBIO_CROP_THR_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "company_surge_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "company_surge_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INTELLIGENCE_COUNTERTERROR_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "data_fusion_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CYBER_ESPIONAGE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "early_warning_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INTELLIGENCE_BIOINTEL_PANDEMIC_SYSTEM_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "cyber_infra_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "trust_verify_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INTELLIGENCE_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INTELLIGENCE_BIOINTEL_HEALTHINT_DISEASE_SYSTEM_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INTELLIGENCE_BIOINTEL_AGRIBIO_CROP_THR_SYSTEM_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "oversight_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CYBER_ESPIONAGE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INTELLIGENCE_COUNTERTERROR_SYSTEM_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INTELLIGENCE_BIOINTEL_PANDEMIC_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INTELLIGENCE_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INTELLIGENCE_BIOINTEL_HEALTHINT_DISEASE_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INTELLIGENCE_BIOINTEL_AGRIBIO_CROP_THR_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CYBER_ESPIONAGE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INTELLIGENCE_BIOINTEL_PANDEMIC_SYSTEM_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INTELLIGENCE_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INTELLIGENCE_BIOINTEL_HEALTHINT_DISEASE_SYSTEM_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INTELLIGENCE_BIOINTEL_AGRIBIO_CROP_THR_SYSTEM_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        }
+      ],
+      "packetId": "intelligence:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "company_surge_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INTELLIGENCE_FAILURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "MASS_SURVEILLANCE_SCANDAL_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CYBER_ESPIONAGE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "WHISTLEBLOWER_CRISIS_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "FOREIGN_INTERFERENCE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INTELLIGENCE_COUNTERTERROR_SYSTEM_FAILURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INTELLIGENCE_COUNTERTERROR_SYSTEM_FAILURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INTELLIGENCE_BIOINTEL_PANDEMIC_SYSTEM_FAILURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INTELLIGENCE_BIOINTEL_HEALTHINT_DISEASE_SYSTEM_FAILURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INTELLIGENCE_BIOINTEL_AGRIBIO_CROP_THR_SYSTEM_FAILURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "company_surge_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "data_fusion_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "MASS_SURVEILLANCE_SCANDAL_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CYBER_ESPIONAGE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "WHISTLEBLOWER_CRISIS_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "FOREIGN_INTERFERENCE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "early_warning_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INTELLIGENCE_BIOINTEL_PANDEMIC_SYSTEM_FAILURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "cyber_infra_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "trust_verify_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INTELLIGENCE_FAILURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INTELLIGENCE_BIOINTEL_HEALTHINT_DISEASE_SYSTEM_FAILURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INTELLIGENCE_BIOINTEL_AGRIBIO_CROP_THR_SYSTEM_FAILURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "oversight_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "law",
+      "runtimeOwner": "law",
+      "snapshotKey": "law",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "law identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "JUDICIAL_CRISIS",
+        "CONSTITUTIONAL_VIOLATION",
+        "REGULATORY_CAPTURE",
+        "MASS_INCARCERATION",
+        "INTERNATIONAL_LAW_BREAKDOWN"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "JUDICIAL_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CONSTITUTIONAL_VIOLATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "REGULATORY_CAPTURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MASS_INCARCERATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INTERNATIONAL_LAW_BREAKDOWN_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "court_modernization_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "JUDICIAL_CRISIS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CONSTITUTIONAL_VIOLATION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "REGULATORY_CAPTURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "MASS_INCARCERATION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INTERNATIONAL_LAW_BREAKDOWN_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "policy_navigation_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "permitting_accel_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "adr_positioning_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "harmonization_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "JUDICIAL_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CONSTITUTIONAL_VIOLATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "REGULATORY_CAPTURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MASS_INCARCERATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INTERNATIONAL_LAW_BREAKDOWN_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "JUDICIAL_CRISIS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CONSTITUTIONAL_VIOLATION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "REGULATORY_CAPTURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "MASS_INCARCERATION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INTERNATIONAL_LAW_BREAKDOWN_researchable_t1",
+          "path": "RESEARCHABLE"
+        }
+      ],
+      "packetId": "law:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "JUDICIAL_CRISIS_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "law:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CONSTITUTIONAL_VIOLATION_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "law:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "REGULATORY_CAPTURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "law:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "MASS_INCARCERATION_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "law:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INTERNATIONAL_LAW_BREAKDOWN_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "law:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "court_modernization_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "law:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "JUDICIAL_CRISIS_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "law:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CONSTITUTIONAL_VIOLATION_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "law:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "REGULATORY_CAPTURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "law:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "MASS_INCARCERATION_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "law:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INTERNATIONAL_LAW_BREAKDOWN_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "law:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "policy_navigation_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "law:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "permitting_accel_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "law:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "adr_positioning_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "law:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "harmonization_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "law:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "medicine",
+      "runtimeOwner": "health",
+      "snapshotKey": "health",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "medicine identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "PANDEMIC",
+        "DRUG_RESISTANCE",
+        "HEALTHCARE_COLLAPSE",
+        "MALPRACTICE_CRISIS",
+        "SUPPLY_SHORTAGE",
+        "MENTAL_HEALTH_CRISIS",
+        "CARE_ACCESS_FAILURE",
+        "CHRONIC_DISEASE_LOAD",
+        "CLINICAL_COORDINATION_BREAKDOWN",
+        "THERAPEUTIC_RELIABILITY_RISK"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "workforce_capacity_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CHRONIC_DISEASE_LOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CLINICAL_COORDINATION_BREAKDOWN_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "THERAPEUTIC_RELIABILITY_RISK_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "safety_monitoring_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "digital_health_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "care_model_innovation_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "regulatory_response_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CHRONIC_DISEASE_LOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CLINICAL_COORDINATION_BREAKDOWN_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "THERAPEUTIC_RELIABILITY_RISK_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CLINICAL_COORDINATION_BREAKDOWN_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "THERAPEUTIC_RELIABILITY_RISK_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CHRONIC_DISEASE_LOAD_researchable_t1",
+          "path": "RESEARCHABLE"
+        }
+      ],
+      "packetId": "medicine:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "workforce_capacity_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "medicine:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CARE_ACCESS_FAILURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "medicine:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CHRONIC_DISEASE_LOAD_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "medicine:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CLINICAL_COORDINATION_BREAKDOWN_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "medicine:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "THERAPEUTIC_RELIABILITY_RISK_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "medicine:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "safety_monitoring_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "medicine:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "digital_health_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "medicine:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "care_model_innovation_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "medicine:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "regulatory_response_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "medicine:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CLINICAL_COORDINATION_BREAKDOWN_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "medicine:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "THERAPEUTIC_RELIABILITY_RISK_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "medicine:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CARE_ACCESS_FAILURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "medicine:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CHRONIC_DISEASE_LOAD_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "medicine:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "population",
+      "runtimeOwner": "population",
+      "snapshotKey": "population",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "population identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "POPULATION_COLLAPSE",
+        "MASS_MIGRATION",
+        "AGING_CRISIS",
+        "URBANIZATION_OVERLOAD",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "POPULATION_REFUGEES_SYSTEM_FAILURE"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "POPULATION_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MASS_MIGRATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "AGING_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "URBANIZATION_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PANDEMIC_DEMOGRAPHIC_SHOCK_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "POPULATION_REFUGEES_SYSTEM_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "POPULATION_REFUGEES_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "POPULATION_REFUGEES_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "elder_care_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MASS_MIGRATION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "AGING_CRISIS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "URBANIZATION_OVERLOAD_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "PANDEMIC_DEMOGRAPHIC_SHOCK_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "urban_density_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "migration_integration_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "public_health_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "demographic_monitoring_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "MASS_MIGRATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "AGING_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "URBANIZATION_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PANDEMIC_DEMOGRAPHIC_SHOCK_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "POPULATION_REFUGEES_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "MASS_MIGRATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "AGING_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "URBANIZATION_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PANDEMIC_DEMOGRAPHIC_SHOCK_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "POPULATION_COLLAPSE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "POPULATION_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "POPULATION_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        }
+      ],
+      "packetId": "population:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "POPULATION_COLLAPSE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "population:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "MASS_MIGRATION_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "population:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "AGING_CRISIS_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "population:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "URBANIZATION_OVERLOAD_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "population:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "PANDEMIC_DEMOGRAPHIC_SHOCK_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "population:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "POPULATION_REFUGEES_SYSTEM_FAILURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "population:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "POPULATION_REFUGEES_SYSTEM_FAILURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "population:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "elder_care_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "population:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "MASS_MIGRATION_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "population:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "AGING_CRISIS_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "population:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "URBANIZATION_OVERLOAD_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "population:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "PANDEMIC_DEMOGRAPHIC_SHOCK_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "population:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "urban_density_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "population:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "migration_integration_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "population:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "public_health_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "population:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "demographic_monitoring_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "population:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "POPULATION_COLLAPSE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "population:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "religion",
+      "runtimeOwner": "religion",
+      "snapshotKey": "religion",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "religion identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "SECTARIAN_CONFLICT",
+        "INSTITUTIONAL_ABUSE",
+        "RADICALIZATION",
+        "SECULARIZATION_CRISIS",
+        "THEOLOGICAL_SCHISM"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "SECTARIAN_CONFLICT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INSTITUTIONAL_ABUSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "RADICALIZATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SECULARIZATION_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "THEOLOGICAL_SCHISM_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "youth_engage_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SECTARIAN_CONFLICT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INSTITUTIONAL_ABUSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "RADICALIZATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SECULARIZATION_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "THEOLOGICAL_SCHISM_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "deradicalize_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "service_infra_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "interfaith_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "accountability_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SECTARIAN_CONFLICT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INSTITUTIONAL_ABUSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "RADICALIZATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SECULARIZATION_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "THEOLOGICAL_SCHISM_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SECTARIAN_CONFLICT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INSTITUTIONAL_ABUSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "RADICALIZATION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SECULARIZATION_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "THEOLOGICAL_SCHISM_investable_t1",
+          "path": "INVESTABLE"
+        }
+      ],
+      "packetId": "religion:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "SECTARIAN_CONFLICT_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "religion:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INSTITUTIONAL_ABUSE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "religion:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "RADICALIZATION_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "religion:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "SECULARIZATION_CRISIS_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "religion:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "THEOLOGICAL_SCHISM_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "religion:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "youth_engage_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "religion:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "deradicalize_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "religion:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "service_infra_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "religion:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "interfaith_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "religion:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "accountability_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "religion:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "science",
+      "runtimeOwner": "research",
+      "snapshotKey": "research",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "science identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "REPLICATION_CRISIS",
+        "FUNDING_COLLAPSE",
+        "BRAIN_DRAIN",
+        "DATA_FRAUD",
+        "PARADIGM_CONFLICT",
+        "PUBLICATION_BIAS",
+        "SCIENCE_SCICOMM_CAPACITY_OVERLOAD",
+        "SCIENCE_POLICY_SCI_CAPACITY_OVERLOAD",
+        "SCIENCE_ETHICS_CONFLICTS_DISCLOSURE_SYSTEM_FAILURE"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "REPLICATION_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "FUNDING_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "BRAIN_DRAIN_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DATA_FRAUD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PARADIGM_CONFLICT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PUBLICATION_BIAS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SCIENCE_SCICOMM_CAPACITY_OVERLOAD_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "SCIENCE_SCICOMM_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SCIENCE_POLICY_SCI_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SCIENCE_ETHICS_CONFLICTS_DISCLOSURE_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SCIENCE_SCICOMM_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "research_translation_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "REPLICATION_CRISIS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "FUNDING_COLLAPSE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "BRAIN_DRAIN_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "DATA_FRAUD_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "PARADIGM_CONFLICT_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "PUBLICATION_BIAS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "open_science_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "workforce_dev_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SCIENCE_POLICY_SCI_CAPACITY_OVERLOAD_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "SCIENCE_ETHICS_CONFLICTS_DISCLOSURE_SYSTEM_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "methodology_mod_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "REPLICATION_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "FUNDING_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "BRAIN_DRAIN_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DATA_FRAUD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PARADIGM_CONFLICT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PUBLICATION_BIAS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SCIENCE_SCICOMM_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SCIENCE_POLICY_SCI_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SCIENCE_ETHICS_CONFLICTS_DISCLOSURE_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "REPLICATION_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "FUNDING_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "BRAIN_DRAIN_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DATA_FRAUD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PARADIGM_CONFLICT_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PUBLICATION_BIAS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SCIENCE_POLICY_SCI_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SCIENCE_ETHICS_CONFLICTS_DISCLOSURE_SYSTEM_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        }
+      ],
+      "packetId": "science:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "REPLICATION_CRISIS_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "FUNDING_COLLAPSE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "BRAIN_DRAIN_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "DATA_FRAUD_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "PARADIGM_CONFLICT_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "PUBLICATION_BIAS_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "SCIENCE_SCICOMM_CAPACITY_OVERLOAD_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "SCIENCE_SCICOMM_CAPACITY_OVERLOAD_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "SCIENCE_POLICY_SCI_CAPACITY_OVERLOAD_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "SCIENCE_ETHICS_CONFLICTS_DISCLOSURE_SYSTEM_FAILURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "research_translation_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "REPLICATION_CRISIS_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "FUNDING_COLLAPSE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "BRAIN_DRAIN_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "DATA_FRAUD_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "PARADIGM_CONFLICT_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "PUBLICATION_BIAS_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "open_science_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "workforce_dev_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "SCIENCE_POLICY_SCI_CAPACITY_OVERLOAD_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "SCIENCE_ETHICS_CONFLICTS_DISCLOSURE_SYSTEM_FAILURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "methodology_mod_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "science:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "technology",
+      "runtimeOwner": "technology",
+      "snapshotKey": "technology",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "technology identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "AI_ALIGNMENT_FAILURE",
+        "DATA_BREACH",
+        "CYBER_ATTACK",
+        "INFRASTRUCTURE_COLLAPSE",
+        "CHIP_SHORTAGE",
+        "PLATFORM_MONOPOLY",
+        "TECHNOLOGY_ARVR_CAPACITY_OVERLOAD",
+        "TECHNOLOGY_ARTIFICIAL_GENERATIVEAI_CAPACITY_OVERLOAD"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "AI_ALIGNMENT_FAILURE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "DATA_BREACH_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CYBER_ATTACK_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "INFRASTRUCTURE_COLLAPSE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CHIP_SHORTAGE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "PLATFORM_MONOPOLY_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "TECHNOLOGY_ARVR_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TECHNOLOGY_ARVR_CAPACITY_OVERLOAD_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "TECHNOLOGY_ARTIFICIAL_GENERATIVEAI_CAPACITY_OVERLOAD_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "TECHNOLOGY_ARVR_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "ai_governance_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "AI_ALIGNMENT_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DATA_BREACH_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CYBER_ATTACK_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INFRASTRUCTURE_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CHIP_SHORTAGE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PLATFORM_MONOPOLY_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "cloud_resilience_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "zero_trust_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "open_source_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "TECHNOLOGY_ARTIFICIAL_GENERATIVEAI_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "chip_resilience_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "AI_ALIGNMENT_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DATA_BREACH_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CYBER_ATTACK_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INFRASTRUCTURE_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CHIP_SHORTAGE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PLATFORM_MONOPOLY_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TECHNOLOGY_ARVR_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TECHNOLOGY_ARTIFICIAL_GENERATIVEAI_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "AI_ALIGNMENT_FAILURE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "DATA_BREACH_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CYBER_ATTACK_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "INFRASTRUCTURE_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CHIP_SHORTAGE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PLATFORM_MONOPOLY_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TECHNOLOGY_ARTIFICIAL_GENERATIVEAI_CAPACITY_OVERLOAD_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "cross_domain_investable_t2",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "cross_domain_investable_t2",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "cross_domain_investable_t2",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "cross_domain_investable_t2",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "cross_domain_investable_t2",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "cross_domain_investable_t2",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "cross_domain_investable_t2",
+          "path": "INVESTABLE"
+        }
+      ],
+      "packetId": "technology:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "AI_ALIGNMENT_FAILURE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "DATA_BREACH_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CYBER_ATTACK_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INFRASTRUCTURE_COLLAPSE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CHIP_SHORTAGE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "PLATFORM_MONOPOLY_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "TECHNOLOGY_ARVR_CAPACITY_OVERLOAD_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "TECHNOLOGY_ARVR_CAPACITY_OVERLOAD_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "TECHNOLOGY_ARTIFICIAL_GENERATIVEAI_CAPACITY_OVERLOAD_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "ai_governance_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "AI_ALIGNMENT_FAILURE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "DATA_BREACH_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CYBER_ATTACK_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "INFRASTRUCTURE_COLLAPSE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CHIP_SHORTAGE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "PLATFORM_MONOPOLY_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "cloud_resilience_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "zero_trust_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "open_source_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "TECHNOLOGY_ARTIFICIAL_GENERATIVEAI_CAPACITY_OVERLOAD_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "chip_resilience_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "cross_domain_investable_t2",
+          "lane": "investments",
+          "sourcePacketId": "technology:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    },
+    {
+      "productDomain": "trade",
+      "runtimeOwner": "supplyChain",
+      "snapshotKey": "supplyChain",
+      "evidenceLevel": "LOCAL/FIXTURE",
+      "source": "trade identified fixture source",
+      "sourceIngested": true,
+      "activeDiagnoses": [
+        "SUPPLY_CHAIN_COLLAPSE",
+        "PORT_BLOCKADE",
+        "TRADE_WAR",
+        "SHIPPING_CRISIS",
+        "CUSTOMS_DISRUPTION"
+      ],
+      "typedOpportunities": [
+        {
+          "id": "SUPPLY_CHAIN_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PORT_BLOCKADE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TRADE_WAR_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SHIPPING_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CUSTOMS_DISRUPTION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "warehouse_hardening_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SUPPLY_CHAIN_COLLAPSE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "PORT_BLOCKADE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "SHIPPING_CRISIS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CUSTOMS_DISRUPTION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "bottleneck_position_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "nearshoring_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "supplier_diversification_investable_t3",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TRADE_WAR_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "regulatory_response_researchable_t3",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "SUPPLY_CHAIN_COLLAPSE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "PORT_BLOCKADE_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SHIPPING_CRISIS_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "CUSTOMS_DISRUPTION_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "TRADE_WAR_investable_t1",
+          "path": "INVESTABLE"
+        },
+        {
+          "id": "SUPPLY_CHAIN_COLLAPSE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "PORT_BLOCKADE_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "SHIPPING_CRISIS_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "CUSTOMS_DISRUPTION_researchable_t1",
+          "path": "RESEARCHABLE"
+        },
+        {
+          "id": "TRADE_WAR_researchable_t1",
+          "path": "RESEARCHABLE"
+        }
+      ],
+      "packetId": "trade:2:fixture-native-source-snapshot",
+      "packetError": null,
+      "handoffs": [
+        {
+          "opportunityId": "SUPPLY_CHAIN_COLLAPSE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "trade:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "PORT_BLOCKADE_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "trade:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "TRADE_WAR_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "trade:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "SHIPPING_CRISIS_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "trade:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CUSTOMS_DISRUPTION_investable_t1",
+          "lane": "investments",
+          "sourcePacketId": "trade:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "warehouse_hardening_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "trade:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "SUPPLY_CHAIN_COLLAPSE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "trade:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "PORT_BLOCKADE_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "trade:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "SHIPPING_CRISIS_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "trade:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "CUSTOMS_DISRUPTION_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "trade:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "bottleneck_position_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "trade:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "nearshoring_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "trade:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "supplier_diversification_investable_t3",
+          "lane": "investments",
+          "sourcePacketId": "trade:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "TRADE_WAR_researchable_t1",
+          "lane": "research-papers",
+          "sourcePacketId": "trade:2:fixture-native-source-snapshot"
+        },
+        {
+          "opportunityId": "regulatory_response_researchable_t3",
+          "lane": "research-papers",
+          "sourcePacketId": "trade:2:fixture-native-source-snapshot"
+        }
+      ],
+      "firstUnprovenBoundary": "persisted-native-handoff-to-owning-business-motor-not-joined-in-this-test",
+      "providerCalled": false
+    }
+  ]
+}
