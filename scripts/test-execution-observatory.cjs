@@ -26,6 +26,13 @@ cognition.cognition.energy = { ts: Date.now(), c: { brainOrgans: { externalActio
   financialAfferent: { status: 'ELIGIBLE', signalId: 'finance-to-energy-1', actionId: 'finance-command-1' }
 } } } };
 cognition.count = 2;
+cognition.cognition.agriculture = { ts: Date.now(), c: { brainOrgans: { externalActionLearning: {
+  domain: 'agriculture', status: 'ABSTAINED', reason: 'agriculture-routed-outcomes-are-observation-only',
+  learningGate: { ready: false }, routedOutcomeReturn: { status: 'OBSERVED', returnedCount: 1, observationOnly: true,
+    latest: { returnId: 'route-return-1', ownerDomain: 'research', actionId: 'research-action-1',
+      sourceDomains: [{ sourceDomain: 'agriculture', sourcePacketId: 'agri-packet-1' }] } }
+} } } };
+cognition.count = 3;
 vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilization/execution-observatory.js'), 'utf8'), {
   window, document, Date, setInterval() {},
   fetch: async url => {
@@ -50,6 +57,11 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
   assert.doesNotMatch(el.innerHTML, /read failure/);
   assert.match(el.innerHTML, /independent-outcome-missing/);
   assert.match(el.innerHTML, /\/api\/product-domain-learning-state\?domain=finance/);
+  var agricultureCard = el.innerHTML.split('<span class="exo-domain-name">agriculture</span>')[1].split('</article>')[0];
+  assert.match(agricultureCard, /route-return-1/);
+  assert.match(agricultureCard, /agri-packet-1/);
+  assert.match(agricultureCard, /learning stays with destination; origin observation only/);
+  assert.match(agricultureCard, /exo-chain-label">OBSERVED<\/span><span class="exo-badge exo-unobserved">UNOBSERVED/);
   var energyCard = el.innerHTML.split('<span class="exo-domain-name">energy</span>')[1].split('</article>')[0];
   assert.match(energyCard, /finance-to-energy-1/);
   assert.match(energyCard, /separate from motor authority/);

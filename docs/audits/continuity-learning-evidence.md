@@ -6,7 +6,7 @@ All 20 brain implementations are exercised by `scripts/test-domain-local-organs-
 
 | Domain | Owning consumer and focused fixture evidence | First unproven boundary |
 | --- | --- | --- |
-| Agriculture | `test-agriculture-opportunity-routing.cjs`; Finance investment and Science/research research selection | `handlers/product-domain-learning-state.js` explicitly abstains with `agriculture-opportunity-owner-outcomes-not-yet-returned`; origin-specific result return is missing, Homestead excluded |
+| Agriculture | `test-agriculture-opportunity-routing.cjs`, `test-agriculture-routed-outcome-return.cjs`; Finance investment and Science/research research selection | Identified LOCAL/FIXTURE owner outcomes now return as origin observations; actual production source-to-outcome receipts remain unproven. Agriculture reward stays abstained; Homestead excluded |
 | Communication | `test-communication-social-loop.cjs`, observer/recovery tests | Current owned executor/AppView capability pair and consent/switch authority; video independently held without a public outcome observer |
 | Culture | `test-culture-hero-loop.cjs`, capability test | Actual paid-provider asset identity, independent bytes/hash/absence and explicit authority; no generation attempted |
 | Defense | `test-defense-publication-loop.cjs`, capability test | Owned publication/read/unpublish/absence evidence and current exact-domain capability; fixture returned observation is not production publication |
@@ -41,6 +41,8 @@ The earlier executor/observer expiry is preserved through the existing capabilit
 
 ## Remaining safe engineering
 
-Trace Agriculture's routed opportunity identity through the destination command and independently admitted result. Repair only an existing provenance/return consumer after identifying the missing seam; keep Finance/Research the decision and outcome owners. Do not feed a borrowed reward into Agriculture's protected neurology or invent a Homestead motor. A joined origin-to-return test still needs to cover that seam and subsequent reevaluation.
+The Agriculture seam is now covered from an identified typed candidate through Research selection, durable command cause, independently qualified fixture outcome, destination learning and its next critic. Finance investment source references also return an identified paper observation. The origin read endpoint and cognition/observatory projection expose these separately from Agriculture's primary reward signal. Permanent return receipts prevent reward replay after bounded indexes roll over; failed cause/receipt writes are checked and recoverable. Legacy commands without explicit origin provenance are not retroactively attributed.
 
-Checkpoint validation: fresh full suite 360 passed, 1 skipped (external corpus root unavailable), 0 failed. Repository/harness passed; focused projection, memory, endpoint, UI, capability-expiry and authorization checks passed. The earlier inline-source assertion failure was repaired without removing the company-memory invariant. All brain, phase, portal JSON and production configuration files remain unchanged.
+Next, audit whether the operator's decided/command stages cite actual business decision and durable command evidence. Complete the joined source/feed-to-diagnosis-to-opportunity proof across all 20 origins at the exact safe boundary. Three unresolved Medicine/Spiral destinations still require target or retirement provenance; no replacement content has been invented. Production outcomes and external commissioning remain unclaimed.
+
+Checkpoint validation: fresh full suite 361 passed, 1 skipped (external corpus root unavailable), 0 failed. Repository/harness passed; focused Agriculture provenance/return, projection, memory, endpoint, UI, capability-expiry and authorization checks passed. All brain, phase, portal JSON and production configuration files remain unchanged. Evidence remains LOCAL/FIXTURE; no deployment or provider action occurred.

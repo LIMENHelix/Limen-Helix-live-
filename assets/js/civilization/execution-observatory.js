@@ -163,6 +163,9 @@
     var statusLine = row.serverSeen ? 'server ' + age(row.entry.ts) + ' · packet ' + (row.packetPersist.ok ? 'persisted' : 'held') : 'server cognition unavailable';
     var blockers = row.blockers.slice(0, 3).join(' · ');
     var afferent = row.learning.financialAfferent || {};
+    var routedReturn = row.learning.routedOutcomeReturn || {};
+    var returnedResult = routedReturn.latest || {};
+    var originRef = arr(returnedResult.sourceDomains)[0] || {};
     var learningOwner = row.learning.domain || ALIASES[row.domain] || row.domain;
     var resultUrl = '/api/product-domain-learning-state?domain=' + encodeURIComponent(learningOwner);
     if (!blockers) blockers = row.stateLabel === 'PAPER' ? 'provider-owned executor/observer evidence is not present in the server read' : 'none reported';
@@ -191,6 +194,7 @@
         '<span>learner gate <b>' + esc(row.learning.learningGate && row.learning.learningGate.ready === true ? 'READY' : 'HELD') + '</b> · resolved ' + esc(n(row.learning.resolvedCount)) + '</span>' +
         '<span>action <b>' + esc(row.learning.actionId || 'UNOBSERVED') + '</b> · event ' + esc(row.learning.eventId || 'UNOBSERVED') + ' · observed ' + esc(time(row.learning.observedAt)) + '</span>' +
         (afferent.status ? '<span>Finance afferent <b>' + esc(afferent.status) + '</b> · ' + esc(afferent.signalId || afferent.reason || 'no signal') + ' · action ' + esc(afferent.actionId || 'UNOBSERVED') + ' · separate from motor authority</span>' : '') +
+        (routedReturn.status ? '<span>routed outcome return <b>' + esc(routedReturn.status) + '</b> · ' + esc(returnedResult.returnId || routedReturn.reason || 'no return') + ' · owner ' + esc(returnedResult.ownerDomain || 'UNOBSERVED') + ' · action ' + esc(returnedResult.actionId || 'UNOBSERVED') + ' · source packet ' + esc(originRef.sourcePacketId || originRef.sourceArtifactRef || 'UNOBSERVED') + ' · learning stays with destination; origin observation only' + (routedReturn.reason ? ' · ' + esc(routedReturn.reason) : '') + arr(routedReturn.failures).map(function (failure) { return ' · ' + esc(failure.ownerDomain + ': ' + failure.reason); }).join('') + '</span>' : '') +
         '<span>result read <a href="' + esc(resultUrl) + '">' + esc(resultUrl) + '</a> · readiness key ' + esc(row.receipt.key || 'UNOBSERVED') + '</span>' +
       '</div>' +
       '<div class="exo-blockers"><span>WHY THIS IS NOT AUTONOMOUSLY EXTERNAL:</span> ' + esc(blockers) + '</div>' +

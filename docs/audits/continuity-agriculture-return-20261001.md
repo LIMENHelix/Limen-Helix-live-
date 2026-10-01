@@ -1,0 +1,13 @@
+# Agriculture owner-outcome return checkpoint
+
+Base commit: e2efb999. Evidence level: LOCAL/FIXTURE. No deployment, provider call, trade, spend, email or publication.
+
+The selection bridge retains explicit Agriculture origin references when routing research. Finance uses its existing decision evidence source references. Command learning persists those references in the destination's permanent command cause and verifies readback. Independently graded outcomes append bounded observation records in the Finance/Research learner state. A permanent `autofire_routed_outcome_receipt:<owner>:<event hash>` prevents reward replay after both bounded indexes decay; retries repair a failed receipt write without regrading.
+
+`/api/product-domain-learning-state?domain=agriculture` validates destination-owned records against their permanent command causes. It exposes returned observations separately from the primary Agriculture signal and reward gate. Malformed owner state reports PARTIAL and preserves the other owner's valid observations. Cognition projection and the Execution Observatory retain owner, action, source packet and observation-only authority. A returned observation establishes neither Agriculture reward authority nor revenue.
+
+Changed consumers: `lib/autofire-domain-bridge.js`, `lib/autofire-learning.js`, `handlers/product-domain-learning-state.js`, `lib/brain-cognition-compact.js`, `assets/js/civilization/execution-observatory.js`. Focused tests: Agriculture routed return, learning-state handler and execution observatory. The new joined fixture verifies held/reconsidered selection, negative Research learning and subsequent critic, positive paper Finance observation, wrong owner/lane rejection, provenance conflict, duplicate/replay, restart/index decay, write recovery, partial reads and refusal to infer origin from legacy artifact names.
+
+Validation: full npm suite 361 passed, 1 skipped, 0 failed; unavailable external corpus root is the skip. Latest added fixture assertions also passed directly. Protected brain sources, domain neurology, phase/capital rules, portal JSON, production configuration and paused canonical changes remain preserved.
+
+Remaining transitions: actual production origin-specific receipts are unproven; fixtures start at an identified typed candidate rather than a joined live feed/diagnosis. Audit operator decided/command claims against actual business decision and durable command evidence, then continue the all-domain spine audit. Three Medicine/Spiral navigation targets lack destination/retirement provenance. Legacy commands without explicit origin metadata cannot establish Agriculture attribution. Google Docs remains deferred while the full goal is active.

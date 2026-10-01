@@ -133,9 +133,11 @@ async function invoke(handler, url, method) {
     assert.equal(supplyChain.body.laneReadouts.some(function (row) { return row.productDomain === 'trade'; }), true);
 
     var absent = await invoke(handler, '/api/product-domain-learning-state?domain=agriculture');
-    assert.equal(absent.code, 200);
+    assert.equal(absent.code, 200, JSON.stringify(absent.body));
     assert.equal(absent.body.status, 'ABSTAINED');
     assert.equal(absent.body.signal, null);
+    assert.equal(absent.body.routedOutcomeReturn.status, 'PARTIAL');
+    assert.equal(absent.body.routedOutcomeReturn.failures[0].ownerDomain, 'finance');
 
     var legacy = await invoke(handler, '/api/product-domain-learning-state?domain=health');
     assert.equal(legacy.code, 200);

@@ -78,10 +78,15 @@ async function readPrimary(domain) {
   if (domain === 'supplyChain') return tradeLearning.readForBrain(store);
   // Agriculture produces opportunity candidates, not an Agriculture-owned
   // external motor. Investment candidates are handed to Finance and research
-  // candidates to Science/research by the autofire worker. Until those owner
-  // lanes return independently graded outcomes, Agriculture must abstain here;
-  // the retired Homestead service-request learner must not be consulted.
-  if (domain === 'agriculture') return abstained(domain, 'agriculture-opportunity-owner-outcomes-not-yet-returned', 0);
+  // candidates to Science/research. Read their origin-linked observations
+  // separately; Agriculture still has no owned motor or reward-bearing signal.
+  // The retired Homestead service-request learner must not be consulted.
+  if (domain === 'agriculture') {
+    var routed = await learning.readAgricultureReturns(store);
+    return Object.assign(abstained(domain, routed.returnedCount
+      ? 'agriculture-routed-outcomes-are-observation-only'
+      : 'agriculture-opportunity-owner-outcomes-not-yet-returned', 0), { routedOutcomeReturn: routed });
+  }
   if (domain === 'industry') return industryLearning.readForBrain(store);
   if (domain === 'religion') return religionLearning.readForBrain(store);
   if (domain === 'intelligence') return intelligenceLearning.readForBrain(store);
@@ -207,6 +212,8 @@ function mergeReadouts(domain, rows) {
     },
     signal: selected ? selected.signal : null,
     companyPatterns: primary.companyPatterns,
+    financialAfferent: primary.financialAfferent,
+    routedOutcomeReturn: primary.routedOutcomeReturn,
     laneReadouts: rows.map(compactLaneReadout)
   };
 }
