@@ -110,6 +110,7 @@ sb.LIMENDomains = fixtures;
   var MotorAuthorization = require('../lib/product-domain-motor-authorization.js');
   var DevelopmentalAuthority = require('../lib/research-paper-developmental-authority.js');
   var ResearchReadout = require('../lib/research-business-trace-readout.js');
+  var CultureDecision = require('../lib/culture-hero-decision.js');
   var shadowValues = new Map(), shadowLists = new Map();
   function shadowClone(value) { return value == null ? null : JSON.parse(JSON.stringify(value)); }
   var redisPath = require.resolve('../lib/brain-shadow-redis.js');
@@ -159,6 +160,22 @@ sb.LIMENDomains = fixtures;
       var consumed = await consumer.consumePacket(packet);
       assert.equal(consumed.ok, true, JSON.stringify(consumed.failures));
       assert.equal(consumed.handoffsCreated, handoffs.length);
+      var primaryIntakeBoundary = null;
+      if (row[0] === 'culture') {
+        var beforeCulture = JSON.stringify(Array.from(values));
+        var cultureAbstentions = [];
+        for (var nativeOpportunity of packet.truth.opportunities) {
+          var cultureDecision = await CultureDecision.decide(store, nativeOpportunity, Date.parse(packet.generatedAt));
+          assert.equal(cultureDecision.status, 'NO_ACTION');
+          assert.equal(cultureDecision.reason, 'culture-b10-candidate-refused');
+          assert.equal(cultureDecision.providerCalled, false);
+          cultureAbstentions.push({ opportunityId: nativeOpportunity.id, path: nativeOpportunity.path, reason: cultureDecision.reason });
+        }
+        assert.equal(JSON.stringify(Array.from(values)), beforeCulture);
+        primaryIntakeBoundary = { ownerDomain: 'culture', lane: 'hero-image', nativeOpportunityChecks: cultureAbstentions,
+          firstUnprovenBoundary: 'native-investment-research-opportunity-is-not-canonical-hero-maintenance-candidate',
+          existingTrigger: 'handlers/hero-image.js missing-public-hero -> culture-hero-policy.candidate', providerCalled: false };
+      }
       var researchIntake = ResearchCandidate.build({ c: { serverPacket: packet, serverPacketPersistence: consumed } }, row[0], Date.parse(packet.generatedAt));
       assert.equal(researchIntake.status, 'ABSTAINED');
       assert.equal(researchIntake.candidate, null);
@@ -324,6 +341,7 @@ sb.LIMENDomains = fixtures;
       evidenceLevel: 'LOCAL/FIXTURE', source: fixtures[brain.snapshotKey].sources[0].name, sourceIngested: sensed,
       activeDiagnoses: active.map(function (d) { return d.id; }), typedOpportunities: typed.map(function (o) { return { id: o.id || null, path: o.path }; }),
       packetId: packet && packet.packetId, packetError: packetError, handoffs: handoffs,
+      primaryIntakeBoundary: primaryIntakeBoundary,
       nativeResearchIntake: { status: researchIntake.status, reason: researchIntake.reason, candidateCreated: false,
         semanticEvidenceInjected: false, evidenceLevel: 'LOCAL/FIXTURE', enrichedSourceIntake: enrichedResearch },
       financeReviewIntake: { status: intake.status, packetsRead: intake.packetsRead,

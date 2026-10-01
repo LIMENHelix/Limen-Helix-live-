@@ -364,6 +364,7 @@
           "sourcePacketId": "agriculture:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -636,6 +637,7 @@
           "sourcePacketId": "communication:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -881,6 +883,100 @@
           "sourcePacketId": "culture:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": {
+        "ownerDomain": "culture",
+        "lane": "hero-image",
+        "nativeOpportunityChecks": [
+          {
+            "opportunityId": "CREATIVE_STAGNATION_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "culture-b10-candidate-refused"
+          },
+          {
+            "opportunityId": "CULTURAL_ERASURE_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "culture-b10-candidate-refused"
+          },
+          {
+            "opportunityId": "HERITAGE_DESTRUCTION_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "culture-b10-candidate-refused"
+          },
+          {
+            "opportunityId": "CENSORSHIP_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "culture-b10-candidate-refused"
+          },
+          {
+            "opportunityId": "IDENTITY_CRISIS_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "culture-b10-candidate-refused"
+          },
+          {
+            "opportunityId": "CULTURE_CULINARY_CAPACITY_OVERLOAD_investable_t1",
+            "path": "INVESTABLE",
+            "reason": "culture-b10-candidate-refused"
+          },
+          {
+            "opportunityId": "CULTURE_CULINARY_CAPACITY_OVERLOAD_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "culture-b10-candidate-refused"
+          },
+          {
+            "opportunityId": "creative_economy_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "culture-b10-candidate-refused"
+          },
+          {
+            "opportunityId": "cultural_literacy_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "culture-b10-candidate-refused"
+          },
+          {
+            "opportunityId": "heritage_preserve_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "culture-b10-candidate-refused"
+          },
+          {
+            "opportunityId": "intercultural_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "culture-b10-candidate-refused"
+          },
+          {
+            "opportunityId": "civic_engage_investable_t3",
+            "path": "INVESTABLE",
+            "reason": "culture-b10-candidate-refused"
+          },
+          {
+            "opportunityId": "CREATIVE_STAGNATION_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "culture-b10-candidate-refused"
+          },
+          {
+            "opportunityId": "CULTURAL_ERASURE_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "culture-b10-candidate-refused"
+          },
+          {
+            "opportunityId": "HERITAGE_DESTRUCTION_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "culture-b10-candidate-refused"
+          },
+          {
+            "opportunityId": "CENSORSHIP_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "culture-b10-candidate-refused"
+          },
+          {
+            "opportunityId": "IDENTITY_CRISIS_researchable_t1",
+            "path": "RESEARCHABLE",
+            "reason": "culture-b10-candidate-refused"
+          }
+        ],
+        "firstUnprovenBoundary": "native-investment-research-opportunity-is-not-canonical-hero-maintenance-candidate",
+        "existingTrigger": "handlers/hero-image.js missing-public-hero -> culture-hero-policy.candidate",
+        "providerCalled": false
+      },
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -1210,6 +1306,7 @@
           "sourcePacketId": "defense:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -1612,6 +1709,7 @@
           "sourcePacketId": "economy:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -1884,6 +1982,7 @@
           "sourcePacketId": "education:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -2082,6 +2181,7 @@
           "sourcePacketId": "energy:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -2300,6 +2400,7 @@
           "sourcePacketId": "environment:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -2545,6 +2646,7 @@
           "sourcePacketId": "finance:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -2798,6 +2900,7 @@
           "sourcePacketId": "governance:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -3143,6 +3246,7 @@
           "sourcePacketId": "industry:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -3588,6 +3692,7 @@
           "sourcePacketId": "infrastructure:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -3936,6 +4041,7 @@
           "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -4311,6 +4417,7 @@
           "sourcePacketId": "law:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -4633,6 +4740,7 @@
           "sourcePacketId": "medicine:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "owning-domain-semantic-identity-invalid",
@@ -4651,7 +4759,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_54d1c847ce0bee8c56b307ea392706a0c4c3de094b1e1c76ff4496ecff3b5b71",
+            "id": "sel_episode_e7f296885cd04635b9cb81228089821710c3803209f97e41c418513b07e779c1",
             "status": "HELD",
             "ownerDomain": "health",
             "reasons": [
@@ -4693,7 +4801,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_386bbe1799000864c222960b33ffe16751c982c09925457ddcafe2eb64297cd8",
+              "id": "sel_episode_8691b52fa18a7d51138c56bb975d669d42e296d31507249934ff9647f2a6ef3c",
               "status": "RELEASED",
               "reasons": []
             }
@@ -5129,6 +5237,7 @@
           "sourcePacketId": "population:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -5491,6 +5600,7 @@
           "sourcePacketId": "religion:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -5808,6 +5918,7 @@
           "sourcePacketId": "science:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "owning-domain-semantic-identity-invalid",
@@ -5826,7 +5937,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_235d4de2827ec8d73f4ffbea06d435f0a8d057a3d822db227b81e376436b5b2c",
+            "id": "sel_episode_40f05334f5b32785b16495750434587300c60cd763ae8a918ddb632181b4d4b0",
             "status": "HELD",
             "ownerDomain": "research",
             "reasons": [
@@ -5868,7 +5979,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_f411aef2555b58c2ead391771f0ef43d16dab77c1110c97c3573704277bf50c6",
+              "id": "sel_episode_cf006422f6c285e16b21ab4429328344dce0af034716242507acdeff98b52259",
               "status": "RELEASED",
               "reasons": []
             }
@@ -6525,6 +6636,7 @@
           "sourcePacketId": "technology:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
@@ -6743,6 +6855,7 @@
           "sourcePacketId": "trade:2:fixture-native-source-snapshot"
         }
       ],
+      "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
         "reason": "research-product-domain-not-enabled",
