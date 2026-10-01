@@ -1,0 +1,17 @@
+# Artifact business visibility checkpoint — 2026-10-01
+
+Base `c127ab8d`, branch `codex/all-domain-e2e`. Evidence: LOCAL/FIXTURE. Eighteen primary product readers are now connected; Finance and Agriculture's routing-origin exception remain. This is a primary contract count, not proof of every lane or a complete twenty-origin feed spine.
+
+Science retains the Research runtime owner, Medicine retains Health, and Education/Environment retain their own owners. The read-only adapter discovers recent owner decisions in the existing selection index, then validates the exact keyed snapshot. It reads recent owner-state commands against permanent causes, original released decisions and keyed efference records. Owner, lane, action, source identity, subject, timestamps and packet references must agree. Latest decision and command are displayed independently with their causal IDs, so reevaluation cannot pretend to be the earlier command release.
+
+EXECUTED efference with a typed output identity, applied receipt and persisted-effect flag is labeled PERSISTENCE-RECEIPT. That is the existing actuator's persistence reafference, not an independent artifact byte/hash verification, research progress evaluation, publication, professional endorsement or revenue. The UI states this boundary. Pending, failed, aborted and unresolved commands have no success receipt. Independent learning observations remain in the separate existing learner projection; receipt-only UI fixtures leave OBSERVED and REVENUE unobserved.
+
+The reader uses the existing bounded selection index (up to 1,000 discovery rows, 20 owner decisions) and last 20 owner command references. It is not a complete historical inventory. It does not infer an owner for an orphan global efference command without its permanent owner cause. Missing or mismatched durable records clear the owner projection. Legacy decisions already overwritten remain unproven; no reconstruction from an index occurs.
+
+Changed code: `lib/research-business-trace-readout.js`, existing product business reader routing, observatory receipt/fact rendering, shared `scripts/assert-research-business-trace.cjs`, the four actual research-loop tests and observatory test. Actual loops retain returned negative independent evaluations and next owner critic behavior. Shared tests cover read-only execution, empty state, wrong owner/source/subject, future timing, missing causes, invalid receipt flags, pending receipt absence, store failure and recovery. UI tests cover all four product/runtime identities and distinct receipt/outcome/revenue stages.
+
+No dispatcher, provider adapter, brain policy/neurology, phase/capital model, portal JSON, production configuration or authority changed. All canonical paused changes and worktrees are preserved. No provider call, deployment, trade, spend, email or publication occurred. Google Docs remains deferred until the full goal is verified.
+
+Next: Finance's exact native investment contracts and Agriculture origin-routing visibility, then the joined source/feed → brain → diagnosis → typed opportunity proof for all twenty origins and the three unresolved navigation destinations. Acceptance-only receipts cannot close any outcome or revenue gap.
+
+Validation complete: fresh full suite **361 passed, 1 skipped, 0 failed** in 195.1 seconds. The skip is the existing unavailable external corpus root. Repository/harness, focused actual owner loops, Agriculture/shared learning, UI and diff checks pass.

@@ -72,5 +72,6 @@ function evaluated(progress) {
   }), true, 'the next Environment selection consumes its own returned research outcome');
   assert.equal((await Learning._load(store, 'environment')).outwardGate.outcomeHistory.generate_research_artifact.n, 1);
 
+  await require('./assert-research-business-trace.cjs')(store, 'environment', 'environment', command.copy, now + 200);
   console.log('environment research loop: sovereign selection -> durable efference/artifact receipt -> independent evaluated outcome -> next Environment critic consumes own learning PASS');
 })().catch(function (error) { console.error(error && error.stack || error); process.exit(1); });

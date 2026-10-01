@@ -171,7 +171,7 @@
     var businessReceipt = businessCommand && businessCommand.receipt || (businessCommand && businessCommand.providerReceiptId
       ? { kind: 'PROVIDER-ACCEPTED', id: businessCommand.providerReceiptId } : null);
     var receipt = businessReceipt && businessReceipt.id && ['PROVIDER-ACCEPTED', 'OWNED-PUBLICATION', 'PAPER-ORDER',
-      'CRM-ACCEPTED', 'EMAIL-ACCEPTED', 'LETTER-ACCEPTED', 'INQUIRY-ACCEPTED', 'PLATFORM-POST', 'OWNED-LISTING', 'EMAIL-BATCH'].indexOf(businessReceipt.kind) >= 0
+      'CRM-ACCEPTED', 'EMAIL-ACCEPTED', 'LETTER-ACCEPTED', 'INQUIRY-ACCEPTED', 'PLATFORM-POST', 'OWNED-LISTING', 'EMAIL-BATCH', 'PERSISTENCE-RECEIPT'].indexOf(businessReceipt.kind) >= 0
       ? businessReceipt.kind : 'UNOBSERVED';
     var observation = row.observed ? 'SIGNAL ' + (row.learning.latestSignalId || row.social.latestSignalId) : 'UNOBSERVED';
     var statusLine = row.serverSeen ? 'server ' + age(row.entry.ts) + ' · packet ' + (row.packetPersist.ok ? 'persisted' : 'held') : 'server cognition unavailable';
@@ -203,6 +203,7 @@
         (businessDecision ? '<span>decision <b>' + esc(businessDecision.id) + '</b> · packet ' + esc(businessDecision.packetId || 'UNOBSERVED') + ' · ' + esc(time(businessDecision.decidedAt)) + ' · key ' + esc(businessDecision.key) + '</span>' : '') +
         (businessDecision && (businessDecision.reason || arr(businessDecision.blockers).length) ? '<span>business hold <b>' + esc(businessDecision.reason || 'decision held') + '</b> · ' + esc(arr(businessDecision.blockers).join(' · ')) + '</span>' : '') +
         (businessCommand && businessCommand.listingOnly ? '<span>listing only <b>sale, order acceptance and payment are not authorized</b></span>' : '') +
+        (businessCommand && businessCommand.artifactGenerationOnly ? '<span>artifact persistence <b>reafference; independent evaluation and revenue remain separate</b></span>' : '') +
         (businessCommand && businessCommand.items ? arr(businessCommand.items).map(function (item) { return '<span>batch item <b>' + esc(item.actionId) + '</b> · decision ' + esc(item.decisionId) + ' · ' + esc(item.status) + ' · receipt ' + esc(item.receipt && item.receipt.id || 'UNOBSERVED') + ' · receipt command ' + esc(item.receipt && item.receipt.commandId || 'UNOBSERVED') + '</span>'; }).join('') : '') +
         (businessCommand ? '<span>command <b>' + esc(businessCommand.id) + '</b> · decision ' + esc(businessCommand.decisionId) + ' · ' + esc(time(businessCommand.commandedAt)) + ' · key ' + esc(businessCommand.key) + ' · receipt ' + esc(businessReceipt && businessReceipt.id || 'UNOBSERVED') + (businessCommand.paperOnly === true ? ' · PAPER ONLY' : '') + (businessCommand.nonBinding === true ? ' · NON-BINDING INQUIRY' : '') + (businessCommand.commissioningOnly === true ? ' · COMMISSIONING ONLY' : '') + (businessCommand.reason ? ' · ' + esc(businessCommand.reason) : '') + '</span>' : '') +
         '<span>executor <b>' + esc(yes(row.capability.executorVerified)) + '</b></span>' +

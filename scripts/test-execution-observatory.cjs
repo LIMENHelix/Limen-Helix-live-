@@ -88,6 +88,16 @@ cognition.cognition.religion = { ts: Date.now(), c: { businessTrace: {
       { actionId: 'item-2', decisionId: 'item-decision-2', status: 'BUDGET_HELD', receipt: null }] }
 } } };
 cognition.count = 14;
+['science', 'medicine', 'education', 'environment'].forEach(function (domain) {
+  cognition.cognition[domain] = { ts: Date.now(), c: { businessTrace: {
+    schemaVersion: 'product-domain-business-trace-readout/1.0', ownerDomain: { science: 'research', medicine: 'health' }[domain] || domain,
+    lane: 'research', status: 'RECORDED', observationOnly: true, externalActionAuthorized: false,
+    decision: { id: domain + '-next-held', status: 'HELD', decidedAt: Date.now(), blockers: ['reassessment-required'] },
+    command: { id: domain + '-artifact-command', decisionId: domain + '-prior-release', status: 'EXECUTED', commandedAt: Date.now(),
+      artifactGenerationOnly: true, receipt: { kind: 'PERSISTENCE-RECEIPT', id: domain + '-artifact' } }
+  } } };
+});
+cognition.count = 18;
 vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilization/execution-observatory.js'), 'utf8'), {
   window, document, Date, setInterval() {},
   fetch: async url => {
@@ -98,6 +108,15 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
 (async () => {
   await window.LIMENExecutionObservatory.refresh();
   assert.match(el.innerHTML, /EXTERNAL-READY/);
+  ['science', 'medicine', 'education', 'environment'].forEach(function (domain) {
+    var card = el.innerHTML.split('<span class="exo-domain-name">' + domain + '</span>')[1].split('</article>')[0];
+    assert.match(card, /PERSISTENCE-RECEIPT/);
+    assert.match(card, /reafference; independent evaluation and revenue remain separate/);
+    assert.match(card, new RegExp(domain + '-prior-release'));
+    ['OBSERVED', 'REVENUE'].forEach(function (stage) {
+      assert.match(card, new RegExp('exo-chain-label">' + stage + '</span><span class="exo-badge exo-unobserved">UNOBSERVED'));
+    });
+  });
   var financeCard = el.innerHTML.split('<span class="exo-domain-name">finance</span>')[1].split('</article>')[0];
   ['DECIDED', 'COMMAND', 'RECEIPT'].forEach(function (stage) {
     assert.match(financeCard, new RegExp('exo-chain-label">' + stage + '</span><span class="exo-badge exo-unobserved">UNOBSERVED'));

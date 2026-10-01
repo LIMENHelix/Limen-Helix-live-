@@ -31,5 +31,6 @@ function evaluated(progress) { return { progress: progress, evidenceIds: ['scien
   var next = await Bridge.select(store, { lane: 'research', candidate: item, domainCycle: cycle(), at: now + 101 });
   assert.equal(next.ok, true); assert.equal(next.receipt.ownerDomain, 'research'); assert.equal(next.receipt.criticDecision.ranked.some(function (row) { return row.kind === 'generate_research_artifact' && row.historicalN === 1 && row.historicalEffect === -1; }), true);
   assert.equal((await store.get(Learning.stateKey('science'))), null); assert.equal((await Learning._load(store, 'research')).outwardGate.outcomeHistory.generate_research_artifact.n, 1);
+  await require('./assert-research-business-trace.cjs')(store, 'science', 'research', command.copy, now + 200);
   console.log('science product brain -> existing research runtime owner: research selection, durable artifact receipt, independent evaluated outcome, owner-scoped next critic PASS');
 })().catch(function (error) { console.error(error && error.stack || error); process.exit(1); });

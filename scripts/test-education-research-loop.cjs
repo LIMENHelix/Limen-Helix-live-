@@ -99,5 +99,6 @@ function evaluated(progress) {
   assert.equal(conflict.ok, false);
   assert.match(conflict.detail, /selection episode readback failed/);
 
+  await require('./assert-research-business-trace.cjs')(store, 'education', 'education', command.copy, now + 200);
   console.log('education research loop: sovereign selection -> durable efference/artifact receipt -> independent evaluated outcome -> next Education critic consumes own learning PASS');
 })().catch(function (error) { console.error(error && error.stack || error); process.exit(1); });
