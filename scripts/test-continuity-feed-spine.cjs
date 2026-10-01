@@ -95,10 +95,13 @@ domains.forEach(function (row) {
     sources: [{ name: row[0] === 'agriculture' ? 'USDA Drought Monitor' : row[0] + ' identified fixture source',
       live: true, value: row[0] === 'agriculture' ? 45 : 0.72, label: 'LOCAL/FIXTURE', signal: 'identified fixture observation',
       channel: 'stress', quality: 0.9, classification: 'real', updated: Date.now() }] };
+  fixtures[key].sources[0].sourceUpdatedAt = 'LOCAL/FIXTURE source-record:' + row[0];
+  fixtures[key].sources[0].fetchedAt = fixtures[key].sources[0].updated;
 });
 sb.LIMENDomains = fixtures;
 (async function () {
   var Packet = require('../lib/civilization-server-packet.js');
+  var SnapshotInput = require('../lib/brain-cognition-snapshot-input.js');
   var Consumer = require('../lib/civilization-handoff-consumer.js');
   var FinanceIntake = require('../lib/finance-domain-intake.js');
   var FinanceSource = require('../lib/finance-source-universe.js');
@@ -140,7 +143,19 @@ sb.LIMENDomains = fixtures;
     assert(typed.length > 0, row[0] + ' must derive a typed native opportunity');
     var packet = null, packetError = null, handoffs = [];
     try {
-      packet = Packet.fromBrainState(row[0], brain.state, { snapshotId: 'fixture-native-source-snapshot', fetchedAt: Date.now() }, 'fixture-native-refresh', new Date().toISOString());
+      var sourceRow = SnapshotInput.readDomain(fixtures, row[0]);
+      assert.equal(sourceRow, fixtures[brain.snapshotKey], 'canonical alias must read its exact runtime snapshot');
+      var nativeFeedEvidence = Packet.feedSourceEvidence(row[0], sourceRow);
+      packet = Packet.fromBrainState(row[0], brain.state, { snapshotId: 'fixture-native-source-snapshot', fetchedAt: Date.now() }, 'fixture-native-refresh', new Date().toISOString(),
+        { feedSourceEvidence: nativeFeedEvidence });
+      assert.equal(packet.truth.feedSourceEvidence.ownerDomain, row[0]);
+      assert.equal(packet.truth.feedSourceEvidence.sources[0].sourceUpdatedAt, sourceRow.sources[0].sourceUpdatedAt);
+      assert.equal(packet.truth.feedSourceEvidence.sources[0].fetchedAt, sourceRow.sources[0].fetchedAt);
+      assert.equal(packet.truth.feedSourceEvidence.authority, 'observation-only');
+      var unobservedSources = Packet.feedSourceEvidence(row[0], null);
+      assert.equal(unobservedSources.status, 'UNOBSERVED');
+      assert.deepEqual(unobservedSources.sources, []);
+      assert.equal(Packet.feedSourceEvidence(row[0], { sources: [{ name: 'missing identity', live: false }] }).sources[0].sourceUpdatedAt, null);
       assert.equal(packet.domainId, row[0]);
       assert(packet.truth.activeDiagnoses.length > 0);
       packet.truth.opportunities.forEach(function (opportunity) {
@@ -162,6 +177,11 @@ sb.LIMENDomains = fixtures;
       var consumed = await consumer.consumePacket(packet);
       assert.equal(consumed.ok, true, JSON.stringify(consumed.failures));
       assert.equal(consumed.handoffsCreated, handoffs.length);
+      for (var sourceHandoffId of await store.members('handoffs')) {
+        var sourceHandoff = await store.get(store.handoffKey(sourceHandoffId));
+        assert.deepEqual(sourceHandoff.feedSourceEvidence, nativeFeedEvidence);
+        assert.equal(sourceHandoff.sourcePacketId, packet.packetId);
+      }
       var primaryIntakeBoundary = null;
       if (row[0] === 'finance') {
         var nativeFinanceProducer = require('../lib/finance-opportunity-producer.js');
@@ -408,7 +428,8 @@ sb.LIMENDomains = fixtures;
         var semantic = DomainSemantic.build(titleSets, sourceDomain, sourceAt);
         semantic.meta.ownerDomain = row[0]; semantic.meta.sourceDomain = sourceDomain;
         var enrichedPacket = Packet.fromBrainState(row[0], brain.state, { snapshotId: 'fixture-native-source-snapshot', fetchedAt: sourceAt },
-          'fixture-native-semantic-refresh', packet.generatedAt, { semanticEvidence: semantic.observations, semanticEvidenceMeta: semantic.meta });
+          'fixture-native-semantic-refresh', packet.generatedAt, { semanticEvidence: semantic.observations, semanticEvidenceMeta: semantic.meta,
+            feedSourceEvidence: nativeFeedEvidence });
         var enrichedConsumer = Consumer.createConsumer({ store: Object.assign({}, store, {
           packetIndexKey: 'semantic-packets', handoffIndexKey: 'semantic-handoffs',
           packetKey: function (id) { return 'semantic-packet:' + id; }, handoffKey: function (id) { return 'semantic-handoff:' + id; }
@@ -561,6 +582,7 @@ sb.LIMENDomains = fixtures;
       evidenceLevel: 'LOCAL/FIXTURE', source: fixtures[brain.snapshotKey].sources[0].name, sourceIngested: sensed,
       activeDiagnoses: active.map(function (d) { return d.id; }), typedOpportunities: typed.map(function (o) { return { id: o.id || null, path: o.path }; }),
       packetId: packet && packet.packetId, packetError: packetError, handoffs: handoffs,
+      feedSourceEvidence: packet && packet.truth.feedSourceEvidence,
       primaryIntakeBoundary: primaryIntakeBoundary,
       nativeResearchIntake: { status: researchIntake.status, reason: researchIntake.reason, candidateCreated: false,
         semanticEvidenceInjected: false, evidenceLevel: 'LOCAL/FIXTURE', enrichedSourceIntake: enrichedResearch },

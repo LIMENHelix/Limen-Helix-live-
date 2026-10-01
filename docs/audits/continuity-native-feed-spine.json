@@ -364,6 +364,25 @@
           "sourcePacketId": "agriculture:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "agriculture",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "USDA Drought Monitor",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:agriculture",
+            "fetchedAt": 1790880426606,
+            "value": 45,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": {
         "ownerDomain": "agriculture",
         "lane": "origin-routing",
@@ -673,6 +692,25 @@
           "sourcePacketId": "communication:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "communication",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "communication identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:communication",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": {
         "ownerDomain": "communication",
         "lane": "social",
@@ -1082,6 +1120,25 @@
           "sourcePacketId": "culture:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "culture",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "culture identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:culture",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": {
         "ownerDomain": "culture",
         "lane": "hero-image",
@@ -1192,8 +1249,8 @@
             "decision": {
               "id": "chd_1506695bb1eb69338fe72c6e",
               "status": "NO_ACTION",
-              "decidedAt": 1790878794563,
-              "expiresAt": 1790879394563,
+              "decidedAt": 1790880427933,
+              "expiresAt": 1790881027933,
               "key": "culture_hero_decision:chd_1506695bb1eb69338fe72c6e",
               "packetId": "culture:2:fixture-native-source-snapshot",
               "reason": "culture-b10-held",
@@ -1537,12 +1594,31 @@
           "sourcePacketId": "defense:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "defense",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "defense identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:defense",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": {
         "ownerDomain": "defense",
         "lane": "publication",
         "candidateId": "dpc_f567dc9a2c381bd7a005f2fd",
         "nativeOpportunityId": "DEFENSE_AIR_SYSTEM_FAILURE_researchable_t1",
-        "decisionId": "dpd_4814ae7d125a6fe496f4be9a",
+        "decisionId": "dpd_6cc53e77db54206c85afb336",
         "sourcePacketId": "defense:2:fixture-native-source-snapshot",
         "status": "NO_ACTION",
         "blockers": [
@@ -1958,6 +2034,25 @@
           "sourcePacketId": "economy:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "economy",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "economy identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:economy",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": {
         "ownerDomain": "economy",
         "lane": "investments",
@@ -2312,6 +2407,25 @@
           "sourcePacketId": "education:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "education",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "education identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:education",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
@@ -2331,7 +2445,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_aae82ca7d88fdbcb5f2619b7b87b55e0f34baa61ef73355d367f200b9b360932",
+            "id": "sel_episode_43763d1e8f48da3144bccb606790f259b3ccd65e5cc6491d1042a535439f84fd",
             "status": "HELD",
             "ownerDomain": "education",
             "reasons": [
@@ -2376,7 +2490,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_806dca8928c1fa4a7c726f720d7231c85762fcbc29aa2dd7d9a3dc7c94b8c422",
+              "id": "sel_episode_145e74a93ca0fdb39262d77928fdd8917528645d95ca6781e8720283da64ab6b",
               "status": "HELD",
               "reasons": [
                 "owning_domain_has_no_current_l3_evidence",
@@ -2596,6 +2710,25 @@
           "sourcePacketId": "energy:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "energy",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "energy identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:energy",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": {
         "ownerDomain": "energy",
         "lane": "investments",
@@ -2875,6 +3008,25 @@
           "sourcePacketId": "environment:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "environment",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "environment identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:environment",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
@@ -2894,7 +3046,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_85bf2ef151c0c56c5bf98b651c5096c03ed1ac54b639628e4882fd8b08add5d6",
+            "id": "sel_episode_4e8a2729f0d4ce7598a88e775375dcc9b07f4bb1f41cb8f2851d19f2d75e0cfa",
             "status": "HELD",
             "ownerDomain": "environment",
             "reasons": [
@@ -2936,7 +3088,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_f68bcc45993466602438a2c01a35771ebac41917be9f0b03f827eb5defc445e1",
+              "id": "sel_episode_30bce04038c340a5426820b15b752c9c150acc916a4090a5e7016da2fac00672",
               "status": "HELD",
               "reasons": [
                 "owning_domain_has_no_declared_outward_consumer"
@@ -3202,6 +3354,25 @@
           "sourcePacketId": "finance:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "finance",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "finance identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:finance",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": {
         "ownerDomain": "finance",
         "lane": "investment",
@@ -3801,12 +3972,31 @@
           "sourcePacketId": "governance:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "governance",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "governance identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:governance",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": {
         "ownerDomain": "governance",
         "lane": "publication",
         "candidateId": "gpc_9986aded82fbd54e5bc8bf1d",
         "nativeOpportunityId": "GOVERNANCE_SANCTIONS_SYSTEM_FAILURE_researchable_t1",
-        "decisionId": "gpd_53ab518f33e4a9c8d838e490",
+        "decisionId": "gpd_eb414ff71c0d5644071e1e7b",
         "sourcePacketId": "governance:2:fixture-native-source-snapshot",
         "status": "NO_ACTION",
         "blockers": [
@@ -4165,6 +4355,25 @@
           "sourcePacketId": "industry:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "industry",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "industry identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:industry",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": {
         "ownerDomain": "industry",
         "lane": "crm",
@@ -4806,6 +5015,25 @@
           "sourcePacketId": "infrastructure:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "infrastructure",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "infrastructure identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:infrastructure",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": {
         "ownerDomain": "infrastructure",
         "lane": "real-estate",
@@ -5230,6 +5458,25 @@
           "sourcePacketId": "intelligence:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "intelligence",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "intelligence identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:intelligence",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": {
         "ownerDomain": "intelligence",
         "lane": "autopilot",
@@ -5817,6 +6064,25 @@
           "sourcePacketId": "law:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "law",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "law identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:law",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": {
         "ownerDomain": "law",
         "lane": "automail",
@@ -6271,6 +6537,25 @@
           "sourcePacketId": "medicine:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "medicine",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "medicine identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:medicine",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
@@ -6290,7 +6575,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_417546594f533183ec5d243d572f0496da9a05fbd7343983386d5292b7251923",
+            "id": "sel_episode_9e780d9bc1543eba8322d5019fe91030fef5c1edf7b4c3358152277fe8524a0f",
             "status": "HELD",
             "ownerDomain": "health",
             "reasons": [
@@ -6332,7 +6617,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_46bec011c30a493e6c16586e26bd4d0828ea4b5e1475c59bd81ab8e7332a52e0",
+              "id": "sel_episode_ba1de8b5b3f89dddae593111f8729114594c72df826ee01096b2f8a6d2de09d5",
               "status": "RELEASED",
               "reasons": []
             }
@@ -6768,6 +7053,25 @@
           "sourcePacketId": "population:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "population",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "population identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:population",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": {
         "ownerDomain": "population",
         "lane": "real-estate",
@@ -7278,6 +7582,25 @@
           "sourcePacketId": "religion:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "religion",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "religion identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:religion",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": {
         "ownerDomain": "religion",
         "lane": "subscriber",
@@ -7687,6 +8010,25 @@
           "sourcePacketId": "science:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "science",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "science identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:science",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": null,
       "nativeResearchIntake": {
         "status": "ABSTAINED",
@@ -7706,7 +8048,7 @@
           ],
           "titleSourceLevel": "LOCAL/FIXTURE",
           "selection": {
-            "id": "sel_episode_fd0205a648744b1b18bcfefb01c96a72e535d3be6d2efddcbd56767d02873458",
+            "id": "sel_episode_3cd9fe6cb808671c37a219582a0208d80f149206d9bfa69e570f17aed83d8766",
             "status": "HELD",
             "ownerDomain": "research",
             "reasons": [
@@ -7748,7 +8090,7 @@
               "scope": "current shadow cycle plus the restored prediction registry; not a pathway count and not an outward effect"
             },
             "selection": {
-              "id": "sel_episode_02084bf4198d21a7728a646c19257a11680823682a9478ec9a8706dd788b7408",
+              "id": "sel_episode_1894c6998e58bd3cac806d4c65d6c626eeb04598c363281f8a4576a919bfcfda",
               "status": "RELEASED",
               "reasons": []
             }
@@ -8405,6 +8747,25 @@
           "sourcePacketId": "technology:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "technology",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "technology identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:technology",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": {
         "ownerDomain": "technology",
         "lane": "investments",
@@ -8726,6 +9087,25 @@
           "sourcePacketId": "trade:2:fixture-native-source-snapshot"
         }
       ],
+      "feedSourceEvidence": {
+        "schemaVersion": "snapshot-feed-source-evidence/1.0",
+        "ownerDomain": "trade",
+        "authority": "observation-only",
+        "status": "RECORDED",
+        "stressBasis": null,
+        "stressUsable": false,
+        "sources": [
+          {
+            "name": "trade identified fixture source",
+            "live": true,
+            "sourceUpdatedAt": "LOCAL/FIXTURE source-record:trade",
+            "fetchedAt": 1790880426607,
+            "value": 0.72,
+            "classification": "real",
+            "failReason": null
+          }
+        ]
+      },
       "primaryIntakeBoundary": {
         "ownerDomain": "supplyChain",
         "lane": "auction",
