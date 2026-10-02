@@ -24,6 +24,19 @@ Store.prototype.lrem = async function (key, _count, value) {
   return before - this.log.length;
 };
 
+async function seedPosted(store, command) {
+  var Executor = require('../lib/communication-social-executor.js'), Decision = require('../lib/communication-social-decision.js');
+  command = Object.assign({}, command, { schemaVersion: Executor.SCHEMA, status: 'POSTED', productDomain: 'communication', ownerDomain: 'communication', lane: 'social',
+    providerCalled: true, liveMoney: false, resolvedAt: command.commandedAt, productMotorReceiptId: 'LOCAL-motor-' + command.commandId });
+  await store.set(Executor.commandKey(command.commandId), command);
+  await store.set(Decision.decisionKey(command.decisionReceiptId), { schemaVersion: Decision.SCHEMA, decisionReceiptId: command.decisionReceiptId,
+    status: 'RELEASED', released: true, productDomain: 'communication', ownerDomain: 'communication', lane: 'social', liveMoney: false,
+    subjectDomain: command.subjectDomain, contentHash: command.contentHash, decidedAt: command.commandedAt - 1, expiresAt: command.commandedAt + 600000 });
+  await store.set(Executor.motorClaimKey(command.productMotorReceiptId), { schemaVersion: Executor.SCHEMA, productDomain: 'communication', ownerDomain: 'communication', lane: 'social',
+    commandId: command.commandId, actionId: command.commandId, productMotorReceiptId: command.productMotorReceiptId });
+  await Learning.recordCommand(store, command); return command;
+}
+
 var post = { uri: 'at://did:plc:test/app.bsky.feed.post/r1', cid: 'bafy-test' };
 function responsePost(count) {
   return async function (url) {
@@ -75,8 +88,8 @@ function response() {
   var learningCommand = { ownerDomain: 'communication', lane: 'social', commandId: 'command-learning-1', decisionReceiptId: 'decision-learning-1',
     subjectDomain: 'finance', contentHash: 'content-hash', predictedOutcome: { measurable: 'engagement-or-conversion' }, commandedAt: 900 };
   assert.equal((await Learning.recordCommand(store, learningCommand)).ok, true);
-  assert.equal((await Learning.recordObservation(store, learningCommand, first.receipt)).ok, true);
-  assert.equal((await Learning.readForBrain(store)).status, 'ELIGIBLE');
+  assert.equal((await Learning.recordObservation(store, learningCommand, first.receipt)).ok, false, 'cause-only unattributed public context cannot train');
+  assert.equal((await Learning.readForBrain(store)).status, 'ABSTAINED');
   var second = await Observer.observeOne(store, post, 2000, { fetch: responsePost(5) });
   assert.equal(second.receipt.metrics.total, 12);
   assert.equal(second.receipt.engagementDelta, 2);
@@ -149,10 +162,10 @@ function response() {
   assert.equal(bounded.boundedNewPerRun, 3);
 
   var strictStore = new Store();
-  var strictCommand = Object.assign({}, learningCommand, {
+  var strictCommand = await seedPosted(strictStore, Object.assign({}, learningCommand, {
     schemaVersion: 'communication-social-command/1.0', status: 'POSTED',
     receipt: { uri: post.uri, cid: post.cid, readbackVerified: true }
-  });
+  }));
   await strictStore.lpush('communication_social_command_log', strictCommand);
   assert.equal((await Learning.recordCommand(strictStore, strictCommand)).ok, true);
   var strictHandler = Handler.createHandler({
@@ -170,7 +183,7 @@ function response() {
   assert.equal(Handler.mergePosts([strictCommand], { receipts: [] }, [], 20)[0].uri, post.uri);
 
   var pendingOnlyStore = new Store();
-  var pendingOnlyCommand = Object.assign({}, strictCommand, { commandId: 'pending-only-posted-command' });
+  var pendingOnlyCommand = await seedPosted(pendingOnlyStore, Object.assign({}, strictCommand, { commandId: 'pending-only-posted-command' }));
   await pendingOnlyStore.set('communication_social_command:' + pendingOnlyCommand.commandId, pendingOnlyCommand);
   await pendingOnlyStore.lpush('communication_social_pending_log', Object.assign({}, pendingOnlyCommand, {
     status: 'DISPATCHING', receipt: null
@@ -211,5 +224,16 @@ function response() {
   assert.equal(domainAttempts, 1,
     'an observation receipt is replayed from the durable log when the prior domain-learning write did not land');
 
+  var blockedReceipt = Object.assign({}, first.receipt, { commandId: replayCommand.commandId });
+  await replayStore.lpush(Observer.LEARNING_PENDING_LOG_KEY, blockedReceipt);
+  var refusedHandler = Handler.createHandler({ store: replayStore, cronAuth: { enforce: function () { return true; } },
+    social: { recentPosts: async function () { return []; } }, observer: Object.assign({}, Observer, {
+      reconcilePending: async function () { return { receipts: [], commands: [] }; }, observeRecent: async function () { return { ok: true, results: [], observed: 0 }; }
+    }), learning: { recordObservation: async function () { return { ok: false, reason: 'invalid-own-evidence' }; } },
+    domainLearning: { recordObservation: async function () { throw Error('unadmitted Communication evidence reached subject learner'); } } });
+  var refusedResponse = response(); await refusedHandler({ method: 'GET' }, refusedResponse);
+  assert.equal(refusedResponse.statusCode, 207);
+  assert.equal((await replayStore.lrange(Observer.LEARNING_PENDING_LOG_KEY, 0, -1)).length, 1);
+  assert.equal(refusedResponse.json.learning.subjectDomainRecorded, 0);
   console.log('communication social outcome observer: public AppView identity, strict receipt readback, ambiguous-command reconciliation, engagement deltas, and cron-only writes passed');
 })().catch(function (error) { console.error(error); process.exit(1); });

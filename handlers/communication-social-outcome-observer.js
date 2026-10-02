@@ -101,7 +101,7 @@ function createHandler(deps) {
         if (learnedResult && learnedResult.ok) { if (!learnedResult.duplicate) learned++; }
         else learningFailures.push({ observationId: receipt.observationId, reason: learnedResult && learnedResult.reason || 'communication-learning-failed' });
         var domainAccepted = true;
-        if (command.sourceArtifactId) {
+        if (command.sourceArtifactId && learnedResult && learnedResult.ok) {
           var domainResult;
           try { domainResult = await domainLearning.recordObservation(store, command, receipt); }
           catch (error) { domainResult = { ok: false, reason: String(error && error.message || error) }; }

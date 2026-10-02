@@ -87,6 +87,7 @@
       (gate.selectedLane ? ' · lane ' + esc(gate.selectedLane) : '') +
       ' · resolved ' + esc(n(selectedCount)) + (gate.minimumResolved != null ? '/' + esc(gate.minimumResolved) : '') +
       (gate.distinctAssets != null ? ' · distinct assets ' + esc(gate.distinctAssets) + '/' + esc(gate.minimumDistinctAssets) : '') +
+      (gate.distinctPosts != null ? ' · distinct posts ' + esc(gate.distinctPosts) + '/' + esc(gate.minimumDistinctPosts) : '') +
       (gate.distinctSources != null ? ' · distinct sources ' + esc(gate.distinctSources) + '/' + esc(gate.minimumDistinctSources) : '') + '</span>';
   }
 
