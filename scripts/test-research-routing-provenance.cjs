@@ -142,6 +142,33 @@ class Store {
       console.log('native comparison', origin, JSON.stringify({ diagnoses: nativeCycle.evaluated.diagnoses.length, opportunities: nativeCycle.evaluated.opportunities.length }));
       assert.deepEqual(nativeCycle.evaluated, controlCycle.evaluated,
         'source Science observation must not silently substitute for own-domain learning');
+      if (origin === 'science') {
+        const baselineValues = new Map([...outcomeStore.values].map(([k, v]) => [k, clone(v)]));
+        const baselineLists = new Map([...outcomeStore.lists].map(([k, v]) => [k, clone(v)]));
+        const baselineReadout = clone(nativeReadout);
+        for (let n = 2; n <= 5; n++) {
+          const additional = clone(evaluationInput);
+          additional.publication.observationId = 'science:qualified-evaluation:' + n;
+          additional.publication.observedAt = new Date(spec.at + 3 + n).toISOString();
+          additional.evaluation.progress = 'REGRESSION';
+          additional.evaluation.sourceIdentity.value = n % 2 ? 'evaluator:independent-panel-2' : 'evaluator:independent-panel-1';
+          const admittedNext = await Intake.persist(outcomeStore, additional, spec.at + 3 + n);
+          assert.equal(admittedNext.ok, true);
+          const eventNext = { ...admittedNext.record.event, ownerDomain: 'research', eventId: 'science:qualified-event:' + n, ts: spec.at + 3 + n };
+          assert.equal((await Learning.recordOutcome(outcomeStore, eventNext)).ok, true);
+        }
+        await handler({ method: 'GET', url: '/api/product-domain-learning-state?domain=research' }, response);
+        assert.equal(nativeReadout.resolvedCount, 5);
+        assert.equal(nativeReadout.learningGate.ready, true);
+        assert.equal(nativeReadout.learningGate.distinctSources, 2);
+        const qualifiedCycle = await require('./fixtures/research-native-cycle.cjs')('science', nativeReadout);
+        assert.equal(qualifiedCycle.plasticity.rewardActive, true);
+        assert.equal(qualifiedCycle.plasticity.externalOutcome.source, 'independent-action-outcome');
+        const gatedControl = clone(nativeReadout); gatedControl.learningGate.ready = false;
+        const gatedCycle = await require('./fixtures/research-native-cycle.cjs')('science', gatedControl);
+        assert.equal(gatedCycle.plasticity.rewardActive, false);
+        outcomeStore.values = baselineValues; outcomeStore.lists = baselineLists; nativeReadout = baselineReadout;
+      }
       const name = origin[0].toUpperCase() + origin.slice(1);
       const brainSource = fs.readFileSync(path.join(__dirname, '../assets/js/domain-brains/' + origin + '-brain.js'), 'utf8');
       const methodMarker = '.prototype._refresh' + name + 'ActionOutcome = ';

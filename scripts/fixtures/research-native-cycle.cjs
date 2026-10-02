@@ -53,6 +53,7 @@ module.exports = async function nativeCycle(origin, readout) {
   assert.equal(brain.state.domainActionLearning.learningGate.ready, readout.learningGate.ready);
   if (origin !== 'science') assert.equal(brain.state.domainActionLearning.signal, null);
   return { observationRetained: true, rewardBorrowed: false, evaluationEffectProven: false,
+    plasticity: JSON.parse(JSON.stringify(brain.state.domainPlasticity || null)),
     evaluated: JSON.parse(JSON.stringify({ diagnoses: brain.state.diagnoses, opportunities: brain.state.opportunities,
       stress: brain.state.stress, confidence: brain.state.confidence })) };
 };
