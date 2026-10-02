@@ -718,6 +718,46 @@ sb.LIMENDomains = fixtures;
           sourcePacketId: packet.packetId, immuneRoute: economyInvestmentTrace.decision.immuneRoute, status: economyInvestmentSelected.status,
           candidateDerivedFromGenericOpportunity: false, issuerThesisFeedEvidenceLevel: 'LOCAL/FIXTURE', evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false };
       }
+      if (row[0] === 'technology') {
+        var technologyInvestmentDecision = require('../lib/technology-investment-decision.js'), technologyInvestmentAt = Date.parse(packet.generatedAt);
+        var technologyInvestmentCognition = { ts: technologyInvestmentAt, c: Object.assign({}, require('../lib/brain-cognition-compact.js').compact(brain.state.cognition), {
+          domain: 'technology', serverPacket: packet, brainOrgans: { resourceMetabolism: brain.state.resourceMetabolism,
+            autonomousInternalEmission: brain.state.domainAutoEmission || null }
+        }) };
+        // Separate typed LOCAL intake; generic opportunities above supply no issuer or investment thesis.
+        var technologyInvestmentOpportunity = packet.truth.opportunities.find(function (op) { return op.path === 'INVESTABLE'; });
+        assert(technologyInvestmentOpportunity && technologyInvestmentOpportunity.id);
+        var technologyInvestmentEvidence = [0, 1].map(function (feed) { return { title: 'LOCAL/FIXTURE issuer observation ' + feed,
+          url: 'https://fixture.invalid/technology/' + feed, feedName: 'LOCAL/FIXTURE:technology-feed-' + feed,
+          recordedAt: new Date(technologyInvestmentAt).toISOString() }; });
+        var technologyInvestmentTitles = technologyInvestmentEvidence.map(function (row) { return { d: 'technology', f: row.feedName, t: technologyInvestmentAt,
+          items: [{ ti: row.title, au: row.url, tr: false }] }; });
+        var technologyInvestmentCandidate = technologyInvestmentDecision.candidate({ requestId: 'LOCAL/FIXTURE:technology-investment',
+          symbol: 'ACME', issuerName: 'LOCAL/FIXTURE issuer', side: 'buy', maxNotionalUsd: 100, riskLimitPct: 8, benchmarkSymbol: 'SPY',
+          thesisId: 'LOCAL/FIXTURE:technology-thesis', brainOpportunityId: technologyInvestmentOpportunity.id,
+          feedEvidence: technologyInvestmentEvidence, paperOnly: true, liveMoney: false });
+        assert(technologyInvestmentDecision.validate(technologyInvestmentCandidate));
+        var technologyInvestmentLists = new Map();
+        var technologyInvestmentStore = Object.assign({}, store, { assertDurable: function () {}, setIfAbsent: store.setNx,
+          set: async function (key, value) { values.set(key, JSON.parse(JSON.stringify(value))); return true; },
+          lpush: async function (key, value) { var rows = technologyInvestmentLists.get(key) || []; rows.unshift(JSON.parse(JSON.stringify(value))); technologyInvestmentLists.set(key, rows); return rows.length; },
+          lrange: async function (key, start, end) { return JSON.parse(JSON.stringify((technologyInvestmentLists.get(key) || []).slice(start, end + 1))); },
+          ltrim: async function (key, start, end) { technologyInvestmentLists.set(key, (technologyInvestmentLists.get(key) || []).slice(start, end + 1)); return true; }
+        });
+        var technologyInvestmentSelected = await technologyInvestmentDecision.decide(technologyInvestmentStore, technologyInvestmentCandidate, technologyInvestmentAt,
+          { cognition: technologyInvestmentCognition, titleSets: technologyInvestmentTitles, maxNotionalUsd: 150 });
+        assert.equal(technologyInvestmentSelected.status, 'NO_ACTION');
+        assert.equal(technologyInvestmentSelected.technologyPacketId, packet.packetId);
+        assert(['HOLD', 'QUARANTINE', 'REJECT'].includes(technologyInvestmentSelected.immuneRouting.route));
+        assert.deepEqual(await technologyInvestmentStore.get(technologyInvestmentDecision.key(technologyInvestmentSelected.decisionReceiptId)), technologyInvestmentSelected);
+        var technologyInvestmentTrace = await require('../lib/product-domain-business-trace-readout.js').read(technologyInvestmentStore, 'technology', technologyInvestmentAt + 1);
+        assert.equal(technologyInvestmentTrace.status, 'RECORDED');
+        assert.equal(technologyInvestmentTrace.decision.immuneRoute, technologyInvestmentSelected.immuneRouting.route);
+        assert.equal(technologyInvestmentTrace.command, null); assert.equal(technologyInvestmentTrace.externalActionAuthorized, false);
+        primaryIntakeBoundary.typedFixtureIntake = { candidateId: technologyInvestmentSelected.actionId, decisionId: technologyInvestmentSelected.decisionReceiptId,
+          sourcePacketId: packet.packetId, immuneRoute: technologyInvestmentTrace.decision.immuneRoute, status: technologyInvestmentSelected.status,
+          candidateDerivedFromGenericOpportunity: false, issuerThesisFeedEvidenceLevel: 'LOCAL/FIXTURE', evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false };
+      }
       if (['defense', 'governance'].includes(row[0])) {
         var publicationSource = require('../lib/' + row[0] + '-publication-source.js');
         var publicationDecision = require('../lib/' + row[0] + '-publication-decision.js');
