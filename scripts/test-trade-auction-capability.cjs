@@ -13,5 +13,11 @@ function motor(now) { return { schemaVersion: Motor.SCHEMA, receiptId: 'trade-mo
   assert.equal(result.status, 'VERIFIED'); assert(result.commissioning.listingId); assert.equal(listings.get(result.commissioning.listingId).status, 'closed'); assert.equal((await Cap.verifyPair(store, await store.get(Motor.receiptKey('trade')), Date.now() + 1000)).ok, true);
   var duplicate = await Verifier.commission(store, Date.now() + 1000, { env: { TRADE_AUCTION_COMMISSIONING_ENABLED: '1' }, sleep: async function () {} }); assert.equal(duplicate.status, 'VERIFIED'); assert.equal(duplicate.duplicate, true);
   await store.del(Cap.capabilityKey('trade', Cap.EXECUTOR)); var audit = await Verifier.audit(store, Date.now() + 1000); assert.equal(audit.capabilities.reason, 'domain-executor-capability-missing'); assert.equal(audit.commissioning.status, 'VERIFIED');
+  var observedStore=memory();await observedStore.set(Motor.receiptKey('trade'),motor(Date.now()));var independentReads=0;
+  var actualObserverResult=await Verifier.commission(observedStore,Date.now(),{env:{TRADE_AUCTION_COMMISSIONING_ENABLED:'1'},pollAttempts:8,pollDelayMs:0,sleep:async function(){},marketplace:market,
+    adapterGuard:{checkpoint:async function(){return{allowed:true,valveId:'trade:auction'};}},baseUrl:'https://example.invalid',
+    fetch:async function(_url,options){independentReads++;assert.equal(options.method,'GET');return{ok:true,status:200,json:async function(){return{listings:Array.from(listings.values()).filter(function(row){return row.status==='active';})};}};}});
+  assert.equal(actualObserverResult.status,'VERIFIED');assert(independentReads>=2,'default observer must independently verify presence and absence');
+  assert.equal((await observedStore.get(require('../lib/trade-auction-learning.js').STATE_KEY))==null,true,'commissioning presence is not a learned auction outcome');
   console.log('trade auction capability: bounded owned listing, independent presence read, close, absence proof, pair persistence, renewal, and fail-closed audit passed');
 })().catch(function (e) { console.error(e); process.exit(1); });

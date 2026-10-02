@@ -19,7 +19,7 @@ module.exports = async function nativeBusinessCycle(origin, readout, fixedAt) {
     'domain-brains/domain-brain-base.js', 'domain-brains/portal-content-resolver.js',
     'domain-brains/inter-brain-bus.js', 'domain-brains/domain-change-log.js', 'domain-brains/' + origin + '-brain.js'];
   files.forEach(file => vm.runInContext(fs.readFileSync(path.join(ROOT, 'assets/js', file), 'utf8'), sb, { filename: file }));
-  const names = { defense: 'LIMENDefenseBrain', governance: 'LIMENGovernanceBrain', industry: 'LIMENIndustryBrain', intelligence: 'LIMENIntelligenceBrain', law: 'LIMENLawBrain', infrastructure: 'LIMENInfrastructureBrain', population: 'LIMENPopulationBrain', religion: 'LIMENReligionBrain' };
+  const names = { defense: 'LIMENDefenseBrain', governance: 'LIMENGovernanceBrain', industry: 'LIMENIndustryBrain', intelligence: 'LIMENIntelligenceBrain', law: 'LIMENLawBrain', infrastructure: 'LIMENInfrastructureBrain', population: 'LIMENPopulationBrain', religion: 'LIMENReligionBrain', trade: 'LIMENSupplyChainBrain' };
   const brain = sb[names[origin]];
   assert(brain && typeof brain.cycle === 'function');
   sb.LIMENDomains[brain.snapshotKey] = { stress: 0.72, confidence: 0.85, activity: 0.7,
