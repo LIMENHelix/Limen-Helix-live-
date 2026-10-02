@@ -419,6 +419,37 @@ sb.LIMENDomains = fixtures;
           evidenceLevel: 'LOCAL/FIXTURE', nativeOpportunityChecks: operationChecks, providerCalled: false,
           nextBoundary: operationProfile[1], candidateFabricated: false, counterpartyOrConsentInferred: false };
       }
+      if (row[0] === 'industry') {
+        var crmDecision = require('../lib/industry-crm-decision.js'), crmAt = Date.parse(packet.generatedAt);
+        var crmCognition = { ts: crmAt, c: Object.assign({}, JSON.parse(JSON.stringify(brain.state.cognition)), {
+          domain: 'industry', serverPacket: packet, brainOrgans: { resourceMetabolism: brain.state.resourceMetabolism,
+            autonomousInternalEmission: brain.state.domainAutoEmission || null }
+        }) };
+        // Separate identified typed intake: generic native opportunities above remain refused.
+        var crmCandidate = crmDecision.candidate({ source: 'WARN', workFirst: true, key: 'LOCAL/FIXTURE:industry:warn-1',
+          company: 'Identified LOCAL Fixture Company', state: 'CA', effectiveDate: '2026-10-01' },
+          { identity: 'LOCAL/FIXTURE:identified-WARN-record' });
+        assert(crmDecision.validateCandidate(crmCandidate));
+        var crmLists = new Map();
+        var crmStore = Object.assign({}, store, { assertDurable: function () {}, setIfAbsent: store.setNx,
+          set: async function (key, value) { values.set(key, JSON.parse(JSON.stringify(value))); return true; },
+          lpush: async function (key, value) { var rows = crmLists.get(key) || []; rows.unshift(JSON.parse(JSON.stringify(value))); crmLists.set(key, rows); return rows.length; },
+          lrange: async function (key, start, end) { return JSON.parse(JSON.stringify((crmLists.get(key) || []).slice(start, end + 1))); },
+          ltrim: async function (key, start, end) { crmLists.set(key, (crmLists.get(key) || []).slice(start, end + 1)); return true; }
+        });
+        var crmSelected = await crmDecision.decide(crmStore, crmCandidate, crmAt, { cognition: crmCognition });
+        assert.equal(crmSelected.status, 'NO_ACTION');
+        assert.equal(crmSelected.industryPacketId, packet.packetId);
+        assert(['HOLD', 'QUARANTINE', 'REJECT'].includes(crmSelected.immuneRouting.route));
+        assert.deepEqual(await crmStore.get(crmDecision.key(crmSelected.decisionReceiptId)), crmSelected);
+        var crmTrace = await require('../lib/product-domain-business-trace-readout.js').read(crmStore, 'industry', crmAt + 1);
+        assert.equal(crmTrace.status, 'RECORDED');
+        assert.equal(crmTrace.decision.immuneRoute, crmSelected.immuneRouting.route);
+        assert.equal(crmTrace.command, null); assert.equal(crmTrace.externalActionAuthorized, false);
+        primaryIntakeBoundary.typedFixtureIntake = { candidateId: crmSelected.actionId, decisionId: crmSelected.decisionReceiptId,
+          sourcePacketId: packet.packetId, immuneRoute: crmTrace.decision.immuneRoute, status: crmSelected.status,
+          candidateDerivedFromGenericOpportunity: false, evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false };
+      }
       if (['economy', 'energy', 'technology'].includes(row[0])) {
         var investmentDecision = require('../lib/' + row[0] + '-investment-decision.js');
         var beforeInvestmentIntake = JSON.stringify(Array.from(values));
