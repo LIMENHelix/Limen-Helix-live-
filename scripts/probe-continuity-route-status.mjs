@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 
-// Read-only page HEAD observations, never API/action requests. Resume only
+// Read-only page or static JSON asset HEAD observations, never API/action requests. Resume only
 // against the exact same inventory bytes. HTTP success is not rendered proof.
 const source = 'docs/audits/continuity-route-reconciliation.json';
 const output = process.argv[2];
@@ -9,13 +9,23 @@ if (!output) throw new Error('Supply a checkpoint output path');
 const bytes = fs.readFileSync(source);
 const sourceSha256 = crypto.createHash('sha256').update(bytes).digest('hex');
 const inventory = JSON.parse(bytes);
-const routes = [...new Set([...inventory.routes.map(r => r.route), ...inventory.brokenLinks.map(r => r.route)])];
+const dataAssets = process.argv[3] === '--data-assets';
+if (process.argv[3] && !dataAssets) throw new Error('Unknown probe scope');
+if (dataAssets && inventory.dataAssets.some(file => !/^assets\/data\/[A-Za-z0-9_./-]+\.json$/.test(file) || file.includes('..')))
+  throw new Error('Data inventory contains a non-static or unsafe path');
+const scope = dataAssets ? 'static-data-assets' : 'pages';
+const routes = [...new Set(dataAssets ? inventory.dataAssets.map(file => '/' + file)
+  : [...inventory.routes.map(r => r.route), ...inventory.brokenLinks.map(r => r.route)])];
 const report = fs.existsSync(output) ? JSON.parse(fs.readFileSync(output, 'utf8')) : {
   schemaVersion: 'continuity-route-head-probe/1.0', source, sourceSha256,
   startedAt: new Date().toISOString(), method: 'HEAD', redirects: 'manual',
-  scope: 'HTTP page availability only; no rendered content, data endpoint or autonomy claim', rows: []
+  targetScope: scope,
+  scope: dataAssets ? 'HTTP static JSON asset availability only; no body, fallback API, content freshness or autonomy claim'
+    : 'HTTP page availability only; no rendered content, data endpoint or autonomy claim', rows: []
 };
 if (report.sourceSha256 !== sourceSha256) throw new Error('Inventory changed; do not mix observations');
+if ((report.targetScope || 'pages') !== scope || report.rows.some(row => !routes.includes(row.route)))
+  throw new Error('Probe scope changed; do not mix observations');
 const seen = new Set(report.rows.map(r => r.route));
 const pending = routes.filter(route => !seen.has(route));
 let next = 0;
