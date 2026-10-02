@@ -112,10 +112,10 @@ async function invoke(handler, url, method) {
   };
   require.cache[require.resolve(STORE)] = { id: require.resolve(STORE), filename: require.resolve(STORE), loaded: true, exports: {
     assertDurable: function () { if (fail) throw new Error('redis unavailable'); },
-    get: async function (key) { return values[key] || null; }
+    get: async function (key) { return stalled ? new Promise(function () {}) : values[key] || null; }
   } };
   delete require.cache[require.resolve(HANDLER)];
-  var handler = require(HANDLER);
+  var handler = require(HANDLER), stalled = false;
   try {
     var eligible = await invoke(handler, '/api/product-domain-learning-state?domain=research');
     assert.equal(eligible.code, 200);
@@ -216,6 +216,21 @@ async function invoke(handler, url, method) {
     assert.equal(unknown.code, 400);
     var method = await invoke(handler, '/api/product-domain-learning-state?domain=research', 'POST');
     assert.equal(method.code, 405);
+
+    var actualTimeout = global.setTimeout, deadlineGuard;
+    global.setTimeout = function (fn, delay) { return actualTimeout(fn, delay === 10000 ? 20 : delay); };
+    try {
+      stalled = true;
+      var timeoutResponse = await Promise.race([
+        invoke(handler, '/api/product-domain-learning-state?domain=research'),
+        new Promise(function (_, reject) { deadlineGuard = actualTimeout(function () { reject(Error('learning handler did not bound a stalled backend read')); }, 250); })
+      ]);
+      assert.equal(timeoutResponse.code, 503);
+      assert.equal(timeoutResponse.body.error, 'domain-action-learning-unavailable');
+      assert.equal(timeoutResponse.body.detail, 'domain-action-learning-read-timeout');
+      assert.equal(timeoutResponse.body.signal, undefined);
+    } finally { stalled = false; global.setTimeout = actualTimeout; clearTimeout(deadlineGuard); }
+    assert.equal((await invoke(handler, '/api/product-domain-learning-state?domain=research')).code, 200, 'a later healthy read recovers without resetting learned state');
 
     fail = true;
     var unavailable = await invoke(handler, '/api/product-domain-learning-state?domain=research');

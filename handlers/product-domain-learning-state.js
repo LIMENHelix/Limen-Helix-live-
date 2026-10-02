@@ -237,6 +237,16 @@ async function read(domain) {
   return result;
 }
 
+var MAX_READ_MS = 10000;
+async function readBounded(domain) {
+  var timer;
+  try {
+    return await Promise.race([read(domain), new Promise(function (_, reject) {
+      timer = setTimeout(function () { reject(new Error('domain-action-learning-read-timeout')); }, MAX_READ_MS);
+    })]);
+  } finally { clearTimeout(timer); }
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
   res.setHeader('cache-control', 'no-store');
@@ -252,7 +262,7 @@ module.exports = async function handler(req, res) {
     return res.end(JSON.stringify({ ok: false, error: 'known product domain required' }));
   }
   try {
-    var result = await read(domain);
+    var result = await readBounded(domain);
     res.statusCode = 200;
     return res.end(JSON.stringify(Object.assign({ ok: true }, result)));
   } catch (error) {
@@ -267,3 +277,5 @@ module.exports.mergeReadouts = mergeReadouts;
 module.exports.DOMAINS = DOMAINS.slice();
 module.exports.compactCompanyPatterns = compactCompanyPatterns;
 module.exports.validateSubscriberReadout = validateSubscriberReadout;
+
+module.exports.MAX_READ_MS = MAX_READ_MS;
