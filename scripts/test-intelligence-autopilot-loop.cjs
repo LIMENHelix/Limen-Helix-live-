@@ -79,7 +79,42 @@ function motor(id) { return { authorize: async function () { return { authorized
   var calls = 0, saw = false, command = await Executor.execute({ store: store, candidate: candidate, decision: decision, now: now, emailCostUsd: 0.01, dailyBudgetUsd: 0.05, dailyEmailCap: 5, motorAuthorization: motor('intel-motor-1'), transport: { send: async function (_e, _s, _b, options) { calls++; saw = Array.from(store.values.values()).some(function (v) { return v && v.status === 'DISPATCHING' && v.commandId; }); assert.equal(options.idempotencyKey, 'intelligence-autopilot/' + decision.actionId); return { ok: true, id: 'email-intel-1', providerCalled: true }; } } });
   assert.equal(command.status, 'ACCEPTED'); assert.equal(calls, 1); assert.equal(saw, true); var replay = await Executor.execute({ store: store, candidate: candidate, decision: decision, now: now, emailCostUsd: 0.01, dailyBudgetUsd: 0.05, dailyEmailCap: 5, motorAuthorization: motor('intel-motor-2'), transport: { send: async function () { calls++; } } }); assert.equal(replay.replayed, true); assert.equal(calls, 1);
   var observation = await Observer.observe(store, command, { apiKey: 'read', fetch: async function (_u, options) { assert.equal(options.method, 'GET'); return { ok: true, status: 200, json: async function () { return { id: 'email-intel-1', last_event: 'bounced', created_at: new Date(now).toISOString() }; } }; } }); assert.equal(observation.independentOfSendResponse, true);
+  assert.deepEqual(await store.get(Observer.key(observation.observationId)), observation);
+  var originalObservationLog = await store.lrange(Observer.LOG_KEY, 0, 99);
+  var duplicateObservation = await Observer.observe(store, command, { apiKey: 'read', fetch: async function () { return {
+    ok: true, status: 200, json: async function () { return { id: command.providerEmailId, last_event: 'bounced', created_at: observation.providerRecordCreatedAt }; }
+  }; } });
+  assert.deepEqual(duplicateObservation, observation);
+  assert.deepEqual(await store.lrange(Observer.LOG_KEY, 0, 99), originalObservationLog);
+  var beforeAdmission = await store.get(Learning.STATE_KEY);
+  assert.equal((await Learning.recordObservation(store, Object.assign({}, observation, { observationId: 'unsaved-observation' }))).ok, false);
+  assert.equal((await Learning.recordObservation(store, Object.assign({}, observation, { providerEmailId: 'wrong-email-record' }))).ok, false);
+  var savedCause = await store.get(Learning.causeKey(command.actionId));
+  await store.set(Learning.causeKey(command.actionId), Object.assign({}, savedCause, { domain: 'finance' }));
+  assert.equal((await Learning.recordObservation(store, observation)).ok, false);
+  await store.set(Learning.causeKey(command.actionId), savedCause);
+  var savedCommand = await store.get(Executor.commandKey(command.commandId));
+  await store.set(Executor.commandKey(command.commandId), Object.assign({}, savedCommand, { status: 'AMBIGUOUS' }));
+  assert.equal((await Learning.recordObservation(store, observation)).ok, false);
+  await store.set(Executor.commandKey(command.commandId), savedCommand);
+  for (var corruption of [{ independentOfSendResponse: false }, { sendEndpointCalled: true },
+    { observedAt: command.commandedAt - 1 }, { observedAt: Date.now() + 86400000 }]) {
+    var corruptObservation = Object.assign({}, observation, corruption);
+    await store.set(Observer.key(observation.observationId), corruptObservation);
+    assert.equal((await Learning.recordObservation(store, corruptObservation)).ok, false);
+  }
+  await store.set(Observer.key(observation.observationId), observation);
+  assert.deepEqual(await store.get(Learning.STATE_KEY), beforeAdmission, 'refused evidence cannot write learning state');
   var learned = await Learning.recordObservation(store, observation); assert.equal(learned.ok, true); assert.equal(learned.resolvedCount, 1); assert.equal((await Learning.readForBrain(store)).learningGate.ready, false);
+  var laterObservation = await Observer.observe(store, command, { apiKey: 'read', fetch: async function () { return {
+    ok: true, status: 200, json: async function () { return { id: command.providerEmailId, last_event: 'delivered', created_at: observation.providerRecordCreatedAt }; }
+  }; } });
+  assert.notEqual(laterObservation.observationId, observation.observationId);
+  assert.deepEqual(await store.get(Observer.key(observation.observationId)), observation);
+  assert.deepEqual(await store.get(Observer.key(command.providerEmailId)), laterObservation);
+  assert.equal((await Learning.recordObservation(store, observation)).duplicate, true);
+  assert.equal((await Learning.readForBrain(store)).resolvedCount, 1);
+
   var returned = await Decision.decide(store, candidate, now + 1, { cognition: cognition });
   assert.equal(returned.status, 'NO_ACTION');
   assert(returned.blockers.includes('intelligence-returned-outcome-requires-reassessment'));
