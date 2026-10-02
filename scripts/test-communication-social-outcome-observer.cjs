@@ -65,18 +65,20 @@ function response() {
     contentHash: Observer.contentHash('reconcile me'), commandedAt: 1000
   };
   await reconcileStore.set('communication_social_command:csc_pending', pendingCommand);
+  var unsafeReads = 0;
   var reconciled = await Observer.reconcilePending(reconcileStore, [pendingCommand], 'limenhelix.bsky.social', 5000, {
     fetch: async function (url) {
-      assert(url.includes('app.bsky.feed.getAuthorFeed'));
+      unsafeReads++; assert(url.includes('app.bsky.feed.getAuthorFeed'));
       return { status: 200, json: async function () { return { feed: [{ post: {
         uri: 'at://did/app.bsky.feed.post/reconciled', cid: 'cid-reconciled',
         record: { text: 'reconcile me', createdAt: new Date(2000).toISOString() }
       } }] }; } };
     }
   });
-  assert.equal(reconciled.reconciled, 1);
+  assert.equal(reconciled.reconciled, 0, 'bare pending record must not become an owning command receipt');
+  assert.equal(unsafeReads, 0);
   var reconciledCommand = await reconcileStore.get('communication_social_command:csc_pending');
-  assert.equal(reconciledCommand.receipt.reconciledFromPublicAppView, true);
+  assert.equal(reconciledCommand.status, 'DISPATCHING');
 
   var store = new Store();
   var first = await Observer.observeOne(store, post, 1000, { fetch: responsePost(3) });
@@ -86,7 +88,7 @@ function response() {
   assert.equal(first.receipt.sourceIdentity.endpointHost, 'public.api.bsky.app');
   assert.equal(first.receipt.sourceIdentity.independentOfAdapterId, 'bluesky-pds-write-adapter/1');
   var learningCommand = { ownerDomain: 'communication', lane: 'social', commandId: 'command-learning-1', decisionReceiptId: 'decision-learning-1',
-    subjectDomain: 'finance', contentHash: 'content-hash', predictedOutcome: { measurable: 'engagement-or-conversion' }, commandedAt: 900 };
+    subjectDomain: 'finance', contentHash: Observer.contentHash('LOCAL source-backed text'), predictedOutcome: { measurable: 'engagement-or-conversion' }, commandedAt: 900 };
   assert.equal((await Learning.recordCommand(store, learningCommand)).ok, true);
   assert.equal((await Learning.recordObservation(store, learningCommand, first.receipt)).ok, false, 'cause-only unattributed public context cannot train');
   assert.equal((await Learning.readForBrain(store)).status, 'ABSTAINED');

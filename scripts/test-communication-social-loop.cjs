@@ -135,6 +135,19 @@ function responsePost(likes) {
     assert.equal((await Learning.recordObservation(readonlyLearning, command, invalid)).ok, false);
     await store.set(Observer.observationKey(posted.uri), savedObservation);
   }
+  for (var priorChange of [{ commandId: 'foreign' }, { ownerDomain: 'law' }, { observedAt: Date.now() + 60000 },
+    { metrics: Object.assign({}, firstObservation.receipt.metrics, { total: 300 }) },
+    { postReceipt: { uri: posted.uri, cid: 'foreign' } },
+    { sourceIdentity: Object.assign({}, firstObservation.receipt.sourceIdentity, { endpointHost: 'foreign.invalid' }) }]) {
+    var priorKey = Observer.observationKey(posted.uri), originalPrior = structuredClone(await store.get(priorKey));
+    await store.set(priorKey, Object.assign({}, originalPrior, priorChange));
+    var before = JSON.stringify(Array.from(store.map)), beforeLogs = store.log.length;
+    var baselineHeld = await Observer.observeOne(store, commandPost, Date.now(), { fetch: async function () { throw Error('invalid baseline reached public read'); } });
+    assert.equal(baselineHeld.status, 'HELD'); assert.equal(baselineHeld.reason, 'prior-public-observation-invalid');
+    assert.equal(JSON.stringify(Array.from(store.map)), before); assert.equal(store.log.length, beforeLogs);
+    await store.set(priorKey, originalPrior);
+  }
+  now = Date.now();
   var negativeObservation = await Observer.observeOne(store,
     { uri: posted.uri, cid: posted.cid, commandId: posted.commandId }, now,
     { fetch: responsePost(0) });
@@ -157,6 +170,55 @@ function responsePost(likes) {
   assert.equal(nextDecision.returnedOutcome.actionId, command.commandId);
 
   await require('./assert-business-trace.cjs')(store, 'communication', command, 'PLATFORM-POST', now + 1000, nextDecision.communicationPacketId);
+  // Actual executor ambiguity: reconciliation reads the public record without posting again.
+  var ambiguityStore = new Store(), at = Date.now(), recoveryCandidate = candidate(at, 'LOCAL ambiguous source-backed post.\nhttps://limenhelix.com/law');
+  var recoveryDecision = await Decision.decide(ambiguityStore, recoveryCandidate, at, { cognition: { communication: brain('communication', at), law: brain('law', at) } });
+  var postAttempts = 0;
+  var ambiguous = await Executor.execute({ store: ambiguityStore, now: at, spec: { subjectDomain: 'law', text: recoveryCandidate.text, decisionReceipt: recoveryDecision },
+    motorAuthorization: { authorize: async function () { return { authorized: true, productDomain: 'communication', ownerDomain: 'communication', lane: 'social', receiptId: 'LOCAL-reconcile-motor' }; } },
+    adapterGuard: { checkpoint: async function () { return { allowed: true }; } },
+    platform: { postToBluesky: async function () { postAttempts++; return { ok: false, reason: 'LOCAL ambiguous network response' }; } } });
+  assert.equal(ambiguous.status, 'DISPATCHING');
+  var pendingCommand = structuredClone(await ambiguityStore.get(Executor.commandKey(ambiguous.commandId))), authorReads = 0;
+  var recoveredPost = { uri: 'at://did:plc:local/app.bsky.feed.post/reconciled', cid: 'LOCAL-reconciled', record: { text: recoveryCandidate.text, createdAt: new Date(at).toISOString() } };
+  var readFeed = async function () { authorReads++; return { status: 200, json: async function () { return { feed: [{ post: recoveredPost }] }; } }; };
+  for (var mismatch of [
+    [Executor.commandKey(pendingCommand.commandId), { ownerDomain: 'law' }],
+    [Executor.commandKey(pendingCommand.commandId), { liveMoney: true }],
+    [Executor.commandKey(pendingCommand.commandId), { commandedAt: Date.now() + 60000 }],
+    [Decision.decisionKey(pendingCommand.decisionReceiptId), { subjectDomain: 'culture' }],
+    [Learning.causeKey(pendingCommand.commandId), { contentHash: 'foreign' }],
+    [Executor.motorClaimKey(pendingCommand.productMotorReceiptId), { commandId: 'foreign' }]
+  ]) {
+    var original = structuredClone(await ambiguityStore.get(mismatch[0])); await ambiguityStore.set(mismatch[0], Object.assign({}, original, mismatch[1]));
+    var declined = await Observer.reconcilePending(ambiguityStore, [pendingCommand], 'LOCAL-handle', Date.now(), { fetch: readFeed });
+    assert.equal(declined.reconciled, 0); await ambiguityStore.set(mismatch[0], original);
+  }
+  assert.equal(authorReads, 0);
+  var duplicateMatches = await Observer.reconcilePending(ambiguityStore, [pendingCommand], 'LOCAL-handle', Date.now(), { fetch: async function () { return { status: 200, json: async function () { return { feed: [{ post: recoveredPost }, { post: Object.assign({}, recoveredPost, { uri: recoveredPost.uri + '-other' }) }] }; } }; } });
+  assert.equal(duplicateMatches.reconciled, 0);
+  var futureMatch = await Observer.reconcilePending(ambiguityStore, [pendingCommand], 'LOCAL-handle', Date.now(), { fetch: async function () { return { status: 200, json: async function () { return { feed: [{ post: Object.assign({}, recoveredPost, { record: { text: recoveryCandidate.text, createdAt: new Date(Date.now() + 10000).toISOString() } }) }] }; } }; } });
+  assert.equal(futureMatch.reconciled, 0);
+  var raceStore = new Store(); raceStore.map = new Map(Array.from(ambiguityStore.map, function (row) { return [row[0], structuredClone(row[1])]; }));
+  var raced = await Observer.reconcilePending(raceStore, [pendingCommand], 'LOCAL-handle', Date.now(), { fetch: async function () {
+    await raceStore.set(Executor.commandKey(pendingCommand.commandId), Object.assign({}, pendingCommand, { status: 'FAILED' }));
+    return { status: 200, json: async function () { return { feed: [{ post: recoveredPost }] }; } };
+  } });
+  assert.equal(raced.reconciled, 0); assert.equal((await raceStore.get(Executor.commandKey(pendingCommand.commandId))).status, 'FAILED');
+  var readbackStore = new Store(); readbackStore.map = new Map(Array.from(ambiguityStore.map, function (row) { return [row[0], structuredClone(row[1])]; }));
+  var originalGet = readbackStore.get; readbackStore.get = async function (key) { var value = await originalGet.call(this, key);
+    return key === Executor.commandKey(pendingCommand.commandId) && value && value.status === 'POSTED' ? Object.assign({}, value, { subjectDomain: 'foreign' }) : value; };
+  await assert.rejects(Observer.reconcilePending(readbackStore, [pendingCommand], 'LOCAL-handle', Date.now(), { fetch: readFeed }), /reconciled command readback invalid/);
+  assert.equal(readbackStore.log.length, 0, 'bad recovered readback cannot append a posted command index');
+  authorReads = 0;
+  var recovered = await Observer.reconcilePending(ambiguityStore, [pendingCommand, pendingCommand], 'LOCAL-handle', Date.now(), { fetch: readFeed });
+  assert.equal(recovered.reconciled, 1); assert.equal(authorReads, 1); assert.equal(recovered.commands.length, 1);
+  var recoveredCommand = structuredClone(await ambiguityStore.get(Executor.commandKey(pendingCommand.commandId)));
+  assert.equal(recoveredCommand.receipt.reconciledFromPublicAppView, true);
+  var replay = await Observer.reconcilePending(ambiguityStore, [pendingCommand], 'LOCAL-handle', Date.now(), { fetch: async function () { throw Error('confirmed pending replay reread provider'); } });
+  assert.equal(replay.commands.length, 1); assert.equal(replay.reconciled, 0); assert.equal(postAttempts, 1);
+  var independentlyObserved = await Observer.observeOne(ambiguityStore, recovered.receipts[0], Date.now(), { fetch: async function () { return { status: 200, json: async function () { return { posts: [Object.assign({}, recoveredPost, { likeCount: 1, indexedAt: new Date(at).toISOString() })] }; } }; } });
+  assert.equal(independentlyObserved.status, 'OBSERVED'); assert.equal((await Learning.recordObservation(ambiguityStore, recoveredCommand, independentlyObserved.receipt)).ok, true);
   var qualifiedStore = new Store(), qualifiedReads = 0, notReady;
   var storePath = require.resolve('../lib/autofire-efference-store.js'), handlerPath = require.resolve('../handlers/product-domain-learning-state.js');
   var oldStoreModule = require.cache[storePath], oldHandlerModule = require.cache[handlerPath];
