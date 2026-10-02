@@ -15,6 +15,8 @@
  * readout only; nothing here acts, files, or contacts anyone.
  */
 const { redisSet, redisGet, redisMGet } = require('../lib/redis-kv.js');
+const businessStore = require('../lib/autofire-efference-store.js');
+const businessTrace = require('../lib/product-domain-business-trace-readout.js');
 
 const PREFIX = 'limen:brain:cognition:';
 const TTL = 3 * 3600; // 3h — telemetry; expires if the brains stop running
@@ -22,6 +24,21 @@ const TOKEN = process.env.BRAIN_COGNITION_TOKEN || process.env.BIOSENSOR_TOKEN |
 
 // canonical 20-domain order (energy reference first)
 const DOMAINS = ['energy','infrastructure','culture','finance','economy','technology','defense','intelligence','trade','industry','environment','governance','agriculture','communication','medicine','education','population','science','law','religion'];
+
+async function readMissingBusinessTrace(domain) {
+  const now = Date.now(); let timer;
+  try {
+    return await Promise.race([businessTrace.read(businessStore, domain, now), new Promise((_, reject) => {
+      timer = setTimeout(() => reject(new Error('business-trace-read-timeout')), 10000);
+    })]);
+  } catch (error) {
+    return { schemaVersion: 'product-domain-business-trace-readout/1.0',
+      ownerDomain: { medicine: 'health', science: 'research', trade: 'supplyChain' }[domain] || domain,
+      readAt: now, observationOnly: true, externalActionAuthorized: false, status: 'UNAVAILABLE',
+      reason: error && error.message === 'business-trace-read-timeout' ? error.message : 'business-trace-read-unavailable',
+      decision: null, command: null };
+  } finally { clearTimeout(timer); }
+}
 
 function readBody(req) {
   return new Promise(function (resolve) {
@@ -38,6 +55,7 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'content-type,x-brain-token');
   res.setHeader('content-type', 'application/json');
+  res.setHeader('cache-control', 'no-store');
   var m = (req.method || 'GET').toUpperCase();
 
   if (m === 'OPTIONS') { res.statusCode = 204; return res.end(); }
@@ -47,10 +65,18 @@ module.exports = async function handler(req, res) {
     var vals = {};
     try { vals = await redisMGet(keys) || {}; } catch (e) { vals = {}; }
     var map = {}, count = 0, newest = 0;
-    for (var i = 0; i < DOMAINS.length; i++) {
-      var v = vals[PREFIX + DOMAINS[i]];   // redisMGet returns { key: parsedValue }
-      if (v && v.c) { map[DOMAINS[i]] = v; count++; if (v.ts > newest) newest = v.ts; }
-    }
+    await Promise.all(DOMAINS.map(async function (domain) {
+      var v = vals[PREFIX + domain];   // redisMGet returns { key: parsedValue }
+      if (v && v.c) {
+        map[domain] = v;
+        count++; if (v.ts > newest) newest = v.ts;
+        // An older scheduler snapshot may lack the already implemented owning
+        // business readout. Read it without writing or renewing brain freshness.
+        if (!v.c.businessTrace) map[domain] = Object.assign({}, v, {
+          c: Object.assign({}, v.c, { businessTrace: await readMissingBusinessTrace(domain) })
+        });
+      }
+    }));
     res.statusCode = 200;
     return res.end(JSON.stringify({ ok: true, cognition: map, count: count, newest: newest || null }));
   }

@@ -54,18 +54,23 @@ async function readResults(origin, cookie) {
     const cookies = await page.cookies(origin);
     report.resultEndpoints = await readResults(origin, cookies.map(cookie => cookie.name + '=' + cookie.value).join('; '));
     report.resultEndpointsComplete = report.resultEndpoints.every(result => result.status != null && (result.status !== 200 || result.ownerMatches));
+    // Hash the immutable preview asset outside the browser. The isolated probe
+    // showed a browser-protocol stall here while the same grid DOM rendered.
+    report.stage = 'renderer-hash';
+    const renderer = await fetch(origin + '/assets/js/civilization/execution-observatory.js', {
+      headers: { cookie: cookies.map(cookie => cookie.name + '=' + cookie.value).join('; ') },
+      redirect: 'manual', signal: AbortSignal.timeout(15000)
+    });
+    assert.equal(renderer.status, 200);
+    const hostedHash = require('node:crypto').createHash('sha256').update(await renderer.text()).digest('hex');
+    const expectedHash = require('node:crypto').createHash('sha256').update(require('node:child_process').execFileSync('git', ['show', 'HEAD:assets/js/civilization/execution-observatory.js'])).digest('hex');
+    assert.equal(hostedHash, expectedHash, 'hosted renderer must match the current Git commit');
     for (const route of ['/civilization-opportunities', '/civilization', '/domain-console?domain=culture', '/helix-brain-grid']) {
       report.stage = 'navigate:' + route;
       const response = await page.goto(origin + route, { waitUntil: 'domcontentloaded', timeout: 30000 });
       await page.waitForFunction(() => !!document.querySelector('#execution-observatory .exo-domain'), { timeout: 30000 });
       report.stage = 'refresh:' + route;
       await page.evaluate(() => window.LIMENExecutionObservatory.refresh());
-      report.stage = 'renderer-hash:' + route;
-      const hostedHash = await page.evaluate(async () => { const response = await fetch('/assets/js/civilization/execution-observatory.js', { cache: 'no-store' });
-        const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(await response.text()));
-        return Array.from(new Uint8Array(digest)).map(byte => byte.toString(16).padStart(2, '0')).join(''); });
-      const expectedHash = require('node:crypto').createHash('sha256').update(require('node:child_process').execFileSync('git', ['show', 'HEAD:assets/js/civilization/execution-observatory.js'])).digest('hex');
-      assert.equal(hostedHash, expectedHash, 'hosted renderer must match the current Git commit');
       report.stage = 'read-domain-cards:' + route;
       const observation = await page.evaluate(() => {
         const el = document.getElementById('execution-observatory');
