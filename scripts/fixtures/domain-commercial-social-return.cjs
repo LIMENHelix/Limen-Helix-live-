@@ -14,7 +14,7 @@ const Learning = require('../../lib/domain-commercial-social-learning.js');
 const ROOT = path.resolve(__dirname, '../..');
 
 function cognition(domain, at, suffix) {
-  return { ts: at, c: { domain, stress: 0.72, phase: 'P4', interoception: { divergence: 0.22 },
+  return { ts: at, c: { domain: Lanes.get(domain).contract.ownerDomain, stress: 0.72, phase: 'P4', interoception: { divergence: 0.22 },
     immune: { immuneState: 'clear' }, awareness: { humanReviewRequired: false },
     brainOrgans: { resourceMetabolism: { state: 'AVAILABLE', gates: { mayRunInternalCycle: true } } },
     serverPacketPersistence: { ok: true }, serverPacket: {
@@ -38,11 +38,11 @@ function hostedProjection(readout) {
   const compact = require('../../lib/brain-cognition-compact.js');
   return vm.runInNewContext('(' + expression + ')', { _commercialSocial: readout, val: compact.val, num: compact.num });
 }
-module.exports = async function proveSubjectReturn(Store) {
+module.exports = async function proveSubjectReturn(Store, domain = 'culture') {
   const realNow = Date.now; let clock = realNow(); Date.now = () => clock;
   try {
-  const domain = 'culture', lane = Lanes.get(domain), store = new Store();
-  let prior = null, posts = 0, reads = 0, immature;
+  const lane = Lanes.get(domain), store = new Store();
+  let prior = null, posts = 0, reads = 0, immature, lastCommand, lastObservation;
   const historyStart = Date.now() - 3 * 60 * 60 * 1000;
   for (let index = 0; index < 2; index++) {
     const at = index === 0 ? historyStart : realNow() - 10000; clock = at + 3;
@@ -52,9 +52,9 @@ module.exports = async function proveSubjectReturn(Store) {
     const prepared = Artifact.build(lane.contract, prior, at + 1); assert.equal(prepared.status, 'ARTIFACT_PREPARED');
     const artifact = await Artifact.persist(store, lane.contract, prepared);
     const candidate = await Candidate.read(store, domain, at + 2); assert.equal(candidate.ok, true);
-    const subject = await SubjectDecision.decide(store, candidate, at + 3, { cognition: { culture: record } });
+    const subject = await SubjectDecision.decide(store, candidate, at + 3, { cognition: { [domain]: record } });
     assert.equal(subject.status, 'RELEASED'); candidate.domainDecisionReceipt = subject;
-    const decision = await ChannelDecision.decide(store, candidate, at + 3, { cognition: { culture: record, communication: cognition('communication', at, index) } });
+    const decision = await ChannelDecision.decide(store, candidate, at + 3, { cognition: { [domain]: record, communication: cognition('communication', at, index) } });
     assert.equal(decision.status, 'RELEASED');
     const uri = 'at://did:plc:local/app.bsky.feed.post/subject-return-' + index, cid = 'LOCAL-subject-cid-' + index;
     const posted = await Executor.execute({ store, now: at + 3, spec: { subjectDomain: domain, text: candidate.text, decisionReceipt: decision,
@@ -70,7 +70,7 @@ module.exports = async function proveSubjectReturn(Store) {
       clock++;
       const observed = await Observer.observeOne(store, { uri, cid, commandId: command.commandId }, Date.now(), {
         fetch: async () => { reads++; return { status: 200, json: async () => ({ posts: [{ uri, cid, likeCount: likes, indexedAt: new Date(at + 3).toISOString() }] }) }; } });
-      assert.equal(observed.status, 'OBSERVED');
+      assert.equal(observed.status, 'OBSERVED'); lastCommand = command; lastObservation = observed.receipt;
       assert.equal((await Learning.recordObservation(store, command, observed.receipt)).ok, true);
       assert.equal((await Learning.recordObservation(store, command, observed.receipt)).duplicate, true);
       if (!immature) immature = await Learning.readForBrain(store, domain);
@@ -84,13 +84,54 @@ module.exports = async function proveSubjectReturn(Store) {
   assert.equal(immature.learningGate.ready, false); assert.equal(empty.signal, null);
   assert.equal(ready.signal.outcome, 'ENGAGEMENT_DECREASED'); assert.equal(ready.signal.normalizedCredit, 0);
 
+  const learnedStateKey = Learning.stateKey(domain), savedState = structuredClone(await store.get(learnedStateKey));
+  async function refusesRead(mutate) {
+    const damaged = mutate(structuredClone(savedState)); await store.set(learnedStateKey, damaged);
+    const before = JSON.stringify({ values: Array.from(store.values), logs: store.logs });
+    await assert.rejects(() => Learning.readForBrain(store, domain), /domain commercial social learning/);
+    assert.equal(JSON.stringify({ values: Array.from(store.values), logs: store.logs }), before, 'read refusal must not repair or write stored history');
+    await assert.rejects(() => Learning.recordObservation(store, lastCommand, lastObservation), /domain commercial social learning/);
+    assert.equal(JSON.stringify({ values: Array.from(store.values), logs: store.logs }), before, 'invalid state cannot be acknowledged as a duplicate or rewritten');
+    await store.set(learnedStateKey, savedState);
+  }
+  await refusesRead(row => { row.productDomain = 'finance'; row.ownerDomain = 'finance'; return row; });
+  for (const mutate of [
+    row => { row.ownerDomain = 'finance'; }, row => { row.lane = 'investment'; },
+    row => { row.signals[0].ownerDomain = 'finance'; }, row => { row.latestSignal.productDomain = 'finance'; },
+    row => { row.latestSignal.normalizedCredit = 1; }, row => { row.latestSignal.sourceIdentity.provider = 'LOCAL-unverified'; },
+    row => { row.latestSignal.observedAt = Date.now() + 1; }, row => { row.resolvedCount++; },
+    row => { row.distinctArtifacts++; }, row => { row.processedObservationIds[1] = row.processedObservationIds[0]; },
+    row => { row.artifactIds.push(row.artifactIds[0]); }, row => { row.signals = null; },
+    row => { row.signals[1] = structuredClone(row.signals[0]); },
+    row => { row.artifactIds.push('LOCAL-fake-distinct-artifact'); row.distinctArtifacts++; }
+  ]) await refusesRead(row => { mutate(row); return row; });
+  const returnedCauseKey = Learning.causeKey(domain, ready.signal.actionId);
+  const cause = structuredClone(await store.get(returnedCauseKey));
+  await store.set(returnedCauseKey, Object.assign({}, cause, { ownerDomain: 'finance' }));
+  await assert.rejects(() => Learning.readForBrain(store, domain), /returned cause invalid/);
+  await store.set(returnedCauseKey, cause);
+  // Completed graded history remains readable after acknowledged observations leave the pending queue.
+  const pendingKey = Observer.LEARNING_PENDING_LOG_KEY;
+  assert.equal(typeof pendingKey, 'string'); assert(store.logs[pendingKey].length > 0);
+  const pending = structuredClone(store.logs[pendingKey] || []); store.logs[pendingKey] = [];
+  assert.deepEqual(await Learning.readForBrain(store, domain), ready); store.logs[pendingKey] = pending;
+
   const readonly = Object.create(store);
   for (const method of ['set', 'setIfAbsent', 'replaceIfValue', 'lpush', 'ltrim', 'deleteIfValue']) readonly[method] = async () => { throw Error('subject readout wrote'); };
   const statusHandler = require('../../handlers/domain-commercial-status.js').createHandler({ store: readonly,
     gate: { reqKey: () => 'LOCAL', hasDomain: () => true } });
   let body; const response = { setHeader() {}, end(text) { body = JSON.parse(text); } };
-  await statusHandler({ method: 'GET', url: '/api/domain-commercial-status?domain=culture' }, response);
+  await statusHandler({ method: 'GET', url: '/api/domain-commercial-status?domain=' + domain }, response);
   assert.equal(response.statusCode, 200); assert.equal(body.readOnly, true); assert.deepEqual(body.domains[0].publicSocialOutcome, ready);
+  const malformed = structuredClone(savedState); malformed.ownerDomain = 'finance'; await store.set(learnedStateKey, malformed);
+  const malformedBefore = JSON.stringify({ values: Array.from(store.values), logs: store.logs });
+  await statusHandler({ method: 'GET', url: '/api/domain-commercial-status?domain=' + domain }, response);
+  assert.equal(response.statusCode, 503); assert.equal(body.error, 'domain-commercial-status-unavailable');
+  const failedBriefing = await require('../../lib/domain-governor-briefing.js').commercialReflex(domain, readonly, Date.now());
+  assert.equal(failedBriefing.status, 'UNOBSERVED'); assert.equal(failedBriefing.publicSocialOutcome, undefined);
+  assert.equal(JSON.stringify({ values: Array.from(store.values), logs: store.logs }), malformedBefore);
+  await store.set(learnedStateKey, savedState);
+
   const briefing = await require('../../lib/domain-governor-briefing.js').commercialReflex(domain, readonly, Date.now());
   assert.equal(briefing.status, 'OBSERVED'); assert.deepEqual(briefing.publicSocialOutcome, ready); assert.equal(briefing.selectsExternalEffect, false);
 
@@ -112,11 +153,11 @@ module.exports = async function proveSubjectReturn(Store) {
     vm.runInNewContext(fs.readFileSync(path.join(ROOT, 'assets/js/civilization/execution-observatory.js'), 'utf8'), {
       window: ui, document: { readyState: 'loading', addEventListener() {}, getElementById: id => id === 'execution-observatory' ? output : null },
       Date, setInterval() {}, fetch: async url => ({ ok: true, json: async () => String(url).includes('brain-cognition') ? {
-        cognition: { culture: { ts: Date.now(), c: { brainOrgans: { commercialReflex: { status: 'PLANNED', publicSocialOutcome: hostedProjection(view) } } } } }
+        cognition: { [domain]: { ts: Date.now(), c: { brainOrgans: { commercialReflex: { status: 'PLANNED', publicSocialOutcome: hostedProjection(view) } } } } }
       } : {} })
     });
     await ui.LIMENExecutionObservatory.refresh();
-    const card = output.innerHTML.split('<span class="exo-domain-name">culture</span>')[1].split('</article>')[0];
+    const card = output.innerHTML.split('<span class="exo-domain-name">' + domain + '</span>')[1].split('</article>')[0];
     assert(card.includes('subject social gate <b>' + (view.learningGate.ready ? 'READY' : 'HELD') + '</b>'));
     assert(card.includes('distinct artifacts ' + view.learningGate.distinctArtifacts + '/2'));
     assert(card.includes('resolved ' + view.resolvedCount + '/5'));

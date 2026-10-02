@@ -390,6 +390,6 @@ function brain(domain, now, packetDomain) {
     var aliasDecision = await CommunicationDecision.decide(store, aliasCandidate, now, { cognition: aliasCognition });
     assert.equal(aliasDecision.status, 'RELEASED', alias.product + ' must validate owner/runtime brain alias');
   }
-  await require('./fixtures/domain-commercial-social-return.cjs')(Store);
+  for (const subject of ['culture', 'science', 'medicine', 'trade']) await require('./fixtures/domain-commercial-social-return.cjs')(Store, subject);
   console.log('domain commercial social loop: exact stress artifact, subject-domain release, Communication motor, one-shot claim, public outcome, and same-domain reafference passed');
 })().catch(function (error) { console.error(error); process.exit(1); });
