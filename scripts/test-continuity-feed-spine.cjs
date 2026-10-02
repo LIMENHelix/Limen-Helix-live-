@@ -758,6 +758,46 @@ sb.LIMENDomains = fixtures;
           sourcePacketId: packet.packetId, immuneRoute: technologyInvestmentTrace.decision.immuneRoute, status: technologyInvestmentSelected.status,
           candidateDerivedFromGenericOpportunity: false, issuerThesisFeedEvidenceLevel: 'LOCAL/FIXTURE', evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false };
       }
+      if (row[0] === 'energy') {
+        var energyInvestmentDecision = require('../lib/energy-investment-decision.js'), energyInvestmentAt = Date.parse(packet.generatedAt);
+        var energyInvestmentCognition = { ts: energyInvestmentAt, c: Object.assign({}, require('../lib/brain-cognition-compact.js').compact(brain.state.cognition), {
+          domain: 'energy', serverPacket: packet, brainOrgans: { resourceMetabolism: brain.state.resourceMetabolism,
+            autonomousInternalEmission: brain.state.domainAutoEmission || null }
+        }) };
+        // Separate typed LOCAL intake; generic opportunities above supply no issuer or investment thesis.
+        var energyInvestmentOpportunity = packet.truth.opportunities.find(function (op) { return op.path === 'INVESTABLE'; });
+        assert(energyInvestmentOpportunity && energyInvestmentOpportunity.id);
+        var energyInvestmentEvidence = [0, 1].map(function (feed) { return { title: 'LOCAL/FIXTURE issuer observation ' + feed,
+          url: 'https://fixture.invalid/energy/' + feed, feedName: 'LOCAL/FIXTURE:energy-feed-' + feed,
+          recordedAt: new Date(energyInvestmentAt).toISOString() }; });
+        var energyInvestmentTitles = energyInvestmentEvidence.map(function (row) { return { d: 'energy', f: row.feedName, t: energyInvestmentAt,
+          items: [{ ti: row.title, au: row.url, tr: false }] }; });
+        var energyInvestmentCandidate = energyInvestmentDecision.candidate({ requestId: 'LOCAL/FIXTURE:energy-investment',
+          symbol: 'ACME', issuerName: 'LOCAL/FIXTURE issuer', side: 'buy', maxNotionalUsd: 100, riskLimitPct: 8, benchmarkSymbol: 'SPY',
+          thesisId: 'LOCAL/FIXTURE:energy-thesis', brainOpportunityId: energyInvestmentOpportunity.id,
+          feedEvidence: energyInvestmentEvidence, paperOnly: true, liveMoney: false });
+        assert(energyInvestmentDecision.validate(energyInvestmentCandidate));
+        var energyInvestmentLists = new Map();
+        var energyInvestmentStore = Object.assign({}, store, { assertDurable: function () {}, setIfAbsent: store.setNx,
+          set: async function (key, value) { values.set(key, JSON.parse(JSON.stringify(value))); return true; },
+          lpush: async function (key, value) { var rows = energyInvestmentLists.get(key) || []; rows.unshift(JSON.parse(JSON.stringify(value))); energyInvestmentLists.set(key, rows); return rows.length; },
+          lrange: async function (key, start, end) { return JSON.parse(JSON.stringify((energyInvestmentLists.get(key) || []).slice(start, end + 1))); },
+          ltrim: async function (key, start, end) { energyInvestmentLists.set(key, (energyInvestmentLists.get(key) || []).slice(start, end + 1)); return true; }
+        });
+        var energyInvestmentSelected = await energyInvestmentDecision.decide(energyInvestmentStore, energyInvestmentCandidate, energyInvestmentAt,
+          { cognition: energyInvestmentCognition, titleSets: energyInvestmentTitles, maxNotionalUsd: 150 });
+        assert.equal(energyInvestmentSelected.status, 'NO_ACTION');
+        assert.equal(energyInvestmentSelected.energyPacketId, packet.packetId);
+        assert(['HOLD', 'QUARANTINE', 'REJECT'].includes(energyInvestmentSelected.immuneRouting.route));
+        assert.deepEqual(await energyInvestmentStore.get(energyInvestmentDecision.key(energyInvestmentSelected.decisionReceiptId)), energyInvestmentSelected);
+        var energyInvestmentTrace = await require('../lib/product-domain-business-trace-readout.js').read(energyInvestmentStore, 'energy', energyInvestmentAt + 1);
+        assert.equal(energyInvestmentTrace.status, 'RECORDED');
+        assert.equal(energyInvestmentTrace.decision.immuneRoute, energyInvestmentSelected.immuneRouting.route);
+        assert.equal(energyInvestmentTrace.command, null); assert.equal(energyInvestmentTrace.externalActionAuthorized, false);
+        primaryIntakeBoundary.typedFixtureIntake = { candidateId: energyInvestmentSelected.actionId, decisionId: energyInvestmentSelected.decisionReceiptId,
+          sourcePacketId: packet.packetId, immuneRoute: energyInvestmentTrace.decision.immuneRoute, status: energyInvestmentSelected.status,
+          candidateDerivedFromGenericOpportunity: false, issuerThesisFeedEvidenceLevel: 'LOCAL/FIXTURE', evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false };
+      }
       if (['defense', 'governance'].includes(row[0])) {
         var publicationSource = require('../lib/' + row[0] + '-publication-source.js');
         var publicationDecision = require('../lib/' + row[0] + '-publication-decision.js');
