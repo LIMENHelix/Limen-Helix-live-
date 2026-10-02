@@ -622,6 +622,43 @@ sb.LIMENDomains = fixtures;
           sourcePacketId: packet.packetId, immuneRoute: religionSubscriberTrace.decision.immuneRoute, status: religionSubscriberSelected.status,
           candidateDerivedFromGenericOpportunity: false, subscriptionEvidenceLevel: 'LOCAL/FIXTURE', evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false };
       }
+      if (row[0] === 'trade') {
+        var tradeAuctionDecision = require('../lib/trade-auction-decision.js'), tradeAuctionAt = Date.parse(packet.generatedAt);
+        var tradeAuctionCognition = { ts: tradeAuctionAt, c: Object.assign({}, require('../lib/brain-cognition-compact.js').compact(brain.state.cognition), {
+          domain: 'supplyChain', serverPacket: packet, brainOrgans: { resourceMetabolism: brain.state.resourceMetabolism,
+            autonomousInternalEmission: brain.state.domainAutoEmission || null }
+        }) };
+        // Separate identified typed intake: generic native opportunities above remain refused.
+        var tradeOpportunity = packet.truth.opportunities.find(function (op) { return op.path === 'RESEARCHABLE'; }) || packet.truth.opportunities[0];
+        assert(tradeOpportunity && tradeOpportunity.id);
+        var tradeAuctionCandidate = tradeAuctionDecision.candidate({ listingRequestId: 'LOCAL/FIXTURE:auction',
+          marketplaceId: 'LOCAL/FIXTURE:marketplace', sellerId: 'LOCAL/FIXTURE:seller', assetRef: 'LOCAL/FIXTURE:owned-asset',
+          title: 'LOCAL/FIXTURE owned equipment preview', description: 'LOCAL/FIXTURE nonbinding discovery; no real listing or payment.',
+          category: 'equipment', condition: 'used', reservePriceUsd: 7500,
+          auctionEndsAt: new Date(Date.now() + 7 * 86400000).toISOString(), brainOpportunityId: tradeOpportunity.id,
+          evidenceId: 'LOCAL/FIXTURE:asset-rights', assetRightsConfirmed: true,
+          bindingSaleAuthorized: false, orderAcceptanceAuthorized: false, paymentAuthorized: false });
+        assert(tradeAuctionDecision.validateCandidate(tradeAuctionCandidate));
+        var tradeAuctionLists = new Map();
+        var tradeAuctionStore = Object.assign({}, store, { assertDurable: function () {}, setIfAbsent: store.setNx,
+          set: async function (key, value) { values.set(key, JSON.parse(JSON.stringify(value))); return true; },
+          lpush: async function (key, value) { var rows = tradeAuctionLists.get(key) || []; rows.unshift(JSON.parse(JSON.stringify(value))); tradeAuctionLists.set(key, rows); return rows.length; },
+          lrange: async function (key, start, end) { return JSON.parse(JSON.stringify((tradeAuctionLists.get(key) || []).slice(start, end + 1))); },
+          ltrim: async function (key, start, end) { tradeAuctionLists.set(key, (tradeAuctionLists.get(key) || []).slice(start, end + 1)); return true; }
+        });
+        var tradeAuctionSelected = await tradeAuctionDecision.decide(tradeAuctionStore, tradeAuctionCandidate, tradeAuctionAt, { cognition: tradeAuctionCognition, maxReserveUsd: 10000 });
+        assert.equal(tradeAuctionSelected.status, 'NO_ACTION');
+        assert.equal(tradeAuctionSelected.tradePacketId, packet.packetId);
+        assert(['HOLD', 'QUARANTINE', 'REJECT'].includes(tradeAuctionSelected.immuneRouting.route));
+        assert.deepEqual(await tradeAuctionStore.get(tradeAuctionDecision.key(tradeAuctionSelected.decisionReceiptId)), tradeAuctionSelected);
+        var tradeAuctionTrace = await require('../lib/product-domain-business-trace-readout.js').read(tradeAuctionStore, 'trade', tradeAuctionAt + 1);
+        assert.equal(tradeAuctionTrace.status, 'RECORDED');
+        assert.equal(tradeAuctionTrace.decision.immuneRoute, tradeAuctionSelected.immuneRouting.route);
+        assert.equal(tradeAuctionTrace.command, null); assert.equal(tradeAuctionTrace.externalActionAuthorized, false);
+        primaryIntakeBoundary.typedFixtureIntake = { candidateId: tradeAuctionSelected.actionId, decisionId: tradeAuctionSelected.decisionReceiptId,
+          sourcePacketId: packet.packetId, immuneRoute: tradeAuctionTrace.decision.immuneRoute, status: tradeAuctionSelected.status,
+          candidateDerivedFromGenericOpportunity: false, assetRightsEvidenceLevel: 'LOCAL/FIXTURE', evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false };
+      }
       if (['economy', 'energy', 'technology'].includes(row[0])) {
         var investmentDecision = require('../lib/' + row[0] + '-investment-decision.js');
         var beforeInvestmentIntake = JSON.stringify(Array.from(values));
