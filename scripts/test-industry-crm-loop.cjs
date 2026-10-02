@@ -387,6 +387,61 @@ function warnDeal(overrides) {
   assert.equal(requests[2].options.method, 'DELETE');
 
   await require('./assert-business-trace.cjs')(store, 'industry', command, 'CRM-ACCEPTED', now + 1000, 'industry_packet_1');
+  // LOCAL/FIXTURE: exact accepted CRM commands and independent reads, no live HubSpot requests.
+  var qualifiedStore = memory(), stageNumber = 0;
+  for (var companyNumber = 0; companyNumber < 2; companyNumber++) {
+    var proofCandidate = Decision.candidate(warnDeal({ key: 'LOCAL/FIXTURE:qualified:' + companyNumber,
+      company: 'Identified fixture company ' + companyNumber }), { identity: 'LOCAL/FIXTURE:WARN:' + companyNumber });
+    var proofDecision = await Decision.decide(qualifiedStore, proofCandidate, now, { cognition: cognition(now) });
+    var proofCommand = await Executor.execute({ store: qualifiedStore, candidate: proofCandidate, decision: proofDecision,
+      now: now + 2, motorAuthorization: motor, operationCostUsd: 0, dailyBudgetUsd: 0, dailyOperationCap: 2,
+      provider: { create: async function () { return { ok: true, id: 'LOCAL-company-' + companyNumber, providerCalled: true }; } } });
+    assert.equal(proofCommand.status, 'ACCEPTED');
+    for (var stage of (companyNumber === 0 ? ['opportunity', 'customer', 'salesqualifiedlead'] : ['customer', 'opportunity'])) {
+      var providerAt = new Date(now + 10 + stageNumber).toISOString();
+      var proofObservation = await Observer.observe(qualifiedStore, proofCommand, { get: async function (id) { return { ok: true,
+        record: { id: id, updatedAt: providerAt, properties: { lifecyclestage: stage },
+          propertiesWithHistory: { lifecyclestage: [{ value: 'lead' }, { value: stage }] } } }; } });
+      assert.equal((await Learning.recordObservation(qualifiedStore, proofObservation)).ok, true);
+      stageNumber++;
+    }
+  }
+  var storePath = require.resolve('../lib/autofire-efference-store.js');
+  var handlerPath = require.resolve('../handlers/product-domain-learning-state.js');
+  var previousStore = require.cache[storePath], previousHandler = require.cache[handlerPath];
+  async function endpointRead(proofStore) {
+    var readonly = Object.create(proofStore);
+    ['set', 'setIfAbsent', 'lpush', 'ltrim', 'del'].forEach(function (method) { readonly[method] = async function () { throw Error('endpoint read wrote state'); }; });
+    require.cache[storePath] = { id: storePath, filename: storePath, loaded: true, exports: readonly };
+    delete require.cache[handlerPath];
+    var result, response = { statusCode: 0, setHeader: function () {}, end: function (body) { result = JSON.parse(body); } };
+    await require(handlerPath)({ method: 'GET', url: '/api/product-domain-learning-state?domain=industry' }, response);
+    assert.equal(response.statusCode, 200); return result;
+  }
+  try {
+    var qualifiedReadout = await endpointRead(qualifiedStore), emptyReadout = await endpointRead(memory());
+    assert.equal(qualifiedReadout.resolvedCount, 5);
+    assert.equal(qualifiedReadout.learningGate.ready, true);
+    assert.equal((await Learning.readForBrain(qualifiedStore)).learningGate.distinctSources, 2);
+    assert.equal(qualifiedReadout.signal.ownerDomain, 'industry');
+    assert.equal(emptyReadout.resolvedCount, 0); assert.equal(emptyReadout.signal, null);
+    var nativeCycle = require('./fixtures/publication-native-cycle.cjs');
+    var qualifiedNative = await nativeCycle('industry', qualifiedReadout, now + 1000);
+    var emptyNative = await nativeCycle('industry', emptyReadout, now + 1000);
+    assert.equal(qualifiedNative.externalRewardEligible, false, 'existing K4 policy excludes this owner');
+    assert.equal(qualifiedNative.plasticity.rewardActive, false);
+    assert.deepEqual(qualifiedNative.evaluated, emptyNative.evaluated, 'retained outcome is not proof of changed native evaluation');
+    assert.equal(emptyNative.plasticity.rewardActive, false);
+    var gateControl = JSON.parse(JSON.stringify(qualifiedReadout)); gateControl.learningGate.ready = false;
+    var gatedNative = await nativeCycle('industry', gateControl, now + 1000);
+    assert.equal(gatedNative.plasticity.rewardActive, false);
+    console.log('industry native return proof', JSON.stringify({ ownSignal: qualifiedNative.learning.signal.signalId,
+      qualifiedReward: qualifiedNative.plasticity.rewardActive, noOutcomeReward: emptyNative.plasticity.rewardActive,
+      gatedReward: gatedNative.plasticity.rewardActive, sameEvaluation: JSON.stringify(qualifiedNative.evaluated) === JSON.stringify(emptyNative.evaluated) }));
+  } finally {
+    if (previousStore) require.cache[storePath] = previousStore; else delete require.cache[storePath];
+    if (previousHandler) require.cache[handlerPath] = previousHandler; else delete require.cache[handlerPath];
+  }
   console.log('industry crm: ranked WARN queue, cost gate, B10/B14 create, no ambiguous retry, independent stage learning, verified archive, exact HubSpot adapter and business trace passed');
 })().catch(function (error) {
   console.error(error);
