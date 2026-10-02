@@ -161,6 +161,10 @@ module.exports = async function proveSubjectReturn(Store, domain = 'culture') {
     assert(card.includes('subject social gate <b>' + (view.learningGate.ready ? 'READY' : 'HELD') + '</b>'));
     assert(card.includes('distinct artifacts ' + view.learningGate.distinctArtifacts + '/2'));
     assert(card.includes('resolved ' + view.resolvedCount + '/5'));
+    assert(card.includes('subject social outcome <b>' + view.status + '</b>'));
+    assert(card.includes('signal ' + (view.signal ? view.signal.signalId : 'UNOBSERVED')));
+    assert(card.includes('returned learning <b>UNOBSERVED</b>'), 'subject evidence must not populate the primary motor learner');
+    assert(card.includes('exo-chain-label">REVENUE</span><span class="exo-badge exo-unobserved">UNOBSERVED'));
   }
   console.log('Subject commercial native return', JSON.stringify({ evidence: 'LOCAL/FIXTURE', domain, commands: posts, observations: reads,
     resolved: ready.resolvedCount, distinctArtifacts: ready.learningGate.distinctArtifacts, policyChangeEligible: true, priorityChanged: true, externalActions: 0 }));

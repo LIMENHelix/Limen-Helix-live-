@@ -310,6 +310,7 @@
         }).join('') : '') +
         '<span>commercial reflex <b>' + esc(row.commercial.status || 'UNOBSERVED') + '</b></span>' +
         '<span>learning credit <b>' + esc(row.social.normalizedCredit == null ? 'UNOBSERVED' : row.social.normalizedCredit) + '</b> (not revenue)</span>' +
+        (row.social.status ? '<span>subject social outcome <b>' + esc(row.social.status) + '</b> · signal ' + esc(row.social.latestSignalId || 'UNOBSERVED') + ' · observed ' + esc(time(row.social.observedAt)) + '</span>' : '') +
         (row.social.status ? learnerQualification(row.social, 'subject social gate') : '') +
         '<span>returned learning <b>' + esc(row.learning.status || 'UNOBSERVED') + '</b> · ' + esc(row.learning.reason || row.learning.latestSignalId || 'no signal') + '</span>' +
         learnerQualification(row.learning) +

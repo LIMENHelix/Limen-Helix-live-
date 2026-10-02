@@ -7,10 +7,27 @@ const puppeteer = require('puppeteer');
 const evidencePath = process.argv[2];
 const accessPath = process.argv[3];
 if (!evidencePath || !accessPath) throw Error('Supply evidence output and private preview access paths');
+async function readResults(origin, cookie) {
+  const domains = ['agriculture','communication','culture','defense','economy','education','energy','environment','finance','governance','health','industry','infrastructure','intelligence','law','population','religion','research','supplyChain','technology'];
+  const results = []; let next = 0;
+  await Promise.all(Array.from({ length: 4 }, async () => { while (next < domains.length) {
+    const domain = domains[next++], started = Date.now();
+    try {
+      const response = await fetch(origin + '/api/product-domain-learning-state?domain=' + domain,
+        { headers: { cookie }, redirect: 'manual', signal: AbortSignal.timeout(15000) });
+      const body = await response.json();
+      results.push({ domain, status: response.status, elapsedMs: Date.now() - started,
+        returnedDomain: body.domain || null, ownerMatches: body.domain === domain, resultStatus: body.status || null,
+        reason: body.reason || body.error || null, ready: body.learningGate?.ready === true });
+    } catch (error) { results.push({ domain, status: null, elapsedMs: Date.now() - started,
+      reason: error.name === 'TimeoutError' ? 'result-read-timeout' : 'result-read-failed', ready: false }); }
+  } }));
+  return results;
+}
 (async () => {
   const access = JSON.parse(fs.readFileSync(accessPath, 'utf8')), origin = new URL(access.url).origin;
   const chrome = ['C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'].find(p => fs.existsSync(p));
-  const browser = await puppeteer.launch({ headless: true, ...(chrome ? { executablePath: chrome } : {}) });
+  const browser = await puppeteer.launch({ headless: true, protocolTimeout: 15000, ...(chrome ? { executablePath: chrome } : {}) });
   const report = { schemaVersion: 'continuity-preview-render/1.0', measuredAt: new Date().toISOString(), origin,
     evidenceLevel: 'GIT-LINKED-PREVIEW', sourceCommit: require('node:child_process').execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), writeRequestsAllowed: false, blockedRequests: [], errors: [], responses: [], pages: [] };
   try {
@@ -31,16 +48,25 @@ if (!evidencePath || !accessPath) throw Error('Supply evidence output and privat
       if (url.pathname.startsWith('/api/') || url.pathname.endsWith('execution-observatory.js')) report.responses.push({ path: url.pathname, status: response.status() });
     });
     // This access URL is private and must never be written to evidence or shown in output.
+    report.stage = 'private-preview-access';
     await page.goto(access.url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+    report.stage = 'result-endpoint-reads';
+    const cookies = await page.cookies(origin);
+    report.resultEndpoints = await readResults(origin, cookies.map(cookie => cookie.name + '=' + cookie.value).join('; '));
+    report.resultEndpointsComplete = report.resultEndpoints.every(result => result.status != null && (result.status !== 200 || result.ownerMatches));
     for (const route of ['/civilization-opportunities', '/civilization', '/domain-console?domain=culture', '/helix-brain-grid']) {
+      report.stage = 'navigate:' + route;
       const response = await page.goto(origin + route, { waitUntil: 'domcontentloaded', timeout: 30000 });
       await page.waitForFunction(() => !!document.querySelector('#execution-observatory .exo-domain'), { timeout: 30000 });
+      report.stage = 'refresh:' + route;
       await page.evaluate(() => window.LIMENExecutionObservatory.refresh());
+      report.stage = 'renderer-hash:' + route;
       const hostedHash = await page.evaluate(async () => { const response = await fetch('/assets/js/civilization/execution-observatory.js', { cache: 'no-store' });
         const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(await response.text()));
         return Array.from(new Uint8Array(digest)).map(byte => byte.toString(16).padStart(2, '0')).join(''); });
       const expectedHash = require('node:crypto').createHash('sha256').update(require('node:child_process').execFileSync('git', ['show', 'HEAD:assets/js/civilization/execution-observatory.js'])).digest('hex');
       assert.equal(hostedHash, expectedHash, 'hosted renderer must match the current Git commit');
+      report.stage = 'read-domain-cards:' + route;
       const observation = await page.evaluate(() => {
         const el = document.getElementById('execution-observatory');
         return { title: document.title, attached: !!el, rendererPresent: typeof window.LIMENExecutionObservatory?.refresh === 'function',
@@ -52,24 +78,21 @@ if (!evidencePath || !accessPath) throw Error('Supply evidence output and privat
       assert(observation.attached && observation.rendererPresent, 'hosted observatory is absent');
       assert.equal(observation.cards.length, 20, 'hosted observatory must retain twenty domain cards');
       const screenshot = evidencePath.replace(/\.json$/, '') + '-' + report.pages.length + '.jpg';
-      await (await page.$('#execution-observatory')).screenshot({ path: screenshot, type: 'jpeg', quality: 78 });
-      report.pages.push({ route, rendererSha256: hostedHash, status: response.status(), ...observation, screenshot: path.basename(screenshot) });
+      const evidence = { route, rendererSha256: hostedHash, status: response.status(), ...observation };
+      report.pages.push(evidence);
+      report.stage = 'viewport-screenshot:' + route;
+      await page.screenshot({ path: screenshot, type: 'jpeg', quality: 78, fullPage: false });
+      evidence.screenshot = path.basename(screenshot);
+      evidence.screenshotScope = 'viewport; twenty-card coverage is DOM evidence';
     }
     report.renderComplete = true;
-    report.resultEndpoints = await page.evaluate(async () => { const domains = ['agriculture','communication','culture','defense','economy','education','energy','environment','finance','governance','health','industry','infrastructure','intelligence','law','population','religion','research','supplyChain','technology'];
-      const results = []; let next = 0;
-      await Promise.all(Array.from({ length: 4 }, async () => { while (next < domains.length) {
-        const domain = domains[next++], url = '/api/product-domain-learning-state?domain=' + domain;
-        try { const response = await fetch(url, { signal: AbortSignal.timeout(15000) }), body = await response.json();
-          results.push({ domain, status: response.status, returnedDomain: body.domain || null, resultStatus: body.status || null,
-            reason: body.reason || body.error || null, ready: body.learningGate?.ready === true }); }
-        catch (error) { results.push({ domain, status: null, reason: error.name === 'TimeoutError' ? 'result-read-timeout' : 'result-read-failed', ready: false }); }
-      } })); return results; });
-    report.resultEndpointsComplete = report.resultEndpoints.every(result => result.status != null);
+    report.stage = 'complete';
     report.complete = report.renderComplete && report.resultEndpointsComplete;
     if (!report.complete) process.exitCode = 1;
   } catch (error) { report.complete = false; report.failure = String(error.message).replace(new URL(access.url).search, '').slice(0, 240); process.exitCode = 1; }
   finally { await browser.close(); fs.writeFileSync(evidencePath, JSON.stringify(report, null, 2) + '\n'); }
   process.stdout.write(JSON.stringify({ complete: report.complete, pages: report.pages.length,
-    cards: report.pages.map(p => p.cards.length), responses: report.responses, blockedRequests: report.blockedRequests.length, errors: report.errors.length, failure: report.failure }) + '\n');
+    cards: report.pages.map(p => p.cards.length), resultReads: report.resultEndpoints?.length || 0,
+    resultEndpointsComplete: report.resultEndpointsComplete === true, stage: report.stage,
+    responses: report.responses, blockedRequests: report.blockedRequests.length, errors: report.errors.length, failure: report.failure }) + '\n');
 })();
