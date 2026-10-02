@@ -50,6 +50,32 @@ function candidate(now) {
   assert.equal(released.decisionContract, 'public-message-decision/1');
   assert.equal(Decision.validateReceipt(released, { subjectDomain: 'law', text: candidate(now).text }, now), true);
   assert.equal(store.log.length, 1);
+  assert.equal(released.immuneRouting.route,'PASS');
+  const legacy={...released}; delete legacy.immuneRouting;
+  assert.equal(Decision.validateReceipt(legacy,candidate(now),now),false);
+  for (const scenario of [
+    {route:'HOLD',immune:{immuneState:'watch',allowedWithWarning:true}},
+    {route:'HOLD',immune:{immuneState:'clear',quarantines:['untrusted-source']}},
+    {route:'QUARANTINE',immune:{immuneState:'alert'}},
+    {route:'QUARANTINE',immune:{immuneState:'clear'},extra:{candidateQuarantined:true}},
+    {route:'REJECT',immune:null},
+    {route:'REJECT',immune:{immuneState:'clear'},extra:{invalid:true}}
+  ]) {
+    const current=brain('communication',now); current.c.immune=scenario.immune;
+    const input={...candidate(now),...scenario.extra}; const isolated=new Store();
+    const heldRoute=await Decision.decide(isolated,input,now,{cognition:{communication:current,law:brain('law',now)}});
+    assert.equal(heldRoute.immuneRouting.route,scenario.route);
+    assert.equal(heldRoute.status,'NO_ACTION'); assert.equal(heldRoute.released,false);
+    assert.equal(heldRoute.immuneRouting.candidatePreserved,true);
+    assert.equal(Decision.validateReceipt(heldRoute,input,now),false);
+    assert.deepEqual(await Decision.decide(isolated,input,now,{cognition:{communication:current,law:brain('law',now)}}),heldRoute);
+    assert.equal(isolated.log.length,1);
+    const cleared=await Decision.decide(isolated,candidate(now+1),now+1,{cognition});
+    assert.equal(cleared.status,'RELEASED'); assert.equal(cleared.immuneRouting.route,'PASS');
+    assert.equal((await isolated.get(Decision.decisionKey(heldRoute.decisionReceiptId))).immuneRouting.route,scenario.route);
+    assert.equal(isolated.log.length,2);
+  }
+
 
   var brake = { communication: brain('communication', now, { holdReason: 'brake-dampen' }), law: brain('law', now) };
   var heldStore = new Store();

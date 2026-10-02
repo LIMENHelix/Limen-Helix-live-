@@ -30,5 +30,11 @@ function response() { return { statusCode: 0, headers: {}, setHeader: function (
   assert.equal(JSON.stringify(res.json).includes('secret-content-hash'), false);
   assert.equal(JSON.stringify(res.json).includes('secret-source-hash'), false);
   assert.equal(providerCalls, 0);
+  for(const route of ['PASS','HOLD','QUARANTINE','REJECT']) {
+    const row=Handler.clean({schemaVersion:Decision.SCHEMA,status:'NO_ACTION',immuneRouting:{schemaVersion:'immune-routing/1.0',route}});
+    assert.equal(row.immuneRoute,route);
+  }
+  assert.equal(Handler.clean({schemaVersion:Decision.SCHEMA,status:'NO_ACTION',immuneRouting:{schemaVersion:'wrong',route:'PASS'}}).immuneRoute,null);
+
   console.log('communication social decision status: sanitized strict read, no provider, no write, and no live money passed');
 })().catch(function (error) { console.error(error); process.exit(1); });

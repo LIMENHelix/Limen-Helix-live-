@@ -16,6 +16,8 @@ function clean(row) {
     subjectDomain: row.subjectDomain || null,
     communicationPacketId: row.communicationPacketId || null,
     subjectPacketId: row.subjectPacketId || null,
+    immuneRoute: row.immuneRouting && row.immuneRouting.schemaVersion === 'immune-routing/1.0' &&
+      ['PASS','HOLD','QUARANTINE','REJECT'].indexOf(row.immuneRouting.route) >= 0 ? row.immuneRouting.route : null,
     reason: row.reason || null,
     blockers: Array.isArray(row.blockers) ? row.blockers.slice(0, 12) : [],
     decidedAt: Number.isFinite(Number(row.decidedAt)) ? Number(row.decidedAt) : null,

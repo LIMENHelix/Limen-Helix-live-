@@ -32,6 +32,7 @@ function decisionReceipt(subjectDomain, body, now) {
     schemaVersion: Decision.SCHEMA, decisionReceiptId: 'csd_' + now + '_' + subjectDomain,
     status: 'RELEASED', released: true, productDomain: 'communication', ownerDomain: 'communication',
     lane: 'social', decisionContract: 'public-message-decision/1', subjectDomain: subjectDomain,
+    immuneRouting: require('../lib/immune-routing-contract.js').assess({immune:{immuneState:'clear'}}),
     contentHash: crypto.createHash('sha256').update(JSON.stringify(body)).digest('hex'),
     decidedAt: now, expiresAt: now + 600000
   };
