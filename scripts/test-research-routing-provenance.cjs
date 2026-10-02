@@ -5,6 +5,18 @@ const Worker = require('../handlers/limen-worker-autofire.js');
 const Reader = require('../lib/research-business-trace-readout.js');
 const fs = require('node:fs');
 const path = require('node:path');
+const vm = require('node:vm');
+const rendererSource = fs.readFileSync(path.join(__dirname, '../assets/js/civilization/execution-observatory.js'), 'utf8');
+async function renderProjection(origin, projected, now) {
+  const el = { innerHTML: '' };
+  const window = { addEventListener() {} };
+  const document = { readyState: 'loading', addEventListener() {}, getElementById: id => id === 'execution-observatory' ? el : null };
+  const payload = JSON.parse(JSON.stringify({ count: 1, newest: now, cognition: { [origin]: { ts: now, c: projected } } }));
+  vm.runInNewContext(rendererSource, { window, document, Date, setInterval() {},
+    fetch: async url => ({ ok: true, json: async () => url.includes('brain-cognition') ? payload : {} }) });
+  await window.LIMENExecutionObservatory.refresh();
+  return el.innerHTML.split('<span class="exo-domain-name">' + origin + '</span>')[1].split('</article>')[0];
+}
 // Execute the existing refresh projection block with real read-only readers.
 // This is a projection join proof, not a complete cron invocation.
 const refreshSource = fs.readFileSync(path.join(__dirname, '../handlers/brain-cognition-refresh.js'), 'utf8');
@@ -65,6 +77,13 @@ class Store {
     const projected = await project({}, origin, readonly, Reader, Reader, { now: () => spec.at + 1 });
     assert.deepEqual(projected.businessTrace, ownBefore);
     assert.deepEqual(projected.researchOriginTrace, originReadout);
+    const projectedBeforeRender = JSON.stringify(projected);
+    const rendered = await renderProjection(origin, projected, spec.at + 1);
+    assert.match(rendered, /papers routed to Science/);
+    assert(rendered.includes(first.receipt.id), 'durable Science decision absent from rendered source card');
+    assert(rendered.includes(candidate.sourcePacketId), 'source packet absent from rendered source card');
+    assert.match(rendered, /HELD/);
+    assert.equal(JSON.stringify(projected), projectedBeforeRender, 'render must preserve projection');
     const otherOrigin = origin === 'education' ? 'medicine' : 'education';
     assert.equal((await Reader.readOrigin(readonly, otherOrigin, spec.at + 1)).routes.length, 0);
     assert.equal((await Reader.readOrigin(readonly, 'homestead', spec.at + 1)).status, 'UNAVAILABLE');
