@@ -72,8 +72,22 @@
     else if (trend < -0.05) trajectory = 'declining';
     else if (trend < -0.03) trajectory = 'drifting_down';
 
-    // Dominant phase from connectome node mapping
-    var dominantPhase = _inferPhase(domainDef.connectomeNodes);
+    // Anatomy supplies a role/affinity, not evidence of the domain's current
+    // phase. Keep that function while reporting the existing phase producer.
+    var affinityPhase = _inferPhase(domainDef.connectomeNodes);
+    var annotation = (window.LIMENPhaseAnnotations || {})[rk] || null;
+    var phase = null, phaseEvidence = 'unavailable', phaseSource = null;
+    if (domainState.phaseSource === 'thing2-kernel') {
+      phase = _phaseCode(domainState.kernelPhase);
+      phaseSource = phase ? 'thing2-kernel' : null;
+      phaseEvidence = phase ? 'scalar-projection' : 'unavailable';
+    }
+    if (!phase && annotation && annotation.phaseProvisional === true) {
+      phase = _phaseCode(annotation.phase);
+      phaseSource = phase ? 'domain-phase-annotation' : null;
+      phaseEvidence = phase ? 'provisional-domain-signals' : 'unavailable';
+    }
+    var dominantPhase = phase ? Number(phase.slice(1).replace(/[ab]$/, '')) : null;
 
     // Feed status
     var feedStatus = _assessFeeds(domainDef.feeds, sources);
@@ -129,7 +143,13 @@
       trajectory: trajectory,
       confidence: Math.round(confidence * 1000) / 1000,
       dominantPhase: dominantPhase,
-      phaseLabel: PHASE_LABELS[dominantPhase] || 'Unknown',
+      phaseCode: phase,
+      phaseLabel: phase ? phase.toUpperCase() + ' — interpretive posture' : 'Phase unavailable',
+      connectomeAffinityPhase: affinityPhase,
+      connectomeGroupLabel: PHASE_LABELS[affinityPhase] || 'Unknown',
+      phaseSource: phaseSource,
+      phaseEvidence: phaseEvidence,
+      phaseInterpretive: true,
 
       // Signals and sources
       signals: signals.slice(0, 5),
@@ -238,6 +258,11 @@
   // ═══════════════════════════════════════════════════════════════════════
   // Helpers
   // ═══════════════════════════════════════════════════════════════════════
+
+  function _phaseCode(value) {
+    var code = String(value || '').toLowerCase();
+    return /^p(?:[0-9]|10|7[ab])$/.test(code) ? code : null;
+  }
 
   function _inferPhase(nodeIds) {
     if (!nodeIds || nodeIds.length === 0) return 0;

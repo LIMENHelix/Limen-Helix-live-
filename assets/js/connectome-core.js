@@ -68,6 +68,8 @@ var ConnectomeCore = (function() {
     P5:  {r:34,  g:197, b:94},
     P6:  {r:16,  g:185, b:129},
     P7:  {r:139, g:92,  b:246},
+    P7a: {r:139, g:92,  b:246},
+    P7b: {r:139, g:92,  b:246},
     P8:  {r:167, g:139, b:250},
     P9:  {r:139, g:92,  b:246},
     P10: {r:234, g:179, b:8}
@@ -75,6 +77,17 @@ var ConnectomeCore = (function() {
 
   // Phase vector helpers — EXACT civilization.html logic
   function initPhaseVector(phaseStr) {
+    // Retain the parent's existing visualization prior, but carry the branch
+    // identity instead of treating P7a/P7b as an unknown uniform vector (P0).
+    // This is a display prior, not measured phase probabilities.
+    if (phaseStr && /^p7[ab]$/i.test(phaseStr)) {
+      var branch = 'P7' + phaseStr.slice(-1).toLowerCase();
+      var parent = initPhaseVector('P7');
+      parent[branch] = parent.P7;
+      parent.P7 = 0;
+      return parent;
+    }
+
     var vec = {};
     for (var i = 0; i <= 10; i++) vec['P' + i] = 0;
     if (phaseStr && vec.hasOwnProperty(phaseStr)) {

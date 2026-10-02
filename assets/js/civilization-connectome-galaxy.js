@@ -68,6 +68,8 @@ var PHASE_PULSE_COLORS = {
   P5:  {r:34,  g:197, b:94},
   P6:  {r:16,  g:185, b:129},
   P7:  {r:139, g:92,  b:246},
+  P7a: {r:139, g:92,  b:246},
+  P7b: {r:139, g:92,  b:246},
   P8:  {r:167, g:139, b:250},
   P9:  {r:139, g:92,  b:246},
   P10: {r:234, g:179, b:8}
@@ -735,6 +737,17 @@ var PUBLIC_FRONTS = { economy:1, environment:1, medicine:1, technology:1, scienc
 // ═══ 3-LAYER HELPER FUNCTIONS ═══
 
 function initPhaseVector(phaseStr) {
+    // Retain the parent's existing visualization prior, but carry the branch
+    // identity instead of treating P7a/P7b as an unknown uniform vector (P0).
+    // This is a display prior, not measured phase probabilities.
+    if (phaseStr && /^p7[ab]$/i.test(phaseStr)) {
+      var branch = 'P7' + phaseStr.slice(-1).toLowerCase();
+      var parent = initPhaseVector('P7');
+      parent[branch] = parent.P7;
+      parent.P7 = 0;
+      return parent;
+    }
+
   var vec = {};
   for (var i = 0; i <= 10; i++) vec['P' + i] = 0;
   if (phaseStr && vec.hasOwnProperty(phaseStr)) {
@@ -756,6 +769,27 @@ function initPhaseVector(phaseStr) {
     for (var i = 0; i <= 10; i++) vec['P' + i] = 1 / 11;
   }
   return vec;
+}
+
+
+// Existing domain annotations update the display without changing stress or
+// replacing the domain's anatomical role. Newer evidence supersedes old state.
+function applyPhaseAnnotations(annotations, timestamp) {
+  if (!Array.isArray(NODES) || !Number.isFinite(timestamp) || timestamp > Date.now()) return;
+  for (var i = 0; i < NODES.length; i++) {
+    var node = NODES[i];
+    if (node.phaseUpdatedAt != null && timestamp < node.phaseUpdatedAt) continue;
+    if (!node.phaseRole) node.phaseRole = NODE_PHASES[node.id] || node.phase;
+    var ann = annotations && annotations[node.id];
+    var code = ann && ann.phaseProvisional === true ? String(ann.phase || '') : '';
+    var valid = /^p(?:[0-9]|10|7[ab])$/i.test(code);
+    node.phase = valid ? ('P' + code.slice(1).toLowerCase()) : node.phaseRole;
+    node.phaseSource = valid ? 'provisional-domain-annotation' : 'domain-role-prior';
+    node.phaseUpdatedAt = timestamp;
+    node.phase_vector = initPhaseVector(node.phase);
+    node.dominant_phase = getDominantPhase(node.phase_vector);
+    node.instability = computeInstability(node.phase_vector);
+  }
 }
 
 function computeInstability(vec) {
@@ -1508,7 +1542,7 @@ function buildGraph(data) {
     var dw = typeof n.weight==='number' ? n.weight : (HUB_WEIGHTS[n.id]!==undefined ? HUB_WEIGHTS[n.id] : 0.4);
     NODES.push({ id:n.id, label:n.label, description:n.description, childUniverse:n.childUniverse,
       addr:n.addr, group:n.group, phaseColor:hexToRgb(NODE_COLORS[n.id]||'#B4C8DC'),
-      phaseHex:NODE_COLORS[n.id]||'#B4C8DC', phase:((window.LIMENPhaseAnnotations&&window.LIMENPhaseAnnotations[n.id])?window.LIMENPhaseAnnotations[n.id].phase.toUpperCase():(NODE_PHASES[n.id]||'P0')), dataWeight:dw, x:0, y:0, tx:0, ty:0, r:6, degree:0,
+      phaseHex:NODE_COLORS[n.id]||'#B4C8DC', phase:(NODE_PHASES[n.id]||'P0'), dataWeight:dw, x:0, y:0, tx:0, ty:0, r:6, degree:0,
       phase_vector:{}, dominant_phase:'', stress_vector:{legal:0,liquidity:0,funding:0,solvency:0,demand:0,ops:0,people:0}, total_stress:0, instability:0, upward_impact:0 });
   }
   buildLifecycleEdges(); enforceDegreeCap(); computeSizing();
@@ -1516,8 +1550,10 @@ function buildGraph(data) {
     NODES[i].phase_vector = initPhaseVector(NODES[i].phase);
     NODES[i].dominant_phase = getDominantPhase(NODES[i].phase_vector);
     NODES[i].instability = computeInstability(NODES[i].phase_vector);
+    NODES[i].phaseRole = NODE_PHASES[NODES[i].id] || NODES[i].phase;
     seedStressCivilization(NODES[i], i);
   }
+  applyPhaseAnnotations(window.LIMENPhaseAnnotations, Date.now());
   computeUpwardImpact();
   spiralLayout(NODES);
   generateSatellites(); generateActionPotentials();
@@ -1534,7 +1570,7 @@ function buildFallback() {
     var dw = HUB_WEIGHTS[ids[i]]!==undefined ? HUB_WEIGHTS[ids[i]] : 0.5;
     NODES.push({ id:ids[i], label:labels[i], description:descs[i], childUniverse:ids[i],
       addr:'civilization.'+ids[i], group:ids[i], phaseColor:hexToRgb(NODE_COLORS[ids[i]]||'#B4C8DC'),
-      phaseHex:NODE_COLORS[ids[i]]||'#B4C8DC', phase:((window.LIMENPhaseAnnotations&&window.LIMENPhaseAnnotations[ids[i]])?window.LIMENPhaseAnnotations[ids[i]].phase.toUpperCase():(NODE_PHASES[ids[i]]||'P0')), dataWeight:dw, x:0, y:0, tx:0, ty:0, r:6, degree:0,
+      phaseHex:NODE_COLORS[ids[i]]||'#B4C8DC', phase:(NODE_PHASES[ids[i]]||'P0'), dataWeight:dw, x:0, y:0, tx:0, ty:0, r:6, degree:0,
       phase_vector:{}, dominant_phase:'', stress_vector:{legal:0,liquidity:0,funding:0,solvency:0,demand:0,ops:0,people:0}, total_stress:0, instability:0, upward_impact:0 });
   }
   buildLifecycleEdges(); enforceDegreeCap(); computeSizing();
@@ -1542,8 +1578,10 @@ function buildFallback() {
     NODES[i].phase_vector = initPhaseVector(NODES[i].phase);
     NODES[i].dominant_phase = getDominantPhase(NODES[i].phase_vector);
     NODES[i].instability = computeInstability(NODES[i].phase_vector);
+    NODES[i].phaseRole = NODE_PHASES[NODES[i].id] || NODES[i].phase;
     seedStressCivilization(NODES[i], i);
   }
+  applyPhaseAnnotations(window.LIMENPhaseAnnotations, Date.now());
   computeUpwardImpact();
   spiralLayout(NODES);
   generateSatellites(); generateActionPotentials();
@@ -2005,6 +2043,10 @@ function init(canvasId, opts) {
   draw();
 }
 
+window.addEventListener('limen:phase-domain-update', function (event) {
+  var detail = event && event.detail;
+  if (detail) applyPhaseAnnotations(detail.annotations, detail.timestamp);
+});
 window.CivilizationConnectome = { init: init };
 
 })();

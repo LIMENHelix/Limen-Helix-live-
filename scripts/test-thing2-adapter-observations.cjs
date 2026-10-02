@@ -1,0 +1,21 @@
+'use strict';
+const fs=require('fs'),vm=require('vm'),assert=require('assert/strict'),path=require('path');
+const root=path.resolve(__dirname,'..');
+const kernel=fs.readFileSync(path.join(root,'assets/js/limen-thing2-kernel.js'),'utf8').replace(/export\s*\{[\s\S]*?\};\s*$/,'');
+const adapter=fs.readFileSync(path.join(root,'assets/js/limen-thing2-adapter.js'),'utf8').replace(/^import .*;\s*$/m,'').replace(/^export .*;\s*$/gm,'');
+const context=vm.createContext({window:{},Date});vm.runInContext(kernel+'\n'+adapter,context);
+const phase=input=>context.window.LIMENThing2.phaseOfSeries(input);
+const vals=Array.from({length:32},(_,i)=>.2+i*.01+Math.sin(i)*.04);
+const object=phase({series:vals,positive:false});const explicit=context.window.LIMENThing2.phaseOfSeries(vals,{positive:false});
+assert.deepEqual(JSON.parse(JSON.stringify(object)),JSON.parse(JSON.stringify(explicit)),'object direction must equal explicit direction against actual kernel');
+assert.equal(object.projection.independentChannels,1,'three copies of a scalar cannot be independent observations');
+assert.equal(object.interpretive,true);assert.equal(object.validated,false);assert.equal('alert' in object,false);
+for(const bad of [null,undefined,'',true,NaN,Infinity]){const broken=vals.slice();broken[14]=bad;assert.equal(phase(broken).phase,null);assert.equal(phase(broken).reason,'missing-or-invalid-observation');}
+const sparse=vals.slice();delete sparse[14];assert.equal(phase(sparse).reason,'missing-or-invalid-observation');
+const opposite=phase({series:vals,positive:true});assert.notEqual(JSON.stringify(opposite.distribution),JSON.stringify(object.distribution),'direction reversal must actually change kernel input/result');
+assert.equal(phase(Array(32).fill(.9)).reason,'no-variation-in-projected-series');
+assert.equal(phase({Revenue:vals,OCF:vals.slice(1)}).reason,'unaligned-history');
+assert.equal(phase({Revenue:vals,Debt:vals.map(()=>null)}).reason,'missing-or-invalid-observation');
+const recovered=phase({series:vals,positive:false});assert.ok(recovered.phase);assert.deepEqual(JSON.parse(JSON.stringify(recovered.distribution)),JSON.parse(JSON.stringify(object.distribution)));
+assert.deepEqual(vals,Array.from({length:32},(_,i)=>.2+i*.01+Math.sin(i)*.04),'caller history must stay untouched');
+console.log('Thing2 adapter: real-kernel direction, missing-data refusal, flat/unaligned refusal, scalar provenance and deterministic recovery passed');

@@ -1,0 +1,13 @@
+'use strict';
+const fs=require('fs'),vm=require('vm'),assert=require('assert/strict'),path=require('path');
+const def={id:'energy',runtimeKey:'energy',label:'Energy',description:'',group:'',connectomeNodes:[8,9,10],feeds:[],portals:[]};
+const win={LIMENDomainRegistry:{getEnabled:()=>[def],getRequiredApiKeys:()=>[],getFeedStatusSummary:()=>[]},LIMENDomains:{energy:{stress:.4}},dispatchEvent:()=>{}};
+vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../assets/js/analyst-report-builder.js'),'utf8'),{window:win,console,Date,CustomEvent:function(){}});
+const read=()=>win.LIMENAnalystReportBuilder.build().domains[0];
+let r=read();assert.equal(r.dominantPhase,null);assert.equal(r.connectomeAffinityPhase,1);assert.equal(r.phaseCode,null);
+win.LIMENDomains.energy.phaseSource='thing2-kernel';win.LIMENDomains.energy.kernelPhase='p7b';r=read();assert.equal(r.phaseCode,'p7b');assert.equal(r.dominantPhase,7);assert.equal(r.phaseEvidence,'scalar-projection');
+win.LIMENDomains.energy.phaseSource='fallback';assert.equal(read().phaseCode,null,'cached kernelPhase cannot vote after source failure');
+win.LIMENPhaseAnnotations={energy:{phase:'p4',phaseProvisional:true}};assert.equal(read().phaseCode,'p4');
+win.LIMENPhaseAnnotations.energy.phase='p10b';assert.equal(read().phaseCode,null,'invented branch must be refused');
+win.LIMENPhaseAnnotations.energy.phase='p7a';r=read();assert.equal(r.phaseCode,'p7a');assert.equal(r.connectomeGroupLabel,'P1 — Salience','anatomical role survives dynamic state');
+console.log('Thing2 domain report: independent role mapping retained, actual phase source propagated, branch identity retained and failed-source recovery passed');

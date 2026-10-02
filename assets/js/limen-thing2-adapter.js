@@ -17,16 +17,12 @@
 // ═══════════════════════════════════════════════════════════════════
 import { runLimenPipeline, getDominantPhase } from './limen-thing2-kernel.js';
 
-// n quarter keys ("YYYYQn"), oldest first, ending at the current quarter.
+// Ordinal keys for the financial kernel's indexing grammar. Domain cycles are
+// not dated financial quarters; don't move history when the wall clock moves.
 function _recentQuarters(n) {
-  var now = (typeof Date !== 'undefined') ? new Date() : null;
-  var y = now ? now.getFullYear() : 2025;
-  var q = now ? Math.floor(now.getMonth() / 3) : 0;   // 0..3
   var keys = [];
-  for (var i = n - 1; i >= 0; i--) {
-    var qi = q - i, yy = y;
-    while (qi < 0) { qi += 4; yy -= 1; }
-    keys.push(yy + 'Q' + (qi + 1));
+  for (var i = 0; i < n; i++) {
+    keys.push((2000 + Math.floor(i / 4)) + 'Q' + (i % 4 + 1));
   }
   return keys;
 }
@@ -34,8 +30,13 @@ function _recentQuarters(n) {
 // Map a univariate metric array (oldest->newest) into positive LEVEL series
 // (the kernel takes level series and computes its own log-diffs). health = the
 // up-is-good axis; stress = its inverse (drives the debt/risk features).
+function _finiteValue(v) {
+  // Missing, blank and boolean inputs are not measured zeroes.
+  return (typeof v === 'number' || (typeof v === 'string' && v.trim() !== '')) && isFinite(Number(v));
+}
+
 function _levels(vals, positive) {
-  var out = vals.map(function (v) { var x = Number(v); return isFinite(x) ? x : 0; });
+  var out = vals.map(Number);
   var min = Math.min.apply(null, out), max = Math.max.apply(null, out);
   var span = (max - min) || 1;
   var health = out.map(function (v) { var h = (v - min) / span; if (!positive) h = 1 - h; return 10 + 100 * h; });
@@ -51,10 +52,16 @@ function phaseOfSeries(input, opts) {
   opts = opts || {};
   try {
     var companyData, nlen;
+    var refusal = function (reason) { return { phase: null, reason: reason, n: nlen, interpretive: true, validated: false }; };
     var multi = input && !Array.isArray(input) && (input.Revenue || input.OCF || input.Cash || input.Debt);
     if (multi) {
       nlen = Math.max((input.Revenue || []).length, (input.OCF || []).length, (input.Cash || []).length, (input.Debt || []).length);
       if (nlen < 8) return { phase: null, reason: 'insufficient-history', n: nlen, interpretive: true, validated: false };
+      // Unequal arrays have no dates with which to establish alignment. Do not
+      // silently invent that their final samples occurred together.
+      var channels = ['Revenue', 'OCF', 'Cash', 'Debt'].filter(function (m) { return input[m] != null; });
+      if (channels.some(function (m) { return !Array.isArray(input[m]) || input[m].length !== nlen; })) return refusal('unaligned-history');
+      if (channels.some(function (m) { return !Array.from(input[m]).every(_finiteValue); })) return refusal('missing-or-invalid-observation');
       var keysM = _recentQuarters(nlen);
       companyData = {};
       ['Revenue', 'OCF', 'Cash', 'Debt'].forEach(function (m) {
@@ -66,9 +73,16 @@ function phaseOfSeries(input, opts) {
       });
     } else {
       var vals = Array.isArray(input) ? input : (input && input.series) || [];
+      if (!Array.isArray(vals)) return refusal('invalid-series');
       nlen = vals.length;
       if (nlen < 8) return { phase: null, reason: 'insufficient-history', n: nlen, interpretive: true, validated: false };
-      var positive = opts.positive !== false;
+      if (!Array.from(vals).every(_finiteValue)) return refusal('missing-or-invalid-observation');
+      // An explicit option overrides the documented object form; otherwise
+      // honor the direction carried by that input.
+      var positive = typeof opts.positive === 'boolean' ? opts.positive : !(input && input.positive === false);
+      // A flat scalar has no direction, variance or coupling evidence. Assigning
+      // it the bottom of the window range fabricated a low-health trajectory.
+      if (vals.every(function (v) { return Number(v) === Number(vals[0]); })) return refusal('no-variation-in-projected-series');
       var L = _levels(vals, positive);
       var keys = _recentQuarters(nlen);
       companyData = { Revenue: {}, OCF: {}, Cash: {}, Debt: {} };
@@ -89,18 +103,26 @@ function phaseOfSeries(input, opts) {
     return {
       phase: getDominantPhase(last),        // interpretive P0-P10 posture (current)
       distribution: dist,
+      distributionSemantics: 'relative feature scores; not calibrated phase probabilities',
       cAccumulator: last ? (last.C_t || 0) : 0,
       trajectory: res.trajectory,           // STABLE / MILD_STRESS / RECOVERED / UNRECOVERED / TERMINAL_DIVERGENCE
       n: rows.length,
       interpretive: true,                   // NEVER validated for non-financial substrate
-      validated: false
+      validated: false,
+      projection: {
+        kind: multi ? 'financial-level-series' : 'window-normalized-scalar',
+        independentChannels: multi ? channels.length : 1,
+        timeBasis: 'sample-order; generated quarter keys are indexing only',
+        direction: multi ? 'channel-specific' : (positive ? 'higher-is-positive' : 'higher-is-negative'),
+        observedRegulationModel: false
+      }
     };
   } catch (e) {
     return { phase: null, reason: 'error:' + (e && e.message), interpretive: true, validated: false };
   }
 }
 
-var API = { phaseOfSeries: phaseOfSeries, ready: true, version: 'thing2-adapter-1' };
+var API = { phaseOfSeries: phaseOfSeries, ready: true, version: 'thing2-adapter-2' };
 if (typeof window !== 'undefined') window.LIMENThing2 = API;
 export { phaseOfSeries };
 export default API;
