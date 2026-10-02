@@ -303,14 +303,62 @@ sb.LIMENDomains = fixtures;
           const socialCandidate = await require('../lib/domain-commercial-social-candidate.js').read(commercialStore, 'communication', semanticAt + 2);
           assert.equal(socialCandidate.ok, true, socialCandidate.reason);
           assert.equal(socialCandidate.sourcePacketId, commercialPacket.packetId);
-          const beforeDistribution = JSON.stringify(Array.from(values));
           const distribution = await require('../lib/domain-commercial-distribution-decision.js').decide(commercialStore, socialCandidate, semanticAt + 3,
             { cognition: { communication: commercialRecord } });
+          const statusHandler = require('../handlers/domain-commercial-status.js').createHandler({ store: commercialStore,
+            gate: { reqKey: () => 'fixture-operator', hasDomain: () => true, isMaster: () => false } });
+          let operatorStatus;
+          const statusResponse = { statusCode: 0, setHeader() {}, end(body) { operatorStatus = JSON.parse(body); } };
+          const beforeStatus = JSON.stringify(Array.from(values));
+          await statusHandler({ method: 'GET', url: '/api/domain-commercial-status?domain=communication' }, statusResponse);
+          assert.equal(statusResponse.statusCode, 200);
+          assert.equal(operatorStatus.readOnly, true);
+          assert.equal(operatorStatus.domains[0].distributionObservation.decision.id, distribution.decisionReceiptId);
+          assert.equal(operatorStatus.domains[0].distributionObservation.decision.reason, 'subject-domain-immune-veto');
+          assert.equal(operatorStatus.domains[0].distributionObservation.externalActionAuthorized, false);
+          const projectionSource = fs.readFileSync(path.join(__dirname, '../handlers/brain-cognition-refresh.js'), 'utf8');
+          const projectionLine = projectionSource.split(/\r?\n/).find(line => line.includes('c.distributionObservation = await domainCommercialDistribution.readObservation'));
+          assert.ok(projectionLine, 'existing cognition refresh must project the distribution readout');
+          const projected = {};
+          await new (Object.getPrototypeOf(async function() {}).constructor)('c', 'domainCommercialDistribution', 'efferenceStore', 'dom', projectionLine)(
+            projected, require('../lib/domain-commercial-distribution-decision.js'), commercialStore, 'communication');
+          assert.equal(JSON.parse(JSON.stringify(projected)).distributionObservation.decision.id, distribution.decisionReceiptId);
+
+          assert.equal(operatorStatus.providerCalled, false);
+          assert.equal(operatorStatus.domains[0].artifact.sourcePacketId, commercialPacket.packetId);
+          assert.equal(operatorStatus.domains[0].state.intent.intentId, durablePlan.intent.intentId);
+          assert.equal(operatorStatus.domains[0].publicSocialOutcome.status, 'ABSTAINED');
+          assert.equal(operatorStatus.domains[0].publicSocialOutcome.signal, null);
+          assert.equal(JSON.stringify(Array.from(values)), beforeStatus);
           console.log('Communication native artifact distribution', distribution.status, distribution.reason || 'subject-distribution-released');
           assert.equal(distribution.providerCalled || false, false);
           assert.equal(distribution.status, 'NO_ACTION');
           assert.equal(distribution.reason, 'subject-domain-immune-veto');
-          assert.equal(JSON.stringify(Array.from(values)), beforeDistribution, 'immune hold must not write a distribution release');
+          assert.equal(distribution.released, false);
+          assert.equal(distribution.observationOnly, true);
+          const distributionModule = require('../lib/domain-commercial-distribution-decision.js');
+          assert.deepEqual(await commercialStore.get(distributionModule.key('communication', socialCandidate.sourceArtifactId, distribution.decisionReceiptId)), distribution);
+          assert.equal(distributionModule.validate(distribution, socialCandidate, semanticAt + 4), false);
+          for (const corrupt of [
+            row => ({ ...row, ownerDomain: 'research' }),
+            row => ({ ...row, decidedAt: semanticAt + 1000 }),
+            row => ({ ...row, externalEffectAuthorized: true }),
+            row => ({ ...row, sourcePacketId: 'wrong-packet' })
+          ]) {
+            const badRow = corrupt(distribution);
+            const badStore = { assertDurable() {}, lrange: async () => [badRow], get: async () => badRow };
+            const readout = await distributionModule.readObservation(badStore, 'communication', semanticAt + 4);
+            assert.equal(readout.status, 'UNAVAILABLE');
+            assert.equal(readout.decision, null);
+            assert.equal(readout.externalActionAuthorized, false);
+          }
+          const mismatchedStore = { assertDurable() {}, lrange: async () => [distribution], get: async () => null };
+          assert.equal((await distributionModule.readObservation(mismatchedStore, 'communication', semanticAt + 4)).status, 'UNAVAILABLE');
+
+          const replayHold = await distributionModule.decide(commercialStore, socialCandidate, semanticAt + 3,
+            { cognition: { communication: commercialRecord } });
+          assert.deepEqual(replayHold, distribution);
+          assert.equal((await commercialStore.lrange(distributionModule.logKey('communication'), 0, 99)).length, 1);
           const wrongOwnerRecord = JSON.parse(JSON.stringify(commercialRecord));
           wrongOwnerRecord.c.serverPacket.truth.semanticEvidenceMeta.ownerDomain = 'science';
           assert.equal(nativeCommercial.evaluate(wrongOwnerRecord, null, semanticAt).reason, 'owning-domain-semantic-evidence-unavailable');

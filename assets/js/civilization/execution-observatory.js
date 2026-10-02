@@ -208,6 +208,11 @@
     var diagnosed = diagnosisCount ? diagnosisCount + ' ACTIVE' : 'NONE';
     var routed = (row.lanes.investments + row.lanes.research) > 0 ? row.lanes.investments + ' INV · ' + row.lanes.research + ' RES' : (opportunityCount ? opportunityCount + ' OTHER' : 'NONE');
     var trace = row.c.businessTrace || {};
+    var distribution = row.c.distributionObservation || {};
+    var distributionValid = distribution.schemaVersion === 'domain-commercial-distribution-observation/1.0' &&
+      distribution.productDomain === row.domain && distribution.observationOnly === true &&
+      distribution.externalActionAuthorized === false && ['RECORDED', 'UNOBSERVED', 'UNAVAILABLE'].indexOf(distribution.status) >= 0;
+    var distributionDecision = distributionValid && distribution.status === 'RECORDED' && distribution.decision;
     var paperOrigin = row.c.researchOriginTrace || {};
     var paperOriginValid = paperOrigin.schemaVersion === 'research-origin-trace-readout/1.0' &&
       paperOrigin.originDomain === row.domain && paperOrigin.destinationOwner === 'research' &&
@@ -280,6 +285,8 @@
         '<span>external valve <b>' + esc(row.valve.eligible === true ? 'ELIGIBLE' : 'HELD') + '</b></span>' +
         '<span>capability expires <b>' + esc(time(row.capability.validUntil)) + '</b> · dispatch revalidates current authority</span>' +
         '<span>packet <b>' + esc(row.packetPersist.ok === true ? 'PERSISTED' : 'HELD') + '</b></span>' +
+        (distributionValid ? '<span>distribution observation <b>' + esc(distribution.status) + '</b> · ' + esc(distribution.reason) + '</span>' : '') +
+        (distributionDecision ? '<span>distribution decision <b>' + esc(distributionDecision.id) + '</b> · ' + esc(distributionDecision.status) + ' · immune ' + esc(distributionDecision.immuneRoute || 'UNOBSERVED') + ' · ' + esc(distributionDecision.immuneReason || distributionDecision.reason) + ' · packet ' + esc(distributionDecision.sourcePacketId) + ' · artifact ' + esc(distributionDecision.artifactId) + ' · key ' + esc(distributionDecision.key) + ' · historical observation only</span>' : '') +
         '<span>commercial reflex <b>' + esc(row.commercial.status || 'UNOBSERVED') + '</b></span>' +
         '<span>learning credit <b>' + esc(row.social.normalizedCredit == null ? 'UNOBSERVED' : row.social.normalizedCredit) + '</b> (not revenue)</span>' +
         '<span>returned learning <b>' + esc(row.learning.status || 'UNOBSERVED') + '</b> · ' + esc(row.learning.reason || row.learning.latestSignalId || 'no signal') + '</span>' +

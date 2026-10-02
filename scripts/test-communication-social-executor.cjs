@@ -47,6 +47,7 @@ function artifactSpec(subjectDomain, body, artifactId, motorTime) {
   var domainDecision = {
     schemaVersion: 'domain-commercial-distribution-decision/1.0',
     decisionReceiptId: 'domain-' + artifactId, status: 'RELEASED', released: true,
+    immuneRouting: require('../lib/immune-routing-contract.js').assess({immune:{immuneState:'clear'}}),
     productDomain: subjectDomain, ownerDomain: subjectDomain, channelOwnerDomain: 'communication',
     channel: 'communication:bluesky', sourceArtifactId: value.sourceArtifactId,
     sourceIntentId: value.sourceIntentId, sourcePacketId: value.sourcePacketId,

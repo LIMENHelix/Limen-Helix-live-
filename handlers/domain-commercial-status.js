@@ -5,6 +5,7 @@ var Gate = require('../lib/admin-gate.js');
 var Store = require('../lib/autofire-efference-store.js');
 var Lanes = require('../lib/domain-commercial-lanes.js');
 var SocialLearning = require('../lib/domain-commercial-social-learning.js');
+var Distribution = require('../lib/domain-commercial-distribution-decision.js');
 var VideoManifest = require('../lib/domain-commercial-video-manifest.js');
 
 function query(req) {
@@ -85,7 +86,8 @@ function createHandler(deps) {
         var validVideoManifest = validArtifact && VideoManifest.validManifest(
           selected.contract, pair[2], pair[0], artifact, Date.now());
         rows.push({ domain: domains[i], state: compact(pair[0]), artifact: validArtifact ? artifact : null,
-          videoManifest: validVideoManifest ? pair[2] : null, publicSocialOutcome: pair[3] });
+          videoManifest: validVideoManifest ? pair[2] : null, publicSocialOutcome: pair[3],
+          distributionObservation: await Distribution.readObservation(store, domains[i], Date.now()) });
       }
       res.statusCode = 200;
       return res.end(JSON.stringify({

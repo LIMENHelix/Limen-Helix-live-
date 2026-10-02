@@ -327,5 +327,16 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
     assert.match(card, /exo-chain-label">OBSERVED<\/span><span class="exo-badge exo-unobserved">UNOBSERVED/);
     assert.match(card, /exo-chain-label">REVENUE<\/span><span class="exo-badge exo-unobserved">UNOBSERVED/);
   }
+  const distributionView = { schemaVersion: 'domain-commercial-distribution-observation/1.0', productDomain: 'communication',
+    status: 'RECORDED', observationOnly: true, externalActionAuthorized: false, reason: 'historical observation',
+    decision: { id: 'hold<&>', status: 'NO_ACTION', reason: 'subject-domain-immune-veto', sourcePacketId: 'fixture-packet', artifactId: 'fixture-artifact', key: 'fixture-key' } };
+  cognition.cognition.communication.c.distributionObservation = distributionView;
+  await window.LIMENExecutionObservatory.refresh();
+  assert.match(el.innerHTML, /hold&lt;&amp;&gt;/);
+  for (const patch of [{productDomain:'research'}, {externalActionAuthorized:true}, {observationOnly:false}, {status:'UNAVAILABLE'}]) {
+    cognition.cognition.communication.c.distributionObservation = {...distributionView, ...patch};
+    await window.LIMENExecutionObservatory.refresh();
+    assert.doesNotMatch(el.innerHTML, /hold&lt;&amp;&gt;/);
+  }
   console.log('PASS observatory credit, failed-read readiness and recovery boundaries');
 })().catch(error => { console.error(error); process.exitCode = 1; });

@@ -29,6 +29,7 @@ Store.prototype.lpush = async function (key, value) {
   this.logs[key].unshift(JSON.parse(JSON.stringify(value)));
   return this.logs[key].length;
 };
+Store.prototype.lrange = async function(key, start, stop) { return JSON.parse(JSON.stringify((this.logs[key] || []).slice(start, stop + 1))); };
 Store.prototype.ltrim = async function (key, start, stop) {
   this.logs[key] = (this.logs[key] || []).slice(start, stop + 1); return true;
 };
@@ -77,6 +78,41 @@ function brain(domain, now, packetDomain) {
     { cognition: { finance: brain('finance', now) } });
   assert.equal(domainRelease.status, 'RELEASED');
   candidate.domainDecisionReceipt = domainRelease;
+  assert.equal(domainRelease.immuneRouting.route, 'PASS');
+  assert.equal(DomainDecision.validate(domainRelease, candidate, now), true);
+  const legacyRelease = {...domainRelease};delete legacyRelease.immuneRouting;
+  assert.equal(DomainDecision.validate(legacyRelease,candidate,now),false,'legacy receipt needs fresh four-path release');
+  assert.equal(DomainDecision.validate({...domainRelease,immuneRouting:{...domainRelease.immuneRouting,route:'HOLD',hardStop:true}},candidate,now),false);
+  const missingArtifactStore=new Store();await missingArtifactStore.set(contract.stateKey,state);
+  assert.notEqual((await DomainDecision.decide(missingArtifactStore,candidate,now,{cognition:{finance:brain('finance',now)}})).status,'RELEASED',
+    'PASS cannot substitute for the exact prepared artifact');
+
+  for (const scenario of [
+    { route: 'HOLD', immune: {immuneState:'watch', allowedWithWarning:true} },
+    { route: 'QUARANTINE', immune: {immuneState:'alert'} },
+    { route: 'HOLD', immune: {immuneState:'clear', quarantines:['untrusted-source']} },
+    { route: 'QUARANTINE', immune: {immuneState:'clear'}, candidate: {...candidate, candidateQuarantined:true} },
+    { route: 'REJECT', immune: null },
+    { route: 'REJECT', immune: {immuneState:'clear'}, candidate: {...candidate, invalid:true} }
+  ]) {
+    const isolated = new Store(); await isolated.set(contract.stateKey,state); await isolated.set(contract.artifactStateKey,artifact);
+    const currentBrain = brain('finance',now);currentBrain.c.immune=scenario.immune;
+    const currentCandidate=scenario.candidate||candidate;
+    const held=await DomainDecision.decide(isolated,currentCandidate,now,{cognition:{finance:currentBrain}});
+    assert.equal(held.immuneRouting.route,scenario.route);assert.equal(held.released,false);
+    assert.equal(held.immuneRouting.candidatePreserved,true);
+    assert.equal(DomainDecision.validate(held,currentCandidate,now),false);
+    assert.deepEqual(await DomainDecision.decide(isolated,currentCandidate,now,{cognition:{finance:currentBrain}}),held);
+    assert.equal(isolated.logs[DomainDecision.logKey(domain)].length,1);
+    const observed=await DomainDecision.readObservation(isolated,domain,now);
+    assert.equal(observed.status,'RECORDED');assert.equal(observed.decision.immuneRoute,scenario.route);
+    assert.equal(observed.externalActionAuthorized,false);
+    const reconsidered=await DomainDecision.decide(isolated,candidate,now+1,{cognition:{finance:brain('finance',now)}});
+    assert.equal(reconsidered.immuneRouting.route,'PASS');assert.equal(reconsidered.status,'RELEASED');
+    assert.equal(isolated.logs[DomainDecision.logKey(domain)].length,2);
+    assert.equal((await isolated.get(DomainDecision.key(domain,candidate.sourceArtifactId,held.decisionReceiptId))).immuneRouting.route,scenario.route);
+  }
+
 
   var vetoBrain = brain('finance', now);
   vetoBrain.c.awareness.humanReviewRequired = true;

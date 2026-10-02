@@ -27,6 +27,7 @@ const productDomainExternalValveOverlay = require('../lib/product-domain-externa
 const productDomainLearningState = require('./product-domain-learning-state.js');
 const domainCommercialLanes = require('../lib/domain-commercial-lanes.js');
 const domainCommercialSocialLearning = require('../lib/domain-commercial-social-learning.js');
+const domainCommercialDistribution = require('../lib/domain-commercial-distribution-decision.js');
 const cronAuth = require('../lib/cron-auth.js');
 const cognitionProjection = require('../lib/brain-cognition-compact.js');
 const cognitionSnapshotInput = require('../lib/brain-cognition-snapshot-input.js');
@@ -349,6 +350,7 @@ module.exports = async function handler(req, res) {
           var _ae = _st.domainAutoEmission || _st.energyAutoEmission || null;
           var _rm = _st.resourceMetabolism || null;
           var _dl = _st.domainActionLearning || null;
+          c.distributionObservation = await domainCommercialDistribution.readObservation(efferenceStore, dom, Date.now());
           var _commercial = null;
           var _commercialSocial = null;
           try {
