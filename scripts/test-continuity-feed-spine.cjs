@@ -512,6 +512,43 @@ sb.LIMENDomains = fixtures;
           sourcePacketId: packet.packetId, immuneRoute: lawMailTrace.decision.immuneRoute, status: lawMailSelected.status,
           candidateDerivedFromGenericOpportunity: false, evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false };
       }
+      if (row[0] === 'infrastructure') {
+        var infraPropertyDecision = require('../lib/infrastructure-real-estate-decision.js'), infraPropertyAt = Date.parse(packet.generatedAt);
+        var infraPropertyCognition = { ts: infraPropertyAt, c: Object.assign({}, require('../lib/brain-cognition-compact.js').compact(brain.state.cognition), {
+          domain: 'infrastructure', serverPacket: packet, brainOrgans: { resourceMetabolism: brain.state.resourceMetabolism,
+            autonomousInternalEmission: brain.state.domainAutoEmission || null }
+        }) };
+        // Separate identified typed intake: generic native opportunities above remain refused.
+        var propertyOpportunity = packet.truth.opportunities.find(function (item) { return item.path === 'RESEARCHABLE'; });
+        assert(propertyOpportunity, 'native Infrastructure research selection must exist');
+        var infraPropertyCandidate = infraPropertyDecision.candidate({ inquiryId: 'LOCAL/FIXTURE:property-interest',
+          counterpartyEmail: 'local-fixture@example.invalid', propertyRef: 'LOCAL/FIXTURE:property',
+          transactionIntent: 'non-binding-letter-of-interest', listingUrl: 'https://fixture.invalid/property',
+          indicationPriceUsd: 250000, brainOpportunityId: propertyOpportunity.id,
+          subject: 'LOCAL/FIXTURE nonbinding interest', body: 'LOCAL/FIXTURE diligence request; never sent.',
+          evidenceId: 'LOCAL/FIXTURE:listing', nonBinding: true, contractAuthorized: false,
+          earnestMoneyAuthorized: false, fundsTransferAuthorized: false });
+        assert(infraPropertyDecision.validateCandidate(infraPropertyCandidate));
+        var infraPropertyLists = new Map();
+        var infraPropertyStore = Object.assign({}, store, { assertDurable: function () {}, setIfAbsent: store.setNx,
+          set: async function (key, value) { values.set(key, JSON.parse(JSON.stringify(value))); return true; },
+          lpush: async function (key, value) { var rows = infraPropertyLists.get(key) || []; rows.unshift(JSON.parse(JSON.stringify(value))); infraPropertyLists.set(key, rows); return rows.length; },
+          lrange: async function (key, start, end) { return JSON.parse(JSON.stringify((infraPropertyLists.get(key) || []).slice(start, end + 1))); },
+          ltrim: async function (key, start, end) { infraPropertyLists.set(key, (infraPropertyLists.get(key) || []).slice(start, end + 1)); return true; }
+        });
+        var infraPropertySelected = await infraPropertyDecision.decide(infraPropertyStore, infraPropertyCandidate, infraPropertyAt, { cognition: infraPropertyCognition, maxIndicationUsd: 300000 });
+        assert.equal(infraPropertySelected.status, 'NO_ACTION');
+        assert.equal(infraPropertySelected.infrastructurePacketId, packet.packetId);
+        assert(['HOLD', 'QUARANTINE', 'REJECT'].includes(infraPropertySelected.immuneRouting.route));
+        assert.deepEqual(await infraPropertyStore.get(infraPropertyDecision.key(infraPropertySelected.decisionReceiptId)), infraPropertySelected);
+        var infraPropertyTrace = await require('../lib/product-domain-business-trace-readout.js').read(infraPropertyStore, 'infrastructure', infraPropertyAt + 1);
+        assert.equal(infraPropertyTrace.status, 'RECORDED');
+        assert.equal(infraPropertyTrace.decision.immuneRoute, infraPropertySelected.immuneRouting.route);
+        assert.equal(infraPropertyTrace.command, null); assert.equal(infraPropertyTrace.externalActionAuthorized, false);
+        primaryIntakeBoundary.typedFixtureIntake = { candidateId: infraPropertySelected.actionId, decisionId: infraPropertySelected.decisionReceiptId,
+          sourcePacketId: packet.packetId, immuneRoute: infraPropertyTrace.decision.immuneRoute, status: infraPropertySelected.status,
+          candidateDerivedFromGenericOpportunity: false, evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false };
+      }
       if (['economy', 'energy', 'technology'].includes(row[0])) {
         var investmentDecision = require('../lib/' + row[0] + '-investment-decision.js');
         var beforeInvestmentIntake = JSON.stringify(Array.from(values));
