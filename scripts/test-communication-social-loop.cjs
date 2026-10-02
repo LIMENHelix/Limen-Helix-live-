@@ -147,15 +147,35 @@ function responsePost(likes) {
     assert.equal(JSON.stringify(Array.from(store.map)), before); assert.equal(store.log.length, beforeLogs);
     await store.set(priorKey, originalPrior);
   }
-  now = Date.now();
+  now = firstObservation.receipt.observedAt;
   var negativeObservation = await Observer.observeOne(store,
     { uri: posted.uri, cid: posted.cid, commandId: posted.commandId }, now,
     { fetch: responsePost(0) });
   assert.equal(negativeObservation.status, 'OBSERVED');
   assert.equal(negativeObservation.receipt.engagementDelta, -10);
+  assert.notEqual(negativeObservation.receipt.observationId, firstObservation.receipt.observationId, 'same-clock changed metrics must retain a distinct consequence');
   var learned = await Learning.recordObservation(store, command, negativeObservation.receipt);
   assert.equal(learned.ok, true);
   assert.equal(learned.signal.outcome, 'ENGAGEMENT_DECREASED');
+  assert.equal(negativeObservation.receipt.identityVersion, 2);
+  var recordsBeforeReplay = JSON.stringify(Array.from(store.map)), logsBeforeReplay = store.log.length;
+  var exactReplay = await Observer.observeOne(store, commandPost, now, { fetch: responsePost(0) });
+  assert.equal(exactReplay.duplicate, true); assert.deepEqual(exactReplay.receipt, negativeObservation.receipt);
+  assert.equal(JSON.stringify(Array.from(store.map)), recordsBeforeReplay); assert.equal(store.log.length, logsBeforeReplay);
+  assert.equal((await Learning.recordObservation(store, command, exactReplay.receipt)).duplicate, true);
+  var legacy = structuredClone(firstObservation.receipt); delete legacy.identityVersion;
+  legacy.observationId = 'cso_' + require('node:crypto').createHash('sha256').update(JSON.stringify({ uri: legacy.postReceipt.uri, cid: legacy.postReceipt.cid, indexedAt: legacy.indexedAt, at: legacy.observedAt })).digest('hex').slice(0, 24);
+  var compatibility = new Store(); compatibility.map = new Map(Array.from(store.map, function (row) { return [row[0], structuredClone(row[1])]; }));
+  compatibility.map.delete('communication_social_learning_state');
+  await compatibility.set(Observer.observationKey(posted.uri), legacy);
+  assert.equal((await Learning.recordObservation(compatibility, command, legacy)).ok, true);
+  var legacyReplay = await Observer.observeOne(compatibility, commandPost, legacy.observedAt, { fetch: responsePost(10) });
+  assert.equal(legacyReplay.duplicate, true); assert.deepEqual(legacyReplay.receipt, legacy);
+  await compatibility.set(Observer.observationKey(posted.uri), negativeObservation.receipt);
+  await compatibility.lpush(Observer.LEARNING_PENDING_LOG_KEY, legacy);
+  assert.equal((await Learning.recordObservation(compatibility, command, legacy)).duplicate, true);
+  var unknown = Object.assign({}, negativeObservation.receipt, { identityVersion: 99 });
+  assert.equal((await Learning.recordObservation(store, command, unknown)).ok, false);
   assert.equal((await Learning.recordObservation(store, command, firstObservation.receipt)).duplicate, true, 'older exact pending snapshot remains replayable after current observation advances');
   assert.equal((await Learning.readForBrain(store)).resolvedCount, 2);
 
