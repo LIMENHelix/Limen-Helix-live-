@@ -208,6 +208,9 @@
     var diagnosed = diagnosisCount ? diagnosisCount + ' ACTIVE' : 'NONE';
     var routed = (row.lanes.investments + row.lanes.research) > 0 ? row.lanes.investments + ' INV · ' + row.lanes.research + ' RES' : (opportunityCount ? opportunityCount + ' OTHER' : 'NONE');
     var trace = row.c.businessTrace || {};
+    var video = row.c.videoObservation || {};
+    var videoValid = video.schemaVersion === 'domain-commercial-video-observation/1.0' && video.productDomain === row.domain &&
+      video.observationOnly === true && video.externalActionAuthorized === false && ['RECORDED','UNOBSERVED','UNAVAILABLE'].indexOf(video.status) >= 0;
     var distribution = row.c.distributionObservation || {};
     var distributionValid = distribution.schemaVersion === 'domain-commercial-distribution-observation/1.0' &&
       distribution.productDomain === row.domain && distribution.observationOnly === true &&
@@ -287,6 +290,12 @@
         '<span>packet <b>' + esc(row.packetPersist.ok === true ? 'PERSISTED' : 'HELD') + '</b></span>' +
         (distributionValid ? '<span>distribution observation <b>' + esc(distribution.status) + '</b> · ' + esc(distribution.reason) + '</span>' : '') +
         (distributionDecision ? '<span>distribution decision <b>' + esc(distributionDecision.id) + '</b> · ' + esc(distributionDecision.status) + ' · immune ' + esc(distributionDecision.immuneRoute || 'UNOBSERVED') + ' · ' + esc(distributionDecision.immuneReason || distributionDecision.reason) + ' · packet ' + esc(distributionDecision.sourcePacketId) + ' · artifact ' + esc(distributionDecision.artifactId) + ' · key ' + esc(distributionDecision.key) + ' · historical observation only</span>' : '') +
+        (videoValid ? '<span>video observation <b>' + esc(video.status) + '</b> · ' + esc(video.reason) + '</span>' : '') +
+        (videoValid && video.status === 'RECORDED' ? [video.subjectDecision,video.channelDecision].filter(Boolean).map(function(decision,index) {
+          return '<span>video ' + (decision.communicationRoute ? 'channel' : 'subject') + ' decision <b>' + esc(decision.id) + '</b> · ' + esc(decision.status) +
+            ' · subject immune ' + esc(decision.subjectRoute) + (decision.communicationRoute ? ' · Communication immune ' + esc(decision.communicationRoute) : '') +
+            ' · manifest ' + esc(decision.manifestId) + ' · packet ' + esc(decision.sourcePacketId || 'UNOBSERVED') + ' · key ' + esc(decision.key) + ' · historical observation only</span>';
+        }).join('') : '') +
         '<span>commercial reflex <b>' + esc(row.commercial.status || 'UNOBSERVED') + '</b></span>' +
         '<span>learning credit <b>' + esc(row.social.normalizedCredit == null ? 'UNOBSERVED' : row.social.normalizedCredit) + '</b> (not revenue)</span>' +
         '<span>returned learning <b>' + esc(row.learning.status || 'UNOBSERVED') + '</b> · ' + esc(row.learning.reason || row.learning.latestSignalId || 'no signal') + '</span>' +

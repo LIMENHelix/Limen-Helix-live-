@@ -338,5 +338,15 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
     await window.LIMENExecutionObservatory.refresh();
     assert.doesNotMatch(el.innerHTML, /hold&lt;&amp;&gt;/);
   }
+
+  const videoView={schemaVersion:'domain-commercial-video-observation/1.0',productDomain:'communication',status:'RECORDED',
+    observationOnly:true,externalActionAuthorized:false,reason:'historical fixture',subjectDecision:{id:'video<&>',status:'NO_ACTION',subjectRoute:'HOLD',manifestId:'fixture-manifest'},
+    channelDecision:{id:'channel-fixture',status:'NO_ACTION',subjectRoute:'PASS',communicationRoute:'QUARANTINE',manifestId:'fixture-manifest'}};
+  cognition.cognition.communication.c.videoObservation=videoView;await window.LIMENExecutionObservatory.refresh();
+  assert.match(el.innerHTML,/video&lt;&amp;&gt;/);assert.match(el.innerHTML,/Communication immune QUARANTINE/);
+  for(const patch of [{productDomain:'research'},{observationOnly:false},{externalActionAuthorized:true},{status:'UNAVAILABLE'}]) {
+    cognition.cognition.communication.c.videoObservation={...videoView,...patch};await window.LIMENExecutionObservatory.refresh();
+    assert.doesNotMatch(el.innerHTML,/video&lt;&amp;&gt;|channel-fixture/);
+  }
   console.log('PASS observatory credit, failed-read readiness and recovery boundaries');
 })().catch(error => { console.error(error); process.exitCode = 1; });

@@ -127,6 +127,33 @@ function renderBody(commandId, leaseToken, extra) {
   var channel = await Release.releaseChannel(store, subject, now, { cognition: cognition });
   assert.equal(channel.status, 'RELEASED'); assert.equal(channel.subjectDomain, 'finance');
   assert(channel.expiresAt <= subject.expiresAt);
+  const beforeVideoRead=JSON.stringify(store.values);
+  const view=await Release.readObservation(store,'finance',now);
+  assert.equal(view.status,'RECORDED');assert.equal(view.subjectDecision.id,subject.decisionReceiptId);
+  assert.equal(view.channelDecision.id,channel.decisionReceiptId);assert.equal(view.externalActionAuthorized,false);
+  assert.equal(JSON.stringify(store.values),beforeVideoRead);
+  const Status=require('../handlers/domain-commercial-status.js');let statusBody;
+  await Status.createHandler({store,gate:{reqKey:()=> 'fixture-operator',hasDomain:()=>true,isMaster:()=>false}})(
+    {method:'GET',url:'/api/domain-commercial-status?domain=finance'},
+    {setHeader(){},end(body){statusBody=JSON.parse(body);}});
+  assert.equal(statusBody.domains[0].videoObservation.channelDecision.id,channel.decisionReceiptId);
+  const projectionSource=require('fs').readFileSync(require('path').join(__dirname,'../handlers/brain-cognition-refresh.js'),'utf8');
+  const projectionLine=projectionSource.split(/\r?\n/).find(line=>line.includes('c.videoObservation = await domainCommercialVideoRelease.readObservation'));
+  assert.ok(projectionLine);const projected={};
+  await new (Object.getPrototypeOf(async function(){}).constructor)('c','domainCommercialVideoRelease','efferenceStore','dom',projectionLine)(projected,Release,store,'finance');
+  assert.equal(JSON.parse(JSON.stringify(projected)).videoObservation.channelDecision.id,channel.decisionReceiptId);
+  for(const mutate of [r=>({...r,ownerDomain:'research'}),r=>({...r,decidedAt:now+1}),r=>({...r,providerCalled:true})]) {
+    const bad=mutate(subject);const badStore={assertDurable(){},lrange:async key=>key===Release.subjectLog('finance')?[bad]:[],get:async()=>bad};
+    const invalid=await Release.readObservation(badStore,'finance',now);
+    assert.equal(invalid.status,'UNAVAILABLE');assert.equal(invalid.subjectDecision,null);assert.equal(invalid.channelDecision,null);
+  }
+  const missingStore={assertDurable(){},lrange:async key=>key===Release.subjectLog('finance')?[subject]:[],get:async()=>null};
+  assert.equal((await Release.readObservation(missingStore,'finance',now)).status,'UNAVAILABLE');
+  const badOrigin={assertDurable(){},lrange:async key=>key===Release.CHANNEL_LOG?[channel]:[],
+    get:async key=>key===Release.channelKey(channel.decisionReceiptId)?channel:{...subject,schemaVersion:'wrong'}};
+  assert.equal((await Release.readObservation(badOrigin,'finance',now)).status,'UNAVAILABLE');
+
+
   assert.equal(subject.immuneRouting.route,'PASS');
   assert.equal(channel.immuneRouting.communication.route,'PASS');
 
@@ -154,6 +181,8 @@ function renderBody(commandId, leaseToken, extra) {
     const heldSubject=await Release.releaseSubject(isolated,'finance',now,{cognition:{...cognition,finance:subjectBrain}});
     assert.equal(heldSubject.immuneRouting.route,scenario.route);assert.equal(heldSubject.released,false);
     assert.equal(heldSubject.observationOnly,true);assert.equal(heldSubject.providerCalled,false);
+    assert.equal((await Release.readObservation(isolated,'finance',now)).subjectDecision.subjectRoute,scenario.route);
+
     assert.equal(Release.validSubject(heldSubject,row.contract,built.manifest,now),false);
     assert.deepEqual(await Release.releaseSubject(isolated,'finance',now,{cognition:{...cognition,finance:subjectBrain}}),heldSubject);
     assert.equal((await isolated.lrange(Release.subjectLog('finance'),0,-1)).length,1);
