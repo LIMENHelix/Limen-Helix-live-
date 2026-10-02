@@ -229,7 +229,7 @@ function warnDeal(overrides) {
         record: {
           id: id,
           archived: false,
-          updatedAt: '2026-08-26T01:00:00Z',
+          updatedAt: new Date(now + 3).toISOString(),
           properties: { lifecyclestage: 'opportunity', annualrevenue: '50000' },
           propertiesWithHistory: { lifecyclestage: [{ value: 'lead' }, { value: 'opportunity' }] }
         }
@@ -238,8 +238,42 @@ function warnDeal(overrides) {
   });
   assert.equal(observation.status, 'STAGE_TRANSITION_OBSERVED');
   assert.equal(observation.independentOfCreateResponse, true);
+  assert.deepEqual(await store.get(Observer.key(observation.observationId)), observation);
+  var observationLogBeforeReplay = await store.lrange(Observer.LOG_KEY, 0, 99);
+  var duplicateObservation = await Observer.observe(store, command, { get: async function (id) { return { ok: true,
+    record: { id: id, updatedAt: observation.providerUpdatedAt, properties: { lifecyclestage: 'opportunity', annualrevenue: '50000' },
+      propertiesWithHistory: { lifecyclestage: [{ value: 'lead' }, { value: 'opportunity' }] } } }; } });
+  assert.deepEqual(duplicateObservation, observation);
+  assert.deepEqual(await store.lrange(Observer.LOG_KEY, 0, 99), observationLogBeforeReplay);
+  var stateBeforeAdmission = await store.get(Learning.STATE_KEY);
+  assert.equal((await Learning.recordObservation(store, Object.assign({}, observation, { observationId: 'unsaved-observation' }))).ok, false);
+  assert.equal((await Learning.recordObservation(store, Object.assign({}, observation, { hubspotCompanyId: 'foreign-company' }))).ok, false);
+  var savedCause = await store.get(Learning.causeKey(command.actionId));
+  await store.set(Learning.causeKey(command.actionId), Object.assign({}, savedCause, { domain: 'finance' }));
+  assert.equal((await Learning.recordObservation(store, observation)).ok, false);
+  await store.set(Learning.causeKey(command.actionId), savedCause);
+  var savedCommand = await store.get(Executor.commandKey(command.commandId));
+  await store.set(Executor.commandKey(command.commandId), Object.assign({}, savedCommand, { status: 'AMBIGUOUS' }));
+  assert.equal((await Learning.recordObservation(store, observation)).ok, false);
+  await store.set(Executor.commandKey(command.commandId), savedCommand);
+  var corruptSaved = Object.assign({}, observation, { independentOfCreateResponse: false });
+  await store.set(Observer.key(observation.observationId), corruptSaved);
+  assert.equal((await Learning.recordObservation(store, corruptSaved)).ok, false);
+  var preCommand = Object.assign({}, observation, { providerUpdatedAt: new Date(now - 1000).toISOString() });
+  await store.set(Observer.key(observation.observationId), preCommand);
+  assert.equal((await Learning.recordObservation(store, preCommand)).ok, false, 'provider snapshot predating command cannot train');
+  await store.set(Observer.key(observation.observationId), observation);
+  assert.deepEqual(await store.get(Learning.STATE_KEY), stateBeforeAdmission, 'refused evidence cannot write learning');
   var learned = await Learning.recordObservation(store, observation);
   assert.equal(learned.resolvedCount, 1);
+  var laterObservation = await Observer.observe(store, command, { get: async function (id) { return { ok: true,
+    record: { id: id, updatedAt: new Date(now + 4).toISOString(), properties: { lifecyclestage: 'customer' },
+      propertiesWithHistory: { lifecyclestage: [{ value: 'lead' }, { value: 'customer' }] } } }; } });
+  assert.notEqual(laterObservation.observationId, observation.observationId);
+  assert.deepEqual(await store.get(Observer.key(observation.observationId)), observation);
+  assert.deepEqual(await store.get(Observer.key(command.hubspotCompanyId)), laterObservation);
+  assert.equal((await Learning.recordObservation(store, observation)).duplicate, true);
+  assert.equal((await Learning.readForBrain(store)).resolvedCount, 1);
   var returned = await Decision.decide(store, candidate, now + 7, { cognition: cognition(now + 7) });
   assert.equal(returned.status, 'RELEASED');
   assert.equal(returned.returnedOutcome.status, 'OBSERVED');
