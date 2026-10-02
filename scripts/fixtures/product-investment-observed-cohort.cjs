@@ -4,7 +4,7 @@
 const assert = require('node:assert/strict');
 const Learning = require('../../lib/autofire-learning.js');
 module.exports = async function observedCohort(memory, invoke, domain = 'economy') {
-  assert(['economy', 'technology'].includes(domain));
+  assert(['economy', 'technology', 'energy'].includes(domain));
   const Decision = require('../../lib/' + domain + '-investment-decision.js');
   const Executor = require('../../lib/' + domain + '-investment-executor.js');
   const store = memory(), day = 86400000, NativeDate = Date;

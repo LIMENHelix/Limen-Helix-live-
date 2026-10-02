@@ -19,7 +19,7 @@ module.exports = async function nativeBusinessCycle(origin, readout, fixedAt) {
     'domain-brains/domain-brain-base.js', 'domain-brains/portal-content-resolver.js',
     'domain-brains/inter-brain-bus.js', 'domain-brains/domain-change-log.js', 'domain-brains/' + origin + '-brain.js'];
   files.forEach(file => vm.runInContext(fs.readFileSync(path.join(ROOT, 'assets/js', file), 'utf8'), sb, { filename: file }));
-  const names = { economy: 'LIMENEconomyBrain', technology: 'LIMENTechnologyBrain', defense: 'LIMENDefenseBrain', governance: 'LIMENGovernanceBrain', industry: 'LIMENIndustryBrain', intelligence: 'LIMENIntelligenceBrain', law: 'LIMENLawBrain', infrastructure: 'LIMENInfrastructureBrain', population: 'LIMENPopulationBrain', religion: 'LIMENReligionBrain', trade: 'LIMENSupplyChainBrain' };
+  const names = { economy: 'LIMENEconomyBrain', energy: 'LIMENEnergyBrain', technology: 'LIMENTechnologyBrain', defense: 'LIMENDefenseBrain', governance: 'LIMENGovernanceBrain', industry: 'LIMENIndustryBrain', intelligence: 'LIMENIntelligenceBrain', law: 'LIMENLawBrain', infrastructure: 'LIMENInfrastructureBrain', population: 'LIMENPopulationBrain', religion: 'LIMENReligionBrain', trade: 'LIMENSupplyChainBrain' };
   const brain = sb[names[origin]];
   assert(brain && typeof brain.cycle === 'function');
   sb.LIMENDomains[brain.snapshotKey] = { stress: 0.72, confidence: 0.85, activity: 0.7,
@@ -53,7 +53,7 @@ module.exports = async function nativeBusinessCycle(origin, readout, fixedAt) {
   assert.equal(brain.state.domainActionLearning.learningGate.ready, readout.learningGate.ready);
 
   return { externalRewardEligible: sb.LIMENK4.externalRewardEligible(brain.domainId, 'independent-action-outcome'), learning: JSON.parse(JSON.stringify(brain.state.domainActionLearning)),
-    plasticity: JSON.parse(JSON.stringify(brain.state.domainPlasticity || null)),
+    plasticity: JSON.parse(JSON.stringify(origin === 'energy' ? brain.state.energyPlasticity : brain.state.domainPlasticity || null)),
     evaluated: JSON.parse(JSON.stringify({ diagnoses: brain.state.diagnoses, opportunities: brain.state.opportunities,
       stress: brain.state.stress, confidence: brain.state.confidence })) };
 };
