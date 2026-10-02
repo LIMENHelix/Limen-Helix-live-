@@ -1,0 +1,9 @@
+# Corrected candidate mathematics on the Thing 2 reference page
+
+The owner clarified that Thing 1, including where and how it is used, must never be changed. This batch changes only phase-map.html. It presents the corrected candidate error integrator with the moving reference inside the integral, signed negative-feedback realization and stability polynomial, coordination equation, overload fold, cusp window, Hopf amplitude and predictive descent. It retains unresolved symbolic grammar explicitly rather than claiming every phase has an identified law.
+
+Source: reviewed mapping v2.3 at C:/Users/Chris/Documents/kimi/tasks/2026-10-02/10-19-35-6fc36ad5/LIMEN_NEURAL_MAPPING.md, sections 1–4. P7 is the parent fork with both variants retained. The cusp is an example and not a universal P9 classifier. P1 is qualified as collapse of prior symmetry/first distinction; de-SPAC examples do not establish defensive contraction. Support receipts do not establish dependence, and the financial P5 examples remain unconfirmed.
+
+Verification: actual HTML rendered in Puppeteer: 13 cards, zero page errors, unchanged CSS after line-ending normalization. Local screenshot visually inspected. The live production URL returned HTTP 200 but lacked both the candidate-dynamics panel and signed feedback equation at verification. Therefore a branch push does not establish a production update. No runtime equations, Thing 1 consumers, provider calls, production settings or source-company records changed in this batch. Existing uncommitted consumer work is separate and not included.
+
+Runtime work remains: identify domain observables, references, units and coupling parameters; trace domain evidence into connectome/civilization consumers; repair reproduced identity or mathematical errors with causal refusal/recovery tests. Candidate formulas on a page do not themselves implement these interactions.
