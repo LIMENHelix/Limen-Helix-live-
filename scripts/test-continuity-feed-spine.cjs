@@ -678,6 +678,46 @@ sb.LIMENDomains = fixtures;
           evidenceLevel: 'LOCAL/FIXTURE', nativeOpportunityChecks: investmentChecks, providerCalled: false,
           nextBoundary: 'exact-paper-investment-record-required', issuerOrSymbolInferred: false, candidateFabricated: false };
       }
+      if (row[0] === 'economy') {
+        var economyInvestmentDecision = require('../lib/economy-investment-decision.js'), economyInvestmentAt = Date.parse(packet.generatedAt);
+        var economyInvestmentCognition = { ts: economyInvestmentAt, c: Object.assign({}, require('../lib/brain-cognition-compact.js').compact(brain.state.cognition), {
+          domain: 'economy', serverPacket: packet, brainOrgans: { resourceMetabolism: brain.state.resourceMetabolism,
+            autonomousInternalEmission: brain.state.domainAutoEmission || null }
+        }) };
+        // Separate typed LOCAL intake; generic opportunities above supply no issuer or investment thesis.
+        var economyInvestmentOpportunity = packet.truth.opportunities.find(function (op) { return op.path === 'INVESTABLE'; });
+        assert(economyInvestmentOpportunity && economyInvestmentOpportunity.id);
+        var economyInvestmentEvidence = [0, 1].map(function (feed) { return { title: 'LOCAL/FIXTURE issuer observation ' + feed,
+          url: 'https://fixture.invalid/economy/' + feed, feedName: 'LOCAL/FIXTURE:economy-feed-' + feed,
+          recordedAt: new Date(economyInvestmentAt).toISOString() }; });
+        var economyInvestmentTitles = economyInvestmentEvidence.map(function (row) { return { d: 'economy', f: row.feedName, t: economyInvestmentAt,
+          items: [{ ti: row.title, au: row.url, tr: false }] }; });
+        var economyInvestmentCandidate = economyInvestmentDecision.candidate({ requestId: 'LOCAL/FIXTURE:economy-investment',
+          symbol: 'ACME', issuerName: 'LOCAL/FIXTURE issuer', side: 'buy', maxNotionalUsd: 100, riskLimitPct: 8, benchmarkSymbol: 'SPY',
+          thesisId: 'LOCAL/FIXTURE:economy-thesis', brainOpportunityId: economyInvestmentOpportunity.id,
+          feedEvidence: economyInvestmentEvidence, paperOnly: true, liveMoney: false });
+        assert(economyInvestmentDecision.validate(economyInvestmentCandidate));
+        var economyInvestmentLists = new Map();
+        var economyInvestmentStore = Object.assign({}, store, { assertDurable: function () {}, setIfAbsent: store.setNx,
+          set: async function (key, value) { values.set(key, JSON.parse(JSON.stringify(value))); return true; },
+          lpush: async function (key, value) { var rows = economyInvestmentLists.get(key) || []; rows.unshift(JSON.parse(JSON.stringify(value))); economyInvestmentLists.set(key, rows); return rows.length; },
+          lrange: async function (key, start, end) { return JSON.parse(JSON.stringify((economyInvestmentLists.get(key) || []).slice(start, end + 1))); },
+          ltrim: async function (key, start, end) { economyInvestmentLists.set(key, (economyInvestmentLists.get(key) || []).slice(start, end + 1)); return true; }
+        });
+        var economyInvestmentSelected = await economyInvestmentDecision.decide(economyInvestmentStore, economyInvestmentCandidate, economyInvestmentAt,
+          { cognition: economyInvestmentCognition, titleSets: economyInvestmentTitles, maxNotionalUsd: 150 });
+        assert.equal(economyInvestmentSelected.status, 'NO_ACTION');
+        assert.equal(economyInvestmentSelected.economyPacketId, packet.packetId);
+        assert(['HOLD', 'QUARANTINE', 'REJECT'].includes(economyInvestmentSelected.immuneRouting.route));
+        assert.deepEqual(await economyInvestmentStore.get(economyInvestmentDecision.key(economyInvestmentSelected.decisionReceiptId)), economyInvestmentSelected);
+        var economyInvestmentTrace = await require('../lib/product-domain-business-trace-readout.js').read(economyInvestmentStore, 'economy', economyInvestmentAt + 1);
+        assert.equal(economyInvestmentTrace.status, 'RECORDED');
+        assert.equal(economyInvestmentTrace.decision.immuneRoute, economyInvestmentSelected.immuneRouting.route);
+        assert.equal(economyInvestmentTrace.command, null); assert.equal(economyInvestmentTrace.externalActionAuthorized, false);
+        primaryIntakeBoundary.typedFixtureIntake = { candidateId: economyInvestmentSelected.actionId, decisionId: economyInvestmentSelected.decisionReceiptId,
+          sourcePacketId: packet.packetId, immuneRoute: economyInvestmentTrace.decision.immuneRoute, status: economyInvestmentSelected.status,
+          candidateDerivedFromGenericOpportunity: false, issuerThesisFeedEvidenceLevel: 'LOCAL/FIXTURE', evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false };
+      }
       if (['defense', 'governance'].includes(row[0])) {
         var publicationSource = require('../lib/' + row[0] + '-publication-source.js');
         var publicationDecision = require('../lib/' + row[0] + '-publication-decision.js');
