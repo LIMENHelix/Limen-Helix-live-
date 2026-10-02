@@ -549,6 +549,43 @@ sb.LIMENDomains = fixtures;
           sourcePacketId: packet.packetId, immuneRoute: infraPropertyTrace.decision.immuneRoute, status: infraPropertySelected.status,
           candidateDerivedFromGenericOpportunity: false, evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false };
       }
+      if (row[0] === 'population') {
+        var populationPropertyDecision = require('../lib/population-real-estate-decision.js'), populationPropertyAt = Date.parse(packet.generatedAt);
+        var populationPropertyCognition = { ts: populationPropertyAt, c: Object.assign({}, require('../lib/brain-cognition-compact.js').compact(brain.state.cognition), {
+          domain: 'population', serverPacket: packet, brainOrgans: { resourceMetabolism: brain.state.resourceMetabolism,
+            autonomousInternalEmission: brain.state.domainAutoEmission || null }
+        }) };
+        // Separate identified typed intake: generic native opportunities above remain refused.
+        var propertyOpportunity = packet.truth.opportunities.find(function (item) { return item.path === 'RESEARCHABLE'; });
+        assert(propertyOpportunity, 'native Population research selection must exist');
+        var populationPropertyCandidate = populationPropertyDecision.candidate({ inquiryId: 'LOCAL/FIXTURE:property-interest',
+          counterpartyEmail: 'local-fixture@example.invalid', propertyRef: 'LOCAL/FIXTURE:property',
+          transactionIntent: 'non-binding-letter-of-interest', listingUrl: 'https://fixture.invalid/property',
+          indicationPriceUsd: 175000, brainOpportunityId: propertyOpportunity.id,
+          subject: 'LOCAL/FIXTURE nonbinding interest', body: 'LOCAL/FIXTURE diligence request; never sent.',
+          evidenceId: 'LOCAL/FIXTURE:listing', nonBinding: true, contractAuthorized: false,
+          earnestMoneyAuthorized: false, fundsTransferAuthorized: false });
+        assert(populationPropertyDecision.validateCandidate(populationPropertyCandidate));
+        var populationPropertyLists = new Map();
+        var populationPropertyStore = Object.assign({}, store, { assertDurable: function () {}, setIfAbsent: store.setNx,
+          set: async function (key, value) { values.set(key, JSON.parse(JSON.stringify(value))); return true; },
+          lpush: async function (key, value) { var rows = populationPropertyLists.get(key) || []; rows.unshift(JSON.parse(JSON.stringify(value))); populationPropertyLists.set(key, rows); return rows.length; },
+          lrange: async function (key, start, end) { return JSON.parse(JSON.stringify((populationPropertyLists.get(key) || []).slice(start, end + 1))); },
+          ltrim: async function (key, start, end) { populationPropertyLists.set(key, (populationPropertyLists.get(key) || []).slice(start, end + 1)); return true; }
+        });
+        var populationPropertySelected = await populationPropertyDecision.decide(populationPropertyStore, populationPropertyCandidate, populationPropertyAt, { cognition: populationPropertyCognition, maxIndicationUsd: 200000 });
+        assert.equal(populationPropertySelected.status, 'NO_ACTION');
+        assert.equal(populationPropertySelected.populationPacketId, packet.packetId);
+        assert(['HOLD', 'QUARANTINE', 'REJECT'].includes(populationPropertySelected.immuneRouting.route));
+        assert.deepEqual(await populationPropertyStore.get(populationPropertyDecision.key(populationPropertySelected.decisionReceiptId)), populationPropertySelected);
+        var populationPropertyTrace = await require('../lib/product-domain-business-trace-readout.js').read(populationPropertyStore, 'population', populationPropertyAt + 1);
+        assert.equal(populationPropertyTrace.status, 'RECORDED');
+        assert.equal(populationPropertyTrace.decision.immuneRoute, populationPropertySelected.immuneRouting.route);
+        assert.equal(populationPropertyTrace.command, null); assert.equal(populationPropertyTrace.externalActionAuthorized, false);
+        primaryIntakeBoundary.typedFixtureIntake = { candidateId: populationPropertySelected.actionId, decisionId: populationPropertySelected.decisionReceiptId,
+          sourcePacketId: packet.packetId, immuneRoute: populationPropertyTrace.decision.immuneRoute, status: populationPropertySelected.status,
+          candidateDerivedFromGenericOpportunity: false, evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false };
+      }
       if (['economy', 'energy', 'technology'].includes(row[0])) {
         var investmentDecision = require('../lib/' + row[0] + '-investment-decision.js');
         var beforeInvestmentIntake = JSON.stringify(Array.from(values));
