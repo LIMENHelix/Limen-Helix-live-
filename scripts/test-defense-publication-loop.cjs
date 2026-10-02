@@ -247,5 +247,62 @@ function cognition(now) {
   await require('./assert-business-trace.cjs')(store, 'defense', command, 'OWNED-PUBLICATION', now + 1000, 'defense:7:snapshot-1');
   var businessTrace = await require('../lib/product-domain-business-trace-readout.js').read(ambiguousStore, 'defense', now + 1000);
   assert.equal(businessTrace.command.status, 'AMBIGUOUS'); assert.equal(businessTrace.command.receipt, null);
+  // LOCAL/FIXTURE: actual publication/observer/learner records -> real endpoint -> native subsequent cycle.
+  var qualifiedStore = memory(), proofAt = now + 100, admitted = 0;
+  for (var articleNumber = 0; articleNumber < 2; articleNumber++) {
+    var articleAt = proofAt + articleNumber * 86400000, proofBrain = cognition(articleAt);
+    var proofSources = titleSets(articleAt); proofSources[1].items[1].au += '?qualified=' + articleNumber;
+    var proofCandidate = Source.build(proofSources, proofBrain, articleAt);
+    var proofDecision = await Decision.decide(qualifiedStore, proofCandidate, articleAt, proofBrain);
+    var proofCommand = await Executor.execute({ store: qualifiedStore, candidate: proofCandidate, decision: proofDecision,
+      now: articleAt, motorAuthorization: motor, operationCostUsd: 0, dailyBudgetUsd: 0, dailyPublicationCap: 1 });
+    assert.equal(proofCommand.status, 'PUBLISHED');
+    var proofArticle = await Publisher.getPublic(qualifiedStore, proofCommand.articleId);
+    for (var visitorNumber = 0; visitorNumber < (articleNumber === 0 ? 3 : 2); visitorNumber++) {
+      var proofClick = await Observer.recordSourceClick(qualifiedStore, proofArticle, visitorNumber % 2,
+        'qualified-visitor-' + visitorNumber, { 'user-agent': 'Mozilla/5.0 (LOCAL Fixture)', accept: 'text/html',
+          'sec-fetch-mode': 'navigate', 'sec-fetch-dest': 'document', 'sec-fetch-user': '?1' }, articleAt + 20 + admitted);
+      var proofCommands = {}; proofCommands[proofCommand.actionId] = proofCommand;
+      var proofObservation = await Observer.observeEngagement(qualifiedStore, proofClick.event, proofCommands);
+      assert.equal((await Learning.recordObservation(qualifiedStore, proofObservation)).ok, true);
+      admitted++;
+    }
+  }
+  var storePath = require.resolve('../lib/autofire-efference-store.js');
+  var handlerPath = require.resolve('../handlers/product-domain-learning-state.js');
+  var previousStore = require.cache[storePath], previousHandler = require.cache[handlerPath];
+  async function endpointRead(proofStore) {
+    var readonly = Object.create(proofStore);
+    ['set', 'setIfAbsent', 'lpush', 'ltrim', 'del'].forEach(function (method) { readonly[method] = async function () { throw Error('endpoint read wrote state'); }; });
+    require.cache[storePath] = { id: storePath, filename: storePath, loaded: true, exports: readonly };
+    delete require.cache[handlerPath];
+    var result, response = { statusCode: 0, setHeader: function () {}, end: function (body) { result = JSON.parse(body); } };
+    await require(handlerPath)({ method: 'GET', url: '/api/product-domain-learning-state?domain=defense' }, response);
+    assert.equal(response.statusCode, 200); return result;
+  }
+  try {
+    var qualifiedReadout = await endpointRead(qualifiedStore), emptyReadout = await endpointRead(memory());
+    assert.equal(qualifiedReadout.resolvedCount, 5);
+    assert.equal(qualifiedReadout.learningGate.ready, true);
+    assert.equal((await Learning.readForBrain(qualifiedStore)).learningGate.distinctArticles, 2);
+    assert.equal(qualifiedReadout.signal.ownerDomain, 'defense');
+    assert.equal(emptyReadout.resolvedCount, 0); assert.equal(emptyReadout.signal, null);
+    var nativeCycle = require('./fixtures/publication-native-cycle.cjs');
+    var qualifiedNative = await nativeCycle('defense', qualifiedReadout, proofAt + 86401000);
+    var emptyNative = await nativeCycle('defense', emptyReadout, proofAt + 86401000);
+    assert.equal(qualifiedNative.externalRewardEligible, false, 'existing K4 policy excludes this owner');
+    assert.equal(qualifiedNative.plasticity.rewardActive, false);
+    assert.deepEqual(qualifiedNative.evaluated, emptyNative.evaluated, 'retained outcome is not proof of changed native evaluation');
+    assert.equal(emptyNative.plasticity.rewardActive, false);
+    var gateControl = JSON.parse(JSON.stringify(qualifiedReadout)); gateControl.learningGate.ready = false;
+    var gatedNative = await nativeCycle('defense', gateControl, proofAt + 86401000);
+    assert.equal(gatedNative.plasticity.rewardActive, false);
+    console.log('defense native return proof', JSON.stringify({ ownSignal: qualifiedNative.learning.signal.signalId,
+      qualifiedReward: qualifiedNative.plasticity.rewardActive, noOutcomeReward: emptyNative.plasticity.rewardActive,
+      gatedReward: gatedNative.plasticity.rewardActive, sameEvaluation: JSON.stringify(qualifiedNative.evaluated) === JSON.stringify(emptyNative.evaluated) }));
+  } finally {
+    if (previousStore) require.cache[storePath] = previousStore; else delete require.cache[storePath];
+    if (previousHandler) require.cache[handlerPath] = previousHandler; else delete require.cache[handlerPath];
+  }
   console.log('defense publication: sovereign evidence, B10/B14 public receipt, independent learning, verified unpublish and read-only business trace passed');
 })().catch(function (error) { console.error(error); process.exit(1); });
