@@ -27,11 +27,22 @@ async function readResults(origin, cookie) {
 (async () => {
   const access = JSON.parse(fs.readFileSync(accessPath, 'utf8')), origin = new URL(access.url).origin;
   const chrome = ['C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'].find(p => fs.existsSync(p));
-  const browser = await puppeteer.launch({ headless: true, protocolTimeout: 15000, ...(chrome ? { executablePath: chrome } : {}) });
+  // Allow the existing twenty-second read deadline to settle visibly.
+  const browser = await puppeteer.launch({ headless: true, protocolTimeout: 35000, ...(chrome ? { executablePath: chrome } : {}) });
   const report = { schemaVersion: 'continuity-preview-render/1.0', measuredAt: new Date().toISOString(), origin,
-    evidenceLevel: 'GIT-LINKED-PREVIEW', sourceCommit: require('node:child_process').execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), writeRequestsAllowed: false, blockedRequests: [], errors: [], responses: [], pages: [] };
+    deploymentCommit: access.sourceCommit || null, deploymentId: access.deploymentId || null,
+    evidenceLevel: 'GIT-LINKED-PREVIEW', sourceCommit: require('node:child_process').execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), writeRequestsAllowed: false, blockedRequests: [], errors: [], responses: [], pages: [], dialogs: [] };
   try {
     const page = await browser.newPage(); await page.setViewport({ width: 1480, height: 1060 });
+    // A missing operator credential is an intentional boundary, not a hung
+    // renderer. Cancel the modal without entering a key; writes stay blocked.
+    page.on('dialog', async dialog => {
+      const row = { type: dialog.type(), boundary: dialog.message() === 'Enter your admin passcode:' ? 'operator-credential-required' : 'unexpected-dialog', dismissed: false, credentialEntered: false };
+      report.dialogs.push(row);
+      if (row.boundary === 'unexpected-dialog') report.errors.push('unexpected-browser-dialog');
+      try { await dialog.dismiss(); row.dismissed = true; }
+      catch (_) { report.errors.push('dialog-dismissal-failed'); }
+    });
     await page.setRequestInterception(true);
     const reads = new Set(['/api/brain-cognition', '/api/limen-autofire-log', '/api/domain-snapshot', '/api/product-domain-learning-state']);
     page.on('request', request => {
@@ -90,6 +101,7 @@ async function readResults(origin, cookie) {
       evidence.screenshot = path.basename(screenshot);
       evidence.screenshotScope = 'viewport; twenty-card coverage is DOM evidence';
     }
+    assert.deepEqual(report.errors, [], 'operator surfaces must not hide browser errors');
     report.renderComplete = true;
     report.stage = 'complete';
     report.complete = report.renderComplete && report.resultEndpointsComplete;

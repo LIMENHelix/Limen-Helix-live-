@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "continuity-grid-modal-root-cause/1.0",
+  "evidenceLevel": "GIT-LINKED-PREVIEW DIAGNOSTIC AND CAUSAL RECHECK",
+  "sourceCommit": "3751f2b5e2ae7762a9b089ac336c2e87df37710b",
+  "traceSha256": "b163b788fd15d34b08c882b9f5e69bd2854f125a7209a0f08497339cf3dc3a5f",
+  "traceBytes": 3859940,
+  "traceEvents": 8258,
+  "traceMethodReference": "https://www.chromium.org/developers/how-tos/trace-event-profiling-tool/recording-tracing-runs/",
+  "dominantSampledStack": {
+    "name": "prompt",
+    "path": "",
+    "line": 1,
+    "samples": 45796,
+    "microseconds": 25052127
+  },
+  "stack": [
+    {
+      "name": "prompt",
+      "path": "",
+      "functionLine": null
+    },
+    {
+      "name": "key",
+      "path": "/assets/js/gate-master.js",
+      "functionLine": 9
+    },
+    {
+      "name": "go",
+      "path": "/assets/js/gate-master.js",
+      "functionLine": 17
+    },
+    {
+      "name": "window.fetch",
+      "path": "/assets/js/gate-master.js",
+      "functionLine": 15
+    },
+    {
+      "name": "",
+      "path": "/assets/js/limen/engine-runner-claude.js",
+      "functionLine": 101
+    },
+    {
+      "name": "(root)",
+      "path": "",
+      "functionLine": null
+    }
+  ],
+  "cause": "Existing gate-master admin credential prompt blocks renderer while automatic grid engine requests protected generation.",
+  "repair": "Verification dismisses the prompt without entering credentials and continues intercepting write/provider requests; product gates and brains unchanged.",
+  "after": {
+    "source": "docs/audits/continuity-preview-four-surfaces-dismissed-gate-20261002.json",
+    "complete": true,
+    "surfaces": 4,
+    "cardsPerSurface": 20,
+    "resultReads": 20,
+    "pageErrors": 0,
+    "credentialEntered": false
+  },
+  "limits": [
+    "Sampled prompt time describes blocked execution, not a domain-brain CPU cost.",
+    "Private raw trace remains local; sanitized call paths and digest are recorded here.",
+    "Canceled credential request and intercepted POSTs are safe-boundary evidence, not provider execution."
+  ]
+}

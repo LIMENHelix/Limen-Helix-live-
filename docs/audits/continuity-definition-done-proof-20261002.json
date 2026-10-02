@@ -1,0 +1,210 @@
+{
+  "schemaVersion": "continuity-definition-done-proof/1.0",
+  "taskId": "NATIVE-CLOSED-LOOPS-007",
+  "baseSha": "731cbe705cd04d935afdbb904c7f739154ed0062",
+  "baseline": "fdc03171",
+  "recordedAt": "2026-10-02T07:28:02.044Z",
+  "result": "pass",
+  "summary": "Original ten continuity requirements verified with tested identified paths or exact first safe blockers; Google Docs is the next deferred stage.",
+  "checks": [
+    {
+      "item": 1,
+      "requirement": "Every sovereign domain has an explicit, tested path or an exact named blocker at the first safe boundary.",
+      "result": "pass-at-stated-scope",
+      "evidence": [
+        {
+          "path": "docs/audits/continuity-native-feed-spine.json",
+          "sha256": "26b1d1f31570795d009c7c809f95bd53552ea06de8bc9f6c2d72c64c58264142"
+        }
+      ]
+    },
+    {
+      "item": 2,
+      "requirement": "Brain output and business-motor output are separately visible and separately authoritative.",
+      "result": "pass-at-stated-scope",
+      "evidence": [
+        {
+          "path": "docs/audits/continuity-preview-four-surfaces-dismissed-gate-20261002.json",
+          "sha256": "b4b4be9ef743ac728916989cbb6aae68e6f2fc80081b289a62b5828d8ad80fb9"
+        },
+        {
+          "path": "docs/audits/continuity-preview-observatory-deadline-readout-20261002.json",
+          "sha256": "022ecc0d296ecfba41e890d171060be5571b10cdedd3a0dd17828b81312e5542"
+        }
+      ]
+    },
+    {
+      "item": 3,
+      "requirement": "Investment and research routing is explicit, including Agriculture → Finance and Agriculture → Science/research.",
+      "result": "pass-at-stated-scope",
+      "evidence": [
+        {
+          "path": "docs/audits/continuity-agriculture-routing-trace-20261001.md",
+          "sha256": "ad6fa40cc52bed37213284659365533867fa288f6b06e201e41fd424c55571b3"
+        },
+        {
+          "path": "scripts/test-research-routing-provenance.cjs",
+          "sha256": "7a1ea734f40b5006cae2f01b6d6f74272e6b3dbc227d8381695730cc0a038f48"
+        }
+      ]
+    },
+    {
+      "item": 4,
+      "requirement": "Homestead remains a separate property catalog/publication path.",
+      "result": "pass-at-stated-scope",
+      "evidence": [
+        {
+          "path": "docs/audits/continuity-agriculture-routing-trace-20261001.md",
+          "sha256": "ad6fa40cc52bed37213284659365533867fa288f6b06e201e41fd424c55571b3"
+        },
+        {
+          "path": "scripts/test-agriculture-routed-outcome-return.cjs",
+          "sha256": "64271dbf9fc8963540e3226ce8c37211accfe3de47608c2368495ae0a0dbd0ef"
+        }
+      ]
+    },
+    {
+      "item": 5,
+      "requirement": "Every claimed motor has durable decision, command, receipt, observer, and learning evidence, or is visibly held/unobserved.",
+      "result": "pass-at-stated-scope",
+      "evidence": [
+        {
+          "path": "docs/audits/continuity-native-feed-spine.json",
+          "sha256": "26b1d1f31570795d009c7c809f95bd53552ea06de8bc9f6c2d72c64c58264142"
+        },
+        {
+          "path": "docs/audits/continuity-preview-observatory-deadline-readout-20261002.json",
+          "sha256": "022ecc0d296ecfba41e890d171060be5571b10cdedd3a0dd17828b81312e5542"
+        }
+      ]
+    },
+    {
+      "item": 6,
+      "requirement": "Revenue generation is pinned to the owning domain and is never inferred from opportunity count, page existence, checkout intent, or a provider receipt alone.",
+      "result": "pass-at-stated-scope",
+      "evidence": [
+        {
+          "path": "scripts/test-execution-observatory.cjs",
+          "sha256": "99581693dd088ea0850ae1b2b6988273431f91f21e7a0e189c24b29ccbf3b95b"
+        },
+        {
+          "path": "docs/audits/continuity-preview-four-surfaces-dismissed-gate-20261002.json",
+          "sha256": "b4b4be9ef743ac728916989cbb6aae68e6f2fc80081b289a62b5828d8ad80fb9"
+        }
+      ]
+    },
+    {
+      "item": 7,
+      "requirement": "Cross-domain propagation is traceable in both directions: emission/routing outward and observed outcome/learning inward.",
+      "result": "pass-at-stated-scope",
+      "evidence": [
+        {
+          "path": "scripts/test-research-routing-provenance.cjs",
+          "sha256": "7a1ea734f40b5006cae2f01b6d6f74272e6b3dbc227d8381695730cc0a038f48"
+        },
+        {
+          "path": "docs/audits/continuity-agriculture-routing-trace-20261001.md",
+          "sha256": "ad6fa40cc52bed37213284659365533867fa288f6b06e201e41fd424c55571b3"
+        }
+      ]
+    },
+    {
+      "item": 8,
+      "requirement": "UI surfaces reveal freshness, state, blockers, and result location without implying unsupported autonomy.",
+      "result": "pass-at-stated-scope",
+      "evidence": [
+        {
+          "path": "docs/audits/continuity-preview-four-surfaces-dismissed-gate-20261002.json",
+          "sha256": "b4b4be9ef743ac728916989cbb6aae68e6f2fc80081b289a62b5828d8ad80fb9"
+        },
+        {
+          "path": "docs/audits/continuity-observatory-deadline-browser-20261002.json",
+          "sha256": "1195c6bce7008fb7da1ab80dff293c99a1158504436540391350b0d52aaaeed4"
+        },
+        {
+          "path": "docs/audits/continuity-grid-modal-root-cause-20261002.json",
+          "sha256": "3a135793869cb595b60ab69fa029dcf88baa2147fc6ae38597a9dae972dfba85"
+        }
+      ]
+    },
+    {
+      "item": 9,
+      "requirement": "The route/link inventory is reconciled into live, broken, duplicate, legacy, data-only, operator, and customer categories.",
+      "result": "pass-at-stated-scope",
+      "evidence": [
+        {
+          "path": "docs/audits/continuity-route-reconciliation.json",
+          "sha256": "c5861593a50b44dbeed073195b438d1d9c1128fc6d8199cdd27a64def32bb5ef"
+        },
+        {
+          "path": "docs/audits/continuity-route-head-summary-20261001.json",
+          "sha256": "1f1c96bacce8ffa0ca2df03064a831733ee84804d348775f974fba040454e7ed"
+        },
+        {
+          "path": "docs/audits/continuity-static-data-reconciliation-20261002.json",
+          "sha256": "556fa92db57a8c71bbd1e19dc42bce47073f071337c158cf4e8d2964896e6bbd"
+        },
+        {
+          "path": "docs/audits/continuity-preview-navigation-20261002.json",
+          "sha256": "c8267a08ed553b5767f7bb537f044bc0800335ce3f640e12a60d157427783cc4"
+        }
+      ]
+    },
+    {
+      "item": 10,
+      "requirement": "No unresolved drift, duplicate architecture, ownership conflict, fabricated evidence, silent failure, or test regression remains hidden.",
+      "result": "pass-at-stated-scope",
+      "evidence": [
+        {
+          "path": "scripts/verify-continuity-preview.cjs",
+          "sha256": "9b91551327a45e3fd9810489ff29df455df061ce68e2f8b1393fce2c0ade5a5e"
+        },
+        {
+          "path": "docs/audits/continuity-definition-done-audit-20261002.md",
+          "sha256": "d2e94a1874ad192b360ae919eea9c3dc9bdde4c7e1d7f9ece844201dc1dd5c72"
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "fullSuite": {
+      "passed": 382,
+      "skipped": 1,
+      "failed": 0,
+      "seconds": 271.1,
+      "logSha256": "06450e001d5731fc6faa6261ed8de1faadb0642168ea1c93c4f314cc07a55c02",
+      "skip": "External corpus prerequisite unavailable; no new external-corpus completeness claim"
+    },
+    "repository": "pass:2281 JS,5045 JSON,350 module boots",
+    "harness": "pass:83 Vercel/8 GitHub cron mappings",
+    "preview": {
+      "deploymentCommit": "3751f2b5e2ae7762a9b089ac336c2e87df37710b",
+      "surfaces": 4,
+      "cardsPerSurface": 20,
+      "resultEndpoints": 20,
+      "pageErrors": 0,
+      "credentialEntered": false
+    }
+  },
+  "protected": {
+    "nativeDomainBrains": "unchanged since fdc03171",
+    "sharedConsoleDisplay": "earlier ffb0252d qualifies unavailable-feed wording; native state unchanged",
+    "immuneRoutes": [
+      "PASS",
+      "HOLD",
+      "QUARANTINE",
+      "REJECT"
+    ],
+    "phaseAndCapitalTier": "separate axes; placeholder thresholds not promoted",
+    "financePausedFingerprints": 79
+  },
+  "missionLimits": [
+    "Safe blocker alternative is used exactly as the original definition allows; no claim of twenty live executed motors.",
+    "Source fixtures establish identified contracts, not current upstream authenticity.",
+    "Revenue and economic self-sustainability remain unobserved, never inferred from receipts or pages.",
+    "Three navigation destinations remain explicitly broken; excluded/legacy/unknown audience boundaries are preserved.",
+    "Static-data HTTP observations do not establish every dynamic API/body or source freshness.",
+    "No new production promotion, trade, spend, posting, email, transfer or protected-brain authority."
+  ],
+  "nextStage": "Read and reconcile the Google Drive source set named in the focus document as evidence; implement only current-authorized existing consumers consistent with owner decisions."
+}
