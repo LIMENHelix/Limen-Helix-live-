@@ -252,6 +252,20 @@ sb.LIMENDomains = fixtures;
           nativeReturnBoundary: agricultureProjection.routedOutcomeReturn };
       }
       if (['communication', 'trade', 'religion'].includes(row[0])) {
+        if (row[0] === 'communication') {
+          const nativeCommercial = require('../lib/domain-commercial-lanes.js').get('communication');
+          const record = { ts: Date.parse(packet.generatedAt), c: { ...brain.state.cognition, domain: 'communication',
+            serverPacket: packet, serverPacketPersistence: consumed,
+            brainOrgans: { resourceMetabolism: brain.state.resourceMetabolism } } };
+          const reflex = nativeCommercial.evaluate(record, null, Date.parse(packet.generatedAt));
+          console.log('Communication native commercial boundary', reflex.status, reflex.reason);
+          assert.equal(reflex.status, 'ABSTAINED');
+          assert.equal(reflex.reason, 'owning-domain-semantic-evidence-unavailable');
+          assert.equal(reflex.externalEffectAuthorized, false);
+          const artifact = require('../lib/domain-commercial-artifact.js').build(nativeCommercial.contract, reflex, Date.parse(packet.generatedAt));
+          assert.notEqual(artifact.status, 'ARTIFACT_PREPARED');
+          assert.equal(artifact.artifact, null);
+        }
         var channelFamily = { communication: 'social', trade: 'auction', religion: 'subscriber' }[row[0]];
         var channelDecision = require('../lib/' + row[0] + '-' + channelFamily + '-decision.js');
         var beforeChannel = JSON.stringify(Array.from(values));
