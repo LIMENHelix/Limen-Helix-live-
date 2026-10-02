@@ -48,7 +48,7 @@
   var PHASE_ORDER = { p0: 0, p1: 1, p2: 2, p3: 3, p4: 4, p5: 5, p6: 6, p7: 7, p7a: 7, p7b: 7.5, p8: 8, p9: 9, p10: 10 };
   var ORDER_SPAN = 10;
 
-  var VALID_PHASE = /^p(10|[0-9])(a|b)?$/;   // real P0–P10 tokens only (p7a/p7b allowed)
+  var VALID_PHASE = /^p(?:10|[0-9]|7[ab])$/;   // real P0–P10 tokens only (p7a/p7b allowed)
 
   function clamp01(x) { x = Number(x); return isFinite(x) ? Math.max(0, Math.min(1, x)) : 0; }
   function r4(x) { return Math.round(x * 10000) / 10000; }

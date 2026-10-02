@@ -26,7 +26,11 @@ var cases = [
   { prior: { phase: 'p5' }, companies: scored('p8', 7).concat(scored('p0', 2)).concat(scored('p3', 2)).concat(scored('p4', 2)).concat(scored('p10', 2)).concat(scored('p1', 1)).concat([{ phase: 'p0', scored: false }, { phase: 'p0', scored: false }]) },
   { prior: { phase: 'p2' }, companies: scored('p3', 4).concat([{ phase: 'ERROR', scored: true }]) },
   { prior: { phase: 'p9' }, companies: scored('p9', 1) },
-  { prior: { phase: 'p1' }, companies: scored('p6', 3).concat(scored('p4', 3)) }
+  { prior: { phase: 'p1' }, companies: scored('p6', 3).concat(scored('p4', 3)) },
+  { prior: { phase: 'p2' }, companies: [{ phase: 'P3a', scored: true }, { phase: 'P10b', scored: true }] },
+  { prior: { phase: 'P7a' }, companies: scored('P7a', 2) },
+  { prior: { phase: 'P7b' }, companies: scored('P7b', 2) },
+  { prior: { phase: 'p2' }, companies: scored('P7a', 4).concat(scored('P7b', 4), [{ phase: 'P3a', scored: true }, { phase: 'P10b', scored: true }]) }
 ];
 
 console.log('Mirror check: lib vs browser computePercept over ' + cases.length + ' cases');

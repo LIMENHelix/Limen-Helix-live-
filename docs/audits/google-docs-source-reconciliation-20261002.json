@@ -76,7 +76,17 @@
       "readResult": "FORBIDDEN",
       "readCharacters": 0,
       "readableTextSha256": null,
-      "authority": "source evidence only; no new work order or effect authority"
+      "authority": "Excluded unrelated source; D-026",
+      "historicalAuthority": "source evidence only; no new work order or effect authority",
+      "currentDisposition": {
+        "decision": "D-026",
+        "correctedAt": "2026-10-02T09:41:51.225Z",
+        "status": "EXCLUDED_UNRELATED",
+        "exactFileId": "1veoLC44rI9ArNXIe9eBc9yCS1MRkPVkXoovpogbmVkE",
+        "reason": "Owner states this exact discovered document has nothing to do with this project and was not supplied. Discovery did not establish relevance.",
+        "boundary": "Do not retrieve, edit or delete this file. Its readability is not a project blocker. No exclusion of similarly named files.",
+        "history": "Original read results remain historical evidence; this correction supersedes their project-source association."
+      }
     },
     {
       "id": "1bkKWzSRE6B6KiMbYmq9TW20kQNJUugF-tT2i4X79Kio",
@@ -108,7 +118,10 @@
     "title": "LIMEN SYSTEM",
     "exportRead": "HTTP403 FORBIDDEN",
     "nativeRead": "terminal MCP request timeout",
-    "contentsVerified": false
+    "contentsVerified": false,
+    "projectBlocker": false,
+    "currentDisposition": "EXCLUDED_UNRELATED",
+    "supersededBy": "D-026"
   },
   "dispositions": [
     {
@@ -188,5 +201,14 @@
     "domainBrainsChanged": false,
     "pausedFinanceChanged": false
   },
-  "nextAction": "Read native SYSTEM when access is available; resolve phase-source conflict with owner. Independently reconcile the remaining historical readiness claims against current owning consumers before adopting only demonstrated gaps."
+  "nextAction": "Resolve phase-reference authority and inspect only evidenced existing consumers. The exact unrelated file is excluded and must not be retrieved. Original DMN has been read; focused citation checks dispute its authority, full pass incomplete.",
+  "sourceAssociationCorrection": {
+    "decision": "D-026",
+    "correctedAt": "2026-10-02T09:41:51.225Z",
+    "status": "EXCLUDED_UNRELATED",
+    "exactFileId": "1veoLC44rI9ArNXIe9eBc9yCS1MRkPVkXoovpogbmVkE",
+    "reason": "Owner states this exact discovered document has nothing to do with this project and was not supplied. Discovery did not establish relevance.",
+    "boundary": "Do not retrieve, edit or delete this file. Its readability is not a project blocker. No exclusion of similarly named files.",
+    "history": "Original read results remain historical evidence; this correction supersedes their project-source association."
+  }
 }

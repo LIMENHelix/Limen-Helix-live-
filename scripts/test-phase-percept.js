@@ -131,5 +131,26 @@ function unscored(phase, n) { var a = []; for (var i = 0; i < n; i++) a.push({ p
     '  |  divergent=' + r.divergent);
 })();
 
+// T11 — unsupported suffixes are not scored evidence; valid P7 branches recover.
+(function () {
+  console.log('T11: reject nonexistent phase variants, preserve both P7 branches');
+  var invalid = [{ phase: 'P3a', scored: true }, { phase: 'P10b', scored: true }];
+  var refused = PH.computePercept({ phase: 'p2' }, invalid);
+  assert('invalid variants excluded and counted', refused.evidence.scored === 0 && refused.evidence.invalidScored === 2);
+  assert('invalid evidence has no distribution', Object.keys(refused.evidence.distribution).length === 0);
+  assert('invalid evidence abstains and holds valid prior', !refused.grounded && refused.precision === 0 && refused.groundedPhase === 'p2');
+  ['P7a', 'P7b'].forEach(function (branch) {
+    var recovered = PH.computePercept({ phase: branch }, scored(branch, 2));
+    assert(branch + ' remains valid and case-normalized', recovered.grounded && recovered.groundedPhase === branch.toLowerCase() && recovered.evidence.scored === 2 && recovered.evidence.invalidScored === 0);
+  });
+  var mixed = PH.computePercept({ phase: 'p2' }, scored('P7a', 4).concat(scored('P7b', 4), invalid));
+  assert('mixed evidence retains both branches only', mixed.evidence.scored === 8 && mixed.evidence.invalidScored === 2 && mixed.evidence.distribution.p7a === 0.5 && mixed.evidence.distribution.p7b === 0.5 && Object.keys(mixed.evidence.distribution).length === 2);
+  for (var i = 0; i <= 10; i++) {
+    var token = 'p' + i;
+    var principal = PH.computePercept({ phase: token }, scored(token, 2));
+    assert(token + ' principal phase preserved', principal.grounded && principal.groundedPhase === token && principal.evidence.scored === 2);
+  }
+})();
+
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
 process.exit(failures ? 1 : 0);

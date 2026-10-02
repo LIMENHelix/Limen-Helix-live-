@@ -6,7 +6,7 @@ The original continuity checklist completed before these connected source reads.
 
 The April 2025 LIMEN v2 describes P4 as temporary stabilization and P5 as sustained strain with suspended feedback. Current `lib/phase-spec.js` describes P4 as external scaffolding and P5 as an internally sustained regime. Its recoverable P7b variant also differs from the older bifurcation description. These are substantive differences, not just names. Owner clarification was requested. Existing meanings, domain brains, and all four immune paths remain unchanged.
 
-LIMEN SYSTEM's text export returned HTTP403. A separate native Docs metadata read ended with an MCP timeout. Its contents are unverified; no claim from its title is adopted.
+Correction under D-026: the exact discovered Drive file `1veoLC44rI9ArNXIe9eBc9yCS1MRkPVkXoovpogbmVkE` is unrelated and was not supplied as a project source. Its historical text export403 and native timeout remain recorded, but their project-source association is superseded. Do not retrieve, edit or delete that file or require it to unblock this work.
 
 ## Source dispositions
 
@@ -19,6 +19,6 @@ LIMEN SYSTEM's text export returned HTTP403. A separate native Docs metadata rea
 
 ## Next work
 
-Resolve the phase-source conflict and unavailable SYSTEM content before adopting dependent requirements. Independent work can compare the remaining historical readiness claims with current owning consumers, starting with retrieval time versus publisher observation time. A demonstrated gap may be repaired in the existing consumer under the current task; a historical assertion alone is insufficient. No new system, duplicate homology transport, brain change, or global immune restriction is authorized by these reads.
+Resolve the phase-source conflict before adopting dependent requirements. The exact unrelated source is excluded. Independent work can compare the remaining historical readiness claims with current owning consumers, starting with retrieval time versus publisher observation time. A demonstrated gap may be repaired in the existing consumer under the current task; a historical assertion alone is insufficient. No new system, duplicate homology transport, brain change, or global immune restriction is authorized by these reads.
 
 Evidence: `google-docs-source-reconciliation-20261002.json`. Runtime is unchanged from fa73d502; prior runtime validation remains applicable. No additional runtime tests were run for this source-only increment.
