@@ -80,13 +80,14 @@
     });
   }
 
-  function learnerQualification(learning) {
+  function learnerQualification(learning, label) {
     var gate = learning.learningGate || {};
     var selectedCount = gate.selectedResolvedCount != null ? gate.selectedResolvedCount : learning.resolvedCount;
-    return '<span>learner gate <b>' + esc(gate.ready === true ? 'READY' : 'HELD') + '</b>' +
+    return '<span>' + esc(label || 'learner gate') + ' <b>' + esc(gate.ready === true ? 'READY' : 'HELD') + '</b>' +
       (gate.selectedLane ? ' · lane ' + esc(gate.selectedLane) : '') +
       ' · resolved ' + esc(n(selectedCount)) + (gate.minimumResolved != null ? '/' + esc(gate.minimumResolved) : '') +
       (gate.distinctAssets != null ? ' · distinct assets ' + esc(gate.distinctAssets) + '/' + esc(gate.minimumDistinctAssets) : '') +
+      (gate.distinctArtifacts != null ? ' · distinct artifacts ' + esc(gate.distinctArtifacts) + '/' + esc(gate.minimumDistinctArtifacts) : '') +
       (gate.distinctPosts != null ? ' · distinct posts ' + esc(gate.distinctPosts) + '/' + esc(gate.minimumDistinctPosts) : '') +
       (gate.distinctSources != null ? ' · distinct sources ' + esc(gate.distinctSources) + '/' + esc(gate.minimumDistinctSources) : '') + '</span>';
   }
@@ -309,6 +310,7 @@
         }).join('') : '') +
         '<span>commercial reflex <b>' + esc(row.commercial.status || 'UNOBSERVED') + '</b></span>' +
         '<span>learning credit <b>' + esc(row.social.normalizedCredit == null ? 'UNOBSERVED' : row.social.normalizedCredit) + '</b> (not revenue)</span>' +
+        (row.social.status ? learnerQualification(row.social, 'subject social gate') : '') +
         '<span>returned learning <b>' + esc(row.learning.status || 'UNOBSERVED') + '</b> · ' + esc(row.learning.reason || row.learning.latestSignalId || 'no signal') + '</span>' +
         learnerQualification(row.learning) +
         '<span>action <b>' + esc(row.learning.actionId || 'UNOBSERVED') + '</b> · event ' + esc(row.learning.eventId || 'UNOBSERVED') + ' · observed ' + esc(time(row.learning.observedAt)) + '</span>' +
