@@ -1,0 +1,859 @@
+{
+  "date": "2026-10-02",
+  "baseSha": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c",
+  "status": "bounded shared repair verified; full candidate regulator still requires measurement identification",
+  "changes": [
+    "No snapshot replay inflation of stress history or structural-break confirmations",
+    "Snapshot time retained separately from read/publisher date",
+    "Trajectory follows measured stress direction, not phase-label rank",
+    "Invalid/absent/stale/conflicting observations cannot manufacture a current phase",
+    "Zero-confidence coupling stays zero; invalid evidence and repeated neighbor keys cannot inflate pressure",
+    "Failed Thing2 source clears stale kernel evidence before decision and cache replay; native fallback preserved"
+  ],
+  "runtime": [
+    {
+      "file": "assets/js/domain-brain-adapter.js",
+      "sha256": "4de4255f798d8da18778fe8ceba66595f01e687d6ee5cc88d82b6791a06a1e97"
+    },
+    {
+      "file": "assets/js/kernel/limen-phase-domain-adapter.js",
+      "sha256": "0a001b9a3454b62de71cc9013e15856216d91eedeb41dabd4785546be6f6d226"
+    }
+  ],
+  "consumers": [
+    {
+      "file": "assets/js/domain-brain-adapter.js",
+      "directTrackedHtmlLoads": 6
+    },
+    {
+      "file": "assets/js/kernel/limen-phase-domain-adapter.js",
+      "directTrackedHtmlLoads": 3
+    }
+  ],
+  "consumerCountScope": "Direct tracked HTML source references only, not live census or exhaustive dynamic imports",
+  "checks": {
+    "focusedTests": [
+      "scripts/test-thing2-domain-snapshot-dynamics.cjs",
+      "scripts/test-thing2-brain-bridge-recovery.cjs"
+    ],
+    "browser": [
+      {
+        "file": "civilization-connectome.js",
+        "actualModules": true,
+        "offlineFixture": true,
+        "providerOrScoreRequests": 0,
+        "nodes": 20,
+        "decliningStressPropagatesP4": true,
+        "replayDoesNotAddHistory": true,
+        "invalidReadRestoresRole": true,
+        "validReadRecoversP2": true,
+        "stressAndRolePreserved": true,
+        "pageErrors": []
+      },
+      {
+        "file": "civilization-connectome-galaxy.js",
+        "actualModules": true,
+        "offlineFixture": true,
+        "providerOrScoreRequests": 0,
+        "nodes": 20,
+        "decliningStressPropagatesP4": true,
+        "replayDoesNotAddHistory": true,
+        "invalidReadRestoresRole": true,
+        "validReadRecoversP2": true,
+        "stressAndRolePreserved": true,
+        "pageErrors": []
+      }
+    ],
+    "protectedFiles": [
+      {
+        "file": "assets/js/domain-brains/agriculture-brain.js",
+        "sha256": "1bdf3dbd7d6de4feefd9bc067721e4dc84bc3e449c42d660621ef3283860d721",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/agriculture-cortex-retrieval.js",
+        "sha256": "c2ffde7b1d7bf344e00988c2d69ea1d4d59c0e9ff4c38bedd44b4100d9fafcb8",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/agriculture-refresh-controller.js",
+        "sha256": "2cd2f5453923c9d4792f24d2b47ec4c0023f345dc19a2abdf6e7425287b6653c",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/communication-brain.js",
+        "sha256": "cef785f2cb3ad4d9107872c81268a117fa1f125261ae63d92b8b3b5cccb0a1f9",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/communication-cortex-retrieval.js",
+        "sha256": "07aac988c3c55e5e76dc863ef993ca55b33675a5c2739c948e944fbfff71fec4",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/communication-refresh-controller.js",
+        "sha256": "6fa8c856fa82039d9b51027c2154226d6cc61a5f83350c3b508591f88c13a1c3",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/culture-brain.js",
+        "sha256": "de91d737a2c15d01851b26434ac2cf4679e1f3be2d6cd55b1d8bdb63ceb29a4c",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/culture-cortex-retrieval.js",
+        "sha256": "ab3332c6f614e74db357712d8fe06a8ac49914de19d05d44620bd9682b8cd313",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/culture-refresh-controller.js",
+        "sha256": "c4873a2cd4cefc48ab9c87abe230c378b2ce46b6cabef38abe4b6d79839a85bb",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/defense-brain.js",
+        "sha256": "2fcdffb68c65d787483d0efb280ca76c3e6c991a707dedd1e56d51895c19b3e3",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/defense-cortex-retrieval.js",
+        "sha256": "7d2828d817cb37bcd1bcd850653f2719e5682b0a96f6743eea848d4eb1c2ac2f",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/defense-refresh-controller.js",
+        "sha256": "f87dd9e74b5a3127d7295bb64d49fdc02d1cf7c57ae85a8629521057b5e4f80b",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/domain-brain-base.js",
+        "sha256": "e076a110b04cafee408e0ed20fd4bf72505fea9382751e1f407cdf08f24a02bf",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/domain-change-log.js",
+        "sha256": "03a4c8eab825d0fc8847f5d0e9b25a0048167ef5db6d00cf2fa0ab4e1703d2a9",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/domain-console-brain.js",
+        "sha256": "958e2aa4fc8d4e1f7819a0dad23027730b07e2dcd591475a07bd3405813c2b59",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/domain-isolator.js",
+        "sha256": "17d0e90e3bb056f5c9d426098cb8504e267aa19dcdc57f4fef3ca117538c093e",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/economy-brain.js",
+        "sha256": "ad686d9d3d34e4b174bc8982b9451d6566f0d89cb8e33becc442a0f24e2cffe1",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/economy-cortex-retrieval.js",
+        "sha256": "08b0a3137057105e8e8807122a227dfbc78b7c5802331c861fc5f89d1d0a91d6",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/economy-refresh-controller.js",
+        "sha256": "51653122a1a2ac605033ce496e922ec06e33f1f15a6f9e328d1dedad5981d370",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/education-brain.js",
+        "sha256": "e0978fd1f18dae286a9cdbf8b99eaff13c4d9394512d7da8f300be8e679a7013",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/education-cortex-retrieval.js",
+        "sha256": "e3cdbb09f665a1ec9b849752dfac706d96c5fbce6da3bd4b5c7433e48d658b63",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/education-refresh-controller.js",
+        "sha256": "14efd2571548a747c1af7503d2c92d6e6857e3994e66a21a291a197552ab1cf6",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/energy-brain.js",
+        "sha256": "b0ff3121f301cb9becf22633b0cfe68a916f1e790ab49641be5e5d452784dc9b",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/energy-cortex-retrieval.js",
+        "sha256": "f3eadc3dcad317fd4365792ec3dfff1d0efcf2c06f8358e577f340c9a17c6957",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/energy-refresh-controller.js",
+        "sha256": "0aaa65282b96a96ea6e551d0cd0ccfe2c808638d4806a13a843460e10299fa93",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/environment-brain.js",
+        "sha256": "18463d283d0b1cf1077320fa8dc1e14f806ff0da760f7bc707ef29fa01f76384",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/environment-cortex-retrieval.js",
+        "sha256": "c92ee43864545d33715af0009979edc76a6f241e5629084f8bd6ab09d47ab76f",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/environment-refresh-controller.js",
+        "sha256": "5c443ff615eb69e1365aa883e70c78f435cdcdcd52fe95844109cd0a9caf17e6",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/execution-manager.js",
+        "sha256": "50108059e95f286256c53777251f797f10c3c574b0a87e23b075a5004877185c",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/finance-brain.js",
+        "sha256": "08fa3036c7120480057ee64d37f8a9320d3d37ac9773510d5775ed0219df901d",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/finance-cortex-retrieval.js",
+        "sha256": "b2484b62bd1f85dd508005514a1fe148ccd5d72bc7f1e5ef487e9d309cb808c1",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/finance-refresh-controller.js",
+        "sha256": "e8f8e37674e6f24dfd31feef08f02b5ebb394ca4a413e0c9a6661f4793ccc475",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/governance-brain.js",
+        "sha256": "a3149900f85a1a162fb2cf9c2eeb3a13e1b7977390368d14becc40425de94bde",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/governance-cortex-retrieval.js",
+        "sha256": "7091c2d450aa299911c4d13f65858ad8877da11e169d67917ff56191c4167c35",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/governance-refresh-controller.js",
+        "sha256": "e460122e991d24a15118b278160ee722e840288db5225f616b20d0804f328a41",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/industry-brain.js",
+        "sha256": "2d5a72241e36261680e3fb1a7203b7563d0f45e575034d77c5883f0fbb43a0a4",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/industry-cortex-retrieval.js",
+        "sha256": "4916331d6065f4f2f8f6c87d8a94e3d24a406aa5021b4fedf0ffe94204f978c1",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/industry-refresh-controller.js",
+        "sha256": "b4da7acb1f6296d3126e4d4200312eba2bce03ecc9d20dc810262335444187da",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/infrastructure-brain.js",
+        "sha256": "34c678894e42268c61616ec90e2894f20cc27780bd17d6c4222694f2234f2814",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/infrastructure-cortex-retrieval.js",
+        "sha256": "0adb9e1c7da90850f287607e6d88ceec78093e90210476c36cbaa3b7336ec024",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/infrastructure-refresh-controller.js",
+        "sha256": "694dbab6bff445cb0c8572a2fd3d8f529957c0820f9ce0fdc48c5f56d9ec33e5",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/intelligence-brain.js",
+        "sha256": "aca54a81096abd5cbaac6ee0f303da0f887981c05ffe08e824d1557d3fdb72bf",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/intelligence-cortex-retrieval.js",
+        "sha256": "0c50401c23a3a12dbd4661a4e54d27820eef5e006fe4a3336539dd223ba660ca",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/intelligence-refresh-controller.js",
+        "sha256": "bb6ada41923ba693225371a5a4b8fb5bbc0f4ea82fa7e128f9039e937b9003df",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/inter-brain-bus.js",
+        "sha256": "7db42eec5f357af526a3bb951e30008d713ed797857336770b0a5bb7e6aa94e1",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/law-brain.js",
+        "sha256": "c5fd9de311b27f099be3fb55cc71dca4e885f79de0d7c182c1a3c16d759f7a89",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/law-cortex-retrieval.js",
+        "sha256": "19003fd85cb3731b920f1843073f10f4c7306d50ab6b4d76fc223582b614aad3",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/law-refresh-controller.js",
+        "sha256": "485fdcd15039c384979976253714a0216d957d0ad90caffac071e744a1277705",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/medicine-brain.js",
+        "sha256": "742bd333189a5769ef2ae00dcc57e9dfbd260a736dbea9eb78192f6db9c89853",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/medicine-cortex-retrieval.js",
+        "sha256": "4f6fd31d61f121380fa02553c6583ae75d17642976fea82c9adc20bf59118ce8",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/medicine-refresh-controller.js",
+        "sha256": "7433f7428c8566b68dfd0576ef2060c61190944a685dbb3d2b9882a1bef615d1",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/population-brain.js",
+        "sha256": "ee74ca3e9a245c7155a489eb342eb9172eaaf700a72c93c0606d423a337669c1",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/population-cortex-retrieval.js",
+        "sha256": "2db9e4194668323671779703aafa85e60b6cf6f70aedc681c31a7a577c780d7a",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/population-refresh-controller.js",
+        "sha256": "3ed82b939694ed2cc6926feb1802a1bdc65817de62348d53942439b3c1e1cde5",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/portal-content-resolver.js",
+        "sha256": "8fc1a6702e24ecbaf80453168ad8613753cd7dd60d6bd3c245ac98f638ea4d41",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/religion-brain.js",
+        "sha256": "ab1a88c29ea2ec2469050481af697d115df0997499d176e197ecb975ed5133a8",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/religion-cortex-retrieval.js",
+        "sha256": "47e1923fafc2ddfca937ec3f40b5617533b68126dfd2af576d2e2092ff54b0d8",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/religion-refresh-controller.js",
+        "sha256": "8a1974c20f54ef01b9caa8a433a04e22623621ada66ae1692bbef59bad72cf11",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/science-brain.js",
+        "sha256": "6965b443fd628bf5814db3ca0b900bb460ceff21d31c99439544f5021c1f27df",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/science-cortex-retrieval.js",
+        "sha256": "226d73edec982ce236296de82ffe73e5163259a1ee087968aaeec95cb733d396",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/science-refresh-controller.js",
+        "sha256": "c05462ec4e08d52945327d33bbdd333e6e2d882dd8f6ea1dee88469adf653d93",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/technology-brain.js",
+        "sha256": "9935677a84d388d8bde521c6dccc7a62a8e0236d63db48c422b3b55a0be36ac0",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/technology-cortex-retrieval.js",
+        "sha256": "9723c6f3675a602944a6a73caabd0935b18b41215b3fcfd9351c57b920de51bd",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/technology-refresh-controller.js",
+        "sha256": "63f518f236f91334bf39cec3e0e5b7848acd8661d6850ddaa6bb1ca549a6f878",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/trade-brain.js",
+        "sha256": "9a3bdb4d985d3eddd88c1d73c517fde6fea09ba03e9544f2031bb3ca77a114ca",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/trade-cortex-retrieval.js",
+        "sha256": "9b2874cc458a5df4405118a6d5369f98ef30831a155f45ec69dc4815a5cdead0",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/domain-brains/trade-refresh-controller.js",
+        "sha256": "5c912299f0a6d607453e32ea87538a759afbceb00ea5af4f102413a21ad21793",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "python_runtime/helix_app/thing1/limen_backtest.py",
+        "sha256": "d52a1e2067309fa0efcb88bb2dc43710cad9ab9b31d1a406456ebbb3c30fbed9",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "lib/company-phase-scorer.js",
+        "sha256": "62b28a0dbb5f23814f49e720dacc1a3a8256da04234701b7be40b70cace05423",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "lib/immune-routing-contract.js",
+        "sha256": "b9234ef21e433ea5499930698b15e9ca745bf4f6e1cf8edd17970571df61b58d",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/limen-thing2-kernel.js",
+        "sha256": "7acffcc56e86f0a57be3b1f7344bc4dd89f649d5da7f33cca3cd9c26b1451aea",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "python_runtime/helix_app/thing2/phase_engine.py",
+        "sha256": "54593c50fc452379327a06cb9a16cfa1daf8df1237e0d7e742f6bd1429665f94",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "helix-report.html",
+        "sha256": "1e3971a1866d80fc72a95233655401a8220fea9262ab131e37f7d01d4848fe8b",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      },
+      {
+        "file": "assets/js/company-portal-ui.js",
+        "sha256": "a0a3ad7e5089c67eccfc309a833786f54eac80809c114a2b980a367a107cb30b",
+        "unchangedAgainst": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c"
+      }
+    ],
+    "fullSuite": {
+      "passed": 389,
+      "skipped": 1,
+      "failed": 0,
+      "seconds": 278.2,
+      "logSha256": "ae6e9cf908cc8b701bd67679b57fabc4e29b3a2710e134a8057b348af9622c84",
+      "skip": "External corpus prerequisite unavailable"
+    },
+    "repository": "passed",
+    "schedulerMap": "passed: 83 Vercel and 8 GitHub cron mappings; execution not asserted"
+  },
+  "domainServoIdentification": [
+    {
+      "file": "assets/js/domain-brains/agriculture-brain.js",
+      "function": "_computeAgricultureServo",
+      "line": 810,
+      "stateKeys": [
+        "agricultureServo"
+      ],
+      "sourceSha256": "5921a9aaa8a3bf2641e528593f8d23158ce215c23b1fea9439ab51b354aa031b",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/communication-brain.js",
+      "function": "_computeCommunicationServo",
+      "line": 984,
+      "stateKeys": [
+        "communicationServo"
+      ],
+      "sourceSha256": "e1fb65d823165cb54074b3fdc2135f3be2962c2055201435741406ceb54ed75e",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/culture-brain.js",
+      "function": "_computeCultureServo",
+      "line": 1644,
+      "stateKeys": [
+        "cultureServo"
+      ],
+      "sourceSha256": "f4316af701674890279056bcf31d7074fbc069e67662366fb757caf00caa9667",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/defense-brain.js",
+      "function": "_computeDefenseServo",
+      "line": 941,
+      "stateKeys": [
+        "defenseServo"
+      ],
+      "sourceSha256": "a901c40932df5316afa4c55c494940633f143f3b94872e63317b645abe8dda51",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/economy-brain.js",
+      "function": "_computeEconomyServo",
+      "line": 1470,
+      "stateKeys": [
+        "economyServo"
+      ],
+      "sourceSha256": "aee42da913b0e923aefb054b6572b60f35f56d1face73fa91fc50160c038195f",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/education-brain.js",
+      "function": "_computeEducationServo",
+      "line": 1405,
+      "stateKeys": [
+        "educationServo"
+      ],
+      "sourceSha256": "889c63358207e4334d55f1e24806215771cd1269db5e083192d7db955c4110a7",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/energy-brain.js",
+      "function": "_computeEnergyServo",
+      "line": 2289,
+      "stateKeys": [
+        "energyServo"
+      ],
+      "sourceSha256": "d4f8fcdcb31da04912435c208179de214a55f707573d2131225d808f181b61ac",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/environment-brain.js",
+      "function": "_computeEnvironmentServo",
+      "line": 1573,
+      "stateKeys": [
+        "environmentServo"
+      ],
+      "sourceSha256": "18918ac8131685a7c538262737f890e308c5a34220b3502019c5fdae573ce4f9",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/finance-brain.js",
+      "function": "_computeFinanceServo",
+      "line": 1205,
+      "stateKeys": [
+        "financeServo"
+      ],
+      "sourceSha256": "ae15a905f42849c7c6e3fc56287451d315aea1a5e330d205a504c36f7ecf7563",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/governance-brain.js",
+      "function": "_computeGovernanceServo",
+      "line": 914,
+      "stateKeys": [
+        "governanceServo"
+      ],
+      "sourceSha256": "4e3c0dc9266b43b31bcd59368279ab8ead98a675b4e010bdcaf7e2027516c01e",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/industry-brain.js",
+      "function": "_computeIndustryServo",
+      "line": 1635,
+      "stateKeys": [
+        "industryServo"
+      ],
+      "sourceSha256": "2c03d852d7b34f84d93d2e8e0b9e78b779b0f5e0606d38cd14aecf09f5f5b064",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/infrastructure-brain.js",
+      "function": "_computeInfraServo",
+      "line": 1074,
+      "stateKeys": [
+        "infraServo"
+      ],
+      "sourceSha256": "3d2a9e8856104706c89fb7322c454735939c859d88e01b02cb447d9933e8e578",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/intelligence-brain.js",
+      "function": "_computeIntelligenceServo",
+      "line": 1830,
+      "stateKeys": [
+        "intelligenceServo"
+      ],
+      "sourceSha256": "55a43a38af2f46459a7bd7cd3fad82d52875f740198ec5dd8c392d1fe5b09078",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/law-brain.js",
+      "function": "_computeLawServo",
+      "line": 1748,
+      "stateKeys": [
+        "lawServo"
+      ],
+      "sourceSha256": "ef2ee4cee63b952b7da1a3eb2e41d3e10575705b86f16868a6152cfc4c2dfccb",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/medicine-brain.js",
+      "function": "_computeMedicineServo",
+      "line": 1773,
+      "stateKeys": [
+        "medicineServo"
+      ],
+      "sourceSha256": "c46f1aafea5a4383e6c0ffdb3a33cf108353fe390c0bfa312cb6a17ded1c2c29",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/population-brain.js",
+      "function": "_computePopulationServo",
+      "line": 1323,
+      "stateKeys": [
+        "populationServo"
+      ],
+      "sourceSha256": "9afcc313371728849a7e1b8b0f810ef1cb01013ab3452070e5ea0b90e28b3ece",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/religion-brain.js",
+      "function": "_computeReligionServo",
+      "line": 1314,
+      "stateKeys": [
+        "religionServo"
+      ],
+      "sourceSha256": "ae11e59acc87e83f257a62c70d411b2c60028df259876f1006a0224dd6ddc8de",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/science-brain.js",
+      "function": "_computeScienceServo",
+      "line": 1197,
+      "stateKeys": [
+        "scienceServo"
+      ],
+      "sourceSha256": "ff2685cdd744a9d7693717d64ab6b5d927b4c4c9e2ffcecc448ebb1fa9a19d86",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/technology-brain.js",
+      "function": "_computeTechnologyServo",
+      "line": 979,
+      "stateKeys": [
+        "technologyServo"
+      ],
+      "sourceSha256": "fc23a16aadae616557add45f8e6b9e5704c7daaf704954077c5b7994cf2e02f9",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    },
+    {
+      "file": "assets/js/domain-brains/trade-brain.js",
+      "function": "_computeTradeServo",
+      "line": 1238,
+      "stateKeys": [
+        "tradeServo"
+      ],
+      "sourceSha256": "228128ff494ee85f2c3b5a2ea0301bc35d8bd922a6e9474a679531be8d7e8b47",
+      "plantObservation": "native regulation inhibition",
+      "reference": "native drive/deviation-derived inhibition target",
+      "nativeError": "target minus inhibition; opposite sign to candidate e=x-s",
+      "compensation": "bounded discrete integral of native error",
+      "effector": "bounded emission confidence factor; not proven actuation of physical domain stress",
+      "candidatePlantEquationIdentified": false,
+      "externalSupportIdentified": false,
+      "operatingLoadSeparated": false,
+      "reserveMapIdentified": false,
+      "continuousTimeScaleIdentified": false,
+      "couplingIdentification": "native label-based routing coefficients are not measured angular K_ij(y)"
+    }
+  ],
+  "limitations": [
+    "Snapshot revisions can share original source contents; distinct revisions do not prove independent scientific observations",
+    "Existing provisional phase eligibility/classification thresholds and native brain controllers unchanged",
+    "Full candidate regulator is not installed; native servo is a different controlled subsystem",
+    "No invented external support/load/reserve/time-scale/angle measurements; no clinical validation claim",
+    "Thing1 and every native domain brain source unchanged; no provider or external-action execution"
+  ]
+}

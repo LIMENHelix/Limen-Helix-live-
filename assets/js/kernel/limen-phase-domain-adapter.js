@@ -69,8 +69,6 @@
     culture: 0.7, communication: 0.75, education: 0.8
   };
 
-  var PHASE_ORDER = { p0:0, p2:1, p4:2, p6:3, p1:4, p5:5, p3:6, p7b:7 };
-
   // ══════════════════════════════════════════════════════════════════════
   // STATE
   // ══════════════════════════════════════════════════════════════════════
@@ -187,7 +185,7 @@
    *
    * Separates: high-stress instability (P3/P5) from structural divergence (P7b).
    */
-  function _computeBreakProxy(dk, currentStress, accumulatorProxy, confidence) {
+  function _computeBreakProxy(dk, currentStress, accumulatorProxy, confidence, newSnapshot) {
     var hist = _stressHistory[dk] || [];
     if (hist.length < 10) return { raw: 0, confirmed: false };
 
@@ -235,10 +233,13 @@
     if (!_breakConfirmCounter[dk]) _breakConfirmCounter[dk] = { count: 0, lastRaw: 0 };
     var bc = _breakConfirmCounter[dk];
 
-    if (raw >= BREAK_RAW_THRESHOLD) {
-      bc.count++;
-    } else {
-      bc.count = 0;
+    // A second reader/event over the same snapshot is not another confirmation.
+    if (newSnapshot) {
+      if (raw >= BREAK_RAW_THRESHOLD) {
+        bc.count++;
+      } else {
+        bc.count = 0;
+      }
     }
     bc.lastRaw = raw;
 
@@ -253,10 +254,17 @@
   // STRESS HISTORY TRACKING (for proxy computation)
   // ══════════════════════════════════════════════════════════════════════
 
-  function _recordStress(dk, stress) {
+  function _recordStress(dk, stress, timestamp) {
     if (!_stressHistory[dk]) _stressHistory[dk] = [];
-    _stressHistory[dk].push({ stress: stress, timestamp: Date.now() });
+    var hist = _stressHistory[dk];
+    var last = hist.length ? hist[hist.length - 1] : null;
+    if (last && timestamp < last.timestamp) return null;
+    if (last && timestamp === last.timestamp) return stress === last.stress ? false : null;
+    // 'updated' is the signal engine's snapshot update time, not a publisher
+    // observation date. Preserve that distinction instead of stamping each read.
+    hist.push({ stress: stress, timestamp: timestamp });
     if (_stressHistory[dk].length > STRESS_HISTORY_MAX) _stressHistory[dk].shift();
+    return true;
   }
 
   // ══════════════════════════════════════════════════════════════════════
@@ -271,17 +279,21 @@
 
     for (var i = 0; i < crossDomain.length; i++) {
       var pat = crossDomain[i];
-      if (!pat.domains) continue;
+      if (!pat || !Array.isArray(pat.domains)) continue;
+      if (!_unitObservation(pat.severity) || !_unitObservation(pat.confidence)) continue;
       var involved = false;
       for (var j = 0; j < pat.domains.length; j++) {
         if (pat.domains[j] === dk) { involved = true; break; }
       }
       if (!involved) continue;
+      var seen = {};
       for (var k = 0; k < pat.domains.length; k++) {
         var other = pat.domains[k];
-        if (other === dk) continue;
-        var otherStress = (domains[other] && domains[other].stress) || 0;
-        pressure += (pat.severity || 0) * (pat.confidence || 0.5) * otherStress;
+        if (other === dk || seen[other]) continue;
+        seen[other] = true;
+        var otherStress = domains[other] && domains[other].stress;
+        if (!_unitObservation(otherStress)) continue;
+        pressure += pat.severity * pat.confidence * otherStress;
         contributions++;
       }
     }
@@ -294,8 +306,14 @@
   // ══════════════════════════════════════════════════════════════════════
 
   function _classifyPhase(dk, d) {
-    var stress = d.stress || 0;
-    var confidence = d.confidence || 0;
+    if (!d || !_unitObservation(d.stress) || !_unitObservation(d.confidence)) {
+      return _unobserved('missing-or-invalid-domain-observation');
+    }
+    if (typeof d.updated !== 'number' || !isFinite(d.updated) || d.updated <= 0 || d.updated > Date.now()) {
+      return _unobserved('missing-or-invalid-snapshot-time');
+    }
+    var stress = d.stress;
+    var confidence = d.confidence;
     var maturity = d.maturity || 'EARLY';
     var trend = d.trend || 0;
     var activity = d.activity || 0;
@@ -305,12 +323,13 @@
     var ps = dampen ? stress * dampen : stress;
 
     // Record stress for proxy computation
-    _recordStress(dk, stress);
+    var newSnapshot = _recordStress(dk, stress, d.updated);
+    if (newSnapshot === null) return _unobserved('stale-or-conflicting-snapshot');
 
     // Compute 3 proxy state variables
     var accum = _computeAccumulatorProxy(dk, stress);
     var vari = _computeVarianceProxy(dk);
-    var brk = _computeBreakProxy(dk, stress, accum, confidence);
+    var brk = _computeBreakProxy(dk, stress, accum, confidence, newSnapshot);
     var recPressure = _computeRecursivePressure(dk);
 
     // Read long memory
@@ -389,8 +408,9 @@
     var supportMod = { HIGH: 0.9, MEDIUM: 0.6, LOW: 0.35 };
     var phaseConf = Math.min(0.90, confidence * (supportMod[support] || 0.35));
 
-    var trajectory = _computeTrajectory(dk, phase);
+    var trajectory = _computeTrajectory(dk);
     var histPhases = (_phaseHistory[dk] || []).map(function (h) { return h.phase; });
+    var snapshots = _stressHistory[dk] || [];
 
     return {
       phase: phase,
@@ -400,6 +420,10 @@
       phaseTrajectory: trajectory,
       phaseSupport: support,
       phaseProvisional: true,
+      observationTimestamp: snapshots.length ? snapshots[snapshots.length - 1].timestamp : null,
+      observationTimeBasis: 'signal-engine snapshot update; publisher observation date unverified',
+      snapshotSamples: snapshots.length,
+      trajectoryBasis: 'direction of stress between distinct snapshot updates; not phase rank',
       priorityMod: (PHASE_PRIORITY[phase] || 0) * (supportMod[support] || 0.35),
       recursivePressure: r(recPressure),
       directStress: stress,
@@ -413,15 +437,23 @@
     };
   }
 
-  function _computeTrajectory(dk, currentPhase) {
-    var history = _phaseHistory[dk] || [];
+  function _computeTrajectory(dk) {
+    var history = _stressHistory[dk] || [];
     if (history.length < 2) return 'STABLE';
-    var prev = history[history.length - 1].phase;
-    var curOrd = PHASE_ORDER[currentPhase] || 0;
-    var prevOrd = PHASE_ORDER[prev] || 0;
-    if (curOrd > prevOrd + 1) return 'ESCALATING';
-    if (curOrd < prevOrd - 1) return 'DECLINING';
+    var delta = history[history.length - 1].stress - history[history.length - 2].stress;
+    if (delta > 0) return 'ESCALATING';
+    if (delta < 0) return 'DECLINING';
     return 'STABLE';
+  }
+
+  function _unitObservation(v) {
+    return typeof v === 'number' && isFinite(v) && v >= 0 && v <= 1;
+  }
+
+  function _unobserved(reason) {
+    return { phase: null, label: 'UNOBSERVED', phaseProvisional: true,
+      phaseSupport: 'UNOBSERVED', phaseConfidence: 0, priorityMod: 0,
+      phaseTrajectory: null, reason: reason };
   }
 
   // ══════════════════════════════════════════════════════════════════════
@@ -429,6 +461,7 @@
   // ══════════════════════════════════════════════════════════════════════
 
   function _updateHistory(dk, result) {
+    if (!result.phase) return;
     if (!_phaseHistory[dk]) _phaseHistory[dk] = [];
     var arr = _phaseHistory[dk];
     var last = arr.length > 0 ? arr[arr.length - 1] : null;

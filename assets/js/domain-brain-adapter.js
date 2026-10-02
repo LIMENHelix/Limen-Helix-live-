@@ -140,6 +140,9 @@
     var modelOwnerMatches = bs.domainId === modelOwner;
     var opps = _arr(bs.opportunities);
     var dirs = _arr(bs.directives);
+    // Native fallback stays available. A previous Thing2 result is no longer
+    // current evidence after its producer reports a failed/unavailable read.
+    var currentKernel = bs.phaseSource === 'thing2-kernel';
     return {
       // === Existing 10 fields — unchanged, preserved verbatim ===
       brainDiagnoses:     _arr(bs.diagnoses),
@@ -220,10 +223,10 @@
       brainMaturity:              _val(bs.maturity),
       brainTrajectory:            _val(bs.trajectory),
       // Thing2 recursive-kernel phase source (2026-07): interpretive posture, validated:false.
-      brainKernelPhase:           _val(bs.kernelPhase),
-      brainKernelTrajectory:      _val(bs.kernelTrajectory),
+      brainKernelPhase:           currentKernel ? _val(bs.kernelPhase) : null,
+      brainKernelTrajectory:      currentKernel ? _val(bs.kernelTrajectory) : null,
       brainPhaseSource:           _val(bs.phaseSource),
-      brainKernelCt:              _num(bs.kernelCAccum),
+      brainKernelCt:              currentKernel ? _num(bs.kernelCAccum) : null,
 
       // === G. Cross-modal ===
       brainIngest:                _arr(bs.crossDomainIngest),
