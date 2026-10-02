@@ -251,122 +251,123 @@ sb.LIMENDomains = fixtures;
           destinationSelectionCreated: false, agricultureMotorCreated: false, homesteadExcluded: true,
           nativeReturnBoundary: agricultureProjection.routedOutcomeReturn };
       }
-      var nativeCommunicationCommercialJoin = null;
-      if (['communication', 'trade', 'religion'].includes(row[0])) {
-        if (row[0] === 'communication') {
-          const nativeCommercial = require('../lib/domain-commercial-lanes.js').get('communication');
-          const record = { ts: Date.parse(packet.generatedAt), c: { ...brain.state.cognition, domain: 'communication',
-            serverPacket: packet, serverPacketPersistence: consumed,
-            brainOrgans: { resourceMetabolism: brain.state.resourceMetabolism } } };
-          const reflex = nativeCommercial.evaluate(record, null, Date.parse(packet.generatedAt));
-          console.log('Communication native commercial boundary', reflex.status, reflex.reason);
-          assert.equal(reflex.status, 'ABSTAINED');
-          assert.equal(reflex.reason, 'owning-domain-semantic-evidence-unavailable');
-          assert.equal(reflex.externalEffectAuthorized, false);
-          const artifact = require('../lib/domain-commercial-artifact.js').build(nativeCommercial.contract, reflex, Date.parse(packet.generatedAt));
-          assert.notEqual(artifact.status, 'ARTIFACT_PREPARED');
-          assert.equal(artifact.artifact, null);
-          const semanticAt = Date.parse(packet.generatedAt);
-          const commercialTitles = [0, 1].map(feed => ({ t: packet.generatedAt, d: 'communication',
-            f: 'LOCAL/FIXTURE Communication feed ' + feed, hh: feed, ck: 'headline_title',
-            items: [{ i: 0, ti: 'Identified fixture communication observation ' + feed,
-              au: 'https://fixture.invalid/communication/' + feed, pa: packet.generatedAt, pl: 'Fixture publisher ' + feed }] }));
-          const commercialSemantic = DomainSemantic.build(commercialTitles, 'communication', semanticAt);
-          commercialSemantic.meta.ownerDomain = 'communication'; commercialSemantic.meta.sourceDomain = 'communication';
-          await Promise.resolve(brain.cycle());
-          const commercialPacket = Packet.fromBrainState('communication', brain.state,
-            { snapshotId: 'fixture-native-source-snapshot', fetchedAt: semanticAt }, 'fixture-commercial-semantic-refresh', packet.generatedAt,
-            { semanticEvidence: commercialSemantic.observations, semanticEvidenceMeta: commercialSemantic.meta, feedSourceEvidence: nativeFeedEvidence });
-          const commercialConsumer = Consumer.createConsumer({ store: { ...store, packetIndexKey: 'commercial-packets', handoffIndexKey: 'commercial-handoffs' } });
-          const commercialPersistence = await commercialConsumer.consumePacket(commercialPacket);
-          assert.equal(commercialPersistence.ok, true, JSON.stringify(commercialPersistence));
-          const commercialRecord = { ...record, c: { ...record.c, serverPacket: commercialPacket, serverPacketPersistence: commercialPersistence } };
-          const plan = nativeCommercial.evaluate(commercialRecord, null, semanticAt);
-          assert.equal(plan.status, 'PLANNED', plan.reason);
-          const commercialLists = new Map();
-          const commercialStore = { ...store, assertDurable() {}, setIfAbsent: store.setNx,
-            set: async (key, value) => { values.set(key, JSON.parse(JSON.stringify(value))); return true; },
-            replaceIfValue: async (key, expected, value) => { if (JSON.stringify(values.get(key) || null) !== JSON.stringify(expected)) return false;
-              values.set(key, JSON.parse(JSON.stringify(value))); return true; },
-            lpush: async (key, value) => { const rows = commercialLists.get(key) || []; rows.unshift(JSON.parse(JSON.stringify(value))); commercialLists.set(key, rows); return rows.length; },
-            lrange: async (key, start, end) => JSON.parse(JSON.stringify((commercialLists.get(key) || []).slice(start, end + 1))),
-            ltrim: async (key, start, end) => { commercialLists.set(key, (commercialLists.get(key) || []).slice(start, end + 1)); return true; } };
-          const durablePlan = await nativeCommercial.persist(commercialStore, plan);
-          assert.equal(durablePlan.readbackVerified, true);
-          const prepared = require('../lib/domain-commercial-artifact.js').build(nativeCommercial.contract, durablePlan, semanticAt + 1);
-          assert.equal(prepared.status, 'ARTIFACT_PREPARED', prepared.reason);
-          assert.equal(prepared.artifact.sourcePacketId, commercialPacket.packetId);
-          assert.equal(prepared.artifact.truthBoundary.fullTextRead, false);
-          assert.equal(prepared.artifact.externalEffectAuthorized, false);
-          const durableArtifact = await require('../lib/domain-commercial-artifact.js').persist(commercialStore, nativeCommercial.contract, prepared);
-          assert.equal(durableArtifact.status, 'ARTIFACT_PREPARED');
-          const socialCandidate = await require('../lib/domain-commercial-social-candidate.js').read(commercialStore, 'communication', semanticAt + 2);
-          assert.equal(socialCandidate.ok, true, socialCandidate.reason);
-          assert.equal(socialCandidate.sourcePacketId, commercialPacket.packetId);
-          const distribution = await require('../lib/domain-commercial-distribution-decision.js').decide(commercialStore, socialCandidate, semanticAt + 3,
-            { cognition: { communication: commercialRecord } });
-          const statusHandler = require('../handlers/domain-commercial-status.js').createHandler({ store: commercialStore,
-            gate: { reqKey: () => 'fixture-operator', hasDomain: () => true, isMaster: () => false } });
-          let operatorStatus;
-          const statusResponse = { statusCode: 0, setHeader() {}, end(body) { operatorStatus = JSON.parse(body); } };
-          const beforeStatus = JSON.stringify(Array.from(values));
-          await statusHandler({ method: 'GET', url: '/api/domain-commercial-status?domain=communication' }, statusResponse);
-          assert.equal(statusResponse.statusCode, 200);
-          assert.equal(operatorStatus.readOnly, true);
-          assert.equal(operatorStatus.domains[0].distributionObservation.decision.id, distribution.decisionReceiptId);
-          assert.equal(operatorStatus.domains[0].distributionObservation.decision.reason, 'subject-domain-immune-veto');
-          assert.equal(operatorStatus.domains[0].distributionObservation.externalActionAuthorized, false);
-          const projectionSource = fs.readFileSync(path.join(__dirname, '../handlers/brain-cognition-refresh.js'), 'utf8');
-          const projectionLine = projectionSource.split(/\r?\n/).find(line => line.includes('c.distributionObservation = await domainCommercialDistribution.readObservation'));
-          assert.ok(projectionLine, 'existing cognition refresh must project the distribution readout');
-          const projected = {};
-          await new (Object.getPrototypeOf(async function() {}).constructor)('c', 'domainCommercialDistribution', 'efferenceStore', 'dom', projectionLine)(
-            projected, require('../lib/domain-commercial-distribution-decision.js'), commercialStore, 'communication');
-          assert.equal(JSON.parse(JSON.stringify(projected)).distributionObservation.decision.id, distribution.decisionReceiptId);
+      var nativeCommercialJoin = null;
+      if (['communication', 'culture'].includes(row[0])) {
+        const nativeCommercial = require('../lib/domain-commercial-lanes.js').get(row[0]);
+        const record = { ts: Date.parse(packet.generatedAt), c: { ...brain.state.cognition, domain: row[0],
+          serverPacket: packet, serverPacketPersistence: consumed,
+          brainOrgans: { resourceMetabolism: brain.state.resourceMetabolism } } };
+        const reflex = nativeCommercial.evaluate(record, null, Date.parse(packet.generatedAt));
+        console.log(row[0] + ' native commercial boundary', reflex.status, reflex.reason);
+        assert.equal(reflex.status, 'ABSTAINED');
+        assert.equal(reflex.reason, 'owning-domain-semantic-evidence-unavailable');
+        assert.equal(reflex.externalEffectAuthorized, false);
+        const artifact = require('../lib/domain-commercial-artifact.js').build(nativeCommercial.contract, reflex, Date.parse(packet.generatedAt));
+        assert.notEqual(artifact.status, 'ARTIFACT_PREPARED');
+        assert.equal(artifact.artifact, null);
+        const semanticAt = Date.parse(packet.generatedAt);
+        const commercialTitles = [0, 1].map(feed => ({ t: packet.generatedAt, d: row[0],
+          f: 'LOCAL/FIXTURE ' + row[0] + ' feed ' + feed, hh: feed, ck: 'headline_title',
+          items: [{ i: 0, ti: 'Identified fixture ' + row[0] + ' observation ' + feed,
+            au: 'https://fixture.invalid/' + row[0] + '/' + feed, pa: packet.generatedAt, pl: 'Fixture publisher ' + feed }] }));
+        const commercialSemantic = DomainSemantic.build(commercialTitles, row[0], semanticAt);
+        commercialSemantic.meta.ownerDomain = row[0]; commercialSemantic.meta.sourceDomain = row[0];
+        await Promise.resolve(brain.cycle());
+        const commercialPacket = Packet.fromBrainState(row[0], brain.state,
+          { snapshotId: 'fixture-native-source-snapshot', fetchedAt: semanticAt }, 'fixture-commercial-semantic-refresh', packet.generatedAt,
+          { semanticEvidence: commercialSemantic.observations, semanticEvidenceMeta: commercialSemantic.meta, feedSourceEvidence: nativeFeedEvidence });
+        const commercialConsumer = Consumer.createConsumer({ store: { ...store, packetIndexKey: 'commercial-packets', handoffIndexKey: 'commercial-handoffs' } });
+        const commercialPersistence = await commercialConsumer.consumePacket(commercialPacket);
+        assert.equal(commercialPersistence.ok, true, JSON.stringify(commercialPersistence));
+        const commercialRecord = { ...record, c: { ...record.c, serverPacket: commercialPacket, serverPacketPersistence: commercialPersistence } };
+        const plan = nativeCommercial.evaluate(commercialRecord, null, semanticAt);
+        assert.equal(plan.status, 'PLANNED', plan.reason);
+        const commercialLists = new Map();
+        const commercialStore = { ...store, assertDurable() {}, setIfAbsent: store.setNx,
+          set: async (key, value) => { values.set(key, JSON.parse(JSON.stringify(value))); return true; },
+          replaceIfValue: async (key, expected, value) => { if (JSON.stringify(values.get(key) || null) !== JSON.stringify(expected)) return false;
+            values.set(key, JSON.parse(JSON.stringify(value))); return true; },
+          lpush: async (key, value) => { const rows = commercialLists.get(key) || []; rows.unshift(JSON.parse(JSON.stringify(value))); commercialLists.set(key, rows); return rows.length; },
+          lrange: async (key, start, end) => JSON.parse(JSON.stringify((commercialLists.get(key) || []).slice(start, end + 1))),
+          ltrim: async (key, start, end) => { commercialLists.set(key, (commercialLists.get(key) || []).slice(start, end + 1)); return true; } };
+        const durablePlan = await nativeCommercial.persist(commercialStore, plan);
+        assert.equal(durablePlan.readbackVerified, true);
+        const prepared = require('../lib/domain-commercial-artifact.js').build(nativeCommercial.contract, durablePlan, semanticAt + 1);
+        assert.equal(prepared.status, 'ARTIFACT_PREPARED', prepared.reason);
+        assert.equal(prepared.artifact.sourcePacketId, commercialPacket.packetId);
+        assert.equal(prepared.artifact.truthBoundary.fullTextRead, false);
+        assert.equal(prepared.artifact.externalEffectAuthorized, false);
+        const durableArtifact = await require('../lib/domain-commercial-artifact.js').persist(commercialStore, nativeCommercial.contract, prepared);
+        assert.equal(durableArtifact.status, 'ARTIFACT_PREPARED');
+        const socialCandidate = await require('../lib/domain-commercial-social-candidate.js').read(commercialStore, row[0], semanticAt + 2);
+        assert.equal(socialCandidate.ok, true, socialCandidate.reason);
+        assert.equal(socialCandidate.sourcePacketId, commercialPacket.packetId);
+        const distribution = await require('../lib/domain-commercial-distribution-decision.js').decide(commercialStore, socialCandidate, semanticAt + 3,
+          { cognition: { [row[0]]: commercialRecord } });
+        const statusHandler = require('../handlers/domain-commercial-status.js').createHandler({ store: commercialStore,
+          gate: { reqKey: () => 'fixture-operator', hasDomain: () => true, isMaster: () => false } });
+        let operatorStatus;
+        const statusResponse = { statusCode: 0, setHeader() {}, end(body) { operatorStatus = JSON.parse(body); } };
+        const beforeStatus = JSON.stringify(Array.from(values));
+        await statusHandler({ method: 'GET', url: '/api/domain-commercial-status?domain=' + row[0] }, statusResponse);
+        assert.equal(statusResponse.statusCode, 200);
+        assert.equal(operatorStatus.readOnly, true);
+        assert.equal(operatorStatus.domains[0].distributionObservation.decision.id, distribution.decisionReceiptId);
+        assert.equal(operatorStatus.domains[0].distributionObservation.decision.reason, 'subject-domain-immune-veto');
+        assert.equal(operatorStatus.domains[0].distributionObservation.externalActionAuthorized, false);
+        const projectionSource = fs.readFileSync(path.join(__dirname, '../handlers/brain-cognition-refresh.js'), 'utf8');
+        const projectionLine = projectionSource.split(/\r?\n/).find(line => line.includes('c.distributionObservation = await domainCommercialDistribution.readObservation'));
+        assert.ok(projectionLine, 'existing cognition refresh must project the distribution readout');
+        const projected = {};
+        await new (Object.getPrototypeOf(async function() {}).constructor)('c', 'domainCommercialDistribution', 'efferenceStore', 'dom', projectionLine)(
+          projected, require('../lib/domain-commercial-distribution-decision.js'), commercialStore, row[0]);
+        assert.equal(JSON.parse(JSON.stringify(projected)).distributionObservation.decision.id, distribution.decisionReceiptId);
 
-          assert.equal(operatorStatus.providerCalled, false);
-          assert.equal(operatorStatus.domains[0].artifact.sourcePacketId, commercialPacket.packetId);
-          assert.equal(operatorStatus.domains[0].state.intent.intentId, durablePlan.intent.intentId);
-          assert.equal(operatorStatus.domains[0].publicSocialOutcome.status, 'ABSTAINED');
-          assert.equal(operatorStatus.domains[0].publicSocialOutcome.signal, null);
-          assert.equal(JSON.stringify(Array.from(values)), beforeStatus);
-          console.log('Communication native artifact distribution', distribution.status, distribution.reason || 'subject-distribution-released');
-          assert.equal(distribution.providerCalled || false, false);
-          assert.equal(distribution.status, 'NO_ACTION');
-          assert.equal(distribution.reason, 'subject-domain-immune-veto');
-          assert.equal(distribution.released, false);
-          assert.equal(distribution.observationOnly, true);
-          const distributionModule = require('../lib/domain-commercial-distribution-decision.js');
-          assert.deepEqual(await commercialStore.get(distributionModule.key('communication', socialCandidate.sourceArtifactId, distribution.decisionReceiptId)), distribution);
-          assert.equal(distributionModule.validate(distribution, socialCandidate, semanticAt + 4), false);
-          for (const corrupt of [
-            row => ({ ...row, ownerDomain: 'research' }),
-            row => ({ ...row, decidedAt: semanticAt + 1000 }),
-            row => ({ ...row, externalEffectAuthorized: true }),
-            row => ({ ...row, sourcePacketId: 'wrong-packet' })
-          ]) {
-            const badRow = corrupt(distribution);
-            const badStore = { assertDurable() {}, lrange: async () => [badRow], get: async () => badRow };
-            const readout = await distributionModule.readObservation(badStore, 'communication', semanticAt + 4);
-            assert.equal(readout.status, 'UNAVAILABLE');
-            assert.equal(readout.decision, null);
-            assert.equal(readout.externalActionAuthorized, false);
-          }
-          const mismatchedStore = { assertDurable() {}, lrange: async () => [distribution], get: async () => null };
-          assert.equal((await distributionModule.readObservation(mismatchedStore, 'communication', semanticAt + 4)).status, 'UNAVAILABLE');
-
-          const replayHold = await distributionModule.decide(commercialStore, socialCandidate, semanticAt + 3,
-            { cognition: { communication: commercialRecord } });
-          assert.deepEqual(replayHold, distribution);
-          assert.equal((await commercialStore.lrange(distributionModule.logKey('communication'), 0, 99)).length, 1);
-          const wrongOwnerRecord = JSON.parse(JSON.stringify(commercialRecord));
-          wrongOwnerRecord.c.serverPacket.truth.semanticEvidenceMeta.ownerDomain = 'science';
-          assert.equal(nativeCommercial.evaluate(wrongOwnerRecord, null, semanticAt).reason, 'owning-domain-semantic-evidence-unavailable');
-          nativeCommunicationCommercialJoin = { evidenceLevel: 'LOCAL/FIXTURE', sourcePacketId: commercialPacket.packetId,
-            intentId: durablePlan.intent.intentId, artifactId: socialCandidate.sourceArtifactId,
-            status: distribution.status, reason: distribution.reason, providerCalled: false, fullTextVerified: false };
-          console.log('Communication native commercial semantic join', prepared.status, commercialPacket.packetId);
+        assert.equal(operatorStatus.providerCalled, false);
+        assert.equal(operatorStatus.domains[0].artifact.sourcePacketId, commercialPacket.packetId);
+        assert.equal(operatorStatus.domains[0].state.intent.intentId, durablePlan.intent.intentId);
+        assert.equal(operatorStatus.domains[0].publicSocialOutcome.status, 'ABSTAINED');
+        assert.equal(operatorStatus.domains[0].publicSocialOutcome.signal, null);
+        assert.equal(JSON.stringify(Array.from(values)), beforeStatus);
+        console.log(row[0] + ' native artifact distribution', distribution.status, distribution.reason || 'subject-distribution-released');
+        assert.equal(distribution.providerCalled || false, false);
+        assert.equal(distribution.status, 'NO_ACTION');
+        assert.equal(distribution.reason, 'subject-domain-immune-veto');
+        assert.equal(distribution.released, false);
+        assert.equal(distribution.observationOnly, true);
+        const distributionModule = require('../lib/domain-commercial-distribution-decision.js');
+        assert.deepEqual(await commercialStore.get(distributionModule.key(row[0], socialCandidate.sourceArtifactId, distribution.decisionReceiptId)), distribution);
+        assert.equal(distributionModule.validate(distribution, socialCandidate, semanticAt + 4), false);
+        for (const corrupt of [
+          row => ({ ...row, ownerDomain: 'research' }),
+          row => ({ ...row, decidedAt: semanticAt + 1000 }),
+          row => ({ ...row, externalEffectAuthorized: true }),
+          row => ({ ...row, sourcePacketId: 'wrong-packet' })
+        ]) {
+          const badRow = corrupt(distribution);
+          const badStore = { assertDurable() {}, lrange: async () => [badRow], get: async () => badRow };
+          const readout = await distributionModule.readObservation(badStore, row[0], semanticAt + 4);
+          assert.equal(readout.status, 'UNAVAILABLE');
+          assert.equal(readout.decision, null);
+          assert.equal(readout.externalActionAuthorized, false);
         }
+        const mismatchedStore = { assertDurable() {}, lrange: async () => [distribution], get: async () => null };
+        assert.equal((await distributionModule.readObservation(mismatchedStore, row[0], semanticAt + 4)).status, 'UNAVAILABLE');
+
+        const replayHold = await distributionModule.decide(commercialStore, socialCandidate, semanticAt + 3,
+          { cognition: { [row[0]]: commercialRecord } });
+        assert.deepEqual(replayHold, distribution);
+        assert.equal((await commercialStore.lrange(distributionModule.logKey(row[0]), 0, 99)).length, 1);
+        const wrongOwnerRecord = JSON.parse(JSON.stringify(commercialRecord));
+        wrongOwnerRecord.c.serverPacket.truth.semanticEvidenceMeta.ownerDomain = 'science';
+        assert.equal(nativeCommercial.evaluate(wrongOwnerRecord, null, semanticAt).reason, 'owning-domain-semantic-evidence-unavailable');
+        nativeCommercialJoin = { evidenceLevel: 'LOCAL/FIXTURE', sourcePacketId: commercialPacket.packetId,
+          intentId: durablePlan.intent.intentId, artifactId: socialCandidate.sourceArtifactId,
+          status: distribution.status, reason: distribution.reason, immuneRoute: distribution.immuneRouting.route,
+          providerCalled: false, fullTextVerified: false };
+        console.log(row[0] + ' native commercial semantic join', prepared.status, commercialPacket.packetId);
+      }
+      if (['communication', 'trade', 'religion'].includes(row[0])) {
         var channelFamily = { communication: 'social', trade: 'auction', religion: 'subscriber' }[row[0]];
         var channelDecision = require('../lib/' + row[0] + '-' + channelFamily + '-decision.js');
         var beforeChannel = JSON.stringify(Array.from(values));
@@ -387,7 +388,7 @@ sb.LIMENDomains = fixtures;
         primaryIntakeBoundary = { ownerDomain: row[0] === 'trade' ? 'supplyChain' : row[0], lane: channelFamily,
           sourcePacketId: packet.packetId, evidenceLevel: 'LOCAL/FIXTURE', nativeOpportunityChecks: channelChecks,
           nextBoundary: requiredBlocker, providerCalled: false, candidateFabricated: false,
-          assetRightsOrSubscriberOrContentAuthorityInferred: false, commercialJoin: nativeCommunicationCommercialJoin };
+          assetRightsOrSubscriberOrContentAuthorityInferred: false, commercialJoin: nativeCommercialJoin };
       }
       var operationProfiles = {
         industry: ['crm', 'source-grounded-work-first-WARN-record-required'],
@@ -547,6 +548,8 @@ sb.LIMENDomains = fixtures;
           nativeCognitionInjected: false, nativeOpportunityReclassified: false, decisionId: maintenanceDecision.decisionReceiptId,
           status: maintenanceDecision.status, blockers: maintenanceDecision.blockers, sourcePacketId: maintenanceDecision.culturePacketId };
         primaryIntakeBoundary.maintenanceJoin.nativeImmuneState = cultureCognition.immune.immuneState;
+        primaryIntakeBoundary.commercialJoin = nativeCommercialJoin;
+        primaryIntakeBoundary.nextBoundary = nativeCommercialJoin.reason;
         primaryIntakeBoundary.maintenanceJoin.operatorReadout = { status: cultureTrace.status, decision: cultureTrace.decision,
           command: null, externalActionAuthorized: false, wrongOwnerReadFailsClosed: true, recoveryVerified: true };
       }
