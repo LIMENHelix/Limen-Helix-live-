@@ -117,6 +117,44 @@ class Store {
     assert(returnedCard.includes(origin + ':evaluation'));
     assert.match(returnedCard, /Science retains learning/);
     assert.equal(await outcomeStore.get(Learning.stateKey(origin === 'science' ? 'unused-science' : origin)), null);
+    const storePath = require.resolve('../lib/autofire-efference-store.js');
+    const handlerPath = require.resolve('../handlers/product-domain-learning-state.js');
+    const oldStoreModule = require.cache[storePath], oldHandlerModule = require.cache[handlerPath];
+    require.cache[storePath] = { id: storePath, filename: storePath, loaded: true, exports: outcomeStore };
+    delete require.cache[handlerPath];
+    let nativeReadout;
+    try {
+      const handler = require(handlerPath);
+      const learningOwner = origin === 'science' ? 'research' : origin === 'medicine' ? 'health' : origin;
+      const response = { statusCode: 0, setHeader() {}, end(body) { nativeReadout = JSON.parse(body); } };
+      await handler({ method: 'GET', url: '/api/product-domain-learning-state?domain=' + learningOwner }, response);
+      assert.equal(response.statusCode, 200);
+      assert.equal(nativeReadout.researchOriginTrace.outcomes.length, 1, nativeReadout.researchOriginTrace.reason);
+      if (origin !== 'science') {
+        assert.equal(nativeReadout.signal, null);
+        assert.equal(nativeReadout.resolvedCount, 0);
+        assert.equal(nativeReadout.learningGate.ready, false);
+      }
+      const name = origin[0].toUpperCase() + origin.slice(1);
+      const brainSource = fs.readFileSync(path.join(__dirname, '../assets/js/domain-brains/' + origin + '-brain.js'), 'utf8');
+      const methodMarker = '.prototype._refresh' + name + 'ActionOutcome = ';
+      const methodStart = brainSource.indexOf(methodMarker);
+      assert(methodStart >= 0);
+      const bodyStart = methodStart + methodMarker.length;
+      const bodyEnd = brainSource.indexOf('\n  };', bodyStart) + 5;
+      const refreshNative = new Function('fetch', 'return ' + brainSource.slice(bodyStart, bodyEnd))(async url => {
+        assert(url.endsWith('domain=' + learningOwner));
+        return { json: async () => JSON.parse(JSON.stringify(nativeReadout)) };
+      });
+      const brainReceiver = { domainId: learningOwner, state: {}, _cycleCount: 1 };
+      refreshNative.call(brainReceiver);
+      await new Promise(resolve => setImmediate(resolve));
+      assert.equal(brainReceiver.state.domainActionLearning.researchOriginTrace.outcomes[0].observationId, origin + ':evaluation');
+      assert.equal(brainReceiver.state.domainActionLearning.learningGate.ready, nativeReadout.learningGate.ready);
+    } finally {
+      if (oldStoreModule) require.cache[storePath] = oldStoreModule; else delete require.cache[storePath];
+      if (oldHandlerModule) require.cache[handlerPath] = oldHandlerModule; else delete require.cache[handlerPath];
+    }
     const copyKey = Efference.recordKey(commanded.copy.id);
     const originalCopy = clone(await outcomeStore.get(copyKey));
     const lateReceipt = clone(originalCopy); lateReceipt.resolvedAt = spec.at + 4;

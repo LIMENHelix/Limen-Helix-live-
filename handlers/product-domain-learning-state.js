@@ -22,6 +22,7 @@ var communicationLearning = require('../lib/communication-social-learning.js');
 var cultureLearning = require('../lib/culture-hero-learning.js');
 var lawLearning = require('../lib/law-automail-learning.js');
 var softSubscriberLanes = require('../lib/soft-domain-subscriber-lanes.js');
+var researchOriginTrace = require('../lib/research-business-trace-readout.js');
 var energyFinanceAfferent = require('../lib/energy-finance-afferent-learning.js');
 
 var DOMAINS = [
@@ -224,9 +225,17 @@ async function read(domain) {
     domain === 'research' ? 'science' :
     domain === 'supplyChain' ? 'trade' : domain;
   var subscriberLane = softSubscriberLanes.get(productDomain);
-  if (!subscriberLane) return primary;
-  var subscriber = validateSubscriberReadout(domain, productDomain, await subscriberLane.learning.readForBrain(store));
-  return mergeReadouts(domain, [primary, subscriber]);
+  var result = primary;
+  if (subscriberLane) {
+    var subscriber = validateSubscriberReadout(domain, productDomain, await subscriberLane.learning.readForBrain(store));
+    result = mergeReadouts(domain, [primary, subscriber]);
+  }
+  // Returned Science results are source observations, never source reward.
+  // Preserve the selected owner signal and its learning gate exactly.
+  if (['science', 'medicine', 'education', 'environment'].indexOf(productDomain) >= 0) {
+    result.researchOriginTrace = await researchOriginTrace.readOrigin(store, productDomain, Date.now());
+  }
+  return result;
 }
 
 module.exports = async function handler(req, res) {

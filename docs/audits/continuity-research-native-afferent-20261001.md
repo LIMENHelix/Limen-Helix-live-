@@ -1,0 +1,9 @@
+# Science observation through existing native read seam
+
+LOCAL/FIXTURE; full original goal remains incomplete. Existing product-domain-learning-state endpoint adds researchOriginTrace after own-domain lane selection and merging. The field carries only verified Science destination observations, using the established read-only origin reader. Existing owner signal, resolved count and learning gate retain their values.
+
+Four-origin fixture exercises the real endpoint against the same durable fixture stores as released selection, persisted artifact, independent evaluation intake and processed Science result. It invokes each actual native brain fetch-method body, extracted from the unchanged native source, and verifies retention in domainActionLearning. Medicine/ Education/ Environment keep null own reward signal, zero resolved count and closed gate. Science retains its own outcome and reward.
+
+This is not a complete native brain cycle, full refresh cron or production evidence. It proves endpoint delivery and native read/retention, not source stress regulation, changed next opportunity, or source learning credit. No neurology, source corpus, brain files or Agriculture contracts changed. Focused eighteen research tests and learning-state handler regression pass. Full suite90877 passed:378pass1external-corpus prerequisite skip0fail251.9s exit0. Repository36408 passed:350 module boots,2272 JavaScript and5028 JSON files (two size-cap skips); harness passes. Protected brain/data/worker diff empty; all79 paused fingerprints unchanged.
+
+Next proof: complete native cycle consuming the returned observation and subsequent sovereign evaluation, while preserving independent owner credit. All-domain execution and production revenue remain unproved. Google Docs stays deferred until the original goal is Done.
