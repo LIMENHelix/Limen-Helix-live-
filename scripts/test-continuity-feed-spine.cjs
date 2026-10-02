@@ -527,6 +527,8 @@ sb.LIMENDomains = fixtures;
         assert.equal(cultureTrace.decision.id, maintenanceDecision.decisionReceiptId);
         assert.equal(cultureTrace.decision.packetId, packet.packetId);
         assert(cultureTrace.decision.blockers.includes('culture-immune-veto'));
+        assert.equal(cultureTrace.decision.immuneRoute, maintenanceDecision.immuneRouting.route);
+        assert(['HOLD','QUARANTINE','REJECT'].includes(maintenanceDecision.immuneRouting.route));
         assert.equal(cultureTrace.command, null);
         assert.equal(cultureTrace.externalActionAuthorized, false);
         assert.equal(JSON.stringify(Array.from(values)), beforeCultureRead);

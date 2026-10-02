@@ -38,7 +38,7 @@ cognition.cognition.finance.c.motorReceiptPersistence.gates.mayPrepare = true;
 cognition.cognition.culture = { ts: Date.now(), c: { businessTrace: {
   schemaVersion: 'culture-business-trace-readout/1.0', ownerDomain: 'culture', lane: 'hero-image',
   status: 'RECORDED', observationOnly: true, externalActionAuthorized: false,
-  decision: { id: 'culture-decision-1', status: 'NO_ACTION', packetId: 'culture-packet-1', decidedAt: Date.now() },
+  decision: { id: 'culture-decision-1', status: 'NO_ACTION', immuneRoute: 'QUARANTINE', packetId: 'culture-packet-1', decidedAt: Date.now() },
   command: { id: 'culture-command-1', status: 'AMBIGUOUS', decisionId: 'culture-prior-decision', commandedAt: Date.now(), providerReceiptId: null }
 } } };
 cognition.count = 4;
@@ -242,6 +242,7 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
   assert.match(cultureCard, /RECORDED NO_ACTION/); assert.match(cultureCard, /RECORDED AMBIGUOUS/);
   assert.doesNotMatch(cultureCard, /exo-badge exo-paper">PAPER/, 'unverified capability does not establish paper execution');
   assert.match(cultureCard, /culture-prior-decision/);
+  assert.match(cultureCard,/culture-decision-1<\/b> · immune QUARANTINE/);
   assert.doesNotMatch(cultureCard, /PROVIDER-ACCEPTED/);
   cognition.cognition.culture.c.businessTrace.command.providerReceiptId = 'provider-culture-1';
   cognition.cognition.culture.c.businessTrace.command.status = 'GENERATED';

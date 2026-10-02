@@ -34,6 +34,28 @@ function motor(receipt) { return { authorize: async function () { return { autho
   var released = await Decision.decide(store, candidate, now, { cognition: cognition(now) });
   assert.equal(released.status, 'RELEASED');
   assert.equal(Decision.validateReceipt(released, candidate, now), true);
+  assert.equal(released.immuneRouting.route,'PASS');
+  const legacy={...released};delete legacy.immuneRouting;
+  assert.equal(Decision.validateReceipt(legacy,candidate,now),false);
+  for(const scenario of [
+    {route:'HOLD',immune:{immuneState:'watch',allowedWithWarning:true}},
+    {route:'HOLD',immune:{immuneState:'clear',quarantines:['untrusted-source']}},
+    {route:'QUARANTINE',immune:{immuneState:'alert'}},
+    {route:'QUARANTINE',immune:{immuneState:'clear',candidateQuarantined:true}},
+    {route:'REJECT',immune:null}
+  ]) {
+    const isolated=new Store();const current=cognition(now);current.c.immune=scenario.immune;
+    const held=await Decision.decide(isolated,candidate,now,{cognition:current});
+    assert.equal(held.immuneRouting.route,scenario.route);assert.equal(held.status,'NO_ACTION');
+    assert.equal(held.immuneRouting.candidatePreserved,true);assert.equal(Decision.validateReceipt(held,candidate,now),false);
+    assert.deepEqual(await Decision.decide(isolated,candidate,now,{cognition:current}),held);
+    assert.equal((await isolated.lrange(Decision.LOG_KEY,0,19)).length,1);
+    const observed=await Trace.read(isolated,now);assert.equal(observed.decision.immuneRoute,scenario.route);
+    assert.equal(observed.command,null);assert.equal(observed.externalActionAuthorized,false);
+    assert.equal((await Decision.decide(isolated,candidate,now+1,{cognition:cognition(now+1)})).status,'RELEASED');
+    assert.equal((await isolated.get(Decision.key(held.decisionReceiptId))).immuneRouting.route,scenario.route);
+  }
+
 
   var heldStore = new Store(), heldDecision = await Decision.decide(heldStore, candidate, now, { cognition: cognition(now) });
   var heldProviderCalls = 0;
