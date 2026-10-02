@@ -103,7 +103,7 @@ async function checkObservatory(rows) {
   const window = { LIMENDomainBrains: { getAll: () => brains }, addEventListener(name, cb) { listeners[name] = cb; } };
   const document = { readyState: 'loading', addEventListener() {}, getElementById: id => id === 'execution-observatory' ? el : null };
   const requests = [];
-  const context = vm.createContext({ window, document, fetch: async url => {
+  const context = vm.createContext({ window, document, setTimeout, clearTimeout, AbortController, fetch: async url => {
     requests.push(url);
     assert.ok(['/api/brain-cognition', '/api/limen-autofire-log?limit=50'].includes(url), 'Only existing read endpoints');
     return { ok: true, json: async () => ({ cognition: {}, count: 0, cycles: [] }) };

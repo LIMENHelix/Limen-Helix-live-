@@ -266,7 +266,7 @@ function motor(receipt) { return { authorize: async function () { return { autho
       var projected = require('../lib/brain-cognition-compact.js').learningReadout(view);
       require('node:vm').runInNewContext(require('node:fs').readFileSync(require('node:path').join(__dirname, '../assets/js/civilization/execution-observatory.js'), 'utf8'), {
         window: ui, document: { readyState: 'loading', addEventListener: function () {}, getElementById: function (id) { return id === 'execution-observatory' ? output : null; } },
-        Date: Date, setInterval: function () {}, fetch: async function (url) { return { ok: true, json: async function () { return url.includes('brain-cognition') ? { cognition: { culture: { ts: Date.now(), c: { brainOrgans: { externalActionLearning: projected } } } } } : {}; } }; }
+        Date: Date, setTimeout: setTimeout, clearTimeout: clearTimeout, AbortController: AbortController, setInterval: function () {}, fetch: async function (url) { return { ok: true, json: async function () { return url.includes('brain-cognition') ? { cognition: { culture: { ts: Date.now(), c: { brainOrgans: { externalActionLearning: projected } } } } } : {}; } }; }
       });
       await ui.LIMENExecutionObservatory.refresh();
       var card = output.innerHTML.split('<span class="exo-domain-name">culture</span>')[1].split('</article>')[0];

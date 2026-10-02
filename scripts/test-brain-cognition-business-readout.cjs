@@ -73,7 +73,7 @@ async function invoke(method = 'GET', body) {
   const element = { innerHTML: '' }, ui = { addEventListener() {} };
   vm.runInNewContext(fs.readFileSync(path.join(root, 'assets/js/civilization/execution-observatory.js'), 'utf8'), {
     window: ui, document: { readyState: 'loading', addEventListener() {}, getElementById: name => name === 'execution-observatory' ? element : null },
-    Date, setInterval() {}, fetch: async url => ({ ok: true, json: async () => String(url).includes('brain-cognition') ? response.body : {} })
+    Date, setTimeout, clearTimeout, AbortController, setInterval() {}, fetch: async url => ({ ok: true, json: async () => String(url).includes('brain-cognition') ? response.body : {} })
   });
   await ui.LIMENExecutionObservatory.refresh();
   const card = element.innerHTML.split('<span class="exo-domain-name">culture</span>')[1].split('</article>')[0];

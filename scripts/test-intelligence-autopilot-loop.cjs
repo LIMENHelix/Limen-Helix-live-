@@ -44,7 +44,7 @@ function motor(id) { return { authorize: async function () { return { authorized
     assert.equal(routeTrace.externalActionAuthorized, false);
     var routeElement = { innerHTML: '' }, routeWindow = { addEventListener: function () {} };
     require('node:vm').runInNewContext(fs.readFileSync('assets/js/civilization/execution-observatory.js', 'utf8'), {
-      window: routeWindow, Date: Date, setInterval: function () {},
+      window: routeWindow, Date: Date, setTimeout: setTimeout, clearTimeout: clearTimeout, AbortController: AbortController, setInterval: function () {},
       document: { readyState: 'loading', addEventListener: function () {}, getElementById: function () { return routeElement; } },
       fetch: async function (url) { return { ok: true, json: async function () {
         return url.includes('brain-cognition') ? { cognition: { 'intelligence': { ts: now, c: { businessTrace: routeTrace } } } } : {};

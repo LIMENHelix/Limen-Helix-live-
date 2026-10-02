@@ -15,7 +15,7 @@ async function renderProjection(origin, projected, now) {
   const window = { addEventListener() {} };
   const document = { readyState: 'loading', addEventListener() {}, getElementById: id => id === 'execution-observatory' ? el : null };
   const payload = JSON.parse(JSON.stringify({ count: 1, newest: now, cognition: { [origin]: { ts: now, c: projected } } }));
-  vm.runInNewContext(rendererSource, { window, document, Date, setInterval() {},
+  vm.runInNewContext(rendererSource, { window, document, Date, setTimeout, clearTimeout, AbortController, setInterval() {},
     fetch: async url => ({ ok: true, json: async () => url.includes('brain-cognition') ? payload : {} }) });
   await window.LIMENExecutionObservatory.refresh();
   return el.innerHTML.split('<span class="exo-domain-name">' + origin + '</span>')[1].split('</article>')[0];

@@ -57,7 +57,7 @@ function budget() { return { emailCostUsd: 0.01, dailyBudgetUsd: 0.05, dailySend
     assert.equal(routeTrace.externalActionAuthorized, false);
     var routeElement = { innerHTML: '' }, routeWindow = { addEventListener: function () {} };
     require('node:vm').runInNewContext(fs.readFileSync('assets/js/civilization/execution-observatory.js', 'utf8'), {
-      window: routeWindow, Date: Date, setInterval: function () {},
+      window: routeWindow, Date: Date, setTimeout: setTimeout, clearTimeout: clearTimeout, AbortController: AbortController, setInterval: function () {},
       document: { readyState: 'loading', addEventListener: function () {}, getElementById: function () { return routeElement; } },
       fetch: async function (url) { return { ok: true, json: async function () {
         return url.includes('brain-cognition') ? { cognition: { 'religion': { ts: now, c: { businessTrace: routeTrace } } } } : {};

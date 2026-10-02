@@ -5,6 +5,8 @@ const path = require('node:path');
 const vm = require('node:vm');
 const el = { innerHTML: '' };
 let fail = false;
+let stalled = null;
+let stalledSignal = null;
 const window = { addEventListener() {} };
 const document = {
   readyState: 'loading', addEventListener() {},
@@ -112,8 +114,14 @@ cognition.cognition.agriculture.c.businessTrace = {
   command: { id: 'borrowed-destination-command', receipt: { kind: 'PAPER-ORDER', id: 'borrowed-destination-order' } }
 };
 vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilization/execution-observatory.js'), 'utf8'), {
-  window, document, Date, setInterval() {},
-  fetch: async url => {
+  window, document, Date, AbortController, clearTimeout, setInterval() {},
+  setTimeout: (callback, delay) => setTimeout(callback, delay === 20000 ? 20 : delay),
+  fetch: async (url, options) => {
+    if (stalled && url.includes(stalled.endpoint)) {
+      stalledSignal = options.signal;
+      if (stalled.body) return { ok: true, json: () => new Promise(() => {}) };
+      return new Promise(() => {});
+    }
     if (fail && url.includes('autofire')) throw Error('audit unavailable');
     return { ok: true, json: async () => url.includes('brain-cognition') ? cognition : {} };
   }
@@ -266,6 +274,24 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
   await window.LIMENExecutionObservatory.refresh();
   assert.match(el.innerHTML, /EXTERNAL-READY/);
   const recoveredFinanceCard = el.innerHTML.split('<span class="exo-domain-name">finance</span>')[1].split('</article>')[0];
+  for (const scenario of [{ endpoint: 'brain-cognition', body: false }, { endpoint: 'autofire', body: true }]) {
+    stalled = scenario;
+    let guard;
+    try {
+      await Promise.race([
+        window.LIMENExecutionObservatory.refresh(),
+        new Promise((_, reject) => { guard = setTimeout(() => reject(Error('stalled refresh retained cached readiness')), 250); })
+      ]);
+    } finally { clearTimeout(guard); }
+    assert.match(el.innerHTML, /operator-read-timeout/);
+    assert.doesNotMatch(el.innerHTML, /EXTERNAL-READY/);
+    assert.match(el.innerHTML, /server-cognition-unavailable/);
+    assert.equal(stalledSignal.aborted, true, 'deadline cancels the stalled GET/body read');
+    stalled = null;
+    await window.LIMENExecutionObservatory.refresh();
+    assert.match(el.innerHTML, /EXTERNAL-READY/);
+    assert.doesNotMatch(el.innerHTML, /operator-read-timeout/);
+  }
   assert.doesNotMatch(recoveredFinanceCard, /server-cognition-unavailable/);
   assert.doesNotMatch(el.innerHTML, /read failure/);
   assert.match(el.innerHTML, /independent-outcome-missing/);

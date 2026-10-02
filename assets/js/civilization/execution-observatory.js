@@ -42,6 +42,7 @@
     trade: { field: 'freightFlowLayer', label: 'Freight flows', paths: ['/assets/data/domains/trade_freight_flows.json'] }
   };
   var POLL_MS = 30000;
+  var READ_TIMEOUT_MS = 20000;
   var COGNITION_TTL_MS = 3 * 3600 * 1000; // server cognition storage TTL
   var state = { cognition: {}, cognitionCount: 0, cognitionTs: 0, autofire: null, error: null, loading: true, lastRefreshAt: 0 };
   var mounted = false;
@@ -74,9 +75,27 @@
   function cls(value) { return String(value || 'unknown').toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
   function badge(value, kind) { return '<span class="exo-badge exo-' + cls(kind || value) + '">' + esc(value || 'UNOBSERVED') + '</span>'; }
   function api(url) {
-    return fetch(url, { headers: { accept: 'application/json' }, cache: 'no-store' }).then(function (response) {
-      if (!response.ok) throw new Error(response.status + ' ' + response.statusText);
-      return response.json();
+    var controller = new AbortController();
+    var timer;
+    // Bound both the response and its body. A stalled GET must reach the same
+    // visible failure path as a rejected read, even if cancellation is ignored.
+    return new Promise(function (resolve, reject) {
+      timer = setTimeout(function () {
+        reject(new Error('operator-read-timeout: ' + url));
+        controller.abort();
+      }, READ_TIMEOUT_MS);
+      Promise.resolve().then(function () {
+        return fetch(url, { headers: { accept: 'application/json' }, cache: 'no-store', signal: controller.signal });
+      }).then(function (response) {
+        if (!response.ok) throw new Error(response.status + ' ' + response.statusText);
+        return response.json();
+      }).then(resolve, reject);
+    }).then(function (data) {
+      clearTimeout(timer);
+      return data;
+    }, function (error) {
+      clearTimeout(timer);
+      throw error;
     });
   }
 

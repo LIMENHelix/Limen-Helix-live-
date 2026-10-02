@@ -280,7 +280,7 @@ function responsePost(likes) {
       var output = { innerHTML: '' }, ui = { addEventListener: function () {} }, projected = require('../lib/brain-cognition-compact.js').learningReadout(view);
       require('node:vm').runInNewContext(require('node:fs').readFileSync(require('node:path').join(__dirname, '../assets/js/civilization/execution-observatory.js'), 'utf8'), {
         window: ui, document: { readyState: 'loading', addEventListener: function () {}, getElementById: function (id) { return id === 'execution-observatory' ? output : null; } },
-        Date: Date, setInterval: function () {}, fetch: async function (url) { return { ok: true, json: async function () { return url.includes('brain-cognition') ? { cognition: { communication: { ts: Date.now(), c: { brainOrgans: { externalActionLearning: projected } } } } } : {}; } }; }
+        Date: Date, setTimeout: setTimeout, clearTimeout: clearTimeout, AbortController: AbortController, setInterval: function () {}, fetch: async function (url) { return { ok: true, json: async function () { return url.includes('brain-cognition') ? { cognition: { communication: { ts: Date.now(), c: { brainOrgans: { externalActionLearning: projected } } } } } : {}; } }; }
       });
       await ui.LIMENExecutionObservatory.refresh();
       var card = output.innerHTML.split('<span class="exo-domain-name">communication</span>')[1].split('</article>')[0];
