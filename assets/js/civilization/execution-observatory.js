@@ -80,6 +80,16 @@
     });
   }
 
+  function learnerQualification(learning) {
+    var gate = learning.learningGate || {};
+    var selectedCount = gate.selectedResolvedCount != null ? gate.selectedResolvedCount : learning.resolvedCount;
+    return '<span>learner gate <b>' + esc(gate.ready === true ? 'READY' : 'HELD') + '</b>' +
+      (gate.selectedLane ? ' · lane ' + esc(gate.selectedLane) : '') +
+      ' · resolved ' + esc(n(selectedCount)) + (gate.minimumResolved != null ? '/' + esc(gate.minimumResolved) : '') +
+      (gate.distinctAssets != null ? ' · distinct assets ' + esc(gate.distinctAssets) + '/' + esc(gate.minimumDistinctAssets) : '') +
+      (gate.distinctSources != null ? ' · distinct sources ' + esc(gate.distinctSources) + '/' + esc(gate.minimumDistinctSources) : '') + '</span>';
+  }
+
   function browserBrain(domain) {
     var candidates = [domain, ALIASES[domain]];
     var all = root.LIMENDomainBrains && typeof root.LIMENDomainBrains.getAll === 'function'
@@ -299,7 +309,7 @@
         '<span>commercial reflex <b>' + esc(row.commercial.status || 'UNOBSERVED') + '</b></span>' +
         '<span>learning credit <b>' + esc(row.social.normalizedCredit == null ? 'UNOBSERVED' : row.social.normalizedCredit) + '</b> (not revenue)</span>' +
         '<span>returned learning <b>' + esc(row.learning.status || 'UNOBSERVED') + '</b> · ' + esc(row.learning.reason || row.learning.latestSignalId || 'no signal') + '</span>' +
-        '<span>learner gate <b>' + esc(row.learning.learningGate && row.learning.learningGate.ready === true ? 'READY' : 'HELD') + '</b> · resolved ' + esc(n(row.learning.resolvedCount)) + '</span>' +
+        learnerQualification(row.learning) +
         '<span>action <b>' + esc(row.learning.actionId || 'UNOBSERVED') + '</b> · event ' + esc(row.learning.eventId || 'UNOBSERVED') + ' · observed ' + esc(time(row.learning.observedAt)) + '</span>' +
         (afferent.status ? '<span>Finance afferent <b>' + esc(afferent.status) + '</b> · ' + esc(afferent.signalId || afferent.reason || 'no signal') + ' · action ' + esc(afferent.actionId || 'UNOBSERVED') + ' · separate from motor authority</span>' : '') +
         (routedReturn.status ? '<span>routed outcome return <b>' + esc(routedReturn.status) + '</b> · ' + esc(returnedResult.returnId || routedReturn.reason || 'no return') + ' · owner ' + esc(returnedResult.ownerDomain || 'UNOBSERVED') + ' · action ' + esc(returnedResult.actionId || 'UNOBSERVED') + ' · source packet ' + esc(originRef.sourcePacketId || originRef.sourceArtifactRef || 'UNOBSERVED') + ' · learning stays with destination; origin observation only' + (routedReturn.reason ? ' · ' + esc(routedReturn.reason) : '') + arr(routedReturn.failures).map(function (failure) { return ' · ' + esc(failure.ownerDomain + ': ' + failure.reason); }).join('') + '</span>' : '') +

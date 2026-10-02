@@ -157,6 +157,7 @@ function compactLaneReadout(row) {
     reason: row.reason || null,
     resolvedCount: Number(row.resolvedCount || 0),
     ready: !!(row.learningGate && row.learningGate.ready),
+    learningGate: row.learningGate ? Object.assign({}, row.learningGate) : null,
     signalId: row.signal && row.signal.signalId || null,
     observedAt: row.signal && row.signal.observedAt || null
   };
@@ -203,14 +204,12 @@ function mergeReadouts(domain, rows) {
     status: selected ? 'ELIGIBLE' : 'ABSTAINED',
     reason: selected ? null : 'domain-has-no-graded-external-action-outcome',
     resolvedCount: resolvedCount,
-    learningGate: {
+    learningGate: Object.assign({}, selected && selected.learningGate || primary.learningGate, {
       ready: !!(selected && selected.learningGate && selected.learningGate.ready),
-      minimumResolved: 5,
-      distinctSources: Number(selected && selected.learningGate && selected.learningGate.distinctSources || 0),
-      minimumDistinctSources: 2,
       independentlyQualifiedLanes: readyRows.length,
-      selectedLane: selected && selected.signal && selected.signal.lane || null
-    },
+      selectedLane: selected && selected.signal && selected.signal.lane || null,
+      selectedResolvedCount: selected ? Number(selected.resolvedCount || 0) : 0
+    }),
     signal: selected ? selected.signal : null,
     companyPatterns: primary.companyPatterns,
     financialAfferent: primary.financialAfferent,

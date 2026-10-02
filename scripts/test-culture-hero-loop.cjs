@@ -255,9 +255,29 @@ function motor(receipt) { return { authorize: async function () { return { autho
     }
     var ready = await readEndpoint(qualifiedStore), empty = await readEndpoint(new Store());
     assert.equal(qualifyingReads, 5); assert.equal(ready.resolvedCount, 5); assert.equal(ready.learningGate.ready, true);
-    assert.equal((await Learning.readForBrain(qualifiedStore)).learningGate.distinctAssets, 2); assert.equal(empty.signal, null); assert.equal(empty.resolvedCount, 0);
+    assert.equal((await Learning.readForBrain(qualifiedStore)).learningGate.distinctAssets, 2);
+    assert.equal(ready.learningGate.distinctAssets, 2); assert.equal(ready.learningGate.minimumDistinctAssets, 2);
+    assert.equal(ready.learningGate.distinctSources, undefined);
+    assert.equal(notReady.learningGate.distinctAssets, 1); assert.equal(notReady.learningGate.ready, false);
+    var compact = require('../lib/brain-cognition-compact.js').learningReadout(ready);
+    assert.deepEqual(compact.learningGate, ready.learningGate);
+    for (var view of [ready, notReady, empty]) {
+      var output = { innerHTML: '' }, ui = { addEventListener: function () {} };
+      var projected = require('../lib/brain-cognition-compact.js').learningReadout(view);
+      require('node:vm').runInNewContext(require('node:fs').readFileSync(require('node:path').join(__dirname, '../assets/js/civilization/execution-observatory.js'), 'utf8'), {
+        window: ui, document: { readyState: 'loading', addEventListener: function () {}, getElementById: function (id) { return id === 'execution-observatory' ? output : null; } },
+        Date: Date, setInterval: function () {}, fetch: async function (url) { return { ok: true, json: async function () { return url.includes('brain-cognition') ? { cognition: { culture: { ts: Date.now(), c: { brainOrgans: { externalActionLearning: projected } } } } } : {}; } }; }
+      });
+      await ui.LIMENExecutionObservatory.refresh();
+      var card = output.innerHTML.split('<span class="exo-domain-name">culture</span>')[1].split('</article>')[0];
+      assert.match(card, new RegExp('learner gate <b>' + (view.learningGate.ready ? 'READY' : 'HELD')));
+      assert.match(card, new RegExp('distinct assets ' + view.learningGate.distinctAssets + '/2'));
+      assert.doesNotMatch(card, /distinct sources/);
+    } assert.equal(empty.signal, null); assert.equal(empty.resolvedCount, 0);
     var nativeCycle = require('./fixtures/publication-native-cycle.cjs'), fixedAt = Date.now() + 1000;
     var admittedNative = await nativeCycle('culture', ready, fixedAt), emptyNative = await nativeCycle('culture', empty, fixedAt), notReadyNative = await nativeCycle('culture', notReady, fixedAt);
+    assert.deepEqual(admittedNative.learning.learningGate, ready.learningGate);
+    assert.deepEqual(notReadyNative.learning.learningGate, notReady.learningGate);
     assert.equal(admittedNative.externalRewardEligible, false);
     for (var result of [admittedNative, emptyNative, notReadyNative]) assert.equal(result.plasticity.rewardActive, false);
     assert.deepEqual(admittedNative.evaluated, emptyNative.evaluated); assert.deepEqual(notReadyNative.evaluated, emptyNative.evaluated);

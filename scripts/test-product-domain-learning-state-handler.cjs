@@ -175,7 +175,7 @@ async function invoke(handler, url, method) {
     }); }, /domain-subscriber-learning-signal-invalid/);
 
     var laneBound = handler.mergeReadouts('culture', [
-      { status: 'ELIGIBLE', resolvedCount: 5, learningGate: { ready: true, distinctSources: 2 },
+      { status: 'ELIGIBLE', resolvedCount: 5, learningGate: { ready: true, minimumResolved: 5, distinctAssets: 2, minimumDistinctAssets: 2 },
         signal: { signalId: 'qualified-old', lane: 'hero-image', observedAt: 100 } },
       { status: 'ELIGIBLE', resolvedCount: 1, learningGate: { ready: false, distinctSources: 1 },
         signal: { signalId: 'unqualified-new', lane: 'subscriber-email', observedAt: 200 } }
@@ -184,6 +184,23 @@ async function invoke(handler, url, method) {
     assert.equal(laneBound.signal.signalId, 'qualified-old',
       'a newer immature lane may not borrow another lane readiness');
     assert.equal(laneBound.learningGate.selectedLane, 'hero-image');
+    assert.equal(laneBound.learningGate.distinctAssets, 2);
+    assert.equal(laneBound.learningGate.minimumDistinctAssets, 2);
+    assert.equal(laneBound.learningGate.distinctSources, undefined);
+    assert.equal(laneBound.learningGate.selectedResolvedCount, 5);
+    assert.equal(laneBound.resolvedCount, 6);
+    assert.deepEqual(laneBound.laneReadouts[0].learningGate, { ready: true, minimumResolved: 5, distinctAssets: 2, minimumDistinctAssets: 2 });
+    assert.equal(laneBound.laneReadouts[1].learningGate.ready, false);
+    assert.equal(laneBound.laneReadouts[1].learningGate.distinctSources, 1);
+    var sourceSelected = handler.mergeReadouts('culture', [
+      { status: 'ELIGIBLE', resolvedCount: 5, learningGate: { ready: true, minimumResolved: 5, distinctAssets: 2, minimumDistinctAssets: 2 }, signal: { signalId: 'hero-old', lane: 'hero-image', observedAt: 100 } },
+      { status: 'ELIGIBLE', resolvedCount: 6, learningGate: { ready: true, minimumResolved: 5, distinctSources: 3, minimumDistinctSources: 2 }, signal: { signalId: 'subscriber-new', lane: 'subscriber-email', observedAt: 200 } }
+    ]);
+    assert.equal(sourceSelected.learningGate.selectedLane, 'subscriber-email');
+    assert.equal(sourceSelected.learningGate.distinctSources, 3);
+    assert.equal(sourceSelected.learningGate.distinctAssets, undefined);
+    assert.equal(sourceSelected.learningGate.independentlyQualifiedLanes, 2);
+    assert.equal(sourceSelected.learningGate.selectedResolvedCount, 6);
 
     var intelligence = await invoke(handler, '/api/product-domain-learning-state?domain=intelligence');
     assert.equal(intelligence.code, 200);
