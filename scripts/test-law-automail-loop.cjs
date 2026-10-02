@@ -93,6 +93,33 @@ function motor(id) { return { authorize: async function () { return { authorized
   var observation = await Observer.observe(store, command, { apiKey: 'read-key', fetch: async function (_url, options) { assert.equal(options.method, 'GET');
     return { ok: true, status: 200, json: async function () { return { id: 'ltr_abc123', status: 'rendered', expected_delivery_date: '2026-09-01', date_created: new Date(now).toISOString(), date_modified: new Date(now).toISOString() }; } }; } });
   assert.equal(observation.status, 'PROVIDER_STATE_OBSERVED'); assert.equal(observation.independentOfCreateResponse, true);
+  assert.deepEqual(await store.get(Observer.key(observation.observationId)), observation);
+  var originalLog = await store.lrange(Observer.LOG_KEY, 0, 99);
+  var duplicateObservation = await Observer.observe(store, command, { apiKey: 'LOCAL/read', fetch: async function () { return {
+    ok: true, status: 200, json: async function () { return { id: command.providerLetterId, status: 'rendered',
+      expected_delivery_date: observation.expectedDeliveryDate, date_created: observation.providerCreatedAt, date_modified: observation.providerModifiedAt }; }
+  }; } });
+  assert.deepEqual(duplicateObservation, observation);
+  assert.deepEqual(await store.lrange(Observer.LOG_KEY, 0, 99), originalLog);
+  var beforeAdmission = await store.get(Learning.STATE_KEY);
+  assert.equal((await Learning.recordObservation(store, Object.assign({}, observation, { observationId: 'unsaved-observation' }))).ok, false);
+  assert.equal((await Learning.recordObservation(store, Object.assign({}, observation, { providerLetterId: 'ltr_foreign' }))).ok, false);
+  var savedCause = await store.get(Learning.causeKey(command.actionId));
+  await store.set(Learning.causeKey(command.actionId), Object.assign({}, savedCause, { domain: 'finance' }));
+  assert.equal((await Learning.recordObservation(store, observation)).ok, false);
+  await store.set(Learning.causeKey(command.actionId), savedCause);
+  var savedCommand = await store.get(Executor.commandKey(command.commandId));
+  await store.set(Executor.commandKey(command.commandId), Object.assign({}, savedCommand, { status: 'AMBIGUOUS' }));
+  assert.equal((await Learning.recordObservation(store, observation)).ok, false);
+  await store.set(Executor.commandKey(command.commandId), savedCommand);
+  for (var corruption of [{ independentOfCreateResponse: false }, { createEndpointCalled: true }, { readMethod: 'POST' },
+    { observedAt: command.commandedAt - 1 }, { observedAt: Date.now() + 86400000 }, { liveMoney: !command.liveMoney }]) {
+    var corruptObservation = Object.assign({}, observation, corruption);
+    await store.set(Observer.key(observation.observationId), corruptObservation);
+    assert.equal((await Learning.recordObservation(store, corruptObservation)).ok, false);
+  }
+  await store.set(Observer.key(observation.observationId), observation);
+  assert.deepEqual(await store.get(Learning.STATE_KEY), beforeAdmission, 'refused evidence cannot write learner state');
   assert.equal((await Learning.recordObservation(store, observation)).ok, true); assert.equal((await Learning.readForBrain(store)).status, 'ELIGIBLE');
   var returned = await Decision.decide(store, candidate, now + 1, { cognition: cognition(now + 1, false) });
   assert.equal(returned.status, 'RELEASED');
@@ -101,6 +128,21 @@ function motor(id) { return { authorize: async function () { return { authorized
   assert.equal(returned.returnedOutcome.normalizedCredit, 0.5);
   assert.equal(returned.returnedOutcome.effect, 'CONSUMED_AS_LAW_AFFERENT');
   assert.notEqual(returned.decisionReceiptId, decision.decisionReceiptId, 'returned consequence must change the next decision receipt identity');
+  var failedObservation = await Observer.observe(store, command, { apiKey: 'LOCAL/read', fetch: async function () { return {
+    ok: true, status: 200, json: async function () { return { id: command.providerLetterId, status: 'failed',
+      date_created: observation.providerCreatedAt, date_modified: new Date(now + 2).toISOString() }; }
+  }; } });
+  assert.notEqual(failedObservation.observationId, observation.observationId);
+  assert.deepEqual(await store.get(Observer.key(observation.observationId)), observation);
+  assert.deepEqual(await store.get(Observer.key(command.providerLetterId)), failedObservation);
+  assert.equal((await Learning.recordObservation(store, observation)).duplicate, true);
+  assert.equal((await Learning.readForBrain(store)).resolvedCount, 1);
+  assert.equal((await Learning.recordObservation(store, failedObservation)).resolvedCount, 2);
+  var failedReturn = await Decision.decide(store, candidate, now + 2, { cognition: cognition(now + 2, false) });
+  assert.equal(failedReturn.status, 'NO_ACTION');
+  assert(failedReturn.blockers.includes('law-returned-outcome-requires-reassessment'));
+  assert.equal(failedReturn.returnedOutcome.signalOutcome, 'failed');
+  assert.equal(failedReturn.returnedOutcome.normalizedCredit, 0);
   var canceled = 0, reads = 0, recovery = await Recovery.recover({ store: store, command: command, observation: observation,
     trigger: { type: 'law-automail-cancel', id: 'operator-cancel-1' }, now: now + 1, motorAuthorization: motor('law-motor-3'),
     provider: { cancel: async function (id) { canceled++; assert.equal(id, 'ltr_abc123'); return { ok: true, deleted: true }; },
