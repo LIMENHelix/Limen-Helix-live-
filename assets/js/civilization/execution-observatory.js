@@ -254,6 +254,14 @@
         (paperOriginValid ? '<span>papers routed to Science <b>' + esc(paperOrigin.status) + '</b> · ' + esc(paperOrigin.reason) + '</span>' +
           (paperOrigin.status === 'RECORDED' ? arr(paperOrigin.routes) : []).filter(function (route) { return route && route.destinationOwner === 'research'; }).map(function (route) {
             return '<span>Science decision <b>' + esc(route.decisionId) + '</b> · ' + esc(route.status) + ' · source packet ' + esc(route.sourcePacketId) + ' · ' + esc(time(route.decidedAt)) + ' · key ' + esc(route.decisionKey) + ' · ' + esc(arr(route.blockers).join(' · ')) + '</span>';
+          }).join('') +
+          (paperOrigin.status === 'RECORDED' ? arr(paperOrigin.outcomes) : []).filter(function (result) {
+            return result && result.destinationOwner === 'research' && result.observationOnly === true &&
+              result.originRewardAuthorized === false && result.externalActionAuthorized === false;
+          }).map(function (result) {
+            return '<span>Science evaluated outcome <b>' + esc(result.outcome) + '</b> · observation ' + esc(result.observationId) +
+              ' · source packet ' + esc(result.sourcePacketId) + ' · decision ' + esc(result.decisionId) +
+              ' · ' + esc(time(result.observedAt)) + ' · source observation only; Science retains learning</span>';
           }).join('') : '') +
         '<span>internal emission <b>' + esc(n(row.emission.emittedCount)) + '</b> · staged ' + esc(n(row.emission.stagedCount)) + '</span>' +
         '<span>readiness receipt <b>' + esc(row.receipt.status || (row.receipt.ok ? 'PERSISTED' : 'UNOBSERVED')) + '</b> · preparation ' + esc(row.gates.mayPrepare === true ? 'PERMITTED' : 'HELD') + '</span>' +

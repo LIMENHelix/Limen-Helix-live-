@@ -1,0 +1,13 @@
+# Science-owned evaluated outcome source view
+
+LOCAL/FIXTURE; full goal remains incomplete. Existing research origin reader now joins destination-owned processed Science evaluation signals to the durable command cause, released selection with explicit origin, persisted efference artifact receipt and independently admitted evaluation. The source view displays outcome/observation/packet/decision without copying reward or external action authority. Science retains learning; Agriculture contracts and native brains remain unchanged.
+
+Fixture-backed four-origin tests use the existing bridge, efference writer, evaluation intake and learner; the actual refresh projection block then JSON transport and existing renderer show the observation. Evaluation admission output mismatch suppresses all return rows. These tests do not invoke the full cron, native feed/brain cycle or production provider. Exact ownership is Science regardless of the source.
+
+Focused eighteen research tests and observatory regressions pass. First suite 72371 and repository check 81073 subsequently passed before the temporal guard; final validation is recorded below. Harness passes; protected brain/data/worker diff is empty and all 79 paused fingerprints unchanged. The temporal guard was subsequently reproduced, repaired and validated as recorded below.
+
+Current production, autonomous evaluator evidence acquisition, returned afferent consumption by the source brain, subsequent native evaluation, revenue and all-domain completion remain unproven. Google Docs stays deferred until the original full goal is Done.
+
+Review follow-up: first full suite72371 completed378pass1external-corpus prerequisite skip0fail260.2s exit0, before temporal guard. Reproduced a pre-persistence evaluation displayed as RECORDED using an in-memory regression without altering the running suite. Existing reader now requires outcome time to follow persisted receipt time; all four origins prove suppression and recovery after restoring the correct receipt. Focused eighteen research tests and observatory pass after guard. Final full suite19830 completed with separate durable final-suite log: 378 passed, one external-corpus prerequisite skip, zero failed, 255.8 seconds, exit0. Repository81073 passed before guard; do not claim old full-suite proof for the final bytes.
+
+Final repository41508 passed on final bytes: 350 module boots, 2272 JavaScript files, 5027 JSON files (two size-cap skips); harness passed. Recorded executable/test hashes match final files. Protected brain/data/worker diff remains empty. This checkpoint is eligible for the authorized feature-branch commit/push; no production deployment or full autonomy completion is claimed.
