@@ -1,0 +1,1437 @@
+{
+  "implementationSha": "effe1753564b4ac5f0f646ad137bf65688022905",
+  "scope": "Read-only AST extraction of all20 domain emission-rule arrays; isolated evaluation of condition/magnitude functions over stress0..1 step0.01, active-diagnosis counts0/1/4 and confidence0/1. No application cycles, network, providers or state writes. Sign samples do not prove biological pathology, loop gain or instability.",
+  "domainCount": 20,
+  "allGrounded": true,
+  "ruleCount": 107,
+  "uniqueDirectedPairs": 103,
+  "reciprocalPairs": 27,
+  "confidenceMentions": 0,
+  "confidenceGateDifferences": 0,
+  "negativeSampleRules": 0,
+  "rows": [
+    {
+      "file": "agriculture-brain.js",
+      "domain": "agriculture",
+      "sha256": "9354ec30fa5b86d7a6718de5374dbd29c49dd269d6a5d336b321ff499e4335a6",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "supplyChain",
+          "signal": "food_supply_disruption",
+          "condition": "function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.55); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.55,
+          "sampledNegative": 0
+        },
+        {
+          "target": "economy",
+          "signal": "food_price_pressure",
+          "condition": "function (s) { return s.stress >= 0.60 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "energy",
+          "signal": "biofuel_input_stress",
+          "condition": "function (s) { return s.stress >= 0.60 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        },
+        {
+          "target": "environment",
+          "signal": "land_use_pressure",
+          "condition": "function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "communication-brain.js",
+      "domain": "communication",
+      "sha256": "14ab67fce17d595a36f7ff45ea30e5f25cd5e065c7b967c735eaee708c01cb04",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "intelligence",
+          "signal": "information_contamination_signal",
+          "condition": "function (s) { return s.stress >= 0.15; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.55); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.55,
+          "sampledNegative": 0
+        },
+        {
+          "target": "governance",
+          "signal": "public_perception_pressure",
+          "condition": "function (s) { return s.stress >= 0.20; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "culture",
+          "signal": "narrative_identity_shaping",
+          "condition": "function (s) { return s.stress >= 0.20; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "law",
+          "signal": "speech_regulatory_pressure",
+          "condition": "function (s) { return s.stress >= 0.30; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        },
+        {
+          "target": "population",
+          "signal": "behavioral_informational_influence",
+          "condition": "function (s) { return s.stress >= 0.30; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "culture-brain.js",
+      "domain": "culture",
+      "sha256": "bce65deba81c32f6294719697448c1db133b21e1527140c8c703acda0a4cbb0e",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "communication",
+          "signal": "narrative_symbolic_pressure",
+          "condition": "function (s) { return s.stress >= 0.20; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.55); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.55,
+          "sampledNegative": 0
+        },
+        {
+          "target": "religion",
+          "signal": "value_ritual_coherence_shift",
+          "condition": "function (s) { return s.stress >= 0.25; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "population",
+          "signal": "identity_participation_change",
+          "condition": "function (s) { return s.stress >= 0.30; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        },
+        {
+          "target": "governance",
+          "signal": "legitimacy_cohesion_effect",
+          "condition": "function (s) { return s.stress >= 0.30; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "education",
+          "signal": "norm_transmission_pressure",
+          "condition": "function (s) { return s.stress >= 0.35; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "defense-brain.js",
+      "domain": "defense",
+      "sha256": "44e3b2a732d762b80bed57aa1750b9d85404017eb3892f78e7170cb1e7cbb8f0",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "governance",
+          "signal": "security_policy_pressure",
+          "condition": "function (s) { return s.stress >= 0.25; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.55); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.55,
+          "sampledNegative": 0
+        },
+        {
+          "target": "economy",
+          "signal": "defense_spending_drag",
+          "condition": "function (s) { return s.stress >= 0.30; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "technology",
+          "signal": "defense_tech_demand",
+          "condition": "function (s) { return s.stress >= 0.30; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "intelligence",
+          "signal": "threat_assessment_pressure",
+          "condition": "function (s) { return s.stress >= 0.25; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "economy-brain.js",
+      "domain": "economy",
+      "sha256": "06bced960a90218bdd5cc092bbde98935333857068e46d40a16495cda65edce9",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "finance",
+          "signal": "credit_conditions_shift",
+          "condition": "function (s) { return s.stress >= 0.50 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.55); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.55,
+          "sampledNegative": 0
+        },
+        {
+          "target": "supplyChain",
+          "signal": "demand_throughput_pressure",
+          "condition": "function (s) { return s.stress >= 0.50 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "energy",
+          "signal": "demand_consumption_shift",
+          "condition": "function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        },
+        {
+          "target": "governance",
+          "signal": "policy_response_pressure",
+          "condition": "function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "education-brain.js",
+      "domain": "education",
+      "sha256": "180586a8268fa476adcbff901321a297391f935b185caaa45a1a5722066e7771",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "economy",
+          "signal": "workforce_preparation_gap",
+          "condition": "function (s) { return s.stress >= 0.20; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.55); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.55,
+          "sampledNegative": 0
+        },
+        {
+          "target": "governance",
+          "signal": "education_policy_pressure",
+          "condition": "function (s) { return s.stress >= 0.25; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "population",
+          "signal": "human_capital_strain",
+          "condition": "function (s) { return s.stress >= 0.30; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "technology",
+          "signal": "edtech_demand_pressure",
+          "condition": "function (s) { return s.stress >= 0.30; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        },
+        {
+          "target": "culture",
+          "signal": "knowledge_transmission_strain",
+          "condition": "function (s) { return s.stress >= 0.35; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "energy-brain.js",
+      "domain": "energy",
+      "sha256": "00b68ee44f41c6f7d37b64b8a4270756bd27f3d23c129c66c0d1d8d1dae93e56",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "supplyChain",
+          "signal": "fuel_cost_transmission",
+          "condition": "function (s) { return s.stress >= 0.60 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.6); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.6,
+          "sampledNegative": 0
+        },
+        {
+          "target": "finance",
+          "signal": "commodity_dislocation",
+          "condition": "function (s) { return s.stress >= 0.65 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "agriculture",
+          "signal": "input_cost_pressure",
+          "condition": "function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        },
+        {
+          "target": "industry",
+          "signal": "production_cost_impact",
+          "condition": "function (s) { return s.stress >= 0.60 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "population",
+          "signal": "energy_poverty_household_burden",
+          "condition": "function (s) {\r\n          var hasDx = s.diagnoses && s.diagnoses.some(function (d) { return d.active; });\r\n          if (!(s.stress >= 0.55 && hasDx)) return false;\r\n          // Require a household-energy-burden-relevant pathway: grid stress,\r\n          // renewable intermittency, structural stress, or crude price shock.\r\n          var conds = (s.diagnoses || []).filter(function (d) { return d.active; })\r\n            .reduce(function (acc, d) { return acc.concat(d.id || ''); }, []);\r\n          var burdenPathway = conds.some(function (id) {\r\n            return id === 'GRID_COLLAPSE' || id === 'RENEWABLE_INTERMITTENCY' ||\r\n                   id === 'SYSTEMIC_ENERGY_STRESS' || id === 'OIL_SHOCK';\r\n          });\r\n          return burdenPathway;\r\n        }",
+          "formula": "function (s) {\r\n          // Base household-energy-burden coupling on overall energy stress, then\r\n          // amplify (per the gap's magnitude spec) when the driving pathway is a\r\n          // grid-stress or renewable-intermittency failure — the modes that hit the\r\n          // residential heating/cooling load hardest. stress * 0.35 when grid/\r\n          // renewable, otherwise a softer crude-price-driven burden (stress * 0.25).\r\n          var active = (s.diagnoses || []).filter(function (d) { return d.active; });\r\n          var gridLed = active.some(function (d) {\r\n            return d.id === 'GRID_COLLAPSE' || d.id === 'RENEWABLE_INTERMITTENCY';\r\n          });\r\n          var factor = gridLed ? 0.35 : 0.25;\r\n          return Math.min(1, s.stress * factor);\r\n        }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.25,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "environment-brain.js",
+      "domain": "environment",
+      "sha256": "b6755e8cf6cd21e324447dc828106a452621ce52a38bb9eda9d7e04d9952f20d",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "agriculture",
+          "signal": "ecosystem_soil_stress",
+          "condition": "function (s) { return s.stress >= 0.40; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.55); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.55,
+          "sampledNegative": 0
+        },
+        {
+          "target": "energy",
+          "signal": "climate_resource_constraint",
+          "condition": "function (s) { return s.stress >= 0.45; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "infrastructure",
+          "signal": "environmental_degradation_impact",
+          "condition": "function (s) { return s.stress >= 0.50; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "economy",
+          "signal": "environmental_cost_pressure",
+          "condition": "function (s) { return s.stress >= 0.55; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        },
+        {
+          "target": "governance",
+          "signal": "environmental_regulatory_pressure",
+          "condition": "function (s) { return s.stress >= 0.45; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "finance-brain.js",
+      "domain": "finance",
+      "sha256": "b60d3e4c792f7eef43f13c4c61da30be0161b8f5e0652899fbdc4e436145028a",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "economy",
+          "signal": "credit_transmission",
+          "condition": "function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.6); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.6,
+          "sampledNegative": 0
+        },
+        {
+          "target": "industry",
+          "signal": "capital_access_restriction",
+          "condition": "function (s) { return s.stress >= 0.60 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "supplyChain",
+          "signal": "trade_finance_disruption",
+          "condition": "function (s) { return s.stress >= 0.60 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "infrastructure",
+          "signal": "investment_contraction",
+          "condition": "function (s) { return s.stress >= 0.65 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "governance-brain.js",
+      "domain": "governance",
+      "sha256": "19d6faec6c392dbd337042946c8a60e07c877b11362571b9e80d243e00898d7a",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "law",
+          "signal": "policy_conflict_enforcement",
+          "condition": "function (s) { return s.stress >= 0.25; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.55); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.55,
+          "sampledNegative": 0
+        },
+        {
+          "target": "economy",
+          "signal": "institutional_confidence_drag",
+          "condition": "function (s) { return s.stress >= 0.25; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "supplyChain",
+          "signal": "administrative_friction",
+          "condition": "function (s) { return s.stress >= 0.30; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "finance",
+          "signal": "policy_uncertainty_premium",
+          "condition": "function (s) { return s.stress >= 0.25; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "industry-brain.js",
+      "domain": "industry",
+      "sha256": "54b904571b4eb4db818e88a3a87ec1d95793dda655e762929b9a9f6dda214a3a",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "supplyChain",
+          "signal": "output_bottleneck",
+          "condition": "function (s) { return s.stress >= 0.25; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.55); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.55,
+          "sampledNegative": 0
+        },
+        {
+          "target": "infrastructure",
+          "signal": "plant_throughput_strain",
+          "condition": "function (s) { return s.stress >= 0.30; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "energy",
+          "signal": "industrial_load_pressure",
+          "condition": "function (s) { return s.stress >= 0.30; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        },
+        {
+          "target": "economy",
+          "signal": "production_slowdown",
+          "condition": "function (s) { return s.stress >= 0.25; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "finance",
+          "signal": "industrial_margin_pressure",
+          "condition": "function (s) { return s.stress >= 0.35; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "infrastructure-brain.js",
+      "domain": "infrastructure",
+      "sha256": "b9f1c612077c184f7ed09439dff05c21551952ecae6aa45ab772781cd777c8ac",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "energy",
+          "signal": "grid_stress_transmission",
+          "condition": "function (s) { return s.stress >= 0.60 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.55); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.55,
+          "sampledNegative": 0
+        },
+        {
+          "target": "economy",
+          "signal": "construction_drag",
+          "condition": "function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "supplyChain",
+          "signal": "logistics_constraint",
+          "condition": "function (s) { return s.stress >= 0.60 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.50); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "population",
+          "signal": "service_disruption",
+          "condition": "function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.40); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        },
+        {
+          "target": "finance",
+          "signal": "capital_funding_pressure",
+          "condition": "function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "environment",
+          "signal": "built_environment_coupling",
+          "condition": "function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "technology",
+          "signal": "cyber_physical_exposure",
+          "condition": "function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active && /CYBER/i.test(d.id || d.name || ''); }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.50); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "defense",
+          "signal": "critical_infrastructure_protection",
+          "condition": "function (s) { return s.stress >= 0.60 && s.diagnoses && s.diagnoses.some(function (d) { return d.active && /CYBER/i.test(d.id || d.name || ''); }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.50); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "intelligence",
+          "signal": "infrastructure_threat_intelligence",
+          "condition": "function (s) { return s.stress >= 0.60 && s.diagnoses && s.diagnoses.some(function (d) { return d.active && /CYBER/i.test(d.id || d.name || ''); }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.55); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.55,
+          "sampledNegative": 0
+        },
+        {
+          "target": "supplyChain",
+          "signal": "transport_network_capacity",
+          "condition": "function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active && /TRANSPORT/i.test(d.id || d.name || ''); }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.50); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "agriculture",
+          "signal": "irrigation_drainage_capacity",
+          "condition": "function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active && /(SUPPLY_CHAIN_BOTTLENECK|MAINTENANCE_DEFICIT)/i.test(d.id || d.name || ''); }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.40); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        },
+        {
+          "target": "research",
+          "signal": "infrastructure_resilience_research_gap",
+          "condition": "function (s) { return s.stress >= 0.60 && s.diagnoses && s.diagnoses.some(function (d) { return d.active && /(MAINTENANCE_DEFICIT|CYBER_PHYSICAL_ATTACK)/i.test(d.id || d.name || ''); }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "intelligence-brain.js",
+      "domain": "intelligence",
+      "sha256": "9495ae8521861e8cfb547d8f5247b7c0147b5baee0dafc047ab8ee041d3f26b3",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "defense",
+          "signal": "threat_visibility_pressure",
+          "condition": "function (s) { return s.stress >= 0.15; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.6); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.6,
+          "sampledNegative": 0
+        },
+        {
+          "target": "communication",
+          "signal": "information_contamination_risk",
+          "condition": "function (s) { return s.stress >= 0.20; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "governance",
+          "signal": "coordination_blind_spot",
+          "condition": "function (s) { return s.stress >= 0.25; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "finance",
+          "signal": "strategic_risk_visibility",
+          "condition": "function (s) { return s.stress >= 0.30; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        },
+        {
+          "target": "technology",
+          "signal": "observability_trust_pressure",
+          "condition": "function (s) { return s.stress >= 0.25; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "law-brain.js",
+      "domain": "law",
+      "sha256": "b15607f103be9a63cc357ac3eb2967c59189f73ab8605a161cc654848f65fd34",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "governance",
+          "signal": "rule_legitimacy_load",
+          "condition": "function (s) { return s.stress >= 0.40; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.55); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.55,
+          "sampledNegative": 0
+        },
+        {
+          "target": "finance",
+          "signal": "compliance_litigation_pressure",
+          "condition": "function (s) { return s.stress >= 0.45; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "communication",
+          "signal": "speech_information_constraint",
+          "condition": "function (s) { return s.stress >= 0.50; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        },
+        {
+          "target": "population",
+          "signal": "migration_civil_rights_pressure",
+          "condition": "function (s) { return s.stress >= 0.50; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "religion",
+          "signal": "institutional_rights_restriction",
+          "condition": "function (s) { return s.stress >= 0.55; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.35); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.35,
+          "sampledNegative": 0
+        },
+        {
+          "target": "finance",
+          "signal": "compliance_litigation_pressure",
+          "condition": "function (s) { return s.diagnoses && s.diagnoses.some(function (d) { return d.active && (d.id === 'JUDICIAL_CRISIS' || d.id === 'REGULATORY_CAPTURE'); }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "governance",
+          "signal": "rule_legitimacy_load",
+          "condition": "function (s) { return s.diagnoses && s.diagnoses.some(function (d) { return d.active && (d.id === 'CONSTITUTIONAL_VIOLATION' || d.id === 'INTERNATIONAL_LAW_BREAKDOWN'); }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.55); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.55,
+          "sampledNegative": 0
+        },
+        {
+          "target": "supplyChain",
+          "signal": "regulatory_friction",
+          "condition": "function (s) { return s.diagnoses && s.diagnoses.some(function (d) { return d.active && d.id === 'REGULATORY_CAPTURE'; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "population",
+          "signal": "rights_restriction_pressure",
+          "condition": "function (s) { return s.diagnoses && s.diagnoses.some(function (d) { return d.active && (d.id === 'MASS_INCARCERATION' || d.id === 'CONSTITUTIONAL_VIOLATION'); }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "technology",
+          "signal": "antitrust_ip_enforcement",
+          "condition": "function (s) { return s.diagnoses && s.diagnoses.some(function (d) { return d.active && d.id === 'REGULATORY_CAPTURE'; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "medicine-brain.js",
+      "domain": "health",
+      "sha256": "f25d6311b74152675c26d2b2aaa4ca0b7c6c888d049dba2d4fea66f3086d5870",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "population",
+          "signal": "health_burden_pressure",
+          "condition": "function (s) { return s.stress >= 0.50 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "research",
+          "signal": "translational_evidence_demand",
+          "condition": "function (s) { return s.stress >= 0.45 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "technology",
+          "signal": "diagnostic_interop_demand",
+          "condition": "function (s) { return s.stress >= 0.50 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        },
+        {
+          "target": "governance",
+          "signal": "care_access_legitimacy_pressure",
+          "condition": "function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "economy",
+          "signal": "workforce_health_cost_burden",
+          "condition": "function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "population-brain.js",
+      "domain": "population",
+      "sha256": "9c961301bf38c1d3d588f21efc54904c4c7afc96d0fca28203d2f32c8d32a1ed",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "economy",
+          "signal": "labor_demand_shift",
+          "condition": "function (s) { return s.stress >= 0.40; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.55); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.55,
+          "sampledNegative": 0
+        },
+        {
+          "target": "infrastructure",
+          "signal": "population_capacity_strain",
+          "condition": "function (s) { return s.stress >= 0.45; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "law",
+          "signal": "migration_policy_pressure",
+          "condition": "function (s) { return s.stress >= 0.45; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "culture",
+          "signal": "demographic_identity_shift",
+          "condition": "function (s) { return s.stress >= 0.50; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        },
+        {
+          "target": "governance",
+          "signal": "population_stability_load",
+          "condition": "function (s) { return s.stress >= 0.50; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "religion-brain.js",
+      "domain": "religion",
+      "sha256": "98b781bd2b89e934a44fe00ec1433fc75c1c3cfb72c901f6119d55ff18dfa478",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "culture",
+          "signal": "value_conflict_shift",
+          "condition": "function (s) { return s.stress >= 0.40; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.55); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.55,
+          "sampledNegative": 0
+        },
+        {
+          "target": "law",
+          "signal": "institutional_rights_pressure",
+          "condition": "function (s) { return s.stress >= 0.45; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "population",
+          "signal": "demographic_participation_shift",
+          "condition": "function (s) { return s.stress >= 0.50; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        },
+        {
+          "target": "communication",
+          "signal": "ideology_narrative_escalation",
+          "condition": "function (s) { return s.stress >= 0.45; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "governance",
+          "signal": "legitimacy_stability_pressure",
+          "condition": "function (s) { return s.stress >= 0.50; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "science-brain.js",
+      "domain": "research",
+      "sha256": "066dca4e58abc832ecb29b1aa35fbb4cce512b04f6c9802a0298097cfe3257da",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "technology",
+          "signal": "innovation_pipeline_pressure",
+          "condition": "function (s) { return s.stress >= 0.25; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.55); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.55,
+          "sampledNegative": 0
+        },
+        {
+          "target": "health",
+          "signal": "clinical_evidence_strain",
+          "condition": "function (s) { return s.stress >= 0.30; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "industry",
+          "signal": "r_and_d_translation_lag",
+          "condition": "function (s) { return s.stress >= 0.30; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "defense",
+          "signal": "strategic_research_gap",
+          "condition": "function (s) { return s.stress >= 0.35; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "technology-brain.js",
+      "domain": "technology",
+      "sha256": "e885ad90c4ce4910cb74677025def793228ce71d212daded36aaa1412879f22e",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "finance",
+          "signal": "tech_risk_exposure",
+          "condition": "function (s) { return s.stress >= 0.20 && _hasActiveDx(s); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.55); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.55,
+          "sampledNegative": 0
+        },
+        {
+          "target": "defense",
+          "signal": "cyber_threat_vector",
+          "condition": "function (s) { return s.stress >= 0.20 && _hasActiveDx(s); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "communication",
+          "signal": "platform_integrity_pressure",
+          "condition": "function (s) { return s.stress >= 0.25 && _hasActiveDx(s); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "governance",
+          "signal": "tech_regulation_pressure",
+          "condition": "function (s) { return s.stress >= 0.30 && _hasActiveDx(s); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "infrastructure",
+          "signal": "digital_infrastructure_strain",
+          "condition": "function (s) { return s.stress >= 0.30 && _hasActiveDx(s); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        },
+        {
+          "target": "intelligence",
+          "signal": "zero_day_threat_intelligence",
+          "condition": "function (s) { return s.stress >= 0.25 && _hasCyberOrAi(s); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "science",
+          "signal": "ai_safety_research_gap",
+          "condition": "function (s) { return s.stress >= 0.25 && _hasCyberOrAi(s); }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        }
+      ]
+    },
+    {
+      "file": "trade-brain.js",
+      "domain": "supplyChain",
+      "sha256": "9586b071d5804aad14c8044d982fdf5386357cfa045d132fba66749e3e95fe2b",
+      "groundedOnly": true,
+      "rules": [
+        {
+          "target": "finance",
+          "signal": "margin_compression",
+          "condition": "function (s) { return s.stress >= 0.55; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "energy",
+          "signal": "fuel_logistics_sensitivity",
+          "condition": "function (s) { return s.stress >= 0.50; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.45); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.45,
+          "sampledNegative": 0
+        },
+        {
+          "target": "infrastructure",
+          "signal": "transport_throughput_strain",
+          "condition": "function (s) { return s.stress >= 0.55; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.5); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.5,
+          "sampledNegative": 0
+        },
+        {
+          "target": "agriculture",
+          "signal": "food_supply_chain_stress",
+          "condition": "function (s) { return s.stress >= 0.50; }",
+          "formula": "function (s) { return Math.min(1, s.stress * 0.4); }",
+          "confidenceMention": false,
+          "confidenceGateDifferences": 0,
+          "sampledMin": 0,
+          "sampledMax": 0.4,
+          "sampledNegative": 0
+        }
+      ]
+    }
+  ],
+  "digestProbe": {
+    "stressOnlyLow": [],
+    "stressOnlyHigh": [],
+    "evidenceLow": [
+      {
+        "id": "catalog_A",
+        "label": "A",
+        "summary": "",
+        "active": true,
+        "relevance": 0.85,
+        "circuits": [],
+        "source": "deep-digest",
+        "subportal": null,
+        "depth": 2
+      },
+      {
+        "id": "catalog_B",
+        "label": "B",
+        "summary": "",
+        "active": true,
+        "relevance": 0.4,
+        "circuits": [],
+        "source": "deep-digest",
+        "subportal": null,
+        "depth": 2
+      }
+    ],
+    "evidenceHigh": [
+      {
+        "id": "catalog_A",
+        "label": "A",
+        "summary": "",
+        "active": true,
+        "relevance": 0.85,
+        "circuits": [],
+        "source": "deep-digest",
+        "subportal": null,
+        "depth": 2
+      },
+      {
+        "id": "catalog_B",
+        "label": "B",
+        "summary": "",
+        "active": true,
+        "relevance": 0.4,
+        "circuits": [],
+        "source": "deep-digest",
+        "subportal": null,
+        "depth": 2
+      }
+    ],
+    "changedEvidenceIdentity": [
+      {
+        "id": "catalog_A",
+        "label": "A",
+        "summary": "",
+        "active": true,
+        "relevance": 0.85,
+        "circuits": [],
+        "source": "deep-digest",
+        "subportal": null,
+        "depth": 2
+      },
+      {
+        "id": "catalog_B",
+        "label": "B",
+        "summary": "",
+        "active": true,
+        "relevance": 0.4,
+        "circuits": [],
+        "source": "deep-digest",
+        "subportal": null,
+        "depth": 2
+      }
+    ],
+    "networkCalls": 0,
+    "limit": "Synthetic cached catalog fixture executing actual base method, not live20-domain diagnosis acceptance. Count controls window; no condition-to-entry identity matching is done in this method. Catalog context remains active:true and may qualify diagnosis-gated emissions. Whether this context should be an observed diagnostic finding is a semantic consumer issue, not resolved by stress independence."
+  },
+  "baseSha256": "8f26193b2bf077e769379356e69fbcc22601009f5c098a0235e84805e72856c2",
+  "sourceReport": {
+    "path": "C:/Users/Chris/.codex/attachments/6b8976a8-8061-4f32-aac9-735aafc8e186/Pasted text.txt",
+    "sha256": "4d2d35dd7a52ecc9e53cc95534bd6c572e95dc56d6b4f15c85da6139fdf34716",
+    "sourceDate": "2026-07-24",
+    "status": "Owner supplied audit evidence; recommendations do not establish policy authority."
+  },
+  "probeScriptSha256": "df5e34e967131924842fa3831eb05402b0ba3099f1280798412105b7875b56cf"
+}
