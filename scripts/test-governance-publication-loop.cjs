@@ -89,6 +89,30 @@ function cognition(now) {
     var routed = await Decision.decide(routeStore, candidate, now, routeBrain);
     assert.equal(routed.immuneRouting.route, routeCase[0]);
     assert.equal(routed.immuneRouting.candidatePreserved, true);
+    var readonlyRouteStore = Object.create(routeStore);
+    ['set', 'setIfAbsent', 'lpush', 'ltrim', 'del'].forEach(function (method) {
+      readonlyRouteStore[method] = async function () { throw Error('route read attempted write'); };
+    });
+    readonlyRouteStore.lrange = async function (key, start, end) {
+      return key === Decision.LOG_KEY ? [routed] : routeStore.lrange(key, start, end);
+    };
+    var routeTrace = await require('../lib/product-domain-business-trace-readout.js').read(readonlyRouteStore, 'governance', now);
+    assert.equal(routeTrace.status, 'RECORDED');
+    assert.equal(routeTrace.decision.id, routed.decisionReceiptId);
+    assert.equal(routeTrace.decision.immuneRoute, routeCase[0]);
+    assert.equal(routeTrace.command, null);
+    assert.equal(routeTrace.externalActionAuthorized, false);
+    var routeElement = { innerHTML: '' }, routeWindow = { addEventListener: function () {} };
+    require('node:vm').runInNewContext(fs.readFileSync('assets/js/civilization/execution-observatory.js', 'utf8'), {
+      window: routeWindow, Date: Date, setInterval: function () {},
+      document: { readyState: 'loading', addEventListener: function () {}, getElementById: function () { return routeElement; } },
+      fetch: async function (url) { return { ok: true, json: async function () {
+        return url.includes('brain-cognition') ? { cognition: { 'governance': { ts: now, c: { businessTrace: routeTrace } } } } : {};
+      } }; }
+    });
+    await routeWindow.LIMENExecutionObservatory.refresh();
+    assert(routeElement.innerHTML.includes(routed.decisionReceiptId));
+    assert(routeElement.innerHTML.includes(routeCase[0]));
     assert.equal(routed.status, routeCase[0] === 'PASS' ? 'RELEASED' : 'NO_ACTION');
     assert.equal(Decision.validateReceipt(routed, candidate, now), routeCase[0] === 'PASS');
     assert.deepEqual(await routeStore.get(Decision.key(routed.decisionReceiptId)), routed);

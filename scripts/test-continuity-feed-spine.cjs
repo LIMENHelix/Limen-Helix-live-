@@ -478,6 +478,8 @@ sb.LIMENDomains = fixtures;
         var publicationTrace = await require('../lib/product-domain-business-trace-readout.js').read(publicationStore, row[0], publicationAt + 1);
         assert.equal(publicationTrace.status, 'RECORDED');
         assert.equal(publicationTrace.decision.packetId, packet.packetId);
+        assert.equal(publicationTrace.decision.immuneRoute, publicationSelected.immuneRouting.route);
+        assert(['HOLD', 'QUARANTINE', 'REJECT'].includes(publicationTrace.decision.immuneRoute));
         assert(publicationTrace.decision.blockers.includes(row[0] + '-immune-veto'));
         assert.equal(publicationTrace.command, null);
         assert.equal(publicationTrace.externalActionAuthorized, false);

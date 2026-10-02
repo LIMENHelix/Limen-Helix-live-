@@ -275,3 +275,6 @@ Dark-feed operator checkpoint (2026-10-01): original20console headers no longer 
 
 
 Owner routing clarification (2026-10-01, D-024): all research papers route to Science. Preserve originating domain/source identity as provenance and retain Science release gates. Continue the existing system; domain brains, neurology and phase engine remain protected. Current checks add native candidate admission and actual worker held-dispatch evidence without a runtime routing change. Full goal remains NOT DONE; Google Docs remains deferred.
+
+
+Publication continuity checkpoint (2026-10-01): Defense and Governance owner publication consumers now preserve the existing four-path immune assessment in permanent decisions and require PASS for release validation. Their existing business trace/observatory reveals the saved route; all twenty native continuity checks pass and the two native publication cases remain honestly held, with no command. Full regression at consumer repair: 378 passed, one external-prerequisite skip, zero failed; subsequent observation join has focused native/reader/renderer and repository/harness checks. Brains, classifier, source data and domain ownership are unchanged. Live publication, independent engagement and revenue remain unproved. Goal NOT DONE; Google Docs deferred.
