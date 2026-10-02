@@ -127,6 +127,51 @@ function renderBody(commandId, leaseToken, extra) {
   var channel = await Release.releaseChannel(store, subject, now, { cognition: cognition });
   assert.equal(channel.status, 'RELEASED'); assert.equal(channel.subjectDomain, 'finance');
   assert(channel.expiresAt <= subject.expiresAt);
+  assert.equal(subject.immuneRouting.route,'PASS');
+  assert.equal(channel.immuneRouting.communication.route,'PASS');
+
+  const corruptStore=new Store();await corruptStore.set(row.contract.stateKey,row.state);await corruptStore.set(row.contract.artifactStateKey,row.artifact);
+  await Video.persist(corruptStore,row.contract,built);
+  const normalGet=corruptStore.get.bind(corruptStore);
+  corruptStore.get=async key=>{const value=await normalGet(key);return value&&value.status==='NO_ACTION'?{...value,released:true}:value;};
+  const alertBrain=clone(cognition.finance);alertBrain.c.immune={immuneState:'alert'};
+  assert.equal((await Release.releaseSubject(corruptStore,'finance',now,{cognition:{...cognition,finance:alertBrain}})).reason,
+    'subject-domain-video-release-unavailable','mismatched hold readback cannot be indexed or returned as authority');
+  const oldSubject={...subject}; delete oldSubject.immuneRouting;
+  assert.equal(Release.validSubject(oldSubject,row.contract,built.manifest,now),false);
+  const oldChannel={...channel};delete oldChannel.immuneRouting;
+  assert.equal(Release.validChannel(oldChannel,subject,built.manifest,now),false);
+  for(const scenario of [
+    {route:'HOLD',immune:{immuneState:'watch',allowedWithWarning:true}},
+    {route:'HOLD',immune:{immuneState:'clear',quarantines:['untrusted-source']}},
+    {route:'QUARANTINE',immune:{immuneState:'alert'}},
+    {route:'QUARANTINE',immune:{immuneState:'clear',candidateQuarantined:true}},
+    {route:'REJECT',immune:null}
+  ]) {
+    const isolated=new Store();await isolated.set(row.contract.stateKey,row.state);await isolated.set(row.contract.artifactStateKey,row.artifact);
+    await Video.persist(isolated,row.contract,built);
+    const subjectBrain=clone(cognition.finance);subjectBrain.c.immune=scenario.immune;
+    const heldSubject=await Release.releaseSubject(isolated,'finance',now,{cognition:{...cognition,finance:subjectBrain}});
+    assert.equal(heldSubject.immuneRouting.route,scenario.route);assert.equal(heldSubject.released,false);
+    assert.equal(heldSubject.observationOnly,true);assert.equal(heldSubject.providerCalled,false);
+    assert.equal(Release.validSubject(heldSubject,row.contract,built.manifest,now),false);
+    assert.deepEqual(await Release.releaseSubject(isolated,'finance',now,{cognition:{...cognition,finance:subjectBrain}}),heldSubject);
+    assert.equal((await isolated.lrange(Release.subjectLog('finance'),0,-1)).length,1);
+    const cleared=await Release.releaseSubject(isolated,'finance',now+1,{cognition});
+    assert.equal(cleared.status,'RELEASED');assert.equal(cleared.immuneRouting.route,'PASS');
+    for(const owner of ['communication','finance']) {
+      const brains=clone(cognition);brains[owner].c.immune=scenario.immune;
+      const heldChannel=await Release.releaseChannel(isolated,cleared,now+1,{cognition:brains});
+      assert.equal(heldChannel.immuneRouting[owner==='finance'?'subject':'communication'].route,scenario.route);
+      assert.equal(heldChannel.status,'NO_ACTION');assert.equal(heldChannel.externalEffectAuthorized,false);
+      assert.equal(Release.validChannel(heldChannel,cleared,built.manifest,now+1),false);
+      assert.deepEqual(await Release.releaseChannel(isolated,cleared,now+1,{cognition:brains}),heldChannel);
+      assert.deepEqual(await isolated.get(Release.channelKey(heldChannel.decisionReceiptId)),heldChannel);
+    }
+    assert.equal((await Release.releaseChannel(isolated,cleared,now+2,{cognition})).status,'RELEASED');
+    assert.equal((await isolated.get(Release.subjectKey('finance',built.manifest.manifestId,heldSubject.decisionReceiptId))).immuneRouting.route,scenario.route);
+  }
+
 
   // Blocker 1: Communication channel authority is an exact Communication-owned
   // selection receipt, never a generic internal emission count.
