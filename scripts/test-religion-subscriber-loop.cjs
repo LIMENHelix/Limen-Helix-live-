@@ -1,5 +1,6 @@
 'use strict';
 var assert = require('node:assert/strict');
+var fs = require('node:fs');
 var Decision = require('../lib/religion-subscriber-decision.js');
 var Executor = require('../lib/religion-subscriber-executor.js');
 var Observer = require('../lib/religion-subscriber-outcome-observer.js');
@@ -28,6 +29,65 @@ function budget() { return { emailCostUsd: 0.01, dailyBudgetUsd: 0.05, dailySend
 (async function () {
   var now = Date.now(), store = new Store(), c1 = Decision.candidate(sub('buyer@example.com'), digest('digest-1'));
   assert.equal(Decision.validateCandidate(c1), true);
+  var candidate = c1, brain = cognition(now, false);
+  // LOCAL proof: the existing source-valid candidate stays represented on every immune route.
+  var routeStore = new Store(), candidateBefore = JSON.stringify(candidate);
+  for (var routeCase of [
+    ['PASS', { immuneState: 'clear' }],
+    ['HOLD', { immuneState: 'clear', quarantines: ['unresolved-domain-evidence'] }],
+    ['QUARANTINE', { immuneState: 'alert', candidateScoped: true, integrityThreat: true }],
+    ['REJECT', null]
+  ]) {
+    var routeBrain = JSON.parse(JSON.stringify(brain)); routeBrain.c.immune = routeCase[1];
+    var routed = await Decision.decide(routeStore, candidate, now, { cognition: routeBrain });
+    assert.equal(routed.immuneRouting.route, routeCase[0]);
+    assert.equal(routed.immuneRouting.candidatePreserved, true);
+    var readonlyRouteStore = Object.create(routeStore);
+    ['set', 'setIfAbsent', 'lpush', 'ltrim', 'del'].forEach(function (method) {
+      readonlyRouteStore[method] = async function () { throw Error('route read attempted write'); };
+    });
+    readonlyRouteStore.lrange = async function (key, start, end) {
+      return key === Decision.LOG_KEY ? [routed] : routeStore.lrange(key, start, end);
+    };
+    var routeTrace = await require('../lib/product-domain-business-trace-readout.js').read(readonlyRouteStore, 'religion', now);
+    assert.equal(routeTrace.status, 'RECORDED');
+    assert.equal(routeTrace.decision.id, routed.decisionReceiptId);
+    assert.equal(routeTrace.decision.immuneRoute, routeCase[0]);
+    assert.equal(routeTrace.command, null);
+    assert.equal(routeTrace.externalActionAuthorized, false);
+    var routeElement = { innerHTML: '' }, routeWindow = { addEventListener: function () {} };
+    require('node:vm').runInNewContext(fs.readFileSync('assets/js/civilization/execution-observatory.js', 'utf8'), {
+      window: routeWindow, Date: Date, setInterval: function () {},
+      document: { readyState: 'loading', addEventListener: function () {}, getElementById: function () { return routeElement; } },
+      fetch: async function (url) { return { ok: true, json: async function () {
+        return url.includes('brain-cognition') ? { cognition: { 'religion': { ts: now, c: { businessTrace: routeTrace } } } } : {};
+      } }; }
+    });
+    await routeWindow.LIMENExecutionObservatory.refresh();
+    assert(routeElement.innerHTML.includes(routed.decisionReceiptId));
+    assert(routeElement.innerHTML.includes(routeCase[0]));
+    assert.equal(routed.status, routeCase[0] === 'PASS' ? 'RELEASED' : 'NO_ACTION');
+    assert.equal(Decision.validateReceipt(routed, candidate, now), routeCase[0] === 'PASS');
+    assert.deepEqual(await routeStore.get(Decision.key(routed.decisionReceiptId)), routed);
+    assert.deepEqual(await Decision.decide(routeStore, candidate, now, { cognition: routeBrain }), routed, 'immutable route replay');
+    if (routeCase[0] !== 'PASS') {
+      var reconsidered = await Decision.decide(routeStore, candidate, now + 1, { cognition: brain });
+      assert.equal(reconsidered.immuneRouting.route, 'PASS');
+      assert.notEqual(reconsidered.decisionReceiptId, routed.decisionReceiptId);
+      assert.deepEqual(await routeStore.get(Decision.key(routed.decisionReceiptId)), routed, 'reconsideration preserves prior route');
+      var refused = await Executor.execute(Object.assign({ store: routeStore, specs: [{ candidate: candidate, decision: routed }], maxSends: 1, now: now + 1,
+        motorAuthorization: { authorize: async function () { throw Error('non-PASS reached motor'); } },
+        transport: { send: async function () { throw Error('non-PASS reached transport'); } } }, budget()));
+      assert.equal(refused.reason, 'religion-subscriber-no-released-exact-decisions');
+      assert.equal(refused.accepted, 0);
+    }
+  }
+  assert.equal((await routeStore.lrange(Decision.LOG_KEY, 0, 99)).length, 4);
+  assert.equal(JSON.stringify(candidate), candidateBefore);
+  var legacy = await Decision.decide(new Store(), candidate, now, { cognition: brain });
+  delete legacy.immuneRouting;
+  assert.equal(Decision.validateReceipt(legacy, candidate, now), false, 'unclassified release cannot authorize an inquiry');
+
   var held = await Decision.decide(store, c1, now, { cognition: cognition(now, true) });
   assert.equal(held.status, 'NO_ACTION'); assert(held.blockers.includes('religion-human-review-veto'));
   var released = await Decision.decide(store, c1, now, { cognition: cognition(now, false) });

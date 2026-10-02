@@ -586,6 +586,42 @@ sb.LIMENDomains = fixtures;
           sourcePacketId: packet.packetId, immuneRoute: populationPropertyTrace.decision.immuneRoute, status: populationPropertySelected.status,
           candidateDerivedFromGenericOpportunity: false, evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false };
       }
+      if (row[0] === 'religion') {
+        var religionSubscriberDecision = require('../lib/religion-subscriber-decision.js'), religionSubscriberAt = Date.parse(packet.generatedAt);
+        var religionSubscriberCognition = { ts: religionSubscriberAt, c: Object.assign({}, require('../lib/brain-cognition-compact.js').compact(brain.state.cognition), {
+          domain: 'religion', serverPacket: packet, brainOrgans: { resourceMetabolism: brain.state.resourceMetabolism,
+            autonomousInternalEmission: brain.state.domainAutoEmission || null }
+        }) };
+        // Separate identified typed intake: generic native opportunities above remain refused.
+        var subscriberRevenue = require('../lib/domain-revenue-decision.js');
+        var subscriberBody = 'LOCAL/FIXTURE identified Religion briefing; never emailed.', subscriberDigestKey = 'LOCAL/FIXTURE:religion-digest';
+        var religionSubscriberCandidate = religionSubscriberDecision.candidate({ email: 'local-subscriber@example.invalid',
+          domain: 'religion', active: true, subscriptionId: 'LOCAL/FIXTURE:subscription' }, {
+          subject: 'LOCAL/FIXTURE Religion briefing', body: subscriberBody, key: subscriberDigestKey,
+          revenueDecision: subscriberRevenue.create({ productDomain: 'religion', ownerDomain: 'religion',
+            sourceMode: subscriberRevenue.MODES.DOMAIN_WIDE_LIVE_READ, sourceRef: 'LOCAL/FIXTURE:' + packet.packetId,
+            digestKey: subscriberDigestKey, contentHash: religionSubscriberDecision.hash(subscriberBody) }) });
+        assert(religionSubscriberDecision.validateCandidate(religionSubscriberCandidate));
+        var religionSubscriberLists = new Map();
+        var religionSubscriberStore = Object.assign({}, store, { assertDurable: function () {}, setIfAbsent: store.setNx,
+          set: async function (key, value) { values.set(key, JSON.parse(JSON.stringify(value))); return true; },
+          lpush: async function (key, value) { var rows = religionSubscriberLists.get(key) || []; rows.unshift(JSON.parse(JSON.stringify(value))); religionSubscriberLists.set(key, rows); return rows.length; },
+          lrange: async function (key, start, end) { return JSON.parse(JSON.stringify((religionSubscriberLists.get(key) || []).slice(start, end + 1))); },
+          ltrim: async function (key, start, end) { religionSubscriberLists.set(key, (religionSubscriberLists.get(key) || []).slice(start, end + 1)); return true; }
+        });
+        var religionSubscriberSelected = await religionSubscriberDecision.decide(religionSubscriberStore, religionSubscriberCandidate, religionSubscriberAt, { cognition: religionSubscriberCognition });
+        assert.equal(religionSubscriberSelected.status, 'NO_ACTION');
+        assert.equal(religionSubscriberSelected.religionPacketId, packet.packetId);
+        assert(['HOLD', 'QUARANTINE', 'REJECT'].includes(religionSubscriberSelected.immuneRouting.route));
+        assert.deepEqual(await religionSubscriberStore.get(religionSubscriberDecision.key(religionSubscriberSelected.decisionReceiptId)), religionSubscriberSelected);
+        var religionSubscriberTrace = await require('../lib/product-domain-business-trace-readout.js').read(religionSubscriberStore, 'religion', religionSubscriberAt + 1);
+        assert.equal(religionSubscriberTrace.status, 'RECORDED');
+        assert.equal(religionSubscriberTrace.decision.immuneRoute, religionSubscriberSelected.immuneRouting.route);
+        assert.equal(religionSubscriberTrace.command, null); assert.equal(religionSubscriberTrace.externalActionAuthorized, false);
+        primaryIntakeBoundary.typedFixtureIntake = { candidateId: religionSubscriberSelected.actionId, decisionId: religionSubscriberSelected.decisionReceiptId,
+          sourcePacketId: packet.packetId, immuneRoute: religionSubscriberTrace.decision.immuneRoute, status: religionSubscriberSelected.status,
+          candidateDerivedFromGenericOpportunity: false, subscriptionEvidenceLevel: 'LOCAL/FIXTURE', evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false };
+      }
       if (['economy', 'energy', 'technology'].includes(row[0])) {
         var investmentDecision = require('../lib/' + row[0] + '-investment-decision.js');
         var beforeInvestmentIntake = JSON.stringify(Array.from(values));
