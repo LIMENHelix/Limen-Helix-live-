@@ -24,6 +24,12 @@ function motor(receipt) { return { authorize: async function () { return { autho
 
 (async function () {
   var now = Date.now(), candidate = Policy.candidate('culture', 'test-model', 'missing-public-hero');
+  var unsavedReads = 0, unsavedStore = new Store();
+  var unsaved = await Observer.observe(unsavedStore, { schemaVersion: Executor.SCHEMA, status: 'GENERATED', commandId: 'LOCAL-unsaved',
+    assetDomain: 'culture', receipt: { url: 'https://x.ai/LOCAL-image' } }, { fetch: async function () {
+      unsavedReads++; return { status: 200, headers: { get: function () { return 'image/png'; } }, arrayBuffer: async function () { return Buffer.from('LOCAL-image'); } };
+    } });
+  assert.equal(unsaved.status, 'REFUSED'); assert.equal(unsavedReads, 0); assert.equal(unsavedStore.values.size, 0);
   assert.equal(Policy.validate(candidate), true);
   assert.equal(Policy.validate(Object.assign({}, candidate, { prompt: 'arbitrary prompt' })), false);
 
@@ -78,13 +84,59 @@ function motor(receipt) { return { authorize: async function () { return { autho
     motorAuthorization: motor('culture-motor-1'), provider: { generate: async function () { calls++; } } });
   assert.equal(replay.replayed, true); assert.equal(calls, 1);
 
-  var observed = await Observer.observe(store, executed, { allowAnyHttpsForTest: true, fetch: async function () { return {
-    status: 200, headers: { get: function () { return 'image/jpeg'; } }, arrayBuffer: async function () { return Buffer.from('image-bytes'); }
-  }; } });
+  var savedCommand = await store.get(Executor.commandKey(executed.commandId));
+  var savedCause = await store.get(Learning.causeKey(executed.commandId));
+  var savedMotor = await store.get(Executor.motorClaimKey(executed.productMotorReceiptId));
+  var publicReads = 0;
+  var publicFetch = async function () { publicReads++; return { status: 200,
+    headers: { get: function (name) { return name === 'content-type' ? 'image/jpeg' : null; } }, arrayBuffer: async function () { return Buffer.from('image-bytes'); } }; };
+  for (var entry of [
+    [Executor.commandKey(executed.commandId), savedCommand, [{ ownerDomain: 'finance' }, { status: 'AMBIGUOUS' }, { liveMoney: true }, { readbackVerified: false }, { providerAccepted: false }, { receipt: { url: 'https://assets.example/foreign.jpg' } }]],
+    [Decision.key(released.decisionReceiptId), released, [{ ownerDomain: 'finance' }, { assetDomain: 'energy' }, { promptHash: 'wrong' }, { status: 'NO_ACTION' }, { expiresAt: savedCommand.commandedAt }]],
+    [Learning.causeKey(executed.commandId), savedCause, [{ schemaVersion: 'foreign/1' }, { domain: 'finance' }, { promptHash: 'wrong' }, { assetDomain: 'energy' }, { decisionReceiptId: 'wrong' }]],
+    [Executor.motorClaimKey(executed.productMotorReceiptId), savedMotor, [{ commandId: 'wrong' }, { decisionReceiptId: 'wrong' }, { productMotorReceiptId: 'wrong' }]]
+  ]) {
+    for (var changed of entry[2]) {
+      await store.set(entry[0], Object.assign({}, entry[1], changed));
+      var beforeRefusal = JSON.stringify([Array.from(store.values), Array.from(store.lists)]), oldReads = publicReads;
+      var refusedObservation = await Observer.observe(store, executed, { allowAnyHttpsForTest: true, fetch: publicFetch });
+      assert.equal(refusedObservation.reason, 'culture-hero-command-causal-join-invalid');
+      assert.equal(publicReads, oldReads); assert.equal(JSON.stringify([Array.from(store.values), Array.from(store.lists)]), beforeRefusal);
+    }
+    await store.set(entry[0], entry[1]);
+  }
+  var forged = { observationId: 'LOCAL-forged', commandId: executed.commandId, status: 'OBSERVED_PRESENT', assetDomain: 'culture',
+    observedAt: Date.now(), publicUrl: executed.receipt.url, contentSha256: 'a'.repeat(64) };
+  assert.equal((await Learning.recordObservation(store, forged)).ok, false);
+  assert.equal(await store.get(Learning.STATE_KEY), null, 'cause existence alone cannot admit learning');
+
+  var observed = await Observer.observe(store, executed, { allowAnyHttpsForTest: true, fetch: publicFetch });
   assert.equal(observed.status, 'OBSERVED_PRESENT');
   assert.equal(observed.independentReadPath, true);
   assert.equal(observed.generationEndpointCalled, false);
+  var noWrites = Object.create(store); ['set', 'setIfAbsent', 'lpush', 'ltrim'].forEach(function (method) {
+    noWrites[method] = async function () { throw Error('unadmitted observation reached learning write'); };
+  });
+  for (var change of [{ observationId: 'wrong' }, { commandId: 'wrong' }, { assetDomain: 'energy' }, { publicUrl: 'https://assets.example/foreign.jpg' },
+    { observedAt: Date.now() + 60000 }, { independentReadPath: false }, { generationEndpointCalled: true }, { contentSha256: 'wrong' }, { bytes: observed.bytes + 1 }]) {
+    var invalid = Object.assign({}, observed, change);
+    assert.equal((await Learning.recordObservation(noWrites, invalid)).ok, false, JSON.stringify(change));
+    await store.set(Observer.key(executed.commandId), invalid);
+    assert.equal((await Learning.recordObservation(noWrites, invalid)).ok, false, 'corrupt persisted observation cannot qualify');
+    await store.set(Observer.key(executed.commandId), observed);
+  }
+  var wrongCause = Object.assign({}, savedCause, { assetDomain: 'energy' }); await store.set(Learning.causeKey(executed.commandId), wrongCause);
+  assert.equal((await Learning.recordObservation(noWrites, observed)).ok, false);
+  await store.set(Learning.causeKey(executed.commandId), savedCause);
+  var corruptReadback = Object.create(store); corruptReadback.get = async function (k) { var row = await store.get(k); return k === Observer.key(executed.commandId) && row ? Object.assign({}, row, { assetDomain: 'energy' }) : row; };
+  var oldPublicReads = publicReads;
+  assert.equal((await Observer.observe(corruptReadback, executed, { allowAnyHttpsForTest: true, fetch: publicFetch })).reason, 'culture-hero-observation-readback-invalid');
+  assert.equal(publicReads, oldPublicReads);
+  assert.deepEqual(await Observer.observe(store, executed, { allowAnyHttpsForTest: true, fetch: publicFetch }), observed);
+  assert.equal(publicReads, oldPublicReads, 'valid cached observation replays without another read');
   assert.equal((await Learning.recordObservation(store, observed)).ok, true);
+  assert.equal((await Learning.recordObservation(store, observed)).duplicate, true);
+  assert.equal((await Learning.readForBrain(store)).resolvedCount, 1);
   assert.equal((await Learning.readForBrain(store)).status, 'ELIGIBLE');
   var reaffirmed = await Decision.decide(store, candidate, now + 1, { cognition: cognition(now + 1) });
   assert.equal(reaffirmed.status, 'RELEASED');
@@ -171,5 +223,48 @@ function motor(receipt) { return { authorize: async function () { return { autho
   await pendingOnly.lpush(Executor.PENDING_LOG_KEY, dispatching);
   assert.equal((await Trace.read(pendingOnly, now + 10)).command.status, 'DISPATCHING');
   assert.equal((await Trace.read(store, now - 1)).status, 'UNAVAILABLE', 'future-dated records cannot be presented as proof');
+  // Five real LOCAL decision/command/public-observation admissions across two
+  // canonical image subjects qualify the unchanged Culture gate.
+  var qualifiedStore = new Store(), qualifyingReads = 0;
+  var storePath = require.resolve('../lib/autofire-efference-store.js'), handlerPath = require.resolve('../handlers/product-domain-learning-state.js');
+  var oldStoreModule = require.cache[storePath], oldHandlerModule = require.cache[handlerPath];
+  async function readEndpoint(proofStore) {
+    var readonly = Object.create(proofStore);
+    ['set','setIfAbsent','lpush','ltrim','del'].forEach(function (method) { readonly[method] = async function () { throw Error('Culture endpoint attempted write'); }; });
+    require.cache[storePath] = { id: storePath, filename: storePath, loaded: true, exports: readonly }; delete require.cache[handlerPath];
+    var body, res = { setHeader: function () {}, end: function (text) { body = JSON.parse(text); } };
+    await require(handlerPath)({ method: 'GET', url: '/api/product-domain-learning-state?domain=culture' }, res);
+    assert.equal(res.statusCode, 200); return body;
+  }
+  try {
+    var notReady;
+    for (var i = 0; i < 5; i++) {
+      var at = Date.now(), asset = i % 2 ? 'energy' : 'culture';
+      var selected = Policy.candidate(asset, 'test-model', 'LOCAL/FIXTURE missing-public-hero-' + i);
+      var exactDecision = await Decision.decide(qualifiedStore, selected, at, { cognition: cognition(at) }); assert.equal(exactDecision.status, 'RELEASED');
+      var exactCommand = await Executor.execute({ store: qualifiedStore, candidate: selected, decision: exactDecision, now: at,
+        motorAuthorization: motor('LOCAL-qualified-culture-' + i), provider: { generate: async function () {
+          return { ok: true, url: 'https://x.ai/LOCAL-qualified-image-' + i, requestId: 'LOCAL-image-' + i, spentUsd: 0.02 };
+        } } }); assert.equal(exactCommand.status, 'GENERATED');
+      var exactObservation = await Observer.observe(qualifiedStore, exactCommand, { fetch: async function () {
+        qualifyingReads++; return { status: 200, headers: { get: function (name) { return name === 'content-type' ? 'image/png' : null; } }, arrayBuffer: async function () { return Buffer.from('LOCAL-image-' + i); } };
+      } }); assert.equal(exactObservation.status, 'OBSERVED_PRESENT');
+      assert.equal((await Learning.recordObservation(qualifiedStore, exactObservation)).ok, true);
+      assert.equal((await Learning.recordObservation(qualifiedStore, exactObservation)).duplicate, true);
+      if (i === 0) { notReady = await readEndpoint(qualifiedStore); assert.equal(notReady.learningGate.ready, false); }
+    }
+    var ready = await readEndpoint(qualifiedStore), empty = await readEndpoint(new Store());
+    assert.equal(qualifyingReads, 5); assert.equal(ready.resolvedCount, 5); assert.equal(ready.learningGate.ready, true);
+    assert.equal((await Learning.readForBrain(qualifiedStore)).learningGate.distinctAssets, 2); assert.equal(empty.signal, null); assert.equal(empty.resolvedCount, 0);
+    var nativeCycle = require('./fixtures/publication-native-cycle.cjs'), fixedAt = Date.now() + 1000;
+    var admittedNative = await nativeCycle('culture', ready, fixedAt), emptyNative = await nativeCycle('culture', empty, fixedAt), notReadyNative = await nativeCycle('culture', notReady, fixedAt);
+    assert.equal(admittedNative.externalRewardEligible, false);
+    for (var result of [admittedNative, emptyNative, notReadyNative]) assert.equal(result.plasticity.rewardActive, false);
+    assert.deepEqual(admittedNative.evaluated, emptyNative.evaluated); assert.deepEqual(notReadyNative.evaluated, emptyNative.evaluated);
+    console.log('Culture qualified native return', JSON.stringify({ evidence: 'LOCAL/FIXTURE', commands: 5, resolved: ready.resolvedCount, distinctAssets: 2, ready: true, rewardActive: false, sameEvaluation: true }));
+  } finally {
+    if (oldStoreModule) require.cache[storePath] = oldStoreModule; else delete require.cache[storePath];
+    if (oldHandlerModule) require.cache[handlerPath] = oldHandlerModule; else delete require.cache[handlerPath];
+  }
   console.log('culture hero sovereign B10/B14/observer/recovery loop and read-only business trace: PASS');
 })().catch(function (error) { console.error(error); process.exitCode = 1; });
