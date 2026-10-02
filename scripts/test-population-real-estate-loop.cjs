@@ -130,10 +130,64 @@ function invoke(handler, raw, headers) { return new Promise(function (resolve) {
   assert.equal(command.earnestMoneyAuthorized, false); assert.equal(command.fundsTransferAuthorized, false);
   var replay = await Executor.execute({ store: store, candidate: candidate, decision: decision, now: now + 2, motorAuthorization: motor, emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailyRequestCap: 2, transport: { send: async function () { calls++; } } });
   assert.equal(replay.replayed, true); assert.equal(calls, 1);
-  var event = { type: 'email.received', created_at: new Date(now + 1000).toISOString(), data: { email_id: 'email_in_1', from: 'broker@example.com', to: ['population-realestate+' + command.actionId + '@receive.example.com'] } };
-  var observation = await Observer.record(store, event);
+  var unsafeWrites = 0, unsafeStore = Object.create(store);
+  ['set', 'setIfAbsent', 'lpush', 'ltrim', 'del'].forEach(function (name) {
+    unsafeStore[name] = async function () { unsafeWrites++; throw Error('invalid admission attempted write'); };
+  });
+  var unsaved = await Learning.recordObservation(unsafeStore, { status: 'COUNTERPARTY_RESPONSE_OBSERVED',
+    observationId: 'LOCAL-NOT-SAVED', actionId: command.actionId, commandId: command.commandId,
+    providerInboundEmailId: 'LOCAL-NOT-VERIFIED', observedAt: Date.now() });
+  assert.equal(unsaved.ok, false); assert.equal(unsaved.reason, 'population-real-estate-observation-causal-join-invalid');
+  assert.equal(unsafeWrites, 0);
+  var event = { type: 'email.received', created_at: new Date().toISOString(), data: { email_id: 'email_in_1', from: 'broker@example.com', to: ['population-realestate+' + command.actionId + '@receive.example.com'] } };
+  var observation = await Observer.record(store, event, { webhookSignatureVerified: true });
   assert.equal(observation.status, 'COUNTERPARTY_RESPONSE_OBSERVED'); assert.equal(observation.independentOfSendResponse, true); assert.equal(observation.webhookSignatureVerified, true);
+  var unverifiedObservation = await Observer.record(unsafeStore, event);
+  assert.equal(unverifiedObservation.reason, 'verified-webhook-context-required'); assert.equal(unsafeWrites, 0);
+  for (var badEvent of [
+    Object.assign({}, event, { created_at: new Date(command.commandedAt - 1).toISOString() }),
+    Object.assign({}, event, { created_at: new Date(Date.now() + 60000).toISOString() }),
+    Object.assign({}, event, { created_at: null }),
+    Object.assign({}, event, { data: Object.assign({}, event.data, { from: 'foreign@example.invalid' }) })
+  ]) {
+    assert.equal((await Observer.record(unsafeStore, badEvent, { webhookSignatureVerified: true })).ok, false);
+    assert.equal(unsafeWrites, 0);
+  }
+  var observerReplay = await Observer.record(store, event, { webhookSignatureVerified: true });
+  assert.equal(observerReplay.duplicate, true); assert.equal(observerReplay.observedAt, observation.observedAt);
+  assert.equal((await store.lrange(Observer.LOG_KEY, 0, 99)).length, 1);
+  var permanent = await store.get(Observer.key(observation.providerInboundEmailId));
+  for (var changes of [
+    { commandId: 'foreign-command' }, { actionId: 'foreign-action' }, { propertyRefHash: 'wrong-property' },
+    { listingUrlHash: 'wrong-listing' }, { counterpartyEmailHash: 'wrong-sender' }, { indicationPriceUsd: 1 },
+    { independentOfSendResponse: false }, { webhookSignatureVerified: false }, { sendEndpointCalled: true },
+    { sourceEventType: 'email.sent' }, { observedAt: command.commandedAt - 1 }, { observedAt: Date.now() + 60000 },
+    { sourceEventCreatedAt: new Date(command.commandedAt - 1).toISOString() },
+    { sourceEventCreatedAt: new Date(Date.now() + 60000).toISOString() }, { liveMoney: true },
+    { schemaVersion: 'foreign-observation/1' }, { observationId: 'wrong-identity' }
+  ]) {
+    var corrupt = Object.assign({}, permanent, changes);
+    await store.set(Observer.key(observation.providerInboundEmailId), corrupt);
+    var rejected = await Learning.recordObservation(unsafeStore, corrupt);
+    assert.equal(rejected.ok, false, JSON.stringify(changes)); assert.equal(unsafeWrites, 0);
+  }
+  await store.set(Observer.key(observation.providerInboundEmailId), permanent);
+  for (var commandChanges of [{ status: 'AMBIGUOUS' }, { ownerDomain: 'infrastructure' }, { contentHash: 'changed-content' },
+    { readbackVerified: false }, { fundsTransferAuthorized: true }, { providerEmailId: 'wrong-outbound-email' }]) {
+    await store.set(Executor.commandKey(command.commandId), Object.assign({}, command, commandChanges));
+    assert.equal((await Learning.recordObservation(unsafeStore, observation)).ok, false);
+    assert.equal(unsafeWrites, 0);
+  }
+  await store.set(Executor.commandKey(command.commandId), command);
+  var corruptReadbackStore = Object.create(store);
+  corruptReadbackStore.get = async function (key) {
+    var value = await store.get(key);
+    return key === Observer.key(observation.providerInboundEmailId) ? Object.assign({}, value, { propertyRefHash: 'corrupt-readback' }) : value;
+  };
+  await assert.rejects(Observer.record(corruptReadbackStore, event, { webhookSignatureVerified: true }), /readback invalid/);
   var learned = await Learning.recordObservation(store, observation); assert.equal(learned.ok, true); assert.equal(learned.resolvedCount, 1);
+  assert.equal((await Learning.recordObservation(store, observerReplay)).duplicate, true);
+  assert.equal((await Learning.readForBrain(store)).resolvedCount, 1);
   assert.equal(learned.signal.normalizedCredit, 0, 'an unclassified reply cannot be treated as a positive real-estate outcome');
   var returned = await Decision.decide(store, candidate, now + 1500, { cognition: cognition, maxIndicationUsd: 200000 });
   assert.equal(returned.status, 'RELEASED');
@@ -149,7 +203,13 @@ function invoke(handler, raw, headers) { return new Promise(function (resolve) {
   var raw = JSON.stringify(signedEvent), signature = webhook.sign(messageId, stamp, raw);
   var inbound = InboundHandler.createHandler({ store: store, secret: secret });
   var verified = await invoke(inbound, raw, { 'svix-id': messageId, 'svix-timestamp': String(Math.floor(stamp.getTime() / 1000)), 'svix-signature': signature });
-  assert.equal(verified.status, 200); assert.equal(verified.body.status, 'COUNTERPARTY_RESPONSE_OBSERVED'); assert.equal(verified.body.sendEndpointCalled, false);
+  assert.equal(verified.status, 200); assert.equal(verified.body.status, 'COUNTERPARTY_RESPONSE_OBSERVED'); assert.equal(verified.body.sendEndpointCalled, false); assert.equal(verified.body.learned, true);
+  assert.equal((await store.get(Observer.key(observation.providerInboundEmailId))).observationId, observation.observationId);
+  assert.equal((await Learning.recordObservation(store, observation)).duplicate, true);
+  assert.equal((await Learning.readForBrain(store)).resolvedCount, 2);
+  var verifiedReplay = await invoke(inbound, raw, { 'svix-id': messageId, 'svix-timestamp': String(Math.floor(stamp.getTime() / 1000)), 'svix-signature': signature });
+  assert.equal(verifiedReplay.status, 200); assert.equal(verifiedReplay.body.duplicate, true); assert.equal(verifiedReplay.body.learned, false);
+  assert.equal((await Learning.readForBrain(store)).resolvedCount, 2);
   var forged = await invoke(inbound, raw, { 'svix-id': messageId, 'svix-timestamp': String(Math.floor(stamp.getTime() / 1000)), 'svix-signature': 'v1,forged' });
   assert.equal(forged.status, 400); assert.equal(forged.body.error, 'invalid webhook signature');
   var learningState = await Learning.readForBrain(store); assert.equal(learningState.status, 'ELIGIBLE'); assert.equal(learningState.learningGate.ready, false);
