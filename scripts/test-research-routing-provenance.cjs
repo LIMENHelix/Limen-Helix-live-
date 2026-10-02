@@ -135,6 +135,8 @@ class Store {
         assert.equal(nativeReadout.resolvedCount, 0);
         assert.equal(nativeReadout.learningGate.ready, false);
       }
+      const nativeCycle = await require('./fixtures/research-native-cycle.cjs')(origin, nativeReadout);
+      assert.equal(nativeCycle.observationRetained, true);
       const name = origin[0].toUpperCase() + origin.slice(1);
       const brainSource = fs.readFileSync(path.join(__dirname, '../assets/js/domain-brains/' + origin + '-brain.js'), 'utf8');
       const methodMarker = '.prototype._refresh' + name + 'ActionOutcome = ';

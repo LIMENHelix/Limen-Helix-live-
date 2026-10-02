@@ -1,0 +1,7 @@
+# Complete native cycle retention follow-up
+
+LOCAL/FIXTURE, test-only change after67b2412b. Research routing regression now loads complete unchanged Science, Medicine, Education and Environment brain source plus their existing dependencies in the neutral continuity browser shim. The actual learning endpoint response from the same released-decision/artifact/admitted-evaluation/processed-outcome store is supplied to each native endpoint fetch. Two complete native cycles run, a learning read is observed, the returned observation identity is retained, cognition exists and the cycle count advances. Non-Science own reward signals remain null; learning readiness matches the original owning endpoint response.
+
+All eighteen research tests pass; the four-origin joined regression passes. No runtime files changed in this follow-up and protected brain/data/worker diff remains empty. Previous full runtime suite at67b2412b was378pass1external-corpus prerequisite skip0fail251.9s.
+
+This proves returned-observation retention through subsequent native execution. It does not prove that the observation caused changed diagnosis/opportunity, an independently learned source effect, full refresh cron or production behavior. No cross-domain reward is borrowed. Original full goal stays NOT COMPLETE, Google Docs deferred. Next test the observed native cognition/packet after return against an otherwise identical no-return control and record the exact causal boundary.
