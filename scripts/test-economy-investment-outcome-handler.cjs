@@ -73,4 +73,5 @@ assert.deepEqual(durableEvent.sourceIdentity,observedSource,'actual recorder los
 console.log('actual recorder return boundary',JSON.stringify({processed:learnedState.processedOutcomeIds.length,externalSignals:learnedState.externalLearning.resolvedCount,sourceRetained:!!durableEvent.sourceIdentity}));
 } finally {global.fetch=previousFetch;if(oldUrl===undefined)delete process.env.UPSTASH_REDIS_REST_URL;else process.env.UPSTASH_REDIS_REST_URL=oldUrl;if(oldToken===undefined)delete process.env.UPSTASH_REDIS_REST_TOKEN;else process.env.UPSTASH_REDIS_REST_TOKEN=oldToken;if(previousStore)require.cache[storePath]=previousStore;else delete require.cache[storePath];if(previousOutcome)require.cache[outcomePath]=previousOutcome;else delete require.cache[outcomePath];}
 
+await require('./fixtures/economy-observed-cohort.cjs')(memory,invoke);
 })().catch(e=>{console.error(e);process.exit(1);});
