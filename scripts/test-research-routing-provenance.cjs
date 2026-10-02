@@ -146,6 +146,7 @@ class Store {
         const baselineValues = new Map([...outcomeStore.values].map(([k, v]) => [k, clone(v)]));
         const baselineLists = new Map([...outcomeStore.lists].map(([k, v]) => [k, clone(v)]));
         const baselineReadout = clone(nativeReadout);
+        let lastQualifiedEvent;
         for (let n = 2; n <= 5; n++) {
           const additional = clone(evaluationInput);
           additional.publication.observationId = 'science:qualified-evaluation:' + n;
@@ -156,6 +157,7 @@ class Store {
           assert.equal(admittedNext.ok, true);
           const eventNext = { ...admittedNext.record.event, ownerDomain: 'research', eventId: 'science:qualified-event:' + n, ts: spec.at + 3 + n };
           assert.equal((await Learning.recordOutcome(outcomeStore, eventNext)).ok, true);
+          lastQualifiedEvent = eventNext;
         }
         await handler({ method: 'GET', url: '/api/product-domain-learning-state?domain=research' }, response);
         assert.equal(nativeReadout.resolvedCount, 5);
@@ -167,6 +169,33 @@ class Store {
         const gatedControl = clone(nativeReadout); gatedControl.learningGate.ready = false;
         const gatedCycle = await require('./fixtures/research-native-cycle.cjs')('science', gatedControl);
         assert.equal(gatedCycle.plasticity.rewardActive, false);
+        const resolvedBeforeReplay = (await Learning._load(outcomeStore, 'research')).externalLearning.resolvedCount;
+        assert.equal((await Learning.recordOutcome(outcomeStore, lastQualifiedEvent)).duplicate, true);
+        assert.equal((await Learning._load(outcomeStore, 'research')).externalLearning.resolvedCount, resolvedBeforeReplay);
+        const restarted = new Store(); restarted.values = new Map([...outcomeStore.values].map(([k, v]) => [k, clone(v)]));
+        restarted.lists = new Map([...outcomeStore.lists].map(([k, v]) => [k, clone(v)]));
+        const neutralControl = new Store(); neutralControl.values = new Map([...baselineValues].map(([k, v]) => [k, clone(v)]));
+        neutralControl.lists = new Map([...baselineLists].map(([k, v]) => [k, clone(v)]));
+        const nextSpec = { ...spec, at: spec.at + 20, candidate: { ...spec.candidate,
+          masterGate: { confidence: 0.95, readiness: 0.95, salience: 0.95, completeness: 1 } },
+          domainCycle: { domain: 'research', ok: true, startedAt: 100, cursorAfter: 99,
+            domainFunction: { evidence: { l3CurrentEvidenceComplete: true, outwardConnected: true } } } };
+        const next = await Bridge.select(restarted, nextSpec);
+        const neutral = await Bridge.select(neutralControl, nextSpec);
+        assert.equal(next.ok, true); assert.equal(neutral.ok, true);
+        const effect = row => row.receipt.criticDecision.ranked.find(candidate => candidate.kind === 'generate_research_artifact').historicalEffect;
+        assert(effect(next) < effect(neutral), 'processed regression must affect the next owning critic after restart');
+        console.log('Science next critic', JSON.stringify({ regressionEffect: effect(next), neutralEffect: effect(neutral), status: next.receipt.status }));
+        const incompleteNext = clone(nextSpec); incompleteNext.at++;
+        incompleteNext.domainCycle.domainFunction.evidence.l3CurrentEvidenceComplete = false;
+        const heldNext = await Bridge.select(restarted, incompleteNext);
+        assert.equal(heldNext.receipt.status, 'HELD');
+        assert.equal((await Learning.recordCommand(restarted, { selection: heldNext.receipt, efferenceCopy: commanded.copy })).error,
+          'command_has_no_released_domain_selection');
+        const reconsidered = await Bridge.select(restarted, { ...nextSpec, at: spec.at + 22 });
+        assert.equal(reconsidered.receipt.status, 'RELEASED');
+        assert.equal(effect(reconsidered), -0.8);
+        assert.equal((await Learning._load(restarted, 'research')).externalLearning.resolvedCount, 5);
         outcomeStore.values = baselineValues; outcomeStore.lists = baselineLists; nativeReadout = baselineReadout;
       }
       const name = origin[0].toUpperCase() + origin.slice(1);
