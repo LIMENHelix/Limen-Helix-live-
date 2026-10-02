@@ -282,6 +282,8 @@ async function recordEvent(body) {
     /* Raw, named terms are preserved. Learning derives only the explicit
        categorical rule in lib/autofire-learning; no opaque composite score is
        stored or accepted here. */
+    sourceIdentity: body.sourceIdentity && typeof body.sourceIdentity === 'object'
+      ? JSON.parse(JSON.stringify(body.sourceIdentity)) : null,
     outcomeData: outcomeData
   };
 
