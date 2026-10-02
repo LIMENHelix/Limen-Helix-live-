@@ -137,6 +137,11 @@ class Store {
       }
       const nativeCycle = await require('./fixtures/research-native-cycle.cjs')(origin, nativeReadout);
       assert.equal(nativeCycle.observationRetained, true);
+      const noReturn = clone(nativeReadout); noReturn.researchOriginTrace.outcomes = [];
+      const controlCycle = await require('./fixtures/research-native-cycle.cjs')(origin, noReturn);
+      console.log('native comparison', origin, JSON.stringify({ diagnoses: nativeCycle.evaluated.diagnoses.length, opportunities: nativeCycle.evaluated.opportunities.length }));
+      assert.deepEqual(nativeCycle.evaluated, controlCycle.evaluated,
+        'source Science observation must not silently substitute for own-domain learning');
       const name = origin[0].toUpperCase() + origin.slice(1);
       const brainSource = fs.readFileSync(path.join(__dirname, '../assets/js/domain-brains/' + origin + '-brain.js'), 'utf8');
       const methodMarker = '.prototype._refresh' + name + 'ActionOutcome = ';
