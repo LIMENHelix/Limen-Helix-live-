@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "continuity-grid-startup-diagnostics/1.0",
+  "reports": [
+    {
+      "source": "C:/Users/Chris/Limen-Helix-control/sources/continuity-grid-startup-diagnostic-20261002.json",
+      "sourceSha256": "676f45a5b3283e8d0c59d69974408c80c56baca0e15cf85cf997b4cfff0ee297",
+      "sourceCommit": "3751f2b5e2ae7762a9b089ac336c2e87df37710b",
+      "evidenceLevel": "GIT-LINKED-PREVIEW DIAGNOSTIC",
+      "measuredAt": "2026-10-02T07:07:29.801Z",
+      "stage": "sample",
+      "navigationStatus": 200,
+      "finalPath": "/helix-brain-grid",
+      "failure": "Profiler.stop timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.",
+      "metrics": [
+        {
+          "eventRenders": 1,
+          "renderMs": 8
+        },
+        {
+          "eventRenders": 20,
+          "renderMs": 162
+        }
+      ],
+      "requestCount": 655,
+      "blockedCounts": {
+        "/api/limen-snapshot": 2,
+        "/api/domain-snapshot": 3,
+        "/api/brain-signals": 14,
+        "/api/brain-weights": 20,
+        "/api/limen-outcome": 4,
+        "/api/limen-engine-output": 1,
+        "/api/feed-resolve": 20,
+        "/api/product-domain-learning-state": 20
+      },
+      "observatoryResponses": [
+        {
+          "path": "/assets/js/civilization/execution-observatory.js",
+          "status": 200
+        },
+        {
+          "path": "/api/limen-autofire-log",
+          "status": 200
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "source": "C:/Users/Chris/Limen-Helix-control/sources/continuity-grid-readonly-state-diagnostic-20261002.json",
+      "sourceSha256": "1119019ad4834400ab45ffaff7f755f916733909e4f8fe21075394d041ad9ead",
+      "sourceCommit": "3751f2b5e2ae7762a9b089ac336c2e87df37710b",
+      "evidenceLevel": "GIT-LINKED-PREVIEW DIAGNOSTIC",
+      "measuredAt": "2026-10-02T07:11:59.199Z",
+      "stage": "sample",
+      "navigationStatus": 200,
+      "finalPath": "/helix-brain-grid",
+      "failure": "Profiler.stop timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.",
+      "metrics": [
+        {
+          "eventRenders": 1,
+          "renderMs": 14
+        },
+        {
+          "eventRenders": 20,
+          "renderMs": 158
+        }
+      ],
+      "requestCount": 656,
+      "blockedCounts": {
+        "/api/domain-snapshot": 2
+      },
+      "observatoryResponses": [
+        {
+          "path": "/assets/js/civilization/execution-observatory.js",
+          "status": 200
+        },
+        {
+          "path": "/api/limen-autofire-log",
+          "status": 200
+        }
+      ],
+      "pageErrors": []
+    }
+  ],
+  "result": "UNPROVEN",
+  "limits": [
+    "No CPU profile or final DOM inspection was obtained; Profiler.stop timed out.",
+    "Short measured observatory event renders do not establish the main-thread stall cause.",
+    "Allowing inspected cached readonly endpoints did not resolve the profiler stall; no product code or brain semantics changed.",
+    "Cold domain-snapshot, all writes/providers and feed-resolve emit jobs remained blocked."
+  ],
+  "next": "Obtain a browser-process trace or isolated existing grid startup reproduction before any runtime repair or acceptance retry."
+}

@@ -1,0 +1,627 @@
+{
+  "schemaVersion": "continuity-static-data-reconciliation/1.0",
+  "sourceInventory": "docs/audits/continuity-route-reconciliation.json",
+  "sourceInventorySha256": "c5861593a50b44dbeed073195b438d1d9c1128fc6d8199cdd27a64def32bb5ef",
+  "probeSource": "C:/Users/Chris/Limen-Helix-control/sources/continuity-static-data-head-probe-20261002.json",
+  "probeSha256": "65fd952ed84a3d236cac59a421e7c3119a0dc2c4e6d7929ef79b84e5a84668d0",
+  "probeStartedAt": "2026-10-02T07:02:01.271Z",
+  "probeUpdatedAt": "2026-10-02T07:09:13.345Z",
+  "method": "HEAD",
+  "completeUniqueCoverage": 4944,
+  "redirectsFollowed": false,
+  "APIRequests": 0,
+  "initialPass": {
+    "200": 4895,
+    "404": 48,
+    "error": 1
+  },
+  "retainedError": {
+    "route": "/assets/data/domains/science.json",
+    "observedAt": "2026-10-02T07:08:15.085Z",
+    "error": "fetch failed"
+  },
+  "recheck": {
+    "schemaVersion": "continuity-static-data-error-recheck/1.0",
+    "measuredAt": "2026-10-02T07:10:13.595Z",
+    "method": "HEAD",
+    "route": "/assets/data/domains/science.json",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "redirectFollowed": false,
+    "originalObservationPreserved": true
+  },
+  "recheckSha256": "f3bdbda3572dbe596dc4e7811b9452ac41a8efc25e1634cb9a16f0a5d6ec6cad",
+  "latestRecordedStatusAcrossPassAndRecheck": {
+    "200": 4896,
+    "404": 48,
+    "unresolvedErrors": 0
+  },
+  "exclusionSource": ".vercelignore",
+  "exclusionSha256": "dd4c8eb6aec7db694f081c71fae37573023132b8826339e292e028594e9911ea",
+  "localExclusionMatched404": 48,
+  "declaredPortalFallbacks": 2,
+  "missing": [
+    {
+      "route": "/assets/data/_bridge-build-log.json",
+      "observedAt": "2026-10-02T07:02:01.274Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/_bridge-build-log.json",
+          "line": 226
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/business-operations-atlas.json",
+      "observedAt": "2026-10-02T07:02:03.841Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/business-operations-atlas.json",
+          "line": 148
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/company-registry.json",
+      "observedAt": "2026-10-02T07:03:09.801Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/company-registry.json",
+          "line": 133
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/communication-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:10.891Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/communication-connectivity-recommendations.json",
+          "line": 160
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/communication-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:11.107Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/culture-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:11.687Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/culture-connectivity-recommendations.json",
+          "line": 168
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/culture-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:11.964Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/defense-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:12.450Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/defense-connectivity-recommendations.json",
+          "line": 165
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/defense-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:12.670Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/economy-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:13.231Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/economy-connectivity-recommendations.json",
+          "line": 153
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/economy-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:13.499Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/education-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:13.979Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/education-connectivity-recommendations.json",
+          "line": 161
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/education-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:14.177Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/energy-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:14.657Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/energy-connectivity-recommendations.json",
+          "line": 151
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/energy-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:14.888Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/environment-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:15.440Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/environment-connectivity-recommendations.json",
+          "line": 163
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/environment-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:15.743Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/finance-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:16.273Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/finance-connectivity-recommendations.json",
+          "line": 152
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/finance-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:16.490Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/governance-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:16.964Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/governance-connectivity-recommendations.json",
+          "line": 164
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/governance-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:17.200Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/industry-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:17.724Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/industry-connectivity-recommendations.json",
+          "line": 155
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/industry-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:17.941Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/infrastructure-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:18.493Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/infrastructure-connectivity-recommendations.json",
+          "line": 156
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/infrastructure-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:18.708Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/intelligence-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:19.218Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/intelligence-connectivity-recommendations.json",
+          "line": 166
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/intelligence-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:19.484Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/law-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:19.944Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/law-connectivity-recommendations.json",
+          "line": 167
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/law-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:20.255Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/medicine-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:20.827Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/medicine-connectivity-recommendations.json",
+          "line": 158
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/medicine-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:21.043Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/p2_agri-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:21.565Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/population-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:21.964Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/population-connectivity-recommendations.json",
+          "line": 162
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/population-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:22.178Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/religion-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:22.979Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/religion-connectivity-recommendations.json",
+          "line": 169
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/religion-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:23.319Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/science-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:23.845Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/science-connectivity-recommendations.json",
+          "line": 159
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/science-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:24.044Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/technology-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:24.566Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/technology-connectivity-recommendations.json",
+          "line": 157
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/technology-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:24.860Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/trade-connectivity-recommendations.json",
+      "observedAt": "2026-10-02T07:03:25.359Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/trade-connectivity-recommendations.json",
+          "line": 154
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/deep/trade-diagnosis-manifest.json",
+      "observedAt": "2026-10-02T07:03:25.562Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/deep/*-diagnosis-manifest.json",
+          "line": 262
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/domains/energy_datacenter_powerdemand_rackdensity.json",
+      "observedAt": "2026-10-02T07:04:44.712Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/domains/*_*_*_*.json",
+          "line": 8
+        }
+      ],
+      "declaredPortalFallback": "/api/fetch-portal?domainId=energy_datacenter_powerdemand_rackdensity"
+    },
+    {
+      "route": "/assets/data/domains/energy_datacenter_powerdemand_rackdensity_hvpower.json",
+      "observedAt": "2026-10-02T07:04:44.815Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/domains/*_*_*_*.json",
+          "line": 8
+        }
+      ],
+      "declaredPortalFallback": "/api/fetch-portal?domainId=energy_datacenter_powerdemand_rackdensity_hvpower"
+    },
+    {
+      "route": "/assets/data/eligible-universe.json",
+      "observedAt": "2026-10-02T07:08:59.107Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/eligible-universe.json",
+          "line": 135
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/motif-apqc-crosswalk.json",
+      "observedAt": "2026-10-02T07:09:00.403Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/motif-apqc-crosswalk.json",
+          "line": 150
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/neuro-business-crossref.json",
+      "observedAt": "2026-10-02T07:09:00.450Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/neuro-business-crossref.json",
+          "line": 149
+        }
+      ],
+      "declaredPortalFallback": null
+    },
+    {
+      "route": "/assets/data/orphan-stakeholders.json",
+      "observedAt": "2026-10-02T07:09:00.839Z",
+      "status": 404,
+      "localExclusionMatches": [
+        {
+          "rule": "assets/data/orphan-stakeholders.json",
+          "line": 134
+        }
+      ],
+      "declaredPortalFallback": null
+    }
+  ],
+  "limits": [
+    "Original transient error remains in the complete raw pass; retry is a separate observation.",
+    "Exclusion correlation is checkout intent, not a deployed build manifest or retirement permission.",
+    "Declared fallback is not a new live API test; previously saved two Energy fallback observations remain separate.",
+    "HTTP availability does not prove body contents, source freshness, rendered consumption, motor readiness or revenue."
+  ]
+}
