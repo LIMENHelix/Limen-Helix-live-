@@ -77,6 +77,39 @@ function cognition(now) {
   assert.notEqual(Source.build(changedSource, brain, now).sourceFingerprint, candidate.sourceFingerprint,
     'source identity must change when the underlying source URL changes');
 
+  // LOCAL proof: the existing source-valid candidate stays represented on every immune route.
+  var routeStore = memory(), candidateBefore = JSON.stringify(candidate);
+  for (var routeCase of [
+    ['PASS', { immuneState: 'clear' }],
+    ['HOLD', { immuneState: 'clear', quarantines: ['unresolved-domain-evidence'] }],
+    ['QUARANTINE', { immuneState: 'alert', candidateScoped: true, integrityThreat: true }],
+    ['REJECT', null]
+  ]) {
+    var routeBrain = JSON.parse(JSON.stringify(brain)); routeBrain.c.immune = routeCase[1];
+    var routed = await Decision.decide(routeStore, candidate, now, routeBrain);
+    assert.equal(routed.immuneRouting.route, routeCase[0]);
+    assert.equal(routed.immuneRouting.candidatePreserved, true);
+    assert.equal(routed.status, routeCase[0] === 'PASS' ? 'RELEASED' : 'NO_ACTION');
+    assert.equal(Decision.validateReceipt(routed, candidate, now), routeCase[0] === 'PASS');
+    assert.deepEqual(await routeStore.get(Decision.key(routed.decisionReceiptId)), routed);
+    assert.deepEqual(await Decision.decide(routeStore, candidate, now, routeBrain), routed, 'immutable route replay');
+    if (routeCase[0] !== 'PASS') {
+      var reconsidered = await Decision.decide(routeStore, candidate, now + 1, brain);
+      assert.equal(reconsidered.immuneRouting.route, 'PASS');
+      assert.notEqual(reconsidered.decisionReceiptId, routed.decisionReceiptId);
+      assert.deepEqual(await routeStore.get(Decision.key(routed.decisionReceiptId)), routed, 'reconsideration preserves prior route');
+      var refused = await Executor.execute({ store: routeStore, candidate: candidate, decision: routed, now: now + 1,
+        motorAuthorization: { authorize: async function () { throw new Error('non-PASS must never reach motor'); } },
+        operationCostUsd: 0, dailyBudgetUsd: 0, dailyPublicationCap: 1 });
+      assert.notEqual(refused.status, 'PUBLISHED');
+    }
+  }
+  assert.equal((await routeStore.lrange(Decision.LOG_KEY, 0, 99)).length, 4);
+  assert.equal(JSON.stringify(candidate), candidateBefore);
+  var legacy = await Decision.decide(memory(), candidate, now, brain);
+  delete legacy.immuneRouting;
+  assert.equal(Decision.validateReceipt(legacy, candidate, now), false, 'unclassified release cannot authorize publication');
+
   var decision = await Decision.decide(store, candidate, now, brain);
   assert.equal(decision.status, 'RELEASED');
   var held = await Executor.execute({ store: store, candidate: candidate, decision: decision, now: now + 1,
