@@ -44,6 +44,21 @@ const input = {
   assert.equal(duplicate.duplicate, true);
   assert.equal(store.lists.get(Intake.LOG_KEY).length, 1);
 
+  for (const mutate of [
+    row => { row.evaluation.progress = 'REGRESSION'; },
+    row => { row.publication.actionId = 'different-action'; },
+    row => { row.publication.sourceIdentity.contentHash = 'sha256:changed'; },
+    row => { row.evaluation.evidenceRecords[0].sourceIdentity.value = 'doi:other-study'; }
+  ]) {
+    const conflicting = JSON.parse(JSON.stringify(input));
+    mutate(conflicting);
+    const rejected = await Intake.persist(store, conflicting, 2500);
+    assert.equal(rejected.ok, false, 'conflicting evaluation must not be admitted as duplicate');
+    assert.equal(rejected.admitted, false);
+    assert.equal(store.lists.get(Intake.LOG_KEY).length, 1);
+    assert.deepEqual(await store.get(Intake.key(input.publication.observationId)), first.record);
+  }
+
   const inspected = await Observer.inspect(store, store.lists.get(Intake.LOG_KEY));
   assert.equal(inspected.length, 1);
   assert.equal(inspected[0].status, 'ELIGIBLE');

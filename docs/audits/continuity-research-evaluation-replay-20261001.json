@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "research-evaluation-replay-checkpoint/1.0",
+  "level": "LOCAL/FIXTURE",
+  "baseCommit": "955a936e",
+  "files": [
+    {
+      "path": "lib/research-evaluation-intake.js",
+      "sha256": "b68f1ca11c10e5cfc241242fa016b11e05643af59cc7570e488bead9c32859e6"
+    },
+    {
+      "path": "scripts/test-research-evaluation-intake.cjs",
+      "sha256": "c00b47012232a748de3d710cf45ab6cc1ac6735d469e69bad82235bcae26ba99"
+    }
+  ],
+  "reproduction": "Conflicting observation ID accepted as duplicate; regression failed before fix",
+  "focused": {
+    "researchPassed": 18,
+    "failed": 0
+  },
+  "repository": {
+    "status": "PASS",
+    "bootModules": 350,
+    "javascriptParsed": 2272,
+    "jsonParsed": 5026,
+    "sizeCapSkipped": 2,
+    "harness": "PASS"
+  },
+  "fullSuite": {
+    "status": "PASS",
+    "sessionId": 38992,
+    "passed": 378,
+    "skipped": 1,
+    "failed": 0,
+    "seconds": 263.2,
+    "exitCode": 0
+  },
+  "protectedDiffEmpty": true,
+  "pausedFilesUnchanged": 79
+}
