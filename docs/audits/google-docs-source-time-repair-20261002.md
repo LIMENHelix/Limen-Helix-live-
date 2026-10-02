@@ -1,0 +1,13 @@
+# Existing source-time consumer repair — 2026-10-02
+
+The readable September 24 civilization-readiness document distinguishes adapter retrieval time from publisher observation time. Current snapshot sources already carry `fetchedAt` and `sourceUpdatedAt`; the existing packet producer preserves them in observation-only feed evidence. The operator cards displayed neither, hiding the difference between a newly retrieved old statistic and a recent observation.
+
+The existing Execution Observatory now displays those fields separately in each domain card. Publisher periods remain periods; missing dates, content identities, malformed dates and future dates cannot appear as verified observation freshness. Wrong-owner, unsupported-schema and non-observation records are not displayed as source evidence. The view does not fetch sources or alter native stress, confidence, phase, capability, immune routing or motor authorization.
+
+The behavioral regression failed before the renderer change. It exercises actual `feedSourceEvidence` and `fromBrainState` for all twenty domains, then the actual renderer. It proves an old 2021 publisher date remains independent of a new retrieval timestamp, an annual period remains imprecise, content hashes and absent/malformed/future dates remain qualified, HTML is escaped, wrong-owner/schema/authority/status records refuse, failed reads clear old records, and recovery restores the observations. Serialized packets and brain fields remain unchanged. Only the existing two operator GETs occur.
+
+Actual local Chrome verification passed: twenty cards, twenty old-date disclosures, twenty unverified publisher identities, twenty qualified future dates, zero page errors and zero external requests. This is fixture/browser proof, not proof of upstream authenticity or hosted/production execution. Its screenshot shows the viewport; twenty-card counts are DOM evidence. Evidence: `google-docs-source-time-browser-20261002.json` and associated JPG.
+
+This closes the missing display of separate source timestamps. Existing snapshot confidence still uses retrieval recency; this increment does not substitute a new observation-age score, impose new gating, invent per-source validity windows, or ratify historical phase meanings. Those semantic decisions and the unread SYSTEM source remain open in Docs reconciliation.
+
+Full `npm test` session41735 completed with exit0: 383 passed, one external-corpus prerequisite skip, zero failed,271.1 seconds. Repository parsing/module boot and harness-map checks passed. Renderer/test syntax and diff checks passed. Four immune paths remain PASS, HOLD, QUARANTINE and REJECT; all paused Finance changes stay preserved. Hosted projection awaits the increment's exact automatic Git-linked preview.

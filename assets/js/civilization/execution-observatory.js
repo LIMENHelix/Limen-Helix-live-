@@ -188,6 +188,39 @@
       '</span>' + badge(value, kind || value) + '</div>';
   }
 
+  function renderSourceTime(row) {
+    var evidence = row.truth.feedSourceEvidence;
+    if (!evidence || evidence.schemaVersion !== 'snapshot-feed-source-evidence/1.0' ||
+        evidence.ownerDomain !== row.packet.domainId ||
+        [row.domain, ALIASES[row.domain]].indexOf(row.packet.domainId) < 0 ||
+        evidence.authority !== 'observation-only' || evidence.status !== 'RECORDED' ||
+        !Array.isArray(evidence.sources) || !evidence.sources.length) {
+      return '<div class="exo-facts"><span>source observation time <b>UNOBSERVED</b></span></div>';
+    }
+    return '<details class="exo-supplemental"><summary>Source observation times · retrieval is separate</summary><div class="exo-facts">' +
+      evidence.sources.slice(0, 32).map(function (source) {
+        source = source || {};
+        var publisher = source.sourceUpdatedAt;
+        var label = 'publisher observation date', qualifier = '';
+        if (typeof publisher !== 'string' || !publisher.trim()) publisher = 'UNOBSERVED';
+        else if (/^\d{4}(-(?:0[1-9]|1[0-2]))?$/.test(publisher)) {
+          label = 'publisher period'; qualifier = ' · observation age unverified';
+        } else {
+          var match = /^(\d{4})-(\d{2})-(\d{2})(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2}))?$/.exec(publisher);
+          var day = match && new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3])));
+          var parsed = match ? Date.parse(publisher) : NaN;
+          if (day && day.toISOString().slice(0, 10) === publisher.slice(0, 10) && isFinite(parsed)) {
+            label = 'publisher date';
+            if (parsed > Date.now()) qualifier = ' · FUTURE — observation date unverified';
+          } else { label = 'publisher period / identity'; qualifier = ' · observation date unverified'; }
+        }
+        var retrieved = typeof source.fetchedAt === 'number' && isFinite(source.fetchedAt) &&
+          source.fetchedAt > 0 && source.fetchedAt <= Date.now() ? new Date(source.fetchedAt).toISOString() : 'UNVERIFIED';
+        return '<span>' + esc(source.name || 'unnamed source') + ' · retrieved <b>' + esc(retrieved) + '</b> · ' +
+          label + ' <b>' + esc(publisher) + '</b>' + qualifier + '</span>';
+      }).join('') + '<span>Publisher dates and periods retain their supplied scope; retrieval does not establish observation freshness or effect authority.</span></div></details>';
+  }
+
   function renderSupplemental(row) {
     var config = SUPPLEMENTAL[row.domain];
     if (!config) return '';
@@ -338,7 +371,7 @@
         (routedReturn.status ? '<span>routed outcome return <b>' + esc(routedReturn.status) + '</b> · ' + esc(returnedResult.returnId || routedReturn.reason || 'no return') + ' · owner ' + esc(returnedResult.ownerDomain || 'UNOBSERVED') + ' · action ' + esc(returnedResult.actionId || 'UNOBSERVED') + ' · source packet ' + esc(originRef.sourcePacketId || originRef.sourceArtifactRef || 'UNOBSERVED') + ' · learning stays with destination; origin observation only' + (routedReturn.reason ? ' · ' + esc(routedReturn.reason) : '') + arr(routedReturn.failures).map(function (failure) { return ' · ' + esc(failure.ownerDomain + ': ' + failure.reason); }).join('') + '</span>' : '') +
         '<span>result read <a href="' + esc(resultUrl) + '">' + esc(resultUrl) + '</a> · readiness key ' + esc(row.receipt.key || 'UNOBSERVED') + '</span>' +
       '</div>' +
-      renderSupplemental(row) +
+      renderSourceTime(row) + renderSupplemental(row) +
       '<div class="exo-blockers"><span>WHY THIS IS NOT AUTONOMOUSLY EXTERNAL:</span> ' + esc(blockers) + '</div>' +
       '</article>';
   }
