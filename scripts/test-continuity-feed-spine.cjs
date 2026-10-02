@@ -481,6 +481,37 @@ sb.LIMENDomains = fixtures;
           sourcePacketId: packet.packetId, immuneRoute: intelTrace.decision.immuneRoute, status: intelSelected.status,
           candidateDerivedFromGenericOpportunity: false, consentEvidenceLevel: 'LOCAL/FIXTURE', evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false };
       }
+      if (row[0] === 'law') {
+        var lawMailDecision = require('../lib/law-automail-decision.js'), lawMailAt = Date.parse(packet.generatedAt);
+        var lawMailCognition = { ts: lawMailAt, c: Object.assign({}, require('../lib/brain-cognition-compact.js').compact(brain.state.cognition), {
+          domain: 'law', serverPacket: packet, brainOrgans: { resourceMetabolism: brain.state.resourceMetabolism,
+            autonomousInternalEmission: brain.state.domainAutoEmission || null }
+        }) };
+        // Separate identified typed intake: generic native opportunities above remain refused.
+        var lawMailCandidate = lawMailDecision.candidate({ parcel: 'LOCAL/FIXTURE:parcel', _daysOut: 30, saleDate: 'LOCAL/FIXTURE date',
+          owner: { name: 'Identified LOCAL Fixture Owner', mailAddr: '1 Fixture Street', mailCity: 'Fixture City', mailState: 'FL', mailZip: '00000' } },
+          '<html>LOCAL/FIXTURE typed marketing content, never mailed.</html>', 8);
+        assert(lawMailDecision.validateCandidate(lawMailCandidate));
+        var lawMailLists = new Map();
+        var lawMailStore = Object.assign({}, store, { assertDurable: function () {}, setIfAbsent: store.setNx,
+          set: async function (key, value) { values.set(key, JSON.parse(JSON.stringify(value))); return true; },
+          lpush: async function (key, value) { var rows = lawMailLists.get(key) || []; rows.unshift(JSON.parse(JSON.stringify(value))); lawMailLists.set(key, rows); return rows.length; },
+          lrange: async function (key, start, end) { return JSON.parse(JSON.stringify((lawMailLists.get(key) || []).slice(start, end + 1))); },
+          ltrim: async function (key, start, end) { lawMailLists.set(key, (lawMailLists.get(key) || []).slice(start, end + 1)); return true; }
+        });
+        var lawMailSelected = await lawMailDecision.decide(lawMailStore, lawMailCandidate, lawMailAt, { cognition: lawMailCognition });
+        assert.equal(lawMailSelected.status, 'NO_ACTION');
+        assert.equal(lawMailSelected.lawPacketId, packet.packetId);
+        assert(['HOLD', 'QUARANTINE', 'REJECT'].includes(lawMailSelected.immuneRouting.route));
+        assert.deepEqual(await lawMailStore.get(lawMailDecision.key(lawMailSelected.decisionReceiptId)), lawMailSelected);
+        var lawMailTrace = await require('../lib/product-domain-business-trace-readout.js').read(lawMailStore, 'law', lawMailAt + 1);
+        assert.equal(lawMailTrace.status, 'RECORDED');
+        assert.equal(lawMailTrace.decision.immuneRoute, lawMailSelected.immuneRouting.route);
+        assert.equal(lawMailTrace.command, null); assert.equal(lawMailTrace.externalActionAuthorized, false);
+        primaryIntakeBoundary.typedFixtureIntake = { candidateId: lawMailSelected.actionId, decisionId: lawMailSelected.decisionReceiptId,
+          sourcePacketId: packet.packetId, immuneRoute: lawMailTrace.decision.immuneRoute, status: lawMailSelected.status,
+          candidateDerivedFromGenericOpportunity: false, evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false };
+      }
       if (['economy', 'energy', 'technology'].includes(row[0])) {
         var investmentDecision = require('../lib/' + row[0] + '-investment-decision.js');
         var beforeInvestmentIntake = JSON.stringify(Array.from(values));
