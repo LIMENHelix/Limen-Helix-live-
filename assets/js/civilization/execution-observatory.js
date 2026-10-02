@@ -271,7 +271,7 @@
         chainItem('REVENUE', row.revenue, 'unobserved') +
       '</div>' +
       '<div class="exo-facts">' +
-        (paperOriginValid ? '<span>papers routed to Science <b>' + esc(paperOrigin.status) + '</b> · ' + esc(paperOrigin.reason) + '</span>' +
+        (paperOriginValid ? '<span>papers routed to Science <b>' + esc(paperOrigin.status) + '</b> · ' + esc(paperOrigin.reason) + ' · read ' + esc(time(paperOrigin.readAt)) + '</span>' +
           (paperOrigin.status === 'RECORDED' ? arr(paperOrigin.routes) : []).filter(function (route) { return route && route.destinationOwner === 'research'; }).map(function (route) {
             return '<span>Science decision <b>' + esc(route.decisionId) + '</b> · ' + esc(route.status) + ' · source packet ' + esc(route.sourcePacketId) + ' · ' + esc(time(route.decidedAt)) + ' · key ' + esc(route.decisionKey) + ' · ' + esc(arr(route.blockers).join(' · ')) + '</span>';
           }).join('') +

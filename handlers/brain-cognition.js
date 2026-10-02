@@ -17,6 +17,7 @@
 const { redisSet, redisGet, redisMGet } = require('../lib/redis-kv.js');
 const businessStore = require('../lib/autofire-efference-store.js');
 const businessTrace = require('../lib/product-domain-business-trace-readout.js');
+const researchTrace = require('../lib/research-business-trace-readout.js');
 
 const PREFIX = 'limen:brain:cognition:';
 const TTL = 3 * 3600; // 3h — telemetry; expires if the brains stop running
@@ -37,6 +38,20 @@ async function readMissingBusinessTrace(domain) {
       readAt: now, observationOnly: true, externalActionAuthorized: false, status: 'UNAVAILABLE',
       reason: error && error.message === 'business-trace-read-timeout' ? error.message : 'business-trace-read-unavailable',
       decision: null, command: null };
+  } finally { clearTimeout(timer); }
+}
+
+async function readMissingResearchOrigin(domain) {
+  const now = Date.now(); let timer;
+  try {
+    return await Promise.race([researchTrace.readOrigin(businessStore, domain, now), new Promise((_, reject) => {
+      timer = setTimeout(() => reject(new Error('research-origin-read-timeout')), 10000);
+    })]);
+  } catch (error) {
+    return { schemaVersion: 'research-origin-trace-readout/1.0', originDomain: domain, destinationOwner: 'research',
+      readAt: now, observationOnly: true, externalActionAuthorized: false, status: 'UNAVAILABLE',
+      reason: error && error.message === 'research-origin-read-timeout' ? error.message : 'research-origin-read-unavailable',
+      routes: [], outcomes: [], command: null };
   } finally { clearTimeout(timer); }
 }
 
@@ -72,9 +87,18 @@ module.exports = async function handler(req, res) {
         count++; if (v.ts > newest) newest = v.ts;
         // An older scheduler snapshot may lack the already implemented owning
         // business readout. Read it without writing or renewing brain freshness.
-        if (!v.c.businessTrace) map[domain] = Object.assign({}, v, {
-          c: Object.assign({}, v.c, { businessTrace: await readMissingBusinessTrace(domain) })
-        });
+        const missingBusiness = !v.c.businessTrace;
+        const missingOrigin = !v.c.researchOriginTrace && researchTrace.supportsOrigin(domain);
+        if (missingBusiness || missingOrigin) {
+          const [business, origin] = await Promise.all([
+            missingBusiness ? readMissingBusinessTrace(domain) : v.c.businessTrace,
+            missingOrigin ? readMissingResearchOrigin(domain) : v.c.researchOriginTrace
+          ]);
+          const projection = {};
+          if (missingBusiness) projection.businessTrace = business;
+          if (missingOrigin) projection.researchOriginTrace = origin;
+          map[domain] = Object.assign({}, v, { c: Object.assign({}, v.c, projection) });
+        }
       }
     }));
     res.statusCode = 200;
