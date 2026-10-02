@@ -1,0 +1,25 @@
+# Thing 2 consumer calculation and propagation repair
+
+This batch repairs existing Thing 2 observation adapters and phase readouts while preserving their functions, anatomical mappings and the owner's absolute Thing 1 boundary. It does not install the entire candidate regulation formalism.
+
+## Reproduced errors and resulting behavior
+
+The scalar adapter converted invalid observations to zero, ignored the documented object-form direction flag, treated a flat scalar as the bottom of its normalized range, and aligned unequal undated financial arrays at their right edge. It now refuses absent/invalid/sparse, flat scalar and unaligned input, honors the direction flag, and recovers deterministically when valid history returns. Financial multichannel flat histories remain permitted: the no-variation refusal applies only to scalar projections. Generated quarter keys now represent stable ordinal indexing, rather than pretending that domain cycles end in the present financial quarter. Output identifies a scalar projection as one independent observation and its scores as uncalibrated relative features.
+
+Four connectome vector helpers lacked P7a/P7b support. Feeding either branch created a uniform vector whose first maximum was P0. They now transfer the existing parent's visualization weight to the selected variant without counting it twice; primary-phase priors remain unchanged. Both variants retain their parent's pulse color. The two civilization visual modules now follow existing phase-domain-update events, refuse stale/future events, preserve anatomical roles and stress, and revert to the role prior when an annotation disappears. Their initialization uses the same annotation validation path.
+
+The analyst report formerly inferred a current phase by counting a domain's fixed anatomical nodes. It now retains that role affinity separately and reports the existing kernel or provisional annotation source. A stale cached kernel label cannot vote after phaseSource changes to fallback. Branch identity travels in phaseCode; dominantPhase remains its numeric parent for compatible consumers. Missing dynamic evidence stays unavailable.
+
+The active Helix server path requests Thing 1, then displays its intermediate phase values in a tracker section. That source is now identified on screen and print instead of being mislabeled Thing 2. A genuine Thing 2 tracker receives branch/threshold presentation and a link to the corrected candidate error-integrator and withdrawal contract. Thing 1 requests, result packing, alert eligibility, distress section and clinical-authorization functions remain exact, checked against 0e2c49d6. Its intermediate labels/hero remain exact. Company portal report hrefs, refusal conditions, financial fields and records remain unchanged; the shared renderer adds an independent Thing 2 model-reference link.
+
+## Evidence and bounds
+
+Focused tests execute the actual adapter and financial Thing 2 kernel, actual report functions, and four vector helpers. They cover opposite directions, missing/sparse/unaligned input, refused-source recovery, branch weight conservation, provenance, and preserved Thing 1 behavior. Offline browser checks execute Helix screen and print renderers, the authored Deere record through the company renderer, and both complete civilization modules with their actual annotation-event listeners. They use fixtures for report results, not a current company assessment, and do not execute score/provider requests.
+
+The companion JSON records direct tracked HTML loads: 3,291 for connectome-core and 3,275 for connectome-renderer. These are source-reference counts, not a live route census or a claim that every surface is reconciled. Module and dynamic imports can add consumers. Thing 1, its scorer/callers, immune routing, Deere's source record and both numerical financial kernels have preserved normalized hashes.
+
+An initial full run had 387 passes, one external-corpus prerequisite skip and one failure from an older uncommitted label-only test expecting a renamed terminal category. That proposal was withheld, preserved in Downloads, and the original category/test restored. The focused test then passed 28/28. Final isolated-batch suite results are recorded in the companion JSON after completion.
+
+Still required: identify each domain's measured x, reference s, compensation y, support u and load d before claiming that the new integral-controller model runs there. The existing scalar projection is not that model, and financial feature scores are not measurements of those variables. The reserve mapping, domain coupling parameters, higher-order reflection and renewal measurements cannot be fabricated from existing score labels. Remaining generators/inline references and the separately reproduced diagnosis-catalog grounding gap stay explicit next work, not silently closed.
+
+Final isolated batch: 387 passed, one external-corpus prerequisite skip, zero failed in 333.6 seconds. Repository check passed. Both civilization browser modules loaded 20 nodes with zero page errors and actual event propagation, preserving stress and roles.

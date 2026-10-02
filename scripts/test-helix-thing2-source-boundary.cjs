@@ -1,0 +1,16 @@
+'use strict';
+const fs=require('fs'),path=require('path'),vm=require('vm'),cp=require('child_process'),assert=require('assert/strict'),acorn=require('acorn');
+const root=path.resolve(__dirname,'..');const current=fs.readFileSync(path.join(root,'helix-report.html'),'utf8');const original=cp.execFileSync('git',['show','0e2c49d6:helix-report.html'],{cwd:root,encoding:'utf8'});
+function load(html){const context=vm.createContext({Date,console});const functions={};const vars=new Set(['PHASE_META','PHASE_COLORS','PHASE_KEYS','VERDICT_TAG','PHASE_STATE_LABELS','FORBIDDEN_PHRASES']);
+for(const m of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)){const source=m[1];if(!source.trim())continue;const ast=acorn.parse(source,{ecmaVersion:'latest'});for(const node of ast.body){if(node.type==='FunctionDeclaration'){functions[node.id.name]=source.slice(node.start,node.end).replace(/\r\n/g,'\n');vm.runInContext(functions[node.id.name],context);}if(node.type==='VariableDeclaration')for(const d of node.declarations)if(vars.has(d.id.name))vm.runInContext('var '+source.slice(d.start,d.end)+';',context);}}
+return {context,functions};}
+const before=load(original),after=load(current),ctx=after.context;
+for(const name of ['runAnalysis','_packServerResult','_isValidatedThing1','_alertActive','_renderThing1Section','_clinicalNarrativeAllowed'])assert.equal(after.functions[name],before.functions[name],name+' Thing1 behavior source must remain exact');
+assert.equal(current.match(/<style>[\s\S]*?<\/style>/)[0].replace(/\r\n/g,'\n'),original.match(/<style>[\s\S]*?<\/style>/)[0].replace(/\r\n/g,'\n'));
+const packet=kernel=>({phase_tracker_signal:{available:true,kernel_id:kernel,dominant_phase:'p9',phase_scores:{p9:.8,p7b:.4},state_summary:{}},validated_signal:{kernel_id:'limen_backtest.py',validation_status:'validated',alert:false}});
+let genuine=ctx._adapt(packet('phase_engine.py'));assert.equal(ctx._trackerSourceLabel(genuine),'Thing 2');assert.match(ctx._phaseLabel('p9',genuine),/THRESHOLD/);assert.match(ctx._renderThing2Section(genuine),/τᵧẏ = e/);assert.match(ctx._renderThing2Section(genuine),/Thing 2/);
+let intermediate=ctx._adapt(packet('limen_backtest.py (phase intermediate)'));assert.equal(ctx._trackerSourceLabel(intermediate),'Thing 1 phase intermediates');assert.equal(ctx._phaseLabel('p9',intermediate),before.context._phaseLabel('p9'));assert.equal(ctx._thing2ModelReference(intermediate),'');assert.equal(JSON.stringify(intermediate.t1),JSON.stringify(before.context._adapt(packet('limen_backtest.py (phase intermediate)')).t1));
+assert.doesNotMatch(ctx._renderThing2Section(intermediate),/LONG-ARC PHASE TRACKER — Thing 2/);
+const t1={kernel_id:'limen_backtest.py',validation_status:'validated',alert:true};const data={t1,t2:{dominant_phase:'p7a',kernel_id:'limen_backtest.py (phase intermediate)',state_summary:{}},history_quarters:12};assert.equal(ctx._renderPhaseHero(data),before.context._renderPhaseHero(data),'Thing1 intermediate hero stays exact');
+assert.equal(ctx._trackerSourceLabel({t2:{kernel_id:'unknown'}}),'phase tracker (source unverified)');
+console.log('Helix Thing2 source boundary: real tracker identified, intermediate not relabeled as Thing2, candidate equations separated, Thing1 request/packing/authority/rendering source and CSS exact');

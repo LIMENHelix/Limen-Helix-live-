@@ -1380,6 +1380,24 @@ function _filterForbidden(arr, allowTerminal) {
 // This adapter flattens into a `t1`/`t2`/`reconciliation` shape for the
 // renderers. It does not invent data; fields the server does not return
 // remain null.
+
+function _isThing2Tracker(tracker) {
+  return /^(?:phase_engine\.py|assets\/js\/limen-thing2-kernel\.js|python_runtime\/helix_app\/thing2\/phase_engine\.py)$/.test(String(tracker && tracker.kernel_id || ''));
+}
+function _trackerSourceLabel(data) {
+  var tracker = data && data.t2 || {};
+  if (_isThing2Tracker(tracker)) return 'Thing 2';
+  if (/limen_backtest\.py/.test(String(tracker.kernel_id || ''))) return 'Thing 1 phase intermediates';
+  return 'phase tracker (source unverified)';
+}
+function _thing2ModelReference(data) {
+  if (!_isThing2Tracker(data && data.t2)) return '';
+  return '<div style="margin-top:10px;font-size:0.42rem;line-height:1.6;color:var(--text-dim)">'
+    + '<b>Corrected candidate regulation model:</b> e = x − s; τᵧẏ = e; τₓẋ = −a(x − s) − by + d + u.'
+    + ' These require identified target, compensation, support and load; the financial feature scores below do not measure those variables.'
+    + ' <a style="color:var(--gold-dim)" href="/phase-map#candidate-dynamics">Thing 2 mathematics and withdrawal test</a></div>';
+}
+
 function _adapt(packet) {
   packet = packet || {};
   var t0 = packet.thing0_eligibility || {};
@@ -1392,12 +1410,17 @@ function _adapt(packet) {
   var dom = t2.dominant_phase || null;
   var phases = PHASE_KEYS.map(function(pid) {
     var meta = PHASE_META[pid] || { name: pid, label: pid.toUpperCase() };
+    if (_isThing2Tracker(t2) && pid === 'p9') meta = { name: 'Threshold', label: 'P9 · THRESHOLD' };
+    if (_isThing2Tracker(t2) && pid === 'p7a') meta = { name: 'Terminal Dissolution', label: 'P7a · TERMINAL (outcome unconfirmed)' };
+    if (_isThing2Tracker(t2) && pid === 'p7b') meta = { name: 'Differentiated Separation', label: 'P7b · SEPARATION' };
     var score = (typeof pscores[pid] === 'number') ? pscores[pid] : 0;
     return {
       id: pid,
       name: meta.name || pid,
       label: meta.label || pid.toUpperCase(),
-      neutralLabel: PHASE_STATE_LABELS[pid] || pid,
+      neutralLabel: _isThing2Tracker(t2) && pid === 'p7a' ? 'p7a post-break deterioration state'
+        : _isThing2Tracker(t2) && pid === 'p7b' ? 'p7b controlled-separation state'
+        : PHASE_STATE_LABELS[pid] || pid,
       score: score,
       active: pid === dom,
     };
@@ -1549,9 +1572,9 @@ function applyResults(packet) {
   } else if (data.t1.validation_status && data.t1.validation_status.indexOf('envelope_') === 0) {
     overlayPhaseText = 'INTERPRETIVE · KERNEL CANNOT ANSWER';
   } else if (!data.t1.available && data.t2.available) {
-    overlayPhaseText = 'VALIDATED DISTRESS UNAVAILABLE \u00b7 ' + _phaseLabel(dom).toUpperCase();
+    overlayPhaseText = 'VALIDATED DISTRESS UNAVAILABLE \u00b7 ' + _phaseLabel(dom, data).toUpperCase();
   } else if (data.t2.available) {
-    overlayPhaseText = _phaseLabel(dom).toUpperCase();
+    overlayPhaseText = _phaseLabel(dom, data).toUpperCase();
   } else {
     overlayPhaseText = 'NO VALIDATED ASSESSMENT';
   }
@@ -1684,7 +1707,8 @@ function _renderThing2Section(data) {
   var bankBadge = data.is_financial ? ' \u00b7 BANK \u00b7 INTERPRETIVE' : '';
   var headerColor = 'var(--altered)';   // gold \u2014 never red. Thing 2 is never an alert.
   var h = '<div class="diag-section" style="border:1px solid ' + headerColor + ';padding:10px 12px;background:rgba(0,0,0,0.12);margin-top:10px">';
-  h += '<div class="diag-label" style="color:' + headerColor + '">LONG-ARC PHASE TRACKER \u2014 Thing 2 \u00b7 INTERPRETIVE \u00b7 UNVALIDATED' + _esc(bankBadge) + '</div>';
+  h += _thing2ModelReference(data);
+  h += '<div class="diag-label" style="color:' + headerColor + '">LONG-ARC PHASE TRACKER \u2014 ' + _esc(_trackerSourceLabel(data)) + ' \u00b7 INTERPRETIVE \u00b7 UNVALIDATED' + _esc(bankBadge) + '</div>';
   if (!t2.available) {
     h += '<div class="diag-value" style="color:var(--text-ghost)">tracker not available</div>';
     (t2.unsupported_reasons || []).forEach(function(r) {
@@ -1695,7 +1719,7 @@ function _renderThing2Section(data) {
     var domColor = (domId && PHASE_COLORS[domId]) ? PHASE_COLORS[domId] : 'var(--text)';
     h += '<div class="diag-label" style="color:var(--text-ghost);margin-top:6px">DOMINANT PHASE</div>';
     h += '<div class="diag-value" style="color:' + domColor + ';font-weight:600;font-size:0.7rem;letter-spacing:1px">'
-       + _esc(_phaseLabel(domId))
+       + _esc(_phaseLabel(domId, data))
        + '</div>';
     var ss = t2.state_summary || {};
     var ctTxt = ss.C_t_present
@@ -1739,8 +1763,8 @@ function _renderThing2Section(data) {
       var intColor = (intDom && PHASE_COLORS[intDom]) ? PHASE_COLORS[intDom] : 'var(--text-ghost)';
 
       h += '<div style="margin-top:8px;font-size:0.44rem;color:var(--text-dim);line-height:1.55">';
-      h += 'Intrinsic (SEC EDGAR only): <b style="color:' + intColor + '">' + _esc(_phaseLabel(intDom)) + '</b>';
-      h += '<br>Coupled (with supporting cast): <b style="color:' + domColor + '">' + _esc(_phaseLabel(domId)) + '</b>';
+      h += 'Intrinsic (SEC EDGAR only): <b style="color:' + intColor + '">' + _esc(_phaseLabel(intDom, data)) + '</b>';
+      h += '<br>Coupled (with supporting cast): <b style="color:' + domColor + '">' + _esc(_phaseLabel(domId, data)) + '</b>';
       h += (intDom !== domId
             ? '  <span style="color:' + couplingColor + '">\u2014 phase SHIFTED by coupling</span>'
             : '  <span style="color:var(--text-ghost)">\u2014 phase preserved under coupling</span>');
@@ -1841,7 +1865,12 @@ var VERDICT_TAG = {
 // Single shared phase label across Helix Report + Command Board:
 // PHASE_META.label ("P7a \u00b7 TERMINAL"). Thing 2 native, byte-identical
 // to api/helix_app/thing2/phase_engine.py PHASE_META.
-function _phaseLabel(pid) {
+function _phaseLabel(pid, data) {
+  if (_isThing2Tracker(data && data.t2)) {
+    if (pid === 'p9') return 'P9 · THRESHOLD';
+    if (pid === 'p7a') return 'P7a · TERMINAL (outcome unconfirmed)';
+    if (pid === 'p7b') return 'P7b · SEPARATION';
+  }
   if (!pid) return '\u2014';
   return (PHASE_META[pid] && PHASE_META[pid].label) || pid.toUpperCase();
 }
@@ -1873,7 +1902,7 @@ function _renderPhaseHero(data) {
   var h = '<div class="rpt-phase-hero" style="margin-top:14px;padding:10px;text-align:center;border:1px solid ' + verdictColor + ';background:rgba(0,0,0,0.18)">';
   // Big line — PHASE_META.label, the single shared vocabulary across
   // Thing 1, Thing 2, Command Board, and Helix Report.
-  h += '<div style="font-size:1.05rem;color:' + domColor + ';font-weight:700;letter-spacing:2px;line-height:1">' + _esc(_phaseLabel(dom)) + '</div>';
+  h += '<div style="font-size:1.05rem;color:' + domColor + ';font-weight:700;letter-spacing:2px;line-height:1">' + _esc(_phaseLabel(dom, data)) + '</div>';
   h += '<div style="font-size:0.62rem;color:' + verdictColor + ';margin-top:6px;letter-spacing:1.5px;font-weight:600">' + _esc(verdictLine) + '</div>';
   h += '<div class="rpt-sv" style="margin-top:6px">'
      + 'C(t): ' + ctTxt + ' \u00b7 H(t): ' + hLen + ' \u00b7 Composite: ' + compTxt
@@ -1996,7 +2025,7 @@ function _renderPhaseRhythmChart(data) {
   }
 
   var hWrap = '<div style="margin-bottom:14px">';
-  hWrap += '<div class="diag-label" style="margin-bottom:6px">PHASE RHYTHM \u2014 Thing 2 trajectory \u00b7 ' + n + 'Q</div>';
+  hWrap += '<div class="diag-label" style="margin-bottom:6px">PHASE RHYTHM \u2014 ' + _esc(_trackerSourceLabel(data)) + ' trajectory \u00b7 ' + n + 'Q</div>';
   hWrap += '<div style="font-size:0.38rem;color:var(--text-ghost);margin-bottom:6px;font-style:italic">Stress accumulator C(t) over time. Left = oldest, right = current. Dots colored by that quarter\u2019s dominant phase. Dashed line = Path A alert threshold (1.10).</div>';
   hWrap += svg;
   if (legend) hWrap += '<div style="margin-top:6px;font-size:0.36rem;color:var(--text-ghost);line-height:1.6">' + legend + '</div>';
@@ -2011,7 +2040,7 @@ function renderSignals(data) {
   // the company's trajectory before drilling into the per-phase scores.
   h += _renderPhaseRhythmChart(data);
   // Thing 2 phase scores only \u2014 Thing 1 is a labeled alert/no-alert decision, not a phase
-  h += '<div class="diag-label" style="margin-bottom:6px">LONG-ARC PHASE TRACKER \u2014 Thing 2 (interpretive)</div>';
+  h += '<div class="diag-label" style="margin-bottom:6px">LONG-ARC PHASE TRACKER \u2014 ' + _esc(_trackerSourceLabel(data)) + ' (interpretive)</div>';
   h += '<div style="font-size:0.4rem;color:var(--text-ghost);margin-bottom:10px;font-style:italic">Phase scores below are tracker output. They do not constitute a validated distress signal.</div>';
   if (t2.available && Array.isArray(t2.phases)) {
     t2.phases.forEach(function(p) {
@@ -2038,7 +2067,7 @@ function renderSignals(data) {
   h += '<div style="margin-top:14px;padding-top:8px;border-top:1px solid var(--border);font-size:0.38rem;color:var(--text-ghost);letter-spacing:1px;line-height:1.6">';
   h += 'Thing 0: ' + _esc(data.t0.qualification_status) + ' \u00b7 Thing 1 use ' + (data.t0.permits_thing1_use ? 'permitted' : 'not permitted') + '<br>';
   h += 'Thing 1: ' + _esc(data.t1.kernel_id || 'none') + ' \u00b7 ' + _esc(data.t1.validation_status) + '<br>';
-  h += 'Thing 2: ' + _esc(t2.kernel_id || 'none') + ' \u00b7 ' + _esc(t2.validation_status) + '<br>';
+  h += _esc(_trackerSourceLabel(data)) + ': ' + _esc(t2.kernel_id || 'none') + ' \u00b7 ' + _esc(t2.validation_status) + '<br>';
   h += 'Formula visibility: ' + _esc(data.formula_visibility || 'server_only') + '<br>';
   h += 'History: ' + (data.history_quarters || 0) + ' quarters (' + _esc(data.history_sufficiency) + ') \u00b7 latest: ' + _esc(data.latest_quarter || '\u2014');
   h += '</div>';
@@ -2208,7 +2237,7 @@ function renderInterventions(data) {
       var active = data.t2.phases.filter(function(p){ return p.score > DISPLAY_ACTIVE_BAR; })
                                  .sort(function(a,b){ return b.score - a.score; });
       if (active.length > 0) {
-        h += '<div class="diag-label" style="margin-top:14px;margin-bottom:10px">INTERPRETIVE NEURAL ACTIVATION MAP — Thing 2</div>';
+        h += '<div class="diag-label" style="margin-top:14px;margin-bottom:10px">INTERPRETIVE NEURAL ACTIVATION MAP — ' + _esc(_trackerSourceLabel(data)) + '</div>';
         h += '<div style="font-size:0.4rem;color:var(--text-ghost);margin-bottom:8px;font-style:italic">Visual context only. No clinical or business advisory language is asserted.</div>';
         active.forEach(function(p) {
           var nodes = PHASE_NODE_STATES[p.id] || [];
@@ -2469,7 +2498,7 @@ function _kernelBrand(data) {
     return 'Thing 1 (validated): ' + _esc(data.t1.kernel_id) + ' · validated';
   }
   return 'Thing 1: ' + _esc(data.t1.kernel_id || 'none') + ' · ' + _esc(data.t1.validation_status)
-       + ' | Thing 2: ' + _esc(data.t2.kernel_id || 'none') + ' · ' + _esc(data.t2.validation_status);
+       + ' | ' + _esc(_trackerSourceLabel(data)) + ': ' + _esc(data.t2.kernel_id || 'none') + ' · ' + _esc(data.t2.validation_status);
 }
 
 function renderReport(data) {
@@ -2560,10 +2589,11 @@ function renderReport(data) {
   });
   h += '</div>';
 
-  // ── Section 2: LONG-ARC PHASE TRACKER — Thing 2 (interpretive) ──
+  // ── Section 2: LONG-ARC PHASE TRACKER — ' + _esc(_trackerSourceLabel(data)) + ' (interpretive) ──
   var bankBadge = data.is_financial ? ' · BANK · INTERPRETIVE' : '';
   h += '<div class="rpt-section" style="border:1px solid var(--altered);padding:10px 12px;background:rgba(0,0,0,0.10);margin-top:10px">';
-  h += '<div class="rpt-heading" style="color:var(--altered)">LONG-ARC PHASE TRACKER — Thing 2 · INTERPRETIVE · UNVALIDATED' + _esc(bankBadge) + '</div>';
+  h += '<div class="rpt-heading" style="color:var(--altered)">LONG-ARC PHASE TRACKER — ' + _esc(_trackerSourceLabel(data)) + ' · INTERPRETIVE · UNVALIDATED' + _esc(bankBadge) + '</div>';
+  h += _thing2ModelReference(data);
   if (!t2.available) {
     h += '<div class="rpt-trajectory" style="color:var(--text-ghost)">tracker not available</div>';
     (t2.unsupported_reasons || []).forEach(function(r) {
@@ -2574,7 +2604,7 @@ function renderReport(data) {
     var rDomColor = (rDomId && PHASE_COLORS[rDomId]) ? PHASE_COLORS[rDomId] : 'var(--text)';
     h += '<div class="rpt-heading" style="color:var(--text-ghost);margin-top:4px">DOMINANT PHASE</div>';
     h += '<div class="rpt-phase" style="color:' + rDomColor + ';font-weight:600">'
-       + _esc(_phaseLabel(rDomId))
+       + _esc(_phaseLabel(rDomId, data))
        + '</div>';
     var rCtTxt = t2ss.C_t_present
       ? (_esc(t2ss.C_t_bucket || 'present') + (typeof t2ss.C_t_value === 'number' ? ' (' + t2ss.C_t_value.toFixed(2) + ')' : ''))
@@ -2685,7 +2715,7 @@ function renderReport(data) {
   }
 
   // ── Phase tracker scores (neutral labels) ──
-  h += '<div class="rpt-section"><div class="rpt-heading">PHASE TRACKER SCORES — Thing 2</div>';
+  h += '<div class="rpt-section"><div class="rpt-heading">PHASE TRACKER SCORES — ' + _esc(_trackerSourceLabel(data)) + '</div>';
   if (t2.available && Array.isArray(t2.phases)) {
     t2.phases.forEach(function(p) {
       var pct = Math.round(p.score * 100);
@@ -2804,7 +2834,8 @@ function printReport() {
 
   // Section 2
   h += '<div class="section-t2">';
-  h += '<h2 style="border:0;padding:0;margin:0 0 4px">LONG-ARC PHASE TRACKER — Thing 2 <span class="tag warn">interpretive · unvalidated' + (data.is_financial ? ' · bank' : '') + '</span></h2>';
+  h += '<h2 style="border:0;padding:0;margin:0 0 4px">LONG-ARC PHASE TRACKER — ' + _esc(_trackerSourceLabel(data)) + ' <span class="tag warn">interpretive · unvalidated' + (data.is_financial ? ' · bank' : '') + '</span></h2>';
+  h += _thing2ModelReference(data);
   if (!t2.available) {
     h += '<div class="field" style="color:#888">tracker not available</div>';
     (t2.unsupported_reasons || []).forEach(function(r) { h += '<div class="field" style="font-size:11px">· ' + _esc(r) + '</div>'; });
@@ -2859,7 +2890,7 @@ function printReport() {
   }
 
   // Phase tracker scores (neutral labels)
-  h += '<h2>Phase Tracker Scores — Thing 2</h2>';
+  h += '<h2>Phase Tracker Scores — ' + _esc(_trackerSourceLabel(data)) + '</h2>';
   if (t2.available && Array.isArray(t2.phases)) {
     t2.phases.forEach(function(p) {
       h += '<div class="field">' + _esc(p.neutralLabel || p.id) + ': ' + p.score.toFixed(3) + '</div>';

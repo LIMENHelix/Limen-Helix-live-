@@ -113,6 +113,8 @@
     } else {
       leftHtml += '<div class="cp-note">Validated phase analysis unavailable \u2014 score provenance has not been verified.</div>';
     }
+    leftHtml += '<a class="cp-link" href="/phase-map#candidate-dynamics">Thing 2 regulation mathematics \u2192</a>';
+    leftHtml += '<div class="cp-empty">Experimental model reference. The report identifies its actual score source; a phase intermediate is not automatically Thing 2.</div>';
     leftHtml += '</div>';
 
     // FRED Series
