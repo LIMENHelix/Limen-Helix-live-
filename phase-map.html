@@ -32,16 +32,15 @@ a{color:var(--gold5)}
 <body>
 <div class="wrap">
 <h1>LIMEN HELIX &mdash; THE PHASE MAP</h1>
-<div class="sub">P0&rarr;P10 recursion grammar &middot; canonical phase arc &harr; financial signature &middot; validated 2026-06</div>
+<div class="sub">THING 2 &middot; P0&rarr;P10 recursion grammar &middot; experimental phase interpretation &middot; research cases from 2026-06</div>
 
 <div class="spine">
-<b>The spine.</b> Every phase is a statement about the recursion operator <code>R</code> &mdash; but the operative signal is
-<b>direction, not synchrony</b>. We tested the Kuramoto order parameter <code>r</code> (phase-coherence across the six lines)
-two independent ways and it <b>did not separate</b> healthy from distressed companies &mdash; a company declining in lockstep is
-itself highly synchronized (high <code>r</code>), so coherence cannot tell order from collapse. What carries the read is where
-each of <b>six lines</b> (revenue &middot; gross-margin &middot; profitability &middot; cash &middot; capital &middot; structure)
-<b>points</b>, read <b>relative to its sector</b> (idiosyncratic, not macro-beta), <b>over time</b> (the walk), with
-<b>structural events</b> (8-K / 10-12B). The phase is arbitrated from the lines' direction, not from their phase-locking.
+<b>The spine.</b> Thing 2 reads <b>interpretive phase posture over time</b>. The financial research map follows
+revenue, gross margin, profitability, cash, capital and structure, with dated events and sector context where available.
+<b>Direction matters:</b> synchronized decline can have high coherence, so synchrony alone cannot distinguish stability from deterioration.
+The phase grammar describes the proposed recursion operator <code>R</code>; the cards' <b>concept notation</b> is explanatory,
+not an executable transition law. Financial signatures and company cases are research proxies, not the exact runtime scoring formulas
+or verified neural measurements. <b>Thing 1 retains financial distress authority within its own qualified operating envelope.</b>
 </div>
 
 <div class="grid" id="grid"></div>
@@ -49,37 +48,49 @@ each of <b>six lines</b> (revenue &middot; gross-margin &middot; profitability &
 <div class="legend" id="legend"></div>
 
 <div class="verdict">
-<b>Honest scope.</b> The map <span class="yes">identifies</span> where a company is and has been across the grammar, idiosyncratically,
-over time &mdash; and <span class="yes">explains</span> each break (the driving line that caused it: margin&rarr;fracture, capital&rarr;scaffold,
-event&rarr;separation). It does <span class="no">not forecast</span> &mdash; the driving line moves coincident with the break (~1q lead), not ahead.
-Validated on known arcs, a blind set, and a 30-company held-out walk (24/30; Wilson 95% CI 62&ndash;91%) &mdash; retrospective, not yet pre-registered. P9/P10 are defined but not yet detected (rare).
+<b>Honest scope.</b> This is an <span class="yes">experimental Thing 2 reference</span>, not a live company readout.
+It describes candidate financial interpretations; it does <span class="no">not establish forecasts, causes, neural detection or investment recommendations</span>.
+The previously stated 24/30 result, confidence interval and one-quarter lead are omitted because their underlying adjudication and timing evidence have not been recovered.
+P9/P10 are conceptual states; the research map has not established their detection. Runtime scores for those codes do not establish bistability or higher-level renewal.
+P7a/P7b are two variants under P7, not extra numbered phases; a changing score does not prove terminality or recovery.
+Other domains require their own signals, history and missing-data boundaries.
+<details style="margin-top:12px"><summary>Thing 2 mathematics and the P4/P5 boundary</summary>
+<p>The current runtime uses normalized feature scores. Its base P4 score is the mean of decreasing revenue variance,
+decreasing OCF variance, decelerating burn and a flat-slope feature. Its base P5 score is the mean of healthy revenue slope,
+healthy OCF slope, revenue-variance risk and healthy declining-debt slope. Later pipeline gates and recursive accumulation also affect the result;
+these base scores are not the complete decision rule.</p>
+<p>The separate scaffold-withdrawal research asks whether required operations persist without dependence on external support.
+Positive OCF, net financing, buybacks or available credit alone cannot settle that question. Gross receipts, obligations, prior dependence,
+reserve provenance and complete dated coverage must be distinguished. Missing coverage remains unknown; the proposed dependence test is not installed in Thing 2.</p>
+</details>
 </div>
 </div>
 
 <script>
-// [num, canonical title, equation, hex (canonical palette), functional description, financial signature, opportunity, validated examples]
+// [code, conceptual title, concept notation (not runtime math), palette, hypothesis, research signature, illustrative context, research cases]
 const P = [
  ["P0","Source / Null Symmetry","S₀ , ∄R","#F4F1E8","Pre-recursive non-differentiation","flat + NO rhythm + solvent (undifferentiated)","watch-list / pre-emergence","KMI · T · WMB"],
  ["P1","Collapse / Light","R(Σ) → R(L), Σ̇≈0","#FFD166","Adaptive collapse / defensive contraction","structure BRANCHES: shares+equity discontinuity / 8-K Item 2.01","event-driven / special-situations","NKLA · SPCE (de-SPAC)"],
  ["P2","Rhythm / Bonding","xₙ = f(xₙ₋₁, xₙ₋₂)","#2DD4BF","Dyadic co-regulation / phase-locked entrainment","stable AR(2) rhythm OR locked margin coupling","stable income / quality","TGT · KO"],
- ["P3","Darkness / Fracture","|R| > θ → decoherence","#7C3AED","Recursive overload / pattern instability","declining + incoherent; OR profitability collapse","distressed-debt / short / avoid","BBBY · INTC · ROKU (profit)"],
- ["P4","Peace / Stabilization","R_int = ∫Rᵢ","#8FBF9F","Scaffolded stabilization / nested integration","TAKES external capital (CFF>0, OCF burn)","venture/growth OR rescue capital","RIVN · NFLX · BA (737-MAX)"],
- ["P5","Endurance","Δ = R_new − R_old","#F59E0B","Rhythmic self-regulation / recurrent predictive control","CAME OFF the scaffold (was funded → self-funds)","early-recovery value","TSLA · UBER"],
- ["P6","Order","x(t) → ω-lock","#2563EB","Coordinated modularity / executive task-state switching","growing + self-funding + RETURNS capital","quality-growth compounding","MSFT · NVDA · JNJ"],
- ["P7","Separation","R → R₁ ∨ R₂","#DC2626","Recursive shear / functional dissociation","SEPARATION: spinoff (10-12B) / disposition (8-K 2.01)","special-situations / spinoff / M&A","HON · GE · MMM"],
- ["P7b","Divergence Fork","R₁ ∨ R₂ → ⊕","#F97316","Bifurcation point / recursive exhaustion vs re-engagement","post-separation divergence: re-engage vs exhaust","fork outcome / pairs","—"],
- ["P8","Conscience / Reflection","R(R)","#6D5DFC","Reflective feedback / metacognitive self-monitoring","active DELEVERAGING (debt declining post-stress)","improving-credit / value","OXY · DAL · WBD"],
- ["P9","Threshold","R_syn = ∪Rᵢ","#A855F7","Poised disequilibrium / pre-transformation saturation","poised, max tension, bistable — not yet detected","high-risk inflection","—"],
- ["P10","Resurrection","R → S₀  (↑ spiral)","#10B981","Reintegrated recursion / multilayer integration","renewed at a higher level — not yet detected","re-rating / durable renewal","—"],
+ ["P3","Darkness / Fracture","R overload → fracture","#7C3AED","Recursive overload / pattern instability","declining pattern or profitability deterioration; interpretation requires context","distress research","BBBY · INTC · ROKU (profit)"],
+ ["P4","Peace / Stabilization","R with external support","#8FBF9F","Scaffolded stabilization / nested integration","candidate: operating burn with financing; receipts alone do not establish dependence","venture/growth OR rescue capital","RIVN · NFLX · BA (737-MAX)"],
+ ["P5","Endurance","ΔR = R_new − R_old","#F59E0B","Rhythmic self-regulation / recurrent predictive control","candidate: prior support dependence → persistent own regulation; withdrawal coverage unresolved","early-recovery research","TSLA · UBER (P5 not confirmed by support review)"],
+ ["P6","Order","R coordinates its functions","#2563EB","Coordinated modularity / executive task-state switching","growing + self-funding + returns capital; interpretive proxy","quality-growth research","MSFT · NVDA · JNJ"],
+ ["P7","Separation / Fork","P7 branches: P7a or P7b","#DC2626","Recursive shear / functional dissociation","structural separation; dated spinoff/disposition evidence plus trajectory","special-situations / spinoff / M&A","HON · GE · MMM"],
+ ["P7a","Terminal Dissolution","P7 deterioration branch","#DC2626","Post-break deterioration without stabilization","viability deterioration; terminal outcome needs a named unit and observed outcome","deterioration research","—"],
+ ["P7b","Differentiated Separation","P7 recoverable branch","#F97316","Controlled separation with retained integration","stabilizing post-break trajectory; recovery requires observation","re-engagement research","—"],
+ ["P8","Conscience / Reflection","feedback on R","#6D5DFC","Reflective feedback / metacognitive self-monitoring","deleveraging after stress is a proxy, not proof of metacognition","improving-credit / value","OXY · DAL · WBD"],
+ ["P9","Threshold","R near threshold","#A855F7","Poised disequilibrium / pre-transformation saturation","unresolved threshold; bistability not established by this financial map","inflection research","—"],
+ ["P10","Resurrection","renewed R at a new level","#10B981","Reintegrated recursion / multilayer integration","candidate new regime; higher-level renewal not established here","renewal research","—"],
 ];
 document.getElementById('grid').innerHTML = P.map(p=>`
  <div class="card" style="border-left-color:${p[3]}">
    <div><span class="ph" style="color:${p[3]}">${p[0]}</span><span class="nm">${p[1]}</span></div>
    <div class="fn">${p[4]}</div>
-   <div class="eq">${p[2]}</div>
+   <div class="eq" title="Concept notation; not an executable equation or transition rule">${p[2]}</div>
    <div class="row"><span class="k">signature</span><span class="v">${p[5]}</span></div>
-   <div class="row"><span class="k">opportunity</span><span class="v">${p[6]}</span></div>
-   <div class="row"><span class="k">validated</span><span class="v ex">${p[7]}</span></div>
+   <div class="row"><span class="k">context</span><span class="v">${p[6]}</span></div>
+   <div class="row"><span class="k">cases</span><span class="v ex">${p[7]}</span></div>
  </div>`).join('');
 document.getElementById('legend').innerHTML =
   '<span style="opacity:.7">Canonical phase palette &mdash;</span>' +
