@@ -218,5 +218,77 @@ function invoke(handler, raw, headers) { return new Promise(function (resolve) {
   var held = await Executor.execute({ store: store, candidate: candidate, decision: decision, now: now + 3, motorAuthorization: motor, emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailyRequestCap: 2, transport: { send: async function () { calls++; } } });
   assert.equal(held.reason, 'infrastructure-real-estate-counterparty-property-suppressed'); assert.equal(calls, 1);
   await require('./assert-business-trace.cjs')(store, 'infrastructure', command, 'INQUIRY-ACCEPTED', now + 2000, 'infra_packet_1');
+  // LOCAL/FIXTURE only: accepted local inquiries and five independently signed inbound replies.
+  var qualifiedStore = memoryStore();
+  for (var propertyNumber = 0; propertyNumber < 2; propertyNumber++) {
+    // Existing one-inquiry/day cap remains enforced: identified fixtures use two different days.
+    var proofAt = now - (propertyNumber === 0 ? 86400000 : 0);
+    var proofBrain = JSON.parse(JSON.stringify(cognition)); proofBrain.ts = proofAt;
+    proofBrain.c.serverPacket.generatedAt = new Date(proofAt).toISOString();
+    var proofCandidate = Decision.candidate({ inquiryId: 'LOCAL/FIXTURE:inquiry-' + propertyNumber,
+      counterpartyEmail: 'local-broker@example.invalid', propertyRef: 'LOCAL/FIXTURE:property-' + propertyNumber,
+      transactionIntent: 'non-binding-letter-of-interest', listingUrl: 'https://fixture.invalid/property/' + propertyNumber,
+      indicationPriceUsd: 250000, brainOpportunityId: 'infra-property-001',
+      subject: 'LOCAL/FIXTURE nonbinding interest', body: 'LOCAL/FIXTURE diligence request; never sent.',
+      evidenceId: 'LOCAL/FIXTURE:listing-' + propertyNumber, nonBinding: true, contractAuthorized: false,
+      earnestMoneyAuthorized: false, fundsTransferAuthorized: false });
+    var proofDecision = await Decision.decide(qualifiedStore, proofCandidate, proofAt, { cognition: proofBrain, maxIndicationUsd: 300000 });
+    var proofCommand = await Executor.execute({ store: qualifiedStore, candidate: proofCandidate, decision: proofDecision, now: proofAt,
+      emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailyRequestCap: 1,
+      motorAuthorization: { authorize: async function () { return { authorized: true, receiptId: 'LOCAL-infra-motor-' + propertyNumber }; } },
+      transport: { send: async function () { return { ok: true, id: 'LOCAL-outbound-' + propertyNumber,
+        providerCalled: true, replyAddressHash: 'LOCAL-reply-address' }; } } });
+    assert.equal(proofCommand.status, 'INQUIRY_ACCEPTED');
+    var proofInbound = InboundHandler.createHandler({ store: qualifiedStore, secret: secret });
+    for (var replyNumber = 0; replyNumber < (propertyNumber === 0 ? 3 : 2); replyNumber++) {
+      var proofStamp = new Date(), proofMessageId = 'LOCAL-signed-reply-' + propertyNumber + '-' + replyNumber;
+      var proofEvent = { type: 'email.received', created_at: proofStamp.toISOString(), data: {
+        email_id: 'LOCAL-inbound-' + propertyNumber + '-' + replyNumber, from: proofCandidate.counterpartyEmail,
+        to: ['realestate+' + proofCommand.actionId + '@receive.example.com'] } };
+      var proofRaw = JSON.stringify(proofEvent), proofSignature = webhook.sign(proofMessageId, proofStamp, proofRaw);
+      var proofResult = await invoke(proofInbound, proofRaw, { 'svix-id': proofMessageId,
+        'svix-timestamp': String(Math.floor(proofStamp.getTime() / 1000)), 'svix-signature': proofSignature });
+      assert.equal(proofResult.status, 200); assert.equal(proofResult.body.learned, true);
+      var proofSaved = await qualifiedStore.get(Observer.key(proofEvent.data.email_id));
+      assert.equal(proofSaved.commandId, proofCommand.commandId); assert.equal(proofSaved.webhookSignatureVerified, true);
+    }
+  }
+  var storePath = require.resolve('../lib/autofire-efference-store.js');
+  var handlerPath = require.resolve('../handlers/product-domain-learning-state.js');
+  var previousStore = require.cache[storePath], previousHandler = require.cache[handlerPath];
+  async function endpointRead(proofStore) {
+    var readonly = Object.create(proofStore);
+    ['set', 'setIfAbsent', 'lpush', 'ltrim', 'del'].forEach(function (method) { readonly[method] = async function () { throw Error('endpoint read wrote state'); }; });
+    require.cache[storePath] = { id: storePath, filename: storePath, loaded: true, exports: readonly };
+    delete require.cache[handlerPath];
+    var result, response = { statusCode: 0, setHeader: function () {}, end: function (body) { result = JSON.parse(body); } };
+    await require(handlerPath)({ method: 'GET', url: '/api/product-domain-learning-state?domain=infrastructure' }, response);
+    assert.equal(response.statusCode, 200); return result;
+  }
+  try {
+    var qualifiedReadout = await endpointRead(qualifiedStore), emptyReadout = await endpointRead(memoryStore());
+    assert.equal(qualifiedReadout.resolvedCount, 5);
+    assert.equal(qualifiedReadout.learningGate.ready, true);
+    assert.equal((await Learning.readForBrain(qualifiedStore)).learningGate.distinctSources, 5);
+    assert.equal(qualifiedReadout.signal.normalizedCredit, 0);
+    assert.equal(qualifiedReadout.signal.ownerDomain, 'infrastructure');
+    assert.equal(emptyReadout.resolvedCount, 0); assert.equal(emptyReadout.signal, null);
+    var nativeCycle = require('./fixtures/publication-native-cycle.cjs');
+    var qualifiedNative = await nativeCycle('infrastructure', qualifiedReadout, now + 1000);
+    var emptyNative = await nativeCycle('infrastructure', emptyReadout, now + 1000);
+    assert.equal(qualifiedNative.externalRewardEligible, false, 'existing K4 policy excludes this owner');
+    assert.equal(qualifiedNative.plasticity.rewardActive, false);
+    assert.deepEqual(qualifiedNative.evaluated, emptyNative.evaluated, 'retained outcome is not proof of changed native evaluation');
+    assert.equal(emptyNative.plasticity.rewardActive, false);
+    var gateControl = JSON.parse(JSON.stringify(qualifiedReadout)); gateControl.learningGate.ready = false;
+    var gatedNative = await nativeCycle('infrastructure', gateControl, now + 1000);
+    assert.equal(gatedNative.plasticity.rewardActive, false);
+    console.log('infrastructure native return proof', JSON.stringify({ ownSignal: qualifiedNative.learning.signal.signalId,
+      qualifiedReward: qualifiedNative.plasticity.rewardActive, noOutcomeReward: emptyNative.plasticity.rewardActive,
+      gatedReward: gatedNative.plasticity.rewardActive, sameEvaluation: JSON.stringify(qualifiedNative.evaluated) === JSON.stringify(emptyNative.evaluated) }));
+  } finally {
+    if (previousStore) require.cache[storePath] = previousStore; else delete require.cache[storePath];
+    if (previousHandler) require.cache[handlerPath] = previousHandler; else delete require.cache[handlerPath];
+  }
   console.log('infrastructure real-estate: sovereign non-binding decision, capped B14 inquiry, signed-inbound observation, zero-credit learning, recovery and business trace passed');
 })().catch(function (error) { console.error(error); process.exit(1); });
