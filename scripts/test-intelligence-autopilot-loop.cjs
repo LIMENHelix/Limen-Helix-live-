@@ -127,5 +127,60 @@ function motor(id) { return { authorize: async function () { return { authorized
   var recovery = await Recovery.recover({ store: store, command: command, observation: observation, now: now + 1, motorAuthorization: motor('intel-motor-3') }); assert.equal(recovery.status, 'FUTURE_DELIVERY_SUPPRESSED');
   var persisted = JSON.stringify(Array.from(store.values.values()).concat(Array.from(store.lists.values()))); assert.equal(persisted.includes('lead@example.com'), false); assert.equal(persisted.includes('lead-secret'), false);
   await require('./assert-business-trace.cjs')(store, 'intelligence', command, 'EMAIL-ACCEPTED', now + 1000, 'intelligence-packet-false');
+  // LOCAL/FIXTURE only: two accepted transport receipts and five independently saved mail-server observations.
+  var qualifiedStore = new Store();
+  for (var emailNumber = 0; emailNumber < 2; emailNumber++) {
+    var proofCandidate = Decision.candidate({ leadId: 'LOCAL/FIXTURE:lead-' + emailNumber, email: 'fixture-' + emailNumber + '@example.invalid',
+      domain: 'intelligence', consent: true }, action, { subject: 'Identified LOCAL fixture message ' + emailNumber, body: 'LOCAL/FIXTURE mail body.' });
+    var proofDecision = await Decision.decide(qualifiedStore, proofCandidate, now, { cognition: cognition });
+    var proofCommand = await Executor.execute({ store: qualifiedStore, candidate: proofCandidate, decision: proofDecision, now: now,
+      emailCostUsd: 0, dailyBudgetUsd: 0, dailyEmailCap: 2, motorAuthorization: motor('LOCAL-motor-' + emailNumber),
+      transport: { send: async function () { return { ok: true, id: 'LOCAL-email-' + emailNumber, providerCalled: true }; } } });
+    assert.equal(proofCommand.status, 'ACCEPTED');
+    for (var event of (emailNumber === 0 ? ['delivered', 'opened', 'clicked'] : ['opened', 'clicked'])) {
+      var proofObservation = await Observer.observe(qualifiedStore, proofCommand, { apiKey: 'LOCAL/read-fixture', fetch: async function (_url, options) {
+        assert.equal(options.method, 'GET'); return { ok: true, status: 200, json: async function () {
+          return { id: proofCommand.providerEmailId, last_event: event, created_at: new Date(now).toISOString() };
+        } };
+      } });
+      assert.equal((await Learning.recordObservation(qualifiedStore, proofObservation)).ok, true);
+    }
+  }
+  var storePath = require.resolve('../lib/autofire-efference-store.js');
+  var handlerPath = require.resolve('../handlers/product-domain-learning-state.js');
+  var previousStore = require.cache[storePath], previousHandler = require.cache[handlerPath];
+  async function endpointRead(proofStore) {
+    var readonly = Object.create(proofStore);
+    ['set', 'setIfAbsent', 'lpush', 'ltrim', 'del'].forEach(function (method) { readonly[method] = async function () { throw Error('endpoint read wrote state'); }; });
+    require.cache[storePath] = { id: storePath, filename: storePath, loaded: true, exports: readonly };
+    delete require.cache[handlerPath];
+    var result, response = { statusCode: 0, setHeader: function () {}, end: function (body) { result = JSON.parse(body); } };
+    await require(handlerPath)({ method: 'GET', url: '/api/product-domain-learning-state?domain=intelligence' }, response);
+    assert.equal(response.statusCode, 200); return result;
+  }
+  try {
+    var qualifiedReadout = await endpointRead(qualifiedStore), emptyReadout = await endpointRead(new Store());
+    assert.equal(qualifiedReadout.resolvedCount, 5);
+    assert.equal(qualifiedReadout.learningGate.ready, true);
+    assert.equal((await Learning.readForBrain(qualifiedStore)).learningGate.distinctSources, 2);
+    assert.equal(qualifiedReadout.signal.ownerDomain, 'intelligence');
+    assert.equal(emptyReadout.resolvedCount, 0); assert.equal(emptyReadout.signal, null);
+    var nativeCycle = require('./fixtures/publication-native-cycle.cjs');
+    var qualifiedNative = await nativeCycle('intelligence', qualifiedReadout, now + 1000);
+    var emptyNative = await nativeCycle('intelligence', emptyReadout, now + 1000);
+    assert.equal(qualifiedNative.externalRewardEligible, false, 'existing K4 policy excludes this owner');
+    assert.equal(qualifiedNative.plasticity.rewardActive, false);
+    assert.deepEqual(qualifiedNative.evaluated, emptyNative.evaluated, 'retained outcome is not proof of changed native evaluation');
+    assert.equal(emptyNative.plasticity.rewardActive, false);
+    var gateControl = JSON.parse(JSON.stringify(qualifiedReadout)); gateControl.learningGate.ready = false;
+    var gatedNative = await nativeCycle('intelligence', gateControl, now + 1000);
+    assert.equal(gatedNative.plasticity.rewardActive, false);
+    console.log('intelligence native return proof', JSON.stringify({ ownSignal: qualifiedNative.learning.signal.signalId,
+      qualifiedReward: qualifiedNative.plasticity.rewardActive, noOutcomeReward: emptyNative.plasticity.rewardActive,
+      gatedReward: gatedNative.plasticity.rewardActive, sameEvaluation: JSON.stringify(qualifiedNative.evaluated) === JSON.stringify(emptyNative.evaluated) }));
+  } finally {
+    if (previousStore) require.cache[storePath] = previousStore; else delete require.cache[storePath];
+    if (previousHandler) require.cache[handlerPath] = previousHandler; else delete require.cache[handlerPath];
+  }
   console.log('intelligence sovereign B10/B14/email outcome/recovery loop and business trace: PASS');
 })().catch(function (error) { console.error(error); process.exitCode = 1; });
