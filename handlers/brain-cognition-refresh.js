@@ -21,6 +21,7 @@ const efferenceStore = require('../lib/autofire-efference-store.js');
 const financePaperAdmission = require('../lib/finance-paper-admission.js');
 const productDomainMotorReceipt = require('../lib/product-domain-motor-receipt.js');
 const productDomainBusinessTrace = require('../lib/product-domain-business-trace-readout.js');
+const researchBusinessTrace = require('../lib/research-business-trace-readout.js');
 const productDomainMotorCapabilityOverlay = require('../lib/product-domain-motor-capability-overlay.js');
 const productDomainExternalValveOverlay = require('../lib/product-domain-external-valve-overlay.js');
 const productDomainLearningState = require('./product-domain-learning-state.js');
@@ -332,6 +333,9 @@ module.exports = async function handler(req, res) {
           c.motorCapabilityEvidence = _motorCapability;
           c.externalValveEvidence = _externalValve;
           c.businessTrace = await productDomainBusinessTrace.read(efferenceStore, dom, Date.now());
+          if (['science', 'medicine', 'education', 'environment'].includes(dom)) {
+            c.researchOriginTrace = await researchBusinessTrace.readOrigin(efferenceStore, dom, Date.now());
+          }
           if (_motorReceipt.ok) motorReceiptsStored++;
           else motorReceiptFailures.push({ domain: dom, error: _motorReceipt.error, detail: _motorReceipt.detail });
           var _it = (_st.interoception && typeof _st.interoception === 'object') ? _st.interoception : (_st.cognition && _st.cognition.interoception) || null;

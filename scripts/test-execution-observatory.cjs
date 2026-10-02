@@ -119,11 +119,49 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
   }
 });
 (async () => {
+  var medicineBusinessBefore = JSON.stringify(cognition.cognition.medicine.c.businessTrace);
+  cognition.cognition.medicine.c.researchOriginTrace = {
+    schemaVersion: 'research-origin-trace-readout/1.0', originDomain: 'medicine', destinationOwner: 'research',
+    observationOnly: true, externalActionAuthorized: false, status: 'RECORDED', reason: 'Science owns paper execution',
+    routes: [{ decisionId: 'science-for-medicine', destinationOwner: 'research', status: 'HELD', sourcePacketId: 'medicine-source-packet', decidedAt: Date.now() }]
+  };
   cognition.cognition.science.c.businessTrace.decision.originDomain = 'education';
   cognition.cognition.science.c.businessTrace.dispatchGate = { status: 'HELD', reason: 'domain-motor-receipt-missing', readAt: Date.now(), observationOnly: true };
   await window.LIMENExecutionObservatory.refresh();
   var scienceOriginCard = el.innerHTML.split('<span class="exo-domain-name">science</span>')[1].split('</article>')[0];
   assert.match(scienceOriginCard, /origin education/);
+  var medicineOriginCard = el.innerHTML.split('<span class="exo-domain-name">medicine</span>')[1].split('</article>')[0];
+  assert.match(medicineOriginCard, /papers routed to Science/);
+  assert.match(medicineOriginCard, /science-for-medicine/);
+  assert.match(medicineOriginCard, /medicine-source-packet/);
+  assert.equal(JSON.stringify(cognition.cognition.medicine.c.businessTrace), medicineBusinessBefore);
+  cognition.cognition.medicine.c.researchOriginTrace.originDomain = 'education';
+  await window.LIMENExecutionObservatory.refresh();
+  medicineOriginCard = el.innerHTML.split('<span class="exo-domain-name">medicine</span>')[1].split('</article>')[0];
+  assert.doesNotMatch(medicineOriginCard, /science-for-medicine/);
+  var sourceView = cognition.cognition.medicine.c.researchOriginTrace;
+  sourceView.originDomain = 'medicine';
+  for (var mismatch of [{ externalActionAuthorized: true }, { observationOnly: false }, { destinationOwner: 'health' }]) {
+    var originalView = Object.assign({}, sourceView);
+    Object.assign(sourceView, mismatch);
+    await window.LIMENExecutionObservatory.refresh();
+    var invalidCard = el.innerHTML.split('<span class="exo-domain-name">medicine</span>')[1].split('</article>')[0];
+    assert.doesNotMatch(invalidCard, /science-for-medicine/);
+    Object.assign(sourceView, originalView);
+  }
+  sourceView.status = 'UNAVAILABLE';
+  sourceView.reason = 'source-routing-read-unavailable';
+  await window.LIMENExecutionObservatory.refresh();
+  var unavailableCard = el.innerHTML.split('<span class="exo-domain-name">medicine</span>')[1].split('</article>')[0];
+  assert.match(unavailableCard, /source-routing-read-unavailable/);
+  assert.doesNotMatch(unavailableCard, /science-for-medicine/);
+  sourceView.status = 'RECORDED';
+  sourceView.routes[0].decisionId = '<img src=x onerror=alert(1)>';
+  await window.LIMENExecutionObservatory.refresh();
+  var escapedCard = el.innerHTML.split('<span class="exo-domain-name">medicine</span>')[1].split('</article>')[0];
+  assert.doesNotMatch(escapedCard, /<img src=x/);
+  assert.match(escapedCard, /&lt;img/);
+  delete cognition.cognition.medicine.c.researchOriginTrace;
   assert.match(el.innerHTML, /EXTERNAL-READY/);
   ['science', 'medicine', 'education', 'environment'].forEach(function (domain) {
     var card = el.innerHTML.split('<span class="exo-domain-name">' + domain + '</span>')[1].split('</article>')[0];

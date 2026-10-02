@@ -3,6 +3,17 @@ const assert = require('node:assert/strict');
 const Bridge = require('../lib/autofire-domain-bridge.js');
 const Worker = require('../handlers/limen-worker-autofire.js');
 const Reader = require('../lib/research-business-trace-readout.js');
+const fs = require('node:fs');
+const path = require('node:path');
+// Execute the existing refresh projection block with real read-only readers.
+// This is a projection join proof, not a complete cron invocation.
+const refreshSource = fs.readFileSync(path.join(__dirname, '../handlers/brain-cognition-refresh.js'), 'utf8');
+const projectionStart = refreshSource.indexOf('c.businessTrace = await productDomainBusinessTrace.read(');
+const projectionEnd = refreshSource.indexOf('if (_motorReceipt.ok)', projectionStart);
+assert(projectionStart >= 0 && projectionEnd > projectionStart);
+const project = new (Object.getPrototypeOf(async function () {}).constructor)(
+  'c', 'dom', 'efferenceStore', 'productDomainBusinessTrace', 'researchBusinessTrace', 'Date',
+  refreshSource.slice(projectionStart, projectionEnd) + '\nreturn c;');
 const clone = value => value == null ? null : JSON.parse(JSON.stringify(value));
 class Store {
   constructor() { this.values = new Map(); this.lists = new Map(); }
@@ -42,6 +53,21 @@ class Store {
     assert.equal(readout.ownerDomain, 'research');
     assert.equal(readout.command, null);
     assert.equal(readout.externalActionAuthorized, false);
+    const originReadout = await Reader.readOrigin(readonly, origin, spec.at + 1);
+    assert.equal(originReadout.originDomain, origin);
+    assert.equal(originReadout.destinationOwner, 'research');
+    assert.equal(originReadout.observationOnly, true);
+    assert.equal(originReadout.externalActionAuthorized, false);
+    assert.equal(originReadout.routes[0].decisionId, first.receipt.id);
+    assert.equal(originReadout.routes[0].sourcePacketId, candidate.sourcePacketId);
+    assert.equal(originReadout.command, null);
+    const ownBefore = await Reader.read(readonly, origin, spec.at + 1);
+    const projected = await project({}, origin, readonly, Reader, Reader, { now: () => spec.at + 1 });
+    assert.deepEqual(projected.businessTrace, ownBefore);
+    assert.deepEqual(projected.researchOriginTrace, originReadout);
+    const otherOrigin = origin === 'education' ? 'medicine' : 'education';
+    assert.equal((await Reader.readOrigin(readonly, otherOrigin, spec.at + 1)).routes.length, 0);
+    assert.equal((await Reader.readOrigin(readonly, 'homestead', spec.at + 1)).status, 'UNAVAILABLE');
     const key = 'autofire_selection:' + first.receipt.id;
     for (const change of [{ ownerDomain: 'health' }, { sourcePacketId: 'unrelated-packet' }, { observationOnly: false }, { originDomain: 'homestead' }]) {
       const corrupt = clone(first.receipt);
@@ -49,6 +75,9 @@ class Store {
       store.values.set(key, corrupt);
       store.lists.set(Bridge.LOG_KEY, [corrupt]);
       assert.equal((await Reader.read(readonly, 'science', spec.at + 1)).status, 'UNAVAILABLE');
+      const corruptedOrigin = await Reader.readOrigin(readonly, origin, spec.at + 1);
+      assert.equal(corruptedOrigin.status, change.originDomain ? 'UNOBSERVED' : 'UNAVAILABLE');
+      assert.equal(corruptedOrigin.routes.length, 0);
     }
     const legacy = clone(first.receipt);
     delete legacy.routing;
@@ -57,6 +86,7 @@ class Store {
     const legacyReadout = await Reader.read(readonly, 'science', spec.at + 1);
     assert.equal(legacyReadout.status, 'RECORDED');
     assert.equal(legacyReadout.decision.originDomain, null, 'legacy origin must not be invented');
+    assert.equal((await Reader.readOrigin(readonly, origin, spec.at + 1)).status, 'UNOBSERVED');
     for (const change of [{ source: 'master-inbox' }, { originDomain: 'homestead' }, { sourcePacketId: null }]) {
       const rejected = await Bridge.select(new Store(), Object.assign({}, spec, { candidate: Object.assign({}, routed, change) }));
       assert.equal(rejected.ok, true);

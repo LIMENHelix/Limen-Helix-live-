@@ -208,6 +208,11 @@
     var diagnosed = diagnosisCount ? diagnosisCount + ' ACTIVE' : 'NONE';
     var routed = (row.lanes.investments + row.lanes.research) > 0 ? row.lanes.investments + ' INV · ' + row.lanes.research + ' RES' : (opportunityCount ? opportunityCount + ' OTHER' : 'NONE');
     var trace = row.c.businessTrace || {};
+    var paperOrigin = row.c.researchOriginTrace || {};
+    var paperOriginValid = paperOrigin.schemaVersion === 'research-origin-trace-readout/1.0' &&
+      paperOrigin.originDomain === row.domain && paperOrigin.destinationOwner === 'research' &&
+      paperOrigin.observationOnly === true && paperOrigin.externalActionAuthorized === false &&
+      ['RECORDED', 'UNOBSERVED', 'UNAVAILABLE'].indexOf(paperOrigin.status) >= 0;
     var traceValid = (trace.schemaVersion === 'product-domain-business-trace-readout/1.0' ||
       (trace.schemaVersion === 'culture-business-trace-readout/1.0' && row.domain === 'culture')) &&
       trace.ownerDomain === (ALIASES[row.domain] || row.domain) && trace.observationOnly === true && trace.externalActionAuthorized === false && trace.status === 'RECORDED';
@@ -246,6 +251,10 @@
         chainItem('REVENUE', row.revenue, 'unobserved') +
       '</div>' +
       '<div class="exo-facts">' +
+        (paperOriginValid ? '<span>papers routed to Science <b>' + esc(paperOrigin.status) + '</b> · ' + esc(paperOrigin.reason) + '</span>' +
+          (paperOrigin.status === 'RECORDED' ? arr(paperOrigin.routes) : []).filter(function (route) { return route && route.destinationOwner === 'research'; }).map(function (route) {
+            return '<span>Science decision <b>' + esc(route.decisionId) + '</b> · ' + esc(route.status) + ' · source packet ' + esc(route.sourcePacketId) + ' · ' + esc(time(route.decidedAt)) + ' · key ' + esc(route.decisionKey) + ' · ' + esc(arr(route.blockers).join(' · ')) + '</span>';
+          }).join('') : '') +
         '<span>internal emission <b>' + esc(n(row.emission.emittedCount)) + '</b> · staged ' + esc(n(row.emission.stagedCount)) + '</span>' +
         '<span>readiness receipt <b>' + esc(row.receipt.status || (row.receipt.ok ? 'PERSISTED' : 'UNOBSERVED')) + '</b> · preparation ' + esc(row.gates.mayPrepare === true ? 'PERMITTED' : 'HELD') + '</span>' +
         '<span>business trace <b>' + esc(trace.status || 'UNOBSERVED') + '</b> · ' + esc(trace.reason || (traceValid ? 'historical records; dispatch revalidates authority' : 'business decision/command read not connected for this domain')) + '</span>' +

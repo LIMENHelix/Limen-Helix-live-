@@ -1,0 +1,13 @@
+# Science paper source view checkpoint
+
+Status: LOCAL/FIXTURE verification; full autonomy continuity remains incomplete.
+
+The existing research reader now provides an origin-scoped view of durable Science paper decisions for Science, Medicine, Education and Environment. It reads at most 1,000 recent index rows and verifies at most twenty matching records. Every displayed record must match its durable index, Science owner, explicit origin, packet identity and observation-only routing contract. Unsupported origins, corrupt records and unavailable stores cannot yield a routing claim; older records without explicit origin remain unobserved.
+
+The existing cognition refresh stores this view as `researchOriginTrace`, beside the domain's existing `businessTrace`. The existing observatory shows the destination Science decision and source packet as routing observation. The source view has no command, release authority, revenue or borrowed learning credit. It leaves each domain's own executor chain intact.
+
+Focused evidence: all eighteen research regressions passed. The production refresh projection block was executed with the real read-only research readers across four origins and preserved the own-business trace exactly. This verifies the projection join, not a complete cron invocation. Observatory fixtures prove source decision visibility, origin/owner/authority mismatch suppression, unavailable read disclosure without route rows, and escaped text. Existing refresh authorization checks passed.
+
+No domain brains, protected policy, phase engine, source data, worker routing or executor gates changed. Current runtime edits affect only the existing research reader, cognition observer projection and observatory renderer. Full suite passed: 378 passed, one external-corpus prerequisite skip, zero failed, 269.4 seconds, exit 0. Repository validation passed (350 module boots, 2,272 JavaScript files and 5,025 JSON files; two size-cap skips), and harness checks passed.
+
+Remaining requirements: complete native refresh-to-rendered source view, current production visibility, independent paper evaluation, observed outcomes, returned afferents and subsequent source-domain evaluation are not established by this checkpoint. All research papers remain Science-owned. Homestead remains separate from Agriculture execution. Google Docs is deferred until the original goal is Done.
