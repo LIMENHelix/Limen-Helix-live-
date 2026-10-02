@@ -29,7 +29,7 @@ Store.prototype.lpush = async function (key, value) {
   this.logs[key].unshift(JSON.parse(JSON.stringify(value)));
   return this.logs[key].length;
 };
-Store.prototype.lrange = async function(key, start, stop) { return JSON.parse(JSON.stringify((this.logs[key] || []).slice(start, stop + 1))); };
+Store.prototype.lrange = async function(key, start, stop) { return JSON.parse(JSON.stringify((this.logs[key] || []).slice(start, stop < 0 ? undefined : stop + 1))); };
 Store.prototype.ltrim = async function (key, start, stop) {
   this.logs[key] = (this.logs[key] || []).slice(start, stop + 1); return true;
 };
@@ -47,6 +47,12 @@ function brain(domain, now, packetDomain) {
 }
 
 (async function () {
+  var unsafeStore = new Store(), unsafeCommand = { ownerDomain: 'communication', lane: 'social', commandId: 'LOCAL-unsaved', subjectDomain: 'culture',
+    sourceArtifactId: 'LOCAL-artifact', sourceIntentId: 'LOCAL-intent', sourcePacketId: 'LOCAL-packet', domainDecisionReceiptId: 'LOCAL-release' };
+  await DomainLearning.recordCommand(unsafeStore, unsafeCommand);
+  var unsafe = await DomainLearning.recordObservation(unsafeStore, unsafeCommand, { status: 'OBSERVED', observationId: 'LOCAL-unsaved-observation', sourceIdentity: { kind: 'LOCAL-unverified' }, postReceipt: { uri: 'at://did:plc:local/app.bsky.feed.post/local' }, engagementDelta: 1, observedAt: 2000 });
+  assert.equal(unsafe.ok, false, 'cause-only supplied command and unsaved observation cannot credit a subject domain');
+  assert.equal(await unsafeStore.get(DomainLearning.stateKey('culture')), null);
   var now = Date.now();
   var domain = 'finance';
   var contract = Contracts.get(domain);
@@ -69,6 +75,8 @@ function brain(domain, now, packetDomain) {
   var store = new Store();
   await store.set(contract.stateKey, state);
   await store.set(contract.artifactStateKey, artifact);
+  await store.set(contract.artifactPrefix + artifact.artifactId, artifact);
+  await store.set(contract.intentPrefix + state.intent.intentId, Object.assign({}, state.intent, { schemaVersion: 'domain-commercial-intent/1.0', status: 'PLANNED', productDomain: domain, ownerDomain: contract.ownerDomain, plannedAt: now - 2000, sourcePacketGeneratedAt: new Date(now - 3000).toISOString() }));
 
   var candidate = await Candidate.read(store, domain, now);
   assert.equal(candidate.ok, true);
@@ -184,37 +192,92 @@ function brain(domain, now, packetDomain) {
   var equivalentAvailable = await Generator.available({ store: store, domain: domain, now: now + 2 });
   assert.equal(equivalentAvailable[0].reason, 'domain-commercial-public-content-already-distributed-or-claimed');
 
-  var observation = await Observer.observeOne(store, { uri: posted.uri, cid: posted.cid }, now + 2000, {
+  var observation = await Observer.observeOne(store, { uri: posted.uri, cid: posted.cid, commandId: posted.commandId }, Date.now(), {
     fetch: async function () { return { status: 200, json: async function () { return { posts: [{
       uri: posted.uri, cid: posted.cid, replyCount: 0, repostCount: 1, likeCount: 2, quoteCount: 0,
-      indexedAt: new Date(now + 1000).toISOString()
+      indexedAt: new Date(command.commandedAt).toISOString()
     }] }; } }; }
   });
   assert.equal(observation.status, 'OBSERVED');
+  // Actual admitted channel evidence must also join the subject's historical records before any write, including replay.
+  async function refusesSubject(key, mutate, receipt) {
+    var prior = structuredClone(await store.get(key));
+    await store.set(key, mutate(structuredClone(prior)));
+    var before = JSON.stringify({ values: Array.from(store.values), logs: store.logs });
+    var refused = await DomainLearning.recordObservation(store, command, receipt || observation.receipt);
+    assert.equal(refused.ok, false, key);
+    assert.equal(JSON.stringify({ values: Array.from(store.values), logs: store.logs }), before, 'rejected subject evidence performs no writes');
+    await store.set(key, prior);
+  }
+  var subjectCauseKey = DomainLearning.causeKey(domain, command.commandId);
+  var subjectReleaseKey = DomainDecision.key(domain, artifact.artifactId, domainRelease.decisionReceiptId);
+  var subjectArtifactKey = contract.artifactPrefix + artifact.artifactId, subjectIntentKey = contract.intentPrefix + state.intent.intentId;
+  for (var scenario of [
+    [subjectCauseKey, 'ownerDomain', 'culture'], [subjectCauseKey, 'sourcePacketId', 'LOCAL-foreign'],
+    [subjectCauseKey, 'commandedAt', command.commandedAt + 1],
+    [subjectReleaseKey, 'ownerDomain', 'culture'], [subjectReleaseKey, 'sourceIntentId', 'LOCAL-foreign'],
+    [subjectReleaseKey, 'contentHash', '0'.repeat(64)], [subjectReleaseKey, 'expiresAt', command.commandedAt],
+    [subjectArtifactKey, 'ownerDomain', 'culture'], [subjectArtifactKey, 'sourcePacketId', 'LOCAL-foreign'],
+    [subjectArtifactKey, 'contentHash', '0'.repeat(64)], [subjectArtifactKey, 'freshnessExpiresAt', command.commandedAt],
+    [subjectIntentKey, 'ownerDomain', 'culture'], [subjectIntentKey, 'sourcePacketId', 'LOCAL-foreign'],
+    [subjectIntentKey, 'selectedProgram', 'LOCAL-foreign'], [subjectIntentKey, 'plannedAt', artifact.preparedAt + 1]
+  ]) await refusesSubject(scenario[0], function (row) { row[scenario[1]] = scenario[2]; return row; });
+  for (var immuneRoute of ['HOLD', 'QUARANTINE', 'REJECT']) {
+    await refusesSubject(subjectReleaseKey, function (row) { row.immuneRouting.route = immuneRoute; row.immuneRouting.hardStop = true; return row; });
+    await refusesSubject(CommunicationDecision.decisionKey(command.decisionReceiptId), function (row) { row.immuneRouting.route = immuneRoute; row.immuneRouting.hardStop = true; return row; });
+  }
+  await refusesSubject(CommunicationDecision.decisionKey(command.decisionReceiptId), function (row) { row.sourceIdentity.responseHash = '0'.repeat(64); return row; });
+  await refusesSubject(subjectCauseKey, function (row) { return row; }, Object.assign({}, observation.receipt, { engagementDelta: 999 }));
+  for (var missingKey of [subjectCauseKey, subjectReleaseKey, subjectArtifactKey, subjectIntentKey]) {
+    var saved = structuredClone(await store.get(missingKey)); store.values.delete(missingKey);
+    var missingBefore = JSON.stringify({ values: Array.from(store.values), logs: store.logs });
+    assert.equal((await DomainLearning.recordObservation(store, command, observation.receipt)).ok, false);
+    assert.equal(JSON.stringify({ values: Array.from(store.values), logs: store.logs }), missingBefore);
+    await store.set(missingKey, saved);
+  }
   var learned = await DomainLearning.recordObservation(store, command, observation.receipt);
   assert.equal(learned.ok, true);
+  var replayBefore = JSON.stringify({ values: Array.from(store.values), logs: store.logs });
+  assert.equal((await DomainLearning.recordObservation(store, command, observation.receipt)).duplicate, true);
+  assert.equal(JSON.stringify({ values: Array.from(store.values), logs: store.logs }), replayBefore);
+  await refusesSubject(subjectCauseKey, function (row) { row.sourcePacketId = 'LOCAL-foreign-replay'; return row; });
   var reafference = await DomainLearning.readForBrain(store, domain);
   assert.equal(reafference.status, 'ELIGIBLE');
   assert.equal(reafference.signal.sourceArtifactId, artifact.artifactId);
   assert.equal(reafference.signal.engagementDelta, 3);
   assert.equal(reafference.signal.productDomain, domain);
 
-  var newerCommand = Object.assign({}, command, {
-    commandId: 'finance-command-newer', sourceArtifactId: 'finance-artifact-newer',
-    sourceIntentId: 'finance-intent-newer', commandedAt: command.commandedAt + 1000
-  });
-  assert.equal((await DomainLearning.recordCommand(store, newerCommand)).ok, true);
-  var newerObservation = Object.assign({}, observation.receipt, {
-    observationId: 'finance-observation-newer', observedAt: now + 3000,
-    postReceipt: { uri: 'at://did:plc:test/app.bsky.feed.post/finance2', cid: 'cid-finance-2' }
-  });
-  assert.equal((await DomainLearning.recordObservation(store, newerCommand, newerObservation)).ok, true);
-  var olderRefresh = Object.assign({}, observation.receipt, {
-    observationId: 'finance-observation-older-refresh', observedAt: now + 4000
-  });
-  assert.equal((await DomainLearning.recordObservation(store, command, olderRefresh)).ok, true);
-  assert.equal((await DomainLearning.readForBrain(store, domain)).signal.sourceArtifactId, 'finance-artifact-newer',
-    'a later observation of an older post cannot replace the newest artifact reafference');
+  await new Promise(function (resolve) { setTimeout(resolve, 2); });
+  var newerAt = Date.now(), newerState = structuredClone(state), newerArtifact = structuredClone(artifact);
+  newerState.intent.intentId = 'finance-intent-newer'; newerState.intent.sourcePacketId = 'finance-packet-newer';
+  newerArtifact.artifactId = 'finance-artifact-newer'; newerArtifact.intentId = newerState.intent.intentId; newerArtifact.sourcePacketId = newerState.intent.sourcePacketId;
+  newerArtifact.contentHash = 'e'.repeat(64); newerArtifact.preparedAt = newerAt - 1;
+  newerArtifact.sourceLedger[0].title = 'LOCAL later publisher title observation';
+  await store.set(contract.stateKey, newerState); await store.set(contract.artifactStateKey, newerArtifact);
+  await store.set(contract.artifactPrefix + newerArtifact.artifactId, newerArtifact);
+  await store.set(contract.intentPrefix + newerState.intent.intentId, Object.assign({}, newerState.intent, { schemaVersion: 'domain-commercial-intent/1.0', status: 'PLANNED', productDomain: domain, ownerDomain: contract.ownerDomain, plannedAt: newerAt - 2, sourcePacketGeneratedAt: new Date(newerAt - 3).toISOString() }));
+  var newerCandidate = await Candidate.read(store, domain, newerAt);
+  var newerRelease = await DomainDecision.decide(store, newerCandidate, newerAt, { cognition: { finance: brain('finance', newerAt) } });
+  newerCandidate.domainDecisionReceipt = newerRelease;
+  var newerChannel = await CommunicationDecision.decide(store, newerCandidate, newerAt, { cognition: { communication: brain('communication', newerAt), finance: brain('finance', newerAt) } });
+  var newerPosted = await Executor.execute({ store: store, now: newerAt, spec: { subjectDomain: domain, text: newerCandidate.text, decisionReceipt: newerChannel,
+    sourceArtifactId: newerCandidate.sourceArtifactId, sourceIntentId: newerCandidate.sourceIntentId, sourcePacketId: newerCandidate.sourcePacketId,
+    candidateHash: newerCandidate.candidateHash, selectedProgram: newerCandidate.selectedProgram, domainDecisionReceipt: newerRelease }, motorAuthorization: motor,
+    adapterGuard: { checkpoint: async function () { return { allowed: true }; } }, platform: { postToBluesky: async function () { platformCalls++; return { ok: true,
+      uri: 'at://did:plc:test/app.bsky.feed.post/finance2', cid: 'cid-finance-2', url: 'https://bsky.app/profile/test/post/finance2' }; } } });
+  assert.equal(newerPosted.status, 'POSTED');
+  var newerCommand = await store.get(Executor.commandKey(newerPosted.commandId));
+  var newerRead = await Observer.observeOne(store, { uri: newerPosted.uri, cid: newerPosted.cid, commandId: newerPosted.commandId }, Date.now(), { fetch: async function () {
+    return { status: 200, json: async function () { return { posts: [{ uri: newerPosted.uri, cid: newerPosted.cid, likeCount: 1, indexedAt: new Date(newerAt).toISOString() }] }; } };
+  } });
+  assert.equal((await DomainLearning.recordObservation(store, newerCommand, newerRead.receipt)).ok, true);
+  var olderRefresh = await Observer.observeOne(store, { uri: posted.uri, cid: posted.cid, commandId: posted.commandId }, Date.now(), { fetch: async function () {
+    return { status: 200, json: async function () { return { posts: [{ uri: posted.uri, cid: posted.cid, likeCount: 4, indexedAt: new Date(command.commandedAt).toISOString() }] }; } };
+  } });
+  assert.equal((await DomainLearning.recordObservation(store, command, olderRefresh.receipt)).ok, true);
+  assert.equal((await DomainLearning.readForBrain(store, domain)).signal.sourceArtifactId, 'finance-artifact-newer', 'a later observed older post cannot replace a newer commanded artifact');
+  assert.equal(platformCalls, 2);
+  assert.equal((await DomainLearning.recordObservation(store, command, observation.receipt)).duplicate, true, 'an exact older durable pending snapshot remains replayable after the latest observation advances');
 
   var rankStore = new Store();
   var rankedFinanceState = JSON.parse(JSON.stringify(state)); rankedFinanceState.priority = 0.99;
