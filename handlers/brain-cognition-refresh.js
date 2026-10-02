@@ -335,7 +335,7 @@ module.exports = async function handler(req, res) {
           c.motorCapabilityEvidence = _motorCapability;
           c.externalValveEvidence = _externalValve;
           c.businessTrace = await productDomainBusinessTrace.read(efferenceStore, dom, Date.now());
-          if (['science', 'medicine', 'education', 'environment'].includes(dom)) {
+          if (researchBusinessTrace.supportsOrigin(dom)) {
             c.researchOriginTrace = await researchBusinessTrace.readOrigin(efferenceStore, dom, Date.now());
           }
           if (_motorReceipt.ok) motorReceiptsStored++;

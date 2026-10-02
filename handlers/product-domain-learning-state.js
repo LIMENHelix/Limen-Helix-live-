@@ -232,7 +232,7 @@ async function read(domain) {
   }
   // Returned Science results are source observations, never source reward.
   // Preserve the selected owner signal and its learning gate exactly.
-  if (['science', 'medicine', 'education', 'environment'].indexOf(productDomain) >= 0) {
+  if (researchOriginTrace.supportsOrigin(productDomain)) {
     result.researchOriginTrace = await researchOriginTrace.readOrigin(store, productDomain, Date.now());
   }
   return result;

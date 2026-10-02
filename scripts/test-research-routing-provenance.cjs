@@ -41,6 +41,37 @@ class Store {
   async lrange(key, start, end) { return clone((this.lists.get(key) || []).slice(start, end < 0 ? undefined : end + 1)); }
 }
 (async () => {
+  for(const origin of require('../lib/domain-commercial-contracts.js').DOMAINS) {
+    const store=new Store();const input={domain:origin,recommendedLane:'research',source:'domain-packet-research',
+      subjectId:origin+':subject',sourcePacketId:origin+':packet',sourceArtifactRef:origin+':window'};
+    const original=JSON.stringify(input);const at=1790899000000;
+    const result=await Bridge.select(store,{lane:'research',candidate:Worker.selectionCandidate(input),domainCycle:null,at});
+    assert.equal(result.ok,true);assert.equal(result.receipt.ownerDomain,'research');assert.equal(result.receipt.status,'HELD');
+    assert.equal(result.receipt.routing.originDomain,origin);assert.equal(result.receipt.routing.sourcePacketId,input.sourcePacketId);
+    const readonly=Object.create(store);for(const name of ['set','setIfAbsent','lpush','ltrim']) readonly[name]=async()=>{throw Error('origin read attempted write');};
+    const view=await Reader.readOrigin(readonly,origin,at+1);assert.equal(view.status,'RECORDED',view.reason);
+    assert.equal(view.routes[0].decisionId,result.receipt.id);assert.equal(view.command,null);assert.equal(view.externalActionAuthorized,false);
+    const science=await Reader.read(readonly,'science',at+1);assert.equal(science.decision.originDomain,origin);
+    const endpointStore=require('../lib/autofire-efference-store.js');
+    const saved={get:endpointStore.get,lrange:endpointStore.lrange,assertDurable:endpointStore.assertDurable};
+    Object.assign(endpointStore,{get:readonly.get.bind(readonly),lrange:readonly.lrange.bind(readonly),assertDurable:()=>{}});
+    try {
+      const runtimeOwner=require('../lib/domain-commercial-contracts.js').get(origin).ownerDomain;
+      const nativeRead=await require('../handlers/product-domain-learning-state.js').read(runtimeOwner);
+      assert.equal(nativeRead.researchOriginTrace.originDomain,origin);
+      assert.equal(nativeRead.researchOriginTrace.routes[0].decisionId,result.receipt.id);
+      assert.equal(nativeRead.researchOriginTrace.externalActionAuthorized,false);
+      assert.equal(nativeRead.resolvedCount,0);assert.equal(nativeRead.signal||null,null);
+    } finally {Object.assign(endpointStore,saved);}
+
+    const projected=await project({},origin,readonly,Reader,Reader,{now:()=>at+1});assert.deepEqual(projected.researchOriginTrace,view);
+    const rendered=await renderProjection(origin,projected,at+1);assert(rendered.includes(result.receipt.id));assert(rendered.includes(input.sourcePacketId));
+    assert.equal(JSON.stringify(input),original);
+    assert.equal((await Reader.readOrigin(readonly,'homestead',at+1)).status,'UNAVAILABLE');
+    assert.equal((await Reader.readOrigin(readonly,'unregistered',at+1)).status,'UNAVAILABLE');
+    const replay=await Bridge.select(store,{lane:'research',candidate:Worker.selectionCandidate(input),domainCycle:null,at});
+    assert.equal(replay.receipt.id,result.receipt.id);
+  }
   for (const origin of ['science', 'medicine', 'education', 'environment']) {
     const store = new Store();
     const candidate = { domain: origin, recommendedLane: 'research', source: 'domain-packet-research',
@@ -264,5 +295,5 @@ class Store {
       assert.equal(rejected.receipt.status, 'HELD');
     }
   }
-  console.log('research routing provenance: four native origins, Science ownership, durable replay and negative metadata boundaries passed');
+  console.log('research routing provenance: twenty registered request origins plus four native outcome loops, Science ownership, durable replay and negative metadata boundaries passed');
 })().catch(error => { console.error(error); process.exitCode = 1; });
