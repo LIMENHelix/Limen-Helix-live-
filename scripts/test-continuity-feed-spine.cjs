@@ -251,6 +251,7 @@ sb.LIMENDomains = fixtures;
           destinationSelectionCreated: false, agricultureMotorCreated: false, homesteadExcluded: true,
           nativeReturnBoundary: agricultureProjection.routedOutcomeReturn };
       }
+      var nativeCommunicationCommercialJoin = null;
       if (['communication', 'trade', 'religion'].includes(row[0])) {
         if (row[0] === 'communication') {
           const nativeCommercial = require('../lib/domain-commercial-lanes.js').get('communication');
@@ -265,6 +266,58 @@ sb.LIMENDomains = fixtures;
           const artifact = require('../lib/domain-commercial-artifact.js').build(nativeCommercial.contract, reflex, Date.parse(packet.generatedAt));
           assert.notEqual(artifact.status, 'ARTIFACT_PREPARED');
           assert.equal(artifact.artifact, null);
+          const semanticAt = Date.parse(packet.generatedAt);
+          const commercialTitles = [0, 1].map(feed => ({ t: packet.generatedAt, d: 'communication',
+            f: 'LOCAL/FIXTURE Communication feed ' + feed, hh: feed, ck: 'headline_title',
+            items: [{ i: 0, ti: 'Identified fixture communication observation ' + feed,
+              au: 'https://fixture.invalid/communication/' + feed, pa: packet.generatedAt, pl: 'Fixture publisher ' + feed }] }));
+          const commercialSemantic = DomainSemantic.build(commercialTitles, 'communication', semanticAt);
+          commercialSemantic.meta.ownerDomain = 'communication'; commercialSemantic.meta.sourceDomain = 'communication';
+          await Promise.resolve(brain.cycle());
+          const commercialPacket = Packet.fromBrainState('communication', brain.state,
+            { snapshotId: 'fixture-native-source-snapshot', fetchedAt: semanticAt }, 'fixture-commercial-semantic-refresh', packet.generatedAt,
+            { semanticEvidence: commercialSemantic.observations, semanticEvidenceMeta: commercialSemantic.meta, feedSourceEvidence: nativeFeedEvidence });
+          const commercialConsumer = Consumer.createConsumer({ store: { ...store, packetIndexKey: 'commercial-packets', handoffIndexKey: 'commercial-handoffs' } });
+          const commercialPersistence = await commercialConsumer.consumePacket(commercialPacket);
+          assert.equal(commercialPersistence.ok, true, JSON.stringify(commercialPersistence));
+          const commercialRecord = { ...record, c: { ...record.c, serverPacket: commercialPacket, serverPacketPersistence: commercialPersistence } };
+          const plan = nativeCommercial.evaluate(commercialRecord, null, semanticAt);
+          assert.equal(plan.status, 'PLANNED', plan.reason);
+          const commercialLists = new Map();
+          const commercialStore = { ...store, assertDurable() {}, setIfAbsent: store.setNx,
+            set: async (key, value) => { values.set(key, JSON.parse(JSON.stringify(value))); return true; },
+            replaceIfValue: async (key, expected, value) => { if (JSON.stringify(values.get(key) || null) !== JSON.stringify(expected)) return false;
+              values.set(key, JSON.parse(JSON.stringify(value))); return true; },
+            lpush: async (key, value) => { const rows = commercialLists.get(key) || []; rows.unshift(JSON.parse(JSON.stringify(value))); commercialLists.set(key, rows); return rows.length; },
+            lrange: async (key, start, end) => JSON.parse(JSON.stringify((commercialLists.get(key) || []).slice(start, end + 1))),
+            ltrim: async (key, start, end) => { commercialLists.set(key, (commercialLists.get(key) || []).slice(start, end + 1)); return true; } };
+          const durablePlan = await nativeCommercial.persist(commercialStore, plan);
+          assert.equal(durablePlan.readbackVerified, true);
+          const prepared = require('../lib/domain-commercial-artifact.js').build(nativeCommercial.contract, durablePlan, semanticAt + 1);
+          assert.equal(prepared.status, 'ARTIFACT_PREPARED', prepared.reason);
+          assert.equal(prepared.artifact.sourcePacketId, commercialPacket.packetId);
+          assert.equal(prepared.artifact.truthBoundary.fullTextRead, false);
+          assert.equal(prepared.artifact.externalEffectAuthorized, false);
+          const durableArtifact = await require('../lib/domain-commercial-artifact.js').persist(commercialStore, nativeCommercial.contract, prepared);
+          assert.equal(durableArtifact.status, 'ARTIFACT_PREPARED');
+          const socialCandidate = await require('../lib/domain-commercial-social-candidate.js').read(commercialStore, 'communication', semanticAt + 2);
+          assert.equal(socialCandidate.ok, true, socialCandidate.reason);
+          assert.equal(socialCandidate.sourcePacketId, commercialPacket.packetId);
+          const beforeDistribution = JSON.stringify(Array.from(values));
+          const distribution = await require('../lib/domain-commercial-distribution-decision.js').decide(commercialStore, socialCandidate, semanticAt + 3,
+            { cognition: { communication: commercialRecord } });
+          console.log('Communication native artifact distribution', distribution.status, distribution.reason || 'subject-distribution-released');
+          assert.equal(distribution.providerCalled || false, false);
+          assert.equal(distribution.status, 'NO_ACTION');
+          assert.equal(distribution.reason, 'subject-domain-immune-veto');
+          assert.equal(JSON.stringify(Array.from(values)), beforeDistribution, 'immune hold must not write a distribution release');
+          const wrongOwnerRecord = JSON.parse(JSON.stringify(commercialRecord));
+          wrongOwnerRecord.c.serverPacket.truth.semanticEvidenceMeta.ownerDomain = 'science';
+          assert.equal(nativeCommercial.evaluate(wrongOwnerRecord, null, semanticAt).reason, 'owning-domain-semantic-evidence-unavailable');
+          nativeCommunicationCommercialJoin = { evidenceLevel: 'LOCAL/FIXTURE', sourcePacketId: commercialPacket.packetId,
+            intentId: durablePlan.intent.intentId, artifactId: socialCandidate.sourceArtifactId,
+            status: distribution.status, reason: distribution.reason, providerCalled: false, fullTextVerified: false };
+          console.log('Communication native commercial semantic join', prepared.status, commercialPacket.packetId);
         }
         var channelFamily = { communication: 'social', trade: 'auction', religion: 'subscriber' }[row[0]];
         var channelDecision = require('../lib/' + row[0] + '-' + channelFamily + '-decision.js');
@@ -286,7 +339,7 @@ sb.LIMENDomains = fixtures;
         primaryIntakeBoundary = { ownerDomain: row[0] === 'trade' ? 'supplyChain' : row[0], lane: channelFamily,
           sourcePacketId: packet.packetId, evidenceLevel: 'LOCAL/FIXTURE', nativeOpportunityChecks: channelChecks,
           nextBoundary: requiredBlocker, providerCalled: false, candidateFabricated: false,
-          assetRightsOrSubscriberOrContentAuthorityInferred: false };
+          assetRightsOrSubscriberOrContentAuthorityInferred: false, commercialJoin: nativeCommunicationCommercialJoin };
       }
       var operationProfiles = {
         industry: ['crm', 'source-grounded-work-first-WARN-record-required'],
