@@ -507,6 +507,19 @@ sb.LIMENDomains = fixtures;
         var runtimeCycle = await ShadowRuntime.runDomain(row[0], { rows: recorded.rows, now: sourceAt });
         assert.equal(runtimeCycle.ok, true, runtimeCycle.error);
         assert.equal(runtimeCycle.domain, sourceDomain);
+        // Active paper routing uses Science's critic, while the source-domain
+        // scenario below remains a separate observation of its own boundary.
+        var scienceRows = JSON.parse(fs.readFileSync(path.join(ROOT, 'brain-v2/fixtures/research-recorder.json'), 'utf8'));
+        var scienceCycle = await ShadowRuntime.runDomain('science', { rows: scienceRows.rows, now: sourceAt });
+        assert.equal(scienceCycle.ok, true, scienceCycle.error);
+        var activeScienceSelection = await DomainBridge.select(decisionStore, { lane: 'research',
+          candidate: ArtifactWorker.selectionCandidate(admittedCandidate), domainCycle: scienceCycle, at: sourceAt });
+        assert.equal(activeScienceSelection.ok, true);
+        assert.equal(activeScienceSelection.receipt.ownerDomain, 'research');
+        assert.equal(activeScienceSelection.receipt.routing.originDomain, row[0]);
+        assert.equal(activeScienceSelection.receipt.routing.sourcePacketId, enrichedPacket.packetId);
+        assert.equal(activeScienceSelection.receipt.routing.observationOnly, true);
+        assert.deepEqual(await decisionStore.get('autofire_selection:' + activeScienceSelection.receipt.id), activeScienceSelection.receipt);
         var runtimeSelection = await DomainBridge.select(decisionStore, { lane: 'research', candidate: actor.candidate, domainCycle: runtimeCycle, at: sourceAt + 1 });
         assert.equal(runtimeSelection.ok, true);
         assert.equal(runtimeSelection.receipt.status, ['science', 'medicine'].includes(row[0]) ? 'RELEASED' : 'HELD', JSON.stringify(runtimeSelection.receipt.reasons));
@@ -537,6 +550,9 @@ sb.LIMENDomains = fixtures;
         assert.equal(JSON.stringify(Array.from(values)), beforeAuthorization, 'operator read must not mutate business state');
         enrichedResearch = { status: actor.status, sourcePacketId: enrichedPacket.packetId, ownerDomain: actor.candidate.ownerDomain,
           activeWorkerAdmission: { consumer: 'handlers/limen-worker-autofire.js', eligible: true, originDomain: row[0], routedOwnerDomain: 'research',
+            owningSelection: { id: activeScienceSelection.receipt.id, status: activeScienceSelection.receipt.status,
+              originDomain: activeScienceSelection.receipt.routing.originDomain, ownerDomain: activeScienceSelection.receipt.ownerDomain,
+              sourcePacketId: activeScienceSelection.receipt.routing.sourcePacketId },
             subjectId: admittedCandidate.subjectId, staleRejected: true, futureRejected: true, terminalRejected: true,
             eligibilityRevokedRejected: true, sourceWindowIdentityPreserved: true, handlerInvoked: false, providerCalled: false },
           sourceKeys: semantic.observations.map(function (observation) { return observation.sourceIdentity.value; }),

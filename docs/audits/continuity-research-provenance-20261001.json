@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "continuity-research-provenance-evidence/1.0",
+  "level": "LOCAL/FIXTURE",
+  "baseCommit": "21165725218c0c29335282caa269c1dc651e2dcb",
+  "ownerInstruction": "D-024: all research papers go to Science",
+  "files": [
+    {
+      "path": "assets/js/civilization/execution-observatory.js",
+      "sha256": "a3996c36ea76ac173e607c89a56fdf245405be8d79e0b661809fc09768d27e8d"
+    },
+    {
+      "path": "lib/autofire-domain-bridge.js",
+      "sha256": "8d651fd70bb1f54008c6b6c9603b1402d806abb4a8d5ea3b88dc6140f9bd4f52"
+    },
+    {
+      "path": "lib/research-business-trace-readout.js",
+      "sha256": "2568362642ab620808308147b674d8ebf61f9d0d98475efd87040d9208622236"
+    },
+    {
+      "path": "scripts/test-autofire-efference.js",
+      "sha256": "c2e04890dce28e3911c302c4f737401f60b5ffc63b02da472effa9bd029d1c9e"
+    },
+    {
+      "path": "scripts/test-continuity-feed-spine.cjs",
+      "sha256": "f2f38409d81404acf0c3283be9bea5ed0e4095f81a33581d0d3341de51617d89"
+    },
+    {
+      "path": "scripts/test-execution-observatory.cjs",
+      "sha256": "61fd528476f5673c4603077cc32f4767cd0c83cbfdc9b9d9b42feb6ca8bed625"
+    },
+    {
+      "path": "scripts/test-research-routing-provenance.cjs",
+      "sha256": "2b6a36ede1d3a2ebbcee78551f4c2dcc4b8e9bcd9c8e0e07136a4d354edeecd7"
+    }
+  ],
+  "protectedDiffEmpty": true,
+  "focused": {
+    "autofire": {
+      "passed": 12
+    },
+    "research": {
+      "passed": 18
+    },
+    "observatory": "PASS",
+    "nativeSpine": "PASS: corrected timestamp ordering, evidence regeneration exit 0",
+    "repositoryBootModules": 350,
+    "harness": "PASS"
+  },
+  "fullSuite": {
+    "prior": {
+      "passed": 377,
+      "skipped": 1,
+      "failed": 1,
+      "seconds": 296.6,
+      "exitCode": 1,
+      "failure": "pre-fix native-spine fixture decision timestamp tie"
+    },
+    "final": {
+      "status": "PASS",
+      "sessionId": 50337,
+      "passed": 378,
+      "skipped": 1,
+      "failed": 0,
+      "seconds": 268.9,
+      "exitCode": 0
+    }
+  },
+  "proofLimits": [
+    "No production provider or independent outcome proof",
+    "No revenue or returned learning proof",
+    "Source-domain cross-owner console view unproved",
+    "No source or domain brain edits"
+  ],
+  "testCorrection": "Active Science and source-domain fixture decisions now have distinct timestamps; avoids lexical-ID tie in latest record."
+}

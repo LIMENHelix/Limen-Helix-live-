@@ -243,8 +243,8 @@ async function handlerProof() {
   const fakeDb = strictStoreDouble();
   const fakeEfferenceStore = strictStoreDouble();
   function researchEntry(domain, suffix) {
-    const productDomain = domain === 'medicine' ? 'medicine' : 'science';
-    const ownerDomain = productDomain === 'medicine' ? 'health' : 'research';
+    const productDomain = domain;
+    const ownerDomain = { science: 'research', medicine: 'health', education: 'education', environment: 'environment' }[productDomain];
     const news = Array.from({ length: 4 }, (_, i) => ({
       date: new Date(1800000000000 - i * 1000).toISOString(),
       source: productDomain + ' feed ' + i,
@@ -440,6 +440,10 @@ async function handlerProof() {
       const held = await invoke(handler, request('GET', '/api/limen-worker-autofire'));
       ok(originDomain + ' paper asks the Science motor', productMotorCalls.length === beforeCalls + 1 && productMotorCalls[beforeCalls].productDomain === 'science');
       ok(originDomain + ' paper preserves its packet identity under Science hold', held.json.results[0].sourcePacketId === candidate.sourcePacketId && held.json.results[0].subjectId === candidate.subjectId);
+      const heldSelection = await fakeEfferenceStore.get('autofire_selection:' + held.json.results[0].selectionId);
+      ok(originDomain + ' paper retains durable observation-only routing to Science', heldSelection.routing &&
+        heldSelection.routing.originDomain === originDomain && heldSelection.routing.ownerDomain === 'research' &&
+        heldSelection.routing.sourcePacketId === candidate.sourcePacketId && heldSelection.routing.observationOnly === true);
       ok(originDomain + ' paper remains held and non-billable', held.json.results[0].reason === 'product-domain-research-motor-held' && held.json.results[0].billableAttempt === false);
       ok(originDomain + ' paper hold writes no command and makes no network request', network.length === 0 && Array.from(fakeEfferenceStore.values.keys()).filter(k => k.startsWith('autofire_efference:')).length === beforeCommands);
     }

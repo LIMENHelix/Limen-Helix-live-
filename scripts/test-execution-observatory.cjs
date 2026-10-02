@@ -119,8 +119,11 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/civilizati
   }
 });
 (async () => {
+  cognition.cognition.science.c.businessTrace.decision.originDomain = 'education';
   cognition.cognition.science.c.businessTrace.dispatchGate = { status: 'HELD', reason: 'domain-motor-receipt-missing', readAt: Date.now(), observationOnly: true };
   await window.LIMENExecutionObservatory.refresh();
+  var scienceOriginCard = el.innerHTML.split('<span class="exo-domain-name">science</span>')[1].split('</article>')[0];
+  assert.match(scienceOriginCard, /origin education/);
   assert.match(el.innerHTML, /EXTERNAL-READY/);
   ['science', 'medicine', 'education', 'environment'].forEach(function (domain) {
     var card = el.innerHTML.split('<span class="exo-domain-name">' + domain + '</span>')[1].split('</article>')[0];
