@@ -74,6 +74,9 @@ Extracted from Book I (full read, 6 parallel agents, 2026-06-09). The P0–P10 a
 - **Financial re-map (TENTATIVE):** divergence/separation under strain — a split, spin-off, restructuring that individuates (NOT collapse).
 
 ## P7b — DIVERGENCE  (THE BIFURCATION FORK)
+
+**Terminology scope (2026-10-02 reconciliation):** this source heading uses **P7b for the decision node**. In the existing implementation, **P7 is the parent phase and P7a/P7b are its outcome variants**: terminal deterioration versus recoverable separation. Read the decision-node mechanism below as the **P7 fork**, and the financial `7a`/`7b` labels as its outcome branches; neither branch is removed. The existing financial scores can decay and be recomputed, so a score reading is not an absorbing state or observed recovery of the post-separation unit. This scope note preserves the source wording and mechanism; it does not adopt an eight-quarter recovery horizon, change transition endpoints, or revise the frozen financial models.
+
 - **Meaning:** a **decision node** — reintegration (→P8) OR terminal disorganization (entropic drift / absorbing state). "The inflection between survival and collapse."
 - **Math:** **cusp catastrophe / saddle-node** — two basins (re-coupling attractor vs **absorbing state**). Control parameter = **precision weighting** (top-down integration vs bottom-up chaos).
 - **Critical detector trap:** **entropy masked as flat regulation** — terminal drift mistaken for calm rest.
