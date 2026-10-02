@@ -450,6 +450,37 @@ sb.LIMENDomains = fixtures;
           sourcePacketId: packet.packetId, immuneRoute: crmTrace.decision.immuneRoute, status: crmSelected.status,
           candidateDerivedFromGenericOpportunity: false, evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false };
       }
+      if (row[0] === 'intelligence') {
+        var intelDecision = require('../lib/intelligence-autopilot-decision.js'), intelAt = Date.parse(packet.generatedAt);
+        var intelCognition = { ts: intelAt, c: Object.assign({}, JSON.parse(JSON.stringify(brain.state.cognition)), {
+          domain: 'intelligence', serverPacket: packet, brainOrgans: { resourceMetabolism: brain.state.resourceMetabolism,
+            autonomousInternalEmission: brain.state.domainAutoEmission || null }
+        }) };
+        // Separate identified typed intake: generic native opportunities above remain refused.
+        var intelCandidate = intelDecision.candidate({ leadId: 'LOCAL/FIXTURE:consented-lead', email: 'local-fixture@example.invalid',
+          domain: 'intelligence', consent: true }, { kind: 'outreach', channel: 'email', transition: 'leads>appointments' },
+          { subject: 'Identified LOCAL fixture message', body: 'LOCAL/FIXTURE typed email content; never sent.' });
+        assert(intelDecision.validateCandidate(intelCandidate));
+        var intelLists = new Map();
+        var intelStore = Object.assign({}, store, { assertDurable: function () {}, setIfAbsent: store.setNx,
+          set: async function (key, value) { values.set(key, JSON.parse(JSON.stringify(value))); return true; },
+          lpush: async function (key, value) { var rows = intelLists.get(key) || []; rows.unshift(JSON.parse(JSON.stringify(value))); intelLists.set(key, rows); return rows.length; },
+          lrange: async function (key, start, end) { return JSON.parse(JSON.stringify((intelLists.get(key) || []).slice(start, end + 1))); },
+          ltrim: async function (key, start, end) { intelLists.set(key, (intelLists.get(key) || []).slice(start, end + 1)); return true; }
+        });
+        var intelSelected = await intelDecision.decide(intelStore, intelCandidate, intelAt, { cognition: { intelligence: intelCognition } });
+        assert.equal(intelSelected.status, 'NO_ACTION');
+        assert.equal(intelSelected.intelligencePacketId, packet.packetId);
+        assert(['HOLD', 'QUARANTINE', 'REJECT'].includes(intelSelected.immuneRouting.route));
+        assert.deepEqual(await intelStore.get(intelDecision.key(intelSelected.decisionReceiptId)), intelSelected);
+        var intelTrace = await require('../lib/product-domain-business-trace-readout.js').read(intelStore, 'intelligence', intelAt + 1);
+        assert.equal(intelTrace.status, 'RECORDED');
+        assert.equal(intelTrace.decision.immuneRoute, intelSelected.immuneRouting.route);
+        assert.equal(intelTrace.command, null); assert.equal(intelTrace.externalActionAuthorized, false);
+        primaryIntakeBoundary.typedFixtureIntake = { candidateId: intelSelected.actionId, decisionId: intelSelected.decisionReceiptId,
+          sourcePacketId: packet.packetId, immuneRoute: intelTrace.decision.immuneRoute, status: intelSelected.status,
+          candidateDerivedFromGenericOpportunity: false, consentEvidenceLevel: 'LOCAL/FIXTURE', evidenceLevel: 'LOCAL/FIXTURE', providerCalled: false };
+      }
       if (['economy', 'energy', 'technology'].includes(row[0])) {
         var investmentDecision = require('../lib/' + row[0] + '-investment-decision.js');
         var beforeInvestmentIntake = JSON.stringify(Array.from(values));
