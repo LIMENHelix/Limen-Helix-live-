@@ -1,0 +1,25 @@
+# Domain stress rollback and scoring trace — October 2, 2026
+
+The owner rejected uniform 30% domain stress and requested previous behavior and a scoring trace. The identical values in the displayed browser verification came from `C:/Users/Chris/Downloads/verify-thing2-decision-vitals-20261002.cjs:9`, which assigned `stress:.3` and `brainStress:.3` to every synthetic card. That fixture was not application data or a live domain observation. Presenting its screenshot without a prominent synthetic-input label was misleading.
+
+The uncommitted decision/vitals batch was reversed before any application commit or push. The latest committed adapter dynamics at 6c7ec372 are also restored to preceding a4613736 behavior at the owner's request. Its two dependent tests are removed from the active suite. Historical 6c7ec372 audit artifacts remain intact and are superseded by this rollback record; their earlier pass results do not establish current installation or owner acceptance. No further formula rollout is authorized by this checkpoint.
+
+Native domain brains, the domain snapshot handler, signal engine, vitals renderer and Thing1 are unchanged. The rollback does not change production configuration, merge main or invoke a provider.
+
+## Existing scoring paths
+
+1. `handlers/domain-snapshot.js:1632` constructs each domain from its separately selected source array. Real stress drivers are deduplicated by name. Baseline stress is their arithmetic mean, not one common value for all domains. Without stress drivers, activity is mapped to a capped fallback; absent all live sources, a clock-derived simulated value is explicitly marked.
+2. The snapshot builder applies cluster supplementation, reused-source and low-signal caps, and an additive event layer. The 0.3 low-signal ceiling is an existing guard, not a domain measurement. `stressBasis` distinguishes measured, clamped, activity-fallback and simulated results; `stressUsable` is true only for measured results. These pre-existing rules need separate assessment before any proposed change.
+3. `assets/js/domain-signal-engine.js:1757` normalizes a domain's own snapshot. Domain-specific factors/ceilings and structural exceptions precede per-domain baseline deviation and persistence adjustments. This maintains separate state under each domain key. On read failure it has a separate observer-based fallback; that fallback is not measured feed stress.
+4. `assets/js/domain-brains/domain-brain-base.js:647` copies that brain's `_rawDomain.stress` from its own snapshot and adds received external pressure, clamped to [0,1]. Incoming pressure is the mean of decayed received signal magnitudes, capped at 0.3; 0.3 is a pressure ceiling, not the brain's assigned stress. Energy, Technology, Infrastructure and Finance override this method for their existing domain-specific behavior; the other sixteen inherit it. The formulas' shared structure does not make their inputs or outputs identical.
+5. Technology and Infrastructure retain condition-triggered stress floors. Energy retains its learned afferent weighting and bounded operator request bias. Finance retains current-cycle stress-derived flags. Their brain files were not changed by the recent adapter work or this rollback.
+6. `assets/js/domain-brain-adapter.js` copies the native value into `brainStress`. `assets/js/ui/clarity-vitals.js:34` prefers signal-engine `d.stress` when numeric, then `d.brainStress`, then zero. Thus the card may show normalized sector stress while the native brain has additionally integrated afferent pressure. This source precedence is documented here, not silently changed.
+7. The Thing2 phase adapter interprets stress into provisional phase annotations. It does not write the underlying `d.stress` value. Phase inference, stress measurement and anatomical role remain separate concepts.
+
+## Verification and limits
+
+The controlled probe exercises the actual signal engine with twenty distinct synthetic feed inputs and obtains twenty distinct normalized outputs. Actual native base scoring gives 0.12+0=0.12, 0.44+0.05=0.49 and 0.81+0.10=0.91. These are functional checks, not current live domain percentages. Twenty-four source files (all twenty native brains plus base, snapshot handler, signal engine and vitals) are byte-identical after line-ending normalization to 0e2c49d6, before the recent shared adapter batches.
+
+The owner subsequently reported that the domains are no longer all 30%. No current live percentage is invented here. The next engineering work is to trace each reported stress value back to its dated source components, distinguish measured values from ceilings/fallbacks, and decide which existing stress source each surface should show. Do not resume changing formulas on the strength of the synthetic card screenshot.
+
+The rollback regression run finished with 387 passed, one external-corpus prerequisite skip and zero failures in 298.2 seconds. The repository check passed. The two restored runtime adapters match a4613736 exactly. Rollback commit: 4c418b74.

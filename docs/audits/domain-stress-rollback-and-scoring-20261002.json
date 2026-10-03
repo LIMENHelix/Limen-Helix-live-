@@ -1,0 +1,695 @@
+{
+  "status": "PASS",
+  "fixtureOnly": true,
+  "networkRequests": 0,
+  "productionObservations": false,
+  "explanation": "Controlled distinct input values exercise actual scoring code; outputs are not live domain readings",
+  "signalEngineRows": [
+    {
+      "domain": "economy",
+      "input": 0.04,
+      "normalized": 0.04,
+      "reason": "passthrough"
+    },
+    {
+      "domain": "energy",
+      "input": 0.08,
+      "normalized": 0.08,
+      "reason": "passthrough"
+    },
+    {
+      "domain": "environment",
+      "input": 0.12,
+      "normalized": 0.12,
+      "reason": "passthrough"
+    },
+    {
+      "domain": "health",
+      "input": 0.16,
+      "normalized": 0.064,
+      "reason": "volume-dampened: cumulative event count"
+    },
+    {
+      "domain": "technology",
+      "input": 0.2,
+      "normalized": 0.11,
+      "reason": "adoption-velocity-dampened: patent/arxiv/GitHub churn inflates commodity signal noise"
+    },
+    {
+      "domain": "research",
+      "input": 0.24,
+      "normalized": 0.24,
+      "reason": "passthrough"
+    },
+    {
+      "domain": "supplyChain",
+      "input": 0.28,
+      "normalized": 0.28,
+      "reason": "passthrough"
+    },
+    {
+      "domain": "governance",
+      "input": 0.32,
+      "normalized": 0.176,
+      "reason": "tone-dampened: negative tone bias"
+    },
+    {
+      "domain": "infrastructure",
+      "input": 0.36,
+      "normalized": 0.18,
+      "reason": "cyber-dampened: embedded system CVE churn does not indicate compromise; construction-index-dampened: baseline volatility"
+    },
+    {
+      "domain": "agriculture",
+      "input": 0.4,
+      "normalized": 0.4,
+      "reason": "passthrough"
+    },
+    {
+      "domain": "industry",
+      "input": 0.44,
+      "normalized": 0.44,
+      "reason": "passthrough"
+    },
+    {
+      "domain": "education",
+      "input": 0.48,
+      "normalized": 0.48,
+      "reason": "passthrough"
+    },
+    {
+      "domain": "communication",
+      "input": 0.52,
+      "normalized": 0.234,
+      "reason": "volume-dampened: headline count"
+    },
+    {
+      "domain": "culture",
+      "input": 0.56,
+      "normalized": 0.56,
+      "reason": "passthrough"
+    },
+    {
+      "domain": "defense",
+      "input": 0.6,
+      "normalized": 0.6,
+      "reason": "passthrough"
+    },
+    {
+      "domain": "religion",
+      "input": 0.64,
+      "normalized": 0.352,
+      "reason": "tone-dampened: faith/affiliation/interfaith narrative feeds carry survey-revision lag and negative-tone bias; real religion constraints (persecution surge, sectarian-violence escalation, institutional-legitimacy collapse, disaffiliation acceleration) bypass dampening"
+    },
+    {
+      "domain": "population",
+      "input": 0.68,
+      "normalized": 0.34,
+      "reason": "demographic-signal-dampened: Census/ACS/BLS reporting lag and seasonal volatility in birth/fertility/migration counts does not indicate structural demographic shift; real demographic constraints (below-replacement fertility, aging-dependency spike, prime-age employment collapse) bypass dampening"
+    },
+    {
+      "domain": "law",
+      "input": 0.72,
+      "normalized": 0.252,
+      "reason": "volume-dampened: rule/regulation count"
+    },
+    {
+      "domain": "finance",
+      "input": 0.76,
+      "normalized": 0.456,
+      "reason": "volatility-dampened: common market moves"
+    },
+    {
+      "domain": "intelligence",
+      "input": 0.8,
+      "normalized": 0.8,
+      "reason": "passthrough"
+    }
+  ],
+  "nativeBase": [
+    {
+      "input": 0.12,
+      "pressure": 0,
+      "output": 0.12
+    },
+    {
+      "input": 0.44,
+      "pressure": 0.05,
+      "output": 0.49
+    },
+    {
+      "input": 0.81,
+      "pressure": 0.1,
+      "output": 0.91
+    }
+  ],
+  "protectedFiles": [
+    {
+      "file": "assets/js/domain-signal-engine.js",
+      "sha256": "48ad0653b1c07625ddbd2a6a3143317afb96a05a1afdffd7e2be7aaa8d3891cf",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/domain-brain-base.js",
+      "sha256": "e076a110b04cafee408e0ed20fd4bf72505fea9382751e1f407cdf08f24a02bf",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/ui/clarity-vitals.js",
+      "sha256": "84d1e4012dc5219d91f14a3940c1c5bf4955da4aec4dfe08a307e5090caf55e1",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "handlers/domain-snapshot.js",
+      "sha256": "765be840968dbfd6a61e00fe24ccd60cc4ca7e51b4856963c7007ff6fe2d3821",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/economy-brain.js",
+      "sha256": "ad686d9d3d34e4b174bc8982b9451d6566f0d89cb8e33becc442a0f24e2cffe1",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/energy-brain.js",
+      "sha256": "b0ff3121f301cb9becf22633b0cfe68a916f1e790ab49641be5e5d452784dc9b",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/environment-brain.js",
+      "sha256": "18463d283d0b1cf1077320fa8dc1e14f806ff0da760f7bc707ef29fa01f76384",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/medicine-brain.js",
+      "sha256": "742bd333189a5769ef2ae00dcc57e9dfbd260a736dbea9eb78192f6db9c89853",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/technology-brain.js",
+      "sha256": "9935677a84d388d8bde521c6dccc7a62a8e0236d63db48c422b3b55a0be36ac0",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/science-brain.js",
+      "sha256": "6965b443fd628bf5814db3ca0b900bb460ceff21d31c99439544f5021c1f27df",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/trade-brain.js",
+      "sha256": "9a3bdb4d985d3eddd88c1d73c517fde6fea09ba03e9544f2031bb3ca77a114ca",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/governance-brain.js",
+      "sha256": "a3149900f85a1a162fb2cf9c2eeb3a13e1b7977390368d14becc40425de94bde",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/infrastructure-brain.js",
+      "sha256": "34c678894e42268c61616ec90e2894f20cc27780bd17d6c4222694f2234f2814",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/agriculture-brain.js",
+      "sha256": "1bdf3dbd7d6de4feefd9bc067721e4dc84bc3e449c42d660621ef3283860d721",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/industry-brain.js",
+      "sha256": "2d5a72241e36261680e3fb1a7203b7563d0f45e575034d77c5883f0fbb43a0a4",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/education-brain.js",
+      "sha256": "e0978fd1f18dae286a9cdbf8b99eaff13c4d9394512d7da8f300be8e679a7013",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/communication-brain.js",
+      "sha256": "cef785f2cb3ad4d9107872c81268a117fa1f125261ae63d92b8b3b5cccb0a1f9",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/culture-brain.js",
+      "sha256": "de91d737a2c15d01851b26434ac2cf4679e1f3be2d6cd55b1d8bdb63ceb29a4c",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/defense-brain.js",
+      "sha256": "2fcdffb68c65d787483d0efb280ca76c3e6c991a707dedd1e56d51895c19b3e3",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/religion-brain.js",
+      "sha256": "ab1a88c29ea2ec2469050481af697d115df0997499d176e197ecb975ed5133a8",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/population-brain.js",
+      "sha256": "ee74ca3e9a245c7155a489eb342eb9172eaaf700a72c93c0606d423a337669c1",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/law-brain.js",
+      "sha256": "c5fd9de311b27f099be3fb55cc71dca4e885f79de0d7c182c1a3c16d759f7a89",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/finance-brain.js",
+      "sha256": "08fa3036c7120480057ee64d37f8a9320d3d37ac9773510d5775ed0219df901d",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "assets/js/domain-brains/intelligence-brain.js",
+      "sha256": "aca54a81096abd5cbaac6ee0f303da0f887981c05ffe08e824d1557d3fdb72bf",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "python_runtime/helix_app/thing1/limen_backtest.py",
+      "sha256": "d52a1e2067309fa0efcb88bb2dc43710cad9ab9b31d1a406456ebbb3c30fbed9",
+      "unchangedVs": "0e2c49d6"
+    },
+    {
+      "file": "lib/immune-routing-contract.js",
+      "sha256": "b9234ef21e433ea5499930698b15e9ca745bf4f6e1cf8edd17970571df61b58d",
+      "unchangedVs": "0e2c49d6"
+    }
+  ],
+  "uniformThirtyOrigin": "Downloads/verify-thing2-decision-vitals-20261002.cjs line9 sets stress:.3 and brainStress:.3 for every test card; not a runtime file",
+  "baseSha": "6c7ec372ba90e95ae6cf252ac48a058c7c99f12a",
+  "rollbackOf": "6c7ec372ba90e95ae6cf252ac48a058c7c99f12a",
+  "restoredRuntimeFrom": "a46137360cf45a62fc3d5b453cb27c73c57d1b2c",
+  "domainSourceSelections": [
+    {
+      "domain": "environment",
+      "line": 901,
+      "sourceExpressions": [
+        "src('NOAA Climate', byKey('NOAAClimate'))",
+        "src('NOAA Alerts', byKey('NOAAAlerts'))",
+        "src('EPA News', byKey('EPANews'))",
+        "src('USGS News', byKey('USGSNews'))",
+        "src('Global Forest Watch', byKey('GlobalForestWatchNews'))",
+        "src('IUCN Red List', byKey('IUCNNews'))",
+        "src('Inside Climate News', byKey('InsideClimateNews'))",
+        "src('USGS Earthquakes', byKey('USGSEarthquakes'))",
+        "src('Fed Reg EPA', byKey('FedRegEPA'))",
+        "src('Fed Reg Interior', byKey('FedRegInterior'))"
+      ]
+    },
+    {
+      "domain": "technology",
+      "line": 926,
+      "sourceExpressions": [
+        "src('USPTO Patents', byKey('Patents'))",
+        "src('arXiv CS', byKey('ArXivCS'))",
+        "src('CISA KEV', byKey('CISAKEV'))",
+        "src('NVD Recent CVEs', byKey('NVDRecent'))",
+        "src('Krebs Security', byKey('KrebsSecurity'))",
+        "src('Hacker News', byKey('HackerNews'))",
+        "src('GitHub Security Advisories', byKey('GitHubSecurityAdvisories'))",
+        "src('Fed Reg FCC', byKey('FedRegFCC'))",
+        "src('Fed Reg NIST', byKey('FedRegNIST'))",
+        "src('Fed Reg FTC', byKey('FedRegFTC'))"
+      ]
+    },
+    {
+      "domain": "economy",
+      "line": 947,
+      "sourceExpressions": [
+        "src('FRED CPI', byKey('FRED'))",
+        "src('BLS Employment', byKey('BLS'))",
+        "src('FRED Gas Price', byKey('FREDGasPrice'))",
+        "src('FRED Food CPI', byKey('FREDFoodCPI'))",
+        "src('FRED Consumer Sentiment', byKey('FREDConsumerSentiment'))",
+        "src('Treasury MTS', byKey('TreasuryMTS'))",
+        "src('Treasury Cash Balance', byKey('TreasuryOperatingCash'))",
+        "src('Treasury Debt Outstanding', byKey('TreasuryDebtOutstanding'))",
+        "src('Fed Monetary Press', byKey('FedMonetaryPress'))",
+        "src('Fed Reg Fed Reserve', byKey('FedRegFedReserve'))",
+        "src('Fed Reg Treasury', byKey('FedRegTreasury'))",
+        "src('Fed Reg IRS', byKey('FedRegIRS'))",
+        "src('NY Fed EFFR', byKey('NYFedEFFR'))",
+        "src('World Bank GDP Growth', byKey('WorldBankGDPGrowth'))",
+        "src('World Bank Inflation', byKey('WorldBankInflation'))"
+      ]
+    },
+    {
+      "domain": "energy",
+      "line": 964,
+      "sourceExpressions": [
+        "src('Massive Crude Oil', byKey('MassiveCrudeOil'))",
+        "src('FRED Crude Oil', byKey('FREDEnergy'))",
+        "src('EIA Petroleum', byKey('EIA'))",
+        "src('Grid Reliability (FERC/NERC)', byKey('GridReliabilityNews'))",
+        "src('EIA Natural Gas Weekly', byKey('EIANaturalGas'))",
+        "src('EIA Weekly Petroleum Status', byKey('EIAWeeklyPetroleum'))",
+        "src('OPEC Reference Basket', byKey('OPECBasket'))",
+        "src('Nuclear Energy News', byKey('NuclearEnergyNews'))",
+        "src('EIA Electricity Monthly', byKey('EIAElectricity'))",
+        "src('NOAA NWS Alerts', byKey('NOAANWSAlerts'))",
+        "src('CISA KEV', byKey('CISAKEV_2'))",
+        "src('Fed Reg NRC', byKey('FedRegNRC'))",
+        "src('Fed Reg DOE', byKey('FedRegDOE'))",
+        "src('LNG Market News', byKey('LNGMarketNews'))",
+        "src('IEA Energy News', byKey('IEANews'))",
+        "src('Solar Industry News', byKey('SolarIndustryNews'))",
+        "src('Wind Energy News', byKey('WindEnergyNews'))",
+        "src('Coal Transition News', byKey('CoalTransitionNews'))"
+      ]
+    },
+    {
+      "domain": "health",
+      "line": 989,
+      "sourceExpressions": [
+        "src('openFDA Events', byKey('FDAEvents'))",
+        "src('openFDA Recalls', byKey('FDARecalls'))",
+        "src('CDC MMWR', byKey('CDCMMWR'))",
+        "src('WHO Disease Outbreak', byKey('WHODiseaseOutbreak'))",
+        "src('FDA Drug Shortages', byKey('FDADrugShortages'))",
+        "src('ClinicalTrials.gov', byKey('ClinicalTrials'))",
+        "src('PubMed', byKey('PubMed'))",
+        "src('NIH Grants', byKey('NIHGrants'))",
+        "src('Retraction Watch', byKey('RetractionWatch'))",
+        "src('FDA Recalls', byKey('FDARecalls_2'))",
+        "src('Fed Reg HHS', byKey('FedRegHHS'))",
+        "src('Fed Reg CDC', byKey('FedRegCDC'))",
+        "src('Fed Reg CMS', byKey('FedRegCMS'))",
+        "src('Fed Reg NIH', byKey('FedRegNIH'))",
+        "src('Fed Reg FDA', byKey('FedRegFDA'))"
+      ]
+    },
+    {
+      "domain": "research",
+      "line": 1017,
+      "sourceExpressions": [
+        "src('PubMed', byKey('PubMed'))",
+        "src('arXiv All', byKey('ArXivAll'))",
+        "src('NSF Awards', byKey('NSFAwards'))",
+        "src('Retraction Watch', byKey('RetractionWatch'))",
+        "src('NIH Grants', byKey('NIHGrants'))",
+        "src('Nature / Science Press', byKey('NatureScience'))",
+        "src('arXiv CS', byKey('ArXivCS'))",
+        "src('OpenAlex Institutions', byKey('OpenAlex'))",
+        "src('Fed Reg PTO', byKey('FedRegPTO'))",
+        "src('Fed Reg NSF', byKey('FedRegNSF'))",
+        "src('Fed Reg Education', byKey('FedRegEducation'))",
+        "src('Fed Reg NASA', byKey('FedRegNASA'))",
+        "src('Fed Reg Smithsonian', byKey('FedRegSmithsonian'))",
+        "src('Fed Reg DOE', byKey('FedRegDOE'))",
+        "src('World Bank R&D', byKey('WorldBankRD'))"
+      ]
+    },
+    {
+      "domain": "supplyChain",
+      "line": 1039,
+      "sourceExpressions": [
+        "src('BLS Freight PPI', byKey('BLSFreight'))",
+        "src('RSS Supply Chain', byKey('RSSSupplyChain'))",
+        "src('World Bank Logistics Index', byKey('WBLogisticsLPI'))",
+        "src('NOAA NWS Alerts', byKey('NOAANWSAlerts'))",
+        "src('USGS Earthquakes', byKey('USGSEarthquakes'))",
+        "src('CISA KEV', byKey('CISAKEV_2'))",
+        "src('Fed Reg CBP', byKey('FedRegCBP'))",
+        "src('Fed Reg Coast Guard', byKey('FedRegCoastGuard'))",
+        "src('Fed Reg FAA', byKey('FedRegFAA'))",
+        "src('Fed Reg NHTSA', byKey('FedRegNHTSA'))",
+        "src('Fed Reg FMCSA', byKey('FedRegFMCSA'))",
+        "src('Fed Reg USTR', byKey('FedRegUSTR'))",
+        "src('OFAC Recent Actions', byKey('OFACRecentActions'))"
+      ]
+    },
+    {
+      "domain": "governance",
+      "line": 1054,
+      "sourceExpressions": [
+        "src('World Bank Governance', byKey('WorldBankGovernance'))",
+        "src('World Bank Gov Effectiveness', byKey('WBGovEffectiveness'))",
+        "src('World Bank Rule of Law', byKey('WBRuleOfLaw'))",
+        "src('GovTrack', byKey('GovTrack'))",
+        "src('Congress.gov', byKey('CongressGov'))",
+        "src('GAO Reports', byKey('GAOReports'))",
+        "src('CBO Publications', byKey('CBOPublications'))",
+        "src('OMB Releases', byKey('OMBReleases'))",
+        "src('Brennan Center', byKey('BrennanCenter'))",
+        "src('POGO', byKey('POGO'))",
+        "src('Fed Reg EOP', byKey('FedRegEOP'))",
+        "src('CISA KEV', byKey('CISAKEV_2'))"
+      ]
+    },
+    {
+      "domain": "infrastructure",
+      "line": 1073,
+      "sourceExpressions": [
+        "src('FRED Construction Spending', byKey('FREDConstructionSpending'))",
+        "src('FRED Transportation Index', byKey('FREDTransportationIndex'))",
+        "src('PHMSA Incidents', byKey('PHMSAIncidents'))",
+        "src('FRED Federal Investment', byKey('FREDFederalInvestment'))",
+        "src('World Bank Logistics Index', byKey('WBLogisticsLPI'))",
+        "src('World Bank Infrastructure', byKey('WorldBankInfra'))",
+        "src('NOAA NWS Alerts', byKey('NOAANWSAlerts'))",
+        "src('USGS Earthquakes', byKey('USGSEarthquakes'))",
+        "src('CISA KEV', byKey('CISAKEV_2'))",
+        "src('CISA Advisories', byKey('CISAAdvisories'))",
+        "src('UAW Strike Tracker', byKey('UAWStrikeTracker'))",
+        "src('Fed Reg OSHA', byKey('FedRegOSHA'))",
+        "src('Fed Reg DOL', byKey('FedRegDOL'))",
+        "src('Fed Reg FERC', byKey('FedRegFERC'))",
+        "src('Fed Reg DHS', byKey('FedRegDHS'))",
+        "src('Fed Reg DOT', byKey('FedRegDOT'))",
+        "src('Fed Reg HUD', byKey('FedRegHUD'))",
+        "src('Fed Reg Army Corps', byKey('FedRegArmyCorps'))"
+      ]
+    },
+    {
+      "domain": "agriculture",
+      "line": 1109,
+      "sourceExpressions": [
+        "src('USDA NASS', byKey('USDA'))",
+        "src('RSS Agriculture', byKey('RSSAgriculture'))",
+        "src('FAO FAOSTAT', byKey('FAO'))",
+        "src('USDA Drought Monitor', byKey('USDADroughtMonitor'))",
+        "src('NOAA CPC Drought', byKey('NOAACPCDrought'))",
+        "src('NOAA NWS Ag Alerts', byKey('NOAANWSAgAlerts'))",
+        "src('FDA Recalls', byKey('FDARecalls_2'))",
+        "src('Fed Reg USDA', byKey('FedRegUSDA'))",
+        "src('Fed Reg FDA', byKey('FedRegFDA'))",
+        "src('Fed Reg EPA', byKey('FedRegEPA'))",
+        "src('Fed Reg APHIS', byKey('FedRegAPHIS'))",
+        "src('Fed Reg FSIS', byKey('FedRegFSIS'))",
+        "src('World Bank Food Index', byKey('WorldBankFoodIndex'))"
+      ]
+    },
+    {
+      "domain": "industry",
+      "line": 1124,
+      "sourceExpressions": [
+        "src('BLS Manufacturing PPI', byKey('BLSManufacturing'))",
+        "src('NHTSA Recalls', byKey('NHTSARecalls'))",
+        "src('World Bank Manufacturing', byKey('WBManufacturing'))",
+        "src('CPSC Recalls', byKey('CPSCRecalls'))",
+        "src('PHMSA Incidents', byKey('PHMSAIncidents'))",
+        "src('CSB Investigations', byKey('CSBInvestigations'))",
+        "src('UAW Strike Tracker', byKey('UAWStrikeTracker'))",
+        "src('Fed Reg OSHA', byKey('FedRegOSHA'))",
+        "src('Fed Reg MSHA', byKey('FedRegMSHA'))",
+        "src('Fed Reg BIS', byKey('FedRegBIS'))",
+        "src('Fed Reg DOL', byKey('FedRegDOL'))"
+      ]
+    },
+    {
+      "domain": "education",
+      "line": 1137,
+      "sourceExpressions": [
+        "src('World Bank Education', byKey('WorldBankEducation'))",
+        "src('OpenAlex Institutions', byKey('OpenAlex'))",
+        "src('ED.gov News', byKey('EDGovNews'))",
+        "src('NCES News', byKey('NCESNews'))",
+        "src('EdWeek News', byKey('EdWeekNews'))",
+        "src('IES News', byKey('IESNews'))",
+        "src('Chronicle of Higher Ed', byKey('ChronicleHigherEd'))",
+        "src('Fed Reg Education', byKey('FedRegEducation'))",
+        "src('Fed Reg NSF', byKey('FedRegNSF'))",
+        "src('World Bank Tertiary', byKey('WorldBankTertiary'))"
+      ]
+    },
+    {
+      "domain": "communication",
+      "line": 1153,
+      "sourceExpressions": [
+        "src('BBC World News', byKey('BBCWorldNews'))",
+        "src('World Bank Internet Users', byKey('WBInternetUsers'))",
+        "src('RSS Media', byKey('RSSMedia'))",
+        "src('Reporters Without Borders', byKey('RSF'))",
+        "src('CPJ Press Freedom', byKey('CPJ'))",
+        "src('Snopes Fact Checks', byKey('Snopes'))",
+        "src('Poynter Media News', byKey('Poynter'))",
+        "src('Nieman Lab', byKey('NiemanLab'))",
+        "src('Fed Reg FCC', byKey('FedRegFCC'))",
+        "src('Fed Reg FTC', byKey('FedRegFTC'))",
+        "src('CISA Advisories', byKey('CISAAdvisories'))"
+      ]
+    },
+    {
+      "domain": "culture",
+      "line": 1168,
+      "sourceExpressions": [
+        "src('Event Registry', byKey('EventRegistryCulture'))",
+        "src('RSS Culture', byKey('RSSCulture'))",
+        "src('NEA News', byKey('NEANews'))",
+        "src('NEH News', byKey('NEHNews'))",
+        "src('UNESCO Culture', byKey('UNESCOCulture'))",
+        "src('PEN America', byKey('PENAmerica'))",
+        "src('Art Newspaper', byKey('ArtNewspaper'))",
+        "src('Variety Entertainment', byKey('Variety'))",
+        "src('Hypebeast Trends', byKey('Hypebeast'))",
+        "src('Pitchfork Music', byKey('Pitchfork'))",
+        "src('Spotify Streaming Charts', byKey('SpotifyCharts'))",
+        "src('Billboard Charts', byKey('BillboardCharts'))",
+        "src('Genius Commentary', byKey('GeniusCommentary'))",
+        "src('Songkick Tours', byKey('SongkickTours'))",
+        "src('SoundCloud Emerging', byKey('SoundcloudEmerging'))",
+        "src('Music Scene Discourse', byKey('MusicSceneDiscourse'))"
+      ]
+    },
+    {
+      "domain": "defense",
+      "line": 1186,
+      "sourceExpressions": [
+        "src('Defense News', byKey('DefenseNews'))",
+        "src('Breaking Defense', byKey('BreakingDefense'))",
+        "src('ISW Daily Updates', byKey('ISW'))",
+        "src('NATO News', byKey('NATONews'))",
+        "src('SIPRI Arms Trade', byKey('SIPRI'))",
+        "src('TASS (Russia)', byKey('TASS'))",
+        "src('Xinhua (China)', byKey('Xinhua'))",
+        "src('Fed Reg DoD', byKey('FedRegDoD'))",
+        "src('Fed Reg State', byKey('FedRegStateDept'))",
+        "src('Fed Reg DHS', byKey('FedRegDHS'))",
+        "src('CISA KEV', byKey('CISAKEV_2'))",
+        "src('CISA Advisories', byKey('CISAAdvisories'))",
+        "src('NOAA NWS Alerts', byKey('NOAANWSAlerts'))",
+        "src('USGS Earthquakes', byKey('USGSEarthquakes'))",
+        "src('OFAC Recent Actions', byKey('OFACRecentActions'))"
+      ]
+    },
+    {
+      "domain": "religion",
+      "line": 1210,
+      "sourceExpressions": [
+        "src('RSS Religion Events', byKey('RSSReligionEvents'))",
+        "src('RSS Religion News', byKey('RSSReligion'))",
+        "src('Vatican News', byKey('VaticanNews'))",
+        "src('Al Jazeera Religion', byKey('AlJazeeraReligion'))",
+        "src('Christianity Today', byKey('ChristianityToday'))",
+        "src('Religion News Service', byKey('ReligionNewsService'))",
+        "src('USCIRF', byKey('USCIRF'))",
+        "src('Pew Religion', byKey('PewReligion'))",
+        "src('Times of Israel Religion', byKey('TimesOfIsraelReligion'))",
+        "src('Hindustan Times Religion', byKey('HindustanTimesReligion'))",
+        "src('BuddhistDoor Global', byKey('BuddhistDoorGlobal'))",
+        "src('SikhNet News', byKey('SikhNetNews'))",
+        "src('Orthodox Christianity', byKey('OrthodoxChristianity'))",
+        "src('JTA Jewish News', byKey('JewishTelegraphicAgency'))",
+        "src('Esoteric Spirituality', byKey('EsotericSpirituality'))",
+        "src('Eurostat Asylum Mix', byKey('EurostatAsylum'))"
+      ]
+    },
+    {
+      "domain": "population",
+      "line": 1234,
+      "sourceExpressions": [
+        "src('World Bank Population', byKey('WorldBankPopulation'))",
+        "src('UN Population', byKey('UNPopulation'))",
+        "src('UNFPA', byKey('UNFPA'))",
+        "src('CDC NCHS', byKey('CDCNCHS'))",
+        "src('WHO GHO', byKey('WHOGHO'))",
+        "src('UNHCR Displacement', byKey('UNHCRDisplacement'))",
+        "src('IOM Migration', byKey('IOMmigration'))",
+        "src('IHME Population Health', byKey('IHMEPopHealth'))",
+        "src('Guttmacher Institute', byKey('GuttmacherInstitute'))",
+        "src('Census Bureau', byKey('CensusBureau'))",
+        "src('Our World in Data Pop', byKey('OurWorldInDataPop'))",
+        "src('Population Matters', byKey('PopulationMatters'))",
+        "src('World Bank Fertility', byKey('WorldBankFertility'))",
+        "src('Fed Reg Census', byKey('FedRegCensus'))",
+        "src('Fed Reg SSA', byKey('FedRegSSA'))"
+      ]
+    },
+    {
+      "domain": "law",
+      "line": 1253,
+      "sourceExpressions": [
+        "src('Federal Register', byKey('FederalRegister'))",
+        "src('Regulations.gov', byKey('RegulationsGov'))",
+        "src('CourtListener', byKey('CourtListener'))",
+        "src('PACER Docket Activity', byKey('PACERDocket'))",
+        "src('DOJ Press Releases', byKey('DOJPressReleases'))",
+        "src('SEC Enforcement Actions', byKey('SECEnforcement'))",
+        "src('CFPB Enforcement', byKey('CFPBEnforcement'))",
+        "src('U.S. Courts Federal Caseload', byKey('USCourtsFederalCaseload'))",
+        "src('HHS AFCARS Family Court', byKey('AFCARSFamilyCourt'))",
+        "src('Supreme Court Opinions', byKey('SCOTUSOpinions'))",
+        "src('Fed Reg DOJ', byKey('FedRegDOJ'))",
+        "src('Fed Reg DEA', byKey('FedRegDEA'))",
+        "src('Fed Reg BOP', byKey('FedRegBOP'))",
+        "src('OFAC Recent Actions', byKey('OFACRecentActions'))",
+        "src('CISA KEV', byKey('CISAKEV_2'))"
+      ]
+    },
+    {
+      "domain": "finance",
+      "line": 1274,
+      "sourceExpressions": [
+        "src('Massive SPY', byKey('MassiveSPY'))",
+        "src('Finnhub Market', byKey('Finnhub'))",
+        "src('Alpha Vantage Market', byKey('AlphaVantage'))",
+        "src('SEC EDGAR Filings', byKey('SECEDGARCurrent'))",
+        "src('Treasury Yield Curve', byKey('TreasuryYieldCurve'))",
+        "src('Treasury Debt', byKey('TreasuryDebt'))",
+        "src('Fed H.4.1 Balance Sheet', byKey('FedH41'))",
+        "src('FDIC Bank Failures', byKey('FDICBankFailures'))",
+        "src('OCC Enforcement', byKey('OCCEnforcement'))",
+        "src('CFTC Press', byKey('CFTCPress'))",
+        "src('FINRA Disciplinary', byKey('FINRADisciplinary'))",
+        "src('NY Fed SOFR', byKey('NYFedSOFR'))",
+        "src('NCUA Credit Unions', byKey('NCUACreditUnion'))"
+      ]
+    },
+    {
+      "domain": "intelligence",
+      "line": 1289,
+      "sourceExpressions": [
+        "src('RSS Intel Signals', byKey('RSSIntel'))",
+        "src('CISA Advisories', byKey('CISAAdvisories'))",
+        "src('NSA Cybersecurity Advisories', byKey('NSACybersecurityAdvisories'))",
+        "src('FBI Cyber Division', byKey('FBICyberDiv'))",
+        "src('DNI Annual Threat', byKey('DNIAnnualThreat'))",
+        "src('CyberScoop News', byKey('CyberScoopNews'))",
+        "src('The Record', byKey('TheRecord'))",
+        "src('Lawfare NatSec', byKey('LawfareNatSec'))",
+        "src('Bellingcat OSINT', byKey('BellingcatOSINT'))",
+        "src('The Intercept NatSec', byKey('InterceptNatSec'))",
+        "src('CISA KEV', byKey('CISAKEV_2'))",
+        "src('Fed Reg FBI', byKey('FedRegFBI'))",
+        "src('Fed Reg CIA', byKey('FedRegCIA'))",
+        "src('Fed Reg NSA', byKey('FedRegNSA'))",
+        "src('OFAC Recent Actions', byKey('OFACRecentActions'))"
+      ]
+    }
+  ],
+  "ownerObservation": "Owner subsequently reports domains no longer all30%; no production percentages inferred",
+  "followup": "No formula rollout; trace each dated real reading and its measured/clamped/fallback basis before changing scoring",
+  "checks": {
+    "fullSuite": {
+      "passed": 387,
+      "skipped": 1,
+      "failed": 0,
+      "seconds": 298.2,
+      "skip": "external corpus prerequisite unavailable"
+    },
+    "repositoryCheck": "passed",
+    "restoredAdaptersMatchA461": true,
+    "distinctControlledOutputs": 20,
+    "protectedSourceFiles": 26
+  }
+}
