@@ -100,7 +100,59 @@ function phaseOfSeries(input, opts) {
   }
 }
 
-var API = { phaseOfSeries: phaseOfSeries, ready: true, version: 'thing2-adapter-1' };
+// A domain owns its feed integration. Route its completed reading unchanged:
+// feeds are provenance, not a second additive stress contribution. Percentages
+// describe that observed reading, never a phase probability or financial alert.
+function readDomainStress(domainId, state) {
+  state = state || {};
+  var field = typeof state.finalStress === 'number' ? 'finalStress' : 'stress';
+  var stress = state[field];
+  var valid = state.status !== 'INIT' && typeof stress === 'number' && Number.isFinite(stress) && stress >= 0 && stress <= 1;
+  return {
+    domainId: domainId,
+    status: valid ? 'OBSERVED' : 'UNKNOWN',
+    stress: valid ? stress : null,
+    stressPercent: valid ? Math.round(stress * 100) : null,
+    source: state.stressSource === 'domain-snapshot' ? 'domain-snapshot' : 'domain-brain',
+    sourceField: field,
+    updated: state.updated || null,
+    feeds: (Array.isArray(state.feeds) ? state.feeds : []).filter(function (feed) {
+      return feed && typeof feed === 'object';
+    }).map(function (feed) {
+      return { name: feed.name || null, live: feed.live === true, channel: feed.channel || null, updated: feed.updated || null };
+    }),
+    phase: state.kernelPhase || null,
+    trajectory: state.kernelTrajectory || null,
+    interpretive: true,
+    validated: false
+  };
+}
+
+var domainReadings = Object.create(null);
+var API = {
+  phaseOfSeries: phaseOfSeries,
+  readDomainStress: readDomainStress,
+  getDomainStress: function (domainId) {
+    // Always prefer the current brain, including when the module loads after
+    // the first cycle. An old event must not override a newer brain reading.
+    var registry = typeof window !== 'undefined' && window.LIMENDomainBrains;
+    var brain = registry && typeof registry.get === 'function' && registry.get(domainId);
+    if (brain && typeof brain.getState === 'function') return readDomainStress(domainId, brain.getState());
+    return domainReadings[domainId] || null;
+  },
+  ready: true,
+  version: 'thing2-adapter-2'
+};
 if (typeof window !== 'undefined') window.LIMENThing2 = API;
-export { phaseOfSeries };
+if (typeof window !== 'undefined' && window.addEventListener) {
+  window.addEventListener('limen:domain-brain-update', function (event) {
+    var detail = event.detail;
+    if (!detail || typeof detail.domainId !== 'string' || !detail.state) return;
+    domainReadings[detail.domainId] = readDomainStress(detail.domainId, detail.state);
+  });
+}
+if (typeof window !== 'undefined' && window.dispatchEvent && typeof CustomEvent !== 'undefined') {
+  window.dispatchEvent(new CustomEvent('limen:thing2-ready'));
+}
+export { phaseOfSeries, readDomainStress };
 export default API;

@@ -464,7 +464,8 @@
     var dom = window.LIMENDomains && window.LIMENDomains[DOMAIN_KEY];
     if (dom) {
       return {
-        stress: dom.stress || 0,
+        stress: dom.stress,
+        stressSource: 'domain-snapshot',
         confidence: dom.confidence || 0,
         activity: dom.activity || 0,
         maturity: dom.maturity || 'EARLY',
@@ -596,7 +597,16 @@
       return;
     }
 
-    var stress = state.stress || 0;
+    // Thing 2 carries the brain's feed-integrated stress unchanged. Read the
+    // current state directly so render order and module startup cannot select
+    // another domain's reading or a cached prior cycle.
+    var thing2Stress = window.LIMENThing2 && window.LIMENThing2.readDomainStress
+      ? window.LIMENThing2.readDomainStress(DOMAIN_KEY, state) : null;
+    if (!thing2Stress || thing2Stress.status !== 'OBSERVED') {
+      cv.innerHTML = '<div class="dcb-empty">' + esc(DOMAIN_LABEL) + ' stress reading unavailable</div>';
+      return;
+    }
+    var stress = thing2Stress.stress;
     var sc = stressColor(stress);
     var conf = state.confidence || 0;
     var signals = state.signals || [];
@@ -622,7 +632,7 @@
     for (var nmi = 0; nmi < nodes.length; nmi++) { nodeMap[nodes[nmi].brainNodeId] = nodes[nmi]; }
 
     // ── DERIVED INTELLIGENCE ──
-    var stressPct = Math.round(stress * 100);
+    var stressPct = thing2Stress.stressPercent;
     var confPct = Math.round(conf * 100);
     var liveFeeds = feeds.filter(function (f) { return f.live; });
     var prevStress = stressHistory.length >= 2 ? (typeof stressHistory[stressHistory.length - 2] === 'number' ? stressHistory[stressHistory.length - 2] : stressHistory[stressHistory.length - 2].stress || 0) : stress;
@@ -713,7 +723,7 @@
 
     // Executive intelligence strip
     h += '<div id="dcb-exec" class="' + (isLive ? 'live' : '') + '">';
-    h += '<span class="dcb-stress-big" style="color:' + sc + '">' + stressPct + '%</span>';
+    h += '<span class="dcb-stress-big" data-stress-source="thing2-domain-stress" style="color:' + sc + '">' + stressPct + '%</span>';
     h += '<span style="font-size:0.34rem;letter-spacing:2px;color:' + sevColor + ';font-family:monospace">' + severity + '</span>';
     h += '<span class="dcb-meta" style="color:' + trendColor + '">' + trendWord + '</span>';
     h += '<span class="dcb-meta">' + activeDx.length + ' dx <b style="color:' + (hasFiring ? '#e85454' : '#5ab5a0') + '">' + (hasFiring ? 'FIRING' : 'CLEAR') + '</b></span>';
@@ -1788,6 +1798,11 @@
           }, 200);
         }
       }
+    });
+
+    // ES modules can become ready after the initial console render.
+    window.addEventListener('limen:thing2-ready', function () {
+      if (_booted) render();
     });
 
     // Console-clarity is blocked from starting (see blockClarity() above).
