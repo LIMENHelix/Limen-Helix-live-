@@ -600,8 +600,8 @@
     // Thing 2 carries the brain's feed-integrated stress unchanged. Read the
     // current state directly so render order and module startup cannot select
     // another domain's reading or a cached prior cycle.
-    var thing2Stress = window.LIMENThing2 && window.LIMENThing2.readDomainStress
-      ? window.LIMENThing2.readDomainStress(DOMAIN_KEY, state) : null;
+    var thing2Stress = window.LIMENThing2 && window.LIMENThing2.getDomainStress
+      ? window.LIMENThing2.getDomainStress(DOMAIN_KEY) : null;
     if (!thing2Stress || thing2Stress.status !== 'OBSERVED') {
       cv.innerHTML = '<div class="dcb-empty">' + esc(DOMAIN_LABEL) + ' stress reading unavailable</div>';
       return;
