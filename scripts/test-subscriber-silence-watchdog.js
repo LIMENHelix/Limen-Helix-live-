@@ -126,7 +126,9 @@ var watchdog = require('../lib/subscriber-delivery-health');
 var DigestHandler = require('../handlers/subscriber-digest');
 var SharedObserver = require('../handlers/domain-subscriber-outcome-observer');
 
-var NOW = Date.now();
+// The same-day dedup fixture advances by two hours. Anchor at UTC noon so
+// running CI near midnight cannot turn that case into a different-day case.
+var NOW = Date.UTC(2026, 9, 4, 12);
 var DAY = 86400000;
 
 function invoke(handler, req) {

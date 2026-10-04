@@ -25,11 +25,25 @@ win.LIMENSharedSnapshot = {
   getSnapshot: () => snapshot, requestFresh: () => request(),
   isFresh: () => fresh, getDiagnostics: () => ({ errors })
 };
-vm.runInNewContext(fs.readFileSync('assets/js/domain-brains/domain-brain-base.js', 'utf8'), {
+const brainContext = vm.createContext({
   window: win, console: { log() {}, warn() {}, error() {} }, CustomEvent, Date,
+  document: { head: { appendChild() {} }, createElement: () => ({}),
+    getElementById: () => null, querySelector: () => null, addEventListener() {} },
+  localStorage: { getItem: () => null, setItem() {} },
   fetch: async () => ({ ok: false, json: async () => ({}) }),
-  setInterval: () => 1, clearInterval() {}, setTimeout: () => 1
+  setInterval: () => 1, clearInterval() {}, setTimeout: () => 1, clearTimeout() {}
 });
+vm.runInContext(fs.readFileSync('assets/js/domain-brains/domain-brain-base.js', 'utf8'), brainContext);
+function actualBrain(domain) {
+  // Suppress only the bottom-of-file browser auto-boot. Keep the actual
+  // constructor, init, ingest, normalization, scoring and cycle overrides.
+  const filename = 'assets/js/domain-brains/' + domain + '-brain.js';
+  const source = fs.readFileSync(filename, 'utf8');
+  const boot = /var brain = new (\w+Brain)\(\);/;
+  assert.match(source, boot);
+  vm.runInContext(source.replace(boot, (_, name) => 'window.__TestBrainConstructor = ' + name + '; return;'), brainContext, { filename });
+  return new win.__TestBrainConstructor();
+}
 const keys = { medicine: 'health', science: 'research', trade: 'supplyChain' };
 const brains = {};
 function measured(key, stress) {
@@ -45,7 +59,9 @@ function unknown(key, context) {
 }
 for (const domain of domains) {
   const key = keys[domain] || domain;
-  const brain = new win.LIMENDomainBrainBase({ domainId: key, snapshotKey: key });
+  const brain = actualBrain(domain);
+  assert.equal(brain.domainId, key);
+  assert.notEqual(brain.constructor, win.LIMENDomainBrainBase, 'must exercise the real subclass');
   brains[key] = brain;
   win.LIMENDomainBrains.register(brain);
   snapshot = null;
@@ -78,9 +94,25 @@ for (const domain of domains) {
   snapshot.domains[key] = measured(key, 0.42);
   unknown(key, domain + ' replacement source needs a cycle');
   await brain.cycle();
-  const before = JSON.stringify(brain.state);
+  const before = structuredClone(brain.state);
   assert.equal(api.getDomainStress(key).stressPercent, 42, domain + ' successful cycle');
-  assert.equal(JSON.stringify(brain.state), before, 'adapter must not mutate or rescore');
+  assert.deepEqual(structuredClone(brain.state), before, 'adapter must not mutate or rescore');
+  const externalPressure = brain.getExternalPressure;
+  brain.getExternalPressure = () => 0.3;
+  snapshot.domains[key] = measured(key, 0.2);
+  await brain.cycle();
+  const pressured = api.getDomainStress(key);
+  assert.equal(pressured.status, 'OBSERVED', domain + ' snapshot label');
+  assert.equal(pressured.stress, 0.2, domain + ' exactly source-bound');
+  assert.equal(pressured.stressPercent, 20);
+  assert.equal(pressured.brainStress.status, 'DERIVED');
+  assert.ok(pressured.brainStress.stress >= 0.5, domain + ' integrated pressure plus any domain floor');
+  if (domain === 'education' || domain === 'finance') assert.equal(pressured.brainStress.stress, 0.5);
+  assert.ok(Math.abs(pressured.brainStress.components.domainAdjustmentAndClipping -
+    (pressured.brainStress.stress - 0.2 - 0.3)) < 1e-12);
+  assert.equal(pressured.brainStress.components.snapshotStress, 0.2);
+  assert.equal(pressured.brainStress.components.crossDomainPressure, 0.3);
+  brain.getExternalPressure = externalPressure;
   fresh = false;
   unknown(key, domain + ' stale shared snapshot');
   fresh = true; errors = 1;
@@ -153,6 +185,16 @@ snapshot.domains.energy = measured('energy', 0.63);
 await energy.cycle();
 win.dispatchEvent(new CustomEvent('limen:domain-brain-update', { detail: { domainId: 'energy', state: energy.state } }));
 assert.match(view.innerHTML, /data-stress-source="thing2-domain-stress"[^>]*>63%/);
+const energyPressure = energy.getExternalPressure;
+energy.getExternalPressure = () => 0.3;
+snapshot.domains.energy = measured('energy', 0.2);
+await energy.cycle();
+assert.match(view.innerHTML, /data-stress-source="thing2-domain-stress" data-stress-status="DERIVED"[^>]*>50%/);
+assert.match(view.innerHTML, /data-stress-source="domain-snapshot" data-stress-status="OBSERVED">20%/);
+assert.doesNotMatch(view.innerHTML, /data-stress-status="OBSERVED"[^>]*>50%/);
+const truthful = api.getDomainStress('energy');
+assert.equal(readDomainStress('energy', energy.state, { ...truthful.observation, value: 0.5 }).status, 'UNKNOWN');
+energy.getExternalPressure = energyPressure;
 snapshot = null;
 request = () => Promise.resolve(null);
 await energy.cycle();
@@ -168,4 +210,4 @@ win.LIMENThing2 = api;
 win.dispatchEvent(new CustomEvent('limen:thing2-ready'));
 assert.match(view.innerHTML, /data-stress-source="thing2-domain-stress"[^>]*>42%/);
 delete globalThis.window;
-console.log('PASS: real base lifecycle for all 20 domains; startup, missing/failed/stale/fallback sources, measured zero, successful cycles, and console provenance');
+console.log('PASS: actual subclasses for all 20 domains; measured 20% + pressure 30pp is derived 50%; startup, missing/failed/stale/fallback sources, measured zero, successful cycles, and console provenance');

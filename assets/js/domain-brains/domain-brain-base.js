@@ -362,7 +362,13 @@
           self.state.stressObservation = {
             source: 'domain-snapshot', sourceDomain: self.snapshotKey,
             sourceRecord: source, cycle: self._cycleCount,
-            cycleCompletedAt: self.state.updated, value: self.state.stress
+            cycleCompletedAt: self.state.updated, value: source.stress,
+            integrated: {
+              status: 'DERIVED', value: self.state.stress,
+              sourceStress: source.stress,
+              crossDomainPressure: self.state._externalPressureApplied,
+              domainAdjustmentAndClipping: self.state.stress - source.stress - self.state._externalPressureApplied
+            }
           };
         }
         self._emitEvent('domain-brain-update', { domainId: self.domainId, state: self.state });

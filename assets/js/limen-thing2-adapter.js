@@ -100,16 +100,23 @@ function phaseOfSeries(input, opts) {
   }
 }
 
-// A domain owns its feed integration. Route its completed reading unchanged:
+// A domain owns its feed integration. Keep its measured source separate:
 // feeds are provenance, not a second additive stress contribution. Percentages
 // describe that observed reading, never a phase probability or financial alert.
 function readDomainStress(domainId, state, observation) {
   state = state || {};
-  var stress = state.stress;
+  var stress = observation && observation.value;
   var valid = observation && observation.status === 'OBSERVED' &&
     observation.domainId === domainId && observation.source === 'domain-snapshot' &&
     observation.stressUsable === true && observation.stressBasis === 'measured' &&
-    observation.cycleCompletedAt === state.updated && observation.value === stress &&
+    observation.sourceRecord && stress === observation.sourceRecord.stress &&
+    observation.sourceRecord.stressUsable === true && observation.sourceRecord.stressBasis === 'measured' &&
+    observation.cycleCompletedAt === state.updated &&
+    observation.integrated && observation.integrated.status === 'DERIVED' &&
+    observation.integrated.value === state.stress &&
+    observation.integrated.sourceStress === stress &&
+    typeof state.stress === 'number' && Number.isFinite(state.stress) &&
+    state.stress >= 0 && state.stress <= 1 &&
     typeof state.updated === 'number' && state.updated > 0 &&
     state.updated <= Date.now() && Date.now() - state.updated < 60000 &&
     typeof stress === 'number' && Number.isFinite(stress) && stress >= 0 && stress <= 1;
@@ -118,8 +125,18 @@ function readDomainStress(domainId, state, observation) {
     status: valid ? 'OBSERVED' : 'UNKNOWN',
     stress: valid ? stress : null,
     stressPercent: valid ? Math.round(stress * 100) : null,
-    source: 'domain-brain',
+    source: 'domain-snapshot',
     sourceField: 'stress',
+    brainStress: valid ? {
+      status: 'DERIVED', source: 'domain-brain',
+      stress: observation.integrated.value,
+      stressPercent: Math.round(observation.integrated.value * 100),
+      components: {
+        snapshotStress: stress,
+        crossDomainPressure: observation.integrated.crossDomainPressure,
+        domainAdjustmentAndClipping: observation.integrated.domainAdjustmentAndClipping
+      }
+    } : null,
     observation: valid ? observation : null,
     updated: valid ? state.updated : null,
     feeds: (Array.isArray(state.feeds) ? state.feeds : []).filter(function (feed) {
@@ -156,7 +173,15 @@ function observationOfBrain(domainId, brain, state) {
   var proof = state.stressObservation;
   if (!proof || proof.source !== 'domain-snapshot' || proof.sourceDomain !== brain.snapshotKey ||
       proof.sourceRecord !== source || proof.cycle !== brain._cycleCount ||
-      proof.value !== state.stress || proof.cycleCompletedAt !== state.updated ||
+      proof.value !== source.stress || !proof.integrated ||
+      proof.integrated.status !== 'DERIVED' || proof.integrated.value !== state.stress ||
+      proof.integrated.sourceStress !== source.stress ||
+      proof.integrated.crossDomainPressure !== state._externalPressureApplied ||
+      typeof proof.integrated.crossDomainPressure !== 'number' ||
+      !Number.isFinite(proof.integrated.crossDomainPressure) ||
+      typeof proof.integrated.domainAdjustmentAndClipping !== 'number' ||
+      !Number.isFinite(proof.integrated.domainAdjustmentAndClipping) ||
+      proof.cycleCompletedAt !== state.updated ||
       !current(state.updated, 60000) || !current(source.updated, 300000) ||
       source.updated > state.updated || typeof source.stress !== 'number' ||
       !Number.isFinite(source.stress) || source.stress < 0 || source.stress > 1) return null;
@@ -167,7 +192,8 @@ function observationOfBrain(domainId, brain, state) {
   if (!drivers.length) return null;
   return {
     status: 'OBSERVED', domainId: domainId, source: 'domain-snapshot',
-    stressUsable: true, stressBasis: 'measured', value: state.stress,
+    stressUsable: true, stressBasis: 'measured', value: source.stress, sourceRecord: source,
+    integrated: proof.integrated,
     sourceUpdatedAt: source.updated, cycleCompletedAt: state.updated,
     cycle: proof.cycle, sourceNames: drivers.map(function (feed) { return feed.name; })
   };
