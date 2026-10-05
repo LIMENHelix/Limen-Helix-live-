@@ -164,12 +164,21 @@ function observationOfBrain(domainId, brain, state) {
   var snapshot = shared.getSnapshot();
   var source = snapshot && snapshot.domains && snapshot.domains[brain.snapshotKey];
   if (!source || source !== brain._rawDomain || source.stressUsable !== true ||
-      source.stressBasis !== 'measured' || source.simulated === true ||
-      (source.status !== 'LIVE' && source.status !== 'PARTIAL')) return null;
+      source.stressBasis !== 'measured' || source.simulated === true) return null;
+  var meta = snapshot.meta || {};
+  var grounded = source.stressSource === 'node-market-feed-grounded' &&
+    Array.isArray(meta.promotedStressDomains) && meta.promotedStressDomains.indexOf(brain.snapshotKey) !== -1;
+  if (!grounded && source.status !== 'LIVE' && source.status !== 'PARTIAL') return null;
   var now = Date.now();
   function current(time, maxAge) {
     return typeof time === 'number' && Number.isFinite(time) && time > 0 && time <= now && now - time < maxAge;
   }
+  // Keep clocks separate: shared.isFresh() uses local receipt time; source and
+  // feed ages are compared only with timestamps from the same server snapshot.
+  function serverTime(time) { return typeof time === 'number' && Number.isFinite(time) && time > 0; }
+  var serverStamp = meta.fetchedAt;
+  if (!serverTime(serverStamp) || !serverTime(source.updated) ||
+      Math.abs(serverStamp - source.updated) >= 300000) return null;
   var proof = state.stressObservation;
   if (!proof || proof.source !== 'domain-snapshot' || proof.sourceDomain !== brain.snapshotKey ||
       proof.sourceRecord !== source || proof.cycle !== brain._cycleCount ||
@@ -182,19 +191,20 @@ function observationOfBrain(domainId, brain, state) {
       typeof proof.integrated.domainAdjustmentAndClipping !== 'number' ||
       !Number.isFinite(proof.integrated.domainAdjustmentAndClipping) ||
       proof.cycleCompletedAt !== state.updated ||
-      !current(state.updated, 60000) || !current(source.updated, 300000) ||
-      source.updated > state.updated || typeof source.stress !== 'number' ||
+      !current(state.updated, 60000) || typeof source.stress !== 'number' ||
       !Number.isFinite(source.stress) || source.stress < 0 || source.stress > 1) return null;
   var drivers = (Array.isArray(source.sources) ? source.sources : []).filter(function (feed) {
     return feed && feed.live === true && feed.channel === 'stress' && feed.classification === 'real' &&
-      typeof feed.name === 'string' && feed.name.length > 0 && current(feed.updated, 300000);
+      typeof feed.name === 'string' && feed.name.length > 0 && serverTime(feed.updated) &&
+      source.updated >= feed.updated && source.updated - feed.updated < 300000;
   });
-  if (!drivers.length) return null;
+  if (!grounded && !drivers.length) return null;
   return {
     status: 'OBSERVED', domainId: domainId, source: 'domain-snapshot',
     stressUsable: true, stressBasis: 'measured', value: source.stress, sourceRecord: source,
     integrated: proof.integrated,
     sourceUpdatedAt: source.updated, cycleCompletedAt: state.updated,
+    provenance: grounded ? 'node-market-feed-grounded' : 'real-stress-feeds',
     cycle: proof.cycle, sourceNames: drivers.map(function (feed) { return feed.name; })
   };
 }
