@@ -252,6 +252,7 @@
     // State contract
     this.state = {
       domainId: this.domainId,
+      stressObservation: null,
       label: this.label,
       status: 'INIT',
       feeds: [],
@@ -326,6 +327,11 @@
   DomainBrainBase.prototype.cycle = function () {
     var self = this;
     this._cycleCount++;
+    var observationCycle = this._cycleCount;
+    this._activeStressCycles = (this._activeStressCycles || 0) + 1;
+    // Truth provenance is separate from numeric defaults and lifecycle status.
+    this.state.stressObservation = null;
+    this._cycleStressSource = null;
 
     // Sequential pipeline — each step feeds the next
     return this.ingestFeeds()
@@ -349,11 +355,27 @@
         try { self._computeGenericActiveInference(); } catch (e) {}  // GENERIC ACTIVE INFERENCE (shadow, ported from energy): zero live consumer, same as energy's own (energy self-skips)
         try { self._computeGenericPhasePercept(); } catch (e) {}     // GENERIC PHASE PERCEPT (shadow, ported from energy): node-evidence posterior, logged only (energy self-skips)
         self.state.updated = Date.now();
+        var source = self._cycleStressSource;
+        if (self._activeStressCycles === 1 && observationCycle === self._cycleCount &&
+            source && source === self._rawDomain && source.stressUsable === true &&
+            source.stressBasis === 'measured') {
+          self.state.stressObservation = {
+            source: 'domain-snapshot', sourceDomain: self.snapshotKey,
+            sourceRecord: source, cycle: self._cycleCount,
+            cycleCompletedAt: self.state.updated, value: source.stress,
+            integrated: {
+              status: 'DERIVED', value: self.state.stress,
+              sourceStress: source.stress,
+              crossDomainPressure: self.state._externalPressureApplied,
+              domainAdjustmentAndClipping: self.state.stress - source.stress - self.state._externalPressureApplied
+            }
+          };
+        }
         self._emitEvent('domain-brain-update', { domainId: self.domainId, state: self.state });
       })
       .catch(function (e) {
         console.warn('[DomainBrain:' + self.domainId + '] Cycle error:', e.message);
-      });
+      }).then(function () { self._activeStressCycles--; });
   };
 
   // ══════════════════════════════════════════════════════════════════════
@@ -613,6 +635,7 @@
 
       // Store raw domain data for later steps
       self._rawDomain = d;
+      self._cycleStressSource = d;
     }).catch(function () {});
   };
 

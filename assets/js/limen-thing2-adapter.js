@@ -100,22 +100,45 @@ function phaseOfSeries(input, opts) {
   }
 }
 
-// A domain owns its feed integration. Route its completed reading unchanged:
+// A domain owns its feed integration. Keep its measured source separate:
 // feeds are provenance, not a second additive stress contribution. Percentages
 // describe that observed reading, never a phase probability or financial alert.
-function readDomainStress(domainId, state) {
+function readDomainStress(domainId, state, observation) {
   state = state || {};
-  var field = typeof state.finalStress === 'number' ? 'finalStress' : 'stress';
-  var stress = state[field];
-  var valid = state.status !== 'INIT' && typeof stress === 'number' && Number.isFinite(stress) && stress >= 0 && stress <= 1;
+  var stress = observation && observation.value;
+  var valid = observation && observation.status === 'OBSERVED' &&
+    observation.domainId === domainId && observation.source === 'domain-snapshot' &&
+    observation.stressUsable === true && observation.stressBasis === 'measured' &&
+    observation.sourceRecord && stress === observation.sourceRecord.stress &&
+    observation.sourceRecord.stressUsable === true && observation.sourceRecord.stressBasis === 'measured' &&
+    observation.cycleCompletedAt === state.updated &&
+    observation.integrated && observation.integrated.status === 'DERIVED' &&
+    observation.integrated.value === state.stress &&
+    observation.integrated.sourceStress === stress &&
+    typeof state.stress === 'number' && Number.isFinite(state.stress) &&
+    state.stress >= 0 && state.stress <= 1 &&
+    typeof state.updated === 'number' && state.updated > 0 &&
+    state.updated <= Date.now() && Date.now() - state.updated < 60000 &&
+    typeof stress === 'number' && Number.isFinite(stress) && stress >= 0 && stress <= 1;
   return {
     domainId: domainId,
     status: valid ? 'OBSERVED' : 'UNKNOWN',
     stress: valid ? stress : null,
     stressPercent: valid ? Math.round(stress * 100) : null,
-    source: state.stressSource === 'domain-snapshot' ? 'domain-snapshot' : 'domain-brain',
-    sourceField: field,
-    updated: state.updated || null,
+    source: 'domain-snapshot',
+    sourceField: 'stress',
+    brainStress: valid ? {
+      status: 'DERIVED', source: 'domain-brain',
+      stress: observation.integrated.value,
+      stressPercent: Math.round(observation.integrated.value * 100),
+      components: {
+        snapshotStress: stress,
+        crossDomainPressure: observation.integrated.crossDomainPressure,
+        domainAdjustmentAndClipping: observation.integrated.domainAdjustmentAndClipping
+      }
+    } : null,
+    observation: valid ? observation : null,
+    updated: valid ? state.updated : null,
     feeds: (Array.isArray(state.feeds) ? state.feeds : []).filter(function (feed) {
       return feed && typeof feed === 'object';
     }).map(function (feed) {
@@ -128,29 +151,78 @@ function readDomainStress(domainId, state) {
   };
 }
 
-var domainReadings = Object.create(null);
+// Readiness belongs to the consumed source, never to INIT/READY/RUNNING or a
+// numeric default. The existing server contract explicitly identifies measured
+// stress. The same source must still be current, and a completed owning-brain
+// cycle must explicitly attest the displayed value. No scoring or history is changed.
+function observationOfBrain(domainId, brain, state) {
+  var shared = typeof window !== 'undefined' && window.LIMENSharedSnapshot;
+  if (!shared || typeof shared.getSnapshot !== 'function' ||
+      typeof shared.isFresh !== 'function' || !shared.isFresh()) return null;
+  var diagnostics = typeof shared.getDiagnostics === 'function' && shared.getDiagnostics();
+  if (diagnostics && diagnostics.errors > 0) return null;
+  var snapshot = shared.getSnapshot();
+  var source = snapshot && snapshot.domains && snapshot.domains[brain.snapshotKey];
+  if (!source || source !== brain._rawDomain || source.stressUsable !== true ||
+      source.stressBasis !== 'measured' || source.simulated === true) return null;
+  var meta = snapshot.meta || {};
+  var grounded = source.stressSource === 'node-market-feed-grounded' &&
+    Array.isArray(meta.promotedStressDomains) && meta.promotedStressDomains.indexOf(brain.snapshotKey) !== -1;
+  if (!grounded && source.status !== 'LIVE' && source.status !== 'PARTIAL') return null;
+  var now = Date.now();
+  function current(time, maxAge) {
+    return typeof time === 'number' && Number.isFinite(time) && time > 0 && time <= now && now - time < maxAge;
+  }
+  // Keep clocks separate: shared.isFresh() uses local receipt time; source and
+  // feed ages are compared only with timestamps from the same server snapshot.
+  function serverTime(time) { return typeof time === 'number' && Number.isFinite(time) && time > 0; }
+  var serverStamp = meta.fetchedAt;
+  if (!serverTime(serverStamp) || !serverTime(source.updated) ||
+      Math.abs(serverStamp - source.updated) >= 300000) return null;
+  var proof = state.stressObservation;
+  if (!proof || proof.source !== 'domain-snapshot' || proof.sourceDomain !== brain.snapshotKey ||
+      proof.sourceRecord !== source || proof.cycle !== brain._cycleCount ||
+      proof.value !== source.stress || !proof.integrated ||
+      proof.integrated.status !== 'DERIVED' || proof.integrated.value !== state.stress ||
+      proof.integrated.sourceStress !== source.stress ||
+      proof.integrated.crossDomainPressure !== state._externalPressureApplied ||
+      typeof proof.integrated.crossDomainPressure !== 'number' ||
+      !Number.isFinite(proof.integrated.crossDomainPressure) ||
+      typeof proof.integrated.domainAdjustmentAndClipping !== 'number' ||
+      !Number.isFinite(proof.integrated.domainAdjustmentAndClipping) ||
+      proof.cycleCompletedAt !== state.updated ||
+      !current(state.updated, 60000) || typeof source.stress !== 'number' ||
+      !Number.isFinite(source.stress) || source.stress < 0 || source.stress > 1) return null;
+  var drivers = (Array.isArray(source.sources) ? source.sources : []).filter(function (feed) {
+    return feed && feed.live === true && feed.channel === 'stress' && feed.classification === 'real' &&
+      typeof feed.name === 'string' && feed.name.length > 0 && serverTime(feed.updated) &&
+      source.updated >= feed.updated && source.updated - feed.updated < 300000;
+  });
+  if (!grounded && !drivers.length) return null;
+  return {
+    status: 'OBSERVED', domainId: domainId, source: 'domain-snapshot',
+    stressUsable: true, stressBasis: 'measured', value: source.stress, sourceRecord: source,
+    integrated: proof.integrated,
+    sourceUpdatedAt: source.updated, cycleCompletedAt: state.updated,
+    provenance: grounded ? 'node-market-feed-grounded' : 'real-stress-feeds',
+    cycle: proof.cycle, sourceNames: drivers.map(function (feed) { return feed.name; })
+  };
+}
+
 var API = {
   phaseOfSeries: phaseOfSeries,
   readDomainStress: readDomainStress,
   getDomainStress: function (domainId) {
-    // Always prefer the current brain, including when the module loads after
-    // the first cycle. An old event must not override a newer brain reading.
     var registry = typeof window !== 'undefined' && window.LIMENDomainBrains;
     var brain = registry && typeof registry.get === 'function' && registry.get(domainId);
-    if (brain && typeof brain.getState === 'function') return readDomainStress(domainId, brain.getState());
-    return domainReadings[domainId] || null;
+    if (!brain || typeof brain.getState !== 'function') return readDomainStress(domainId, null);
+    var state = brain.getState();
+    return readDomainStress(domainId, state, observationOfBrain(domainId, brain, state));
   },
   ready: true,
-  version: 'thing2-adapter-2'
+  version: 'thing2-adapter-3'
 };
 if (typeof window !== 'undefined') window.LIMENThing2 = API;
-if (typeof window !== 'undefined' && window.addEventListener) {
-  window.addEventListener('limen:domain-brain-update', function (event) {
-    var detail = event.detail;
-    if (!detail || typeof detail.domainId !== 'string' || !detail.state) return;
-    domainReadings[detail.domainId] = readDomainStress(detail.domainId, detail.state);
-  });
-}
 if (typeof window !== 'undefined' && window.dispatchEvent && typeof CustomEvent !== 'undefined') {
   window.dispatchEvent(new CustomEvent('limen:thing2-ready'));
 }

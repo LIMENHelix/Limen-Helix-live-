@@ -597,16 +597,16 @@
       return;
     }
 
-    // Thing 2 carries the brain's feed-integrated stress unchanged. Read the
+    // Thing 2 separates measured snapshot stress from derived brain stress. Read the
     // current state directly so render order and module startup cannot select
     // another domain's reading or a cached prior cycle.
-    var thing2Stress = window.LIMENThing2 && window.LIMENThing2.readDomainStress
-      ? window.LIMENThing2.readDomainStress(DOMAIN_KEY, state) : null;
-    if (!thing2Stress || thing2Stress.status !== 'OBSERVED') {
+    var thing2Stress = window.LIMENThing2 && window.LIMENThing2.getDomainStress
+      ? window.LIMENThing2.getDomainStress(DOMAIN_KEY) : null;
+    if (!thing2Stress || thing2Stress.status !== 'OBSERVED' || !thing2Stress.brainStress || thing2Stress.brainStress.status !== 'DERIVED') {
       cv.innerHTML = '<div class="dcb-empty">' + esc(DOMAIN_LABEL) + ' stress reading unavailable</div>';
       return;
     }
-    var stress = thing2Stress.stress;
+    var stress = thing2Stress.brainStress.stress;
     var sc = stressColor(stress);
     var conf = state.confidence || 0;
     var signals = state.signals || [];
@@ -632,7 +632,8 @@
     for (var nmi = 0; nmi < nodes.length; nmi++) { nodeMap[nodes[nmi].brainNodeId] = nodes[nmi]; }
 
     // ── DERIVED INTELLIGENCE ──
-    var stressPct = thing2Stress.stressPercent;
+    var stressPct = thing2Stress.brainStress.stressPercent;
+    var measuredStressPct = thing2Stress.stressPercent;
     var confPct = Math.round(conf * 100);
     var liveFeeds = feeds.filter(function (f) { return f.live; });
     var prevStress = stressHistory.length >= 2 ? (typeof stressHistory[stressHistory.length - 2] === 'number' ? stressHistory[stressHistory.length - 2] : stressHistory[stressHistory.length - 2].stress || 0) : stress;
@@ -723,7 +724,11 @@
 
     // Executive intelligence strip
     h += '<div id="dcb-exec" class="' + (isLive ? 'live' : '') + '">';
-    h += '<span class="dcb-stress-big" data-stress-source="thing2-domain-stress" style="color:' + sc + '">' + stressPct + '%</span>';
+    h += '<span class="dcb-stress-big" data-stress-source="thing2-domain-stress" data-stress-status="DERIVED" style="color:' + sc + '">' + stressPct + '%</span>';
+    h += '<span class="dcb-meta">BRAIN STRESS · DERIVED</span>';
+    h += '<span class="dcb-meta" data-stress-source="domain-snapshot" data-stress-status="OBSERVED">' + measuredStressPct + '% SNAPSHOT · OBSERVED</span>';
+    var stressParts = thing2Stress.brainStress.components;
+    h += '<span class="dcb-meta">Snapshot ' + measuredStressPct + '% + cross-domain ' + Math.round(stressParts.crossDomainPressure * 100) + ' pp + domain adjustment/clipping ' + Math.round(stressParts.domainAdjustmentAndClipping * 100) + ' pp</span>';
     h += '<span style="font-size:0.34rem;letter-spacing:2px;color:' + sevColor + ';font-family:monospace">' + severity + '</span>';
     h += '<span class="dcb-meta" style="color:' + trendColor + '">' + trendWord + '</span>';
     h += '<span class="dcb-meta">' + activeDx.length + ' dx <b style="color:' + (hasFiring ? '#e85454' : '#5ab5a0') + '">' + (hasFiring ? 'FIRING' : 'CLEAR') + '</b></span>';
