@@ -52,6 +52,9 @@ function measured(key, stress) {
     sources: [{ name: key + '-feed', live: true, channel: 'stress',
       classification: 'real', value: stress, updated }] };
 }
+function snapshotFor(key, source) {
+  return { domains: { [key]: source }, meta: { fetchedAt: Date.now(), promotedStressDomains: [] } };
+}
 function unknown(key, context) {
   const reading = api.getDomainStress(key);
   assert.equal(reading.status, 'UNKNOWN', context);
@@ -86,7 +89,7 @@ for (const domain of domains) {
   await brain.cycle();
   unknown(key, domain + ' failed snapshot cycle');
   const source = measured(key, 0);
-  snapshot = { domains: { [key]: source } };
+  snapshot = snapshotFor(key, source);
   unknown(key, domain + ' source exists but is not consumed');
   await brain.cycle();
   assert.equal(api.getDomainStress(key).stressPercent, 0, domain + ' measured zero');
@@ -97,6 +100,27 @@ for (const domain of domains) {
   const before = structuredClone(brain.state);
   assert.equal(api.getDomainStress(key).stressPercent, 42, domain + ' successful cycle');
   assert.deepEqual(structuredClone(brain.state), before, 'adapter must not mutate or rescore');
+  for (const skew of [-420000, 420000]) {
+    const skewedSource = measured(key, 0.2);
+    skewedSource.updated += skew;
+    skewedSource.sources[0].updated += skew;
+    snapshot = snapshotFor(key, skewedSource);
+    snapshot.meta.fetchedAt += skew;
+    await brain.cycle();
+    assert.equal(api.getDomainStress(key).stressPercent, 20, domain + ' independent client/server clocks');
+  }
+  const promotedSource = { ...measured(key, 0.2), sources: [], status: 'FALLBACK',
+    stressSource: 'node-market-feed-grounded' };
+  snapshot = snapshotFor(key, promotedSource);
+  await brain.cycle();
+  unknown(key, domain + ' grounded marker without server promotion confirmation');
+  snapshot.meta.promotedStressDomains = [key];
+  assert.equal(api.getDomainStress(key).stressPercent, 20, domain + ' explicit grounded promotion');
+  assert.equal(api.getDomainStress(key).observation.provenance, 'node-market-feed-grounded');
+  fresh = false;
+  unknown(key, domain + ' stale grounded snapshot receipt');
+  fresh = true;
+  snapshot = snapshotFor(key, measured(key, 0.42));
   const externalPressure = brain.getExternalPressure;
   brain.getExternalPressure = () => 0.3;
   snapshot.domains[key] = measured(key, 0.2);
@@ -153,7 +177,7 @@ for (const stress of [undefined, null, NaN, Infinity, -0.1, 1.1, '0.5']) {
 assert.equal(phaseOfSeries([1, 2]).reason, 'insufficient-history');
 assert.equal(phaseOfSeries([0.1, 0.2, 0.3, 0.2, 0.5, 0.7, 0.6, 0.8], { positive: false }).validated, false);
 const energy = brains.energy;
-snapshot = { domains: { energy: measured('energy', 0.42) } };
+snapshot = snapshotFor('energy', measured('energy', 0.42));
 await energy.cycle();
 snapshot = null;
 // Exercise the real console render and update listeners with offline DOM and
@@ -175,7 +199,7 @@ vm.runInNewContext(fs.readFileSync('assets/js/domain-brains/domain-console-brain
 await new Promise(resolve => setImmediate(resolve));
 assert.match(view.innerHTML, /stress reading unavailable/);
 assert.doesNotMatch(view.innerHTML, /data-stress-source="thing2-domain-stress"/);
-snapshot = { domains: { energy: measured('energy', 0) } };
+snapshot = snapshotFor('energy', measured('energy', 0));
 await energy.cycle();
 assert.match(view.innerHTML, /data-stress-source="thing2-domain-stress"[^>]*>0%/);
 snapshot.domains.energy = measured('energy', 0.42);
@@ -201,7 +225,7 @@ await energy.cycle();
 win.dispatchEvent(new CustomEvent('limen:domain-brain-update', { detail: { domainId: 'energy', state: energy.state } }));
 assert.match(view.innerHTML, /stress reading unavailable/);
 assert.doesNotMatch(view.innerHTML, /0%/);
-snapshot = { domains: { energy: measured('energy', 0.42) } };
+snapshot = snapshotFor('energy', measured('energy', 0.42));
 await energy.cycle();
 delete win.LIMENThing2;
 win.dispatchEvent(new CustomEvent('limen:domain-brain-update', { detail: { domainId: 'energy', state: energy.state } }));
