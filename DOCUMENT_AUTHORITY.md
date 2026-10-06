@@ -3,7 +3,7 @@ authority: MEASURED_SNAPSHOT
 measured_at: 2026-09-16
 measured_at_commit: 7c35f93cc1ca245cba197d9f659a8d45133dafc4
 scope: authority class and provenance for every consequential tracked Markdown file
-inventory: 123 tracked .md (47 root, 33 docs/, 9 brain-v2/, 25 .claude/, 9 remainder)
+inventory: 124 tracked .md (48 root, 33 docs/, 9 brain-v2/, 25 .claude/, 9 remainder)
 recorded_by: engineering agent (Codex)
 approved_by: null
 ---
@@ -69,6 +69,7 @@ unseparated; that is a defect to fix in the document, not a ninth class.
 | `brain-v2/SCORECARD.md` | `MEASURED_RUNTIME_FACT` | reproducible: `node brain-v2/test/loop-acceptance.js`. Carries its own withdrawal history (26/28 and 25/28 both withdrawn). Good provenance. |
 | `brain-v2/CONTRACT.md` | `ENGINEERING_HYPOTHESIS` | unreviewed |
 | `brain-v2/CHART-01-SENSORS.md`, `CHART-02-SYNTHESIS.md` | `GENERATED_ARTIFACT` | |
+| `BRAIN_V2_LIVE_WIRE.md` | `ENGINEERING_HYPOTHESIS` | built and unit-tested locally (`node scripts/test-brain-live.js`, 20 checks over the real kernel and real recorded fixture); **not deployed, no live measurement exists**. Observational wiring only — it writes no user-visible scores and grants the loop no decision authority. |
 
 ### System maps — dated snapshots presented as current
 

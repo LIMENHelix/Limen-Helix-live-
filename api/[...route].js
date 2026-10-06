@@ -306,6 +306,8 @@ const HANDLERS = {
   'memory-promote': require('../handlers/memory-promote'),
   'brain-weights': require('../handlers/brain-weights'),
   'brain-weights-cron': require('../handlers/brain-weights-cron'),
+  'brain-tick': require('../handlers/brain-tick'),
+  'brain-state': require('../handlers/brain-state'),
   'domain-text-read': require('../handlers/domain-text-read'),
   'limen-intents': require('../handlers/limen-intents'),
   'limen-iteration': require('../handlers/limen-iteration'),
