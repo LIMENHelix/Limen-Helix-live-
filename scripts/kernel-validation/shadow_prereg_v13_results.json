@@ -1,0 +1,752 @@
+{
+  "config": {
+    "prereg": "v1.3",
+    "signed": "2026-10-07",
+    "p3_entry": 0.59,
+    "thresh": {
+      "A": 1.1,
+      "B": 1.5,
+      "C": 1.5
+    },
+    "identity": "limenhelix@gmail.com",
+    "staleness": "anchored at cutoff via runtime limen_app.datetime shim",
+    "unresolved_ciks": []
+  },
+  "sensitivity": {
+    "n": 7,
+    "k": 2,
+    "wilson_lb": 0.0822171657090155,
+    "wilson_ub": 0.6410709098517873,
+    "verdict": "UNDERPOWERED"
+  },
+  "specificity": {
+    "n": 9,
+    "k": 8,
+    "wilson_lb": 0.5649937852319399,
+    "wilson_ub": 0.9801096286728695,
+    "verdict": "UNDERPOWERED"
+  },
+  "criterion3_hard_negatives": {
+    "n": 9,
+    "detections": 0
+  },
+  "criterion4_earliness_REPORT_ONLY": {
+    "n": 7,
+    "k": 3,
+    "wilson": [
+      0.42857142857142855,
+      0.15821692226262685,
+      0.7495457695909742
+    ]
+  },
+  "companies": [
+    {
+      "ticker": "HTZ",
+      "group": "bankrupt",
+      "cutoff": "2020-03-31",
+      "t1": {
+        "alert": false,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 0.3575518846281226,
+        "paths": {
+          "a": 0.3575518846281226,
+          "b": 0.1111111111111111,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 18
+      },
+      "fpm": {
+        "status": "p2",
+        "phase": "p2",
+        "mode": "GENUINE_BASELINE",
+        "reason": "lag-4 coherence 0.933 >= 0.50 with amplitude 0.1026 >= 0.030 (prove_p2.py:53-67,81)"
+      },
+      "c4_cutoff": "2019-09-30",
+      "c4": {
+        "alert": false,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 0.3922741068503448,
+        "paths": {
+          "a": 0.3922741068503448,
+          "b": 0.16297468354430378,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 16
+      }
+    },
+    {
+      "ticker": "VAL",
+      "group": "bankrupt",
+      "cutoff": "2020-06-30",
+      "t1": {
+        "alert": true,
+        "in_envelope": false,
+        "envelope_status": "ingestion_suspect",
+        "composite": 4.352222720521051,
+        "paths": {
+          "a": 0.4856903366584565,
+          "b": 1.6813061909930576,
+          "c": 4.352222720521051
+        },
+        "detection": false,
+        "quarters": 41
+      },
+      "fpm": {
+        "status": "UNKNOWN_NOT_BUILT",
+        "phase": null,
+        "mode": null,
+        "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)"
+      },
+      "c4_cutoff": "2019-12-31",
+      "c4": {
+        "alert": true,
+        "in_envelope": false,
+        "envelope_status": "ingestion_suspect",
+        "composite": 4.352222720521051,
+        "paths": {
+          "a": 0.3447812457493656,
+          "b": 1.8810317639107907,
+          "c": 4.352222720521051
+        },
+        "detection": false,
+        "quarters": 39
+      }
+    },
+    {
+      "ticker": "WLL",
+      "group": "bankrupt",
+      "cutoff": "2020-03-31",
+      "t1": {
+        "alert": false,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 0.6013288333711542,
+        "paths": {
+          "a": 0.6013288333711542,
+          "b": 0.19047619047619047,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 42
+      },
+      "fpm": {
+        "status": "UNKNOWN_NOT_BUILT",
+        "phase": null,
+        "mode": null,
+        "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)"
+      },
+      "c4_cutoff": "2019-09-30",
+      "c4": {
+        "alert": true,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 2.0317558518871883,
+        "paths": {
+          "a": 0.5198751992859412,
+          "b": 2.0317558518871883,
+          "c": 0.0
+        },
+        "detection": true,
+        "quarters": 40
+      }
+    },
+    {
+      "ticker": "DO",
+      "group": "bankrupt",
+      "cutoff": "2020-03-31",
+      "t1": {
+        "alert": true,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 1.2264457131980606,
+        "paths": {
+          "a": 1.2264457131980606,
+          "b": 0.42857142857142855,
+          "c": 0.0
+        },
+        "detection": true,
+        "quarters": 46
+      },
+      "fpm": {
+        "status": "UNKNOWN_NOT_BUILT",
+        "phase": null,
+        "mode": null,
+        "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)"
+      },
+      "c4_cutoff": "2019-09-30",
+      "c4": {
+        "alert": true,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 1.2076487207168576,
+        "paths": {
+          "a": 1.2076487207168576,
+          "b": 0.42105263157894735,
+          "c": 0.0
+        },
+        "detection": true,
+        "quarters": 44
+      }
+    },
+    {
+      "ticker": "FTR",
+      "group": "bankrupt",
+      "cutoff": "2020-03-31",
+      "t1": {
+        "alert": false,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 0.890082029930462,
+        "paths": {
+          "a": 0.890082029930462,
+          "b": 0.2857142857142857,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 42
+      },
+      "fpm": {
+        "status": "UNKNOWN_NOT_BUILT",
+        "phase": null,
+        "mode": null,
+        "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)"
+      },
+      "c4_cutoff": "2019-09-30",
+      "c4": {
+        "alert": false,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 0.9652699998552742,
+        "paths": {
+          "a": 0.9652699998552742,
+          "b": 0.3157894736842105,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 40
+      }
+    },
+    {
+      "ticker": "MNK",
+      "group": "bankrupt",
+      "cutoff": "2020-06-30",
+      "t1": {
+        "alert": false,
+        "in_envelope": false,
+        "envelope_status": "stale",
+        "composite": 0.28531991888121866,
+        "paths": {
+          "a": 0.28531991888121866,
+          "b": 0.09090909090909091,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 28
+      },
+      "fpm": {
+        "status": "UNKNOWN_NOT_BUILT",
+        "phase": null,
+        "mode": null,
+        "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)"
+      },
+      "c4_cutoff": "2019-12-31",
+      "c4": {
+        "alert": false,
+        "in_envelope": false,
+        "envelope_status": "stale",
+        "composite": 0.28531991888121866,
+        "paths": {
+          "a": 0.28531991888121866,
+          "b": 0.09090909090909091,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 28
+      }
+    },
+    {
+      "ticker": "YELL",
+      "group": "bankrupt",
+      "error": "no facts"
+    },
+    {
+      "ticker": "TUEM",
+      "group": "bankrupt",
+      "cutoff": "2022-12-31",
+      "t1": {
+        "alert": true,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 4.37498615898476,
+        "paths": {
+          "a": 0.488419286266908,
+          "b": 1.806689302321383,
+          "c": 4.37498615898476
+        },
+        "detection": true,
+        "quarters": 47
+      },
+      "fpm": {
+        "status": "UNKNOWN_INSUFFICIENT_HISTORY",
+        "phase": null,
+        "mode": null,
+        "reason": "interior gap(s) 2022Q1; window does not shift across gaps"
+      },
+      "c4_cutoff": "2022-06-30",
+      "c4": {
+        "alert": true,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 4.37498615898476,
+        "paths": {
+          "a": 0.499171974438951,
+          "b": 1.7688320974987952,
+          "c": 4.37498615898476
+        },
+        "detection": true,
+        "quarters": 46
+      }
+    },
+    {
+      "ticker": "EXPR",
+      "group": "bankrupt",
+      "error": "no facts"
+    },
+    {
+      "ticker": "LMT",
+      "group": "healthy",
+      "cutoff": "2026-10-07",
+      "t1": {
+        "alert": false,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 0.35037484229077326,
+        "paths": {
+          "a": 0.35037484229077326,
+          "b": 0.10869565217391304,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 71
+      },
+      "fpm": {
+        "status": "p2",
+        "phase": "p2",
+        "mode": "GENUINE_BASELINE",
+        "reason": "lag-4 coherence 0.609 >= 0.50 with amplitude 0.0563 >= 0.030 (prove_p2.py:53-67,81)"
+      }
+    },
+    {
+      "ticker": "GD",
+      "group": "healthy",
+      "cutoff": "2026-10-07",
+      "t1": {
+        "alert": false,
+        "in_envelope": false,
+        "envelope_status": "stale",
+        "composite": 0.4324972297773749,
+        "paths": {
+          "a": 0.28187365556302674,
+          "b": 0.4324972297773749,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 70
+      },
+      "fpm": {
+        "status": "UNKNOWN_INSUFFICIENT_HISTORY",
+        "phase": null,
+        "mode": null,
+        "reason": "interior gap(s) 2009Q1,2010Q1,2011Q1,2012Q1,2015Q1,2016Q1,2017Q1,2018Q1,2021Q1,2022Q1,2023Q1,2026Q1; window does not shift across gaps"
+      }
+    },
+    {
+      "ticker": "NOC",
+      "group": "healthy",
+      "cutoff": "2026-10-07",
+      "t1": {
+        "alert": false,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 0.5920342822984667,
+        "paths": {
+          "a": 0.5920342822984667,
+          "b": 0.41179138321995457,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 68
+      },
+      "fpm": {
+        "status": "p2",
+        "phase": "p2",
+        "mode": "GENUINE_BASELINE",
+        "reason": "lag-4 coherence 0.603 >= 0.50 with amplitude 0.0491 >= 0.030 (prove_p2.py:53-67,81)"
+      }
+    },
+    {
+      "ticker": "UNP",
+      "group": "healthy",
+      "cutoff": "2026-10-07",
+      "t1": {
+        "alert": false,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 0.4963930824491327,
+        "paths": {
+          "a": 0.4963930824491327,
+          "b": 0.13043478260869565,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 70
+      },
+      "fpm": {
+        "status": "UNKNOWN_NOT_BUILT",
+        "phase": null,
+        "mode": null,
+        "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)"
+      }
+    },
+    {
+      "ticker": "CSX",
+      "group": "healthy",
+      "cutoff": "2026-10-07",
+      "t1": {
+        "alert": false,
+        "in_envelope": false,
+        "envelope_status": "stale",
+        "composite": 0.0,
+        "paths": {
+          "a": 0.0,
+          "b": 0.0,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 56
+      },
+      "fpm": {
+        "status": "UNKNOWN_INSUFFICIENT_HISTORY",
+        "phase": null,
+        "mode": null,
+        "reason": "interior gap(s) 2011Q1; window does not shift across gaps"
+      }
+    },
+    {
+      "ticker": "NSC",
+      "group": "healthy",
+      "cutoff": "2026-10-07",
+      "t1": {
+        "alert": false,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 0.20031188316424,
+        "paths": {
+          "a": 0.20031188316424,
+          "b": 0.043478260869565216,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 70
+      },
+      "fpm": {
+        "status": "UNKNOWN_NOT_BUILT",
+        "phase": null,
+        "mode": null,
+        "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)"
+      }
+    },
+    {
+      "ticker": "ADP",
+      "group": "healthy",
+      "cutoff": "2026-10-07",
+      "t1": {
+        "alert": false,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 0.27012189359385497,
+        "paths": {
+          "a": 0.27012189359385497,
+          "b": 0.06521739130434782,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 69
+      },
+      "fpm": {
+        "status": "p2",
+        "phase": "p2",
+        "mode": "GENUINE_BASELINE",
+        "reason": "lag-4 coherence 0.993 >= 0.50 with amplitude 0.0454 >= 0.030 (prove_p2.py:53-67,81)"
+      }
+    },
+    {
+      "ticker": "PAYX",
+      "group": "healthy",
+      "cutoff": "2026-10-07",
+      "t1": {
+        "alert": true,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 1.3711297933340136,
+        "paths": {
+          "a": 1.3711297933340136,
+          "b": 0.44680851063829785,
+          "c": 0.0
+        },
+        "detection": true,
+        "quarters": 71
+      },
+      "fpm": {
+        "status": "p2",
+        "phase": "p2",
+        "mode": "GENUINE_BASELINE",
+        "reason": "lag-4 coherence 0.563 >= 0.50 with amplitude 0.0582 >= 0.030 (prove_p2.py:53-67,81)"
+      }
+    },
+    {
+      "ticker": "WM",
+      "group": "healthy",
+      "cutoff": "2026-10-07",
+      "t1": {
+        "alert": false,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 0.33750260468690096,
+        "paths": {
+          "a": 0.33750260468690096,
+          "b": 0.08695652173913043,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 71
+      },
+      "fpm": {
+        "status": "UNKNOWN_NOT_BUILT",
+        "phase": null,
+        "mode": null,
+        "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)"
+      }
+    },
+    {
+      "ticker": "CAR",
+      "group": "hard_neg",
+      "cutoff": "2026-10-07",
+      "t1": {
+        "alert": false,
+        "in_envelope": false,
+        "envelope_status": "stale",
+        "composite": 0.8967993754879,
+        "paths": {
+          "a": 0.4425099260642959,
+          "b": 0.8967993754879,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 65
+      },
+      "fpm": {
+        "status": "p2",
+        "phase": "p2",
+        "mode": "GENUINE_BASELINE",
+        "reason": "lag-4 coherence 0.983 >= 0.50 with amplitude 0.1246 >= 0.030 (prove_p2.py:53-67,81)"
+      }
+    },
+    {
+      "ticker": "M",
+      "group": "hard_neg",
+      "cutoff": "2026-10-07",
+      "t1": {
+        "alert": false,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 0.2849569251159709,
+        "paths": {
+          "a": 0.0,
+          "b": 0.2849569251159709,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 71
+      },
+      "fpm": {
+        "status": "p2",
+        "phase": "p2",
+        "mode": "GENUINE_BASELINE",
+        "reason": "lag-4 coherence 0.992 >= 0.50 with amplitude 0.2099 >= 0.030 (prove_p2.py:53-67,81)"
+      }
+    },
+    {
+      "ticker": "XOM",
+      "group": "hard_neg",
+      "cutoff": "2026-10-07",
+      "t1": {
+        "alert": false,
+        "in_envelope": false,
+        "envelope_status": "stale",
+        "composite": 0.34166492505220886,
+        "paths": {
+          "a": 0.34166492505220886,
+          "b": 0.08888888888888889,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 70
+      },
+      "fpm": {
+        "status": "UNKNOWN_NOT_BUILT",
+        "phase": null,
+        "mode": null,
+        "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)"
+      }
+    },
+    {
+      "ticker": "SCHW",
+      "group": "hard_neg",
+      "cutoff": "2026-10-07",
+      "t1": {
+        "alert": false,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 0.5456941393865173,
+        "paths": {
+          "a": 0.5456941393865173,
+          "b": 0.13043478260869565,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 71
+      },
+      "fpm": {
+        "status": "UNKNOWN_NOT_BUILT",
+        "phase": null,
+        "mode": null,
+        "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)"
+      }
+    },
+    {
+      "ticker": "CCL",
+      "group": "hard_neg",
+      "cutoff": "2026-10-07",
+      "t1": {
+        "alert": false,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 0.3426718353306389,
+        "paths": {
+          "a": 0.3426718353306389,
+          "b": 0.10869565217391304,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 70
+      },
+      "fpm": {
+        "status": "UNKNOWN_INSUFFICIENT_HISTORY",
+        "phase": null,
+        "mode": null,
+        "reason": "interior gap(s) 2010Q3,2010Q4,2011Q1,2011Q2,2011Q3,2011Q4,2012Q1,2012Q2,2012Q3,2012Q4,2013Q1,2013Q2,2013Q3,2013Q4,2014Q1,2014Q2,2014Q3,2014Q4,2015Q1,2015Q2; window does not shift across gaps"
+      }
+    },
+    {
+      "ticker": "AAL",
+      "group": "hard_neg",
+      "cutoff": "2026-10-07",
+      "t1": {
+        "alert": false,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 0.6486298556882093,
+        "paths": {
+          "a": 0.6486298556882093,
+          "b": 0.18421052631578946,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 58
+      },
+      "fpm": {
+        "status": "p2",
+        "phase": "p2",
+        "mode": "GENUINE_BASELINE",
+        "reason": "lag-4 coherence 0.667 >= 0.50 with amplitude 0.0585 >= 0.030 (prove_p2.py:53-67,81)"
+      }
+    },
+    {
+      "ticker": "NCLH",
+      "group": "hard_neg",
+      "cutoff": "2026-10-07",
+      "t1": {
+        "alert": false,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 0.0,
+        "paths": {
+          "a": 0.0,
+          "b": 0.0,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 55
+      },
+      "fpm": {
+        "status": "p5",
+        "phase": "p5",
+        "mode": "ENDURANCE",
+        "reason": "own-cash dominant now with prior P4 window (9.12a)"
+      }
+    },
+    {
+      "ticker": "RCL",
+      "group": "hard_neg",
+      "cutoff": "2026-10-07",
+      "t1": {
+        "alert": false,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 0.40614683456140993,
+        "paths": {
+          "a": 0.40614683456140993,
+          "b": 0.13043478260869565,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 68
+      },
+      "fpm": {
+        "status": "p5",
+        "phase": "p5",
+        "mode": "ENDURANCE",
+        "reason": "own-cash dominant now with prior P4 window (9.12a)"
+      }
+    },
+    {
+      "ticker": "UAL",
+      "group": "hard_neg",
+      "cutoff": "2026-10-07",
+      "t1": {
+        "alert": false,
+        "in_envelope": true,
+        "envelope_status": "validated",
+        "composite": 0.11083918054425795,
+        "paths": {
+          "a": 0.11083918054425795,
+          "b": 0.021739130434782608,
+          "c": 0.0
+        },
+        "detection": false,
+        "quarters": 66
+      },
+      "fpm": {
+        "status": "p2",
+        "phase": "p2",
+        "mode": "GENUINE_BASELINE",
+        "reason": "lag-4 coherence 0.828 >= 0.50 with amplitude 0.0671 >= 0.030 (prove_p2.py:53-67,81)"
+      }
+    }
+  ]
+}
