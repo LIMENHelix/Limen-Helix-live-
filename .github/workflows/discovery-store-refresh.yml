@@ -113,10 +113,12 @@ jobs:
           # on THIS repo) enabling the full unattended ship loop. REQUIRED for
           # shipping, because GitHub suppresses workflow runs on PRs created
           # by GITHUB_TOKEN — required checks would never start and the PR
-          # could never merge. Without it this job validates and stops
-          # (see the notice below); the operator either provisions this
-          # secret or adds GitHub Actions to the main ruleset bypass list
-          # (then switch SHIP_MODE to direct-push).
+          # could never merge. The PAT must be OPERATOR-OWNED so the squash/
+          # merge commit on main resolves to the operator author (Vercel
+          # git-author protection blocks bot-authored commits). Without it
+          # this job validates and stops (see the notice below); the
+          # alternative is adding GitHub Actions to the main ruleset bypass
+          # list and restoring direct-push.
           AUTO_SHIP_TOKEN: ${{ secrets.AUTO_SHIP_TOKEN }}
         run: |
           git config user.name  "Chris Hubbel"
@@ -162,8 +164,8 @@ jobs:
           MERGED=0
           for i in $(seq 1 45); do
             sleep 20
-            STATE=$(GH_TOKEN="$AUTO_SHIP_TOKEN" gh pr view "$BRANCH" --json mergeableState -q .mergeableState)
-            echo "poll $i: mergeableState=$STATE"
+            STATE=$(GH_TOKEN="$AUTO_SHIP_TOKEN" gh pr view "$BRANCH" --json mergeStateStatus -q .mergeStateStatus)
+            echo "poll $i: mergeStateStatus=$STATE"
             case "$STATE" in
               CLEAN)
                 if GH_TOKEN="$AUTO_SHIP_TOKEN" gh pr merge "$BRANCH" --squash --delete-branch \
@@ -178,7 +180,7 @@ jobs:
                 GH_TOKEN="$AUTO_SHIP_TOKEN" gh pr close "$BRANCH" --delete-branch || true
                 exit 1
                 ;;
-              CONFLICTING|DIRTY)
+              DIRTY)
                 echo "::error::auto-PR has conflicts — manual resolution needed"
                 exit 1
                 ;;
