@@ -8,8 +8,17 @@ separately, each with its own Wilson bound — no accuracy criterion; (3) cohort
 ≥30 per side, per-class recall reported, PR-AUC judged by a pre-specified
 paired non-inferiority margin against the v1 extraction on the SAME fresh
 cohorts (the recorded 0.8143/0.8288 came from the old extraction and cannot
-anchor). Status: **DRAFT for operator review. Nothing has been run, pulled, or
-implemented. Shadow phase and pulls are HELD until the operator signs.** Companion record: frame audit
+anchor). **STATUS UPDATE (2026-10-08, post-shadow): PARKED.** The signed
+shadow phase (44efbd13) showed the adapter unmasks a large alert population
+on complete-data large caps, and the operator's coupling finding is recorded:
+P3_ENTRY and the path weights were calibrated on v1's SPARSE feature
+distributions, so an adapter-only delta under a frozen threshold is not
+coherent (sensor-gain/threshold analogy). This draft's delta is therefore
+**not executable as scoped**. Decision pending (operator): (a) keep Thing 1
+v1 as the validated artifact with a scoped coverage claim; or (b) Thing 1 v2
+= new adapter + thresholds recalibrated on calibration data only + new lock
++ one fresh-pool validation. The Path-A-on-complete-data mini-prereg
+(THING1_PATHA_MINIPREREG_v1.0.md) feeds that choice. Companion record: frame audit
 (prereg v1.0–v1.2, pilot results, checkpoint §30–§33).
 
 ## 1. Delta scope (named, minimal)
