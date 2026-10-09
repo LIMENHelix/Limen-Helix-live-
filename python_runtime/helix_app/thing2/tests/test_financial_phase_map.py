@@ -224,6 +224,22 @@ class TestIsolation(unittest.TestCase):
             self.assertNotIn(banned, src)
 
 
+class TestLockOnlyP2(unittest.TestCase):
+    # Regression: margin-lock firing with an unmeasurable temporal dyad must
+    # not crash the reason string (coh/amp are None on this path).
+    Z_OK = measured(2.0)
+
+    def test_lock_only_p2_no_crash(self):
+        rev = series([100.0] * 8)  # only 8 quarters -> temporal dyad refuses (<12)
+        cost = series([70.0] * 8)  # constant ratio -> cv 0 -> lock = 1.0
+        ocf = series([30.0] * 8)
+        cff = series([50.0] * 8)  # CFF > OCF: neither P4 nor P5 fires
+        v = fpm.evaluate(rev, ocf, cff, self.Z_OK, cost=cost)
+        self.assertEqual(v.phase, "p2")
+        self.assertIn("margin lock", v.reason)
+        self.assertNotIn("%", v.reason)
+
+
 class TestPinnedConstants(unittest.TestCase):
     # Pinned to the cited research source (prove_p2.py:81-82, LIMEN_FOUR_LAYER.md:67-70)
     def test_constants_match_citations(self):

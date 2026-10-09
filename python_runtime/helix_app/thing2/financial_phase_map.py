@@ -48,12 +48,12 @@ from evidence import (
     missing,
 )
 
-FORMULA_VERSION = "2026-10-07.fpm-r1"
+FORMULA_VERSION = "2026-10-09.fpm-r2"
 
-# --- frozen constants (decision tags per checkpoint §11/§15) ---
+# --- frozen constants (decision tags per checkpoint §11/§15/§27/§39) ---
 WAS_WINDOW_QTRS = 16          # 9.11a: keep was.py lookback=16
-MIN_HISTORY_QTRS = 8          # PENDING RATIFICATION (thing0Eligible hist>=8 precedent)
-MIN_MEASURED_QTRS = 12        # prove_p2.py:57 len(rev) >= 12
+MIN_HISTORY_QTRS = 8          # RATIFIED 2026-10-09 (operator): global floor, 8 elapsed quarters
+MIN_MEASURED_QTRS = 12        # RATIFIED 2026-10-09 (operator): P2 rhythm gate (prove_p2.py:57)
 TTM_QTRS = 4                  # prove_p2.py/flows.py trailing-four
 P4_CFF_PLUG_RATIO = 0.5       # LIMEN_FOUR_LAYER.md:67
 Z_SOLVENT = 1.1               # LIMEN_FOUR_LAYER.md:70
@@ -239,7 +239,7 @@ def evaluate(revenue, ocf, cff, solvency_z, cost=None, end_quarter=None,
                             "elapsed history %d < %d quarters" % (len(grid), MIN_HISTORY_QTRS),
                             formula_version, evidence)
     if gaps:
-        # zero-tolerated-interior-gaps default (pending ratification)
+        # RATIFIED 2026-10-09 (operator): zero interior gaps tolerated
         return PhaseVerdict(None, None, UNKNOWN_INSUFFICIENT_HISTORY,
                             "interior gap(s) %s; window does not shift across gaps" % ",".join(gaps),
                             formula_version, evidence)
@@ -328,10 +328,13 @@ def evaluate(revenue, ocf, cff, solvency_z, cost=None, end_quarter=None,
 
     if p2_fires:
         mode = "GENUINE_BASELINE" if prior is False else None
-        return PhaseVerdict("p2", mode, "p2",
-                            "lag-4 coherence %.3f >= %.2f with amplitude %.4f >= %.3f (prove_p2.py:53-67,81)"
-                            % (coh, TEMPORAL_COH, amp, TEMPORAL_AMP),
-                            formula_version, evidence)
+        if rhythm_measurable:
+            reason = ("lag-4 coherence %.3f >= %.2f with amplitude %.4f >= %.3f (prove_p2.py:53-67,81)"
+                      % (coh, TEMPORAL_COH, amp, TEMPORAL_AMP))
+        else:
+            reason = ("margin lock %.3f >= %.2f (prove_p2.py:70-78,82); temporal dyad not measurable"
+                      % (lock, RELATIONAL_LOCK))
+        return PhaseVerdict("p2", mode, "p2", reason, formula_version, evidence)
 
     if p0_flat and solvency_known and solvent:
         mode = "GENUINE_BASELINE" if prior is False else None

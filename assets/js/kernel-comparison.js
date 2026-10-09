@@ -53,7 +53,7 @@ function _normCik(c) { return String(c == null ? '' : c).replace(/^0+/, ''); }
             DATA = DATA.filter(function(c) { return (c.d || c.domain) === _CMD_RESOLVED; });
           }
           console.log('[CommandBoard] Loaded ' + DATA.length + ' companies from ' + url + (_CMD_RESOLVED ? ' (filtered: ' + _CMD_RESOLVED + ')' : ''));
-          _initBoard();
+          _loadT2ThenInit();
         } catch (e) {
           console.error('[CommandBoard] Parse error:', e);
           document.getElementById('statsBar').innerHTML = '<div class="stat"><div class="stat-val" style="color:#e85454">DATA ERROR</div><div class="stat-label">Failed to parse company data</div></div>';
@@ -77,6 +77,37 @@ function _normCik(c) { return String(c == null ? '' : c).replace(/^0+/, ''); }
   }
   loadFrom(primary, true);
 })();
+
+// Thing 2 phase-reading channel (ADDED 2026-10-09; Thing 1 untouched).
+// Interpretive only — never "validated", zero alert authority. Keyed by
+// normalized CIK; built by scripts/kernel-validation/thing2_board_readings.py.
+var _T2READINGS = null;
+function _loadT2ThenInit() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'assets/data/command-board-thing2-readings.json', true);
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      try { _T2READINGS = JSON.parse(xhr.responseText).readings || null; }
+      catch (e) { _T2READINGS = null; }
+    }
+    _initBoard();
+  };
+  xhr.onerror = function() { _initBoard(); };
+  xhr.send();
+}
+function _t2Reading(d) {
+  if (!_T2READINGS) return null;
+  var key = String(d.c == null ? '' : d.c).replace(/^0+/, '') || '0';
+  return _T2READINGS[key] || null;
+}
+function _t2Chip(d) {
+  var r = _t2Reading(d);
+  if (!r) return '<span style="color:rgba(200,195,184,0.2)">—</span>';
+  if (r.title && r.title.indexOf('UNKNOWN') === 0) {
+    return '<span class="phase" style="background:transparent;color:rgba(200,195,184,0.35);border:1px dashed rgba(200,195,184,0.2)" title="Thing 2 interpretive reading — ' + (r.status || '') + ' — zero alert authority">' + r.title + '</span>';
+  }
+  return '<span class="phase" style="background:rgba(90,181,160,0.06);color:#5ab5a0;border:1px dashed rgba(90,181,160,0.35)" title="Thing 2 interpretive reading — never validated — zero alert authority">' + (r.title || r.status) + '</span>';
+}
 
 // ═══════════════════════════════════════════════════════════════════════
 // TASK 1 — SIGNAL CLASSIFICATION ENGINE (deterministic enum)
@@ -151,14 +182,15 @@ function trajColor(t) {
   if (t.indexOf('RECOVERED') !== -1) return '#4a8fd4';
   return '#5ab5a0';
 }
-// Phase verbiage — Thing 2's native PHASE_META.label vocabulary, byte-for-byte
-// from python_runtime/helix_app/thing2/phase_engine.py:121 (mirrored in helix-report.html:243).
-// Single source string per phase across Thing 1, Thing 2, Command Board, Helix
-// Report. Verdict register (TERMINAL_DIVERGENCE etc.) is reserved for alert rows
-// where Thing 1 has confirmed via the validated kernel — see _isValidatedAlert(d).
+// Phase verbiage — FROZEN registry titles per operator decision 2026-10-09:
+// P0 Source, P2 Rhythm, P4 Scaffolding, P5 Endurance; alternates retired on
+// every released surface. (This map previously mirrored phase_engine.py's
+// label register byte-for-byte; the freeze supersedes the mirror for p4.
+// See scripts/kernel-validation/THING1_V1_SCOPED_CLAIM.md vocabulary rule and
+// checkpoint glossary: phases are states, not Things.)
 var PHASE_LABELS = {
   p0: 'P0 · SOURCE',  p1: 'P1 · RUPTURE',  p2: 'P2 · RHYTHM',
-  p3: 'P3 · INSTABILITY', p4: 'P4 · STABILISATION', p5: 'P5 · ENDURANCE',
+  p3: 'P3 · INSTABILITY', p4: 'P4 · SCAFFOLDING', p5: 'P5 · ENDURANCE',
   p6: 'P6 · ORDER', p7: 'P7 · DIVERGENCE',
   p7a:'P7a · TERMINAL', p7b:'P7b · SEPARATION',
   p8: 'P8 · PIVOT', p9: 'P9 · COLLAPSE', p10:'P10 · RESURRECTION',
@@ -426,7 +458,9 @@ function renderTable(rows, startOffset) {
     var t0Class = d._thing0Status === 'QUALIFIED' ? 'src-dat-ok' : (d._thing0Status === 'PARTIALLY_QUALIFIED' ? 'src-dat-part' : 'src-dat-err');
     var srcBadges = '<span class="src-badge ' + t0Class + '">T0:' + d._thing0Status.replace('_QUALIFIED', '') + '</span>' +
       '<span class="src-badge src-lin">T1:' + (d._thing1Result || (d.vs || 'NONE').toUpperCase()) + '</span>' +
-      '<span class="src-badge src-rec">T2:MASK CHECK</span>' +
+      '<span class="src-badge src-rec">T2:' + (function(){ var r = _t2Reading(d); if (!r) return 'NONE';
+        if (r.title && r.title.indexOf('UNKNOWN') === 0) return 'UNKNOWN';
+        return (r.phase || r.status || 'NONE').toUpperCase(); })() + '</span>' +
       '<span class="src-badge ' + srcDataClass + '">DAT:' + srcData + '</span>';
 
     // Main row
@@ -438,6 +472,7 @@ function renderTable(rows, startOffset) {
       '<td>' + (d._thing1Result === 'ALERT' ? '<span style="font-size:0.55em;padding:1px 4px;border-radius:2px;margin-right:5px;background:rgba(232,84,84,0.15);color:#e85454">T1 ALERT</span>' : '') + '<span style="color:rgba(201,169,78,0.5)">' + d.n + '</span></td>' +
       '<td style="color:#C9A94E">' + d.t + '</td>' +
       '<td><span class="phase" style="background:' + pc + '22;color:' + pc + ';border:1px solid ' + pc + '44">' + (PHASE_LABELS[d.p] || d.p.toUpperCase()) + '</span></td>' +
+      '<td>' + _t2Chip(d) + '</td>' +
       '<td style="color:' + tc + '">' + d.tr.replace(/_/g, ' ') + '</td>' +
       '<td>' + d.co.toFixed(2) + ' <span class="bar-bg"><span class="bar" style="width:' + compPct + '%;background:' + tc + '"></span></span></td>' +
       '<td style="color:rgba(200,195,184,0.4)">' + d.d + '</td>' +
