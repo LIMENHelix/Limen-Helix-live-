@@ -2,12 +2,16 @@ name: Discovery store refresh (treatment-discovery data)
 
 # Keeps the treatment-discovery surface (limenhelix.com/treatment-discovery)
 # current without manual runs. Each scheduled run:
-#   1. verifies a small budget-capped batch of PENDING claims (verification
+#   1. rebuilds the discovery store under one snapshot (cube → residuals →
+#      ledger join → render split → epistemic buckets → master inbox). This
+#      also materializes the gitignored 81MB cube the verification organ reads,
+#      so it MUST run before the organ in a fresh checkout,
+#   2. verifies a small budget-capped batch of PENDING claims (verification
 #      organ — rule-based + PubMed; append-only ledger),
-#   2. rebuilds the whole discovery store under one snapshot (cube → residuals
-#      → ledger join → render split → epistemic buckets → master inbox),
-#   3. runs the 19-check reconciliation self-test,
-#   4. commits and pushes to main ONLY if something substantive changed
+#   3. rebuilds again so the new verdicts propagate into every artifact under
+#      one final snapshot,
+#   4. runs the 19-check reconciliation self-test,
+#   5. commits and pushes to main ONLY if something substantive changed
 #      (scripts/substantive-data-change.mjs strips snapshot timestamps before
 #      deciding — otherwise every run would commit pure timestamp churn).
 #
@@ -50,6 +54,9 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Rebuild discovery stores (snapshot 1 — also materializes the gitignored cube the organ reads)
+        run: node scripts/reconcile-discovery-stores.mjs
+
       - name: Verify up to N PENDING claims (verification organ)
         env:
           PUBMED_API_KEY: ${{ secrets.PUBMED_API_KEY }}
@@ -58,7 +65,7 @@ jobs:
           echo "Organ budget this run: $MAX claims"
           node scripts/organ-claim-verification.mjs --max="$MAX"
 
-      - name: Rebuild discovery stores (one snapshot)
+      - name: Rebuild discovery stores (snapshot 2 — propagate new verdicts into every artifact)
         run: node scripts/reconcile-discovery-stores.mjs
 
       - name: Reconciliation self-test (expect 19/19)
