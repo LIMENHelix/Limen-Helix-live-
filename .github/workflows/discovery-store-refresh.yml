@@ -14,19 +14,22 @@ name: Discovery store refresh (treatment-discovery data)
 #   3. rebuilds again so the new verdicts propagate into every artifact under
 #      one final snapshot,
 #   4. runs the 19-check reconciliation self-test,
-#   5. commits and pushes to main ONLY if something substantive changed
-#      (scripts/substantive-data-change.mjs strips snapshot timestamps before
-#      deciding — otherwise every run would commit pure timestamp churn).
+#   5. ships ONLY if something substantive changed (scripts/substantive-data-
+#      change.mjs strips snapshot timestamps before deciding — otherwise every
+#      run would commit pure timestamp churn). Shipping needs a non-actions
+#      credential: GitHub suppresses workflow runs on GITHUB_TOKEN-created
+#      PRs, so required checks can never start on one. Two modes:
+#        - AUTO_SHIP_TOKEN secret set: push + PR + self-merge as that actor,
+#          gated by a data-only provenance check (this automation may never
+#          land a code change unattended),
+#        - secret absent: validate and stop with a notice — no half-broken
+#          bot PRs littering the repo.
+#      (Verified live: GH013 rejects even GITHUB_TOKEN direct pushes, and
+#      rescore-portals.yml's silent direct-push loop has been failing the same
+#      way since the ruleset landed.)
 #
-# The job is main-only: a workflow_dispatch from a feature branch checks out
-# that branch, and the push step must never publish a feature HEAD to main.
-#
-# The repo ruleset on main forbids ALL direct pushes — including GITHUB_TOKEN
-# (verified in the first live run: GH013 "Changes must be made through a pull
-# request"; rescore-portals.yml predates the ruleset and its pushes fail
-# silently). So this job ships through the same front door as everything else:
-# commit on an auto branch, open a PR, and merge it once the two required
-# checks (Vercel + repository check) go green. No ruleset bypass needed.
+# The job is main-only: a workflow_dispatch from a feature branch must never
+# publish that branch's HEAD anywhere (scheduled runs always have ref == main).
 #
 # Cheap: PubMed e-utils (2 req/sec without a key) + local rebuild. NO AI spend.
 # PR merges use --squash so the resulting main commit keeps the operator author
@@ -54,6 +57,9 @@ concurrency:
 
 permissions:
   contents: write
+  # gh pr create / pr merge need pull-requests scope (unspecified scopes are
+  # 'none' once a permissions block exists)
+  pull-requests: write
 
 jobs:
   refresh:
@@ -100,10 +106,18 @@ jobs:
         id: gate
         run: node scripts/substantive-data-change.mjs
 
-      - name: Commit + ship refreshed data via self-merging PR
+      - name: Commit + ship refreshed data
         if: steps.gate.outputs.substantive == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Optional: a fine-grained PAT (contents:write + pull-requests:write
+          # on THIS repo) enabling the full unattended ship loop. REQUIRED for
+          # shipping, because GitHub suppresses workflow runs on PRs created
+          # by GITHUB_TOKEN — required checks would never start and the PR
+          # could never merge. Without it this job validates and stops
+          # (see the notice below); the operator either provisions this
+          # secret or adds GitHub Actions to the main ruleset bypass list
+          # (then switch SHIP_MODE to direct-push).
+          AUTO_SHIP_TOKEN: ${{ secrets.AUTO_SHIP_TOKEN }}
         run: |
           git config user.name  "Chris Hubbel"
           git config user.email "chrishubbel72@gmail.com"
@@ -112,6 +126,15 @@ jobs:
                   assets/data/audit/cube-unresolved-ids.json \
                   assets/data/audit/discovery-store-reconciliation.json \
                   assets/data/_master-inbox.json
+          # Provenance gate: this automation may ONLY ever ship regenerated
+          # data artifacts. If anything outside assets/data/ is dirty, a code
+          # change has crept into the run — stop and leave it for humans.
+          DIRTY=$(git status --porcelain | grep -v '^??' | grep -v 'assets/data/' || true)
+          if [ -n "$DIRTY" ]; then
+            echo "::error::non-data files unexpectedly changed — refusing to ship:"
+            echo "$DIRTY"
+            exit 1
+          fi
           COUNTS=$(node -e "const s=require('./assets/data/treatment-discovery/_summary.json').epistemicBuckets;console.log(\`\${s.proven} proven / \${s.unproven} unproven / \${s.unknown} unknown / \${s.impossible} impossible\`)")
           git commit -m "Auto: treatment-discovery store refresh
 
@@ -123,26 +146,37 @@ jobs:
           No AI spend.
 
           Co-Authored-By: Kimi Code <noreply@moonshot.cn>"
-          # The ruleset on main rejects direct pushes (GH013), so ship via PR:
-          # push an auto branch, open the PR, merge it once the required
-          # checks pass. --squash keeps the operator as the main-commit author
-          # (Vercel git-author protection); --delete-branch cleans the branch.
+          if [ -z "$AUTO_SHIP_TOKEN" ]; then
+            echo "::notice::AUTO_SHIP_TOKEN not configured — data validated (19/19, substantive) but NOT shipped. Provision the secret to enable the unattended ship loop, or add GitHub Actions to the main ruleset bypass list and switch this step to direct-push."
+            exit 0
+          fi
+          # PAT path: push + open the PR as a REAL actor so the required
+          # checks actually run (GITHUB_TOKEN-created PRs never trigger
+          # workflows). Poll, then self-merge ONLY when the diff is data-only
+          # (guaranteed above) and both required checks are green.
           BRANCH="auto/discovery-store-refresh-$(date -u +%Y%m%d-%H%M%S)"
-          git push origin "HEAD:$BRANCH"
-          gh pr create --base main --head "$BRANCH" \
+          git push "https://x-access-token:${AUTO_SHIP_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:$BRANCH"
+          GH_TOKEN="$AUTO_SHIP_TOKEN" gh pr create --base main --head "$BRANCH" \
             --title "Auto: treatment-discovery store refresh" \
-            --body "Scheduled discovery-store refresh (substantive-change gated, self-test 19/19). Current claims: $COUNTS. Generated by discovery-store-refresh.yml."
+            --body "Scheduled discovery-store refresh (substantive-change gated, self-test 19/19, data-only provenance gate). Current claims: $COUNTS. Generated by discovery-store-refresh.yml. Self-merges once Vercel + repository-check pass."
           MERGED=0
           for i in $(seq 1 45); do
             sleep 20
-            STATE=$(gh pr view "$BRANCH" --json mergeableState -q .mergeableState)
+            STATE=$(GH_TOKEN="$AUTO_SHIP_TOKEN" gh pr view "$BRANCH" --json mergeableState -q .mergeableState)
             echo "poll $i: mergeableState=$STATE"
             case "$STATE" in
               CLEAN)
-                if gh pr merge "$BRANCH" --squash --delete-branch || gh pr merge "$BRANCH" --merge --delete-branch; then MERGED=1; fi
+                if GH_TOKEN="$AUTO_SHIP_TOKEN" gh pr merge "$BRANCH" --squash --delete-branch \
+                   || GH_TOKEN="$AUTO_SHIP_TOKEN" gh pr merge "$BRANCH" --merge --delete-branch; then MERGED=1; fi
                 ;;
               BEHIND)
-                gh pr update-branch "$BRANCH" || true
+                # Never update-branch in place: merging data generated against
+                # the old parent under a newer main re-creates the sourceCommit
+                # lineage defect. Fail loudly; the next run ships from fresh
+                # main with matching provenance.
+                echo "::error::main advanced mid-run — closing auto-PR; re-run to ship from current main"
+                GH_TOKEN="$AUTO_SHIP_TOKEN" gh pr close "$BRANCH" --delete-branch || true
+                exit 1
                 ;;
               CONFLICTING|DIRTY)
                 echo "::error::auto-PR has conflicts — manual resolution needed"
