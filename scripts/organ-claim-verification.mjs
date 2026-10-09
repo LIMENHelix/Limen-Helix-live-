@@ -59,6 +59,7 @@
  */
 
 import fs from 'fs';
+import crypto from 'crypto';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -103,6 +104,35 @@ const ARG = {
 };
 
 // ============================================================================
+// PAYLOAD HASHING — staleness detection
+// ============================================================================
+// Every extracted claim carries a hash of its verification payload. Ledger
+// verdicts store the hash they were computed under (`ph`). A source edit that
+// changes a claim's payload while preserving its id (e.g. a treatment's
+// mechanism or citations are rewritten) flips the hash, so the extractor no
+// longer treats the old verdict as covering the new content and re-enqueues
+// the claim. Without this, an obsolete VERIFIED/DISPUTED would ride on edited
+// content indefinitely. Records written before this field existed are
+// backfilled once (trusted — same assurance as the status quo) by
+// backfillPayloadHashes(), never mass-re-verified against the weekly budget.
+
+function stableStringify(value) {
+  if (Array.isArray(value)) return `[${value.map(stableStringify).join(',')}]`;
+  if (value && typeof value === 'object') {
+    return `{${Object.keys(value).sort().map((k) => `${JSON.stringify(k)}:${stableStringify(value[k])}`).join(',')}}`;
+  }
+  return JSON.stringify(value) ?? 'null';
+}
+
+function payloadHash(payload) {
+  return crypto.createHash('sha256').update(stableStringify(payload)).digest('hex').slice(0, 16);
+}
+
+// Count of claims re-enqueued this run because their payload changed under a
+// preserved id (reported after extraction).
+let stalePayloadCount = 0;
+
+// ============================================================================
 // MAIN
 // ============================================================================
 
@@ -130,6 +160,22 @@ async function main() {
       FABRICATED: 0, PENDING: 0, byVerifier: {},
     },
   };
+
+  // Stamp payload hashes onto pre-hashing ledger records (one-time per
+  // record). Trusts the existing verdict — same assurance as before the hash
+  // existed — instead of burning the verification budget on a mass re-run;
+  // from this point on, any payload edit under a preserved id flips the hash
+  // and forces re-verification.
+  {
+    const refs = [];
+    for (const cell of cube.cells || []) extractCellClaims(cell, refs, ledger, new Set(), true);
+    let backfilled = 0;
+    for (const r of refs) {
+      const lv = ledger.verdicts[r.claimId];
+      if (lv && !lv.ph) { lv.ph = r.payloadHash; backfilled++; }
+    }
+    if (backfilled) console.log(`[verification-organ] payload-hash backfill: stamped ${backfilled}/${refs.length} current claims`);
+  }
 
   if (ARG.reconcileOnly) {
     const snapshotAt = process.env.LIMEN_SNAPSHOT_AT || new Date().toISOString();
@@ -174,7 +220,8 @@ async function main() {
   // EXTRACT CLAIMS — every PENDING claim across every cell
   // ============================================================================
   const claims = extractAllClaims(cube, ledger);
-  console.log(`[verification-organ] PENDING claims extracted: ${claims.length}`);
+  console.log(`[verification-organ] PENDING claims extracted: ${claims.length}` +
+    (stalePayloadCount ? ` (${stalePayloadCount} stale payload — source edited under a preserved id)` : ''));
 
   // Priority filter
   let queue = claims;
@@ -245,7 +292,12 @@ async function main() {
         note: `error: ${err.message}`,
       };
     }
-    ledger.verdicts[claim.claimId] = verdict;
+    // Stub verifiers (e.g. websearch until its API is wired) return PENDING.
+    // Never persist a PENDING verdict: the record would make the extractor
+    // skip the claim forever, even after the real verifier is enabled.
+    if (verdict.verdict !== 'PENDING') {
+      ledger.verdicts[claim.claimId] = { ...verdict, ph: claim.payloadHash };
+    }
     ledger.stats[verdict.verdict] = (ledger.stats[verdict.verdict] || 0) + 1;
     ledger.stats.byVerifier[verdict.verifier] = (ledger.stats.byVerifier[verdict.verifier] || 0) + 1;
     processed++;
@@ -325,6 +377,7 @@ async function main() {
 function extractAllClaims(cube, ledger) {
   const claims = [];
   const reverifySet = new Set(ARG.reverifyIds || []);
+  stalePayloadCount = 0;
   for (const cell of cube.cells) {
     extractCellClaims(cell, claims, ledger, reverifySet);
   }
@@ -411,7 +464,7 @@ function reconcilePopulation(cube, ledger, snapshotAt, sourceCommit) {
   };
 }
 
-function extractCellClaims(cell, claims, ledger, reverifySet = new Set()) {
+function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collectOnly = false) {
   // Each claim is a (claimId, kind, verifier, payload, cell context) tuple.
   // Co-occurrence context — disorder names + node region terms — is what the
   // tightened PubMed query AND's against so token matches can't drift to
@@ -426,22 +479,49 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set()) {
     cellNodeRegion: cell.node?.region || null,
   };
 
-  // Skip helper: skip only if claim is non-PENDING AND NOT in reverifySet
-  // (the reverifySet bypass lets --reverify-ids re-include claims whose
-  // cube cells still carry the old verdict from a previous propagation).
-  const shouldSkip = (verdict, claimId) =>
-    verdict !== 'PENDING' && !reverifySet.has(claimId);
+  // Ledger freshness gate. A ledger verdict covers a claim ONLY under the
+  // payload hash it was computed against (`ph`). If a source edit changed the
+  // payload under a preserved id, the hash no longer matches and the claim is
+  // re-enqueued — an obsolete verdict must not ride on new content. Claims
+  // with no ledger record keep the legacy behavior: a baked-in non-PENDING
+  // cube verdict (written by the cube builders, e.g. disorders from the
+  // neuro-disorder lookup) is trusted and skipped.
+  //   collectOnly: skip every gate and emit {claimId, payloadHash} only — used
+  //   by the one-time hash backfill, so the id/payload definitions live in
+  //   exactly one place.
+  const ledgerCurrent = (claimId, ph) => {
+    const lv = ledger.verdicts[claimId];
+    return !!(lv && lv.ph === ph);
+  };
+  const staleOrNew = (item, claimId, ph) => {
+    const lv = ledger.verdicts[claimId];
+    if (lv && lv.ph !== ph && !reverifySet.has(claimId)) stalePayloadCount++;
+    return !ledgerCurrent(claimId, ph);
+  };
+  const skipFor = (item, claimId, ph) => {
+    if (ledgerCurrent(claimId, ph) && !reverifySet.has(claimId)) return true;
+    if (!ledger.verdicts[claimId]) {
+      // Legacy path: no ledger record — trust baked-in non-PENDING verdicts.
+      const embedded = item.verification?.verdict;
+      if (embedded && embedded !== 'PENDING' && !reverifySet.has(claimId)) return true;
+    }
+    return false;
+  };
 
   // Issues
   for (const iss of cell.issues || []) {
     const claimId = `iss::${iss.id}`;
-    if (shouldSkip(iss.verification?.verdict, claimId)) continue;
-    if (ledger.verdicts[claimId] && !reverifySet.has(claimId)) continue;
+    const payload = { id: iss.id, symptom: iss.symptom, sourceType: iss.sourceType, sourceFile: iss.sourceFile, severity: iss.severity };
+    const ph = payloadHash(payload);
+    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
+    if (skipFor(iss, claimId, ph)) continue;
+    staleOrNew(iss, claimId, ph);
     claims.push({
       claimId,
       kind: 'issue',
       verifier: iss.verification.verifier || 'websearch',
-      payload: { id: iss.id, symptom: iss.symptom, sourceType: iss.sourceType, sourceFile: iss.sourceFile, severity: iss.severity },
+      payload,
+      payloadHash: ph,
       ...ctx,
     });
   }
@@ -449,13 +529,17 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set()) {
   // Disorders
   for (const d of cell.disorders || []) {
     const claimId = `dx::${d.id}`;
-    if (shouldSkip(d.verification?.verdict, claimId)) continue;
-    if (ledger.verdicts[claimId] && !reverifySet.has(claimId)) continue;
+    const payload = { id: d.id, name: d.name, mechanism: d.mechanism, primaryNodesAffected: d.primaryNodesAffected, citations: d.citations };
+    const ph = payloadHash(payload);
+    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
+    if (skipFor(d, claimId, ph)) continue;
+    staleOrNew(d, claimId, ph);
     claims.push({
       claimId,
       kind: 'disorder',
       verifier: 'pubmed',
-      payload: { id: d.id, name: d.name, mechanism: d.mechanism, primaryNodesAffected: d.primaryNodesAffected, citations: d.citations },
+      payload,
+      payloadHash: ph,
       ...ctx,
     });
   }
@@ -463,13 +547,17 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set()) {
   // Neuro treatments
   for (const t of cell.neuroTreatments || []) {
     const claimId = `ntx::${t.id}`;
-    if (shouldSkip(t.verification?.verdict, claimId)) continue;
-    if (ledger.verdicts[claimId] && !reverifySet.has(claimId)) continue;
+    const payload = { id: t.id, name: t.name, type: t.type, citations: t.citations };
+    const ph = payloadHash(payload);
+    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
+    if (skipFor(t, claimId, ph)) continue;
+    staleOrNew(t, claimId, ph);
     claims.push({
       claimId,
       kind: 'neuro-treatment',
       verifier: 'pubmed',
-      payload: { id: t.id, name: t.name, type: t.type, citations: t.citations },
+      payload,
+      payloadHash: ph,
       ...ctx,
     });
   }
@@ -477,13 +565,17 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set()) {
   // Domain treatments
   for (const t of cell.domainTreatments || []) {
     const claimId = `dtx::${t.id}`;
-    if (shouldSkip(t.verification?.verdict, claimId)) continue;
-    if (ledger.verdicts[claimId] && !reverifySet.has(claimId)) continue;
+    const payload = { id: t.id, name: t.name, type: t.type, description: t.description, side: t.side };
+    const ph = payloadHash(payload);
+    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
+    if (skipFor(t, claimId, ph)) continue;
+    staleOrNew(t, claimId, ph);
     claims.push({
       claimId,
       kind: 'domain-treatment',
       verifier: 'websearch',
-      payload: { id: t.id, name: t.name, type: t.type, description: t.description, side: t.side },
+      payload,
+      payloadHash: ph,
       ...ctx,
     });
   }
@@ -491,13 +583,17 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set()) {
   // Portal bindings
   for (const b of cell.portalBindings || []) {
     const claimId = `bind::${ctx.cellId}::${b.portalSlug}::${b.relationshipType}::${b.entityName}`;
-    if (shouldSkip(b.verification?.verdict, claimId)) continue;
-    if (ledger.verdicts[claimId] && !reverifySet.has(claimId)) continue;
+    const payload = { portalSlug: b.portalSlug, entityName: b.entityName, relationshipType: b.relationshipType, role: b.role, confidence: b.confidence };
+    const ph = payloadHash(payload);
+    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
+    if (skipFor(b, claimId, ph)) continue;
+    staleOrNew(b, claimId, ph);
     claims.push({
       claimId,
       kind: 'binding',
       verifier: 'rule-based',
-      payload: { portalSlug: b.portalSlug, entityName: b.entityName, relationshipType: b.relationshipType, role: b.role, confidence: b.confidence },
+      payload,
+      payloadHash: ph,
       ...ctx,
     });
   }
@@ -505,13 +601,17 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set()) {
   // Cross-domain affinities
   for (const aff of cell.crossDomainAffinities || []) {
     const claimId = `aff::${ctx.cellId}::${aff.toDomain}::${aff.toRole}`;
-    if (shouldSkip(aff.verification?.verdict, claimId)) continue;
-    if (ledger.verdicts[claimId] && !reverifySet.has(claimId)) continue;
+    const payload = { toDomain: aff.toDomain, toRole: aff.toRole };
+    const ph = payloadHash(payload);
+    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
+    if (skipFor(aff, claimId, ph)) continue;
+    staleOrNew(aff, claimId, ph);
     claims.push({
       claimId,
       kind: 'affinity',
       verifier: 'internal-consistency',
-      payload: { toDomain: aff.toDomain, toRole: aff.toRole },
+      payload,
+      payloadHash: ph,
       ...ctx,
     });
   }
@@ -519,13 +619,17 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set()) {
   // Residuals
   for (const r of cell.residuals || []) {
     const claimId = `res::${r.id}`;
-    if (shouldSkip(r.verification?.verdict, claimId)) continue;
-    if (ledger.verdicts[claimId] && !reverifySet.has(claimId)) continue;
+    const payload = { id: r.id, direction: r.direction, sourceTreatmentName: r.sourceTreatment?.name, candidatePort: r.candidatePort };
+    const ph = payloadHash(payload);
+    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
+    if (skipFor(r, claimId, ph)) continue;
+    staleOrNew(r, claimId, ph);
     claims.push({
       claimId,
       kind: 'residual',
       verifier: r.direction === 'NEURO_TO_DOMAIN' ? 'websearch' : 'pubmed',
-      payload: { id: r.id, direction: r.direction, sourceTreatmentName: r.sourceTreatment?.name, candidatePort: r.candidatePort },
+      payload,
+      payloadHash: ph,
       ...ctx,
     });
   }

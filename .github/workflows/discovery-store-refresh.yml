@@ -6,14 +6,20 @@ name: Discovery store refresh (treatment-discovery data)
 #      ledger join → render split → epistemic buckets → master inbox). This
 #      also materializes the gitignored 81MB cube the verification organ reads,
 #      so it MUST run before the organ in a fresh checkout,
-#   2. verifies a small budget-capped batch of PENDING claims (verification
-#      organ — rule-based + PubMed; append-only ledger),
+#   2. verifies budget-capped batches of PENDING claims (verification organ —
+#      append-only ledger). Two invocations so the biomedical queue is never
+#      starved: the general run drains the rule-based/affinity front of the
+#      queue (~20k claims), a --verifier=pubmed run is reserved for the PubMed
+#      queue behind it (otherwise --max would never reach it),
 #   3. rebuilds again so the new verdicts propagate into every artifact under
 #      one final snapshot,
 #   4. runs the 19-check reconciliation self-test,
 #   5. commits and pushes to main ONLY if something substantive changed
 #      (scripts/substantive-data-change.mjs strips snapshot timestamps before
 #      deciding — otherwise every run would commit pure timestamp churn).
+#
+# The job is main-only: a workflow_dispatch from a feature branch checks out
+# that branch, and the push step must never publish a feature HEAD to main.
 #
 # Cheap: PubMed e-utils (2 req/sec without a key) + local rebuild. NO AI spend.
 # Pushes to THIS repo with the built-in GITHUB_TOKEN (same pattern as
@@ -27,10 +33,14 @@ on:
     - cron: '30 7 * * 1'    # Mondays 07:30 UTC, after the 06:00 portal rescore
   workflow_dispatch:
     inputs:
-      max_claims:
-        description: 'Verification-organ budget this run (PENDING claims verified against PubMed/rule-based)'
+      general_claims:
+        description: 'Organ budget — general queue (rule-based, affinities; first-come)'
         type: number
-        default: 200
+        default: 150
+      pubmed_claims:
+        description: 'Organ budget — PubMed queue (biomedical claims, network-paced)'
+        type: number
+        default: 50
 
 concurrency:
   group: discovery-store-refresh
@@ -41,6 +51,9 @@ permissions:
 
 jobs:
   refresh:
+    # main-only: a workflow_dispatch from a feature branch must never push its
+    # HEAD to main (scheduled runs always have ref == main).
+    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
@@ -57,13 +70,19 @@ jobs:
       - name: Rebuild discovery stores (snapshot 1 — also materializes the gitignored cube the organ reads)
         run: node scripts/reconcile-discovery-stores.mjs
 
-      - name: Verify up to N PENDING claims (verification organ)
+      - name: Verify PENDING claims — general queue (rule-based, affinities)
+        run: |
+          MAX="${{ github.event.inputs.general_claims || 150 }}"
+          echo "General organ budget this run: $MAX claims"
+          node scripts/organ-claim-verification.mjs --max="$MAX"
+
+      - name: Verify PENDING claims — PubMed queue (reserved budget)
         env:
           PUBMED_API_KEY: ${{ secrets.PUBMED_API_KEY }}
         run: |
-          MAX="${{ github.event.inputs.max_claims || 200 }}"
-          echo "Organ budget this run: $MAX claims"
-          node scripts/organ-claim-verification.mjs --max="$MAX"
+          MAX="${{ github.event.inputs.pubmed_claims || 50 }}"
+          echo "PubMed organ budget this run: $MAX claims"
+          node scripts/organ-claim-verification.mjs --verifier=pubmed --max="$MAX"
 
       - name: Rebuild discovery stores (snapshot 2 — propagate new verdicts into every artifact)
         run: node scripts/reconcile-discovery-stores.mjs
@@ -96,13 +115,23 @@ jobs:
           No AI spend.
 
           Co-Authored-By: Kimi Code <noreply@moonshot.cn>"
-          # Rebase-and-retry push (linear main; tolerate a concurrent commit landing mid-run)
-          for i in 1 2 3 4 5; do
-            if git push origin HEAD:main; then echo "pushed"; exit 0; fi
-            echo "push rejected, rebasing (attempt $i)…"
-            git pull --rebase origin main || true
-          done
-          echo "::warning::discovery-store-refresh push failed after 5 attempts; next scheduled run will retry"
+          # Single guarded retry: if another commit landed on main mid-run,
+          # rebase, REBUILD against the new tree (artifacts computed from the
+          # old tree must not ship under a new parent), re-test, amend, push.
+          # Any failure here fails the job — a silent no-push must not report
+          # green to the harness.
+          if git push origin HEAD:main; then echo "pushed"; exit 0; fi
+          echo "push rejected; rebasing onto latest main and rebuilding once"
+          git pull --rebase origin main || exit 1
+          node scripts/reconcile-discovery-stores.mjs
+          node scripts/test-discovery-store-reconciliation.js
+          git add assets/data/treatment-discovery/ \
+                  assets/data/audit/verification-ledger.json \
+                  assets/data/audit/cube-unresolved-ids.json \
+                  assets/data/audit/discovery-store-reconciliation.json \
+                  assets/data/_master-inbox.json
+          git commit --amend --no-edit
+          git push origin HEAD:main || { echo "::error::push failed after rebuild"; exit 1; }
 
       - name: report this run to the harness
         # Records that this job ran, so /api/harness can tell "never ran" from
