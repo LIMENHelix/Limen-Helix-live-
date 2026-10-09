@@ -78,6 +78,20 @@ implemented. Shadow phase and pulls are HELD until the operator signs.** Compani
    requires 10/10). Lists frozen before any scoring; PIT cutoffs pre-filing.
    **Per-class recall is reported** (operational / leverage / liquidity),
    per the KERNEL_P3 open-work list.
+   **Stratification (operator-mandated):** the pilot panel was mostly
+   OUT-OF-DISTRIBUTION — a random SEC draw is dominated by small caps and
+   pre-revenue companies, while Thing 1 was validated on large operating
+   companies (eligibility rule #1: match the validation population).
+   Confirmatory cohorts are therefore **stratified by size and drawn from the
+   validated population**; small caps are a SEPARATE stratum reported
+   separately, if run at all. Proposed size proxy (ratify at signature):
+   primary stratum = TTM revenue ≥ $1B (computable from filings;
+   assumption-labeled); small-cap stratum = the rest.
+   **Candidate flag (operator-mandated, to TEST — not a rule):** pre-revenue
+   companies (e.g., biotech) — Path B fires on their normal cash burn-down
+   state, a wrong reference baseline; the confirmatory design TESTS
+   "pre-revenue → Path B out of scope" (proposed operational definition for
+   the test: TTM revenue < $50M, assumption-labeled). Nothing is applied.
 3. **Pre-committed pass criteria (revised, operator-mandated):**
    - **Sensitivity: Wilson LB ≥ 0.60** on the distress side.
    - **Specificity: Wilson LB ≥ 0.60** on the measured-controls side
@@ -89,6 +103,20 @@ implemented. Shadow phase and pulls are HELD until the operator signs.** Compani
      v1 sensitivity − 0.10 AND research specificity ≥ v1 specificity − 0.10
      (**margins are assumptions, not derived**). The recorded 0.8143/0.8288
      came from the old extraction and cannot anchor a fresh claim.
+   - **POWER (operator-mandated; computed 2026-10-08, assumptions labeled):**
+     at n=30/side, the Wilson-bound criteria need ≥ 24/30 correct on each
+     side (23/30 → LB 0.591). For the paired PR-AUC non-inferiority test at
+     δ=0.10: SE(diff) ≈ 0.034–0.044 (Hanley–McNeil, AUC 0.8, within-company
+     correlation 0.5–0.7). Power to accept non-inferiority: 74–91% if the
+     true degradation is ZERO, but only **31–44% if the true degradation is
+     −0.05** — i.e., n=30/side CANNOT distinguish "equal" from "slightly
+     worse". **n needed for 80% power at true diff −0.05: ≈85/side
+     (ρ=0.7) to ≈140/side (ρ=0.5).** Operator choice, frozen at signature:
+     (a) raise the cohorts to ~100+/side so the −0.10 margin is decidable;
+     (b) keep 30/side and pre-accept that PR-AUC NI ends "inconclusive by
+     design" at small degradations (the Wilson-bound criteria then carry the
+     decision); or (c) widen the margin. Default in this draft: (a) for the
+     NI question — 100 per side — with the 30/side numbers still reported.
 4. **Freeze protocol**: a new versioned prereg file is written and signed
    BEFORE any new pull; no number changes after first results are read.
 5. **Re-lock**: not required if the kernel file stays byte-identical (the
