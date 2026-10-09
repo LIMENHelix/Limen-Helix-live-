@@ -37,8 +37,26 @@ shadow phase — see LIMEN-AUDIT-CHECKPOINT references in-repo history and
    is pending; until it is validated on a fresh cohort, no claim beyond this
    document is made for any modified configuration. The adapter-plus-kernel
    system fingerprint (v1.0.1 draft) applies to any future change.
+6. **Specificity is pipeline-bound.** v1's specificity is a property of
+   v1's input pipeline — sparse features hold most companies at the neutral
+   floor, which suppresses alerts on missing data. It does **not** transfer
+   to complete-data inputs: when the same kernel is fed de-cumulated
+   point-in-time data, stress_rate rises ~2.6× and 9 of 16 large-cap
+   shadow-flips were false alarms, including a calibration control (JPM)
+   that v1 correctly leaves silent. Evidence: Path-A mini-prereg results,
+   commit `7ecf3d9e`.
+
+## For any future Thing 1 v2 pre-registration (standing note)
+
+The adjudication lead window must match the kernel's claimed lead time. The
+manifest claims a median lead of roughly ten quarters; a +2-quarter
+true-positive window would misclassify the very early warnings being sold
+(WLL: alert 2018Q1, filing 2020-04 — unadjudicated under the +2q rule, plausibly
+the claimed behavior). Any v2 validation must pre-register a lead-time window
+consistent with the claim, or the test penalizes the product's advertised
+function.
 
 ## Short form (for UI surfaces)
 
-**Thing 1 — distress scorer: validated on large-cap cohorts; measured
-companies only; no alert where inputs are absent.**
+**Thing 1 — distress scorer: validated on large-cap cohorts (v1, 2015+);
+measured companies only; no alert where inputs are absent.**
