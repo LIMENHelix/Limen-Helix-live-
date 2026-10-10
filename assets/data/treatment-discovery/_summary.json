@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "builtAt": "2026-10-09T03:03:36.648Z",
+  "builtAt": "2026-10-10T13:58:23.351Z",
   "totalCells": 5524,
   "populatedCells": 5471,
   "cellsWithResiduals": 1695,
@@ -53,31 +53,31 @@
     "cellsWithResiduals": 1695,
     "cellsWithSimilar": 2,
     "similarityThreshold": 0.3,
-    "computedAt": "2026-10-09T03:03:36.648Z"
+    "computedAt": "2026-10-10T13:58:23.351Z"
   },
   "unverifiedClaimsCount": 41243,
   "pendingClaimOccurrences": 74386,
   "verificationReconciliation": {
     "schemaVersion": "verification-reconciliation/1.0",
-    "snapshotAt": "2026-10-09T03:03:36.648Z",
-    "sourceCommit": "44efbd13b6b33f8c38800b9ac3a1ba4c8b88f246",
+    "snapshotAt": "2026-10-10T13:58:23.351Z",
+    "sourceCommit": "03426422969f4efd75186d412ba906d0db0ffdd0",
     "uniqueCurrentClaims": 46934,
     "matchedLedgerClaims": 5691,
     "currentClaimsWithoutLedger": 41243,
     "archivedLedgerClaims": 2209,
     "effectiveCurrentByVerdict": {
-      "VERIFIED": 2263,
+      "VERIFIED": 2259,
       "DISPUTED": 89,
       "THEORETICAL": 873,
-      "UNVERIFIABLE": 2466,
+      "UNVERIFIABLE": 2470,
       "FABRICATED": 0,
       "PENDING": 41243
     },
     "ledgerAllTimeByVerdict": {
-      "VERIFIED": 3700,
+      "VERIFIED": 3696,
       "DISPUTED": 89,
       "THEORETICAL": 1583,
-      "UNVERIFIABLE": 2528,
+      "UNVERIFIABLE": 2532,
       "FABRICATED": 0,
       "PENDING": 0
     },
@@ -119,22 +119,22 @@
   ],
   "note": "Treatment-discovery report uses (brainNodeId × comparisonDomain × stateBucket) cells. Six-step chain per cell: ISSUE → NODE → DISORDER → NEURO_TX → DOMAIN_TX → RESIDUAL. Verification labels each claim by epistemic state (PROVEN / UNPROVEN / UNKNOWN / IMPOSSIBLE) and keeps every residual — none are suppressed.",
   "epistemicBuckets": {
-    "proven": 2263,
+    "proven": 2259,
     "unproven": 873,
-    "unknown": 43709,
+    "unknown": 43713,
     "impossible": 89,
     "totalClaims": 46934,
     "processedVerdicts": 5691,
     "verdictCounts": {
-      "VERIFIED": 2263,
+      "VERIFIED": 2259,
       "DISPUTED": 89,
       "THEORETICAL": 873,
-      "UNVERIFIABLE": 2466,
+      "UNVERIFIABLE": 2470,
       "FABRICATED": 0,
       "PENDING": 41243
     },
     "note": "Every claim kept and separated by epistemic state. Verification writes the state; it never deletes the finding. Impossible = study why it fails (kept, not discarded).",
     "archivedLedgerClaims": 2209,
-    "computedAt": "2026-10-09T03:03:36.648Z"
+    "computedAt": "2026-10-10T13:58:23.351Z"
   }
 }
