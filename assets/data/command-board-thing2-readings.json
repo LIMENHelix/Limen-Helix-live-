@@ -1,7 +1,7 @@
 {
 "_meta": {
 "source": "Thing 2 Financial Phase Map (interpretive; never validated; zero alert authority)",
-"formula_version": "unknown",
+"formula_version": "2026-10-09.fpm-r2",
 "cutoff": "2026-10-09",
 "frozen_titles": {
 "p0": "Source",
@@ -9,7 +9,14 @@
 "p4": "Scaffolding",
 "p5": "Endurance"
 },
-"n": 493
+"n": 493,
+"entity_resolution": {
+"fixes": 16,
+"delisted": 38,
+"duplicates": 37,
+"operator_list": 24,
+"unresolved": 1
+}
 },
 "readings": {
 "1770787": {
@@ -26,7 +33,8 @@
 "phase": "p4",
 "mode": "SCAFFOLDING",
 "reason": "TTM OCF<0 and CFF>0.5*|OCF| (LIMEN_FOUR_LAYER.md:67)",
-"title": "P4 \u00b7 Scaffolding"
+"title": "P4 \u00b7 Scaffolding",
+"entity_status": "delisted_kept"
 },
 "66740": {
 "ticker": "MMM",
@@ -60,21 +68,14 @@
 "reason": "lag-4 coherence 0.702 >= 0.50 with amplitude 0.0729 >= 0.030 (prove_p2.py:53-67,81)",
 "title": "P2 \u00b7 Rhythm"
 },
-"1070524": {
-"ticker": "ACAD",
-"status": "UNKNOWN_NOT_BUILT",
-"phase": null,
-"mode": null,
-"reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
-},
 "1281761": {
 "ticker": "ACN",
 "status": "UNKNOWN_INSUFFICIENT_HISTORY",
 "phase": null,
 "mode": null,
 "reason": "interior gap(s) 2012Q4; window does not shift across gaps",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1467373": {
 "ticker": "ACN",
@@ -106,7 +107,8 @@
 "phase": "p0",
 "mode": "GENUINE_BASELINE",
 "reason": "positive flatness: amplitude 0.0237 below floor 0.030, solvent, 68 elapsed quarters",
-"title": "P0 \u00b7 Source"
+"title": "P0 \u00b7 Source",
+"entity_status": "delisted_kept"
 },
 "1604028": {
 "ticker": "WMS",
@@ -172,22 +174,6 @@
 "reason": "positive flatness: amplitude 0.0140 below floor 0.030, solvent, 73 elapsed quarters",
 "title": "P0 \u00b7 Source"
 },
-"850261": {
-"ticker": "ALKS",
-"status": "p4",
-"phase": "p4",
-"mode": "SCAFFOLDING",
-"reason": "TTM OCF<0 and CFF>0.5*|OCF| (LIMEN_FOUR_LAYER.md:67)",
-"title": "P4 \u00b7 Scaffolding"
-},
-"899629": {
-"ticker": "ALL",
-"status": "UNKNOWN_INSUFFICIENT_HISTORY",
-"phase": null,
-"mode": null,
-"reason": "interior gap(s) 2025Q3,2025Q4; window does not shift across gaps",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
-},
 "1652044": {
 "ticker": "GOOGL",
 "status": "p2",
@@ -210,7 +196,8 @@
 "phase": "p0",
 "mode": "GENUINE_BASELINE",
 "reason": "positive flatness: amplitude 0.0177 below floor 0.030, solvent, 65 elapsed quarters",
-"title": "P0 \u00b7 Source"
+"title": "P0 \u00b7 Source",
+"entity_status": "delisted_kept"
 },
 "4904": {
 "ticker": "AEP",
@@ -266,7 +253,8 @@
 "phase": null,
 "mode": null,
 "reason": "flat but solvency not established as solvent; P0 requires positive evidence",
-"title": "UNKNOWN \u2014 ABSTAINED (9.14c)"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "352915": {
 "ticker": "AMWL",
@@ -274,7 +262,8 @@
 "phase": "p0",
 "mode": "GENUINE_BASELINE",
 "reason": "positive flatness: amplitude 0.0123 below floor 0.030, solvent, 66 elapsed quarters",
-"title": "P0 \u00b7 Source"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "6281": {
 "ticker": "ADI",
@@ -322,7 +311,8 @@
 "phase": null,
 "mode": null,
 "reason": "interior gap(s) 2017Q1,2023Q1; window does not shift across gaps",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "7084": {
 "ticker": "ADM",
@@ -346,7 +336,8 @@
 "phase": "p0",
 "mode": "GENUINE_BASELINE",
 "reason": "positive flatness: amplitude 0.0262 below floor 0.030, solvent, 38 elapsed quarters",
-"title": "P0 \u00b7 Source"
+"title": "P0 \u00b7 Source",
+"entity_status": "delisted_kept"
 },
 "937966": {
 "ticker": "ASML",
@@ -378,7 +369,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 NOT BUILT",
+"entity_status": "delisted_kept"
 },
 "1842952": {
 "ticker": "ATAI",
@@ -386,7 +378,8 @@
 "phase": "p4",
 "mode": "SCAFFOLDING",
 "reason": "TTM OCF<0 and CFF>0.5*|OCF| (LIMEN_FOUR_LAYER.md:67)",
-"title": "P4 \u00b7 Scaffolding"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1069183": {
 "ticker": "AXON",
@@ -450,7 +443,8 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence -0.272 >= 0.50 with amplitude 0.0452 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "P2 \u00b7 Rhythm",
+"entity_status": "delisted_kept"
 },
 "1836981": {
 "ticker": "BBAI",
@@ -466,7 +460,8 @@
 "phase": null,
 "mode": null,
 "reason": "interior gap(s) 2026Q1; window does not shift across gaps",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "12208": {
 "ticker": "BIO",
@@ -506,7 +501,8 @@
 "phase": null,
 "mode": null,
 "reason": "interior gap(s) 2017Q4,2018Q4,2019Q1,2019Q2,2019Q3,2019Q4,2020Q1,2020Q2,2020Q3,2020Q4,2021Q1,2021Q2,2021Q3,2021Q4,2022Q1,2022Q2; window does not shift across gaps",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY",
+"entity_status": "delisted_kept"
 },
 "1364742": {
 "ticker": "BLK",
@@ -514,7 +510,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "1753539": {
 "ticker": "BKSY",
@@ -538,7 +535,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 NOT BUILT",
+"entity_status": "delisted_kept"
 },
 "12927": {
 "ticker": "BA",
@@ -570,7 +568,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1437578": {
 "ticker": "BFAM",
@@ -594,7 +593,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1730168": {
 "ticker": "AVGO",
@@ -618,7 +618,8 @@
 "phase": null,
 "mode": null,
 "reason": "no measured revenue history",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "79282": {
 "ticker": "BRO",
@@ -634,7 +635,8 @@
 "phase": null,
 "mode": null,
 "reason": "interior gap(s) 2015Q1,2016Q1,2021Q1,2022Q1,2026Q1; window does not shift across gaps",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1109354": {
 "ticker": "BRKR",
@@ -643,22 +645,6 @@
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence 0.651 >= 0.50 with amplitude 0.0796 >= 0.030 (prove_p2.py:53-67,81)",
 "title": "P2 \u00b7 Rhythm"
-},
-"1144519": {
-"ticker": "BG",
-"status": "p2",
-"phase": "p2",
-"mode": "GENUINE_BASELINE",
-"reason": "lag-4 coherence -0.290 >= 0.50 with amplitude 0.1304 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
-},
-"1383054": {
-"ticker": "BWXT",
-"status": "UNKNOWN_INSUFFICIENT_HISTORY",
-"phase": null,
-"mode": null,
-"reason": "OCF/CFF window incomplete; P4/P5 not evaluable (missing never reads healthy)",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
 },
 "1043277": {
 "ticker": "CHRW",
@@ -698,15 +684,8 @@
 "phase": "p5",
 "mode": "ENDURANCE",
 "reason": "own-cash dominant now with prior P4 window (9.12a)",
-"title": "P5 \u00b7 Endurance"
-},
-"858339": {
-"ticker": "CZR",
-"status": "UNKNOWN_NOT_BUILT",
-"phase": null,
-"mode": null,
-"reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1009001": {
 "ticker": "CCJ",
@@ -738,7 +717,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 NOT BUILT",
+"entity_status": "delisted_kept"
 },
 "1306830": {
 "ticker": "CE",
@@ -762,7 +742,8 @@
 "phase": null,
 "mode": null,
 "reason": "interior gap(s) 2018Q1; window does not shift across gaps",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1100682": {
 "ticker": "CRL",
@@ -858,7 +839,8 @@
 "phase": "p0",
 "mode": "GENUINE_BASELINE",
 "reason": "positive flatness: amplitude 0.0191 below floor 0.030, solvent, 32 elapsed quarters",
-"title": "P0 \u00b7 Source"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1156375": {
 "ticker": "CME",
@@ -874,7 +856,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 NOT BUILT",
+"entity_status": "delisted_kept"
 },
 "21344": {
 "ticker": "KO",
@@ -930,7 +913,8 @@
 "phase": null,
 "mode": null,
 "reason": "no measured revenue history",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "1816613": {
 "ticker": "CFLT",
@@ -938,7 +922,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 NOT BUILT",
+"entity_status": "delisted_kept"
 },
 "1163165": {
 "ticker": "COP",
@@ -1026,7 +1011,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1651562": {
 "ticker": "COUR",
@@ -1050,7 +1036,8 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence -0.187 >= 0.50 with amplitude 0.2005 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1535527": {
 "ticker": "CRWD",
@@ -1060,21 +1047,14 @@
 "reason": "positive flatness: amplitude 0.0246 below floor 0.030, solvent, 34 elapsed quarters",
 "title": "P0 \u00b7 Source"
 },
-"1053507": {
-"ticker": "CCI",
-"status": "UNKNOWN_NOT_BUILT",
-"phase": null,
-"mode": null,
-"reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
-},
 "1745020": {
 "ticker": "LAW",
 "status": "UNKNOWN_INSUFFICIENT_HISTORY",
 "phase": null,
 "mode": null,
 "reason": "no measured revenue history",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "26324": {
 "ticker": "CW",
@@ -1106,7 +1086,8 @@
 "phase": null,
 "mode": null,
 "reason": "no measured revenue history",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY",
+"entity_status": "delisted_kept"
 },
 "1833141": {
 "ticker": "HELP",
@@ -1140,21 +1121,14 @@
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
 "title": "UNKNOWN \u2014 NOT BUILT"
 },
-"1365135": {
-"ticker": "DLR",
-"status": "p0",
-"phase": "p0",
-"mode": "GENUINE_BASELINE",
-"reason": "positive flatness: amplitude 0.0288 below floor 0.030, solvent, 74 elapsed quarters",
-"title": "P0 \u00b7 Source"
-},
 "1839439": {
 "ticker": "DLO",
 "status": "p5",
 "phase": "p5",
 "mode": "ENDURANCE",
 "reason": "own-cash dominant now with prior P4 window (9.12a)",
-"title": "P5 \u00b7 Endurance"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "1261654": {
 "ticker": "DOCU",
@@ -1162,7 +1136,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1261333": {
 "ticker": "DOCU",
@@ -1178,7 +1153,8 @@
 "phase": null,
 "mode": null,
 "reason": "elapsed history 7 < 8 quarters",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "715957": {
 "ticker": "D",
@@ -1234,7 +1210,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1688568": {
 "ticker": "DXC",
@@ -1266,7 +1243,8 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence -0.275 >= 0.50 with amplitude 0.0644 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "31462": {
 "ticker": "ECL",
@@ -1298,7 +1276,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 NOT BUILT",
+"entity_status": "delisted_kept"
 },
 "1156039": {
 "ticker": "ELV",
@@ -1354,7 +1333,8 @@
 "phase": null,
 "mode": null,
 "reason": "interior gap(s) 2021Q1,2021Q2,2022Q1,2022Q2,2023Q1,2023Q2; window does not shift across gaps",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "821189": {
 "ticker": "EOG",
@@ -1410,7 +1390,8 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence 0.965 >= 0.50 with amplitude 0.1251 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1437352": {
 "ticker": "EVBG",
@@ -1418,7 +1399,8 @@
 "phase": "p5",
 "mode": "ENDURANCE",
 "reason": "own-cash dominant now with prior P4 window (9.12a)",
-"title": "P5 \u00b7 Endurance"
+"title": "P5 \u00b7 Endurance",
+"entity_status": "delisted_kept"
 },
 "1559865": {
 "ticker": "EVOK",
@@ -1426,7 +1408,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 NOT BUILT",
+"entity_status": "delisted_kept"
 },
 "1124140": {
 "ticker": "EXAS",
@@ -1434,7 +1417,8 @@
 "phase": "p5",
 "mode": "ENDURANCE",
 "reason": "own-cash dominant now with prior P4 window (9.12a)",
-"title": "P5 \u00b7 Endurance"
+"title": "P5 \u00b7 Endurance",
+"entity_status": "delisted_kept"
 },
 "1324424": {
 "ticker": "EXPE",
@@ -1458,7 +1442,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "1591670": {
 "ticker": "FPI",
@@ -1562,7 +1547,8 @@
 "phase": "p4",
 "mode": "SCAFFOLDING",
 "reason": "TTM OCF<0 and CFF>0.5*|OCF| (LIMEN_FOUR_LAYER.md:67)",
-"title": "P4 \u00b7 Scaffolding"
+"title": "P4 \u00b7 Scaffolding",
+"entity_status": "delisted_kept"
 },
 "1635718": {
 "ticker": "GCI",
@@ -1570,15 +1556,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
-},
-"40554": {
-"ticker": "GE",
-"status": "UNKNOWN_NOT_BUILT",
-"phase": null,
-"mode": null,
-"reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1932393": {
 "ticker": "GEHC",
@@ -1642,7 +1621,8 @@
 "phase": null,
 "mode": null,
 "reason": "elapsed history 7 < 8 quarters",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "882095": {
 "ticker": "GILD",
@@ -1659,14 +1639,6 @@
 "mode": "ENDURANCE",
 "reason": "own-cash dominant now with prior P4 window (9.12a)",
 "title": "P5 \u00b7 Endurance"
-},
-"1176316": {
-"ticker": "GSAT",
-"status": "p2",
-"phase": "p2",
-"mode": null,
-"reason": "lag-4 coherence 0.552 >= 0.50 with amplitude 1.0889 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
 },
 "1237831": {
 "ticker": "GMED",
@@ -1714,7 +1686,8 @@
 "phase": "p5",
 "mode": "ENDURANCE",
 "reason": "own-cash dominant now with prior P4 window (9.12a)",
-"title": "P5 \u00b7 Endurance"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "860730": {
 "ticker": "HCA",
@@ -1754,7 +1727,8 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence 0.730 >= 0.50 with amplitude 0.4166 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "P2 \u00b7 Rhythm",
+"entity_status": "delisted_kept"
 },
 "48898": {
 "ticker": "HUBB",
@@ -1786,7 +1760,8 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence 0.873 >= 0.50 with amplitude 0.1673 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1362004": {
 "ticker": "ICFI",
@@ -1858,7 +1833,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1462056": {
 "ticker": "INST",
@@ -1866,7 +1842,8 @@
 "phase": "p5",
 "mode": "ENDURANCE",
 "reason": "own-cash dominant now with prior P4 window (9.12a)",
-"title": "P5 \u00b7 Endurance"
+"title": "P5 \u00b7 Endurance",
+"entity_status": "delisted_kept"
 },
 "1145197": {
 "ticker": "PODD",
@@ -1882,7 +1859,8 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence 0.906 >= 0.50 with amplitude 0.0602 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "P2 \u00b7 Rhythm",
+"entity_status": "delisted_kept"
 },
 "1571949": {
 "ticker": "ICE",
@@ -1922,7 +1900,8 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence 0.743 >= 0.50 with amplitude 0.2280 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "P2 \u00b7 Rhythm",
+"entity_status": "delisted_kept"
 },
 "1478242": {
 "ticker": "IQV",
@@ -1962,7 +1941,8 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence 0.138 >= 0.50 with amplitude 0.0448 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "728535": {
 "ticker": "JBHT",
@@ -1978,7 +1958,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "52988": {
 "ticker": "J",
@@ -2122,7 +2103,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1336920": {
 "ticker": "LDOS",
@@ -2131,14 +2113,6 @@
 "mode": null,
 "reason": "interior gap(s) 2019Q4,2022Q1,2024Q4; window does not shift across gaps",
 "title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
-},
-"45012": {
-"ticker": "LEN",
-"status": "p0",
-"phase": "p0",
-"mode": "GENUINE_BASELINE",
-"reason": "positive flatness: amplitude 0.0259 below floor 0.030, solvent, 73 elapsed quarters",
-"title": "P0 \u00b7 Source"
 },
 "1286613": {
 "ticker": "LINC",
@@ -2150,14 +2124,6 @@
 },
 "1707925": {
 "ticker": "LIN",
-"status": "UNKNOWN_NOT_BUILT",
-"phase": null,
-"mode": null,
-"reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
-},
-"60714": {
-"ticker": "LNN",
 "status": "UNKNOWN_NOT_BUILT",
 "phase": null,
 "mode": null,
@@ -2197,12 +2163,14 @@
 "title": "P2 \u00b7 Rhythm"
 },
 "1051470": {
-"ticker": "LUMN",
-"status": "UNKNOWN_NOT_BUILT",
+"ticker": "CCI",
 "phase": null,
+"status": "UNKNOWN_NOT_BUILT",
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN_NOT_BUILT",
+"entity_status": "cik_fixed_from_frame",
+"prior_cik": "0001053507"
 },
 "18926": {
 "ticker": "LUMN",
@@ -2212,21 +2180,14 @@
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
 "title": "UNKNOWN \u2014 NOT BUILT"
 },
-"1636023": {
-"ticker": "MSGS",
-"status": "p2",
-"phase": "p2",
-"mode": "GENUINE_BASELINE",
-"reason": "lag-4 coherence -0.336 >= 0.50 with amplitude 0.0843 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
-},
 "1868726": {
 "ticker": "MSGS",
 "status": "UNKNOWN_NOT_BUILT",
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "871763": {
 "ticker": "MAN",
@@ -2242,7 +2203,8 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence -0.490 >= 0.50 with amplitude 0.0431 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "P2 \u00b7 Rhythm",
+"entity_status": "delisted_kept"
 },
 "62996": {
 "ticker": "MMC",
@@ -2250,7 +2212,8 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence 0.660 >= 0.50 with amplitude 0.0549 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "P2 \u00b7 Rhythm",
+"entity_status": "delisted_kept"
 },
 "62709": {
 "ticker": "MMC",
@@ -2258,7 +2221,8 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence 0.947 >= 0.50 with amplitude 0.0630 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "916076": {
 "ticker": "MLM",
@@ -2274,7 +2238,8 @@
 "phase": null,
 "mode": null,
 "reason": "interior gap(s) 2014Q4,2017Q1,2020Q4,2023Q1,2025Q4; window does not shift across gaps",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY",
+"entity_status": "delisted_kept"
 },
 "15615": {
 "ticker": "MTZ",
@@ -2338,7 +2303,8 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence 0.963 >= 0.50 with amplitude 0.0332 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1613103": {
 "ticker": "MDT",
@@ -2410,7 +2376,8 @@
 "phase": null,
 "mode": null,
 "reason": "elapsed history 7 < 8 quarters",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY",
+"entity_status": "delisted_kept"
 },
 "1049502": {
 "ticker": "MKSI",
@@ -2466,7 +2433,8 @@
 "phase": "p0",
 "mode": "GENUINE_BASELINE",
 "reason": "positive flatness: amplitude 0.0246 below floor 0.030, solvent, 54 elapsed quarters",
-"title": "P0 \u00b7 Source"
+"title": "P0 \u00b7 Source",
+"entity_status": "delisted_kept"
 },
 "1059556": {
 "ticker": "MCO",
@@ -2482,7 +2450,8 @@
 "phase": null,
 "mode": null,
 "reason": "interior gap(s) 2009Q3,2014Q4,2017Q1,2020Q3,2023Q1,2025Q4; window does not shift across gaps",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY",
+"entity_status": "delisted_kept"
 },
 "895421": {
 "ticker": "MS",
@@ -2530,7 +2499,8 @@
 "phase": "p0",
 "mode": "GENUINE_BASELINE",
 "reason": "positive flatness: amplitude 0.0134 below floor 0.030, solvent, 37 elapsed quarters",
-"title": "P0 \u00b7 Source"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1350593": {
 "ticker": "MWA",
@@ -2619,14 +2589,6 @@
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence 0.208 >= 0.50 with amplitude 0.0383 >= 0.030 (prove_p2.py:53-67,81)",
 "title": "P2 \u00b7 Rhythm"
-},
-"73309": {
-"ticker": "NSC",
-"status": "UNKNOWN_INSUFFICIENT_HISTORY",
-"phase": null,
-"mode": null,
-"reason": "interior gap(s) 2009Q1,2010Q1,2011Q1,2014Q1,2015Q1,2016Q1,2017Q1,2020Q1,2021Q1,2022Q1,2023Q1,2025Q1,2026Q1; window does not shift across gaps",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
 },
 "1133421": {
 "ticker": "NOC",
@@ -2730,7 +2692,8 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence 0.651 >= 0.50 with amplitude 0.0639 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "76282": {
 "ticker": "PKOH",
@@ -2818,7 +2781,8 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence -0.370 >= 0.50 with amplitude 0.0392 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "1836833": {
 "ticker": "PL",
@@ -2842,7 +2806,8 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence 0.003 >= 0.50 with amplitude 0.0482 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "P2 \u00b7 Rhythm",
+"entity_status": "delisted_kept"
 },
 "1295947": {
 "ticker": "PRGO",
@@ -2850,15 +2815,18 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence 0.503 >= 0.50 with amplitude 0.0384 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "920760": {
-"ticker": "PCOR",
-"status": "p2",
+"ticker": "LEN",
 "phase": "p2",
+"status": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence 0.818 >= 0.50 with amplitude 0.1404 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator",
+"prior_cik": "0000045012"
 },
 "80424": {
 "ticker": "PG",
@@ -2890,7 +2858,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1841024": {
 "ticker": "QGEN",
@@ -2898,7 +2867,8 @@
 "phase": null,
 "mode": null,
 "reason": "no measured revenue history",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "804328": {
 "ticker": "QCOM",
@@ -2922,7 +2892,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1022079": {
 "ticker": "DGX",
@@ -2962,7 +2933,8 @@
 "phase": null,
 "mode": null,
 "reason": "interior gap(s) 2010Q1,2011Q1; window does not shift across gaps",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "unresolved"
 },
 "1713445": {
 "ticker": "RDDT",
@@ -2978,7 +2950,8 @@
 "phase": "p5",
 "mode": "ENDURANCE",
 "reason": "own-cash dominant now with prior P4 window (9.12a)",
-"title": "P5 \u00b7 Endurance"
+"title": "P5 \u00b7 Endurance",
+"entity_status": "delisted_kept"
 },
 "872589": {
 "ticker": "REGN",
@@ -2994,7 +2967,8 @@
 "phase": "p5",
 "mode": "ENDURANCE",
 "reason": "own-cash dominant now with prior P4 window (9.12a)",
-"title": "P5 \u00b7 Endurance"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "929869": {
 "ticker": "RELX",
@@ -3122,7 +3096,8 @@
 "phase": "p4",
 "mode": "SCAFFOLDING",
 "reason": "TTM OCF<0 and CFF>0.5*|OCF| (LIMEN_FOUR_LAYER.md:67)",
-"title": "P4 \u00b7 Scaffolding"
+"title": "P4 \u00b7 Scaffolding",
+"entity_status": "delisted_kept"
 },
 "87347": {
 "ticker": "SLB",
@@ -3146,7 +3121,8 @@
 "phase": "p5",
 "mode": "ENDURANCE",
 "reason": "own-cash dominant now with prior P4 window (9.12a)",
-"title": "P5 \u00b7 Endurance"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "1702780": {
 "ticker": "SE",
@@ -3154,7 +3130,8 @@
 "phase": null,
 "mode": null,
 "reason": "flat but solvency not established as solvent; P0 requires positive evidence",
-"title": "UNKNOWN \u2014 ABSTAINED (9.14c)"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "1583708": {
 "ticker": "S",
@@ -3194,7 +3171,8 @@
 "phase": "p4",
 "mode": "SCAFFOLDING",
 "reason": "TTM OCF<0 and CFF>0.5*|OCF| (LIMEN_FOUR_LAYER.md:67)",
-"title": "P4 \u00b7 Scaffolding"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "1594805": {
 "ticker": "SHOP",
@@ -3250,7 +3228,8 @@
 "phase": "p5",
 "mode": "ENDURANCE",
 "reason": "own-cash dominant now with prior P4 window (9.12a)",
-"title": "P5 \u00b7 Endurance"
+"title": "P5 \u00b7 Endurance",
+"entity_status": "delisted_kept"
 },
 "1639920": {
 "ticker": "SPOT",
@@ -3266,7 +3245,8 @@
 "phase": null,
 "mode": null,
 "reason": "flat but solvency not established as solvent; P0 requires positive evidence",
-"title": "UNKNOWN \u2014 ABSTAINED (9.14c)"
+"title": "UNKNOWN \u2014 ABSTAINED (9.14c)",
+"entity_status": "delisted_kept"
 },
 "1674930": {
 "ticker": "STN",
@@ -3274,7 +3254,8 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence 0.542 >= 0.50 with amplitude 0.1238 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "1022671": {
 "ticker": "STLD",
@@ -3290,7 +3271,8 @@
 "phase": null,
 "mode": null,
 "reason": "no measured revenue history",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "1013934": {
 "ticker": "STRA",
@@ -3314,7 +3296,8 @@
 "phase": null,
 "mode": null,
 "reason": "interior gap(s) 2011Q1,2015Q1,2020Q1,2022Q1,2026Q2; window does not shift across gaps",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "310764": {
 "ticker": "SYK",
@@ -3466,7 +3449,8 @@
 "phase": "p5",
 "mode": "ENDURANCE",
 "reason": "own-cash dominant now with prior P4 window (9.12a)",
-"title": "P5 \u00b7 Endurance"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "860731": {
 "ticker": "TRI",
@@ -3474,7 +3458,8 @@
 "phase": "p2",
 "mode": "GENUINE_BASELINE",
 "reason": "lag-4 coherence 0.731 >= 0.50 with amplitude 0.0269 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1116132": {
 "ticker": "TRI",
@@ -3482,7 +3467,8 @@
 "phase": null,
 "mode": null,
 "reason": "interior gap(s) 2010Q2,2016Q2,2017Q1,2021Q2,2023Q1; window does not shift across gaps",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "98222": {
 "ticker": "TDW",
@@ -3523,14 +3509,6 @@
 "mode": "GENUINE_BASELINE",
 "reason": "positive flatness: amplitude 0.0253 below floor 0.030, solvent, 54 elapsed quarters",
 "title": "P0 \u00b7 Source"
-},
-"912242": {
-"ticker": "UFPI",
-"status": "UNKNOWN_NOT_BUILT",
-"phase": null,
-"mode": null,
-"reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
 },
 "1734722": {
 "ticker": "PATH",
@@ -3588,14 +3566,6 @@
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
 "title": "UNKNOWN \u2014 NOT BUILT"
 },
-"1096752": {
-"ticker": "HCC",
-"status": "p2",
-"phase": "p2",
-"mode": "GENUINE_BASELINE",
-"reason": "lag-4 coherence 0.607 >= 0.50 with amplitude 0.1475 >= 0.030 (prove_p2.py:53-67,81)",
-"title": "P2 \u00b7 Rhythm"
-},
 "1601548": {
 "ticker": "VVX",
 "status": "UNKNOWN_INSUFFICIENT_HISTORY",
@@ -3618,7 +3588,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "740260": {
 "ticker": "VTR",
@@ -3794,7 +3765,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "1617640": {
 "ticker": "ZG",
@@ -3810,7 +3782,8 @@
 "phase": null,
 "mode": null,
 "reason": "no measured revenue history",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "successor_candidate_pending_operator"
 },
 "1136869": {
 "ticker": "ZBH",
@@ -3842,7 +3815,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1713683": {
 "ticker": "ZS",
@@ -3866,7 +3840,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 NOT BUILT",
+"entity_status": "delisted_kept"
 },
 "886158": {
 "ticker": "BBBY",
@@ -3874,7 +3849,8 @@
 "phase": "p4",
 "mode": "SCAFFOLDING",
 "reason": "TTM OCF<0 and CFF>0.5*|OCF| (LIMEN_FOUR_LAYER.md:67)",
-"title": "P4 \u00b7 Scaffolding"
+"title": "P4 \u00b7 Scaffolding",
+"entity_status": "delisted_kept"
 },
 "1655210": {
 "ticker": "BYND",
@@ -3890,7 +3866,8 @@
 "phase": "p4",
 "mode": "SCAFFOLDING",
 "reason": "TTM OCF<0 and CFF>0.5*|OCF| (LIMEN_FOUR_LAYER.md:67)",
-"title": "P4 \u00b7 Scaffolding"
+"title": "P4 \u00b7 Scaffolding",
+"entity_status": "delisted_kept"
 },
 "719739": {
 "ticker": "SIVB",
@@ -3898,7 +3875,8 @@
 "phase": null,
 "mode": null,
 "reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
-"title": "UNKNOWN \u2014 NOT BUILT"
+"title": "UNKNOWN \u2014 NOT BUILT",
+"entity_status": "delisted_kept"
 },
 "1813756": {
 "ticker": "WE",
@@ -3906,7 +3884,8 @@
 "phase": "p4",
 "mode": "SCAFFOLDING",
 "reason": "TTM OCF<0 and CFF>0.5*|OCF| (LIMEN_FOUR_LAYER.md:67)",
-"title": "P4 \u00b7 Scaffolding"
+"title": "P4 \u00b7 Scaffolding",
+"entity_status": "delisted_kept"
 },
 "829224": {
 "ticker": "SBUX",
@@ -3946,7 +3925,8 @@
 "phase": null,
 "mode": null,
 "reason": "interior gap(s) 2009Q3,2015Q3,2017Q1; window does not shift across gaps",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 ENTITY UNRESOLVED",
+"entity_status": "duplicate_row_dropped"
 },
 "1759546": {
 "ticker": "RIDE",
@@ -3954,7 +3934,148 @@
 "phase": null,
 "mode": null,
 "reason": "elapsed history 7 < 8 quarters",
-"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY"
+"title": "UNKNOWN \u2014 INSUFFICIENT HISTORY",
+"entity_status": "delisted_kept"
+},
+"1070494": {
+"ticker": "ACAD",
+"phase": null,
+"status": "UNKNOWN_NOT_BUILT",
+"mode": null,
+"reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
+"title": "UNKNOWN_NOT_BUILT",
+"entity_status": "cik_fixed_from_frame",
+"prior_cik": "0001070524"
+},
+"1520262": {
+"ticker": "ALKS",
+"phase": null,
+"status": "UNKNOWN_NOT_BUILT",
+"mode": null,
+"reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
+"title": "UNKNOWN_NOT_BUILT",
+"entity_status": "cik_fixed_from_frame",
+"prior_cik": "0000850261"
+},
+"899051": {
+"ticker": "ALL",
+"phase": "p0",
+"status": "p0",
+"mode": "GENUINE_BASELINE",
+"reason": "positive flatness: amplitude 0.0219 below floor 0.030, solvent, 73 elapsed quarters",
+"title": "P0 \u00b7 Source",
+"entity_status": "cik_fixed_from_frame",
+"prior_cik": "0000899629"
+},
+"1996862": {
+"ticker": "BG",
+"phase": "p2",
+"status": "p2",
+"mode": "GENUINE_BASELINE",
+"reason": "lag-4 coherence -0.351 >= 0.50 with amplitude 0.2023 >= 0.030 (prove_p2.py:53-67,81)",
+"title": "P2 \u00b7 Rhythm",
+"entity_status": "cik_fixed_from_frame",
+"prior_cik": "0001144519"
+},
+"1486957": {
+"ticker": "BWXT",
+"phase": "p2",
+"status": "p2",
+"mode": "GENUINE_BASELINE",
+"reason": "lag-4 coherence 0.563 >= 0.50 with amplitude 0.0625 >= 0.030 (prove_p2.py:53-67,81)",
+"title": "P2 \u00b7 Rhythm",
+"entity_status": "cik_fixed_from_frame",
+"prior_cik": "0001383054"
+},
+"1590895": {
+"ticker": "CZR",
+"phase": "p0",
+"status": "p0",
+"mode": "GENUINE_BASELINE",
+"reason": "positive flatness: amplitude 0.0220 below floor 0.030, solvent, 54 elapsed quarters",
+"title": "P0 \u00b7 Source",
+"entity_status": "cik_fixed_from_frame",
+"prior_cik": "0000858339"
+},
+"1297996": {
+"ticker": "DLR",
+"phase": null,
+"status": "UNKNOWN_INSUFFICIENT_HISTORY",
+"mode": null,
+"reason": "interior gap(s) 2009Q3,2009Q4,2010Q1; window does not shift across gaps",
+"title": "UNKNOWN_INSUFFICIENT_HISTORY",
+"entity_status": "cik_fixed_from_frame",
+"prior_cik": "0001365135"
+},
+"40545": {
+"ticker": "GE",
+"phase": null,
+"status": "UNKNOWN_NOT_BUILT",
+"mode": null,
+"reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
+"title": "UNKNOWN_NOT_BUILT",
+"entity_status": "cik_fixed_from_frame",
+"prior_cik": "0000040554"
+},
+"1366868": {
+"ticker": "GSAT",
+"phase": null,
+"status": "UNKNOWN_NOT_BUILT",
+"mode": null,
+"reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
+"title": "UNKNOWN_NOT_BUILT",
+"entity_status": "cik_fixed_from_frame",
+"prior_cik": "0001176316"
+},
+"836157": {
+"ticker": "LNN",
+"phase": "p2",
+"status": "p2",
+"mode": "GENUINE_BASELINE",
+"reason": "lag-4 coherence -0.218 >= 0.50 with amplitude 0.0704 >= 0.030 (prove_p2.py:53-67,81)",
+"title": "P2 \u00b7 Rhythm",
+"entity_status": "cik_fixed_from_frame",
+"prior_cik": "0000060714"
+},
+"1636519": {
+"ticker": "MSGS",
+"phase": "p2",
+"status": "p2",
+"mode": "GENUINE_BASELINE",
+"reason": "lag-4 coherence 0.961 >= 0.50 with amplitude 0.9308 >= 0.030 (prove_p2.py:53-67,81)",
+"title": "P2 \u00b7 Rhythm",
+"entity_status": "cik_fixed_from_frame",
+"prior_cik": "0001636023"
+},
+"702165": {
+"ticker": "NSC",
+"phase": null,
+"status": "UNKNOWN_NOT_BUILT",
+"mode": null,
+"reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
+"title": "UNKNOWN_NOT_BUILT",
+"entity_status": "cik_fixed_from_frame",
+"prior_cik": "0000073309"
+},
+"912767": {
+"ticker": "UFPI",
+"phase": null,
+"status": "UNKNOWN_INSUFFICIENT_HISTORY",
+"mode": null,
+"reason": "interior gap(s) 2017Q1,2023Q1; window does not shift across gaps",
+"title": "UNKNOWN_INSUFFICIENT_HISTORY",
+"entity_status": "cik_fixed_from_frame",
+"prior_cik": "0000912242"
+},
+"1691303": {
+"ticker": "HCC",
+"phase": null,
+"status": "UNKNOWN_NOT_BUILT",
+"mode": null,
+"reason": "no release-1 detector fired (P1/P6/P8-P10 not built; P3/P7 abstained per 9.14c)",
+"title": "UNKNOWN_NOT_BUILT",
+"entity_status": "cik_fixed_from_frame",
+"prior_cik": "0001096752"
 }
 }
 }

@@ -10,9 +10,18 @@ this file is executed against company data until signed.
 A verification check does not ask "is this phase a good predictor?" (that is
 the separate predictive-validity track). It asks: **"did the pipeline compute
 exactly the frozen definition from the filings, with the stated inputs?"** A
-phase reading ships with the claim "definitional reading, verified" when its
+phase reading ships with the claim "definional reading, verified" when its
 verification check passes; the check is re-runnable by anyone with the
 cached facts and the pinned code.
+
+**Independence requirement (operator 2026-10-09, BEFORE freeze):** the
+verification code must be an **independent reference implementation** — a
+separate code path written directly from the frozen definitions and the
+cited research sources (prove_p2.py, LIMEN_FOUR_LAYER.md). It must NOT call
+the production functions (`sec_adapter.evaluate_company`,
+`financial_phase_map.evaluate`) — checking code by calling the same code
+proves nothing. Divergence between the two implementations is either a
+pipeline defect or a definition ambiguity; both get reported, not smoothed.
 
 ## V-P0 — Source (baseline / positive flatness)
 
@@ -78,7 +87,10 @@ cached facts and the pinned code.
 ## Operational shape
 
 - One script (`verify_release1.py`) runs all four checks against the board
-  cache and prints a per-phase pass table + divergence list.
+  cache and prints a per-phase pass table + divergence list. It implements
+  the definitions from scratch (research-frame de-cumulation, Altman Z″,
+  dyads) as an independent reference — importing production scoring
+  functions is a review-blocking violation.
 - Runtime: local, cache-only, seconds.
 - On any divergence: rows affected flip to UNKNOWN (data-error), never to a
   guessed phase.

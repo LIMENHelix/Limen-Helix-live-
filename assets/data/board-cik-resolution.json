@@ -1,0 +1,828 @@
+{
+ "cutoff": "2026-10-09",
+ "rule": "operator 2026-10-09",
+ "fixes": [
+  {
+   "ticker": "ACAD",
+   "from": "0001070524",
+   "to": "0001070494"
+  },
+  {
+   "ticker": "ALKS",
+   "from": "0000850261",
+   "to": "0001520262"
+  },
+  {
+   "ticker": "ALL",
+   "from": "0000899629",
+   "to": "0000899051"
+  },
+  {
+   "ticker": "BG",
+   "from": "0001144519",
+   "to": "0001996862"
+  },
+  {
+   "ticker": "BWXT",
+   "from": "0001383054",
+   "to": "0001486957"
+  },
+  {
+   "ticker": "CZR",
+   "from": "0000858339",
+   "to": "0001590895"
+  },
+  {
+   "ticker": "CCI",
+   "from": "0001053507",
+   "to": "0001051470"
+  },
+  {
+   "ticker": "DLR",
+   "from": "0001365135",
+   "to": "0001297996"
+  },
+  {
+   "ticker": "GE",
+   "from": "0000040554",
+   "to": "0000040545"
+  },
+  {
+   "ticker": "GSAT",
+   "from": "0001176316",
+   "to": "0001366868"
+  },
+  {
+   "ticker": "LEN",
+   "from": "0000045012",
+   "to": "0000920760"
+  },
+  {
+   "ticker": "LNN",
+   "from": "0000060714",
+   "to": "0000836157"
+  },
+  {
+   "ticker": "MSGS",
+   "from": "0001636023",
+   "to": "0001636519"
+  },
+  {
+   "ticker": "NSC",
+   "from": "0000073309",
+   "to": "0000702165"
+  },
+  {
+   "ticker": "UFPI",
+   "from": "0000912242",
+   "to": "0000912767"
+  },
+  {
+   "ticker": "HCC",
+   "from": "0001096752",
+   "to": "0001691303"
+  }
+ ],
+ "delisted": [
+  {
+   "ticker": "TWOU",
+   "cik": "0001459417"
+  },
+  {
+   "ticker": "ATGE",
+   "cik": "0000730464"
+  },
+  {
+   "ticker": "AMED",
+   "cik": "0001095565"
+  },
+  {
+   "ticker": "ASGN",
+   "cik": "0000890564"
+  },
+  {
+   "ticker": "ATAI",
+   "cik": "0001842279"
+  },
+  {
+   "ticker": "BRK.B",
+   "cik": "0001067983"
+  },
+  {
+   "ticker": "BTAI",
+   "cik": "0001720893"
+  },
+  {
+   "ticker": "SQ",
+   "cik": "0001512673"
+  },
+  {
+   "ticker": "CCRN",
+   "cik": "0001060349"
+  },
+  {
+   "ticker": "CNHI",
+   "cik": "0001567094"
+  },
+  {
+   "ticker": "CFLT",
+   "cik": "0001816613"
+  },
+  {
+   "ticker": "CYBR",
+   "cik": "0001370755"
+  },
+  {
+   "ticker": "EA",
+   "cik": "0000712515"
+  },
+  {
+   "ticker": "EVBG",
+   "cik": "0001437352"
+  },
+  {
+   "ticker": "EVOK",
+   "cik": "0001559865"
+  },
+  {
+   "ticker": "EXAS",
+   "cik": "0001124140"
+  },
+  {
+   "ticker": "GCI",
+   "cik": "0001647639"
+  },
+  {
+   "ticker": "HMHC",
+   "cik": "0001580156"
+  },
+  {
+   "ticker": "INST",
+   "cik": "0001462056"
+  },
+  {
+   "ticker": "IAS",
+   "cik": "0001842718"
+  },
+  {
+   "ticker": "TAN",
+   "cik": "0001274494"
+  },
+  {
+   "ticker": "MANT",
+   "cik": "0000892537"
+  },
+  {
+   "ticker": "MMC",
+   "cik": "0000062996"
+  },
+  {
+   "ticker": "MASI",
+   "cik": "0000937556"
+  },
+  {
+   "ticker": "MNMD",
+   "cik": "0001811882"
+  },
+  {
+   "ticker": "MEG",
+   "cik": "0001601712"
+  },
+  {
+   "ticker": "MOG.A",
+   "cik": "0000067887"
+  },
+  {
+   "ticker": "PWSC",
+   "cik": "0001835681"
+  },
+  {
+   "ticker": "RDFN",
+   "cik": "0001382821"
+  },
+  {
+   "ticker": "SALM",
+   "cik": "0001050606"
+  },
+  {
+   "ticker": "SPLK",
+   "cik": "0001353283"
+  },
+  {
+   "ticker": "SQSP",
+   "cik": "0001496963"
+  },
+  {
+   "ticker": "ATHX",
+   "cik": "0001368148"
+  },
+  {
+   "ticker": "BBBY",
+   "cik": "0000886158"
+  },
+  {
+   "ticker": "RAD",
+   "cik": "0000084129"
+  },
+  {
+   "ticker": "SIVB",
+   "cik": "0000719739"
+  },
+  {
+   "ticker": "WE",
+   "cik": "0001813756"
+  },
+  {
+   "ticker": "RIDE",
+   "cik": "0001759546"
+  }
+ ],
+ "duplicates": [
+  {
+   "ticker": "ACN",
+   "dropped_cik": "1281761",
+   "kept_cik": "1467373"
+  },
+  {
+   "ticker": "AMWL",
+   "dropped_cik": "352915",
+   "kept_cik": "1477449"
+  },
+  {
+   "ticker": "AMAT",
+   "dropped_cik": "2488",
+   "kept_cik": "6951"
+  },
+  {
+   "ticker": "ATAI",
+   "dropped_cik": "1842952",
+   "kept_cik": "1842279"
+  },
+  {
+   "ticker": "BAH",
+   "dropped_cik": "1443669",
+   "kept_cik": "1443646"
+  },
+  {
+   "ticker": "AVGO",
+   "dropped_cik": "1649338",
+   "kept_cik": "1730168"
+  },
+  {
+   "ticker": "BRKR",
+   "dropped_cik": "1104657",
+   "kept_cik": "1109354"
+  },
+  {
+   "ticker": "CACI",
+   "dropped_cik": "17843",
+   "kept_cik": "16058"
+  },
+  {
+   "ticker": "CCRN",
+   "dropped_cik": "1142750",
+   "kept_cik": "1060349"
+  },
+  {
+   "ticker": "CRL",
+   "dropped_cik": "802481",
+   "kept_cik": "1100682"
+  },
+  {
+   "ticker": "NET",
+   "dropped_cik": "1561550",
+   "kept_cik": "1477333"
+  },
+  {
+   "ticker": "COUR",
+   "dropped_cik": "1783879",
+   "kept_cik": "1651562"
+  },
+  {
+   "ticker": "DOCU",
+   "dropped_cik": "1261654",
+   "kept_cik": "1261333"
+  },
+  {
+   "ticker": "DUK",
+   "dropped_cik": "1004980",
+   "kept_cik": "1326160"
+  },
+  {
+   "ticker": "ENPH",
+   "dropped_cik": "1657312",
+   "kept_cik": "1463101"
+  },
+  {
+   "ticker": "SPOT",
+   "dropped_cik": "1370637",
+   "kept_cik": "1639920"
+  },
+  {
+   "ticker": "GCI",
+   "dropped_cik": "1635718",
+   "kept_cik": "1647639"
+  },
+  {
+   "ticker": "ICFI",
+   "dropped_cik": "1130310",
+   "kept_cik": "1362004"
+  },
+  {
+   "ticker": "INDV",
+   "dropped_cik": "1723089",
+   "kept_cik": "1625297"
+  },
+  {
+   "ticker": "JBHT",
+   "dropped_cik": "878927",
+   "kept_cik": "728535"
+  },
+  {
+   "ticker": "J",
+   "dropped_cik": "49196",
+   "kept_cik": "52988"
+  },
+  {
+   "ticker": "LZ",
+   "dropped_cik": "1495231",
+   "kept_cik": "1286139"
+  },
+  {
+   "ticker": "LUMN",
+   "dropped_cik": "1051470",
+   "kept_cik": "18926"
+  },
+  {
+   "ticker": "MSGS",
+   "dropped_cik": "1868726",
+   "kept_cik": "1636023"
+  },
+  {
+   "ticker": "MMC",
+   "dropped_cik": "62709",
+   "kept_cik": "62996"
+  },
+  {
+   "ticker": "MDT",
+   "dropped_cik": "64670",
+   "kept_cik": "1613103"
+  },
+  {
+   "ticker": "MSCI",
+   "dropped_cik": "1442145",
+   "kept_cik": "1408198"
+  },
+  {
+   "ticker": "PLD",
+   "dropped_cik": "1852633",
+   "kept_cik": "1045609"
+  },
+  {
+   "ticker": "PWR",
+   "dropped_cik": "1040971",
+   "kept_cik": "1050915"
+  },
+  {
+   "ticker": "RELX",
+   "dropped_cik": "929008",
+   "kept_cik": "929869"
+  },
+  {
+   "ticker": "LRN",
+   "dropped_cik": "1377789",
+   "kept_cik": "1157408"
+  },
+  {
+   "ticker": "TRI",
+   "dropped_cik": "1750",
+   "kept_cik": "1075124"
+  },
+  {
+   "ticker": "TRI",
+   "dropped_cik": "860731",
+   "kept_cik": "1075124"
+  },
+  {
+   "ticker": "TRI",
+   "dropped_cik": "1116132",
+   "kept_cik": "1075124"
+  },
+  {
+   "ticker": "VRNS",
+   "dropped_cik": "1365101",
+   "kept_cik": "1361113"
+  },
+  {
+   "ticker": "DIS",
+   "dropped_cik": "1001039",
+   "kept_cik": "1744489"
+  },
+  {
+   "ticker": "ZS",
+   "dropped_cik": "1262039",
+   "kept_cik": "1713683"
+  }
+ ],
+ "operator_list": [
+  {
+   "ticker": "AMWL",
+   "row_cik": "0001477449",
+   "frame_cik": "0001393584",
+   "frame_history_quarters": 2,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "frame entity has real Revenues but <=6 10-Q/K quarters -> genuine successor/holdco candidate"
+  },
+  {
+   "ticker": "BILI",
+   "row_cik": "0001737287",
+   "frame_cik": "0001723690",
+   "frame_history_quarters": 0,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+  },
+  {
+   "ticker": "BLK",
+   "row_cik": "0001364742",
+   "frame_cik": "0002012383",
+   "frame_history_quarters": 3,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "frame entity has real Revenues but <=6 10-Q/K quarters -> genuine successor/holdco candidate"
+  },
+  {
+   "ticker": "BEP",
+   "row_cik": "0001736874",
+   "frame_cik": "0001533232",
+   "frame_history_quarters": 0,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "IFRS filer: FPM cannot score us-gaap anyway; row CIK likely the traded entity"
+  },
+  {
+   "ticker": "CMPS",
+   "row_cik": "0001816736",
+   "frame_cik": "0001816590",
+   "frame_history_quarters": 0,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+  },
+  {
+   "ticker": "LAW",
+   "row_cik": "0001745020",
+   "frame_cik": "0001625641",
+   "frame_history_quarters": 0,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+  },
+  {
+   "ticker": "DLO",
+   "row_cik": "0001839439",
+   "frame_cik": "0001846832",
+   "frame_history_quarters": 0,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "IFRS filer: FPM cannot score us-gaap anyway; row CIK likely the traded entity"
+  },
+  {
+   "ticker": "DG",
+   "row_cik": "0000034408",
+   "frame_cik": "0000029534",
+   "frame_history_quarters": 0,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+  },
+  {
+   "ticker": "ETN",
+   "row_cik": "0000031277",
+   "frame_cik": "0001551182",
+   "frame_history_quarters": 6,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "frame entity has real Revenues but <=6 10-Q/K quarters -> genuine successor/holdco candidate"
+  },
+  {
+   "ticker": "XOM",
+   "row_cik": "0000034088",
+   "frame_cik": "0002115436",
+   "frame_history_quarters": 2,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "frame entity has real Revenues but <=6 10-Q/K quarters -> genuine successor/holdco candidate"
+  },
+  {
+   "ticker": "GHRS",
+   "row_cik": "0001844419",
+   "frame_cik": "0001855129",
+   "frame_history_quarters": 0,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "IFRS filer: FPM cannot score us-gaap anyway; row CIK likely the traded entity"
+  },
+  {
+   "ticker": "HRMY",
+   "row_cik": "0001803914",
+   "frame_cik": "0001802665",
+   "frame_history_quarters": 0,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+  },
+  {
+   "ticker": "PARA",
+   "row_cik": "0000813828",
+   "frame_cik": "0001826011",
+   "frame_history_quarters": 0,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+  },
+  {
+   "ticker": "PINS",
+   "row_cik": "0001562088",
+   "frame_cik": "0001506293",
+   "frame_history_quarters": 0,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+  },
+  {
+   "ticker": "PRGO",
+   "row_cik": "0001295947",
+   "frame_cik": "0001585364",
+   "frame_history_quarters": 1,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "frame entity has real Revenues but <=6 10-Q/K quarters -> genuine successor/holdco candidate"
+  },
+  {
+   "ticker": "PCOR",
+   "row_cik": "0000920760",
+   "frame_cik": "0001611052",
+   "frame_history_quarters": 0,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+  },
+  {
+   "ticker": "QGEN",
+   "row_cik": "0001841024",
+   "frame_cik": "0001015820",
+   "frame_history_quarters": 0,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "frame entity has real Revenues but <=6 10-Q/K quarters -> genuine successor/holdco candidate"
+  },
+  {
+   "ticker": "SMG",
+   "row_cik": "0001173514",
+   "frame_cik": "0000825542",
+   "frame_history_quarters": 5,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "frame entity has real Revenues but <=6 10-Q/K quarters -> genuine successor/holdco candidate"
+  },
+  {
+   "ticker": "SE",
+   "row_cik": "0001702780",
+   "frame_cik": "0001703399",
+   "frame_history_quarters": 0,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "frame entity has real Revenues but <=6 10-Q/K quarters -> genuine successor/holdco candidate"
+  },
+  {
+   "ticker": "FOUR",
+   "row_cik": "0001816581",
+   "frame_cik": "0001794669",
+   "frame_history_quarters": 0,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+  },
+  {
+   "ticker": "STN",
+   "row_cik": "0001674930",
+   "frame_cik": "0001131383",
+   "frame_history_quarters": 0,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "IFRS filer: FPM cannot score us-gaap anyway; row CIK likely the traded entity"
+  },
+  {
+   "ticker": "SCM",
+   "row_cik": "0001546383",
+   "frame_cik": "0001551901",
+   "frame_history_quarters": 0,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+  },
+  {
+   "ticker": "ZETA",
+   "row_cik": "0001578732",
+   "frame_cik": "0001851003",
+   "frame_history_quarters": 0,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+  },
+  {
+   "ticker": "ZIM",
+   "row_cik": "0001838293",
+   "frame_cik": "0001654126",
+   "frame_history_quarters": 0,
+   "why": "frame entity thin \u2014 successor/holdco candidate",
+   "note": "IFRS filer: FPM cannot score us-gaap anyway; row CIK likely the traded entity"
+  }
+ ],
+ "unresolved": [
+  {
+   "ticker": "RBGLY",
+   "cik": "0000077360",
+   "why": "frame facts unavailable"
+  }
+ ],
+ "operator_list_subclassified": {
+  "ifrs_filer": [
+   {
+    "ticker": "BEP",
+    "row_cik": "0001736874",
+    "frame_cik": "0001533232",
+    "frame_history_quarters": 0,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "IFRS filer: FPM cannot score us-gaap anyway; row CIK likely the traded entity"
+   },
+   {
+    "ticker": "DLO",
+    "row_cik": "0001839439",
+    "frame_cik": "0001846832",
+    "frame_history_quarters": 0,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "IFRS filer: FPM cannot score us-gaap anyway; row CIK likely the traded entity"
+   },
+   {
+    "ticker": "GHRS",
+    "row_cik": "0001844419",
+    "frame_cik": "0001855129",
+    "frame_history_quarters": 0,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "IFRS filer: FPM cannot score us-gaap anyway; row CIK likely the traded entity"
+   },
+   {
+    "ticker": "STN",
+    "row_cik": "0001674930",
+    "frame_cik": "0001131383",
+    "frame_history_quarters": 0,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "IFRS filer: FPM cannot score us-gaap anyway; row CIK likely the traded entity"
+   },
+   {
+    "ticker": "ZIM",
+    "row_cik": "0001838293",
+    "frame_cik": "0001654126",
+    "frame_history_quarters": 0,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "IFRS filer: FPM cannot score us-gaap anyway; row CIK likely the traded entity"
+   }
+  ],
+  "thin_us_gaap_frame": [
+   {
+    "ticker": "AMWL",
+    "row_cik": "0001477449",
+    "frame_cik": "0001393584",
+    "frame_history_quarters": 2,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "frame entity has real Revenues but <=6 10-Q/K quarters -> genuine successor/holdco candidate"
+   },
+   {
+    "ticker": "BLK",
+    "row_cik": "0001364742",
+    "frame_cik": "0002012383",
+    "frame_history_quarters": 3,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "frame entity has real Revenues but <=6 10-Q/K quarters -> genuine successor/holdco candidate"
+   },
+   {
+    "ticker": "ETN",
+    "row_cik": "0000031277",
+    "frame_cik": "0001551182",
+    "frame_history_quarters": 6,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "frame entity has real Revenues but <=6 10-Q/K quarters -> genuine successor/holdco candidate"
+   },
+   {
+    "ticker": "XOM",
+    "row_cik": "0000034088",
+    "frame_cik": "0002115436",
+    "frame_history_quarters": 2,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "frame entity has real Revenues but <=6 10-Q/K quarters -> genuine successor/holdco candidate"
+   },
+   {
+    "ticker": "PRGO",
+    "row_cik": "0001295947",
+    "frame_cik": "0001585364",
+    "frame_history_quarters": 1,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "frame entity has real Revenues but <=6 10-Q/K quarters -> genuine successor/holdco candidate"
+   },
+   {
+    "ticker": "QGEN",
+    "row_cik": "0001841024",
+    "frame_cik": "0001015820",
+    "frame_history_quarters": 0,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "frame entity has real Revenues but <=6 10-Q/K quarters -> genuine successor/holdco candidate"
+   },
+   {
+    "ticker": "SMG",
+    "row_cik": "0001173514",
+    "frame_cik": "0000825542",
+    "frame_history_quarters": 5,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "frame entity has real Revenues but <=6 10-Q/K quarters -> genuine successor/holdco candidate"
+   },
+   {
+    "ticker": "SE",
+    "row_cik": "0001702780",
+    "frame_cik": "0001703399",
+    "frame_history_quarters": 0,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "frame entity has real Revenues but <=6 10-Q/K quarters -> genuine successor/holdco candidate"
+   }
+  ],
+  "no_revenue_tag_or_form_artifact": [
+   {
+    "ticker": "BILI",
+    "row_cik": "0001737287",
+    "frame_cik": "0001723690",
+    "frame_history_quarters": 0,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+   },
+   {
+    "ticker": "CMPS",
+    "row_cik": "0001816736",
+    "frame_cik": "0001816590",
+    "frame_history_quarters": 0,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+   },
+   {
+    "ticker": "LAW",
+    "row_cik": "0001745020",
+    "frame_cik": "0001625641",
+    "frame_history_quarters": 0,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+   },
+   {
+    "ticker": "DG",
+    "row_cik": "0000034408",
+    "frame_cik": "0000029534",
+    "frame_history_quarters": 0,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+   },
+   {
+    "ticker": "HRMY",
+    "row_cik": "0001803914",
+    "frame_cik": "0001802665",
+    "frame_history_quarters": 0,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+   },
+   {
+    "ticker": "PARA",
+    "row_cik": "0000813828",
+    "frame_cik": "0001826011",
+    "frame_history_quarters": 0,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+   },
+   {
+    "ticker": "PINS",
+    "row_cik": "0001562088",
+    "frame_cik": "0001506293",
+    "frame_history_quarters": 0,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+   },
+   {
+    "ticker": "PCOR",
+    "row_cik": "0000920760",
+    "frame_cik": "0001611052",
+    "frame_history_quarters": 0,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+   },
+   {
+    "ticker": "FOUR",
+    "row_cik": "0001816581",
+    "frame_cik": "0001794669",
+    "frame_history_quarters": 0,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+   },
+   {
+    "ticker": "SCM",
+    "row_cik": "0001546383",
+    "frame_cik": "0001551901",
+    "frame_history_quarters": 0,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+   },
+   {
+    "ticker": "ZETA",
+    "row_cik": "0001578732",
+    "frame_cik": "0001851003",
+    "frame_history_quarters": 0,
+    "why": "frame entity thin \u2014 successor/holdco candidate",
+    "note": "no classic revenue tag or form-filter artifact (ASC 606 / 20-F filer possible) - needs name check; e.g. DG frame CIK 0000029534 is the known-correct Dollar General (row almost certainly wrong)"
+   }
+  ]
+ }
+}
