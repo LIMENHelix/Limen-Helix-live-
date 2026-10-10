@@ -1,22 +1,22 @@
 {
   "schemaVersion": "discovery-store-reconciliation/1.0",
-  "generatedAt": "2026-10-09T03:03:36.648Z",
-  "sourceCommit": "44efbd13b6b33f8c38800b9ac3a1ba4c8b88f246",
+  "generatedAt": "2026-10-10T13:58:23.351Z",
+  "sourceCommit": "03426422969f4efd75186d412ba906d0db0ffdd0",
   "method": "scripts/reconcile-discovery-stores.mjs",
   "stores": {
     "cube": {
-      "builtAt": "2026-10-09T03:03:36.648Z",
+      "builtAt": "2026-10-10T13:58:23.351Z",
       "cells": 5524,
-      "sha256": "7384bb809bdf647a1864568c9dccc0d87003413b48fb594a6a7d922f22c8dcbd"
+      "sha256": "a39a75ba17c07f0b9b1d24c6aa8a5581a772134031d7c8746c2551237c9bbf25"
     },
     "ledger": {
-      "lastEvidenceUpdatedAt": "2026-06-04T02:25:32.137Z",
+      "lastEvidenceUpdatedAt": "2026-10-10T13:57:59.683Z",
       "verdictRecords": 7900,
       "byVerdict": {
-        "VERIFIED": 3700,
+        "VERIFIED": 3696,
         "DISPUTED": 89,
         "THEORETICAL": 1583,
-        "UNVERIFIABLE": 2528,
+        "UNVERIFIABLE": 2532,
         "FABRICATED": 0,
         "PENDING": 0
       },
@@ -27,57 +27,57 @@
       },
       "reconciliation": {
         "schemaVersion": "verification-reconciliation/1.0",
-        "snapshotAt": "2026-10-09T03:03:36.648Z",
-        "sourceCommit": "44efbd13b6b33f8c38800b9ac3a1ba4c8b88f246",
+        "snapshotAt": "2026-10-10T13:58:23.351Z",
+        "sourceCommit": "03426422969f4efd75186d412ba906d0db0ffdd0",
         "uniqueCurrentClaims": 46934,
         "matchedLedgerClaims": 5691,
         "currentClaimsWithoutLedger": 41243,
         "archivedLedgerClaims": 2209,
         "effectiveCurrentByVerdict": {
-          "VERIFIED": 2263,
+          "VERIFIED": 2259,
           "DISPUTED": 89,
           "THEORETICAL": 873,
-          "UNVERIFIABLE": 2466,
+          "UNVERIFIABLE": 2470,
           "FABRICATED": 0,
           "PENDING": 41243
         },
         "ledgerAllTimeByVerdict": {
-          "VERIFIED": 3700,
+          "VERIFIED": 3696,
           "DISPUTED": 89,
           "THEORETICAL": 1583,
-          "UNVERIFIABLE": 2528,
+          "UNVERIFIABLE": 2532,
           "FABRICATED": 0,
           "PENDING": 0
         },
         "note": "Current claims are the unique claim-id population in this cube snapshot. Archived ledger claims are preserved evidence whose ids no longer occur in the current cube; they are not counted as current rendered claims."
       },
-      "sha256": "ce7a01ad4a632d719340722364cc37fdc15abc3e59f61030cafc8a0df90739c3"
+      "sha256": "3c3a877f3e35eafef41871b447285db6faa1eff6f5c7a263000518c3ee87c18b"
     },
     "renderSummary": {
       "totalCells": 5524,
       "epistemicBuckets": {
-        "proven": 2263,
+        "proven": 2259,
         "unproven": 873,
-        "unknown": 43709,
+        "unknown": 43713,
         "impossible": 89,
         "totalClaims": 46934,
         "processedVerdicts": 5691,
         "verdictCounts": {
-          "VERIFIED": 2263,
+          "VERIFIED": 2259,
           "DISPUTED": 89,
           "THEORETICAL": 873,
-          "UNVERIFIABLE": 2466,
+          "UNVERIFIABLE": 2470,
           "FABRICATED": 0,
           "PENDING": 41243
         },
         "note": "Every claim kept and separated by epistemic state. Verification writes the state; it never deletes the finding. Impossible = study why it fails (kept, not discarded).",
         "archivedLedgerClaims": 2209,
-        "computedAt": "2026-10-09T03:03:36.648Z"
+        "computedAt": "2026-10-10T13:58:23.351Z"
       },
-      "sha256": "a63321d8faf1ee4b0eed78400b3f4bc9c3f459726f4ebf0296ff3103be610c32"
+      "sha256": "41d743f523e71a7c76f9c41201b92655b94c9b377abfb9de9d2d3211e77cb1c8"
     },
     "inbox": {
-      "generatedAt": "2026-10-09T03:03:36.648Z",
+      "generatedAt": "2026-10-10T13:58:23.351Z",
       "activeLanes": [
         "investment",
         "research"
@@ -93,7 +93,7 @@
           "research": 520
         }
       },
-      "sha256": "1aa6939650ab3a1add2b9f53fc5a3571c6e236480dda520a68f68b939a037b7b"
+      "sha256": "10a92242cecfb7d491a3494b8d24686817c6d81648b26c68e6ccfdf797f7cc13"
     }
   },
   "invariants": {
