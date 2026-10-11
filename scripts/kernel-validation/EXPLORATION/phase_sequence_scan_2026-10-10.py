@@ -147,7 +147,12 @@ def walk_company(facts):
     quarters = sorted(full_rev)[-WALK_CAP_QTRS:]
     seq = []
     for yq in quarters:
-        cutoff = q_end_iso(yq)
+        # Availability convention: a quarter's filing is public by the END of
+        # the FOLLOWING quarter (10-Q ~40d, 10-K ~60-90d). Reading quarter q
+        # "as of q's end" is impossible — the filing does not exist yet — so
+        # the walk's reading for q uses cutoff = end of q+1.
+        ny, nq = (yq[0], yq[1] + 1) if yq[1] < 4 else (yq[0] + 1, 1)
+        cutoff = q_end_iso((ny, nq))
         rev = ex.decumulate(REVENUE_TAGS, cutoff)
         ocf = ex.decumulate(OCF_TAGS, cutoff)
         cff = ex.decumulate(CFF_TAGS, cutoff)
