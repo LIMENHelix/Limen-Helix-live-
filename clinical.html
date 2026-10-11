@@ -1937,7 +1937,7 @@ function showNodeDeepDive(nodeId) {
   html += '<div class="ndd-section-label" style="color:var(--gold)">ORGANIZATIONAL · PHASE MAPPING</div>';
   data.organizational.forEach(function(o) {
     html += '<div class="ndd-item"><div class="ndd-dot" style="background:var(--gold)"></div>' +
-      '<div><a href="/business" style="color:var(--gold-dim)">' + o.phase + '</a>' +
+      '<div><span style="color:var(--gold-dim)">' + o.phase + '</span>' +
       '<div class="ndd-text">' + o.note + '</div></div></div>';
   });
   html += '</div>';
@@ -2628,7 +2628,6 @@ function buildInterventions(dx) {
       html += '<div class="metabolic-screen"><span class="metabolic-screen-label">SCREEN: </span>' + m.screen + '</div>';
       html += '</div>';
     });
-    html += '<div class="metabolic-link"><a href="/metabolic" style="color:var(--gold);text-decoration:none;letter-spacing:1.5px;font-size:0.5rem">\u2192 Full metabolic circuits at /metabolic</a></div>';
     html += '</div>';
   }
 

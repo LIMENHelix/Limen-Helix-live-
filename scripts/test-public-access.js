@@ -40,7 +40,7 @@ const topbar = fs.readFileSync(path.join(ROOT, 'assets/js/limen-topbar.js'), 'ut
 assert(!topbar.includes("sessionStorage.getItem('limen_access')"), 'topbar navigation must not depend on access state');
 assert(topbar.includes("menu.setAttribute('role', 'menu')"), 'public navigation menu still renders');
 
-for (const rel of ['law_portal.html', 'company-portal.html', 'helix-report.html', 'business.html', 'provider-portal.html']) {
+for (const rel of ['law_portal.html', 'company-portal.html', 'helix-report.html', 'provider-portal.html']) {
   assert(fs.existsSync(path.join(ROOT, rel)), rel + ' exists');
   const text = fs.readFileSync(path.join(ROOT, rel), 'utf8');
   assert(!text.includes(oldInlineGate), rel + ' is directly viewable');
