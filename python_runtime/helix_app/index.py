@@ -30,6 +30,7 @@ from python_runtime.helix_app.thing2 import (
 from python_runtime.helix_app.thing2 import KERNEL_ID as THING2_KERNEL_ID
 from python_runtime.helix_app.thing2 import KERNEL_RUNTIME as THING2_KERNEL_RUNTIME
 from python_runtime.helix_app.thing2 import KERNEL_VERSION as THING2_KERNEL_VERSION
+from python_runtime.helix_app.thing2.legacy_display import apply_legacy_display_policy
 
 from python_runtime.helix_app import thing1 as thing1_pkg
 from python_runtime.helix_app.audit import build_log_entry as _build_audit_entry, emit as _emit_audit
@@ -940,7 +941,7 @@ def _build_thing2_section(
     """
     # No data → not available.
     if not rows or history_quarters < 5:
-        return {
+        return apply_legacy_display_policy({
             "available": False,
             "kernel_id": THING2_KERNEL_ID,
             "kernel_runtime": THING2_KERNEL_RUNTIME,
@@ -964,7 +965,7 @@ def _build_thing2_section(
                 ["fewer than 5 quarters of features"] if history_quarters > 0
                 else ["no quarterly features available"]
             ),
-        }
+        })
 
     latest = rows[-1]
 
@@ -1056,7 +1057,7 @@ def _build_thing2_section(
     #   'none'         — no context applied (intrinsic_only)
     section["polyvagal_context_source"] = result.get("_polyvagal_context_source") or "none"
 
-    return section
+    return apply_legacy_display_policy(section)
 
 
 def _build_reconciliation(

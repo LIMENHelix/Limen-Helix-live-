@@ -127,21 +127,33 @@ var TERMINAL_PHASES = ['p7','p7a','p9'];
 var STABLE_PHASES = ['p4','p5','p6'];
 var ORDERED_PHASES = ['p6','p10'];
 
+// LEGACY SUPPRESSION (operator directive 2026-10-10, THING2_REPLACEMENT_PLAN.md):
+// the legacy engine's distress phases do not ship on live surfaces — they read
+// UNKNOWN per 9.14(c), matching the new channel's abstention. Everything else
+// from the legacy column stays visible but labeled "legacy — unvalidated".
+var LEGACY_SUPPRESSED = ['p3','p7','p7a','p7b','p9'];
+var LEGACY_TITLE = 'legacy engine v4.0.2 — unvalidated';
+function _legacyPhase(p) {
+  if (p === 'ERROR') return p;            // extraction failure is not a distress reading
+  return (LEGACY_SUPPRESSED.indexOf(p) !== -1) ? null : p;
+}
+
 function classifySignal(d) {
+  var lp = _legacyPhase(d.p);   // distress readings suppressed per 9.14(c)
   // Rule 1: HTTP/API/extraction failure
   if (d.p === 'ERROR') return 'DATA_ERROR';
   // Rule 2: Terminal-like phase but domain stress low → likely extraction bug
-  if (TERMINAL_PHASES.indexOf(d.p) !== -1 && d.ds < 0.30) return 'DATA_ERROR';
-  // Rule 3: Linear alert with no data contradiction
+  if (TERMINAL_PHASES.indexOf(lp) !== -1 && d.ds < 0.30) return 'DATA_ERROR';
+  // Rule 3: Linear alert with no data contradiction (Thing 1 authority — untouched)
   if (d.a && d.p !== 'ERROR') return 'ALERT';
   // Rule 4: Stable phase but extreme domain stress
-  if (STABLE_PHASES.indexOf(d.p) !== -1 && d.ds >= 0.90) return 'EARLY_WARNING';
+  if (STABLE_PHASES.indexOf(lp) !== -1 && d.ds >= 0.90) return 'EARLY_WARNING';
   // Rule 5: Stable phase in high-stress domain
-  if (STABLE_PHASES.indexOf(d.p) !== -1 && d.ds >= 0.70) return 'FRAGILE_STABILITY';
+  if (STABLE_PHASES.indexOf(lp) !== -1 && d.ds >= 0.70) return 'FRAGILE_STABILITY';
   // Rule 6: Ordered/resurrected in moderate stress
-  if (ORDERED_PHASES.indexOf(d.p) !== -1 && d.ds >= 0.50) return 'ORDERED_WATCH';
+  if (ORDERED_PHASES.indexOf(lp) !== -1 && d.ds >= 0.50) return 'ORDERED_WATCH';
   // Rule 7: Stable in moderate stress
-  if (STABLE_PHASES.indexOf(d.p) !== -1 && d.ds >= 0.50) return 'SECTOR_PRESSURE';
+  if (STABLE_PHASES.indexOf(lp) !== -1 && d.ds >= 0.50) return 'SECTOR_PRESSURE';
   // Rule 8: Default
   return 'NOMINAL';
 }
@@ -174,6 +186,18 @@ function computeSeverity(d) {
 function phaseColor(p) {
   var m = {p0:'#5ab5a0',p1:'#C9A94E',p2:'#4a8fd4',p3:'#e85454',p4:'#5ab5a0',p5:'#C9A94E',p6:'#4a8fd4',p7:'#C9A94E',p7a:'#e85454',p7b:'#C9A94E',p8:'#8a7aaa',p9:'#e85454',p10:'#5ab5a0',ERROR:'#555'};
   return m[p] || '#888';
+}
+function _legacyPhaseChip(d) {
+  var lp = _legacyPhase(d.p);
+  if (d.p === 'ERROR') {
+    var ec = phaseColor('ERROR');
+    return '<span class="phase" style="background:' + ec + '22;color:' + ec + ';border:1px solid ' + ec + '44" title="' + LEGACY_TITLE + '">ERROR</span>';
+  }
+  if (!lp) {
+    return '<span class="phase" style="background:transparent;color:rgba(200,195,184,0.35);border:1px dashed rgba(200,195,184,0.2)" title="legacy distress reading suppressed per 9.14(c) — zero alert authority">UNKNOWN</span>';
+  }
+  var pc = phaseColor(lp);
+  return '<span class="phase" style="background:' + pc + '22;color:' + pc + ';border:1px solid ' + pc + '44" title="' + LEGACY_TITLE + '">' + (PHASE_LABELS[lp] || lp.toUpperCase()) + '</span>';
 }
 function stressColor(v) { return v > 0.65 ? '#e85454' : v > 0.4 ? '#C9A94E' : '#5ab5a0'; }
 function trajColor(t) {
@@ -441,7 +465,6 @@ function renderTable(rows, startOffset) {
 
   for (var i = 0; i < rows.length; i++) {
     var d = rows[i];
-    var pc = phaseColor(d.p);
     var tc = trajColor(d.tr);
     var sc = stressColor(d.ds);
     var sig = SIGNAL_ENUM[d._signal] || SIGNAL_ENUM.NOMINAL;
@@ -471,7 +494,7 @@ function renderTable(rows, startOffset) {
       '<td style="color:#555"><span class="wl-star' + (isWatched ? ' active' : '') + '" onclick="_toggleStar(\'' + d.t + '\',event)">' + (isWatched ? '★' : '☆') + '</span>' + (startOffset + i + 1) + '</td>' +
       '<td>' + (d._thing1Result === 'ALERT' ? '<span style="font-size:0.55em;padding:1px 4px;border-radius:2px;margin-right:5px;background:rgba(232,84,84,0.15);color:#e85454">T1 ALERT</span>' : '') + '<span style="color:rgba(201,169,78,0.5)">' + d.n + '</span></td>' +
       '<td style="color:#C9A94E">' + d.t + '</td>' +
-      '<td><span class="phase" style="background:' + pc + '22;color:' + pc + ';border:1px solid ' + pc + '44">' + (PHASE_LABELS[d.p] || d.p.toUpperCase()) + '</span></td>' +
+      '<td>' + _legacyPhaseChip(d) + '</td>' +
       '<td>' + _t2Chip(d) + '</td>' +
       '<td style="color:' + tc + '">' + d.tr.replace(/_/g, ' ') + '</td>' +
       '<td>' + d.co.toFixed(2) + ' <span class="bar-bg"><span class="bar" style="width:' + compPct + '%;background:' + tc + '"></span></span></td>' +
@@ -514,7 +537,8 @@ function _buildExpandContent(d) {
   // Thing 1 alert — never on Thing 2 posture alone.
   h += '<div>';
   h += '<div class="expand-label">THING 1 — VALIDATED DISTRESS</div>';
-  h += '<div style="color:rgba(200,195,184,0.6)">Phase: <b style="color:' + phaseColor(d.p) + '">' + (PHASE_LABELS[d.p] || d.p.toUpperCase()) + '</b></div>';
+  var _lp = _legacyPhase(d.p);
+  h += '<div style="color:rgba(200,195,184,0.6)">Phase: <b style="color:' + (_lp ? phaseColor(_lp) : 'rgba(200,195,184,0.35)') + '">' + (_lp ? (PHASE_LABELS[_lp] || _lp.toUpperCase()) : 'UNKNOWN (legacy reading withheld per 9.14c)') + '</b></div>';
   if (_isValidatedAlert(d) && VERDICT_TAG[d.p]) {
     h += '<div style="color:#e85454;font-size:0.4rem;letter-spacing:1px;font-weight:600">' + VERDICT_TAG[d.p] + ' — ALERT FIRED</div>';
   }

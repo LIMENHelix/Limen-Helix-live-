@@ -1,0 +1,3134 @@
+{
+ "verifier": "verify_release1.py (independent reference; stdlib-only; imports nothing from the production tree)",
+ "signed": "2026-10-10 operator, Stage 2 THING2_REPLACEMENT_PLAN.md",
+ "artifact": "C:\\Users\\258mi\\kimi-test\\Limen-Helix-live-\\assets\\data\\command-board-thing2-readings.json",
+ "cutoff": "2026-10-09",
+ "formula_version_expected": "2026-10-09.fpm-r2",
+ "pass_table": {
+  "UNKNOWN_INSUFFICIENT_HISTORY": {
+   "match": 103,
+   "emitted": 103
+  },
+  "p2": {
+   "match": 133,
+   "emitted": 133
+  },
+  "UNKNOWN_NOT_BUILT": {
+   "match": 136,
+   "emitted": 136
+  },
+  "p0": {
+   "match": 45,
+   "emitted": 45
+  },
+  "p5": {
+   "match": 35,
+   "emitted": 35
+  },
+  "p4": {
+   "match": 20,
+   "emitted": 20
+  },
+  "UNKNOWN_ABSTAINED": {
+   "match": 5,
+   "emitted": 5
+  }
+ },
+ "invariants": {
+  "formula_version pinned": true,
+  "statuses within grammar": true,
+  "no validated:true anywhere": true,
+  "frozen titles on emitted phases": false
+ },
+ "skips": [
+  {
+   "cik": "1070494",
+   "ticker": "ACAD",
+   "emitted": [
+    "UNKNOWN_NOT_BUILT",
+    null,
+    null
+   ],
+   "verdict": "SKIP_NO_CACHE_FILE"
+  },
+  {
+   "cik": "1297996",
+   "ticker": "DLR",
+   "emitted": [
+    "UNKNOWN_INSUFFICIENT_HISTORY",
+    null,
+    null
+   ],
+   "verdict": "SKIP_NO_CACHE_FILE"
+  },
+  {
+   "cik": "1366868",
+   "ticker": "GSAT",
+   "emitted": [
+    "UNKNOWN_NOT_BUILT",
+    null,
+    null
+   ],
+   "verdict": "SKIP_NO_CACHE_FILE"
+  },
+  {
+   "cik": "1486957",
+   "ticker": "BWXT",
+   "emitted": [
+    "p2",
+    "p2",
+    "GENUINE_BASELINE"
+   ],
+   "verdict": "SKIP_NO_CACHE_FILE"
+  },
+  {
+   "cik": "1520262",
+   "ticker": "ALKS",
+   "emitted": [
+    "UNKNOWN_NOT_BUILT",
+    null,
+    null
+   ],
+   "verdict": "SKIP_NO_CACHE_FILE"
+  },
+  {
+   "cik": "1590895",
+   "ticker": "CZR",
+   "emitted": [
+    "p0",
+    "p0",
+    "GENUINE_BASELINE"
+   ],
+   "verdict": "SKIP_NO_CACHE_FILE"
+  },
+  {
+   "cik": "1636519",
+   "ticker": "MSGS",
+   "emitted": [
+    "p2",
+    "p2",
+    "GENUINE_BASELINE"
+   ],
+   "verdict": "SKIP_NO_CACHE_FILE"
+  },
+  {
+   "cik": "1691303",
+   "ticker": "HCC",
+   "emitted": [
+    "UNKNOWN_NOT_BUILT",
+    null,
+    null
+   ],
+   "verdict": "SKIP_NO_CACHE_FILE"
+  },
+  {
+   "cik": "1996862",
+   "ticker": "BG",
+   "emitted": [
+    "p2",
+    "p2",
+    "GENUINE_BASELINE"
+   ],
+   "verdict": "SKIP_NO_CACHE_FILE"
+  },
+  {
+   "cik": "40545",
+   "ticker": "GE",
+   "emitted": [
+    "UNKNOWN_NOT_BUILT",
+    null,
+    null
+   ],
+   "verdict": "SKIP_NO_CACHE_FILE"
+  },
+  {
+   "cik": "702165",
+   "ticker": "NSC",
+   "emitted": [
+    "UNKNOWN_NOT_BUILT",
+    null,
+    null
+   ],
+   "verdict": "SKIP_NO_CACHE_FILE"
+  },
+  {
+   "cik": "836157",
+   "ticker": "LNN",
+   "emitted": [
+    "p2",
+    "p2",
+    "GENUINE_BASELINE"
+   ],
+   "verdict": "SKIP_NO_CACHE_FILE"
+  },
+  {
+   "cik": "899051",
+   "ticker": "ALL",
+   "emitted": [
+    "p0",
+    "p0",
+    "GENUINE_BASELINE"
+   ],
+   "verdict": "SKIP_NO_CACHE_FILE"
+  },
+  {
+   "cik": "912767",
+   "ticker": "UFPI",
+   "emitted": [
+    "UNKNOWN_INSUFFICIENT_HISTORY",
+    null,
+    null
+   ],
+   "verdict": "SKIP_NO_CACHE_FILE"
+  }
+ ],
+ "divergences": [],
+ "rows": [
+  {
+   "cik": "1000697",
+   "ticker": "WAT",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1001039",
+   "ticker": "DIS",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1001250",
+   "ticker": "EL",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1003078",
+   "ticker": "MSM",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1003935",
+   "ticker": "NICE",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1004980",
+   "ticker": "DUK",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "100885",
+   "ticker": "UNP",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1009001",
+   "ticker": "CCJ",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1013934",
+   "ticker": "STRA",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "101829",
+   "ticker": "RTX",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1018724",
+   "ticker": "AMZN",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1022079",
+   "ticker": "DGX",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1022671",
+   "ticker": "STLD",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1024478",
+   "ticker": "ROK",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1031308",
+   "ticker": "BSY",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1032220",
+   "ticker": "MMS",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1035267",
+   "ticker": "ISRG",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1037646",
+   "ticker": "MTD",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1040971",
+   "ticker": "PWR",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "104169",
+   "ticker": "WMT",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1043277",
+   "ticker": "CHRW",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "10456",
+   "ticker": "BAX",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1045609",
+   "ticker": "PLD",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1045810",
+   "ticker": "NVDA",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1046179",
+   "ticker": "TSM",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1048911",
+   "ticker": "FDX",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1049502",
+   "ticker": "MKSI",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1050606",
+   "ticker": "SALM",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "1050915",
+   "ticker": "PWR",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1051470",
+   "ticker": "CCI",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1057352",
+   "ticker": "CSGP",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1058290",
+   "ticker": "CTSH",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1059556",
+   "ticker": "MCO",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1060349",
+   "ticker": "CCRN",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1060391",
+   "ticker": "RSG",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1060955",
+   "ticker": "ICLR",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1061574",
+   "ticker": "GIB",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1063761",
+   "ticker": "SPG",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1065280",
+   "ticker": "NFLX",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "106535",
+   "ticker": "WY",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1067701",
+   "ticker": "URI",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1067983",
+   "ticker": "BRK.B",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1069183",
+   "ticker": "AXON",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1069258",
+   "ticker": "KTOS",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1070494",
+   "ticker": "ACAD",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1070985",
+   "ticker": "CXW",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "107140",
+   "ticker": "WLY",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1075124",
+   "ticker": "TRI",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1075531",
+   "ticker": "BKNG",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "10795",
+   "ticker": "BDX",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1086222",
+   "ticker": "AKAM",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1088856",
+   "ticker": "CORT",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1090727",
+   "ticker": "UPS",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1090872",
+   "ticker": "A",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1091667",
+   "ticker": "CHTR",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "109198",
+   "ticker": "TJX",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1093557",
+   "ticker": "DXCM",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1094285",
+   "ticker": "TDY",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1095565",
+   "ticker": "AMED",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1099219",
+   "ticker": "MET",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1099590",
+   "ticker": "MELI",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1099800",
+   "ticker": "EW",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1100682",
+   "ticker": "CRL",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1101239",
+   "ticker": "EQIX",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1103982",
+   "ticker": "MDLZ",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1104657",
+   "ticker": "BRKR",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1109354",
+   "ticker": "BRKR",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1110803",
+   "ticker": "ILMN",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1116132",
+   "ticker": "TRI",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1120193",
+   "ticker": "NDAQ",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1124140",
+   "ticker": "EXAS",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1124198",
+   "ticker": "FLR",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1130310",
+   "ticker": "ICFI",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1133421",
+   "ticker": "NOC",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1136869",
+   "ticker": "ZBH",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1136893",
+   "ticker": "FIS",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1140536",
+   "ticker": "WTW",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1141391",
+   "ticker": "MA",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1142417",
+   "ticker": "NXST",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1142750",
+   "ticker": "CCRN",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1145197",
+   "ticker": "PODD",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1156039",
+   "ticker": "ELV",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1156375",
+   "ticker": "CME",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1157408",
+   "ticker": "LRN",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1158324",
+   "ticker": "CCOI",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1163165",
+   "ticker": "COP",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1166003",
+   "ticker": "XPO",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1166691",
+   "ticker": "CMCSA",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1173514",
+   "ticker": "SMG",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1179929",
+   "ticker": "MOH",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "12208",
+   "ticker": "BIO",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1232524",
+   "ticker": "JAZZ",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1237831",
+   "ticker": "GMED",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1261333",
+   "ticker": "DOCU",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1261654",
+   "ticker": "DOCU",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1262039",
+   "ticker": "ZS",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1274494",
+   "ticker": "TAN",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1281761",
+   "ticker": "ACN",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1283699",
+   "ticker": "TMUS",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1285785",
+   "ticker": "MOS",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1286139",
+   "ticker": "LZ",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1286613",
+   "ticker": "LINC",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "12927",
+   "ticker": "BA",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1295947",
+   "ticker": "PRGO",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1297996",
+   "ticker": "DLR",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1299130",
+   "ticker": "PACB",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1306830",
+   "ticker": "CE",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1315098",
+   "ticker": "RBLX",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1318605",
+   "ticker": "TSLA",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1319161",
+   "ticker": "WMG",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1321655",
+   "ticker": "PLTR",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1324424",
+   "ticker": "EXPE",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1326160",
+   "ticker": "DUK",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1326801",
+   "ticker": "META",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1327567",
+   "ticker": "PANW",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1335258",
+   "ticker": "LYV",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1336920",
+   "ticker": "LDOS",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1350593",
+   "ticker": "MWA",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1353283",
+   "ticker": "SPLK",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1356576",
+   "ticker": "SUPN",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1357615",
+   "ticker": "KBR",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1361113",
+   "ticker": "VRNS",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1362004",
+   "ticker": "ICFI",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1364742",
+   "ticker": "BLK",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1364954",
+   "ticker": "CHGG",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1365101",
+   "ticker": "VRNS",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1366868",
+   "ticker": "GSAT",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1367644",
+   "ticker": "EBS",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1368148",
+   "ticker": "ATHX",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1368622",
+   "ticker": "AVAV",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1370637",
+   "ticker": "SPOT",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1370755",
+   "ticker": "CYBR",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1373715",
+   "ticker": "NOW",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1375365",
+   "ticker": "SMCI",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "1377789",
+   "ticker": "LRN",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1382821",
+   "ticker": "RDFN",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1393818",
+   "ticker": "BX",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1396009",
+   "ticker": "VMC",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1397187",
+   "ticker": "LULU",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1403161",
+   "ticker": "V",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1404912",
+   "ticker": "KKR",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1406234",
+   "ticker": "BIP",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1408198",
+   "ticker": "MSCI",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1410636",
+   "ticker": "AWK",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1411579",
+   "ticker": "AMC",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1413329",
+   "ticker": "PM",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1418819",
+   "ticker": "IRDM",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1421517",
+   "ticker": "ERII",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "14272",
+   "ticker": "BMY",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1428439",
+   "ticker": "ROKU",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1434588",
+   "ticker": "LOPE",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1437107",
+   "ticker": "WBD",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1437352",
+   "ticker": "EVBG",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1437578",
+   "ticker": "BFAM",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1438133",
+   "ticker": "TNDM",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "1441816",
+   "ticker": "MDB",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1442145",
+   "ticker": "MSCI",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1443646",
+   "ticker": "BAH",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1443669",
+   "ticker": "BAH",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1446847",
+   "ticker": "IRWD",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1455863",
+   "ticker": "COLD",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1459417",
+   "ticker": "TWOU",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "1462056",
+   "ticker": "INST",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1463101",
+   "ticker": "ENPH",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1467373",
+   "ticker": "ACN",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1467858",
+   "ticker": "GM",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1474735",
+   "ticker": "GNRC",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1477333",
+   "ticker": "NET",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1477449",
+   "ticker": "AMWL",
+   "emitted_status": "UNKNOWN_ABSTAINED",
+   "report_status": "UNKNOWN_ABSTAINED"
+  },
+  {
+   "cik": "1478242",
+   "ticker": "IQV",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1486957",
+   "ticker": "BWXT",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1492691",
+   "ticker": "KNX",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1495231",
+   "ticker": "LZ",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1496963",
+   "ticker": "SQSP",
+   "emitted_status": "UNKNOWN_ABSTAINED",
+   "report_status": "UNKNOWN_ABSTAINED"
+  },
+  {
+   "cik": "1501585",
+   "ticker": "HII",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1512673",
+   "ticker": "SQ",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1517413",
+   "ticker": "FSLY",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1520262",
+   "ticker": "ALKS",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1524472",
+   "ticker": "XYL",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1535527",
+   "ticker": "CRWD",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1546383",
+   "ticker": "SCM",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1551152",
+   "ticker": "ABBV",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1555280",
+   "ticker": "ZTS",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1559720",
+   "ticker": "ABNB",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1559865",
+   "ticker": "EVOK",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1560327",
+   "ticker": "RPD",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "15615",
+   "ticker": "MTZ",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1561550",
+   "ticker": "NET",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1562088",
+   "ticker": "PINS",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1564408",
+   "ticker": "SNAP",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1564708",
+   "ticker": "NWSA",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1567094",
+   "ticker": "CNHI",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1571123",
+   "ticker": "SAIC",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1571283",
+   "ticker": "REXR",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1571949",
+   "ticker": "ICE",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1576789",
+   "ticker": "WIX",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1577526",
+   "ticker": "AI",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "1578732",
+   "ticker": "ZETA",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1579428",
+   "ticker": "AXSM",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1580156",
+   "ticker": "HMHC",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1583708",
+   "ticker": "S",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1585521",
+   "ticker": "ZM",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1590895",
+   "ticker": "CZR",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1591670",
+   "ticker": "FPI",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1594805",
+   "ticker": "SHOP",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1601046",
+   "ticker": "KEYS",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1601548",
+   "ticker": "VVX",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1601712",
+   "ticker": "MEG",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "16040",
+   "ticker": "CBT",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1604028",
+   "ticker": "WMS",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1604821",
+   "ticker": "NTRA",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "16058",
+   "ticker": "CACI",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1609809",
+   "ticker": "MCRB",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1613103",
+   "ticker": "MDT",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1615165",
+   "ticker": "VERI",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "1617640",
+   "ticker": "ZG",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1625297",
+   "ticker": "INDV",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1635718",
+   "ticker": "GCI",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1636519",
+   "ticker": "MSGS",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1639920",
+   "ticker": "SPOT",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1640147",
+   "ticker": "SNOW",
+   "emitted_status": "UNKNOWN_ABSTAINED",
+   "report_status": "UNKNOWN_ABSTAINED"
+  },
+  {
+   "cik": "1645590",
+   "ticker": "HPE",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1647639",
+   "ticker": "GCI",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "1649338",
+   "ticker": "AVGO",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1651562",
+   "ticker": "COUR",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1652044",
+   "ticker": "GOOGL",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1653482",
+   "ticker": "GTLB",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1655210",
+   "ticker": "BYND",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1657312",
+   "ticker": "ENPH",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1659166",
+   "ticker": "FTV",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1660134",
+   "ticker": "OKTA",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1660280",
+   "ticker": "TENB",
+   "emitted_status": "UNKNOWN_ABSTAINED",
+   "report_status": "UNKNOWN_ABSTAINED"
+  },
+  {
+   "cik": "1668397",
+   "ticker": "MEDP",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1671933",
+   "ticker": "TTD",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1674930",
+   "ticker": "STN",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1679273",
+   "ticker": "LW",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1682852",
+   "ticker": "MRNA",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "1688568",
+   "ticker": "DXC",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1690820",
+   "ticker": "CVNA",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1691303",
+   "ticker": "HCC",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1691493",
+   "ticker": "NU",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1702780",
+   "ticker": "SE",
+   "emitted_status": "UNKNOWN_ABSTAINED",
+   "report_status": "UNKNOWN_ABSTAINED"
+  },
+  {
+   "cik": "1707753",
+   "ticker": "ESTC",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1707925",
+   "ticker": "LIN",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1713445",
+   "ticker": "RDDT",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1713683",
+   "ticker": "ZS",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1720893",
+   "ticker": "BTAI",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1723089",
+   "ticker": "INDV",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1725964",
+   "ticker": "NTR",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1730168",
+   "ticker": "AVGO",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1734722",
+   "ticker": "PATH",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1736874",
+   "ticker": "BEP",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1737287",
+   "ticker": "BILI",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1739940",
+   "ticker": "CI",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1744489",
+   "ticker": "DIS",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1744676",
+   "ticker": "TME",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1745020",
+   "ticker": "LAW",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1750",
+   "ticker": "TRI",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1753539",
+   "ticker": "BKSY",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "1755672",
+   "ticker": "CTVA",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1759546",
+   "ticker": "RIDE",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1770787",
+   "ticker": "TXG",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1773383",
+   "ticker": "DT",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "1773751",
+   "ticker": "HIMS",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1776985",
+   "ticker": "BNTX",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1783879",
+   "ticker": "COUR",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1784254",
+   "ticker": "MDIA",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "17843",
+   "ticker": "CACI",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1800",
+   "ticker": "ABT",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1803914",
+   "ticker": "HRMY",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1805284",
+   "ticker": "RKT",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "1810806",
+   "ticker": "U",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1811882",
+   "ticker": "MNMD",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1813756",
+   "ticker": "WE",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "1816581",
+   "ticker": "FOUR",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "1816613",
+   "ticker": "CFLT",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1816736",
+   "ticker": "CMPS",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1819928",
+   "ticker": "DV",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1819994",
+   "ticker": "RKLB",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "1821825",
+   "ticker": "OGN",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "18230",
+   "ticker": "CAT",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1833141",
+   "ticker": "HELP",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1834584",
+   "ticker": "CPNG",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1835681",
+   "ticker": "PWSC",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1836833",
+   "ticker": "PL",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1836981",
+   "ticker": "BBAI",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "1838293",
+   "ticker": "ZIM",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1839439",
+   "ticker": "DLO",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "1841024",
+   "ticker": "QGEN",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1842279",
+   "ticker": "ATAI",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1842718",
+   "ticker": "IAS",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1842952",
+   "ticker": "ATAI",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "1844419",
+   "ticker": "GHRS",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1852633",
+   "ticker": "PLD",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1855612",
+   "ticker": "GRAB",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1868275",
+   "ticker": "CEG",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1868726",
+   "ticker": "MSGS",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1883685",
+   "ticker": "DKNG",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "18926",
+   "ticker": "LUMN",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1932393",
+   "ticker": "GEHC",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "19617",
+   "ticker": "JPM",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "1965040",
+   "ticker": "FTRE",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1967680",
+   "ticker": "VLTO",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "1973239",
+   "ticker": "ARM",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "1996810",
+   "ticker": "GEV",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "1996862",
+   "ticker": "BG",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "200406",
+   "ticker": "JNJ",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "202058",
+   "ticker": "LHX",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "21344",
+   "ticker": "KO",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "21665",
+   "ticker": "CL",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "24545",
+   "ticker": "TAP",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "2488",
+   "ticker": "AMAT",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "26324",
+   "ticker": "CW",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "27419",
+   "ticker": "TGT",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "275880",
+   "ticker": "PSN",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "277135",
+   "ticker": "GWW",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "29644",
+   "ticker": "DCI",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "2969",
+   "ticker": "APD",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "29905",
+   "ticker": "DOV",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "310158",
+   "ticker": "MRK",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "310764",
+   "ticker": "SYK",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "31277",
+   "ticker": "ETN",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "313616",
+   "ticker": "DHR",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "313838",
+   "ticker": "SONY",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "31462",
+   "ticker": "ECL",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "315189",
+   "ticker": "DE",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "315213",
+   "ticker": "RHI",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "315293",
+   "ticker": "AON",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "316709",
+   "ticker": "SCHW",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "31791",
+   "ticker": "RVTY",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "318154",
+   "ticker": "AMGN",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "320187",
+   "ticker": "NKE",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "320193",
+   "ticker": "AAPL",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "32604",
+   "ticker": "EMR",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "33185",
+   "ticker": "EFX",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "34088",
+   "ticker": "XOM",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "34408",
+   "ticker": "DG",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "3453",
+   "ticker": "MATX",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "352915",
+   "ticker": "AMWL",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "353278",
+   "ticker": "NVO",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "354950",
+   "ticker": "HD",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "36104",
+   "ticker": "USB",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "37785",
+   "ticker": "FMC",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "37996",
+   "ticker": "F",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "40533",
+   "ticker": "GD",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "40545",
+   "ticker": "GE",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "43196",
+   "ticker": "GTN",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "48898",
+   "ticker": "HUBB",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "4904",
+   "ticker": "AEP",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "49071",
+   "ticker": "HUM",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "49196",
+   "ticker": "J",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "4962",
+   "ticker": "AXP",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "49826",
+   "ticker": "ITW",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "50863",
+   "ticker": "INTC",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "51143",
+   "ticker": "IBM",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "51434",
+   "ticker": "IP",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "5272",
+   "ticker": "AIG",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "52827",
+   "ticker": "RYN",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "52988",
+   "ticker": "J",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "55135",
+   "ticker": "KELYA",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "56679",
+   "ticker": "KFY",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "58361",
+   "ticker": "LEE",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "59478",
+   "ticker": "LLY",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "60667",
+   "ticker": "LOW",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "62709",
+   "ticker": "MMC",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "6281",
+   "ticker": "ADI",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "62996",
+   "ticker": "MMC",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "63908",
+   "ticker": "MCD",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "64040",
+   "ticker": "SPGI",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "64670",
+   "ticker": "MDT",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "64803",
+   "ticker": "CVS",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "66740",
+   "ticker": "MMM",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "67887",
+   "ticker": "MOG.A",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "68505",
+   "ticker": "MSI",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "6951",
+   "ticker": "AMAT",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "702165",
+   "ticker": "NSC",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "7084",
+   "ticker": "ADM",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "70858",
+   "ticker": "BAC",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "711404",
+   "ticker": "COO",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "712515",
+   "ticker": "EA",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "713676",
+   "ticker": "PNC",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "715957",
+   "ticker": "D",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "71691",
+   "ticker": "NYT",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "719739",
+   "ticker": "SIVB",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "723531",
+   "ticker": "PAYX",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "726728",
+   "ticker": "O",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "728535",
+   "ticker": "JBHT",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "72971",
+   "ticker": "WFC",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "730272",
+   "ticker": "RGEN",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "730464",
+   "ticker": "ATGE",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "731766",
+   "ticker": "UNH",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "732712",
+   "ticker": "VZ",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "732717",
+   "ticker": "T",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "740260",
+   "ticker": "VTR",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "746515",
+   "ticker": "EXPD",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "753308",
+   "ticker": "NEE",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "75677",
+   "ticker": "PKG",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "76282",
+   "ticker": "PKOH",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "76334",
+   "ticker": "PH",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "766704",
+   "ticker": "WELL",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "77360",
+   "ticker": "RBGLY",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "773840",
+   "ticker": "HON",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "77476",
+   "ticker": "PEP",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "78003",
+   "ticker": "PFE",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "780571",
+   "ticker": "ITRI",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "78128",
+   "ticker": "WTRG",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "789019",
+   "ticker": "MSFT",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "789570",
+   "ticker": "MGM",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "79282",
+   "ticker": "BRO",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "796343",
+   "ticker": "ADBE",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "797468",
+   "ticker": "OXY",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "798354",
+   "ticker": "FISV",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "802481",
+   "ticker": "CRL",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "80424",
+   "ticker": "PG",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "804328",
+   "ticker": "QCOM",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "80661",
+   "ticker": "PGR",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "813828",
+   "ticker": "PARA",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "815556",
+   "ticker": "FAST",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "818686",
+   "ticker": "TEVA",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "821026",
+   "ticker": "ANDE",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "821189",
+   "ticker": "EOG",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "822818",
+   "ticker": "CLH",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "823768",
+   "ticker": "WM",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "829224",
+   "ticker": "SBUX",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "831001",
+   "ticker": "C",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "831641",
+   "ticker": "TTEK",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "832101",
+   "ticker": "IEX",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "836157",
+   "ticker": "LNN",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "84129",
+   "ticker": "RAD",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "842023",
+   "ticker": "TECH",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "849395",
+   "ticker": "CRH",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "849399",
+   "ticker": "GEN",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "858877",
+   "ticker": "CSCO",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "860730",
+   "ticker": "HCA",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "860731",
+   "ticker": "TRI",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "86312",
+   "ticker": "TRV",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "864749",
+   "ticker": "TRMB",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "866706",
+   "ticker": "ESE",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "866729",
+   "ticker": "SCHL",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "8670",
+   "ticker": "ADP",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "868857",
+   "ticker": "ACM",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "871763",
+   "ticker": "MAN",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "872589",
+   "ticker": "REGN",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "87347",
+   "ticker": "SLB",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "874716",
+   "ticker": "IDXX",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "875045",
+   "ticker": "BIIB",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "875320",
+   "ticker": "VRTX",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "878927",
+   "ticker": "JBHT",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "880266",
+   "ticker": "AGCO",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "882095",
+   "ticker": "GILD",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "882835",
+   "ticker": "ROP",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "886158",
+   "ticker": "BBBY",
+   "emitted_status": "p4",
+   "report_status": "p4"
+  },
+  {
+   "cik": "886982",
+   "ticker": "GS",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "887936",
+   "ticker": "FCN",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "890564",
+   "ticker": "ASGN",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "892537",
+   "ticker": "MANT",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "893949",
+   "ticker": "MD",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "895421",
+   "ticker": "MS",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "896159",
+   "ticker": "CB",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "896878",
+   "ticker": "INTU",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "89800",
+   "ticker": "SHW",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "899051",
+   "ticker": "ALL",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "901832",
+   "ticker": "AZN",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "909832",
+   "ticker": "COST",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "910631",
+   "ticker": "KOF",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "911177",
+   "ticker": "CWST",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "91142",
+   "ticker": "AOS",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "912767",
+   "ticker": "UFPI",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "914475",
+   "ticker": "NBIX",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "915389",
+   "ticker": "EMN",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "916076",
+   "ticker": "MLM",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "920148",
+   "ticker": "LH",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "920760",
+   "ticker": "LEN",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "92122",
+   "ticker": "SO",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "921582",
+   "ticker": "IMAX",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "921738",
+   "ticker": "PENN",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "923796",
+   "ticker": "GEO",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "928340",
+   "ticker": "CWCO",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "929008",
+   "ticker": "RELX",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "929869",
+   "ticker": "RELX",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "933974",
+   "ticker": "AZTA",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "93410",
+   "ticker": "CVX",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "936468",
+   "ticker": "LMT",
+   "emitted_status": "p2",
+   "report_status": "p2"
+  },
+  {
+   "cik": "937098",
+   "ticker": "TNET",
+   "emitted_status": "p0",
+   "report_status": "p0"
+  },
+  {
+   "cik": "937556",
+   "ticker": "MASI",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "937966",
+   "ticker": "ASML",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "938323",
+   "ticker": "PSO",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "946581",
+   "ticker": "TTWO",
+   "emitted_status": "p5",
+   "report_status": "p5"
+  },
+  {
+   "cik": "97476",
+   "ticker": "TXN",
+   "emitted_status": "UNKNOWN_NOT_BUILT",
+   "report_status": "UNKNOWN_NOT_BUILT"
+  },
+  {
+   "cik": "97745",
+   "ticker": "TMO",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  },
+  {
+   "cik": "98222",
+   "ticker": "TDW",
+   "emitted_status": "UNKNOWN_INSUFFICIENT_HISTORY",
+   "report_status": "UNKNOWN_INSUFFICIENT_HISTORY"
+  }
+ ]
+}

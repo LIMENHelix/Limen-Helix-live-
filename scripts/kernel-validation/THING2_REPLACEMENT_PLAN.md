@@ -1,6 +1,7 @@
 # Thing 2 Replacement Plan — fpm-r2 over the legacy 11-phase engine
 
-Status: STAGE 0–1 (this document + dead-code seam). Dated 2026-10-10.
+Status: through Stage 2 (signed + run) and Stage 1.5 (legacy suppression,
+operator directive). Dated 2026-10-10.
 Nothing in this plan deploys. Deploy of any surface remains gated on
 decision 9.15 and the operator's queue.
 
@@ -64,10 +65,36 @@ legacy. UNKNOWN never promotes to a phase (standing rule).
   `build_fpm_section(revenue, ocf, cff, solvency_z, cost, end_quarter)` returns
   the `_build_thing2_section()` output shape sourced from `fpm.evaluate`.
   Nothing calls it. Tests in `thing2/tests/test_fpm_bridge.py`.
-- **Stage 2 (operator signature):** freeze + run the independent verification
-  reference (`verify_release1.py` per the unsigned VERIFICATION draft). Until
-  it passes, no surface may claim "definitional reading, verified" — the
-  bridge emits `verification_status: "not_run"`.
+- **Stage 1.5 (done, operator directive 2026-10-10):** legacy live-surface
+  suppression, display-only, ships via main only on the operator's go.
+  - `thing2/legacy_display.py` — `apply_legacy_display_policy(section)`:
+    legacy distress phases (P3, P7 family, P9) read UNKNOWN per 9.14(c);
+    all remaining legacy output labeled "legacy — unvalidated". Wired into
+    both return paths of `index.py::_build_thing2_section`; the legacy engine
+    itself is untouched. Tests: `thing2/tests/test_legacy_display.py`.
+  - `assets/js/kernel-comparison.js` — board legacy column: `_legacyPhase()`
+    suppression in `classifySignal` (distress rules can no longer fire on
+    withheld readings; the Thing-1 ALERT rule is untouched) and
+    `_legacyPhaseChip()` at both render sites (table cell + expand panel).
+    Note: the Thing-1-gated VERDICT_TAG register still keys off the raw
+    legacy phase on validated alerts — recorded as Seam C work, not changed.
+- **Stage 2 (SIGNED 2026-10-10, ran):** `scripts/kernel-validation/verify_release1.py`
+  — independent reference (stdlib-only, imports nothing from the production
+  tree: de-cumulation and Altman Z'' ported; fpm-r2 scoring re-implemented
+  from the frozen constants). First run against the committed artifact
+  (cutoff 2026-10-09, meta n=493): **477/477 verifiable rows match exactly**
+  (P0 45, P2 133, P4 20, P5 35, all UNKNOWN classes); 0 scoring divergences;
+  invariants: formula_version pinned OK, grammar OK, no validated:true OK.
+  Two artifact-hygiene findings (scoring is clean; the JSON is not):
+  (a) 24 stale duplicate rows — title "UNKNOWN — ENTITY UNRESOLVED" over a
+  live scored reading, `entity_status: duplicate_row_dropped` (CIK
+  re-keying left the old-CIK row behind);
+  (b) 14 readings keys have no cache file (SKIP_NO_CACHE_FILE).
+  Proposed repair (operator approval required, not applied): drop the 24
+  stale duplicate keys; re-key or refetch the 14. Report:
+  `verify_release1_report.json`. No surface claims "verified" yet — the
+  claim change is staged with the deploy decision; the bridge keeps
+  `verification_status: "not_run"` until then.
 - **Stage 3 (deploy-gated):** wire the bridge into `_build_thing2_section`
   behind an explicit flag (default off = legacy engine). Label reconciliation:
   index.py's `_PHASE_STATE_LABELS["p4"] = "p4 stabilization state"` predates
@@ -75,6 +102,28 @@ legacy. UNKNOWN never promotes to a phase (standing rule).
   surface.
 - **Stage 4 (deploy-gated, decision 9.15):** board legacy Phase column cutover.
 - **Stage 5:** consumer re-spec (Seam C) after 3–4 are stable.
+
+## Operator decisions recorded
+
+1. **Polyvagal Pass 2 — NOT ported to fpm-r2** (decision 2026-10-10). Stays in
+   the legacy engine, labeled, until legacy retirement. Rationale: polyvagal
+   theory's core claims are actively contested in the literature (Grossman &
+   Taylor 2007 and later critiques — recalled, not re-verified this session);
+   under the structural-homology standard a contested correlate cannot carry
+   weight in a phase decision. fpm-r2's no-context isolation constraint stands.
+2. **Legacy suppression ships via main only on the operator's go**; the
+   merge-to-main rule stands (merge = deploy). The changes live on the agent
+   branch as a reviewable diff.
+3. Stage 2 signature granted 2026-10-10 (independent code path condition met).
+
+## Open decisions for the operator
+
+1. Approval to drop the 24 stale duplicate readings rows and repair/re-key
+   the 14 no-cache rows (artifact hygiene; no scoring changes).
+2. Whether Seam A or Seam B cuts over first (current plan: A behind a flag,
+   B at 9.15).
+3. Disposition of the Thing-1-gated VERDICT_TAG register's use of the raw
+   legacy phase (Seam C).
 
 ## Non-goals / standing rules (unchanged)
 
@@ -88,11 +137,3 @@ legacy. UNKNOWN never promotes to a phase (standing rule).
 - Pre-registration discipline: Stage 2 runs only on the operator's signature;
   no numbers change after first results.
 
-## Open decisions for the operator
-
-1. Polyvagal Pass 2 disposition at Seam A (keep on legacy engine under a
-   legacy label / drop from released surfaces / re-spec later).
-2. Stage 2 signature on the VERIFICATION draft (independent reference
-   implementation).
-3. Whether Seam A or Seam B cuts over first (current plan: A behind a flag,
-   B at 9.15).
