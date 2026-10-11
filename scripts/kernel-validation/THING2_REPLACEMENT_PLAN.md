@@ -125,6 +125,38 @@ legacy. UNKNOWN never promotes to a phase (standing rule).
 3. Disposition of the Thing-1-gated VERDICT_TAG register's use of the raw
    legacy phase (Seam C).
 
+## P0–P10 coverage status (2026-10-10)
+
+Goal (vocabulary glossary): Thing 2 = the formula phase map, containing the
+formulas for ALL phases P0–P10. Release 1 is a deliberate subset.
+
+| Phase | Research kernel (scripts/kernel-validation/) | Production (fpm-r2) | Blocker |
+|---|---|---|---|
+| P0 Source | prove_p0.py lineage | RATIFIED + verified (45 rows) | — |
+| P2 Rhythm | prove_p2.py (constants cited in fpm) | RATIFIED + verified (133 rows) | — |
+| P4 Scaffolding | prove_p4.py / LIMEN_FOUR_LAYER.md:67 | RATIFIED + verified (20 rows) | — |
+| P5 Endurance | prove_p5.py / LIMEN_FOUR_LAYER.md:68 + 9.12a | RATIFIED + verified (35 rows) | — |
+| P1 Rupture | prove_p1.py (share-structure discontinuity / 8-K); P1-A..P1-E proposal unratified (§25) | NOT_BUILT | Operator ratification of a frozen formula |
+| P6 Order | prove_p6.py; classify_phase.py "P6-order" | NOT_BUILT | Operator ratification |
+| P8 Pivot | prove_p8.py | NOT_BUILT | Operator ratification |
+| P3 | prove_p3.py / KERNEL_P3.md FAILED the 41% healthy-flag check; critical_slowing.py = rigorous re-spec candidate | ABSTAINED (9.14c) | Re-spec decision (critical slowing?) + ratification |
+| P7 fork | prove_p7.py / phase_kernels.py viability breach | ABSTAINED (9.14c) | Same re-spec decision as P3 |
+| P9 Threshold | NONE — no dedicated research detector (arbitration.py ladder only) | NOT_BUILT | Detector must be built from scratch |
+| P10 Return | NONE — no dedicated research detector (arbitration.py ladder only) | NOT_BUILT | Detector must be built from scratch |
+
+Path per phase (same chain release 1 just ran): frozen-constant proposal →
+operator ratification → implement as a new FORMULA_VERSION → independent
+reference check added to verify_release1.py → readings rebuild → per-phase
+claim "definitional reading, verified". Suggested ratification order: P1
+(richest research + standing proposal), P6/P8, then the P3/P7 re-spec, then
+P9/P10. A phase that is not ratified stays UNKNOWN with its reason code —
+never promoted, never synthesized.
+
+Note: the 2026-10 terminated session reportedly worked out full formula
+assignments for all phases; those notes were never recovered into the repo
+(not in history, sandbox, commits, or pushes). The prove_* layer above is
+the recoverable raw material; any Drive copy would feed the proposal step.
+
 ## Non-goals / standing rules (unchanged)
 
 - Thing 1: no code changes, ever, under this plan.
