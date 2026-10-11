@@ -125,6 +125,23 @@ legacy. UNKNOWN never promotes to a phase (standing rule).
 3. Disposition of the Thing-1-gated VERDICT_TAG register's use of the raw
    legacy phase (Seam C).
 
+## Two modes (standing rule, operator 2026-10-10)
+
+1. **EXPLORATION (discovery):** run readers broadly, record what is observed —
+   sequences, recurrences across scales, anomalies, hunches. Written as
+   observations. No proven/unproven/speculative labels, no caveats, no pass
+   bars. Nothing in exploration notes is a claim, so nothing needs defending.
+2. **CONFIRMATION (claims only):** applies only when a finding goes public,
+   into a product, or to counsel. Pre-registration and pass criteria apply
+   here and only here.
+
+Keep them in separate documents. Never copy confirmation-mode caveats into
+exploration notes. Everything in this plan — preregs, verification, scoped
+claims, release stages — is confirmation-mode machinery. Exploration output
+lives in `scripts/kernel-validation/EXPLORATION/` and is never cited as
+supporting evidence for a claim; a finding that graduates to a claim must
+re-enter through confirmation mode.
+
 ## P0–P10 coverage status (2026-10-10)
 
 Goal (vocabulary glossary): Thing 2 = the formula phase map, containing the
@@ -157,45 +174,51 @@ assignments for all phases; those notes were never recovered into the repo
 (not in history, sandbox, commits, or pushes). The prove_* layer above is
 the recoverable raw material; any Drive copy would feed the proposal step.
 
-## Fractal / recursion dimension — design seed (operator 2026-10-10)
+## Fractal / recursion dimension (operator 2026-10-10) — EXPLORATION-MODE material
 
-The operator's intuition: the phase pattern is recursive and continues
-fractally — his daughter keeps improving at skills overall (the arc
-progresses) while re-running the phases with every new skill (each skill is
-its own P0→… cycle nested inside her larger arc). This is NOT new theory:
-`LIMEN_RECURSION_ARC.md` (Book I extraction, 2026-06-09) already documents
-it — "the P0–P10 arc … re-entering at a higher level (a spiral, not a
-circle)"; P10→P0′ "the cycle did not complete. It multiplied"; P10 math =
-"renormalization-like map to P0′ at a coarser scale." It also reframes P1 as
-emergence (the daughter's wobbly first attempts at a new skill are P1 events
-— generative, not distress), which is the same correction that explains why
-the distress-lens P3 failed the 41% check: a contained child-level fracture
-is often healthy growth at the parent level.
+Sequencing note: "seed" means after the release path. It is a scheduling
+statement, not a verdict on the concept.
 
-What is missing is the production variable. fpm-r2 emits a FLAT verdict per
-company per quarter — no scale dimension at all. Candidate variables, to be
-ratified before any implementation:
+Observation recorded: the phase pattern appears recursive and continuing —
+e.g., a child improving at skills overall (the arc progressing) while
+re-running the phases with every new skill (each skill its own cycle nested
+inside the larger arc). `LIMEN_RECURSION_ARC.md` documents the same grammar:
+"a spiral, not a circle"; P10→P0′ "the cycle did not complete. It
+multiplied"; P10 math = "renormalization-like map to P0′ at a coarser
+scale." A contained child-level fracture reading would also reframe the
+abstained P3/P7 detectors (flat vs nested) — logged as an observation, no
+action taken.
 
-1. **Order parameter r as a first-class emitted variable** (the ARC spine).
-   r exists today only inside the P2 temporal dyad (lag-4 coherence = a
-   single-scale shadow) and in research `kuramoto.py` (r across the five
-   financial signals, not production). Emitted per reading as a vector across
-   scales (intra-year, annual lag-4, multi-year) — the per-phase r
-   FINGERPRINT from `kuramoto.py`'s header (P0 r≈0; P2 r high single-scale;
-   P3 r drops; P6 r high MULTI-scale; P7 bistable; P10 new-topology lock).
-2. **Containment level + parent linkage**: level (entity → division →
-   product → process → skill), `parent_phase`, and the standing rule that a
-   child at an earlier phase is NOT masking — a healthy P6 parent contains
-   P1–P3 children. Financial depth is limited (SEC facts are entity-level;
-   Exhibit-21 subsidiary trees partially available); non-business surfaces
-   (skills, education, treatment ladders) carry natural trees.
-3. **Spiral count n**: completed Was-conditioned arc cycles (P10→P0′
-   increments n). Financially rare; natural on learning surfaces.
+What production does not yet carry (observation: fpm-r2 emits one flat
+verdict per company per quarter):
 
-Status: SEED ONLY — not ratified, not implemented. If ratified, this becomes
-the design core of a future FORMULA_VERSION (r3+) with its own independent
-reference check, and it likely changes what P3/P7/P10's re-spec looks like
-(a contained child-level reading reframes the abstained phases).
+1. **r as an emitted variable** — the order parameter is the spine of the
+   arc in the recursion-arc doc; in production it exists only as a
+   single-scale shadow inside the P2 temporal dyad (lag-4 coherence).
+   Research `kuramoto.py` computes r across five financial signals and
+   sketches a per-phase r fingerprint; none of it is emitted.
+2. **Containment level + parent linkage** — entity → division → product →
+   skill, with the rule that a child at an earlier phase is not masking.
+   Financial data bottoms out at entity level (Exhibit-21 subsidiary trees
+   are a partial exception); learning/education/medical surfaces carry
+   natural trees.
+3. **Spiral count n** — completed Was-conditioned arc cycles; P10→P0′
+   increments it. Financially rare; natural on learning surfaces.
+
+External analogous reading (pointers, no labels): Holling 2001 adaptive
+cycle / panarchy (nested cross-scale cycles; revolt/remember); Gersick 1991
+punctuated equilibrium across individual/group/organization; Greiner 1972
+organizational phases + crises; Selye general adaptation syndrome.
+
+Exploration agenda (lives in `EXPLORATION/`, runs as observations only):
+
+- Map LIMEN P0–P10 against Holling's adaptive cycle (r–K–Ω–α); test whether
+  panarchy's revolt/remember links appear in data (segment-level vs
+  company-level).
+- First exploration task (run 2026-10-10): phase-sequence scan across all
+  cached entities — which phase sequences occur, and whether the same
+  sequence appears at company, sector, and domain level
+  (`EXPLORATION/phase_sequence_scan_2026-10-10.md`).
 
 ## Non-goals / standing rules (unchanged)
 
