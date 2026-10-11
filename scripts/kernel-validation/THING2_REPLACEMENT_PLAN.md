@@ -157,6 +157,46 @@ assignments for all phases; those notes were never recovered into the repo
 (not in history, sandbox, commits, or pushes). The prove_* layer above is
 the recoverable raw material; any Drive copy would feed the proposal step.
 
+## Fractal / recursion dimension — design seed (operator 2026-10-10)
+
+The operator's intuition: the phase pattern is recursive and continues
+fractally — his daughter keeps improving at skills overall (the arc
+progresses) while re-running the phases with every new skill (each skill is
+its own P0→… cycle nested inside her larger arc). This is NOT new theory:
+`LIMEN_RECURSION_ARC.md` (Book I extraction, 2026-06-09) already documents
+it — "the P0–P10 arc … re-entering at a higher level (a spiral, not a
+circle)"; P10→P0′ "the cycle did not complete. It multiplied"; P10 math =
+"renormalization-like map to P0′ at a coarser scale." It also reframes P1 as
+emergence (the daughter's wobbly first attempts at a new skill are P1 events
+— generative, not distress), which is the same correction that explains why
+the distress-lens P3 failed the 41% check: a contained child-level fracture
+is often healthy growth at the parent level.
+
+What is missing is the production variable. fpm-r2 emits a FLAT verdict per
+company per quarter — no scale dimension at all. Candidate variables, to be
+ratified before any implementation:
+
+1. **Order parameter r as a first-class emitted variable** (the ARC spine).
+   r exists today only inside the P2 temporal dyad (lag-4 coherence = a
+   single-scale shadow) and in research `kuramoto.py` (r across the five
+   financial signals, not production). Emitted per reading as a vector across
+   scales (intra-year, annual lag-4, multi-year) — the per-phase r
+   FINGERPRINT from `kuramoto.py`'s header (P0 r≈0; P2 r high single-scale;
+   P3 r drops; P6 r high MULTI-scale; P7 bistable; P10 new-topology lock).
+2. **Containment level + parent linkage**: level (entity → division →
+   product → process → skill), `parent_phase`, and the standing rule that a
+   child at an earlier phase is NOT masking — a healthy P6 parent contains
+   P1–P3 children. Financial depth is limited (SEC facts are entity-level;
+   Exhibit-21 subsidiary trees partially available); non-business surfaces
+   (skills, education, treatment ladders) carry natural trees.
+3. **Spiral count n**: completed Was-conditioned arc cycles (P10→P0′
+   increments n). Financially rare; natural on learning surfaces.
+
+Status: SEED ONLY — not ratified, not implemented. If ratified, this becomes
+the design core of a future FORMULA_VERSION (r3+) with its own independent
+reference check, and it likely changes what P3/P7/P10's re-spec looks like
+(a contained child-level reading reframes the abstained phases).
+
 ## Non-goals / standing rules (unchanged)
 
 - Thing 1: no code changes, ever, under this plan.
