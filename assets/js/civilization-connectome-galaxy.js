@@ -445,7 +445,6 @@ var DOMAIN_PORTALS = {
     {name:'Clinical Circuit Map',url:'/clinical'},
     {name:'Gut-Brain Axis',url:'/portals/gutbrain-circuit'},
     {name:'Addiction Circuit Map',url:'/addiction'},
-    {name:'Provider Portal',url:'/provider-portal'},
     {name:'Men\'s Health Optimization',url:'/portals/medicine/trt_clinic.html'},
     {name:'Johnson & Johnson (JNJ)',url:'/company-portal?company=johnson_and_johnson'},
     {name:'Pfizer (PFE)',url:'/company-portal?company=pfizer'},

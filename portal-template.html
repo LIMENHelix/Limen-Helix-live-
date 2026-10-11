@@ -645,7 +645,7 @@ function updateRightPanel(){
   if(prov&&prov[activePhase]&&prov[activePhase].length>0){
     html+='<div class="cross-section"><div class="cross-label">PROVIDER CONNECTIONS</div>';
     for(var i=0;i<prov[activePhase].length;i++){
-      html+='<div class="cross-item"><span class="cross-icon">\u25e6</span><a href="provider-portal.html">'+prov[activePhase][i]+'</a></div>';
+      html+='<div class="cross-item"><span class="cross-icon">\u25e6</span><span>'+prov[activePhase][i]+'</span></div>';
     }
     html+='</div>';
   }
