@@ -218,11 +218,6 @@ window.LIMEN_SITE_INDEX = {
           "label": "Company Portal",
           "url": "/company-portal",
           "stem": "company-portal"
-        },
-        {
-          "label": "Provider Portal",
-          "url": "/provider-portal",
-          "stem": "provider-portal"
         }
       ]
     },

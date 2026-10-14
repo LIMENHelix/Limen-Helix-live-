@@ -99,7 +99,7 @@ const walk = (dir) => {
   return out;
 };
 const allPortalHtmlFiles = walk(ROOT);
-const rootSharedPortalNames = new Set(['company-portal.html', 'helix-report.html', 'authority-portal.html', 'provider-portal.html', 'portal.html']);
+const rootSharedPortalNames = new Set(['company-portal.html', 'helix-report.html', 'authority-portal.html', 'portal.html']);
 const topicPortalHtmlFiles = allPortalHtmlFiles.filter((f) => !rootSharedPortalNames.has(path.basename(f)));
 
 const companyPortal = fs.readFileSync(path.join(ROOT, 'company-portal.html'), 'utf8');

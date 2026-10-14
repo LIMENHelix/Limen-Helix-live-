@@ -435,13 +435,8 @@ var LAW_SUB_CIRCUITS = {
 var DOMAIN_PORTALS = {
   medicine:[
     {name:'Clinical Circuit Map',url:'/clinical'},
-    {name:'Neurology Circuit Map',url:'/neurology'},
-    {name:'Metabolic Circuit Map',url:'/metabolic'},
-    {name:'Pediatric Circuit Map',url:'/pediatric'},
     {name:'Gut-Brain Axis',url:'/portals/gutbrain-circuit'},
     {name:'Addiction Circuit Map',url:'/addiction'},
-    {name:'Psychedelic Circuit Map',url:'/psychedelic'},
-    {name:'Provider Portal',url:'/provider-portal'},
     {name:'Men\'s Health Optimization',url:'/portals/medicine/trt_clinic.html'},
     {name:'Johnson & Johnson (JNJ)',url:'/company-portal?company=johnson_and_johnson'},
     {name:'Pfizer (PFE)',url:'/company-portal?company=pfizer'},
@@ -477,7 +472,6 @@ var DOMAIN_PORTALS = {
     {name:'Pew Religious Landscape Study',url:'/authority-portal?authority=pew_religious_landscape'},
     {name:'PRRI American Values / "Nones" Trends',url:'/authority-portal?authority=prri_disaffiliation_trends'},
     // ── SECONDARY: contemplative circuit + faith-media companies (real tickers only).
-    {name:'Contemplative Circuit Map',url:'/contemplative'},
     {name:'Salem Comm (SALM)',url:'/company-portal?company=salem_communications'},
     {name:'Gannett (GCI)',url:'/company-portal?company=gannett'},
     {name:'Scholastic (SCHL)',url:'/company-portal?company=scholastic'},
@@ -485,7 +479,6 @@ var DOMAIN_PORTALS = {
     {name:'Tyndale House',url:'/company-portal?company=tyndale_house'}
   ],
   economy:[
-    {name:'Business',url:'/business'},
     {name:'ADP (ADP)',url:'/company-portal?company=adp'},
     {name:'Paychex (PAYX)',url:'/company-portal?company=paychex'},
     {name:'Intuit (INTU)',url:'/company-portal?company=intuit'},
