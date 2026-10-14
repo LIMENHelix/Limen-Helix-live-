@@ -1,83 +1,83 @@
 {
   "schemaVersion": "discovery-store-reconciliation/1.0",
-  "generatedAt": "2026-10-10T13:58:23.351Z",
-  "sourceCommit": "03426422969f4efd75186d412ba906d0db0ffdd0",
+  "generatedAt": "2026-10-12T16:57:36.189Z",
+  "sourceCommit": "605c1f3f59c857cf90e7a05cdf71d05529b7017a",
   "method": "scripts/reconcile-discovery-stores.mjs",
   "stores": {
     "cube": {
-      "builtAt": "2026-10-10T13:58:23.351Z",
+      "builtAt": "2026-10-12T16:57:36.189Z",
       "cells": 5524,
-      "sha256": "a39a75ba17c07f0b9b1d24c6aa8a5581a772134031d7c8746c2551237c9bbf25"
+      "sha256": "5790a480d4ce449e30d9e24feca6250121cf3d73af111e2bdfacdc39f4d49ee9"
     },
     "ledger": {
-      "lastEvidenceUpdatedAt": "2026-10-10T13:57:59.683Z",
-      "verdictRecords": 7900,
+      "lastEvidenceUpdatedAt": "2026-10-12T16:57:35.054Z",
+      "verdictRecords": 8100,
       "byVerdict": {
-        "VERIFIED": 3696,
+        "VERIFIED": 3846,
         "DISPUTED": 89,
         "THEORETICAL": 1583,
-        "UNVERIFIABLE": 2532,
+        "UNVERIFIABLE": 2582,
         "FABRICATED": 0,
         "PENDING": 0
       },
       "byVerifier": {
-        "rule-based": 5030,
+        "rule-based": 5180,
         "internal-consistency": 8,
-        "pubmed": 2862
+        "pubmed": 2912
       },
       "reconciliation": {
         "schemaVersion": "verification-reconciliation/1.0",
-        "snapshotAt": "2026-10-10T13:58:23.351Z",
-        "sourceCommit": "03426422969f4efd75186d412ba906d0db0ffdd0",
+        "snapshotAt": "2026-10-12T16:57:36.189Z",
+        "sourceCommit": "605c1f3f59c857cf90e7a05cdf71d05529b7017a",
         "uniqueCurrentClaims": 46934,
-        "matchedLedgerClaims": 5691,
-        "currentClaimsWithoutLedger": 41243,
+        "matchedLedgerClaims": 5891,
+        "currentClaimsWithoutLedger": 41043,
         "archivedLedgerClaims": 2209,
         "effectiveCurrentByVerdict": {
-          "VERIFIED": 2259,
+          "VERIFIED": 2409,
           "DISPUTED": 89,
           "THEORETICAL": 873,
-          "UNVERIFIABLE": 2470,
+          "UNVERIFIABLE": 2520,
           "FABRICATED": 0,
-          "PENDING": 41243
+          "PENDING": 41043
         },
         "ledgerAllTimeByVerdict": {
-          "VERIFIED": 3696,
+          "VERIFIED": 3846,
           "DISPUTED": 89,
           "THEORETICAL": 1583,
-          "UNVERIFIABLE": 2532,
+          "UNVERIFIABLE": 2582,
           "FABRICATED": 0,
           "PENDING": 0
         },
         "note": "Current claims are the unique claim-id population in this cube snapshot. Archived ledger claims are preserved evidence whose ids no longer occur in the current cube; they are not counted as current rendered claims."
       },
-      "sha256": "3c3a877f3e35eafef41871b447285db6faa1eff6f5c7a263000518c3ee87c18b"
+      "sha256": "2dc612b5ec8789d16cbf6a7352e71781f233f6b8d6f3733ba8d69f2a0ecb01b0"
     },
     "renderSummary": {
       "totalCells": 5524,
       "epistemicBuckets": {
-        "proven": 2259,
+        "proven": 2409,
         "unproven": 873,
-        "unknown": 43713,
+        "unknown": 43563,
         "impossible": 89,
         "totalClaims": 46934,
-        "processedVerdicts": 5691,
+        "processedVerdicts": 5891,
         "verdictCounts": {
-          "VERIFIED": 2259,
+          "VERIFIED": 2409,
           "DISPUTED": 89,
           "THEORETICAL": 873,
-          "UNVERIFIABLE": 2470,
+          "UNVERIFIABLE": 2520,
           "FABRICATED": 0,
-          "PENDING": 41243
+          "PENDING": 41043
         },
         "note": "Every claim kept and separated by epistemic state. Verification writes the state; it never deletes the finding. Impossible = study why it fails (kept, not discarded).",
         "archivedLedgerClaims": 2209,
-        "computedAt": "2026-10-10T13:58:23.351Z"
+        "computedAt": "2026-10-12T16:57:36.189Z"
       },
-      "sha256": "41d743f523e71a7c76f9c41201b92655b94c9b377abfb9de9d2d3211e77cb1c8"
+      "sha256": "1ca6c9ecd514da93e842247ed7a13c5f0826b2619b6e71e62472afdf7b5dde25"
     },
     "inbox": {
-      "generatedAt": "2026-10-10T13:58:23.351Z",
+      "generatedAt": "2026-10-12T16:57:36.189Z",
       "activeLanes": [
         "investment",
         "research"
@@ -93,7 +93,7 @@
           "research": 520
         }
       },
-      "sha256": "10a92242cecfb7d491a3494b8d24686817c6d81648b26c68e6ccfdf797f7cc13"
+      "sha256": "63dd852455571ddf598114282ec85b921c345be949c66915dcbade3f005cddb3"
     }
   },
   "invariants": {
