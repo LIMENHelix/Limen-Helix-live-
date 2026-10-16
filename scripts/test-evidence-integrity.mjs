@@ -12,7 +12,12 @@
  *         must NOT produce VERIFIED. No audit coverage, no positive verdict.
  */
 
-import { verifyRuleBased } from './organ-claim-verification.mjs';
+import {
+  verifyRuleBased,
+  verifyPubMed,
+  abstractContradicts,
+  checkPhraseInText,
+} from './organ-claim-verification.mjs';
 
 let passed = 0;
 function ok(label, condition) {
@@ -63,5 +68,55 @@ const bindingClaim = {
   const v = verifyRuleBased(bindingClaim, report);
   ok('flagged binding still disputes (control)', v.verdict === 'DISPUTED');
 }
+
+// --- Item 4 ---------------------------------------------------------------
+// (a) Zero PubMed results must stay UNKNOWN-retryable, never DISPUTED
+//     (which displays as IMPOSSIBLE). (b) An abstract that names the claim
+//     but reports a negative result must not verify.
+
+const disorderClaim = {
+  kind: 'disorder',
+  brainNodeId: 'BLA',
+  payload: { id: 'dx-test', name: 'Exposure Therapy', mechanism: 'm', primaryNodesAffected: ['BLA'], citations: [] },
+};
+
+// Stub the network: verifyPubMed talks to global fetch.
+const realFetch = globalThis.fetch;
+function stubFetch(ids, abstractText) {
+  globalThis.fetch = async (url) => {
+    if (url.includes('esearch')) {
+      return { ok: true, json: async () => ({ esearchresult: { idlist: ids } }) };
+    }
+    return { ok: true, text: async () => abstractText };
+  };
+}
+
+{
+  stubFetch([], '');
+  const v = await verifyPubMed(disorderClaim);
+  ok('zero PubMed hits is NOT DISPUTED (no false impossible)', v.verdict !== 'DISPUTED');
+  ok('zero PubMed hits is retryable UNVERIFIABLE', v.verdict === 'UNVERIFIABLE');
+}
+
+{
+  stubFetch(['0001'], 'Exposure therapy did not improve outcomes in this randomized trial of 214 adults.');
+  const v = await verifyPubMed(disorderClaim);
+  ok('negative-result abstract does not produce VERIFIED', v.verdict !== 'VERIFIED');
+  ok('negative-result abstract produces scoped DISPUTED', v.verdict === 'DISPUTED');
+  ok('dispute note preserves citation scope', /disputed, not refuted/.test(v.note));
+}
+
+{
+  stubFetch(['0002'], 'Exposure therapy significantly improved outcomes in this randomized trial of 214 adults.');
+  const v = await verifyPubMed(disorderClaim);
+  ok('supporting abstract still verifies (control)', v.verdict === 'VERIFIED');
+}
+globalThis.fetch = realFetch;
+
+// Negation guard unit behavior
+ok('negation guard fires on explicit failure language', abstractContradicts('Exposure therapy did not improve outcomes.', 'Exposure Therapy'));
+ok('negation guard silent on positive result', !abstractContradicts('Exposure therapy improved outcomes markedly.', 'Exposure Therapy'));
+ok('negation guard requires the claim to be present', !abstractContradicts('Sertraline did not improve outcomes.', 'Exposure Therapy'));
+ok('phrase checker still passes plain mentions (control)', checkPhraseInText('Exposure Therapy', 'we studied exposure therapy in adults'));
 
 console.log(`\n${passed} evidence-integrity assertions passed`);

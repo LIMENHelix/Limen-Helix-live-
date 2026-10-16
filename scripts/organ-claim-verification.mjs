@@ -808,12 +808,18 @@ function verifyAffinity(claim, cube) {
  *      phrase. PASS if the phrase appears literally OR all content tokens
  *      appear within an 80-character window. UNVERIFIABLE otherwise.
  *
- * Verdict semantics under tightening:
+ * Verdict semantics under tightening (CORRECTED 2026-10-16, audit item 4):
  *   VERIFIED     — esearch hit ≥ 1 article AND top abstract passes substring
- *   DISPUTED     — esearch returned 0 articles for this query
- *   UNVERIFIABLE — esearch hit but abstract substring check failed (the
- *                  query is finding articles that don't actually support
- *                  the claim — i.e. the previous loose-query failure mode)
+ *                  AND the abstract carries no explicit negative-result
+ *                  language (a citation that says "did not improve" is
+ *                  contradiction evidence, not support)
+ *   DISPUTED     — the top abstract names the claim but reports a negative
+ *                  result; contradiction is scoped to that citation — a
+ *                  single study disputes support, it does not refute the claim
+ *   UNVERIFIABLE — esearch returned 0 articles (absence of evidence is NOT
+ *                  evidence of absence; zero hits means we could not examine
+ *                  the claim, so it belongs to UNKNOWN, never IMPOSSIBLE),
+ *                  or esearch hit but the abstract substring check failed
  */
 async function verifyPubMed(claim) {
   const query = buildPubMedQuery(claim);
@@ -837,12 +843,12 @@ async function verifyPubMed(claim) {
     const ids = data.esearchresult?.idlist || [];
     if (ids.length === 0) {
       return {
-        verdict: 'DISPUTED',
+        verdict: 'UNVERIFIABLE',
         verifier: 'pubmed',
         evidence: [`query:${query}`],
-        confidence: 0.6,
+        confidence: 0.2,
         checkedAt: new Date().toISOString(),
-        note: 'PubMed returned 0 articles for tightened query — possibly fabricated, mis-cited, or named protocol does not exist.',
+        note: 'PubMed returned 0 articles for the tightened query — the claim could not be examined, so it stays UNKNOWN/retryable. Zero hits is not a contradiction: the citation may be mis-cited, the protocol renamed, or the query too tight.',
       };
     }
 
@@ -881,6 +887,17 @@ async function verifyPubMed(claim) {
         confidence: 0.3,
         checkedAt: new Date().toISOString(),
         note: `esearch returned ${ids.length} article(s) but top PMID ${topPmid}'s title+abstract does not contain claim phrase "${keyPhrase}" (literal or token-proximate). Loose-query match. Article: ${extractTitle(abstractText).substring(0, 140)}`,
+      };
+    }
+
+    if (abstractContradicts(abstractText, keyPhrase)) {
+      return {
+        verdict: 'DISPUTED',
+        verifier: 'pubmed',
+        evidence: [`top-pmid:${topPmid}`, `query:${query}`],
+        confidence: 0.5,
+        checkedAt: new Date().toISOString(),
+        note: `Top PMID ${topPmid} names claim phrase "${keyPhrase}" but reports a negative result — this citation contradicts support for the claim as stated. Single-study contradiction scoped to this citation; the underlying claim is disputed, not refuted. Title: ${extractTitle(abstractText).substring(0, 120)}`,
       };
     }
 
@@ -1031,6 +1048,32 @@ function checkPhraseInText(phrase, text) {
     if (tokens.slice(1).every((tok) => slice.includes(tok))) return true;
   }
   return false;
+}
+
+/**
+ * Negation guard (audit 2026-10-16, item 4b). checkPhraseInText proves the
+ * abstract is ABOUT the claim; it says nothing about the direction of the
+ * result. An abstract reading "X did not improve outcomes" passed the phrase
+ * check verbatim and was stamped VERIFIED. This helper detects explicit
+ * negative-result language so a contradictory citation is treated as
+ * contradiction evidence (DISPUTED, scoped to that citation) instead of
+ * support. Deliberately conservative: only unambiguous failure phrases count,
+ * and only when the claim phrase itself is present in the text.
+ */
+const NEGATION_PATTERNS = [
+  'did not improve', 'does not improve', 'do not improve',
+  'failed to improve', 'failed to show', 'failed to demonstrate',
+  'no significant improvement', 'no significant difference', 'no significant effect',
+  'no improvement', 'no effect', 'no benefit',
+  'not effective', 'not superior', 'did not reduce',
+  'not associated with improvement', 'no evidence of benefit',
+];
+
+function abstractContradicts(text, keyPhrase) {
+  if (!text) return false;
+  if (keyPhrase && !checkPhraseInText(keyPhrase, text)) return false;
+  const t = ` ${String(text).toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ')} `;
+  return NEGATION_PATTERNS.some((p) => t.includes(` ${p} `));
 }
 
 function extractTitle(abstractText) {
@@ -1184,7 +1227,9 @@ if (IS_CLI) {
 // The CLI behavior above is unchanged; importing this module does not run main().
 export {
   verifyRuleBased,
+  verifyPubMed,
   checkPhraseInText,
+  abstractContradicts,
   claimKeyPhrase,
   payloadHash,
   stableStringify,
