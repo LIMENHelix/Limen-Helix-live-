@@ -252,7 +252,8 @@ async function main() {
   // run by design (item 3); the backlog is tiled by a durable cursor stored
   // in the ledger itself, so weekly runs continue where the last one stopped
   // regardless of turnover. Fresh claims keep priority order.
-  queue = capQueueWithRetryRotation(queue, ledger, ARG.maxClaims, ARG.verifierFilter);
+  queue = capQueueWithRetryRotation(queue, ledger, ARG.maxClaims, ARG.verifierFilter,
+    ARG.priorityNodes.length === 0 && ARG.reverifyIds.length === 0);
   console.log(`[verification-organ] working set this run: ${queue.length}`);
 
   if (ARG.dryRun) {
@@ -672,7 +673,7 @@ function verifierPriority(verifier) {
 // the cursor advances by the admitted window per week, not by one slot.
 // A quarter of the cap is reserved for the retry backlog so a full fresh
 // queue can never starve it to zero (review round 3).
-function capQueueWithRetryRotation(queue, ledger, max, verifierFilter) {
+function capQueueWithRetryRotation(queue, ledger, max, verifierFilter, fullLane) {
   // A zero budget means zero claims (review round 3, #398) — without this,
   // the reserved-slot math turns slice(0, -1) into "almost everything".
   if (max <= 0) return [];
@@ -699,25 +700,30 @@ function capQueueWithRetryRotation(queue, ledger, max, verifierFilter) {
   // invocations. A recomputed offset modulo a list that shrinks as claims
   // resolve does NOT continue the previous window — it revisits failures
   // while skipping untried claims. A durable cursor tiles the backlog
-  // regardless of turnover.
+  // regardless of turnover. Only FULL lane invocations move the cursor
+  // (review round 2 on #399): a narrowed --priority/--reverify-ids run
+  // serves its small queue from the front and leaves the shared cursor
+  // alone, so manual runs can't skip untried claims past it.
   retryable.sort((a, b) => (a.claimId < b.claimId ? -1 : a.claimId > b.claimId ? 1 : 0));
-  ledger.retryCursors = ledger.retryCursors || {};
-  const cursorId = ledger.retryCursors[laneKey] && ledger.retryCursors[laneKey].lastClaimId;
-  let startIdx = 0;
-  if (cursorId) {
-    const next = retryable.findIndex((c) => c.claimId > cursorId);
-    startIdx = next === -1 ? 0 : next; // wrapped past the end → restart the cycle
+  let rotated = retryable;
+  if (retryable.length > 1 && retrySlots > 0 && fullLane) {
+    ledger.retryCursors = ledger.retryCursors || {};
+    const cursorId = ledger.retryCursors[laneKey] && ledger.retryCursors[laneKey].lastClaimId;
+    let startIdx = 0;
+    if (cursorId) {
+      const next = retryable.findIndex((c) => c.claimId > cursorId);
+      startIdx = next === -1 ? 0 : next; // wrapped past the end → restart the cycle
+    }
+    rotated = retryable.slice(startIdx).concat(retryable.slice(0, startIdx));
+    const served = rotated.slice(0, retrySlots);
+    if (served.length) {
+      ledger.retryCursors[laneKey] = {
+        lastClaimId: served[served.length - 1].claimId,
+        updatedAt: new Date().toISOString(),
+      };
+    }
   }
-  const retryAdmitted = [];
-  for (let i = 0; i < retryable.length && retryAdmitted.length < retrySlots; i++) {
-    retryAdmitted.push(retryable[(startIdx + i) % retryable.length]);
-  }
-  if (retryAdmitted.length) {
-    ledger.retryCursors[laneKey] = {
-      lastClaimId: retryAdmitted[retryAdmitted.length - 1].claimId,
-      updatedAt: new Date().toISOString(),
-    };
-  }
+  const retryAdmitted = rotated.slice(0, retrySlots);
   const admitted = restAdmitted.concat(retryAdmitted);
   // Spare capacity backfills from whichever lane has more work — continuing
   // PAST the admitted retry window so backfill never re-serves next week's
@@ -1199,19 +1205,29 @@ function abstractContradicts(text, keyPhrase) {
   // coreferential pronoun or passive result marker and an earlier clause
   // named the claim. Residual limitation, honestly noted: outcome-typed
   // checking ("which outcome was null?") is a model task, not a regex one.
-  const sentences = String(text).split(/(?<=[.!?;:])\s+|\n+/);
   const COREF = /\b(it|this|these|they|the treatment|the intervention|the therapy|the approach|the result|the results)\b/;
   const PASSIVE_RESULT = /\b(was|were) (observed|found|seen|noted|reported|demonstrated)\b/;
-  let claimSeenEarlier = false;
-  for (const s of sentences) {
-    const n = ` ${s.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ')} `;
-    const mentionsClaim = tokens.length
-      ? tokens.every((tok) => n.includes(tok))
-      : n.includes(keyPhrase.toLowerCase());
-    const hasNegation = NEGATION_PATTERNS.some((p) => n.includes(` ${p} `));
-    if (hasNegation && mentionsClaim) return true;
-    if (hasNegation && !mentionsClaim && claimSeenEarlier && (COREF.test(n) || PASSIVE_RESULT.test(n))) return true;
-    if (mentionsClaim) claimSeenEarlier = true;
+  // Coreference carries across ; and : but resets at real sentence ends
+  // (review on #399): "Exposure therapy improved symptoms. Sertraline was
+  // also tested. It did not improve outcomes." — the pronoun belongs to
+  // sertraline, not the claim. Newlines count as sentence boundaries.
+  const lines = String(text).split(/\n+/);
+  for (const line of lines) {
+    let claimSeenInSentence = false;
+    const clauses = line.match(/[^.!?;:]+[.!?;:]?/g) || [];
+    for (const s of clauses) {
+      const trimmed = s.trim();
+      if (!trimmed) continue;
+      const n = ` ${trimmed.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ')} `;
+      const mentionsClaim = tokens.length
+        ? tokens.every((tok) => n.includes(tok))
+        : n.includes(keyPhrase.toLowerCase());
+      const hasNegation = NEGATION_PATTERNS.some((p) => n.includes(` ${p} `));
+      if (hasNegation && mentionsClaim) return true;
+      if (hasNegation && !mentionsClaim && claimSeenInSentence && (COREF.test(n) || PASSIVE_RESULT.test(n))) return true;
+      if (mentionsClaim) claimSeenInSentence = true;
+      if (/[.!?]$/.test(trimmed)) claimSeenInSentence = false;
+    }
   }
   return false;
 }

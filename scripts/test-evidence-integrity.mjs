@@ -201,21 +201,21 @@ ok('negation sharing a sentence with the claim still disputes',
   for (const r of retries) ledger.verdicts[r.claimId] = { verdict: 'UNVERIFIABLE', ph: 'x' };
   const queue = [...retries, ...fresh];
 
-  const w1 = capQueueWithRetryRotation(queue, ledger, 5);
+  const w1 = capQueueWithRetryRotation(queue, ledger, 5, undefined, true);
   ok('cap respects max', w1.length === 5);
   ok('fresh claims are not crowded out by the retry backlog', w1[0].claimId === 'fresh-1' && w1[1].claimId === 'fresh-2');
 
   // The durable cursor: successive runs continue where the last stopped.
-  const firstRun = capQueueWithRetryRotation(queue, ledger, 5);
+  const firstRun = capQueueWithRetryRotation(queue, ledger, 5, undefined, true);
   const firstRetryA = firstRun.find((c) => c.claimId.startsWith('retry-')).claimId;
   ok('cursor state is persisted in the ledger', !!(ledger.retryCursors && ledger.retryCursors.general));
-  const secondRun = capQueueWithRetryRotation(queue, ledger, 5);
+  const secondRun = capQueueWithRetryRotation(queue, ledger, 5, undefined, true);
   const firstRetryB = secondRun.find((c) => c.claimId.startsWith('retry-')).claimId;
   ok('successive runs start at different windows of the backlog', firstRetryA !== firstRetryB);
 
   const allIds = new Set();
   for (let run = 0; run < 4; run++) {
-    for (const c of capQueueWithRetryRotation(queue, ledger, 5)) {
+    for (const c of capQueueWithRetryRotation(queue, ledger, 5, undefined, true)) {
       if (c.claimId.startsWith('retry-')) allIds.add(c.claimId);
     }
   }
@@ -223,10 +223,10 @@ ok('negation sharing a sentence with the claim still disputes',
 
   // A changed payload under an UNVERIFIABLE verdict is fresh work.
   const changed = { claimId: 'retry-0', payloadHash: 'changed-hash' };
-  const w2 = capQueueWithRetryRotation([changed], ledger, 5);
+  const w2 = capQueueWithRetryRotation([changed], ledger, 5, undefined, true);
   ok('changed payload under UNVERIFIABLE verdict takes the fresh lane', w2[0].claimId === 'retry-0');
   ok('unchanged retryable fills the window (control)',
-    capQueueWithRetryRotation(retries, ledger, 3).length === 3);
+    capQueueWithRetryRotation(retries, ledger, 3, undefined, true).length === 3);
 
   // Reserved capacity: even when fresh work could fill the whole cap, the
   // retry backlog keeps its quarter (review round 3, #398).
@@ -234,7 +234,7 @@ ok('negation sharing a sentence with the claim still disputes',
     const ledger2 = { verdicts: {} };
     for (const r of retries) ledger2.verdicts[r.claimId] = { verdict: 'UNVERIFIABLE', ph: 'x' };
     const bigRest = Array.from({ length: 300 }, (_, i) => ({ claimId: `fresh-${i}` }));
-    const w = capQueueWithRetryRotation(bigRest.concat(retries), ledger2, 200);
+    const w = capQueueWithRetryRotation(bigRest.concat(retries), ledger2, 200, undefined, true);
     ok('retry backlog keeps reserved capacity under a full fresh queue',
       w.some((c) => c.claimId.startsWith('retry-')));
     ok('cap still respected under reservation', w.length === 200);
@@ -259,11 +259,25 @@ ok('negation sharing a sentence with the claim still disputes',
       { claimId: 'rb-2', verifier: 'rule-based' },
       { claimId: 'pm-retry', payloadHash: 'x', verifier: 'pubmed' },
     ];
-    const general = capQueueWithRetryRotation(q, ledger4, 2);
+    const general = capQueueWithRetryRotation(q, ledger4, 2, undefined, true);
     ok('general lane does not pull pubmed retries ahead of cheaper work',
       general.length === 2 && general[0].claimId === 'rb-1' && general[1].claimId === 'rb-2');
-    const pubmedLane = capQueueWithRetryRotation(q, ledger4, 2, ['pubmed']);
+    const pubmedLane = capQueueWithRetryRotation(q, ledger4, 2, ['pubmed'], true);
     ok('pubmed lane admits its own retries', pubmedLane.some((c) => c.claimId === 'pm-retry'));
+  }
+
+  // Cursor isolation (review round 2, #399): narrowed invocations serve from
+  // the front WITHOUT touching the shared lane cursor.
+  {
+    const ledger5 = { verdicts: {} };
+    const retries5 = Array.from({ length: 10 }, (_, i) => ({ claimId: `retry-${i}`, payloadHash: 'x' }));
+    for (const r of retries5) ledger5.verdicts[r.claimId] = { verdict: 'UNVERIFIABLE', ph: 'x' };
+    capQueueWithRetryRotation(retries5, ledger5, 5, undefined, true);
+    ok('full-lane run persists its cursor', ledger5.retryCursors.general.lastClaimId === 'retry-4');
+    capQueueWithRetryRotation(retries5, ledger5, 3, undefined, false); // narrowed manual run
+    ok('narrowed run does not advance the shared cursor', ledger5.retryCursors.general.lastClaimId === 'retry-4');
+    const resumed = capQueueWithRetryRotation(retries5, ledger5, 5, undefined, true);
+    ok('full lane resumes from the shared cursor', resumed[0].claimId === 'retry-5');
   }
 }
 
@@ -419,6 +433,12 @@ ok('passive result continuation across a colon still disputes',
 ok('unrelated negation without coreference does not dispute (control)',
   !abstractContradicts('Exposure therapy improved primary outcomes. Sertraline did not improve secondary measures in the same cohort.', 'Exposure Therapy'));
 
+// Carry-over resets at true sentence boundaries (review round 2, #399).
+ok('pronoun after a sentence break belongs to the new subject',
+  !abstractContradicts('Exposure therapy improved symptoms. Sertraline was also tested. It did not improve outcomes.', 'Exposure Therapy'));
+ok('passive marker in a fresh sentence about another outcome does not dispute',
+  !abstractContradicts('Exposure therapy improved symptoms. No significant difference was observed in dropout rates.', 'Exposure Therapy'));
+
 // Codex's reproduced coverage defect, now with turnover: 52 successive
 // budget-50 PubMed runs must reach every claim even while half of each
 // admitted batch resolves terminally and the backlog compacts (the fixed-
@@ -430,7 +450,7 @@ ok('unrelated negation without coreference does not dispute (control)',
   const admitted = new Set();
   let population = all.slice();
   for (let w = 0; w < 52 && population.length; w++) {
-    const batch = capQueueWithRetryRotation(population, ledger, 50, ['pubmed']);
+    const batch = capQueueWithRetryRotation(population, ledger, 50, ['pubmed'], true);
     for (const c of batch) admitted.add(c.claimId);
     // Half of each admitted batch resolves terminally; the rest stays.
     batch.forEach((c, i) => { if (i % 2 === 0) delete ledger.verdicts[c.claimId]; });
