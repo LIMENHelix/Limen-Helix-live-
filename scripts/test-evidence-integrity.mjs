@@ -330,4 +330,32 @@ ok('negation sharing a sentence with the claim still disputes',
   ok('new verdict carries verifier version', typeof rec.verifierVersion === 'string' && rec.verifierVersion.length > 0);
 }
 
+// --- Review fixes (round 3, #398) ------------------------------------------
+
+// ok:false with a populated issues array means the scan COMPLETED and found
+// issues — not a failed audit. It must flow to issue matching, not UNVERIFIABLE.
+{
+  const report = { perPortal: { 'acme-portal': { ok: false, issues: [{ entityName: 'Someone Else', relType: 'treats', kind: 'role-mismatch', severity: 'low' }] } } };
+  const v = verifyRuleBased(bindingClaim, report);
+  ok('completed audit with unrelated issues still verifies (control)', v.verdict === 'VERIFIED');
+}
+
+// Binding identity includes role: the known cube collisions (same cell,
+// portal, relation, entity; different roles) get distinct claim ids, and
+// the pipeline no longer aborts on them.
+{
+  const b1 = { portalSlug: 'crh_plc', relationshipType: 'competitors', entityName: 'Holcim Ltd.', role: 'peer', confidence: 0.8 };
+  const b2 = { ...b1, role: 'supplier' };
+  const cell = mkCell({ portalBindings: [b1, b2] });
+  const claims = [];
+  extractCellClaims(cell, claims, { verdicts: {} }, new Set(), true);
+  ok('same-entity bindings with different roles get distinct claim ids',
+    claims.length === 2 && claims[0].claimId !== claims[1].claimId);
+  const cube = { cells: [cell] };
+  const ledger = { verdicts: {} };
+  propagateVerdictsToCube(cube, ledger);
+  const r = reconcilePopulation(cube, ledger, 't', 'c');
+  ok('reconcile completes on formerly-colliding bindings', r.uniqueCurrentClaims === 2);
+}
+
 console.log(`\n${passed} evidence-integrity assertions passed`);

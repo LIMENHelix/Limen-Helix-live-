@@ -437,17 +437,9 @@ function collectCurrentClaims(cube) {
   };
 
   for (const cell of cube.cells || []) {
-    for (const item of cell.issues || []) add(`iss::${item.id}`, item);
-    for (const item of cell.disorders || []) add(`dx::${item.id}`, item);
-    for (const item of cell.neuroTreatments || []) add(`ntx::${item.id}`, item);
-    for (const item of cell.domainTreatments || []) add(`dtx::${item.id}`, item);
-    for (const item of cell.portalBindings || []) {
-      add(`bind::${cell.cellId}::${item.portalSlug}::${item.relationshipType}::${item.entityName}`, item);
-    }
-    for (const item of cell.crossDomainAffinities || []) {
-      add(`aff::${cell.cellId}::${item.toDomain}::${item.toRole}`, item);
-    }
-    for (const item of cell.residuals || []) add(`res::${item.id}`, item);
+    // Identity comes from CLAIM_SHAPES — the same definition extraction and
+    // propagation use — so a claim id can never mean two different payloads.
+    forEachCellClaim(cell, (kind, shape, item, cellId) => add(shape.id(item, cellId), item));
   }
   return claims;
 }
@@ -547,7 +539,12 @@ const CLAIM_SHAPES = {
   },
   binding: {
     collection: 'portalBindings',
-    id: (b, cellId) => `bind::${cellId}::${b.portalSlug}::${b.relationshipType}::${b.entityName}`,
+    // Role is part of the identity (review on #398): the cube contains
+    // bindings that share cell/portal/relType/entity but differ in role —
+    // without it, two payloads share one claim id, per-occurrence freshness
+    // applies a verdict to one and stale-marks the other, and
+    // collectCurrentClaims then aborts the run on the conflict.
+    id: (b, cellId) => `bind::${cellId}::${b.portalSlug}::${b.relationshipType}::${b.entityName}::${b.role}`,
     payload: (b) => ({ portalSlug: b.portalSlug, entityName: b.entityName, relationshipType: b.relationshipType, role: b.role, confidence: b.confidence }),
   },
   affinity: {
@@ -766,10 +763,11 @@ function verifyRuleBased(claim, bindingReport) {
       };
     }
     // A failed audit is not a clean audit (review on #398): the fidelity
-    // builder stores { ok: false, error } with no issues array when the
-    // portal could not be parsed. That entry means "audit did not complete",
-    // never "zero issues".
-    if (pp.ok === false || pp.error || !Array.isArray(pp.issues)) {
+    // builder stores { error } with no issues array when the portal could
+    // not be parsed. That entry means "audit did not complete", never "zero
+    // issues". Note: ok:false alone means issues were FOUND (the scan
+    // completed) — those portals flow through to the issue matching below.
+    if (pp.error || !Array.isArray(pp.issues)) {
       return {
         verdict: 'UNVERIFIABLE',
         verifier: 'rule-based',
