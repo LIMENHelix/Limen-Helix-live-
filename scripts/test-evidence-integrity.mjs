@@ -21,6 +21,7 @@ import {
   reconcilePopulation,
   extractCellClaims,
   payloadHash,
+  recordVerdict,
 } from './organ-claim-verification.mjs';
 
 let passed = 0;
@@ -205,6 +206,42 @@ const disorderPh = payloadHash({ id: 'd1', name: 'Exposure Therapy', mechanism: 
     claims[0].kind === 'disorder' &&
     claims[0].verifier === 'pubmed' &&
     claims[0].payloadHash === disorderPh);
+}
+
+// --- Item 3 ---------------------------------------------------------------
+// Unavailable verification is retryable forever; superseded verdicts are
+// preserved, never erased.
+
+// UNVERIFIABLE with a matching hash must still re-enqueue.
+{
+  const cell = mkCell({ disorders: [{ ...disorderItem }] });
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'UNVERIFIABLE', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh } } };
+  const claims = [];
+  extractCellClaims(cell, claims, ledger);
+  ok('UNVERIFIABLE with matching hash is retried (not suppressed)', claims.length === 1);
+}
+
+// VERIFIED with a matching hash is still skipped (control — no churn).
+{
+  const cell = mkCell({ disorders: [{ ...disorderItem }] });
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh } } };
+  const claims = [];
+  extractCellClaims(cell, claims, ledger);
+  ok('VERIFIED with matching hash is still skipped (control)', claims.length === 0);
+}
+
+// recordVerdict: history preserved on supersession, capped, newest-last.
+{
+  const ledger = { verdicts: {} };
+  const claim = { claimId: 'dx::d1', payloadHash: disorderPh };
+  recordVerdict(ledger, 'dx::d1', { verdict: 'UNVERIFIABLE', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', note: 'first attempt' }, disorderPh);
+  ok('first verdict has no history', !ledger.verdicts['dx::d1'].history);
+  recordVerdict(ledger, 'dx::d1', { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-02-01T00:00:00Z' }, disorderPh);
+  const rec = ledger.verdicts['dx::d1'];
+  ok('superseded verdict preserved in history', Array.isArray(rec.history) && rec.history.length === 1 && rec.history[0].verdict === 'UNVERIFIABLE');
+  ok('history keeps the prior note and timestamp', rec.history[0].note === 'first attempt' && rec.history[0].checkedAt === '2026-01-01T00:00:00Z');
+  ok('current verdict is the new one', rec.verdict === 'VERIFIED' && rec.supersedes === '2026-01-01T00:00:00Z');
+  ok('new verdict carries verifier version', typeof rec.verifierVersion === 'string' && rec.verifierVersion.length > 0);
 }
 
 console.log(`\n${passed} evidence-integrity assertions passed`);

@@ -172,7 +172,11 @@ async function main() {
     let backfilled = 0;
     for (const r of refs) {
       const lv = ledger.verdicts[r.claimId];
-      if (lv && !lv.ph) { lv.ph = r.payloadHash; backfilled++; }
+      // Legacy stamps are marked as such: the hash was backfilled onto an
+      // existing verdict (trusted migration), not attested by a verification
+      // run against that payload. The regeneration step can distinguish
+      // attested from stamped evidence via phLegacy.
+      if (lv && !lv.ph) { lv.ph = r.payloadHash; lv.phLegacy = true; backfilled++; }
     }
     if (backfilled) console.log(`[verification-organ] payload-hash backfill: stamped ${backfilled}/${refs.length} current claims`);
   }
@@ -298,7 +302,7 @@ async function main() {
     // Never persist a PENDING verdict: the record would make the extractor
     // skip the claim forever, even after the real verifier is enabled.
     if (verdict.verdict !== 'PENDING') {
-      ledger.verdicts[claim.claimId] = { ...verdict, ph: claim.payloadHash, verifierVersion: VERIFIER_VERSION };
+      recordVerdict(ledger, claim.claimId, verdict, claim.payloadHash);
     }
     ledger.stats[verdict.verdict] = (ledger.stats[verdict.verdict] || 0) + 1;
     ledger.stats.byVerifier[verdict.verifier] = (ledger.stats.byVerifier[verdict.verifier] || 0) + 1;
@@ -401,6 +405,31 @@ function recomputeLedgerStats(verdicts) {
     stats.byVerifier[verifier] = (stats.byVerifier[verifier] || 0) + 1;
   }
   return stats;
+}
+
+// Write a verdict while preserving history (audit 2026-10-16, item 3).
+// A superseded verdict is never erased: it moves into a bounded history
+// array (newest-last) with the hash and verifier version it was computed
+// under, so every claim keeps its full attempt trail.
+function recordVerdict(ledger, claimId, verdict, ph) {
+  const prev = ledger.verdicts[claimId];
+  const entry = { ...verdict, ph, verifierVersion: VERIFIER_VERSION };
+  if (prev) {
+    entry.history = [
+      ...(prev.history || []),
+      {
+        verdict: prev.verdict,
+        verifier: prev.verifier || null,
+        checkedAt: prev.checkedAt || null,
+        ph: prev.ph || null,
+        verifierVersion: prev.verifierVersion || null,
+        note: prev.note || null,
+      },
+    ].slice(-10);
+    entry.supersedes = prev.checkedAt || null;
+  }
+  ledger.verdicts[claimId] = entry;
+  return entry;
 }
 
 function collectCurrentClaims(cube) {
@@ -598,7 +627,14 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collec
     if (lv && lv.ph !== ph && !reverifySet.has(claimId)) stalePayloadCount++;
     return !ledgerCurrent(claimId, ph);
   };
+  // UNVERIFIABLE means we could not examine the claim — it is retryable
+  // forever (audit 2026-10-16, item 3). Previously a matching payload hash
+  // permanently suppressed retries, stranding thousands of unexamined
+  // claims under a hash that proved nothing.
+  const RETRYABLE = new Set(['UNVERIFIABLE']);
   const skipFor = (item, claimId, ph) => {
+    const lv = ledger.verdicts[claimId];
+    if (lv && RETRYABLE.has(lv.verdict) && !reverifySet.has(claimId)) return false;
     if (ledgerCurrent(claimId, ph) && !reverifySet.has(claimId)) return true;
     if (!ledger.verdicts[claimId]) {
       // Legacy path: no ledger record — trust baked-in non-PENDING verdicts.
@@ -1235,6 +1271,7 @@ export {
   reconcilePopulation,
   extractCellClaims,
   recomputeAggregate,
+  recordVerdict,
   forEachCellClaim,
   CLAIM_SHAPES,
   VERIFIER_VERSION,
