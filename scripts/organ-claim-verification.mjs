@@ -411,17 +411,12 @@ function recordVerdict(ledger, claimId, verdict, ph) {
   const prev = ledger.verdicts[claimId];
   const entry = { ...verdict, ph, verifierVersion: VERIFIER_VERSION };
   if (prev) {
-    entry.history = [
-      ...(prev.history || []),
-      {
-        verdict: prev.verdict,
-        verifier: prev.verifier || null,
-        checkedAt: prev.checkedAt || null,
-        ph: prev.ph || null,
-        verifierVersion: prev.verifierVersion || null,
-        note: prev.note || null,
-      },
-    ].slice(-10);
+    // Retain the COMPLETE prior verdict — evidence and confidence included
+    // (review on #398): the PMID/query or audit source that justified the
+    // superseded decision is exactly what an audit trail must keep. Only
+    // nested history is excluded to bound depth.
+    const { history: _nested, ...prevSnapshot } = prev;
+    entry.history = [...(prev.history || []), prevSnapshot].slice(-10);
     entry.supersedes = prev.checkedAt || null;
   }
   ledger.verdicts[claimId] = entry;
@@ -628,9 +623,19 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collec
   // permanently suppressed retries, stranding thousands of unexamined
   // claims under a hash that proved nothing.
   const RETRYABLE = new Set(['UNVERIFIABLE']);
+  // Verdicts produced before the evidence-integrity repair by verifiers
+  // whose semantics changed re-enqueue even when the payload hash matches —
+  // a hash match proves the content is unchanged, not that the old rules
+  // were sound (review on #398). This is what lets the post-merge
+  // regeneration re-evaluate the 150 unsupported rule-based VERIFIEDs and
+  // the 89 zero-hit DISPUTEDs under repaired semantics.
+  const STALE_RULE_VERIFIERS = new Set(['rule-based', 'pubmed']);
   const skipFor = (item, claimId, ph) => {
     const lv = ledger.verdicts[claimId];
-    if (lv && RETRYABLE.has(lv.verdict) && !reverifySet.has(claimId)) return false;
+    if (lv && !reverifySet.has(claimId)) {
+      if (RETRYABLE.has(lv.verdict)) return false;
+      if ((lv.verifierVersion || null) !== VERIFIER_VERSION && STALE_RULE_VERIFIERS.has(lv.verifier)) return false;
+    }
     if (ledgerCurrent(claimId, ph) && !reverifySet.has(claimId)) return true;
     if (!ledger.verdicts[claimId]) {
       // Legacy path: no ledger record — trust baked-in non-PENDING verdicts.
@@ -666,18 +671,22 @@ function verifierPriority(verifier) {
 
 // Cap the working set while keeping the retryable backlog in rotation.
 // Fresh/changed claims keep their priority order; retryable (UNVERIFIABLE)
-// claims rotate deterministically by week so a large backlog can't
-// monopolize the --max cap with the same first-N every run.
+// claims rotate deterministically so a large backlog can't monopolize the
+// --max cap with the same first-N every run. Two review fixes (#398):
+// a retryable claim whose payload CHANGED is fresh work, not backlog; and
+// the cursor advances by the admitted window per week, not by one slot.
 function capQueueWithRetryRotation(queue, ledger, max, weekSeed) {
   const rest = [];
   const retryable = [];
   for (const c of queue) {
     const lv = ledger.verdicts && ledger.verdicts[c.claimId];
-    (lv && lv.verdict === 'UNVERIFIABLE' ? retryable : rest).push(c);
+    (lv && lv.verdict === 'UNVERIFIABLE' && lv.ph === c.payloadHash ? retryable : rest).push(c);
   }
   let rotated = retryable;
   if (retryable.length > 1) {
-    const rot = ((weekSeed % retryable.length) + retryable.length) % retryable.length;
+    const weeklySlots = Math.max(1, max - rest.length);
+    const admitted = Math.max(1, Math.min(weeklySlots, retryable.length));
+    const rot = (((weekSeed * admitted) % retryable.length) + retryable.length) % retryable.length;
     rotated = retryable.slice(rot).concat(retryable.slice(0, rot));
   }
   return rest.concat(rotated).slice(0, max);
@@ -756,7 +765,21 @@ function verifyRuleBased(claim, bindingReport) {
         note: `Portal "${claim.payload.portalSlug}" is absent from the binding-fidelity report — this binding was never audited. Retryable once coverage includes it.`,
       };
     }
-    if (!pp.issues || pp.issues.length === 0) {
+    // A failed audit is not a clean audit (review on #398): the fidelity
+    // builder stores { ok: false, error } with no issues array when the
+    // portal could not be parsed. That entry means "audit did not complete",
+    // never "zero issues".
+    if (pp.ok === false || pp.error || !Array.isArray(pp.issues)) {
+      return {
+        verdict: 'UNVERIFIABLE',
+        verifier: 'rule-based',
+        evidence: [`binding-fidelity-report:audit-failed${pp.error ? ':' + String(pp.error).slice(0, 80) : ''}`],
+        confidence: 0,
+        checkedAt: new Date().toISOString(),
+        note: `Binding-fidelity audit for portal "${claim.payload.portalSlug}" failed or produced no issue list — the audit did not complete, so no verdict can issue. Retryable once the audit succeeds.`,
+      };
+    }
+    if (pp.issues.length === 0) {
       return {
         verdict: 'VERIFIED',
         verifier: 'rule-based',

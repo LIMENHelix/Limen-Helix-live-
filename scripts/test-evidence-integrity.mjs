@@ -22,6 +22,8 @@ import {
   extractCellClaims,
   payloadHash,
   recordVerdict,
+  capQueueWithRetryRotation,
+  VERIFIER_VERSION,
 } from './organ-claim-verification.mjs';
 
 let passed = 0;
@@ -35,6 +37,25 @@ const bindingClaim = {
   kind: 'binding',
   payload: { portalSlug: 'acme-portal', entityName: 'Amygdala', relationshipType: 'treats', role: 'target', confidence: 0.9 },
 };
+
+// Shared fixtures — used from the Item 2 blocks onward.
+const mkCell = (over = {}) => ({
+  cellId: 'BLA__active__trade',
+  brainNodeId: 'BLA',
+  stateBucket: 'active',
+  comparisonDomain: 'trade',
+  node: { region: 'temporal' },
+  issues: [],
+  disorders: [],
+  neuroTreatments: [],
+  domainTreatments: [],
+  portalBindings: [],
+  crossDomainAffinities: [],
+  residuals: [],
+  ...over,
+});
+const disorderItem = { id: 'd1', name: 'Exposure Therapy', mechanism: 'extinction learning', primaryNodesAffected: ['BLA'], citations: [] };
+const disorderPh = payloadHash({ id: 'd1', name: 'Exposure Therapy', mechanism: 'extinction learning', primaryNodesAffected: ['BLA'], citations: [] });
 
 // --- Item 1 ---------------------------------------------------------------
 
@@ -131,14 +152,52 @@ ok('negation about a different arm does not dispute the claim',
 ok('negation sharing a sentence with the claim still disputes',
   abstractContradicts('In this cohort, exposure therapy did not improve outcomes.', 'Exposure Therapy'));
 
-// --- Review fixes -----------------------------------------------------------
+// --- Review fixes (round 2, #398) ------------------------------------------
 
-// Retry rotation: fresh claims first, backlog rotates by week, cap respected.
+// Failed portal audit entries must not read as "audited, zero issues".
 {
-  const { capQueueWithRetryRotation } = await import('./organ-claim-verification.mjs');
+  const report = { perPortal: { 'acme-portal': { ok: false, error: 'portal JSON unparseable' } } };
+  const v = verifyRuleBased(bindingClaim, report);
+  ok('failed portal audit does not produce VERIFIED', v.verdict === 'UNVERIFIABLE');
+}
+{
+  const report = { perPortal: { 'acme-portal': { ok: true } } }; // no issues array
+  const v = verifyRuleBased(bindingClaim, report);
+  ok('audit entry with no issue list does not produce VERIFIED', v.verdict === 'UNVERIFIABLE');
+}
+
+// Superseded history keeps the full evidence trail.
+{
+  const ledger = { verdicts: {} };
+  recordVerdict(ledger, 'dx::d1', { verdict: 'DISPUTED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', evidence: ['pubmed:123'], confidence: 0.6, note: 'old rule' }, disorderPh);
+  recordVerdict(ledger, 'dx::d1', { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-02-01T00:00:00Z', evidence: ['pubmed:456'], confidence: 0.8 }, disorderPh);
+  const h = ledger.verdicts['dx::d1'].history[0];
+  ok('history retains superseded evidence and confidence',
+    h.evidence[0] === 'pubmed:123' && h.confidence === 0.6 && h.verdict === 'DISPUTED');
+}
+
+// Verdicts from pre-repair verifier rules re-enqueue even when hashes match.
+{
+  const cell = mkCell({ disorders: [{ ...disorderItem }] });
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh } } }; // no verifierVersion
+  const claims = [];
+  extractCellClaims(cell, claims, ledger);
+  ok('pre-repair pubmed verdict re-enqueues under repaired rules', claims.length === 1);
+}
+{
+  const cell = mkCell({ disorders: [{ ...disorderItem }] });
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh, verifierVersion: VERIFIER_VERSION } } };
+  const claims = [];
+  extractCellClaims(cell, claims, ledger);
+  ok('current-version verdict still skips (control)', claims.length === 0);
+}
+
+// Retry rotation: fresh claims first, changed payloads are fresh, the cursor
+// advances by the admitted window, and the backlog converges.
+{
   const ledger = { verdicts: {} };
   const fresh = [{ claimId: 'fresh-1' }, { claimId: 'fresh-2' }];
-  const retries = Array.from({ length: 10 }, (_, i) => ({ claimId: `retry-${i}` }));
+  const retries = Array.from({ length: 10 }, (_, i) => ({ claimId: `retry-${i}`, payloadHash: 'x' }));
   for (const r of retries) ledger.verdicts[r.claimId] = { verdict: 'UNVERIFIABLE', ph: 'x' };
   const queue = [...retries, ...fresh];
 
@@ -146,12 +205,9 @@ ok('negation sharing a sentence with the claim still disputes',
   ok('cap respects max', w1.length === 5);
   ok('fresh claims are not crowded out by the retry backlog', w1[0].claimId === 'fresh-1' && w1[1].claimId === 'fresh-2');
 
-  const w2 = capQueueWithRetryRotation(queue, ledger, 12, 100);
-  const w3 = capQueueWithRetryRotation(queue, ledger, 12, 101);
-  ok('rotation covers the whole backlog within the cap', w2.length === 12);
-  const firstRetry2 = w2.find((c) => c.claimId.startsWith('retry-')).claimId;
-  const firstRetry3 = w3.find((c) => c.claimId.startsWith('retry-')).claimId;
-  ok('different weeks start at different windows of the backlog', firstRetry2 !== firstRetry3);
+  const firstRetryA = capQueueWithRetryRotation(queue, ledger, 5, 100).find((c) => c.claimId.startsWith('retry-')).claimId;
+  const firstRetryB = capQueueWithRetryRotation(queue, ledger, 5, 101).find((c) => c.claimId.startsWith('retry-')).claimId;
+  ok('different weeks start at different windows of the backlog', firstRetryA !== firstRetryB);
 
   const allIds = new Set();
   for (let w = 100; w < 110; w++) {
@@ -160,6 +216,13 @@ ok('negation sharing a sentence with the claim still disputes',
     }
   }
   ok('rotation reaches every retryable claim over ten weeks', allIds.size === 10);
+
+  // A changed payload under an UNVERIFIABLE verdict is fresh work.
+  const changed = { claimId: 'retry-0', payloadHash: 'changed-hash' };
+  const w2 = capQueueWithRetryRotation([changed], ledger, 5, 100);
+  ok('changed payload under UNVERIFIABLE verdict takes the fresh lane', w2[0].claimId === 'retry-0');
+  ok('unchanged retryable stays in the rotating backlog (control)',
+    capQueueWithRetryRotation(retries, ledger, 3, 100).length === 3);
 }
 
 
@@ -167,24 +230,6 @@ ok('negation sharing a sentence with the claim still disputes',
 // A ledger verdict applies only to the exact payload it was computed from.
 // Propagation and reconciliation must both enforce that — a stale VERIFIED
 // must never display or count as current.
-
-const mkCell = (over = {}) => ({
-  cellId: 'BLA__active__trade',
-  brainNodeId: 'BLA',
-  stateBucket: 'active',
-  comparisonDomain: 'trade',
-  node: { region: 'temporal' },
-  issues: [],
-  disorders: [],
-  neuroTreatments: [],
-  domainTreatments: [],
-  portalBindings: [],
-  crossDomainAffinities: [],
-  residuals: [],
-  ...over,
-});
-const disorderItem = { id: 'd1', name: 'Exposure Therapy', mechanism: 'extinction learning', primaryNodesAffected: ['BLA'], citations: [] };
-const disorderPh = payloadHash({ id: 'd1', name: 'Exposure Therapy', mechanism: 'extinction learning', primaryNodesAffected: ['BLA'], citations: [] });
 
 // Propagation: fresh verdict applies (control).
 {
@@ -260,10 +305,12 @@ const disorderPh = payloadHash({ id: 'd1', name: 'Exposure Therapy', mechanism: 
   ok('UNVERIFIABLE with matching hash is retried (not suppressed)', claims.length === 1);
 }
 
-// VERIFIED with a matching hash is still skipped (control — no churn).
+// Current-version VERIFIED with a matching hash is still skipped (control —
+// no churn). Pre-repair entries without a verifierVersion re-enqueue by
+// design; that's tested above.
 {
   const cell = mkCell({ disorders: [{ ...disorderItem }] });
-  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh } } };
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh, verifierVersion: VERIFIER_VERSION } } };
   const claims = [];
   extractCellClaims(cell, claims, ledger);
   ok('VERIFIED with matching hash is still skipped (control)', claims.length === 0);
