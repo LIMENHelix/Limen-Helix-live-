@@ -394,4 +394,26 @@ ok('negation sharing a sentence with the claim still disputes',
   ok('reconcile completes on formerly-colliding bindings', r.uniqueCurrentClaims === 2);
 }
 
+// --- Post-merge replays (#398 follow-up) -----------------------------------
+
+// Codex's reproduced false contradiction: a semicolon-separated null
+// secondary outcome in the same sentence-line must NOT dispute.
+ok('null secondary outcome after a semicolon does not dispute',
+  !abstractContradicts('Exposure therapy improved symptoms; there was no significant difference in dropout rates', 'Exposure Therapy'));
+ok('genuine contradiction still fires (control)',
+  abstractContradicts('In this cohort, exposure therapy did not improve outcomes.', 'Exposure Therapy'));
+
+// Codex's reproduced coverage defect: 52 successive budget-50 PubMed runs
+// must tile the whole 2,582-claim fixed backlog (previously reached 662).
+{
+  const ledger = { verdicts: {} };
+  const retries = Array.from({ length: 2582 }, (_, i) => ({ claimId: `r${i}`, payloadHash: 'x', verifier: 'pubmed' }));
+  for (const r of retries) ledger.verdicts[r.claimId] = { verdict: 'UNVERIFIABLE', ph: 'x' };
+  const seen = new Set();
+  for (let w = 0; w < 52; w++) {
+    for (const c of capQueueWithRetryRotation(retries, ledger, 50, 3000 + w, ['pubmed'])) seen.add(c.claimId);
+  }
+  ok('52 budget-50 runs cover the entire 2,582-claim backlog', seen.size === 2582);
+}
+
 console.log(`\n${passed} evidence-integrity assertions passed`);

@@ -692,18 +692,26 @@ function capQueueWithRetryRotation(queue, ledger, max, weekSeed, verifierFilter)
     (lv && lv.verdict === 'UNVERIFIABLE' && lv.ph === c.payloadHash && retryLaneOk(c) ? retryable : rest).push(c);
   }
   const reservedForRetry = Math.min(retryable.length, Math.max(1, Math.floor(max / 4)));
+  const restAdmitted = rest.slice(0, max - reservedForRetry);
+  // The rotation cursor advances by the ACTUAL retry window admitted per run
+  // (post-merge replay on #398): reserving 12 but admitting 50 meant adjacent
+  // runs overlapped 38/50 claims — 662/2,582 coverage after 52 runs instead
+  // of full coverage. Advancing by the real window makes successive runs
+  // tile the backlog without overlap.
+  const retrySlots = Math.min(retryable.length, max - restAdmitted.length);
   let rotated = retryable;
-  if (retryable.length > 1) {
-    const rot = (((weekSeed * reservedForRetry) % retryable.length) + retryable.length) % retryable.length;
+  if (retryable.length > 1 && retrySlots > 0) {
+    const rot = (((weekSeed * retrySlots) % retryable.length) + retryable.length) % retryable.length;
     rotated = retryable.slice(rot).concat(retryable.slice(0, rot));
   }
-  const restCap = max - reservedForRetry;
-  const admitted = rest.slice(0, restCap).concat(rotated.slice(0, reservedForRetry));
-  // Spare capacity backfills from whichever lane has more work.
+  const admitted = restAdmitted.concat(rotated.slice(0, retrySlots));
+  // Spare capacity backfills from whichever lane has more work — continuing
+  // PAST the admitted retry window so backfill never re-serves next week's
+  // window early.
   let spare = max - admitted.length;
   if (spare > 0) {
     const seen = new Set(admitted.map((c) => c.claimId));
-    for (const c of rest.slice(restCap).concat(rotated.slice(reservedForRetry))) {
+    for (const c of rest.slice(restAdmitted.length).concat(rotated.slice(retrySlots))) {
       if (spare <= 0) break;
       if (!seen.has(c.claimId)) { admitted.push(c); seen.add(c.claimId); spare--; }
     }
@@ -1166,7 +1174,15 @@ function abstractContradicts(text, keyPhrase) {
     .replace(/[^a-z0-9 ]/g, ' ')
     .split(/\s+/)
     .filter((tok) => tok.length >= 4);
-  const sentences = String(text).split(/(?<=[.!?])\s+/);
+  // Clause-level scoping (post-merge replay on #398): semicolons and colons
+  // separate clauses just like sentence stops — "...improved symptoms; there
+  // was no significant difference in dropout rates" must NOT dispute,
+  // because the null result belongs to a different outcome in a different
+  // clause. Residual limitation, honestly noted: a negative result sharing
+  // a clause with the claim phrase still disputes even if it technically
+  // describes a secondary outcome; outcome-typed checking is a model task,
+  // not a regex one.
+  const sentences = String(text).split(/(?<=[.!?;:])\s+|\n+/);
   for (const s of sentences) {
     const n = ` ${s.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ')} `;
     const mentionsClaim = tokens.length
