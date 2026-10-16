@@ -203,23 +203,14 @@ async function main() {
     return;
   }
 
-  // If --reverify-ids set, wipe those ledger entries so they re-process
-  // instead of being skipped by the "already verified" check.
+  // If --reverify-ids set, those claims re-run regardless of skip gates —
+  // reverifySet already bypasses skipFor/staleOrNew during extraction. The
+  // previous ledger entry is NOT wiped (review on #398): recordVerdict()
+  // supersedes it with full history when the new verdict lands, and if the
+  // re-run produces PENDING (stub verifier) the prior evidence stays intact
+  // instead of silently vanishing from the ledger.
   if (ARG.reverifyIds.length) {
-    let wiped = 0;
-    for (const id of ARG.reverifyIds) {
-      if (ledger.verdicts[id]) {
-        const oldVerdict = ledger.verdicts[id].verdict;
-        ledger.stats[oldVerdict] = Math.max(0, (ledger.stats[oldVerdict] || 0) - 1);
-        const oldVerifier = ledger.verdicts[id].verifier;
-        if (ledger.stats.byVerifier[oldVerifier]) {
-          ledger.stats.byVerifier[oldVerifier] = Math.max(0, ledger.stats.byVerifier[oldVerifier] - 1);
-        }
-        delete ledger.verdicts[id];
-        wiped++;
-      }
-    }
-    console.log(`[verification-organ] --reverify-ids: wiped ${wiped} existing ledger entries`);
+    console.log(`[verification-organ] --reverify-ids: ${ARG.reverifyIds.length} claim(s) re-run this pass; existing entries are superseded with history, not wiped`);
   }
 
   // ============================================================================
@@ -257,8 +248,13 @@ async function main() {
     queue = queue.filter((c) => (seen.has(c.claimId) ? false : (seen.add(c.claimId), true)));
   }
 
-  // Apply max-claims cap
-  queue = queue.slice(0, ARG.maxClaims);
+  // Apply max-claims cap — retryable (UNVERIFIABLE) claims re-enqueue every
+  // run by design (item 3), so the backlog rotates deterministically by week:
+  // fresh claims keep priority order, and every run works a different window
+  // of the retryable backlog instead of the same first-N forever (review
+  // on #398).
+  const weekSeed = Math.floor(Date.now() / (7 * 24 * 3600 * 1000));
+  queue = capQueueWithRetryRotation(queue, ledger, ARG.maxClaims, weekSeed);
   console.log(`[verification-organ] working set this run: ${queue.length}`);
 
   if (ARG.dryRun) {
@@ -666,6 +662,25 @@ function verifierPriority(verifier) {
   // Lower = runs first
   const order = { 'rule-based': 0, 'internal-consistency': 1, websearch: 2, edgar: 3, pubmed: 4 };
   return order[verifier] !== undefined ? order[verifier] : 9;
+}
+
+// Cap the working set while keeping the retryable backlog in rotation.
+// Fresh/changed claims keep their priority order; retryable (UNVERIFIABLE)
+// claims rotate deterministically by week so a large backlog can't
+// monopolize the --max cap with the same first-N every run.
+function capQueueWithRetryRotation(queue, ledger, max, weekSeed) {
+  const rest = [];
+  const retryable = [];
+  for (const c of queue) {
+    const lv = ledger.verdicts && ledger.verdicts[c.claimId];
+    (lv && lv.verdict === 'UNVERIFIABLE' ? retryable : rest).push(c);
+  }
+  let rotated = retryable;
+  if (retryable.length > 1) {
+    const rot = ((weekSeed % retryable.length) + retryable.length) % retryable.length;
+    rotated = retryable.slice(rot).concat(retryable.slice(0, rot));
+  }
+  return rest.concat(rotated).slice(0, max);
 }
 
 // ============================================================================
@@ -1097,10 +1112,27 @@ const NEGATION_PATTERNS = [
 ];
 
 function abstractContradicts(text, keyPhrase) {
-  if (!text) return false;
-  if (keyPhrase && !checkPhraseInText(keyPhrase, text)) return false;
-  const t = ` ${String(text).toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ')} `;
-  return NEGATION_PATTERNS.some((p) => t.includes(` ${p} `));
+  if (!text || !keyPhrase) return false;
+  if (!checkPhraseInText(keyPhrase, text)) return false;
+  // Scope the negation to the claim (review on #398): a negative phrase only
+  // contradicts when it lives in the same sentence as the claim's content
+  // tokens — an abstract can report "no effect" for an unrelated arm without
+  // contradicting the claim under test.
+  const tokens = keyPhrase
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]/g, ' ')
+    .split(/\s+/)
+    .filter((tok) => tok.length >= 4);
+  const sentences = String(text).split(/(?<=[.!?])\s+/);
+  for (const s of sentences) {
+    const n = ` ${s.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ')} `;
+    const mentionsClaim = tokens.length
+      ? tokens.every((tok) => n.includes(tok))
+      : n.includes(keyPhrase.toLowerCase());
+    if (!mentionsClaim) continue;
+    if (NEGATION_PATTERNS.some((p) => n.includes(` ${p} `))) return true;
+  }
+  return false;
 }
 
 function extractTitle(abstractText) {
@@ -1272,6 +1304,7 @@ export {
   extractCellClaims,
   recomputeAggregate,
   recordVerdict,
+  capQueueWithRetryRotation,
   forEachCellClaim,
   CLAIM_SHAPES,
   VERIFIER_VERSION,

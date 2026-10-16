@@ -124,6 +124,45 @@ ok('negation guard silent on positive result', !abstractContradicts('Exposure th
 ok('negation guard requires the claim to be present', !abstractContradicts('Sertraline did not improve outcomes.', 'Exposure Therapy'));
 ok('phrase checker still passes plain mentions (control)', checkPhraseInText('Exposure Therapy', 'we studied exposure therapy in adults'));
 
+// Scoped contradiction (review on #398): negation in a sentence about an
+// unrelated arm must NOT dispute the claim under test.
+ok('negation about a different arm does not dispute the claim',
+  !abstractContradicts('Exposure therapy improved primary outcomes significantly. Sertraline did not improve secondary measures in the same cohort.', 'Exposure Therapy'));
+ok('negation sharing a sentence with the claim still disputes',
+  abstractContradicts('In this cohort, exposure therapy did not improve outcomes.', 'Exposure Therapy'));
+
+// --- Review fixes -----------------------------------------------------------
+
+// Retry rotation: fresh claims first, backlog rotates by week, cap respected.
+{
+  const { capQueueWithRetryRotation } = await import('./organ-claim-verification.mjs');
+  const ledger = { verdicts: {} };
+  const fresh = [{ claimId: 'fresh-1' }, { claimId: 'fresh-2' }];
+  const retries = Array.from({ length: 10 }, (_, i) => ({ claimId: `retry-${i}` }));
+  for (const r of retries) ledger.verdicts[r.claimId] = { verdict: 'UNVERIFIABLE', ph: 'x' };
+  const queue = [...retries, ...fresh];
+
+  const w1 = capQueueWithRetryRotation(queue, ledger, 5, 100);
+  ok('cap respects max', w1.length === 5);
+  ok('fresh claims are not crowded out by the retry backlog', w1[0].claimId === 'fresh-1' && w1[1].claimId === 'fresh-2');
+
+  const w2 = capQueueWithRetryRotation(queue, ledger, 12, 100);
+  const w3 = capQueueWithRetryRotation(queue, ledger, 12, 101);
+  ok('rotation covers the whole backlog within the cap', w2.length === 12);
+  const firstRetry2 = w2.find((c) => c.claimId.startsWith('retry-')).claimId;
+  const firstRetry3 = w3.find((c) => c.claimId.startsWith('retry-')).claimId;
+  ok('different weeks start at different windows of the backlog', firstRetry2 !== firstRetry3);
+
+  const allIds = new Set();
+  for (let w = 100; w < 110; w++) {
+    for (const c of capQueueWithRetryRotation(queue, ledger, 5, w)) {
+      if (c.claimId.startsWith('retry-')) allIds.add(c.claimId);
+    }
+  }
+  ok('rotation reaches every retryable claim over ten weeks', allIds.size === 10);
+}
+
+
 // --- Item 2 ---------------------------------------------------------------
 // A ledger verdict applies only to the exact payload it was computed from.
 // Propagation and reconciliation must both enforce that — a stale VERIFIED
