@@ -61,7 +61,7 @@
 import fs from 'fs';
 import crypto from 'crypto';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -172,7 +172,11 @@ async function main() {
     let backfilled = 0;
     for (const r of refs) {
       const lv = ledger.verdicts[r.claimId];
-      if (lv && !lv.ph) { lv.ph = r.payloadHash; backfilled++; }
+      // Legacy stamps are marked as such: the hash was backfilled onto an
+      // existing verdict (trusted migration), not attested by a verification
+      // run against that payload. The regeneration step can distinguish
+      // attested from stamped evidence via phLegacy.
+      if (lv && !lv.ph) { lv.ph = r.payloadHash; lv.phLegacy = true; backfilled++; }
     }
     if (backfilled) console.log(`[verification-organ] payload-hash backfill: stamped ${backfilled}/${refs.length} current claims`);
   }
@@ -180,10 +184,12 @@ async function main() {
   if (ARG.reconcileOnly) {
     const snapshotAt = process.env.LIMEN_SNAPSHOT_AT || new Date().toISOString();
     const sourceCommit = process.env.LIMEN_SOURCE_COMMIT || null;
+    // Propagate BEFORE reconciling (same order as the full run), so the
+    // reconciliation counts the verdicts the cube actually displays.
+    const propagated = propagateVerdictsToCube(cube, ledger);
     const reconciliation = reconcilePopulation(cube, ledger, snapshotAt, sourceCommit);
     ledger.reconciliation = reconciliation;
 
-    const propagated = propagateVerdictsToCube(cube, ledger);
     cube.verificationReconciliation = reconciliation;
     fs.writeFileSync(LEDGER_FILE, JSON.stringify(ledger, null, 2));
     fs.writeFileSync(CUBE_FILE, JSON.stringify(cube, null, 2));
@@ -197,23 +203,14 @@ async function main() {
     return;
   }
 
-  // If --reverify-ids set, wipe those ledger entries so they re-process
-  // instead of being skipped by the "already verified" check.
+  // If --reverify-ids set, those claims re-run regardless of skip gates —
+  // reverifySet already bypasses skipFor/staleOrNew during extraction. The
+  // previous ledger entry is NOT wiped (review on #398): recordVerdict()
+  // supersedes it with full history when the new verdict lands, and if the
+  // re-run produces PENDING (stub verifier) the prior evidence stays intact
+  // instead of silently vanishing from the ledger.
   if (ARG.reverifyIds.length) {
-    let wiped = 0;
-    for (const id of ARG.reverifyIds) {
-      if (ledger.verdicts[id]) {
-        const oldVerdict = ledger.verdicts[id].verdict;
-        ledger.stats[oldVerdict] = Math.max(0, (ledger.stats[oldVerdict] || 0) - 1);
-        const oldVerifier = ledger.verdicts[id].verifier;
-        if (ledger.stats.byVerifier[oldVerifier]) {
-          ledger.stats.byVerifier[oldVerifier] = Math.max(0, ledger.stats.byVerifier[oldVerifier] - 1);
-        }
-        delete ledger.verdicts[id];
-        wiped++;
-      }
-    }
-    console.log(`[verification-organ] --reverify-ids: wiped ${wiped} existing ledger entries`);
+    console.log(`[verification-organ] --reverify-ids: ${ARG.reverifyIds.length} claim(s) re-run this pass; existing entries are superseded with history, not wiped`);
   }
 
   // ============================================================================
@@ -251,8 +248,13 @@ async function main() {
     queue = queue.filter((c) => (seen.has(c.claimId) ? false : (seen.add(c.claimId), true)));
   }
 
-  // Apply max-claims cap
-  queue = queue.slice(0, ARG.maxClaims);
+  // Apply max-claims cap — retryable (UNVERIFIABLE) claims re-enqueue every
+  // run by design (item 3), so the backlog rotates deterministically by week:
+  // fresh claims keep priority order, and every run works a different window
+  // of the retryable backlog instead of the same first-N forever (review
+  // on #398).
+  const weekSeed = Math.floor(Date.now() / (7 * 24 * 3600 * 1000));
+  queue = capQueueWithRetryRotation(queue, ledger, ARG.maxClaims, weekSeed, ARG.verifierFilter);
   console.log(`[verification-organ] working set this run: ${queue.length}`);
 
   if (ARG.dryRun) {
@@ -296,7 +298,7 @@ async function main() {
     // Never persist a PENDING verdict: the record would make the extractor
     // skip the claim forever, even after the real verifier is enabled.
     if (verdict.verdict !== 'PENDING') {
-      ledger.verdicts[claim.claimId] = { ...verdict, ph: claim.payloadHash };
+      recordVerdict(ledger, claim.claimId, verdict, claim.payloadHash);
     }
     ledger.stats[verdict.verdict] = (ledger.stats[verdict.verdict] || 0) + 1;
     ledger.stats.byVerifier[verdict.verifier] = (ledger.stats.byVerifier[verdict.verifier] || 0) + 1;
@@ -401,6 +403,26 @@ function recomputeLedgerStats(verdicts) {
   return stats;
 }
 
+// Write a verdict while preserving history (audit 2026-10-16, item 3).
+// A superseded verdict is never erased: it moves into a bounded history
+// array (newest-last) with the hash and verifier version it was computed
+// under, so every claim keeps its full attempt trail.
+function recordVerdict(ledger, claimId, verdict, ph) {
+  const prev = ledger.verdicts[claimId];
+  const entry = { ...verdict, ph, verifierVersion: VERIFIER_VERSION };
+  if (prev) {
+    // Retain the COMPLETE prior verdict — evidence and confidence included
+    // (review on #398): the PMID/query or audit source that justified the
+    // superseded decision is exactly what an audit trail must keep. Only
+    // nested history is excluded to bound depth.
+    const { history: _nested, ...prevSnapshot } = prev;
+    entry.history = [...(prev.history || []), prevSnapshot].slice(-10);
+    entry.supersedes = prev.checkedAt || null;
+  }
+  ledger.verdicts[claimId] = entry;
+  return entry;
+}
+
 function collectCurrentClaims(cube) {
   const claims = new Map();
   const add = (claimId, item) => {
@@ -415,17 +437,9 @@ function collectCurrentClaims(cube) {
   };
 
   for (const cell of cube.cells || []) {
-    for (const item of cell.issues || []) add(`iss::${item.id}`, item);
-    for (const item of cell.disorders || []) add(`dx::${item.id}`, item);
-    for (const item of cell.neuroTreatments || []) add(`ntx::${item.id}`, item);
-    for (const item of cell.domainTreatments || []) add(`dtx::${item.id}`, item);
-    for (const item of cell.portalBindings || []) {
-      add(`bind::${cell.cellId}::${item.portalSlug}::${item.relationshipType}::${item.entityName}`, item);
-    }
-    for (const item of cell.crossDomainAffinities || []) {
-      add(`aff::${cell.cellId}::${item.toDomain}::${item.toRole}`, item);
-    }
-    for (const item of cell.residuals || []) add(`res::${item.id}`, item);
+    // Identity comes from CLAIM_SHAPES — the same definition extraction and
+    // propagation use — so a claim id can never mean two different payloads.
+    forEachCellClaim(cell, (kind, shape, item, cellId) => add(shape.id(item, cellId), item));
   }
   return claims;
 }
@@ -439,30 +453,133 @@ function reconcilePopulation(cube, ledger, snapshotAt, sourceCommit) {
   const currentWithoutLedger = [...currentIds].filter((id) => !ledger.verdicts[id]);
   const effectiveCurrentByVerdict = emptyVerdictCounts();
 
+  // APPLICABILITY (audit 2026-10-16, item 2): a ledger verdict counts as the
+  // effective current verdict only when it was computed against the claim's
+  // CURRENT payload (hash match). A stale or unattested verdict remains
+  // preserved in the ledger but counts as PENDING here — the claim is
+  // awaiting re-verification and must not be tallied under its old label.
+  const currentPh = new Map();
+  for (const cell of cube.cells || []) {
+    forEachCellClaim(cell, (kind, shape, item, cellId) => {
+      const id = shape.id(item, cellId);
+      if (!currentPh.has(id)) currentPh.set(id, payloadHash(shape.payload(item)));
+    });
+  }
+
+  let staleLedgerVerdicts = 0;
+  let olderVerifierRules = 0;
   for (const [claimId, sourceVerdict] of currentClaims) {
-    const effective = (ledger.verdicts[claimId] && ledger.verdicts[claimId].verdict) || sourceVerdict;
+    const lv = ledger.verdicts[claimId];
+    let effective = sourceVerdict;
+    if (lv) {
+      const ph = currentPh.get(claimId);
+      if (lv.ph && ph && lv.ph === ph) {
+        effective = lv.verdict;
+      } else {
+        effective = 'PENDING';
+        staleLedgerVerdicts++;
+      }
+      if ((lv.verifierVersion || null) !== VERIFIER_VERSION) olderVerifierRules++;
+    }
     effectiveCurrentByVerdict[effective] = (effectiveCurrentByVerdict[effective] || 0) + 1;
   }
 
   ledger.stats = recomputeLedgerStats(ledger.verdicts || {});
   return {
-    schemaVersion: 'verification-reconciliation/1.0',
+    schemaVersion: 'verification-reconciliation/1.1',
     snapshotAt,
     sourceCommit,
+    verifierVersion: VERIFIER_VERSION,
     uniqueCurrentClaims: currentClaims.size,
     matchedLedgerClaims: matchedIds.length,
     currentClaimsWithoutLedger: currentWithoutLedger.length,
     archivedLedgerClaims: archivedIds.length,
+    staleLedgerVerdicts,
+    verdictsFromOlderVerifierRules: olderVerifierRules,
     effectiveCurrentByVerdict,
     ledgerAllTimeByVerdict: Object.fromEntries(
       Object.entries(ledger.stats).filter(([key]) => key !== 'byVerifier')
     ),
     note:
       'Current claims are the unique claim-id population in this cube snapshot. ' +
+      'A ledger verdict counts as effective only when its payload hash matches the current claim payload; ' +
+      'stale or unattested verdicts count as PENDING (awaiting re-verification) and are tallied in staleLedgerVerdicts. ' +
       'Archived ledger claims are preserved evidence whose ids no longer occur in the current cube; ' +
       'they are not counted as current rendered claims.',
   };
 }
+
+// ============================================================================
+// CLAIM SHAPES — identity + verification payload, defined exactly once
+// ============================================================================
+// Extraction (staleness detection), propagation (freshness), and
+// reconciliation (applicability) must all hash the SAME payload for a claim,
+// or a verdict silently rides on content it was never computed from. Adding
+// or changing a claim kind means editing this table — nowhere else.
+const CLAIM_SHAPES = {
+  issue: {
+    collection: 'issues',
+    id: (i) => `iss::${i.id}`,
+    payload: (i) => ({ id: i.id, symptom: i.symptom, sourceType: i.sourceType, sourceFile: i.sourceFile, severity: i.severity }),
+  },
+  disorder: {
+    collection: 'disorders',
+    id: (d) => `dx::${d.id}`,
+    payload: (d) => ({ id: d.id, name: d.name, mechanism: d.mechanism, primaryNodesAffected: d.primaryNodesAffected, citations: d.citations }),
+  },
+  'neuro-treatment': {
+    collection: 'neuroTreatments',
+    id: (t) => `ntx::${t.id}`,
+    payload: (t) => ({ id: t.id, name: t.name, type: t.type, citations: t.citations }),
+  },
+  'domain-treatment': {
+    collection: 'domainTreatments',
+    id: (t) => `dtx::${t.id}`,
+    payload: (t) => ({ id: t.id, name: t.name, type: t.type, description: t.description, side: t.side }),
+  },
+  binding: {
+    collection: 'portalBindings',
+    // Role is part of the identity (review on #398): the cube contains
+    // bindings that share cell/portal/relType/entity but differ in role —
+    // without it, two payloads share one claim id, per-occurrence freshness
+    // applies a verdict to one and stale-marks the other, and
+    // collectCurrentClaims then aborts the run on the conflict.
+    id: (b, cellId) => `bind::${cellId}::${b.portalSlug}::${b.relationshipType}::${b.entityName}::${b.role}`,
+    payload: (b) => ({ portalSlug: b.portalSlug, entityName: b.entityName, relationshipType: b.relationshipType, role: b.role, confidence: b.confidence }),
+  },
+  affinity: {
+    collection: 'crossDomainAffinities',
+    id: (a, cellId) => `aff::${cellId}::${a.toDomain}::${a.toRole}`,
+    payload: (a) => ({ toDomain: a.toDomain, toRole: a.toRole }),
+  },
+  residual: {
+    collection: 'residuals',
+    id: (r) => `res::${r.id}`,
+    payload: (r) => ({ id: r.id, direction: r.direction, sourceTreatmentName: r.sourceTreatment?.name, candidatePort: r.candidatePort }),
+  },
+};
+
+const KIND_VERIFIER = {
+  issue: (i) => i.verification?.verifier || 'websearch',
+  disorder: () => 'pubmed',
+  'neuro-treatment': () => 'pubmed',
+  'domain-treatment': () => 'websearch',
+  binding: () => 'rule-based',
+  affinity: () => 'internal-consistency',
+  residual: (r) => (r.direction === 'NEURO_TO_DOMAIN' ? 'websearch' : 'pubmed'),
+};
+
+function forEachCellClaim(cell, cb) {
+  for (const [kind, shape] of Object.entries(CLAIM_SHAPES)) {
+    for (const item of cell[shape.collection] || []) cb(kind, shape, item, cell.cellId);
+  }
+}
+
+// Verdicts written by this build are stamped with this version. Records
+// predating it are reported by reconcilePopulation so the regeneration step
+// can see exactly how much of the ledger predates the evidence-integrity
+// repair — without auto-invalidating them mid-pipeline.
+const VERIFIER_VERSION = 'claim-verification/2026-10-16.ei1';
 
 function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collectOnly = false) {
   // Each claim is a (claimId, kind, verifier, payload, cell context) tuple.
@@ -498,7 +615,24 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collec
     if (lv && lv.ph !== ph && !reverifySet.has(claimId)) stalePayloadCount++;
     return !ledgerCurrent(claimId, ph);
   };
+  // UNVERIFIABLE means we could not examine the claim — it is retryable
+  // forever (audit 2026-10-16, item 3). Previously a matching payload hash
+  // permanently suppressed retries, stranding thousands of unexamined
+  // claims under a hash that proved nothing.
+  const RETRYABLE = new Set(['UNVERIFIABLE']);
+  // Verdicts produced before the evidence-integrity repair by verifiers
+  // whose semantics changed re-enqueue even when the payload hash matches —
+  // a hash match proves the content is unchanged, not that the old rules
+  // were sound (review on #398). This is what lets the post-merge
+  // regeneration re-evaluate the 150 unsupported rule-based VERIFIEDs and
+  // the 89 zero-hit DISPUTEDs under repaired semantics.
+  const STALE_RULE_VERIFIERS = new Set(['rule-based', 'pubmed']);
   const skipFor = (item, claimId, ph) => {
+    const lv = ledger.verdicts[claimId];
+    if (lv && !reverifySet.has(claimId)) {
+      if (RETRYABLE.has(lv.verdict)) return false;
+      if ((lv.verifierVersion || null) !== VERIFIER_VERSION && STALE_RULE_VERIFIERS.has(lv.verifier)) return false;
+    }
     if (ledgerCurrent(claimId, ph) && !reverifySet.has(claimId)) return true;
     if (!ledger.verdicts[claimId]) {
       // Legacy path: no ledger record — trust baked-in non-PENDING verdicts.
@@ -508,137 +642,73 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collec
     return false;
   };
 
-  // Issues
-  for (const iss of cell.issues || []) {
-    const claimId = `iss::${iss.id}`;
-    const payload = { id: iss.id, symptom: iss.symptom, sourceType: iss.sourceType, sourceFile: iss.sourceFile, severity: iss.severity };
+  forEachCellClaim(cell, (kind, shape, item, cellId) => {
+    const claimId = shape.id(item, cellId);
+    const payload = shape.payload(item);
     const ph = payloadHash(payload);
-    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
-    if (skipFor(iss, claimId, ph)) continue;
-    staleOrNew(iss, claimId, ph);
+    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); return; }
+    if (skipFor(item, claimId, ph)) return;
+    staleOrNew(item, claimId, ph);
     claims.push({
       claimId,
-      kind: 'issue',
-      verifier: iss.verification.verifier || 'websearch',
+      kind,
+      verifier: KIND_VERIFIER[kind](item),
       payload,
       payloadHash: ph,
       ...ctx,
     });
-  }
-
-  // Disorders
-  for (const d of cell.disorders || []) {
-    const claimId = `dx::${d.id}`;
-    const payload = { id: d.id, name: d.name, mechanism: d.mechanism, primaryNodesAffected: d.primaryNodesAffected, citations: d.citations };
-    const ph = payloadHash(payload);
-    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
-    if (skipFor(d, claimId, ph)) continue;
-    staleOrNew(d, claimId, ph);
-    claims.push({
-      claimId,
-      kind: 'disorder',
-      verifier: 'pubmed',
-      payload,
-      payloadHash: ph,
-      ...ctx,
-    });
-  }
-
-  // Neuro treatments
-  for (const t of cell.neuroTreatments || []) {
-    const claimId = `ntx::${t.id}`;
-    const payload = { id: t.id, name: t.name, type: t.type, citations: t.citations };
-    const ph = payloadHash(payload);
-    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
-    if (skipFor(t, claimId, ph)) continue;
-    staleOrNew(t, claimId, ph);
-    claims.push({
-      claimId,
-      kind: 'neuro-treatment',
-      verifier: 'pubmed',
-      payload,
-      payloadHash: ph,
-      ...ctx,
-    });
-  }
-
-  // Domain treatments
-  for (const t of cell.domainTreatments || []) {
-    const claimId = `dtx::${t.id}`;
-    const payload = { id: t.id, name: t.name, type: t.type, description: t.description, side: t.side };
-    const ph = payloadHash(payload);
-    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
-    if (skipFor(t, claimId, ph)) continue;
-    staleOrNew(t, claimId, ph);
-    claims.push({
-      claimId,
-      kind: 'domain-treatment',
-      verifier: 'websearch',
-      payload,
-      payloadHash: ph,
-      ...ctx,
-    });
-  }
-
-  // Portal bindings
-  for (const b of cell.portalBindings || []) {
-    const claimId = `bind::${ctx.cellId}::${b.portalSlug}::${b.relationshipType}::${b.entityName}`;
-    const payload = { portalSlug: b.portalSlug, entityName: b.entityName, relationshipType: b.relationshipType, role: b.role, confidence: b.confidence };
-    const ph = payloadHash(payload);
-    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
-    if (skipFor(b, claimId, ph)) continue;
-    staleOrNew(b, claimId, ph);
-    claims.push({
-      claimId,
-      kind: 'binding',
-      verifier: 'rule-based',
-      payload,
-      payloadHash: ph,
-      ...ctx,
-    });
-  }
-
-  // Cross-domain affinities
-  for (const aff of cell.crossDomainAffinities || []) {
-    const claimId = `aff::${ctx.cellId}::${aff.toDomain}::${aff.toRole}`;
-    const payload = { toDomain: aff.toDomain, toRole: aff.toRole };
-    const ph = payloadHash(payload);
-    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
-    if (skipFor(aff, claimId, ph)) continue;
-    staleOrNew(aff, claimId, ph);
-    claims.push({
-      claimId,
-      kind: 'affinity',
-      verifier: 'internal-consistency',
-      payload,
-      payloadHash: ph,
-      ...ctx,
-    });
-  }
-
-  // Residuals
-  for (const r of cell.residuals || []) {
-    const claimId = `res::${r.id}`;
-    const payload = { id: r.id, direction: r.direction, sourceTreatmentName: r.sourceTreatment?.name, candidatePort: r.candidatePort };
-    const ph = payloadHash(payload);
-    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
-    if (skipFor(r, claimId, ph)) continue;
-    staleOrNew(r, claimId, ph);
-    claims.push({
-      claimId,
-      kind: 'residual',
-      verifier: r.direction === 'NEURO_TO_DOMAIN' ? 'websearch' : 'pubmed',
-      payload,
-      payloadHash: ph,
-      ...ctx,
-    });
-  }
+  });
 }
 
 function verifierPriority(verifier) {
   // Lower = runs first
   const order = { 'rule-based': 0, 'internal-consistency': 1, websearch: 2, edgar: 3, pubmed: 4 };
   return order[verifier] !== undefined ? order[verifier] : 9;
+}
+
+// Cap the working set while keeping the retryable backlog in rotation.
+// Fresh/changed claims keep their priority order; retryable (UNVERIFIABLE)
+// claims rotate deterministically so a large backlog can't monopolize the
+// --max cap with the same first-N every run. Two review fixes (#398):
+// a retryable claim whose payload CHANGED is fresh work, not backlog; and
+// the cursor advances by the admitted window per week, not by one slot.
+// A quarter of the cap is reserved for the retry backlog so a full fresh
+// queue can never starve it to zero (review round 3).
+function capQueueWithRetryRotation(queue, ledger, max, weekSeed, verifierFilter) {
+  // A zero budget means zero claims (review round 3, #398) — without this,
+  // the reserved-slot math turns slice(0, -1) into "almost everything".
+  if (max <= 0) return [];
+  // Lane discipline: the scheduled general run has no filter and drains the
+  // cheap rule-based/affinity front; the PubMed queue has its own reserved
+  // invocation. Retries only join the reserved window for verifiers this
+  // invocation is meant to serve — otherwise PubMed retries would ride the
+  // general lane AND the pubmed lane, double-spending the budget.
+  const lane = verifierFilter && verifierFilter.length ? new Set(verifierFilter) : null;
+  const retryLaneOk = (c) => (lane ? lane.has(c.verifier) : c.verifier !== 'pubmed');
+  const rest = [];
+  const retryable = [];
+  for (const c of queue) {
+    const lv = ledger.verdicts && ledger.verdicts[c.claimId];
+    (lv && lv.verdict === 'UNVERIFIABLE' && lv.ph === c.payloadHash && retryLaneOk(c) ? retryable : rest).push(c);
+  }
+  const reservedForRetry = Math.min(retryable.length, Math.max(1, Math.floor(max / 4)));
+  let rotated = retryable;
+  if (retryable.length > 1) {
+    const rot = (((weekSeed * reservedForRetry) % retryable.length) + retryable.length) % retryable.length;
+    rotated = retryable.slice(rot).concat(retryable.slice(0, rot));
+  }
+  const restCap = max - reservedForRetry;
+  const admitted = rest.slice(0, restCap).concat(rotated.slice(0, reservedForRetry));
+  // Spare capacity backfills from whichever lane has more work.
+  let spare = max - admitted.length;
+  if (spare > 0) {
+    const seen = new Set(admitted.map((c) => c.claimId));
+    for (const c of rest.slice(restCap).concat(rotated.slice(reservedForRetry))) {
+      if (spare <= 0) break;
+      if (!seen.has(c.claimId)) { admitted.push(c); seen.add(c.claimId); spare--; }
+    }
+  }
+  return admitted;
 }
 
 // ============================================================================
@@ -678,11 +748,58 @@ async function dispatch(claim, cube, bindingReport) {
  *
  * For BINDINGS: checks (brainNodeId, role) consistency against
  * binding-fidelity-report.json which already audited this.
+ *
+ * EVIDENCE-INTEGRITY (audit 2026-10-16, item 1): a verdict of VERIFIED
+ * requires audit COVERAGE, not merely the absence of flagged issues. A
+ * missing report — or a portal absent from the report — means this binding
+ * was never audited at all, so the correct verdict is UNVERIFIABLE
+ * (retryable), not VERIFIED. Previously the missing-coverage path fell
+ * through to VERIFIED, which is how 150 October 12 records were marked
+ * verified with no supporting audit.
  */
 function verifyRuleBased(claim, bindingReport) {
   if (claim.kind === 'binding') {
-    const pp = bindingReport.perPortal?.[claim.payload.portalSlug];
-    if (!pp || pp.issues?.length === 0) {
+    const perPortal =
+      bindingReport && typeof bindingReport.perPortal === 'object' && bindingReport.perPortal !== null
+        ? bindingReport.perPortal
+        : null;
+    if (!perPortal || Object.keys(perPortal).length === 0) {
+      return {
+        verdict: 'UNVERIFIABLE',
+        verifier: 'rule-based',
+        evidence: [],
+        confidence: 0,
+        checkedAt: new Date().toISOString(),
+        note: 'binding-fidelity report is missing — no audit coverage exists for any portal; retryable once the audit runs.',
+      };
+    }
+    const pp = perPortal[claim.payload.portalSlug];
+    if (!pp) {
+      return {
+        verdict: 'UNVERIFIABLE',
+        verifier: 'rule-based',
+        evidence: ['binding-fidelity-report:portal-not-covered'],
+        confidence: 0,
+        checkedAt: new Date().toISOString(),
+        note: `Portal "${claim.payload.portalSlug}" is absent from the binding-fidelity report — this binding was never audited. Retryable once coverage includes it.`,
+      };
+    }
+    // A failed audit is not a clean audit (review on #398): the fidelity
+    // builder stores { error } with no issues array when the portal could
+    // not be parsed. That entry means "audit did not complete", never "zero
+    // issues". Note: ok:false alone means issues were FOUND (the scan
+    // completed) — those portals flow through to the issue matching below.
+    if (pp.error || !Array.isArray(pp.issues)) {
+      return {
+        verdict: 'UNVERIFIABLE',
+        verifier: 'rule-based',
+        evidence: [`binding-fidelity-report:audit-failed${pp.error ? ':' + String(pp.error).slice(0, 80) : ''}`],
+        confidence: 0,
+        checkedAt: new Date().toISOString(),
+        note: `Binding-fidelity audit for portal "${claim.payload.portalSlug}" failed or produced no issue list — the audit did not complete, so no verdict can issue. Retryable once the audit succeeds.`,
+      };
+    }
+    if (pp.issues.length === 0) {
       return {
         verdict: 'VERIFIED',
         verifier: 'rule-based',
@@ -776,12 +893,18 @@ function verifyAffinity(claim, cube) {
  *      phrase. PASS if the phrase appears literally OR all content tokens
  *      appear within an 80-character window. UNVERIFIABLE otherwise.
  *
- * Verdict semantics under tightening:
+ * Verdict semantics under tightening (CORRECTED 2026-10-16, audit item 4):
  *   VERIFIED     — esearch hit ≥ 1 article AND top abstract passes substring
- *   DISPUTED     — esearch returned 0 articles for this query
- *   UNVERIFIABLE — esearch hit but abstract substring check failed (the
- *                  query is finding articles that don't actually support
- *                  the claim — i.e. the previous loose-query failure mode)
+ *                  AND the abstract carries no explicit negative-result
+ *                  language (a citation that says "did not improve" is
+ *                  contradiction evidence, not support)
+ *   DISPUTED     — the top abstract names the claim but reports a negative
+ *                  result; contradiction is scoped to that citation — a
+ *                  single study disputes support, it does not refute the claim
+ *   UNVERIFIABLE — esearch returned 0 articles (absence of evidence is NOT
+ *                  evidence of absence; zero hits means we could not examine
+ *                  the claim, so it belongs to UNKNOWN, never IMPOSSIBLE),
+ *                  or esearch hit but the abstract substring check failed
  */
 async function verifyPubMed(claim) {
   const query = buildPubMedQuery(claim);
@@ -805,12 +928,12 @@ async function verifyPubMed(claim) {
     const ids = data.esearchresult?.idlist || [];
     if (ids.length === 0) {
       return {
-        verdict: 'DISPUTED',
+        verdict: 'UNVERIFIABLE',
         verifier: 'pubmed',
         evidence: [`query:${query}`],
-        confidence: 0.6,
+        confidence: 0.2,
         checkedAt: new Date().toISOString(),
-        note: 'PubMed returned 0 articles for tightened query — possibly fabricated, mis-cited, or named protocol does not exist.',
+        note: 'PubMed returned 0 articles for the tightened query — the claim could not be examined, so it stays UNKNOWN/retryable. Zero hits is not a contradiction: the citation may be mis-cited, the protocol renamed, or the query too tight.',
       };
     }
 
@@ -849,6 +972,17 @@ async function verifyPubMed(claim) {
         confidence: 0.3,
         checkedAt: new Date().toISOString(),
         note: `esearch returned ${ids.length} article(s) but top PMID ${topPmid}'s title+abstract does not contain claim phrase "${keyPhrase}" (literal or token-proximate). Loose-query match. Article: ${extractTitle(abstractText).substring(0, 140)}`,
+      };
+    }
+
+    if (abstractContradicts(abstractText, keyPhrase)) {
+      return {
+        verdict: 'DISPUTED',
+        verifier: 'pubmed',
+        evidence: [`top-pmid:${topPmid}`, `query:${query}`],
+        confidence: 0.5,
+        checkedAt: new Date().toISOString(),
+        note: `Top PMID ${topPmid} names claim phrase "${keyPhrase}" but reports a negative result — this citation contradicts support for the claim as stated. Single-study contradiction scoped to this citation; the underlying claim is disputed, not refuted. Title: ${extractTitle(abstractText).substring(0, 120)}`,
       };
     }
 
@@ -1001,6 +1135,49 @@ function checkPhraseInText(phrase, text) {
   return false;
 }
 
+/**
+ * Negation guard (audit 2026-10-16, item 4b). checkPhraseInText proves the
+ * abstract is ABOUT the claim; it says nothing about the direction of the
+ * result. An abstract reading "X did not improve outcomes" passed the phrase
+ * check verbatim and was stamped VERIFIED. This helper detects explicit
+ * negative-result language so a contradictory citation is treated as
+ * contradiction evidence (DISPUTED, scoped to that citation) instead of
+ * support. Deliberately conservative: only unambiguous failure phrases count,
+ * and only when the claim phrase itself is present in the text.
+ */
+const NEGATION_PATTERNS = [
+  'did not improve', 'does not improve', 'do not improve',
+  'failed to improve', 'failed to show', 'failed to demonstrate',
+  'no significant improvement', 'no significant difference', 'no significant effect',
+  'no improvement', 'no effect', 'no benefit',
+  'not effective', 'not superior', 'did not reduce',
+  'not associated with improvement', 'no evidence of benefit',
+];
+
+function abstractContradicts(text, keyPhrase) {
+  if (!text || !keyPhrase) return false;
+  if (!checkPhraseInText(keyPhrase, text)) return false;
+  // Scope the negation to the claim (review on #398): a negative phrase only
+  // contradicts when it lives in the same sentence as the claim's content
+  // tokens — an abstract can report "no effect" for an unrelated arm without
+  // contradicting the claim under test.
+  const tokens = keyPhrase
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]/g, ' ')
+    .split(/\s+/)
+    .filter((tok) => tok.length >= 4);
+  const sentences = String(text).split(/(?<=[.!?])\s+/);
+  for (const s of sentences) {
+    const n = ` ${s.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ')} `;
+    const mentionsClaim = tokens.length
+      ? tokens.every((tok) => n.includes(tok))
+      : n.includes(keyPhrase.toLowerCase());
+    if (!mentionsClaim) continue;
+    if (NEGATION_PATTERNS.some((p) => n.includes(` ${p} `))) return true;
+  }
+  return false;
+}
+
 function extractTitle(abstractText) {
   // efetch text format: first non-author non-DOI line is usually the title
   const lines = String(abstractText).split('\n').map((l) => l.trim()).filter(Boolean);
@@ -1060,35 +1237,42 @@ async function verifyEdgar(claim) {
 
 function propagateVerdictsToCube(cube, ledger) {
   let count = 0;
+  let staleCount = 0;
   for (const cell of cube.cells) {
-    count += applyToCollection(cell.issues, ledger, (i) => `iss::${i.id}`);
-    count += applyToCollection(cell.disorders, ledger, (d) => `dx::${d.id}`);
-    count += applyToCollection(cell.neuroTreatments, ledger, (t) => `ntx::${t.id}`);
-    count += applyToCollection(cell.domainTreatments, ledger, (t) => `dtx::${t.id}`);
-    count += applyToCollection(cell.portalBindings, ledger, (b) =>
-      `bind::${cell.cellId}::${b.portalSlug}::${b.relationshipType}::${b.entityName}`
-    );
-    count += applyToCollection(cell.crossDomainAffinities, ledger, (a) =>
-      `aff::${cell.cellId}::${a.toDomain}::${a.toRole}`
-    );
-    count += applyToCollection(cell.residuals, ledger, (r) => `res::${r.id}`);
+    forEachCellClaim(cell, (kind, shape, item, cellId) => {
+      const cid = shape.id(item, cellId);
+      const lv = ledger.verdicts[cid];
+      if (!lv) return;
+      // APPLICABILITY (audit 2026-10-16, item 2): a verdict covers only the
+      // exact payload it was computed from. A source edit under a preserved
+      // id flips the hash, and the old verdict must NOT display on changed
+      // content — a claim awaiting re-verification is shown as such, with
+      // the prior verdict referenced but not presented as current truth.
+      if (lv.ph && lv.ph === payloadHash(shape.payload(item))) {
+        item.verification = lv;
+        count++;
+      } else {
+        item.verification = {
+          verdict: 'PENDING',
+          verifier: lv.verifier || 'unknown',
+          evidence: [],
+          confidence: 0,
+          checkedAt: null,
+          stale: true,
+          previousVerdict: lv.verdict,
+          previousCheckedAt: lv.checkedAt || null,
+          note: 'Payload changed since the ledger verdict was computed — awaiting re-verification. The prior verdict is preserved in the ledger but not presented as current.',
+        };
+        staleCount++;
+      }
+    });
     // Recompute aggregate
     cell.verification = recomputeAggregate(cell);
   }
-  return count;
-}
-
-function applyToCollection(coll, ledger, idFn) {
-  if (!Array.isArray(coll)) return 0;
-  let n = 0;
-  for (const item of coll) {
-    const cid = idFn(item);
-    if (ledger.verdicts[cid]) {
-      item.verification = ledger.verdicts[cid];
-      n++;
-    }
+  if (staleCount) {
+    console.log(`[verification-organ] ${staleCount} occurrence(s) held stale verdicts (payload changed) — marked PENDING for re-verification`);
   }
-  return n;
+  return count;
 }
 
 function recomputeAggregate(cell) {
@@ -1140,7 +1324,31 @@ function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-main().catch((err) => {
-  console.error('[verification-organ] FAILED:', err.stack || err);
-  process.exit(1);
-});
+const IS_CLI = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+if (IS_CLI) {
+  main().catch((err) => {
+    console.error('[verification-organ] FAILED:', err.stack || err);
+    process.exit(1);
+  });
+}
+
+// Exported for the evidence-integrity test suite (scripts/test-evidence-integrity.js).
+// The CLI behavior above is unchanged; importing this module does not run main().
+export {
+  verifyRuleBased,
+  verifyPubMed,
+  checkPhraseInText,
+  abstractContradicts,
+  claimKeyPhrase,
+  payloadHash,
+  stableStringify,
+  propagateVerdictsToCube,
+  reconcilePopulation,
+  extractCellClaims,
+  recomputeAggregate,
+  recordVerdict,
+  capQueueWithRetryRotation,
+  forEachCellClaim,
+  CLAIM_SHAPES,
+  VERIFIER_VERSION,
+};

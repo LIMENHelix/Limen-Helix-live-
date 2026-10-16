@@ -27,6 +27,7 @@ const ROOT = process.cwd();
 const SCOPES = [
   'assets/data/treatment-discovery',
   'assets/data/audit/verification-ledger.json',
+  'assets/data/audit/binding-fidelity-report.json',
   'assets/data/audit/cube-unresolved-ids.json',
   'assets/data/audit/discovery-store-reconciliation.json',
   'assets/data/_master-inbox.json',

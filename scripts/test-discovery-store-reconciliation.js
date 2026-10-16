@@ -42,7 +42,11 @@ ok('ledger verifier rollup equals its record population',
   JSON.stringify(sort(byVerifier)) === JSON.stringify(sort(ledger.stats.byVerifier)));
 
 const rec = ledger.reconciliation;
-ok('ledger carries a versioned current-snapshot reconciliation', rec?.schemaVersion === 'verification-reconciliation/1.0');
+// 1.0 = pre-repair snapshots; 1.1 = evidence-integrity repair (stale verdicts
+// count PENDING). Accept both so the committed artifact (1.0) passes today
+// and the CI refresh (which writes 1.1) passes after regeneration.
+ok('ledger carries a versioned current-snapshot reconciliation',
+  rec?.schemaVersion === 'verification-reconciliation/1.0' || rec?.schemaVersion === 'verification-reconciliation/1.1');
 ok('current claims partition into matched plus no-ledger claims',
   rec.uniqueCurrentClaims === rec.matchedLedgerClaims + rec.currentClaimsWithoutLedger);
 ok('all-time ledger partitions into current matches plus archived evidence',
