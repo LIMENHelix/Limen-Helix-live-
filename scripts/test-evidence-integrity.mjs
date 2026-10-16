@@ -439,6 +439,16 @@ ok('pronoun after a sentence break belongs to the new subject',
 ok('passive marker in a fresh sentence about another outcome does not dispute',
   !abstractContradicts('Exposure therapy improved symptoms. No significant difference was observed in dropout rates.', 'Exposure Therapy'));
 
+// Carry-over limits within a sentence (review round 3, #399): a mid-clause
+// pronoun belongs to the clause's own subject, and arm-equivalence phrases
+// are not directional failures.
+ok('mid-clause pronoun for another subject does not carry over',
+  !abstractContradicts('Exposure therapy improved symptoms; sertraline was tested but it did not improve outcomes', 'Exposure Therapy'));
+ok('arm-equivalence phrase in a continuation does not dispute',
+  !abstractContradicts('Exposure therapy improved symptoms; no significant difference was observed in dropout rates', 'Exposure Therapy'));
+ok('decimal points do not split a clause',
+  abstractContradicts('Exposure therapy produced an effect size of 0.2 and did not improve outcomes', 'Exposure Therapy'));
+
 // Codex's reproduced coverage defect, now with turnover: 52 successive
 // budget-50 PubMed runs must reach every claim even while half of each
 // admitted batch resolves terminally and the backlog compacts (the fixed-

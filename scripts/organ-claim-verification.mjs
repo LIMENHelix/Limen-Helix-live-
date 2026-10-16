@@ -577,8 +577,9 @@ function forEachCellClaim(cell, cb) {
 // Verdicts written by this build are stamped with this version. Records
 // predating it are reported by reconcilePopulation so the regeneration step
 // can see exactly how much of the ledger predates the evidence-integrity
-// repair — without auto-invalidating them mid-pipeline.
-const VERIFIER_VERSION = 'claim-verification/2026-10-16.ei1';
+// repair — without auto-invalidating them mid-pipeline. ei2: negation-guard
+// coreference/decimal fixes (#399) — ei1 pubmed verdicts re-enqueue.
+const VERIFIER_VERSION = 'claim-verification/2026-10-16.ei2';
 
 function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collectOnly = false) {
   // Each claim is a (claimId, kind, verifier, payload, cell context) tuple.
@@ -1205,8 +1206,19 @@ function abstractContradicts(text, keyPhrase) {
   // coreferential pronoun or passive result marker and an earlier clause
   // named the claim. Residual limitation, honestly noted: outcome-typed
   // checking ("which outcome was null?") is a model task, not a regex one.
-  const COREF = /\b(it|this|these|they|the treatment|the intervention|the therapy|the approach|the result|the results)\b/;
+  const COREF_START = /^\s*(it|this|these|they|the treatment|the intervention|the therapy|the approach|the result|the results)\b/;
   const PASSIVE_RESULT = /\b(was|were) (observed|found|seen|noted|reported|demonstrated)\b/;
+  // Equivalence phrases ("no significant difference", "not superior") compare
+  // arms — they are not a directional failure of the claim itself, so they
+  // can only contradict when the claim is named in the SAME clause. They are
+  // excluded from carry-over mode (review on #399).
+  const CARRYOVER_NEGATIONS = [
+    'did not improve', 'does not improve', 'do not improve',
+    'failed to improve', 'failed to show', 'failed to demonstrate',
+    'no improvement', 'no significant improvement', 'no significant effect', 'no significant benefit',
+    'no benefit', 'not effective',
+    'did not reduce', 'no evidence of benefit',
+  ];
   // Coreference carries across ; and : but resets at real sentence ends
   // (review on #399): "Exposure therapy improved symptoms. Sertraline was
   // also tested. It did not improve outcomes." — the pronoun belongs to
@@ -1214,7 +1226,10 @@ function abstractContradicts(text, keyPhrase) {
   const lines = String(text).split(/\n+/);
   for (const line of lines) {
     let claimSeenInSentence = false;
-    const clauses = line.match(/[^.!?;:]+[.!?;:]?/g) || [];
+    // Clause splitter: a period followed by a digit is a decimal, not a
+    // terminator ("effect size of 0.2 and did not improve outcomes" must
+    // stay one clause) — review on #399.
+    const clauses = line.match(/(?:[^.!?;:\n]|\.(?=\d))+(?:[.!?;:](?!\d)|$)/g) || [];
     for (const s of clauses) {
       const trimmed = s.trim();
       if (!trimmed) continue;
@@ -1224,7 +1239,12 @@ function abstractContradicts(text, keyPhrase) {
         : n.includes(keyPhrase.toLowerCase());
       const hasNegation = NEGATION_PATTERNS.some((p) => n.includes(` ${p} `));
       if (hasNegation && mentionsClaim) return true;
-      if (hasNegation && !mentionsClaim && claimSeenInSentence && (COREF.test(n) || PASSIVE_RESULT.test(n))) return true;
+      // Carry-over: the clause never names the claim, so it only continues
+      // the claim when it STARTS with a coreference marker (a mid-clause
+      // pronoun belongs to whatever subject the clause itself introduced)
+      // and carries a directional failure phrase — not an arm comparison.
+      if (!mentionsClaim && claimSeenInSentence && (COREF_START.test(n) || PASSIVE_RESULT.test(n))
+          && CARRYOVER_NEGATIONS.some((p) => n.includes(` ${p} `))) return true;
       if (mentionsClaim) claimSeenInSentence = true;
       if (/[.!?]$/.test(trimmed)) claimSeenInSentence = false;
     }
