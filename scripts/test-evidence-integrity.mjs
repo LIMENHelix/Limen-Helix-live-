@@ -193,7 +193,7 @@ ok('negation sharing a sentence with the claim still disputes',
 }
 
 // Retry rotation: fresh claims first, changed payloads are fresh, the cursor
-// advances by the admitted window, and the backlog converges.
+// persists in the ledger, and the backlog converges regardless of turnover.
 {
   const ledger = { verdicts: {} };
   const fresh = [{ claimId: 'fresh-1' }, { claimId: 'fresh-2' }];
@@ -201,34 +201,40 @@ ok('negation sharing a sentence with the claim still disputes',
   for (const r of retries) ledger.verdicts[r.claimId] = { verdict: 'UNVERIFIABLE', ph: 'x' };
   const queue = [...retries, ...fresh];
 
-  const w1 = capQueueWithRetryRotation(queue, ledger, 5, 100);
+  const w1 = capQueueWithRetryRotation(queue, ledger, 5);
   ok('cap respects max', w1.length === 5);
   ok('fresh claims are not crowded out by the retry backlog', w1[0].claimId === 'fresh-1' && w1[1].claimId === 'fresh-2');
 
-  const firstRetryA = capQueueWithRetryRotation(queue, ledger, 5, 100).find((c) => c.claimId.startsWith('retry-')).claimId;
-  const firstRetryB = capQueueWithRetryRotation(queue, ledger, 5, 101).find((c) => c.claimId.startsWith('retry-')).claimId;
-  ok('different weeks start at different windows of the backlog', firstRetryA !== firstRetryB);
+  // The durable cursor: successive runs continue where the last stopped.
+  const firstRun = capQueueWithRetryRotation(queue, ledger, 5);
+  const firstRetryA = firstRun.find((c) => c.claimId.startsWith('retry-')).claimId;
+  ok('cursor state is persisted in the ledger', !!(ledger.retryCursors && ledger.retryCursors.general));
+  const secondRun = capQueueWithRetryRotation(queue, ledger, 5);
+  const firstRetryB = secondRun.find((c) => c.claimId.startsWith('retry-')).claimId;
+  ok('successive runs start at different windows of the backlog', firstRetryA !== firstRetryB);
 
   const allIds = new Set();
-  for (let w = 100; w < 110; w++) {
-    for (const c of capQueueWithRetryRotation(queue, ledger, 5, w)) {
+  for (let run = 0; run < 4; run++) {
+    for (const c of capQueueWithRetryRotation(queue, ledger, 5)) {
       if (c.claimId.startsWith('retry-')) allIds.add(c.claimId);
     }
   }
-  ok('rotation reaches every retryable claim over ten weeks', allIds.size === 10);
+  ok('the cursor reaches every retryable claim in four runs', allIds.size === 10);
 
   // A changed payload under an UNVERIFIABLE verdict is fresh work.
   const changed = { claimId: 'retry-0', payloadHash: 'changed-hash' };
-  const w2 = capQueueWithRetryRotation([changed], ledger, 5, 100);
+  const w2 = capQueueWithRetryRotation([changed], ledger, 5);
   ok('changed payload under UNVERIFIABLE verdict takes the fresh lane', w2[0].claimId === 'retry-0');
-  ok('unchanged retryable stays in the rotating backlog (control)',
-    capQueueWithRetryRotation(retries, ledger, 3, 100).length === 3);
+  ok('unchanged retryable fills the window (control)',
+    capQueueWithRetryRotation(retries, ledger, 3).length === 3);
 
   // Reserved capacity: even when fresh work could fill the whole cap, the
   // retry backlog keeps its quarter (review round 3, #398).
   {
+    const ledger2 = { verdicts: {} };
+    for (const r of retries) ledger2.verdicts[r.claimId] = { verdict: 'UNVERIFIABLE', ph: 'x' };
     const bigRest = Array.from({ length: 300 }, (_, i) => ({ claimId: `fresh-${i}` }));
-    const w = capQueueWithRetryRotation(bigRest.concat(retries), ledger, 200, 100);
+    const w = capQueueWithRetryRotation(bigRest.concat(retries), ledger2, 200);
     ok('retry backlog keeps reserved capacity under a full fresh queue',
       w.some((c) => c.claimId.startsWith('retry-')));
     ok('cap still respected under reservation', w.length === 200);
@@ -239,24 +245,24 @@ ok('negation sharing a sentence with the claim still disputes',
 
   // Zero budget admits nothing (review round 3, #398).
   {
-    const ledger = { verdicts: { 'retry-0': { verdict: 'UNVERIFIABLE', ph: 'x' } } };
+    const ledger3 = { verdicts: { 'retry-0': { verdict: 'UNVERIFIABLE', ph: 'x' } } };
     const q = [{ claimId: 'fresh-1' }, { claimId: 'retry-0', payloadHash: 'x' }];
-    ok('a zero claim cap admits zero claims', capQueueWithRetryRotation(q, ledger, 0, 100).length === 0);
+    ok('a zero claim cap admits zero claims', capQueueWithRetryRotation(q, ledger3, 0).length === 0);
   }
 
   // Lane discipline (review round 3, #398): a PubMed retry must not ride the
   // general lane's reserved window — it belongs to the --verifier=pubmed run.
   {
-    const ledger = { verdicts: { 'pm-retry': { verdict: 'UNVERIFIABLE', ph: 'x' } } };
+    const ledger4 = { verdicts: { 'pm-retry': { verdict: 'UNVERIFIABLE', ph: 'x' } } };
     const q = [
       { claimId: 'rb-1', verifier: 'rule-based' },
       { claimId: 'rb-2', verifier: 'rule-based' },
       { claimId: 'pm-retry', payloadHash: 'x', verifier: 'pubmed' },
     ];
-    const general = capQueueWithRetryRotation(q, ledger, 2, 100);
+    const general = capQueueWithRetryRotation(q, ledger4, 2);
     ok('general lane does not pull pubmed retries ahead of cheaper work',
       general.length === 2 && general[0].claimId === 'rb-1' && general[1].claimId === 'rb-2');
-    const pubmedLane = capQueueWithRetryRotation(q, ledger, 2, 100, ['pubmed']);
+    const pubmedLane = capQueueWithRetryRotation(q, ledger4, 2, ['pubmed']);
     ok('pubmed lane admits its own retries', pubmedLane.some((c) => c.claimId === 'pm-retry'));
   }
 }
@@ -403,17 +409,34 @@ ok('null secondary outcome after a semicolon does not dispute',
 ok('genuine contradiction still fires (control)',
   abstractContradicts('In this cohort, exposure therapy did not improve outcomes.', 'Exposure Therapy'));
 
-// Codex's reproduced coverage defect: 52 successive budget-50 PubMed runs
-// must tile the whole 2,582-claim fixed backlog (previously reached 662).
+// Coreference (review on #399): the claim named in one clause and its
+// negative result continued by pronoun or passive result marker in the next
+// MUST dispute — clause delimiters do not break coreference.
+ok('pronoun continuation across a semicolon still disputes',
+  abstractContradicts('Exposure therapy was tested; it did not improve outcomes', 'Exposure Therapy'));
+ok('passive result continuation across a colon still disputes',
+  abstractContradicts('The result for exposure therapy was clear: no significant improvement was observed', 'Exposure Therapy'));
+ok('unrelated negation without coreference does not dispute (control)',
+  !abstractContradicts('Exposure therapy improved primary outcomes. Sertraline did not improve secondary measures in the same cohort.', 'Exposure Therapy'));
+
+// Codex's reproduced coverage defect, now with turnover: 52 successive
+// budget-50 PubMed runs must reach every claim even while half of each
+// admitted batch resolves terminally and the backlog compacts (the fixed-
+// list version of this test masked the production failure).
 {
   const ledger = { verdicts: {} };
-  const retries = Array.from({ length: 2582 }, (_, i) => ({ claimId: `r${i}`, payloadHash: 'x', verifier: 'pubmed' }));
-  for (const r of retries) ledger.verdicts[r.claimId] = { verdict: 'UNVERIFIABLE', ph: 'x' };
-  const seen = new Set();
-  for (let w = 0; w < 52; w++) {
-    for (const c of capQueueWithRetryRotation(retries, ledger, 50, 3000 + w, ['pubmed'])) seen.add(c.claimId);
+  const all = Array.from({ length: 2582 }, (_, i) => ({ claimId: `r${String(i).padStart(4, '0')}`, payloadHash: 'x', verifier: 'pubmed' }));
+  for (const r of all) ledger.verdicts[r.claimId] = { verdict: 'UNVERIFIABLE', ph: 'x' };
+  const admitted = new Set();
+  let population = all.slice();
+  for (let w = 0; w < 52 && population.length; w++) {
+    const batch = capQueueWithRetryRotation(population, ledger, 50, ['pubmed']);
+    for (const c of batch) admitted.add(c.claimId);
+    // Half of each admitted batch resolves terminally; the rest stays.
+    batch.forEach((c, i) => { if (i % 2 === 0) delete ledger.verdicts[c.claimId]; });
+    population = all.filter((c) => ledger.verdicts[c.claimId]);
   }
-  ok('52 budget-50 runs cover the entire 2,582-claim backlog', seen.size === 2582);
+  ok('52 budget-50 runs reach every claim despite turnover', admitted.size === 2582);
 }
 
 console.log(`\n${passed} evidence-integrity assertions passed`);

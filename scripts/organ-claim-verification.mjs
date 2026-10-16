@@ -249,12 +249,10 @@ async function main() {
   }
 
   // Apply max-claims cap — retryable (UNVERIFIABLE) claims re-enqueue every
-  // run by design (item 3), so the backlog rotates deterministically by week:
-  // fresh claims keep priority order, and every run works a different window
-  // of the retryable backlog instead of the same first-N forever (review
-  // on #398).
-  const weekSeed = Math.floor(Date.now() / (7 * 24 * 3600 * 1000));
-  queue = capQueueWithRetryRotation(queue, ledger, ARG.maxClaims, weekSeed, ARG.verifierFilter);
+  // run by design (item 3); the backlog is tiled by a durable cursor stored
+  // in the ledger itself, so weekly runs continue where the last one stopped
+  // regardless of turnover. Fresh claims keep priority order.
+  queue = capQueueWithRetryRotation(queue, ledger, ARG.maxClaims, ARG.verifierFilter);
   console.log(`[verification-organ] working set this run: ${queue.length}`);
 
   if (ARG.dryRun) {
@@ -674,7 +672,7 @@ function verifierPriority(verifier) {
 // the cursor advances by the admitted window per week, not by one slot.
 // A quarter of the cap is reserved for the retry backlog so a full fresh
 // queue can never starve it to zero (review round 3).
-function capQueueWithRetryRotation(queue, ledger, max, weekSeed, verifierFilter) {
+function capQueueWithRetryRotation(queue, ledger, max, verifierFilter) {
   // A zero budget means zero claims (review round 3, #398) — without this,
   // the reserved-slot math turns slice(0, -1) into "almost everything".
   if (max <= 0) return [];
@@ -684,6 +682,7 @@ function capQueueWithRetryRotation(queue, ledger, max, weekSeed, verifierFilter)
   // invocation is meant to serve — otherwise PubMed retries would ride the
   // general lane AND the pubmed lane, double-spending the budget.
   const lane = verifierFilter && verifierFilter.length ? new Set(verifierFilter) : null;
+  const laneKey = lane ? [...lane].sort().join('+') : 'general';
   const retryLaneOk = (c) => (lane ? lane.has(c.verifier) : c.verifier !== 'pubmed');
   const rest = [];
   const retryable = [];
@@ -693,25 +692,40 @@ function capQueueWithRetryRotation(queue, ledger, max, weekSeed, verifierFilter)
   }
   const reservedForRetry = Math.min(retryable.length, Math.max(1, Math.floor(max / 4)));
   const restAdmitted = rest.slice(0, max - reservedForRetry);
-  // The rotation cursor advances by the ACTUAL retry window admitted per run
-  // (post-merge replay on #398): reserving 12 but admitting 50 meant adjacent
-  // runs overlapped 38/50 claims — 662/2,582 coverage after 52 runs instead
-  // of full coverage. Advancing by the real window makes successive runs
-  // tile the backlog without overlap.
   const retrySlots = Math.min(retryable.length, max - restAdmitted.length);
-  let rotated = retryable;
-  if (retryable.length > 1 && retrySlots > 0) {
-    const rot = (((weekSeed * retrySlots) % retryable.length) + retryable.length) % retryable.length;
-    rotated = retryable.slice(rot).concat(retryable.slice(0, rot));
+
+  // Persistent cursor, stored IN THE LEDGER (review on #399): the workflow
+  // commits the ledger every run, so the cursor survives between weekly
+  // invocations. A recomputed offset modulo a list that shrinks as claims
+  // resolve does NOT continue the previous window — it revisits failures
+  // while skipping untried claims. A durable cursor tiles the backlog
+  // regardless of turnover.
+  retryable.sort((a, b) => (a.claimId < b.claimId ? -1 : a.claimId > b.claimId ? 1 : 0));
+  ledger.retryCursors = ledger.retryCursors || {};
+  const cursorId = ledger.retryCursors[laneKey] && ledger.retryCursors[laneKey].lastClaimId;
+  let startIdx = 0;
+  if (cursorId) {
+    const next = retryable.findIndex((c) => c.claimId > cursorId);
+    startIdx = next === -1 ? 0 : next; // wrapped past the end → restart the cycle
   }
-  const admitted = restAdmitted.concat(rotated.slice(0, retrySlots));
+  const retryAdmitted = [];
+  for (let i = 0; i < retryable.length && retryAdmitted.length < retrySlots; i++) {
+    retryAdmitted.push(retryable[(startIdx + i) % retryable.length]);
+  }
+  if (retryAdmitted.length) {
+    ledger.retryCursors[laneKey] = {
+      lastClaimId: retryAdmitted[retryAdmitted.length - 1].claimId,
+      updatedAt: new Date().toISOString(),
+    };
+  }
+  const admitted = restAdmitted.concat(retryAdmitted);
   // Spare capacity backfills from whichever lane has more work — continuing
   // PAST the admitted retry window so backfill never re-serves next week's
   // window early.
   let spare = max - admitted.length;
   if (spare > 0) {
     const seen = new Set(admitted.map((c) => c.claimId));
-    for (const c of rest.slice(restAdmitted.length).concat(rotated.slice(retrySlots))) {
+    for (const c of rest.slice(restAdmitted.length).concat(retryable.filter((c) => !seen.has(c.claimId)))) {
       if (spare <= 0) break;
       if (!seen.has(c.claimId)) { admitted.push(c); seen.add(c.claimId); spare--; }
     }
@@ -1178,18 +1192,26 @@ function abstractContradicts(text, keyPhrase) {
   // separate clauses just like sentence stops — "...improved symptoms; there
   // was no significant difference in dropout rates" must NOT dispute,
   // because the null result belongs to a different outcome in a different
-  // clause. Residual limitation, honestly noted: a negative result sharing
-  // a clause with the claim phrase still disputes even if it technically
-  // describes a secondary outcome; outcome-typed checking is a model task,
-  // not a regex one.
+  // clause. BUT a clause can also CONTINUE the claim by coreference
+  // (review on #399): "…was tested; it did not improve outcomes" or
+  // "…was clear: no significant improvement was observed" — so a negation
+  // clause that never names the claim still disputes when it carries a
+  // coreferential pronoun or passive result marker and an earlier clause
+  // named the claim. Residual limitation, honestly noted: outcome-typed
+  // checking ("which outcome was null?") is a model task, not a regex one.
   const sentences = String(text).split(/(?<=[.!?;:])\s+|\n+/);
+  const COREF = /\b(it|this|these|they|the treatment|the intervention|the therapy|the approach|the result|the results)\b/;
+  const PASSIVE_RESULT = /\b(was|were) (observed|found|seen|noted|reported|demonstrated)\b/;
+  let claimSeenEarlier = false;
   for (const s of sentences) {
     const n = ` ${s.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ')} `;
     const mentionsClaim = tokens.length
       ? tokens.every((tok) => n.includes(tok))
       : n.includes(keyPhrase.toLowerCase());
-    if (!mentionsClaim) continue;
-    if (NEGATION_PATTERNS.some((p) => n.includes(` ${p} `))) return true;
+    const hasNegation = NEGATION_PATTERNS.some((p) => n.includes(` ${p} `));
+    if (hasNegation && mentionsClaim) return true;
+    if (hasNegation && !mentionsClaim && claimSeenEarlier && (COREF.test(n) || PASSIVE_RESULT.test(n))) return true;
+    if (mentionsClaim) claimSeenEarlier = true;
   }
   return false;
 }
