@@ -223,6 +223,19 @@ ok('negation sharing a sentence with the claim still disputes',
   ok('changed payload under UNVERIFIABLE verdict takes the fresh lane', w2[0].claimId === 'retry-0');
   ok('unchanged retryable stays in the rotating backlog (control)',
     capQueueWithRetryRotation(retries, ledger, 3, 100).length === 3);
+
+  // Reserved capacity: even when fresh work could fill the whole cap, the
+  // retry backlog keeps its quarter (review round 3, #398).
+  {
+    const bigRest = Array.from({ length: 300 }, (_, i) => ({ claimId: `fresh-${i}` }));
+    const w = capQueueWithRetryRotation(bigRest.concat(retries), ledger, 200, 100);
+    ok('retry backlog keeps reserved capacity under a full fresh queue',
+      w.some((c) => c.claimId.startsWith('retry-')));
+    ok('cap still respected under reservation', w.length === 200);
+    ok('fresh lane dominates but does not starve retries',
+      w.filter((c) => c.claimId.startsWith('fresh-')).length === 190 &&
+      w.filter((c) => c.claimId.startsWith('retry-')).length === 10);
+  }
 }
 
 

@@ -672,6 +672,8 @@ function verifierPriority(verifier) {
 // --max cap with the same first-N every run. Two review fixes (#398):
 // a retryable claim whose payload CHANGED is fresh work, not backlog; and
 // the cursor advances by the admitted window per week, not by one slot.
+// A quarter of the cap is reserved for the retry backlog so a full fresh
+// queue can never starve it to zero (review round 3).
 function capQueueWithRetryRotation(queue, ledger, max, weekSeed) {
   const rest = [];
   const retryable = [];
@@ -679,14 +681,24 @@ function capQueueWithRetryRotation(queue, ledger, max, weekSeed) {
     const lv = ledger.verdicts && ledger.verdicts[c.claimId];
     (lv && lv.verdict === 'UNVERIFIABLE' && lv.ph === c.payloadHash ? retryable : rest).push(c);
   }
+  const reservedForRetry = Math.min(retryable.length, Math.max(1, Math.floor(max / 4)));
   let rotated = retryable;
   if (retryable.length > 1) {
-    const weeklySlots = Math.max(1, max - rest.length);
-    const admitted = Math.max(1, Math.min(weeklySlots, retryable.length));
-    const rot = (((weekSeed * admitted) % retryable.length) + retryable.length) % retryable.length;
+    const rot = (((weekSeed * reservedForRetry) % retryable.length) + retryable.length) % retryable.length;
     rotated = retryable.slice(rot).concat(retryable.slice(0, rot));
   }
-  return rest.concat(rotated).slice(0, max);
+  const restCap = max - reservedForRetry;
+  const admitted = rest.slice(0, restCap).concat(rotated.slice(0, reservedForRetry));
+  // Spare capacity backfills from whichever lane has more work.
+  let spare = max - admitted.length;
+  if (spare > 0) {
+    const seen = new Set(admitted.map((c) => c.claimId));
+    for (const c of rest.slice(restCap).concat(rotated.slice(reservedForRetry))) {
+      if (spare <= 0) break;
+      if (!seen.has(c.claimId)) { admitted.push(c); seen.add(c.claimId); spare--; }
+    }
+  }
+  return admitted;
 }
 
 // ============================================================================

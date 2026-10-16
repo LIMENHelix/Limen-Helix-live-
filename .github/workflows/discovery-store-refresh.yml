@@ -79,6 +79,14 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Binding-fidelity audit (generates the report the rule-based verifier requires)
+        # The rule-based verifier refuses to issue VERIFIED without current
+        # audit coverage (evidence-integrity repair, PR #398), so this must
+        # run before any verification pass. The report ships with the other
+        # data artifacts below, keeping the input tracked instead of
+        # regenerated-from-memory each run.
+        run: node scripts/organ-binding-fidelity.mjs
+
       - name: Rebuild discovery stores (snapshot 1 — also materializes the gitignored cube the organ reads)
         run: node scripts/reconcile-discovery-stores.mjs
 
@@ -125,6 +133,7 @@ jobs:
           git config user.email "chrishubbel72@gmail.com"
           git add assets/data/treatment-discovery/ \
                   assets/data/audit/verification-ledger.json \
+                  assets/data/audit/binding-fidelity-report.json \
                   assets/data/audit/cube-unresolved-ids.json \
                   assets/data/audit/discovery-store-reconciliation.json \
                   assets/data/_master-inbox.json
