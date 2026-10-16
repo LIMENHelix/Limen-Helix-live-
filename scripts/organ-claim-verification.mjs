@@ -254,7 +254,7 @@ async function main() {
   // of the retryable backlog instead of the same first-N forever (review
   // on #398).
   const weekSeed = Math.floor(Date.now() / (7 * 24 * 3600 * 1000));
-  queue = capQueueWithRetryRotation(queue, ledger, ARG.maxClaims, weekSeed);
+  queue = capQueueWithRetryRotation(queue, ledger, ARG.maxClaims, weekSeed, ARG.verifierFilter);
   console.log(`[verification-organ] working set this run: ${queue.length}`);
 
   if (ARG.dryRun) {
@@ -674,12 +674,22 @@ function verifierPriority(verifier) {
 // the cursor advances by the admitted window per week, not by one slot.
 // A quarter of the cap is reserved for the retry backlog so a full fresh
 // queue can never starve it to zero (review round 3).
-function capQueueWithRetryRotation(queue, ledger, max, weekSeed) {
+function capQueueWithRetryRotation(queue, ledger, max, weekSeed, verifierFilter) {
+  // A zero budget means zero claims (review round 3, #398) — without this,
+  // the reserved-slot math turns slice(0, -1) into "almost everything".
+  if (max <= 0) return [];
+  // Lane discipline: the scheduled general run has no filter and drains the
+  // cheap rule-based/affinity front; the PubMed queue has its own reserved
+  // invocation. Retries only join the reserved window for verifiers this
+  // invocation is meant to serve — otherwise PubMed retries would ride the
+  // general lane AND the pubmed lane, double-spending the budget.
+  const lane = verifierFilter && verifierFilter.length ? new Set(verifierFilter) : null;
+  const retryLaneOk = (c) => (lane ? lane.has(c.verifier) : c.verifier !== 'pubmed');
   const rest = [];
   const retryable = [];
   for (const c of queue) {
     const lv = ledger.verdicts && ledger.verdicts[c.claimId];
-    (lv && lv.verdict === 'UNVERIFIABLE' && lv.ph === c.payloadHash ? retryable : rest).push(c);
+    (lv && lv.verdict === 'UNVERIFIABLE' && lv.ph === c.payloadHash && retryLaneOk(c) ? retryable : rest).push(c);
   }
   const reservedForRetry = Math.min(retryable.length, Math.max(1, Math.floor(max / 4)));
   let rotated = retryable;

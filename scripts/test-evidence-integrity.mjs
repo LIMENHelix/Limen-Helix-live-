@@ -236,6 +236,29 @@ ok('negation sharing a sentence with the claim still disputes',
       w.filter((c) => c.claimId.startsWith('fresh-')).length === 190 &&
       w.filter((c) => c.claimId.startsWith('retry-')).length === 10);
   }
+
+  // Zero budget admits nothing (review round 3, #398).
+  {
+    const ledger = { verdicts: { 'retry-0': { verdict: 'UNVERIFIABLE', ph: 'x' } } };
+    const q = [{ claimId: 'fresh-1' }, { claimId: 'retry-0', payloadHash: 'x' }];
+    ok('a zero claim cap admits zero claims', capQueueWithRetryRotation(q, ledger, 0, 100).length === 0);
+  }
+
+  // Lane discipline (review round 3, #398): a PubMed retry must not ride the
+  // general lane's reserved window — it belongs to the --verifier=pubmed run.
+  {
+    const ledger = { verdicts: { 'pm-retry': { verdict: 'UNVERIFIABLE', ph: 'x' } } };
+    const q = [
+      { claimId: 'rb-1', verifier: 'rule-based' },
+      { claimId: 'rb-2', verifier: 'rule-based' },
+      { claimId: 'pm-retry', payloadHash: 'x', verifier: 'pubmed' },
+    ];
+    const general = capQueueWithRetryRotation(q, ledger, 2, 100);
+    ok('general lane does not pull pubmed retries ahead of cheaper work',
+      general.length === 2 && general[0].claimId === 'rb-1' && general[1].claimId === 'rb-2');
+    const pubmedLane = capQueueWithRetryRotation(q, ledger, 2, 100, ['pubmed']);
+    ok('pubmed lane admits its own retries', pubmedLane.some((c) => c.claimId === 'pm-retry'));
+  }
 }
 
 
