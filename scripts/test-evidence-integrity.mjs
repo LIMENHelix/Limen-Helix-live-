@@ -17,6 +17,10 @@ import {
   verifyPubMed,
   abstractContradicts,
   checkPhraseInText,
+  propagateVerdictsToCube,
+  reconcilePopulation,
+  extractCellClaims,
+  payloadHash,
 } from './organ-claim-verification.mjs';
 
 let passed = 0;
@@ -118,5 +122,89 @@ ok('negation guard fires on explicit failure language', abstractContradicts('Exp
 ok('negation guard silent on positive result', !abstractContradicts('Exposure therapy improved outcomes markedly.', 'Exposure Therapy'));
 ok('negation guard requires the claim to be present', !abstractContradicts('Sertraline did not improve outcomes.', 'Exposure Therapy'));
 ok('phrase checker still passes plain mentions (control)', checkPhraseInText('Exposure Therapy', 'we studied exposure therapy in adults'));
+
+// --- Item 2 ---------------------------------------------------------------
+// A ledger verdict applies only to the exact payload it was computed from.
+// Propagation and reconciliation must both enforce that — a stale VERIFIED
+// must never display or count as current.
+
+const mkCell = (over = {}) => ({
+  cellId: 'BLA__active__trade',
+  brainNodeId: 'BLA',
+  stateBucket: 'active',
+  comparisonDomain: 'trade',
+  node: { region: 'temporal' },
+  issues: [],
+  disorders: [],
+  neuroTreatments: [],
+  domainTreatments: [],
+  portalBindings: [],
+  crossDomainAffinities: [],
+  residuals: [],
+  ...over,
+});
+const disorderItem = { id: 'd1', name: 'Exposure Therapy', mechanism: 'extinction learning', primaryNodesAffected: ['BLA'], citations: [] };
+const disorderPh = payloadHash({ id: 'd1', name: 'Exposure Therapy', mechanism: 'extinction learning', primaryNodesAffected: ['BLA'], citations: [] });
+
+// Propagation: fresh verdict applies (control).
+{
+  const cube = { cells: [mkCell({ disorders: [{ ...disorderItem }] })] };
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh } } };
+  const n = propagateVerdictsToCube(cube, ledger);
+  ok('fresh verdict propagates to the cube (control)', n === 1 && cube.cells[0].disorders[0].verification.verdict === 'VERIFIED');
+}
+
+// Propagation: stale verdict must NOT display.
+{
+  const cube = { cells: [mkCell({ disorders: [{ ...disorderItem }] })] };
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: 'deadbeefdeadbeef' } } };
+  propagateVerdictsToCube(cube, ledger);
+  const v = cube.cells[0].disorders[0].verification;
+  ok('stale verdict is not displayed as VERIFIED', v.verdict !== 'VERIFIED');
+  ok('stale verdict surfaces as PENDING with stale flag', v.verdict === 'PENDING' && v.stale === true);
+  ok('stale marker references but does not present prior verdict', v.previousVerdict === 'VERIFIED');
+  ok('cell aggregate counts the stale claim as pending, not verified',
+    cube.cells[0].verification.pendingClaimCount === 1 && cube.cells[0].verification.verifiedClaimCount === 0);
+}
+
+// Reconciliation: stale verdict counted PENDING and tallied.
+{
+  const cube = { cells: [mkCell({ disorders: [{ ...disorderItem }] })] };
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: 'deadbeefdeadbeef' } } };
+  const r = reconcilePopulation(cube, ledger, '2026-10-16T00:00:00Z', 'abc123');
+  ok('reconciliation does not count a stale verdict as VERIFIED', r.effectiveCurrentByVerdict.VERIFIED === 0);
+  ok('reconciliation counts a stale verdict as PENDING', r.effectiveCurrentByVerdict.PENDING === 1);
+  ok('reconciliation tallies staleLedgerVerdicts', r.staleLedgerVerdicts === 1);
+}
+
+// Reconciliation: fresh verdict counts (control).
+{
+  const cube = { cells: [mkCell({ disorders: [{ ...disorderItem }] })] };
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh } } };
+  const r = reconcilePopulation(cube, ledger, '2026-10-16T00:00:00Z', 'abc123');
+  ok('fresh ledger verdict counts as VERIFIED (control)', r.effectiveCurrentByVerdict.VERIFIED === 1 && r.staleLedgerVerdicts === 0);
+}
+
+// Hash discipline: extraction/propagation/reconciliation must all hash the
+// same payload — key order invariance is what makes that safe.
+{
+  const a = payloadHash({ x: 1, y: [2, 3], z: { b: 1, a: 2 } });
+  const b = payloadHash({ z: { a: 2, b: 1 }, y: [2, 3], x: 1 });
+  ok('payload hash is key-order independent', a === b);
+  ok('payload hash changes when content changes', payloadHash({ x: 1 }) !== payloadHash({ x: 2 }));
+}
+
+// Extraction shape stability: the refactor must emit byte-identical claims.
+{
+  const cell = mkCell({ disorders: [{ ...disorderItem }] });
+  const claims = [];
+  extractCellClaims(cell, claims, { verdicts: {} });
+  ok('extraction emits the same claim identity, kind, verifier and hash',
+    claims.length === 1 &&
+    claims[0].claimId === 'dx::d1' &&
+    claims[0].kind === 'disorder' &&
+    claims[0].verifier === 'pubmed' &&
+    claims[0].payloadHash === disorderPh);
+}
 
 console.log(`\n${passed} evidence-integrity assertions passed`);

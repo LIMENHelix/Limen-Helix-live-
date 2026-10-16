@@ -180,10 +180,12 @@ async function main() {
   if (ARG.reconcileOnly) {
     const snapshotAt = process.env.LIMEN_SNAPSHOT_AT || new Date().toISOString();
     const sourceCommit = process.env.LIMEN_SOURCE_COMMIT || null;
+    // Propagate BEFORE reconciling (same order as the full run), so the
+    // reconciliation counts the verdicts the cube actually displays.
+    const propagated = propagateVerdictsToCube(cube, ledger);
     const reconciliation = reconcilePopulation(cube, ledger, snapshotAt, sourceCommit);
     ledger.reconciliation = reconciliation;
 
-    const propagated = propagateVerdictsToCube(cube, ledger);
     cube.verificationReconciliation = reconciliation;
     fs.writeFileSync(LEDGER_FILE, JSON.stringify(ledger, null, 2));
     fs.writeFileSync(CUBE_FILE, JSON.stringify(cube, null, 2));
@@ -296,7 +298,7 @@ async function main() {
     // Never persist a PENDING verdict: the record would make the extractor
     // skip the claim forever, even after the real verifier is enabled.
     if (verdict.verdict !== 'PENDING') {
-      ledger.verdicts[claim.claimId] = { ...verdict, ph: claim.payloadHash };
+      ledger.verdicts[claim.claimId] = { ...verdict, ph: claim.payloadHash, verifierVersion: VERIFIER_VERSION };
     }
     ledger.stats[verdict.verdict] = (ledger.stats[verdict.verdict] || 0) + 1;
     ledger.stats.byVerifier[verdict.verifier] = (ledger.stats.byVerifier[verdict.verifier] || 0) + 1;
@@ -439,30 +441,128 @@ function reconcilePopulation(cube, ledger, snapshotAt, sourceCommit) {
   const currentWithoutLedger = [...currentIds].filter((id) => !ledger.verdicts[id]);
   const effectiveCurrentByVerdict = emptyVerdictCounts();
 
+  // APPLICABILITY (audit 2026-10-16, item 2): a ledger verdict counts as the
+  // effective current verdict only when it was computed against the claim's
+  // CURRENT payload (hash match). A stale or unattested verdict remains
+  // preserved in the ledger but counts as PENDING here — the claim is
+  // awaiting re-verification and must not be tallied under its old label.
+  const currentPh = new Map();
+  for (const cell of cube.cells || []) {
+    forEachCellClaim(cell, (kind, shape, item, cellId) => {
+      const id = shape.id(item, cellId);
+      if (!currentPh.has(id)) currentPh.set(id, payloadHash(shape.payload(item)));
+    });
+  }
+
+  let staleLedgerVerdicts = 0;
+  let olderVerifierRules = 0;
   for (const [claimId, sourceVerdict] of currentClaims) {
-    const effective = (ledger.verdicts[claimId] && ledger.verdicts[claimId].verdict) || sourceVerdict;
+    const lv = ledger.verdicts[claimId];
+    let effective = sourceVerdict;
+    if (lv) {
+      const ph = currentPh.get(claimId);
+      if (lv.ph && ph && lv.ph === ph) {
+        effective = lv.verdict;
+      } else {
+        effective = 'PENDING';
+        staleLedgerVerdicts++;
+      }
+      if ((lv.verifierVersion || null) !== VERIFIER_VERSION) olderVerifierRules++;
+    }
     effectiveCurrentByVerdict[effective] = (effectiveCurrentByVerdict[effective] || 0) + 1;
   }
 
   ledger.stats = recomputeLedgerStats(ledger.verdicts || {});
   return {
-    schemaVersion: 'verification-reconciliation/1.0',
+    schemaVersion: 'verification-reconciliation/1.1',
     snapshotAt,
     sourceCommit,
+    verifierVersion: VERIFIER_VERSION,
     uniqueCurrentClaims: currentClaims.size,
     matchedLedgerClaims: matchedIds.length,
     currentClaimsWithoutLedger: currentWithoutLedger.length,
     archivedLedgerClaims: archivedIds.length,
+    staleLedgerVerdicts,
+    verdictsFromOlderVerifierRules: olderVerifierRules,
     effectiveCurrentByVerdict,
     ledgerAllTimeByVerdict: Object.fromEntries(
       Object.entries(ledger.stats).filter(([key]) => key !== 'byVerifier')
     ),
     note:
       'Current claims are the unique claim-id population in this cube snapshot. ' +
+      'A ledger verdict counts as effective only when its payload hash matches the current claim payload; ' +
+      'stale or unattested verdicts count as PENDING (awaiting re-verification) and are tallied in staleLedgerVerdicts. ' +
       'Archived ledger claims are preserved evidence whose ids no longer occur in the current cube; ' +
       'they are not counted as current rendered claims.',
   };
 }
+
+// ============================================================================
+// CLAIM SHAPES — identity + verification payload, defined exactly once
+// ============================================================================
+// Extraction (staleness detection), propagation (freshness), and
+// reconciliation (applicability) must all hash the SAME payload for a claim,
+// or a verdict silently rides on content it was never computed from. Adding
+// or changing a claim kind means editing this table — nowhere else.
+const CLAIM_SHAPES = {
+  issue: {
+    collection: 'issues',
+    id: (i) => `iss::${i.id}`,
+    payload: (i) => ({ id: i.id, symptom: i.symptom, sourceType: i.sourceType, sourceFile: i.sourceFile, severity: i.severity }),
+  },
+  disorder: {
+    collection: 'disorders',
+    id: (d) => `dx::${d.id}`,
+    payload: (d) => ({ id: d.id, name: d.name, mechanism: d.mechanism, primaryNodesAffected: d.primaryNodesAffected, citations: d.citations }),
+  },
+  'neuro-treatment': {
+    collection: 'neuroTreatments',
+    id: (t) => `ntx::${t.id}`,
+    payload: (t) => ({ id: t.id, name: t.name, type: t.type, citations: t.citations }),
+  },
+  'domain-treatment': {
+    collection: 'domainTreatments',
+    id: (t) => `dtx::${t.id}`,
+    payload: (t) => ({ id: t.id, name: t.name, type: t.type, description: t.description, side: t.side }),
+  },
+  binding: {
+    collection: 'portalBindings',
+    id: (b, cellId) => `bind::${cellId}::${b.portalSlug}::${b.relationshipType}::${b.entityName}`,
+    payload: (b) => ({ portalSlug: b.portalSlug, entityName: b.entityName, relationshipType: b.relationshipType, role: b.role, confidence: b.confidence }),
+  },
+  affinity: {
+    collection: 'crossDomainAffinities',
+    id: (a, cellId) => `aff::${cellId}::${a.toDomain}::${a.toRole}`,
+    payload: (a) => ({ toDomain: a.toDomain, toRole: a.toRole }),
+  },
+  residual: {
+    collection: 'residuals',
+    id: (r) => `res::${r.id}`,
+    payload: (r) => ({ id: r.id, direction: r.direction, sourceTreatmentName: r.sourceTreatment?.name, candidatePort: r.candidatePort }),
+  },
+};
+
+const KIND_VERIFIER = {
+  issue: (i) => i.verification?.verifier || 'websearch',
+  disorder: () => 'pubmed',
+  'neuro-treatment': () => 'pubmed',
+  'domain-treatment': () => 'websearch',
+  binding: () => 'rule-based',
+  affinity: () => 'internal-consistency',
+  residual: (r) => (r.direction === 'NEURO_TO_DOMAIN' ? 'websearch' : 'pubmed'),
+};
+
+function forEachCellClaim(cell, cb) {
+  for (const [kind, shape] of Object.entries(CLAIM_SHAPES)) {
+    for (const item of cell[shape.collection] || []) cb(kind, shape, item, cell.cellId);
+  }
+}
+
+// Verdicts written by this build are stamped with this version. Records
+// predating it are reported by reconcilePopulation so the regeneration step
+// can see exactly how much of the ledger predates the evidence-integrity
+// repair — without auto-invalidating them mid-pipeline.
+const VERIFIER_VERSION = 'claim-verification/2026-10-16.ei1';
 
 function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collectOnly = false) {
   // Each claim is a (claimId, kind, verifier, payload, cell context) tuple.
@@ -508,131 +608,22 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collec
     return false;
   };
 
-  // Issues
-  for (const iss of cell.issues || []) {
-    const claimId = `iss::${iss.id}`;
-    const payload = { id: iss.id, symptom: iss.symptom, sourceType: iss.sourceType, sourceFile: iss.sourceFile, severity: iss.severity };
+  forEachCellClaim(cell, (kind, shape, item, cellId) => {
+    const claimId = shape.id(item, cellId);
+    const payload = shape.payload(item);
     const ph = payloadHash(payload);
-    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
-    if (skipFor(iss, claimId, ph)) continue;
-    staleOrNew(iss, claimId, ph);
+    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); return; }
+    if (skipFor(item, claimId, ph)) return;
+    staleOrNew(item, claimId, ph);
     claims.push({
       claimId,
-      kind: 'issue',
-      verifier: iss.verification.verifier || 'websearch',
+      kind,
+      verifier: KIND_VERIFIER[kind](item),
       payload,
       payloadHash: ph,
       ...ctx,
     });
-  }
-
-  // Disorders
-  for (const d of cell.disorders || []) {
-    const claimId = `dx::${d.id}`;
-    const payload = { id: d.id, name: d.name, mechanism: d.mechanism, primaryNodesAffected: d.primaryNodesAffected, citations: d.citations };
-    const ph = payloadHash(payload);
-    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
-    if (skipFor(d, claimId, ph)) continue;
-    staleOrNew(d, claimId, ph);
-    claims.push({
-      claimId,
-      kind: 'disorder',
-      verifier: 'pubmed',
-      payload,
-      payloadHash: ph,
-      ...ctx,
-    });
-  }
-
-  // Neuro treatments
-  for (const t of cell.neuroTreatments || []) {
-    const claimId = `ntx::${t.id}`;
-    const payload = { id: t.id, name: t.name, type: t.type, citations: t.citations };
-    const ph = payloadHash(payload);
-    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
-    if (skipFor(t, claimId, ph)) continue;
-    staleOrNew(t, claimId, ph);
-    claims.push({
-      claimId,
-      kind: 'neuro-treatment',
-      verifier: 'pubmed',
-      payload,
-      payloadHash: ph,
-      ...ctx,
-    });
-  }
-
-  // Domain treatments
-  for (const t of cell.domainTreatments || []) {
-    const claimId = `dtx::${t.id}`;
-    const payload = { id: t.id, name: t.name, type: t.type, description: t.description, side: t.side };
-    const ph = payloadHash(payload);
-    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
-    if (skipFor(t, claimId, ph)) continue;
-    staleOrNew(t, claimId, ph);
-    claims.push({
-      claimId,
-      kind: 'domain-treatment',
-      verifier: 'websearch',
-      payload,
-      payloadHash: ph,
-      ...ctx,
-    });
-  }
-
-  // Portal bindings
-  for (const b of cell.portalBindings || []) {
-    const claimId = `bind::${ctx.cellId}::${b.portalSlug}::${b.relationshipType}::${b.entityName}`;
-    const payload = { portalSlug: b.portalSlug, entityName: b.entityName, relationshipType: b.relationshipType, role: b.role, confidence: b.confidence };
-    const ph = payloadHash(payload);
-    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
-    if (skipFor(b, claimId, ph)) continue;
-    staleOrNew(b, claimId, ph);
-    claims.push({
-      claimId,
-      kind: 'binding',
-      verifier: 'rule-based',
-      payload,
-      payloadHash: ph,
-      ...ctx,
-    });
-  }
-
-  // Cross-domain affinities
-  for (const aff of cell.crossDomainAffinities || []) {
-    const claimId = `aff::${ctx.cellId}::${aff.toDomain}::${aff.toRole}`;
-    const payload = { toDomain: aff.toDomain, toRole: aff.toRole };
-    const ph = payloadHash(payload);
-    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
-    if (skipFor(aff, claimId, ph)) continue;
-    staleOrNew(aff, claimId, ph);
-    claims.push({
-      claimId,
-      kind: 'affinity',
-      verifier: 'internal-consistency',
-      payload,
-      payloadHash: ph,
-      ...ctx,
-    });
-  }
-
-  // Residuals
-  for (const r of cell.residuals || []) {
-    const claimId = `res::${r.id}`;
-    const payload = { id: r.id, direction: r.direction, sourceTreatmentName: r.sourceTreatment?.name, candidatePort: r.candidatePort };
-    const ph = payloadHash(payload);
-    if (collectOnly) { claims.push({ claimId, payloadHash: ph }); continue; }
-    if (skipFor(r, claimId, ph)) continue;
-    staleOrNew(r, claimId, ph);
-    claims.push({
-      claimId,
-      kind: 'residual',
-      verifier: r.direction === 'NEURO_TO_DOMAIN' ? 'websearch' : 'pubmed',
-      payload,
-      payloadHash: ph,
-      ...ctx,
-    });
-  }
+  });
 }
 
 function verifierPriority(verifier) {
@@ -1135,35 +1126,42 @@ async function verifyEdgar(claim) {
 
 function propagateVerdictsToCube(cube, ledger) {
   let count = 0;
+  let staleCount = 0;
   for (const cell of cube.cells) {
-    count += applyToCollection(cell.issues, ledger, (i) => `iss::${i.id}`);
-    count += applyToCollection(cell.disorders, ledger, (d) => `dx::${d.id}`);
-    count += applyToCollection(cell.neuroTreatments, ledger, (t) => `ntx::${t.id}`);
-    count += applyToCollection(cell.domainTreatments, ledger, (t) => `dtx::${t.id}`);
-    count += applyToCollection(cell.portalBindings, ledger, (b) =>
-      `bind::${cell.cellId}::${b.portalSlug}::${b.relationshipType}::${b.entityName}`
-    );
-    count += applyToCollection(cell.crossDomainAffinities, ledger, (a) =>
-      `aff::${cell.cellId}::${a.toDomain}::${a.toRole}`
-    );
-    count += applyToCollection(cell.residuals, ledger, (r) => `res::${r.id}`);
+    forEachCellClaim(cell, (kind, shape, item, cellId) => {
+      const cid = shape.id(item, cellId);
+      const lv = ledger.verdicts[cid];
+      if (!lv) return;
+      // APPLICABILITY (audit 2026-10-16, item 2): a verdict covers only the
+      // exact payload it was computed from. A source edit under a preserved
+      // id flips the hash, and the old verdict must NOT display on changed
+      // content — a claim awaiting re-verification is shown as such, with
+      // the prior verdict referenced but not presented as current truth.
+      if (lv.ph && lv.ph === payloadHash(shape.payload(item))) {
+        item.verification = lv;
+        count++;
+      } else {
+        item.verification = {
+          verdict: 'PENDING',
+          verifier: lv.verifier || 'unknown',
+          evidence: [],
+          confidence: 0,
+          checkedAt: null,
+          stale: true,
+          previousVerdict: lv.verdict,
+          previousCheckedAt: lv.checkedAt || null,
+          note: 'Payload changed since the ledger verdict was computed — awaiting re-verification. The prior verdict is preserved in the ledger but not presented as current.',
+        };
+        staleCount++;
+      }
+    });
     // Recompute aggregate
     cell.verification = recomputeAggregate(cell);
   }
-  return count;
-}
-
-function applyToCollection(coll, ledger, idFn) {
-  if (!Array.isArray(coll)) return 0;
-  let n = 0;
-  for (const item of coll) {
-    const cid = idFn(item);
-    if (ledger.verdicts[cid]) {
-      item.verification = ledger.verdicts[cid];
-      n++;
-    }
+  if (staleCount) {
+    console.log(`[verification-organ] ${staleCount} occurrence(s) held stale verdicts (payload changed) — marked PENDING for re-verification`);
   }
-  return n;
+  return count;
 }
 
 function recomputeAggregate(cell) {
@@ -1237,4 +1235,7 @@ export {
   reconcilePopulation,
   extractCellClaims,
   recomputeAggregate,
+  forEachCellClaim,
+  CLAIM_SHAPES,
+  VERIFIER_VERSION,
 };
