@@ -61,7 +61,7 @@
 import fs from 'fs';
 import crypto from 'crypto';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -678,11 +678,43 @@ async function dispatch(claim, cube, bindingReport) {
  *
  * For BINDINGS: checks (brainNodeId, role) consistency against
  * binding-fidelity-report.json which already audited this.
+ *
+ * EVIDENCE-INTEGRITY (audit 2026-10-16, item 1): a verdict of VERIFIED
+ * requires audit COVERAGE, not merely the absence of flagged issues. A
+ * missing report — or a portal absent from the report — means this binding
+ * was never audited at all, so the correct verdict is UNVERIFIABLE
+ * (retryable), not VERIFIED. Previously the missing-coverage path fell
+ * through to VERIFIED, which is how 150 October 12 records were marked
+ * verified with no supporting audit.
  */
 function verifyRuleBased(claim, bindingReport) {
   if (claim.kind === 'binding') {
-    const pp = bindingReport.perPortal?.[claim.payload.portalSlug];
-    if (!pp || pp.issues?.length === 0) {
+    const perPortal =
+      bindingReport && typeof bindingReport.perPortal === 'object' && bindingReport.perPortal !== null
+        ? bindingReport.perPortal
+        : null;
+    if (!perPortal || Object.keys(perPortal).length === 0) {
+      return {
+        verdict: 'UNVERIFIABLE',
+        verifier: 'rule-based',
+        evidence: [],
+        confidence: 0,
+        checkedAt: new Date().toISOString(),
+        note: 'binding-fidelity report is missing — no audit coverage exists for any portal; retryable once the audit runs.',
+      };
+    }
+    const pp = perPortal[claim.payload.portalSlug];
+    if (!pp) {
+      return {
+        verdict: 'UNVERIFIABLE',
+        verifier: 'rule-based',
+        evidence: ['binding-fidelity-report:portal-not-covered'],
+        confidence: 0,
+        checkedAt: new Date().toISOString(),
+        note: `Portal "${claim.payload.portalSlug}" is absent from the binding-fidelity report — this binding was never audited. Retryable once coverage includes it.`,
+      };
+    }
+    if (!pp.issues || pp.issues.length === 0) {
       return {
         verdict: 'VERIFIED',
         verifier: 'rule-based',
@@ -1140,7 +1172,24 @@ function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-main().catch((err) => {
-  console.error('[verification-organ] FAILED:', err.stack || err);
-  process.exit(1);
-});
+const IS_CLI = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+if (IS_CLI) {
+  main().catch((err) => {
+    console.error('[verification-organ] FAILED:', err.stack || err);
+    process.exit(1);
+  });
+}
+
+// Exported for the evidence-integrity test suite (scripts/test-evidence-integrity.js).
+// The CLI behavior above is unchanged; importing this module does not run main().
+export {
+  verifyRuleBased,
+  checkPhraseInText,
+  claimKeyPhrase,
+  payloadHash,
+  stableStringify,
+  propagateVerdictsToCube,
+  reconcilePopulation,
+  extractCellClaims,
+  recomputeAggregate,
+};
