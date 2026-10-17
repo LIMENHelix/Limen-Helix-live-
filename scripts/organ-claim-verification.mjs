@@ -713,7 +713,13 @@ function capQueueWithRetryRotation(queue, ledger, max, verifierFilter, fullLane)
   const retryable = [];
   for (const c of queue) {
     const lv = ledger.verdicts && ledger.verdicts[c.claimId];
-    (lv && lv.verdict === 'UNVERIFIABLE' && lv.ph === c.payloadHash && retryLaneOk(c) ? retryable : rest).push(c);
+    const isRetry = !!(lv && lv.verdict === 'UNVERIFIABLE' && lv.ph === c.payloadHash);
+    // Out-of-lane retries are EXCLUDED, not downgraded into the fresh lane
+    // (review round 8, #399): the dedicated PubMed pass follows the general
+    // pass, so a PubMed retry admitted here would be queried again there —
+    // a double-spend of the external-call budget.
+    if (isRetry && !retryLaneOk(c)) continue;
+    (isRetry ? retryable : rest).push(c);
   }
   const reservedForRetry = Math.min(retryable.length, Math.max(1, Math.floor(max / 4)));
   const restAdmitted = rest.slice(0, max - reservedForRetry);
@@ -1262,10 +1268,9 @@ function abstractContradicts(text, keyPhrase) {
     .split(/\n+/);
   for (const line of lines) {
     let claimSeenInSentence = false;
-    // Clause splitter: a period followed by a digit is a decimal, not a
-    // terminator ("effect size of 0.2 and did not improve outcomes" must
-    // stay one clause) — review on #399.
-    const clauses = line.match(/(?:[^.!?;:\n]|\.(?=\d))+(?:[.!?;:](?!\d)|$)/g) || [];
+    // Clause splitter: a period or colon between digits is a decimal or a
+    // ratio (0.2, 1:1), not a terminator (reviews on #399).
+    const clauses = line.match(/(?:[^.!?;:\n]|\.(?=\d)|:(?=\d))+(?:[.!?;:](?!\d)|$)/g) || [];
     for (const s of clauses) {
       const trimmed = s.trim();
       if (!trimmed) continue;

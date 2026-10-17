@@ -260,8 +260,8 @@ ok('negation sharing a sentence with the claim still disputes',
       { claimId: 'rb-2', verifier: 'rule-based' },
       { claimId: 'pm-retry', payloadHash: 'x', verifier: 'pubmed' },
     ];
-    const general = capQueueWithRetryRotation(q, ledger4, 2, undefined, true);
-    ok('general lane does not pull pubmed retries ahead of cheaper work',
+    const general = capQueueWithRetryRotation(q, ledger4, 2);
+    ok('general lane excludes out-of-lane retries entirely (no double-spend)',
       general.length === 2 && general[0].claimId === 'rb-1' && general[1].claimId === 'rb-2');
     const pubmedLane = capQueueWithRetryRotation(q, ledger4, 2, ['pubmed'], true);
     ok('pubmed lane admits its own retries', pubmedLane.some((c) => c.claimId === 'pm-retry'));
@@ -481,6 +481,8 @@ ok('abbreviation periods do not split a clause',
   abstractContradicts('Exposure therapy was tested in the U.S. and did not improve outcomes', 'Exposure Therapy'));
 ok('abbreviation ending a sentence still splits the sentence',
   !abstractContradicts('Exposure therapy improved symptoms in the U.S. Sertraline did not improve outcomes.', 'Exposure Therapy'));
+ok('randomization ratios do not split a clause',
+  abstractContradicts('Exposure therapy was compared 1:1 with control and did not improve outcomes', 'Exposure Therapy'));
 
 // Reconciliation uses the same per-verifier acceptance policy (review #399).
 {
