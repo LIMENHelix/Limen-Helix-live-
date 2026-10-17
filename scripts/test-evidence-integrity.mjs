@@ -535,6 +535,22 @@ ok('outcome nouns are not alternate owners',
 ok('researcher they does not carry another treatment result',
   !abstractContradicts('Exposure therapy improved symptoms; however, they found that sertraline did not improve outcomes', 'Exposure Therapy'));
 
+// Fix on #401: treatment-subject "they" still disputes — the exclusion
+// covers only reporting constructions ("they found that …").
+ok('treatments failing in person still dispute (showed)',
+  abstractContradicts('Exposure therapy and CBT were tested; they showed no benefit.', 'Exposure Therapy'));
+ok('treatments failing in person still dispute (demonstrated)',
+  abstractContradicts('Exposure therapy and CBT were tested; they demonstrated no significant improvement.', 'Exposure Therapy'));
+ok('researcher demonstrated-that still rejects (control)',
+  !abstractContradicts('Exposure therapy improved symptoms; however, they demonstrated that sertraline did not improve outcomes', 'Exposure Therapy'));
+
+// FIX on #401: a named treatment's group is not claim context, and
+// populations are not treatments.
+ok('another treatment group opening does not dispute',
+  !abstractContradicts('Exposure therapy improved symptoms; in the sertraline group, no improvement was observed.', 'Exposure Therapy'));
+ok('population-only ownership still disputes the claim',
+  abstractContradicts('Exposure therapy was tested; no benefit was observed for adults.', 'Exposure Therapy'));
+
 // Coreference (review on #399): the claim named in one clause and its
 // negative result continued by pronoun or passive result marker in the next
 // MUST dispute — clause delimiters do not break coreference.

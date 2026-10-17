@@ -1356,10 +1356,12 @@ function abstractContradicts(text, keyPhrase) {
   // "however, this study found no benefit of sertraline" — "this" owns a
   // noun, not the claim.
   const DISCOURSE = '(?:however|but|and|yet|still|though|although|overall|interestingly|notably|unfortunately|surprisingly|sadly)';
-  // Contextual adjuncts are recognized generically (review round 5, #401):
-  // "in this study", "in our study", "in the trial", "in those analyses" —
-  // any demonstrative/possessive + noun, not just a fixed list.
-  const ADJUNCT = '(?:in (?:this|that|our|the|these|those) [a-z]+(?: [a-z]+)?|' + DISCOURSE + ')';
+  // Contextual adjuncts (review rounds on #401): demonstrative/possessive
+  // openings accept any noun ("in our study", "in those analyses"); "in
+  // the …" accepts only study-context nouns, so a different treatment's
+  // group ("in the sertraline group, no improvement was observed") is
+  // never absorbed as claim context.
+  const ADJUNCT = '(?:in (?:this|that|our|these|those) [a-z]+(?: [a-z]+)?|in the (?:study|studies|trial|trials|analysis|analyses|cohort|cohorts|investigation|investigations|experiment|experiments|review|reviews|arm|arms|subgroup|subgroups|sample|samples|pilot|population|populations)(?: [a-z]+)?|' + DISCOURSE + ')';
   const COREF_START = new RegExp('^\\s*(?:' + DISCOURSE + '\\s+)?(it|this|these|they|the treatment|the intervention|the therapy|the approach|the result|the results)\\b');
   // Equivalence phrases ("no significant difference", "not superior") compare
   // arms — they are not a directional failure of the claim itself, so they
@@ -1437,7 +1439,11 @@ function abstractContradicts(text, keyPhrase) {
     // emerged", "no improvement in the sertraline group emerged", and
     // postposed ownership ("no benefit emerged for sertraline") all
     // attribute nothing to the claim under test.
-    const GENERIC_OWNER = new Set(['symptoms', 'symptom', 'outcomes', 'outcome', 'measures', 'measure', 'endpoints', 'endpoint', 'patients', 'patient', 'subjects', 'subject', 'participants', 'benefit', 'improvement', 'response', 'this', 'that', 'these', 'those', 'study', 'trial', 'analysis', 'cohort', 'rate', 'rates', 'levels', 'level', 'score', 'scores', 'quality', 'life', 'pain', 'function', 'mood', 'sleep', 'anxiety', 'depression', 'energy', 'cognition', 'memory', 'attention', 'weight', 'appetite', 'libido']);
+    const GENERIC_OWNER = new Set(['symptoms', 'symptom', 'outcomes', 'outcome', 'measures', 'measure', 'endpoints', 'endpoint', 'patients', 'patient', 'subjects', 'subject', 'participants', 'benefit', 'improvement', 'response', 'this', 'that', 'these', 'those', 'study', 'trial', 'analysis', 'cohort', 'rate', 'rates', 'levels', 'level', 'score', 'scores', 'quality', 'life', 'pain', 'function', 'mood', 'sleep', 'anxiety', 'depression', 'energy', 'cognition', 'memory', 'attention', 'weight', 'appetite', 'libido',
+      // Populations are not treatments (fix on #401): "no benefit was
+      // observed for adults" reports the claim's own negative result in a
+      // population, not another treatment's.
+      'adults', 'adult', 'children', 'child', 'adolescents', 'adolescent', 'elderly', 'seniors', 'senior', 'men', 'women', 'males', 'male', 'females', 'female', 'youth', 'kids', 'infants', 'toddlers', 'teenagers', 'teenager', 'geriatrics', 'pediatrics']);
     const ownerOf = (word) =>
       !!word && !GENERIC_OWNER.has(word) && !tokens.includes(word);
     // Ownership requires a treatment/group construction (review round 5,
@@ -1461,10 +1467,13 @@ function abstractContradicts(text, keyPhrase) {
       const referent = opening[1];
       const after = n.slice(n.indexOf(referent));
       const demonstrative = /^(this|these) (study|studies|trial|trials|analysis|analyses|cohort|group|groups|arm|arms|investigation|investigations|experiment|experiments|review|reviews|paper|papers|report|reports|meta-analysis)\b/.test(after.trim());
-      // Researcher "they" is not coreference (review round 5, #401): "they
-      // found/reported/noted that sertraline did not improve" — the
-      // pronoun belongs to the investigators.
-      const researcherThey = /^they (found|observed|reported|noted|demonstrated|showed|concluded|determined|saw|measured|assessed|evaluated)\b/.test(after.trim());
+      // Researcher "they" is not coreference ONLY in a reporting
+      // construction (fix on #401): "they found/reported that sertraline
+      // did not improve" belongs to the investigators — but "they showed no
+      // benefit" is the treatments failing in person and must still
+      // dispute. Reporting verbs without a that-clause are the subject's
+      // own result, not investigator speech.
+      const researcherThey = /^they (found|observed|reported|noted|demonstrated|showed|concluded|determined|saw|measured|assessed|evaluated) that\b/.test(after.trim());
       // Expletive "it" is not coreference ONLY when another subject owns
       // the result (fix on #401): "it was found that sertraline did not
       // improve" and "it appears that sertraline did not improve" reject —
