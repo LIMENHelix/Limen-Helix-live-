@@ -186,8 +186,8 @@ async function main() {
     const sourceCommit = process.env.LIMEN_SOURCE_COMMIT || null;
     // Propagate BEFORE reconciling (same order as the full run), so the
     // reconciliation counts the verdicts the cube actually displays.
-    const propagated = propagateVerdictsToCube(cube, ledger);
-    const reconciliation = reconcilePopulation(cube, ledger, snapshotAt, sourceCommit);
+    const propagated = propagateVerdictsToCube(cube, ledger, bindingReport);
+    const reconciliation = reconcilePopulation(cube, ledger, snapshotAt, sourceCommit, bindingReport);
     ledger.reconciliation = reconciliation;
 
     cube.verificationReconciliation = reconciliation;
@@ -216,7 +216,7 @@ async function main() {
   // ============================================================================
   // EXTRACT CLAIMS — every PENDING claim across every cell
   // ============================================================================
-  const claims = extractAllClaims(cube, ledger);
+  const claims = extractAllClaims(cube, ledger, bindingReport);
   console.log(`[verification-organ] PENDING claims extracted: ${claims.length}` +
     (stalePayloadCount ? ` (${stalePayloadCount} stale payload — source edited under a preserved id)` : ''));
 
@@ -254,7 +254,10 @@ async function main() {
   // regardless of turnover. Fresh claims keep priority order.
   queue = capQueueWithRetryRotation(queue, ledger, ARG.maxClaims, ARG.verifierFilter,
     (ARG.priorityNodes.length ? 'pri:' + ARG.priorityNodes.join(',') : '') +
-    (ARG.reverifyIds.length ? 'ids:' + ARG.reverifyIds.length : ''));
+    // Cursor scope carries a stable fingerprint of the SELECTED ids, not
+    // their count (cold audit 2026-10-17): two same-size reverify lists
+    // must never share a rotation window.
+    (ARG.reverifyIds.length ? 'ids:' + payloadHash(ARG.reverifyIds.slice().sort().join(',')).slice(0, 8) : ''));
   console.log(`[verification-organ] working set this run: ${queue.length}`);
 
   if (ARG.dryRun) {
@@ -332,12 +335,13 @@ async function main() {
   // ============================================================================
   console.log('');
   console.log('[verification-organ] propagating verdicts to cube cells');
-  const propagated = propagateVerdictsToCube(cube, ledger);
+  const propagated = propagateVerdictsToCube(cube, ledger, bindingReport);
   const reconciliation = reconcilePopulation(
     cube,
     ledger,
     ledger.lastUpdatedAt,
-    process.env.LIMEN_SOURCE_COMMIT || null
+    process.env.LIMEN_SOURCE_COMMIT || null,
+    bindingReport
   );
   ledger.reconciliation = reconciliation;
   cube.verificationReconciliation = reconciliation;
@@ -376,12 +380,12 @@ async function main() {
 // CLAIM EXTRACTION
 // ============================================================================
 
-function extractAllClaims(cube, ledger) {
+function extractAllClaims(cube, ledger, bindingReport) {
   const claims = [];
   const reverifySet = new Set(ARG.reverifyIds || []);
   stalePayloadCount = 0;
   for (const cell of cube.cells) {
-    extractCellClaims(cell, claims, ledger, reverifySet);
+    extractCellClaims(cell, claims, ledger, reverifySet, false, bindingReport);
   }
   return claims;
 }
@@ -444,7 +448,7 @@ function collectCurrentClaims(cube) {
   return claims;
 }
 
-function reconcilePopulation(cube, ledger, snapshotAt, sourceCommit) {
+function reconcilePopulation(cube, ledger, snapshotAt, sourceCommit, bindingReport = null) {
   const currentClaims = collectCurrentClaims(cube);
   const ledgerIds = Object.keys(ledger.verdicts || {});
   const currentIds = new Set(currentClaims.keys());
@@ -459,10 +463,14 @@ function reconcilePopulation(cube, ledger, snapshotAt, sourceCommit) {
   // preserved in the ledger but counts as PENDING here — the claim is
   // awaiting re-verification and must not be tallied under its old label.
   const currentPh = new Map();
+  const currentItem = new Map();
   for (const cell of cube.cells || []) {
     forEachCellClaim(cell, (kind, shape, item, cellId) => {
       const id = shape.id(item, cellId);
-      if (!currentPh.has(id)) currentPh.set(id, payloadHash(shape.payload(item)));
+      if (!currentPh.has(id)) {
+        currentPh.set(id, payloadHash(shape.payload(item)));
+        currentItem.set(id, item);
+      }
     });
   }
 
@@ -473,7 +481,11 @@ function reconcilePopulation(cube, ledger, snapshotAt, sourceCommit) {
     let effective = sourceVerdict;
     if (lv) {
       const ph = currentPh.get(claimId);
-      if (lv.ph && ph && lv.ph === ph && verdictAccepted(lv)) {
+      const auditOk = !claimId.startsWith('bind::') || lv.verdict === 'UNVERIFIABLE' ||
+        (bindingReport && currentItem.get(claimId)
+          ? !!(lv.auditFp && bindingAuditFingerprint(bindingReport, currentItem.get(claimId).portalSlug) === lv.auditFp)
+          : true);
+      if (lv.ph && ph && lv.ph === ph && verdictAccepted(lv) && auditOk) {
         effective = lv.verdict;
       } else {
         effective = 'PENDING';
@@ -585,8 +597,10 @@ function forEachCellClaim(cell, cb) {
 // predating it are reported by reconcilePopulation so the regeneration step
 // can see exactly how much of the ledger predates the evidence-integrity
 // repair — without auto-invalidating them mid-pipeline. ei2: negation-guard
-// coreference/decimal fixes (#399) — ei1 pubmed verdicts re-enqueue.
-const VERIFIER_VERSION = 'claim-verification/2026-10-16.ei2';
+// coreference/decimal fixes (#399) — ei1 pubmed verdicts re-enqueue. ei3:
+// discourse/adjunct/expletive semantics (#401) — ei2 pubmed verdicts
+// re-enqueue so cached claims are re-judged under the final rules.
+const VERIFIER_VERSION = 'claim-verification/2026-10-17.ei3';
 
 // Verdicts produced before the evidence-integrity repair re-enqueue even
 // when the payload hash matches — a hash match proves the content is
@@ -599,8 +613,8 @@ const VERIFIER_VERSION = 'claim-verification/2026-10-16.ei2';
 // reconcilePopulation (reporting) must apply the SAME acceptance policy
 // (review round 4 on #399).
 const ACCEPTED_VERSIONS = {
-  'rule-based': new Set(['claim-verification/2026-10-16.ei1', 'claim-verification/2026-10-16.ei2']),
-  pubmed: new Set(['claim-verification/2026-10-16.ei2']),
+  'rule-based': new Set(['claim-verification/2026-10-16.ei1', 'claim-verification/2026-10-16.ei2', 'claim-verification/2026-10-17.ei3']),
+  pubmed: new Set(['claim-verification/2026-10-17.ei3']),
 };
 
 // skipFor (extraction), propagateVerdictsToCube (display), and
@@ -612,7 +626,7 @@ function verdictAccepted(lv) {
   return !accepted || accepted.has(lv.verifierVersion || null);
 }
 
-function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collectOnly = false) {
+function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collectOnly = false, bindingReport = null) {
   // Each claim is a (claimId, kind, verifier, payload, cell context) tuple.
   // Co-occurrence context — disorder names + node region terms — is what the
   // tightened PubMed query AND's against so token matches can't drift to
@@ -656,6 +670,21 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collec
     if (lv && !reverifySet.has(claimId)) {
       if (RETRYABLE.has(lv.verdict)) return false;
       if (!verdictAccepted(lv)) return false;
+      // Audit-evidence applicability (cold audit 2026-10-17): a binding
+      // verdict recorded WHICH audit content it came from. If the
+      // regenerated fidelity report now says something different for this
+      // portal, the verdict's evidence is out of date even though the
+      // claim payload and verifier version are unchanged — re-attest.
+      if (claimId.startsWith('bind::') && bindingReport && lv.verdict !== 'UNVERIFIABLE') {
+        // A missing fingerprint is a mismatch too (review on #401): if the
+        // report vanished or the portal was dropped, the verdict's audit
+        // basis is gone — re-attest instead of stranding the claim pending
+        // forever without dispatching the verifier. A verdict recorded
+        // BEFORE fingerprints existed is likewise re-attested when a report
+        // is available to judge it (review round 2 on #401).
+        const fp = bindingAuditFingerprint(bindingReport, item.portalSlug);
+        if (!lv.auditFp || !fp || fp !== lv.auditFp) return false;
+      }
     }
     if (ledgerCurrent(claimId, ph) && !reverifySet.has(claimId)) return true;
     if (!ledger.verdicts[claimId]) {
@@ -859,6 +888,22 @@ function verifyRuleBased(claim, bindingReport) {
         note: `Binding-fidelity audit for portal "${claim.payload.portalSlug}" failed or produced no issue list — the audit did not complete, so no verdict can issue. Retryable once the audit succeeds.`,
       };
     }
+    // Malformed members are audit failures too (review round 4, #401).
+    if (pp.issues.some((i) => !i || typeof i !== 'object')) {
+      return {
+        verdict: 'UNVERIFIABLE',
+        verifier: 'rule-based',
+        evidence: ['binding-fidelity-report:malformed-issues'],
+        confidence: 0,
+        checkedAt: new Date().toISOString(),
+        note: `Binding-fidelity audit for portal "${claim.payload.portalSlug}" contains malformed issue entries — retryable once the audit produces valid records.`,
+      };
+    }
+    // Audit-input fingerprint (cold audit 2026-10-17): the verdict records
+    // exactly which audit content it was computed from, so a REGENERATED
+    // report with different findings can invalidate it even when the
+    // claim's own five-field payload is unchanged.
+    const auditFp = portalAuditFingerprint(pp);
     if (pp.issues.length === 0) {
       return {
         verdict: 'VERIFIED',
@@ -866,14 +911,27 @@ function verifyRuleBased(claim, bindingReport) {
         evidence: ['binding-fidelity-report:no-issues'],
         confidence: 0.7,
         checkedAt: new Date().toISOString(),
+        auditFp,
         note: 'No issues in binding-fidelity audit for this portal.',
       };
     }
-    const matchedIssue = pp.issues?.find(
-      (i) =>
-        i.entityName === claim.payload.entityName &&
-        i.relType === claim.payload.relationshipType
-    );
+    // Deterministic selection among duplicate matches (review round 4,
+    // #401): the fingerprint is order-independent, so selection must be
+    // too — duplicates resolve by severity (highest first), then canonical
+    // content order.
+    const SEVERITY_RANK = { high: 3, medium: 2, low: 1 };
+    const matchedIssue = pp.issues
+      .filter(
+        (i) =>
+          i.entityName === claim.payload.entityName &&
+          i.relType === claim.payload.relationshipType
+      )
+      .sort(
+        (a, b) =>
+          (SEVERITY_RANK[b.severity] || 0) - (SEVERITY_RANK[a.severity] || 0) ||
+          (stableStringify(normalizeIssue(a)) < stableStringify(normalizeIssue(b)) ? -1
+            : stableStringify(normalizeIssue(a)) > stableStringify(normalizeIssue(b)) ? 1 : 0)
+      )[0];
     if (!matchedIssue) {
       return {
         verdict: 'VERIFIED',
@@ -881,6 +939,7 @@ function verifyRuleBased(claim, bindingReport) {
         evidence: ['binding-fidelity-report:passed'],
         confidence: 0.75,
         checkedAt: new Date().toISOString(),
+        auditFp,
         note: 'Binding passed audit at fidelity-report time.',
       };
     }
@@ -890,6 +949,7 @@ function verifyRuleBased(claim, bindingReport) {
       evidence: [`binding-fidelity-report:${matchedIssue.kind}`],
       confidence: 0.6,
       checkedAt: new Date().toISOString(),
+      auditFp,
       note: `Flagged by binding-fidelity-report: ${matchedIssue.kind}${matchedIssue.note ? ' — ' + matchedIssue.note : ''}`,
     };
   }
@@ -901,6 +961,57 @@ function verifyRuleBased(claim, bindingReport) {
     checkedAt: new Date().toISOString(),
     note: 'rule-based verifier not implemented for this kind',
   };
+}
+
+// Fingerprint of the audit content that can affect a portal's verdicts —
+// outcome flag, error, and the issue list (entities, relations, kinds,
+// severities). Any change here means the audit evidence changed, even if
+// the audited claim payloads did not (cold audit 2026-10-17).
+// The normalized issue record used by BOTH the audit fingerprint and
+// duplicate-match selection (review round 8, #401): a field the fingerprint
+// omits can never change which duplicate supplies the persisted evidence.
+function normalizeIssue(i) {
+  const m = i && typeof i === 'object' ? i : {};
+  return {
+    // A null member must fingerprint differently from an empty-object
+    // member (review round 4, #401): [null] is malformed audit output,
+    // [{}] is a valid record with absent fields.
+    memberValid: !!(i && typeof i === 'object'),
+    entityName: m.entityName ?? null,
+    relType: m.relType ?? null,
+    kind: m.kind ?? null,
+    severity: m.severity ?? null,
+    // The note is embedded in the persisted verdict — it must invalidate
+    // the fingerprint too (review round 3, #401).
+    note: m.note ?? null,
+  };
+}
+
+function portalAuditFingerprint(pp) {
+  return payloadHash({
+    ok: pp.ok ?? null,
+    error: pp.error || null,
+    // Normalize before mapping (review round 2 on #401): a truthy non-array
+    // issues value must not crash the organ — it follows the same retryable
+    // audit-failure path as any malformed report. Validity is PART of the
+    // fingerprint (fix on #401): malformed evidence must invalidate a
+    // cached clean verdict, not silently fingerprint-identical to [].
+    issuesValid: Array.isArray(pp.issues),
+    issues: (Array.isArray(pp.issues) ? pp.issues : []).map(normalizeIssue)
+      .sort((a, b) => stableStringify(a) < stableStringify(b) ? -1 : stableStringify(a) > stableStringify(b) ? 1 : 0),
+  });
+}
+
+// Current audit fingerprint for a portal, or null when the portal is not
+// covered / the report is absent — so callers can require the fingerprint
+// a verdict was computed from (extraction, propagation, reconciliation).
+function bindingAuditFingerprint(bindingReport, portalSlug) {
+  const perPortal =
+    bindingReport && typeof bindingReport.perPortal === 'object' && bindingReport.perPortal !== null
+      ? bindingReport.perPortal
+      : null;
+  const pp = perPortal && perPortal[portalSlug];
+  return pp ? portalAuditFingerprint(pp) : null;
 }
 
 /**
@@ -1237,8 +1348,30 @@ function abstractContradicts(text, keyPhrase) {
   // coreferential pronoun or passive result marker and an earlier clause
   // named the claim. Residual limitation, honestly noted: outcome-typed
   // checking ("which outcome was null?") is a model task, not a regex one.
-  const COREF_START = /^\s*(it|this|these|they|the treatment|the intervention|the therapy|the approach|the result|the results)\b/;
-  const PASSIVE_RESULT = /\b(was|were) (observed|found|seen|noted|reported|demonstrated)\b/;
+  // A coreferential continuation may open with a discourse marker
+  // ("however, it did not improve outcomes") — the pronoun still belongs to
+  // the claim (cold audit 2026-10-17). Passive-result markers are NOT
+  // enough on their own: "sertraline showed no benefit, which was observed
+  // in controls" would misattribute sertraline's result to the claim, so
+  // carry-over requires an anchored pronoun OR a directional failure at
+  // clause start (optionally behind a contextual adjunct like "in this
+  // study"). Demonstrative determiners are not pronouns (review on #401):
+  // "however, this study found no benefit of sertraline" — "this" owns a
+  // noun, not the claim.
+  const DISCOURSE = '(?:however|but|and|yet|still|though|although|overall|interestingly|notably|unfortunately|surprisingly|sadly)';
+  // Contextual adjuncts (review rounds on #401): demonstrative/possessive
+  // openings accept any noun ("in our study", "in those analyses"); "in
+  // the …" accepts only study-context nouns, so a different treatment's
+  // group ("in the sertraline group, no improvement was observed") is
+  // never absorbed as claim context.
+  // Contextual adjuncts (review rounds on #401): any determiner
+  // (this/that/our/these/those/the/a/an) followed by any modifiers, but the
+  // head noun must be a study context — "in the randomized controlled
+  // trial" and "in our study" carry the claim, while "in this control
+  // group" or "in the sertraline group" belong to another arm.
+  const STUDY_NOUN = '(?:study|studies|trial|trials|analysis|analyses|cohort|cohorts|investigation|investigations|experiment|experiments|review|reviews|arm|arms|subgroup|subgroups|sample|samples|pilot|population|populations)';
+  const ADJUNCT = '(?:in (?:this|that|our|these|those|the|a|an) (?:[a-z]+ )*' + STUDY_NOUN + '|' + DISCOURSE + ')';
+  const COREF_START = new RegExp('^\\s*(?:' + DISCOURSE + '\\s+)?(it|this|these|they|the treatment|the intervention|the therapy|the approach|the result|the results)\\b');
   // Equivalence phrases ("no significant difference", "not superior") compare
   // arms — they are not a directional failure of the claim itself, so they
   // can only contradict when the claim is named in the SAME clause. They are
@@ -1299,14 +1432,78 @@ function abstractContradicts(text, keyPhrase) {
     const hasNegation = NEGATION_PATTERNS.some((p) => n.includes(` ${p} `));
     if (hasNegation && mentionsClaim) return true;
     // Carry-over: the clause never names the claim, so it continues the
-    // claim only when it clearly belongs to it (review rounds on #399):
-    // it STARTS with a coreference marker, OR it starts with the
-    // directional failure itself ("…was assessed: no improvement
-    // occurred"), OR it carries a passive result marker — and in every
-    // case the failure phrase must be directional, never an arm
-    // comparison.
-    const startsDirectional = CARRYOVER_NEGATIONS.some((p) => n.startsWith(` ${p}`));
-    if (!mentionsClaim && claimSeenInSentence && (COREF_START.test(n) || PASSIVE_RESULT.test(n) || startsDirectional)
+    // claim only when it clearly belongs to it (review rounds on #399,
+    // cold audit 2026-10-17): it STARTS with a coreference marker
+    // (discourse adverbs allowed), OR it starts with the directional
+    // failure itself ("…was assessed: no improvement occurred") — and in
+    // every case the failure phrase must be directional, never an arm
+    // comparison and never a mid-clause passive attached to another
+    // subject.
+    const startsDirectional = CARRYOVER_NEGATIONS.some((p) =>
+      n.startsWith(` ${p}`) || new RegExp(`^ ${ADJUNCT} ${p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')} `).test(n));
+    // A directional failure owned by another named subject is not the
+    // claim's result (review rounds on #401): "no benefit of sertraline
+    // A directional failure owned by another named subject is not the
+    // claim's result (review rounds on #401): "no benefit of sertraline
+    // emerged", "no improvement in the sertraline group emerged", and
+    // postposed ownership ("no benefit emerged for sertraline") all
+    // attribute nothing to the claim under test.
+    const GENERIC_OWNER = new Set(['symptoms', 'symptom', 'outcomes', 'outcome', 'measures', 'measure', 'endpoints', 'endpoint', 'patients', 'patient', 'subjects', 'subject', 'participants', 'benefit', 'improvement', 'response', 'this', 'that', 'these', 'those', 'study', 'trial', 'analysis', 'cohort', 'rate', 'rates', 'levels', 'level', 'score', 'scores', 'quality', 'life', 'pain', 'function', 'mood', 'sleep', 'anxiety', 'depression', 'energy', 'cognition', 'memory', 'attention', 'weight', 'appetite', 'libido',
+      // Populations are not treatments (fix on #401): "no benefit was
+      // observed for adults" reports the claim's own negative result in a
+      // population, not another treatment's.
+      'adults', 'adult', 'children', 'child', 'adolescents', 'adolescent', 'elderly', 'seniors', 'senior', 'men', 'women', 'males', 'male', 'females', 'female', 'youth', 'kids', 'infants', 'toddlers', 'teenagers', 'teenager', 'geriatrics', 'pediatrics',
+      // Coreferential group labels refer to the CURRENT claim (fix on
+      // #401): "no improvement in the treatment group" is the claim's own
+      // arm, not another treatment.
+      'treatment', 'intervention', 'therapy', 'approach']);
+    const ownerOf = (word) =>
+      !!word && !GENERIC_OWNER.has(word) && !tokens.includes(word);
+    // Ownership requires a treatment/group construction (review round 5,
+    // #401): a bare noun after "in" ("no improvement in quality of life")
+    // is an outcome, not an owner — "in" only counts with a group/arm/
+    // cohort suffix; of/with/for/from keep bare treatment names.
+    const ownerMatch = n.match(/\b(?:no benefit|no improvement|no significant improvement|no significant effect|no significant benefit|no effect|not effective|no evidence of benefit) (?:of|with|for|from) (?:the )?([a-z][a-z-]*)(?: group| arm| cohort)?\b/) ||
+      n.match(/\b(?:no benefit|no improvement|no significant improvement|no significant effect|no significant benefit|no effect|not effective|no evidence of benefit) in (?:the )?([a-z][a-z-]*) (?:group|arm|cohort)\b/) ||
+      n.match(/\b(?:emerged|occurred|appeared|emerge|occurs|appears|was observed|was found|was seen|was reported) (?:of|for|from|with) (?:the )?([a-z][a-z-]*)(?: group| arm| cohort)?\b/) ||
+      n.match(/\b(?:emerged|occurred|appeared|emerge|occurs|appears) in (?:the )?([a-z][a-z-]*) (?:group|arm|cohort)\b/);
+    const ownedByOther = !!(ownerMatch && ownerOf(ownerMatch[1]));
+    // Coreference gates (review rounds on #401):
+    //  - the demonstrative exclusion applies only to the OPENING referent —
+    //   "it did not improve outcomes in this study" is still coreference;
+    //   "this study found no benefit of sertraline" is not.
+    //  - expletive "it" is not coreference: "it was found that sertraline
+    //   did not improve outcomes" — a named subject owns the result.
+    let coref = false;
+    const opening = n.match(COREF_START);
+    if (opening) {
+      const referent = opening[1];
+      const after = n.slice(n.indexOf(referent));
+      const demonstrative = /^(this|these) (?:[a-z]+ )?(?:study|studies|trial|trials|analysis|analyses|cohort|group|groups|arm|arms|investigation|investigations|experiment|experiments|review|reviews|paper|papers|report|reports|meta-analysis)\b/.test(after.trim());
+      // Researcher "they" is not coreference when the reporting verb's
+      // object is another named subject (fix on #401): "they found
+      // sertraline did not improve" (no "that" needed) and "they found
+      // that sertraline did not improve" both belong to investigators —
+      // but "they showed no benefit" / "they demonstrated no significant
+      // improvement" is the treatments failing in person and must dispute.
+      const researcherMatch = after.trim().match(/^they (found|observed|reported|noted|concluded|determined|saw|measured|assessed|evaluated|demonstrated|showed)(?: that)?\s*([a-z][a-z-]*)/);
+      const researcherThey = !!(researcherMatch &&
+        !/^(that|no|not|never|nothing|none|failed|didn|did|does|do|had|has|have|was|were|is|are|remained|proved)\b/.test(researcherMatch[2]) &&
+        !tokens.includes(researcherMatch[2]) &&
+        !GENERIC_OWNER.has(researcherMatch[2]));
+      // Expletive "it" is not coreference ONLY when another subject owns
+      // the result (fix on #401): "it was found that sertraline did not
+      // improve" and "it appears that sertraline did not improve" reject —
+      // but "it was found that the treatment did not improve" is an
+      // explicit reference back to the claim and must dispute.
+      const expletiveMatch = after.trim().match(/^(it|this) (?:was|is|were|appears|appeared|seems|seemed|is possible|is likely|is unlikely|may be|might be|could be)(?: (?:found|shown|observed|reported|noted|demonstrated|seen|clear|evident|apparent))? that\s+(.*)$/);
+      const refersBackToClaim = expletiveMatch
+        ? /^(the treatment|the intervention|the therapy|the approach)\b/.test(expletiveMatch[2])
+        : false;
+      const expletive = !!expletiveMatch && !refersBackToClaim;
+      coref = !demonstrative && !expletive && !researcherThey;
+    }
+    if (!mentionsClaim && claimSeenInSentence && (coref || (startsDirectional && !ownedByOther))
         && CARRYOVER_NEGATIONS.some((p) => n.includes(` ${p} `))) return true;
     if (mentionsClaim) claimSeenInSentence = true;
     if (/[.!?]$/.test(trimmed)) claimSeenInSentence = false;
@@ -1371,7 +1568,7 @@ async function verifyEdgar(claim) {
 // PROPAGATE TO CUBE
 // ============================================================================
 
-function propagateVerdictsToCube(cube, ledger) {
+function propagateVerdictsToCube(cube, ledger, bindingReport = null) {
   let count = 0;
   let staleCount = 0;
   for (const cell of cube.cells) {
@@ -1384,15 +1581,24 @@ function propagateVerdictsToCube(cube, ledger) {
       // id flips the hash, and the old verdict must NOT display on changed
       // content — a claim awaiting re-verification is shown as such, with
       // the prior verdict referenced but not presented as current truth.
-      // The stale reason is recorded honestly (review round 7, #399):
-      // "payload-changed" and "verifier-version" are different causes and
-      // the audit trail must not report one as the other.
+      // The stale reason is recorded honestly (review round 7, #399;
+      // audit-input changes added in the 2026-10-17 cold audit):
+      // "payload-changed", "verifier-version" and "audit-input-changed" are
+      // different causes and the audit trail must not report one as another.
       const phMatch = lv.ph && lv.ph === payloadHash(shape.payload(item));
-      if (phMatch && verdictAccepted(lv)) {
+      // The fingerprint requirement applies to TERMINAL verdicts (review
+      // round 3, #401): a fresh UNVERIFIABLE from missing coverage has no
+      // auditFp by design and must be preserved as-is, not rewritten stale.
+      const auditOk = !cid.startsWith('bind::') || lv.verdict === 'UNVERIFIABLE' ||
+        (bindingReport
+          ? !!(lv.auditFp && bindingAuditFingerprint(bindingReport, item.portalSlug) === lv.auditFp)
+          : true);
+      if (phMatch && verdictAccepted(lv) && auditOk) {
         item.verification = lv;
         count++;
       } else {
-        const staleReason = phMatch ? 'verifier-version' : 'payload-changed';
+        const staleReason = !phMatch ? 'payload-changed'
+          : (!verdictAccepted(lv) ? 'verifier-version' : 'audit-input-changed');
         item.verification = {
           verdict: 'PENDING',
           verifier: lv.verifier || 'unknown',
@@ -1405,7 +1611,9 @@ function propagateVerdictsToCube(cube, ledger) {
           previousCheckedAt: lv.checkedAt || null,
           note: staleReason === 'verifier-version'
             ? 'Ledger verdict predates the current verifier rules — awaiting re-verification under repaired semantics. The prior verdict is preserved in the ledger but not presented as current.'
-            : 'Payload changed since the ledger verdict was computed — awaiting re-verification. The prior verdict is preserved in the ledger but not presented as current.',
+            : staleReason === 'audit-input-changed'
+              ? 'The binding-fidelity audit was regenerated with different findings for this portal — the verdict recorded older audit evidence and is awaiting re-attestation. The prior verdict is preserved in the ledger but not presented as current.'
+              : 'Payload changed since the ledger verdict was computed — awaiting re-verification. The prior verdict is preserved in the ledger but not presented as current.',
         };
         staleCount++;
       }
@@ -1495,4 +1703,6 @@ export {
   forEachCellClaim,
   CLAIM_SHAPES,
   VERIFIER_VERSION,
+  portalAuditFingerprint,
+  bindingAuditFingerprint,
 };

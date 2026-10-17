@@ -25,6 +25,7 @@ import {
   capQueueWithRetryRotation,
   VERIFIER_VERSION,
   CLAIM_SHAPES,
+  portalAuditFingerprint,
 } from './organ-claim-verification.mjs';
 
 let passed = 0;
@@ -286,6 +287,31 @@ ok('negation sharing a sentence with the claim still disputes',
     const narrowedAgain = capQueueWithRetryRotation(retries5, ledger5, 3, undefined, 'pri:BLA');
     ok('the narrowed scope resumes from ITS cursor', narrowedAgain[0].claimId === 'retry-3');
   }
+
+  // Same-size reverify lists get distinct cursor scopes (cold audit
+  // 2026-10-17): a count-based scope ('ids:4') made alternating lists share
+  // a rotation window; a fingerprint of the sorted selection keeps them
+  // independent.
+  {
+    const { portalAuditFingerprint } = await import('./organ-claim-verification.mjs');
+    const fp = (ids) => 'ids:' + payloadHash(ids.slice().sort().join(',')).slice(0, 8);
+    const scopeA = fp(['a', 'b', 'e', 'f']);
+    const scopeB = fp(['c', 'd', 'e', 'f']);
+    ok('different id lists get different cursor scopes', scopeA !== scopeB);
+    ok('same id list gets a stable scope', scopeA === fp(['f', 'e', 'b', 'a']));
+
+    const ledger6 = { verdicts: {} };
+    const mk = (id) => ({ claimId: id, payloadHash: 'x' });
+    const selA = ['a', 'b', 'e', 'f'].map(mk);
+    const selB = ['c', 'd', 'e', 'f'].map(mk);
+    for (const c of selA.concat(selB)) ledger6.verdicts[c.claimId] = { verdict: 'UNVERIFIABLE', ph: 'x' };
+    capQueueWithRetryRotation(selA, ledger6, 2, undefined, scopeA); // a,b
+    capQueueWithRetryRotation(selA, ledger6, 2, undefined, scopeA); // e,f
+    const b1 = capQueueWithRetryRotation(selB, ledger6, 2, undefined, scopeB).map((c) => c.claimId);
+    ok('the second list starts its own window instead of inheriting the first', b1.join(',') === 'c,d');
+    const b2 = capQueueWithRetryRotation(selB, ledger6, 2, undefined, scopeB).map((c) => c.claimId);
+    ok('the second list reaches its tail on its own schedule', b2.join(',') === 'e,f');
+  }
 }
 
 
@@ -458,6 +484,93 @@ ok('null secondary outcome after a semicolon does not dispute',
 ok('genuine contradiction still fires (control)',
   abstractContradicts('In this cohort, exposure therapy did not improve outcomes.', 'Exposure Therapy'));
 
+// Cold audit 2026-10-17: discourse markers before a coreferential pronoun,
+// and passive markers attached to another subject.
+ok('discourse adverb before the pronoun still disputes',
+  abstractContradicts('Exposure therapy was tested; however, it did not improve outcomes.', 'Exposure Therapy'));
+ok('passive marker attached to another subject does not misattribute',
+  !abstractContradicts('Exposure therapy was tested; sertraline showed no benefit, which was observed in controls.', 'Exposure Therapy'));
+ok('plain pronoun continuation still disputes (control)',
+  abstractContradicts('Exposure therapy was tested; it did not improve outcomes.', 'Exposure Therapy'));
+
+// Review on #401: adjunct-prefixed passive continuations carry over, but
+// demonstrative determiners are not pronouns.
+ok('adjunct before a passive result still disputes',
+  abstractContradicts('Exposure therapy was assessed; in this study, no significant improvement was observed', 'Exposure Therapy'));
+ok('unlisted contextual adjunct still disputes',
+  abstractContradicts('Exposure therapy was assessed; in our study, no significant improvement was observed', 'Exposure Therapy'));
+ok('demonstrative determiner is not coreference',
+  !abstractContradicts('Exposure therapy improved symptoms; however, this study found no benefit of sertraline', 'Exposure Therapy'));
+
+// Review round 2, #401: opening-referent gating and expletives.
+ok('pronoun still corefers when the demonstrative is not the opening referent',
+  abstractContradicts('Exposure therapy was tested; it did not improve outcomes in this study', 'Exposure Therapy'));
+ok('expletive it before another treatment result does not dispute',
+  !abstractContradicts('Exposure therapy improved symptoms; however, it was found that sertraline did not improve outcomes', 'Exposure Therapy'));
+
+// Fix on #401: an explicit reference back to the claim survives the
+// expletive exclusion.
+ok('expletive referring back to the claim still disputes',
+  abstractContradicts('Exposure therapy was tested; it was found that the treatment did not improve symptoms.', 'Exposure Therapy'));
+
+// Review round 3, #401: directional failures owned by another named subject.
+ok('directional failure owned by another treatment does not dispute',
+  !abstractContradicts('Exposure therapy improved symptoms; however, no benefit of sertraline emerged', 'Exposure Therapy'));
+ok('directional failure with a generic object still disputes (control)',
+  abstractContradicts('Exposure therapy improved symptoms; however, no benefit for patients emerged', 'Exposure Therapy'));
+
+// Review round 4, #401: group-ownership and wider expletive forms.
+ok('failure assigned to another group does not dispute',
+  !abstractContradicts('Exposure therapy improved symptoms; however, no improvement in the sertraline group emerged', 'Exposure Therapy'));
+ok('appears-that expletive with another owner does not dispute',
+  !abstractContradicts('Exposure therapy improved symptoms; however, it appears that sertraline did not improve outcomes', 'Exposure Therapy'));
+ok('appears-that referring back to the claim still disputes',
+  abstractContradicts('Exposure therapy was tested; it appears that the treatment did not improve outcomes.', 'Exposure Therapy'));
+ok('modal expletive with another owner does not dispute',
+  !abstractContradicts('Exposure therapy improved symptoms; however, it is possible that sertraline did not improve outcomes', 'Exposure Therapy'));
+ok('postposed owner does not dispute the claim',
+  !abstractContradicts('Exposure therapy improved symptoms; however, no benefit emerged for sertraline', 'Exposure Therapy'));
+ok('outcome nouns are not alternate owners',
+  abstractContradicts('Exposure therapy was assessed; however, no improvement in quality of life was observed', 'Exposure Therapy'));
+ok('researcher they does not carry another treatment result',
+  !abstractContradicts('Exposure therapy improved symptoms; however, they found that sertraline did not improve outcomes', 'Exposure Therapy'));
+
+// Fix on #401: treatment-subject "they" still disputes — the exclusion
+// covers only reporting constructions ("they found that …").
+ok('treatments failing in person still dispute (showed)',
+  abstractContradicts('Exposure therapy and CBT were tested; they showed no benefit.', 'Exposure Therapy'));
+ok('treatments failing in person still dispute (demonstrated)',
+  abstractContradicts('Exposure therapy and CBT were tested; they demonstrated no significant improvement.', 'Exposure Therapy'));
+ok('researcher demonstrated-that still rejects (control)',
+  !abstractContradicts('Exposure therapy improved symptoms; however, they demonstrated that sertraline did not improve outcomes', 'Exposure Therapy'));
+
+// FIX on #401: a named treatment's group is not claim context, and
+// populations are not treatments.
+ok('another treatment group opening does not dispute',
+  !abstractContradicts('Exposure therapy improved symptoms; in the sertraline group, no improvement was observed.', 'Exposure Therapy'));
+ok('population-only ownership still disputes the claim',
+  abstractContradicts('Exposure therapy was tested; no benefit was observed for adults.', 'Exposure Therapy'));
+
+// FIX on #401: adjective before trial nouns, reporting without "that", and
+// coreferential group labels.
+ok('adjective before trial noun still carries the passive result',
+  abstractContradicts('Exposure therapy was assessed; in the randomized trial, no significant improvement was observed.', 'Exposure Therapy'));
+ok('indefinite article before trial noun still carries the passive result',
+  abstractContradicts('Exposure therapy was assessed; in a randomized trial, no significant improvement was observed.', 'Exposure Therapy'));
+ok('reporting without that still rejects another treatment result',
+  !abstractContradicts('Exposure therapy improved symptoms; however, they found sertraline did not improve outcomes.', 'Exposure Therapy'));
+ok('coreferential treatment-group ownership still disputes',
+  abstractContradicts('Exposure therapy was assessed; however, no improvement in the treatment group was observed.', 'Exposure Therapy'));
+
+// Review round 8, #401: possessive adjuncts are study-context only,
+// multi-modifier adjuncts, and modified demonstratives.
+ok('possessive non-study context does not carry another arm result',
+  !abstractContradicts('Exposure therapy improved symptoms; in this control group, no improvement occurred', 'Exposure Therapy'));
+ok('multi-modifier study adjunct still carries the passive result',
+  abstractContradicts('Exposure therapy was assessed; in a randomized controlled trial, no significant improvement was observed.', 'Exposure Therapy'));
+ok('modified demonstrative is not coreference',
+  !abstractContradicts('Exposure therapy improved symptoms; however, this randomized study found no benefit of sertraline', 'Exposure Therapy'));
+
 // Coreference (review on #399): the claim named in one clause and its
 // negative result continued by pronoun or passive result marker in the next
 // MUST dispute — clause delimiters do not break coreference.
@@ -489,6 +602,163 @@ ok('an adjunct starting a new sentence keeps the boundary',
   !abstractContradicts('Exposure therapy improved outcomes in the U.S. National surveys found no benefit.', 'Exposure Therapy'));
 ok('abbreviation periods do not split a clause',
   abstractContradicts('Exposure therapy was tested in the U.S. and did not improve outcomes', 'Exposure Therapy'));
+
+// Audit-input fingerprint (cold audit 2026-10-17): a regenerated fidelity
+// report with different findings must invalidate an accepted cached
+// binding verdict even though the claim payload and verifier version are
+// unchanged.
+{
+  const bindingItem = { portalSlug: 'acme', relationshipType: 'treats', entityName: 'X', role: 'target', confidence: 0.9 };
+  const bPh = payloadHash(CLAIM_SHAPES.binding.payload(bindingItem));
+  const bId = 'bind::BLA__active__trade::acme::treats::X::target';
+  const cleanReport = { perPortal: { acme: { ok: true, issues: [] } } };
+  const v0 = verifyRuleBased({ kind: 'binding', payload: CLAIM_SHAPES.binding.payload(bindingItem) }, cleanReport);
+  ok('verified bindings record their audit fingerprint', v0.verdict === 'VERIFIED' && typeof v0.auditFp === 'string');
+
+  const flaggedReport = {
+    perPortal: {
+      acme: { ok: false, issues: [{ entityName: 'X', relType: 'treats', kind: 'role-mismatch', severity: 'high' }] },
+    },
+  };
+  const lv = { ...v0, ph: bPh, verifierVersion: VERIFIER_VERSION };
+
+  // Extraction: fingerprint mismatch forces re-attestation.
+  const claims = [];
+  extractCellClaims(mkCell({ portalBindings: [bindingItem] }), claims, { verdicts: { [bId]: lv } }, new Set(), false, flaggedReport);
+  ok('regenerated audit with new findings re-enqueues the binding', claims.length === 1);
+
+  // Extraction control: unchanged audit evidence still skips.
+  const claims2 = [];
+  extractCellClaims(mkCell({ portalBindings: [bindingItem] }), claims2, { verdicts: { [bId]: lv } }, new Set(), false, cleanReport);
+  ok('unchanged audit evidence still skips (control)', claims2.length === 0);
+
+  // Propagation: the old verdict displays as pending with an honest reason.
+  const cube = { cells: [mkCell({ portalBindings: [bindingItem] })] };
+  propagateVerdictsToCube(cube, { verdicts: { [bId]: lv } }, flaggedReport);
+  const pv = cube.cells[0].portalBindings[0].verification;
+  ok('stale binding is not displayed as VERIFIED', pv.stale === true && pv.verdict !== 'VERIFIED');
+  ok('stale reason is audit-input-changed', pv.staleReason === 'audit-input-changed');
+
+  // Reconciliation: counts as pending, not verified.
+  const r = reconcilePopulation(cube, { verdicts: { [bId]: lv } }, 't', 'c', flaggedReport);
+  ok('reconciliation does not count the invalidated binding as VERIFIED', r.effectiveCurrentByVerdict.VERIFIED === 0 && r.staleLedgerVerdicts === 1);
+
+  // Control: unchanged report keeps it verified everywhere.
+  const cube2 = { cells: [mkCell({ portalBindings: [bindingItem] })] };
+  propagateVerdictsToCube(cube2, { verdicts: { [bId]: lv } }, cleanReport);
+  ok('unchanged audit evidence still displays VERIFIED (control)', cube2.cells[0].portalBindings[0].verification.verdict === 'VERIFIED');
+
+  // A vanished report or removed portal is a mismatch too (review on #401):
+  // the claim must re-attest, not strand pending forever.
+  const claims3 = [];
+  extractCellClaims(mkCell({ portalBindings: [bindingItem] }), claims3, { verdicts: { [bId]: lv } }, new Set(), false, {});
+  ok('missing report re-enqueues the binding', claims3.length === 1);
+  const claims4 = [];
+  extractCellClaims(mkCell({ portalBindings: [bindingItem] }), claims4, { verdicts: { [bId]: lv } }, new Set(), false, { perPortal: { 'other-portal': { ok: true, issues: [] } } });
+  ok('portal removed from the report re-enqueues the binding', claims4.length === 1);
+
+  // Pre-fingerprint accepted verdicts re-attest when a report can judge
+  // them (review round 2, #401); malformed issue lists never crash the
+  // fingerprint (review round 2, #401).
+  const legacyLv = { verdict: 'VERIFIED', verifier: 'rule-based', ph: bPh, verifierVersion: VERIFIER_VERSION };
+  const claims5 = [];
+  extractCellClaims(mkCell({ portalBindings: [bindingItem] }), claims5, { verdicts: { [bId]: legacyLv } }, new Set(), false, cleanReport);
+  ok('pre-fingerprint accepted verdict re-attests when a report exists', claims5.length === 1);
+  const cube3 = { cells: [mkCell({ portalBindings: [bindingItem] })] };
+  propagateVerdictsToCube(cube3, { verdicts: { [bId]: legacyLv } }, cleanReport);
+  ok('pre-fingerprint verdict displays pending with audit-input reason',
+    cube3.cells[0].portalBindings[0].verification.staleReason === 'audit-input-changed');
+  ok('malformed issue list never crashes the fingerprint',
+    portalAuditFingerprint({ ok: false, issues: 'oops' }).length > 0);
+
+  // Malformed audit evidence invalidates a cached clean verdict (fix on
+  // #401): validity is part of the fingerprint, so 'oops' no longer hashes
+  // identically to [].
+  const claims6 = [];
+  extractCellClaims(mkCell({ portalBindings: [bindingItem] }), claims6, { verdicts: { [bId]: lv } }, new Set(), false,
+    { perPortal: { acme: { ok: true, issues: 'oops' } } });
+  ok('malformed issue list re-enqueues the binding', claims6.length === 1);
+  const cube4 = { cells: [mkCell({ portalBindings: [bindingItem] })] };
+  propagateVerdictsToCube(cube4, { verdicts: { [bId]: lv } }, { perPortal: { acme: { ok: true, issues: 'oops' } } });
+  ok('malformed evidence displays pending with audit-input reason',
+    cube4.cells[0].portalBindings[0].verification.staleReason === 'audit-input-changed');
+
+  // Issue notes are part of the fingerprint (review round 3, #401).
+  {
+    const base = { ok: false, issues: [{ entityName: 'X', relType: 'treats', kind: 'k', severity: 'high', note: 'old rationale' }] };
+    const noted = { ok: false, issues: [{ entityName: 'X', relType: 'treats', kind: 'k', severity: 'high', note: 'corrected rationale' }] };
+    ok('a corrected issue note changes the fingerprint',
+      portalAuditFingerprint(base) !== portalAuditFingerprint(noted));
+  }
+
+  // Fingerprint hardening (review round 4, #401): malformed members never
+  // throw, and regenerating the same findings in a different order does not
+  // churn every cached binding for the portal.
+  {
+    ok('malformed issue members never crash the fingerprint',
+      portalAuditFingerprint({ ok: false, issues: [null] }).length > 0);
+  // A null member fingerprints differently from an empty-object member
+  // (review round 4, #401), and direct verification treats both malformed
+  // shapes as retryable audit failures.
+  ok('[null] fingerprints differently from [{}]',
+    portalAuditFingerprint({ ok: false, issues: [null] }) !== portalAuditFingerprint({ ok: false, issues: [{}] }));
+  {
+    const v = verifyRuleBased({ kind: 'binding', payload: CLAIM_SHAPES.binding.payload(bindingItem) },
+      { perPortal: { acme: { ok: false, issues: [null] } } });
+    ok('malformed members are a retryable audit failure, never a crash', v.verdict === 'UNVERIFIABLE');
+  }
+  // Duplicate matches resolve deterministically (review round 4, #401).
+  {
+    const dupes = { perPortal: { acme: { ok: false, issues: [
+      { entityName: 'X', relType: 'treats', kind: 'k-low', severity: 'low', note: 'low' },
+      { entityName: 'X', relType: 'treats', kind: 'k-high', severity: 'high', note: 'high' },
+    ] } } };
+    const v2 = verifyRuleBased({ kind: 'binding', payload: CLAIM_SHAPES.binding.payload(bindingItem) }, dupes);
+    ok('duplicate matches resolve to the highest severity deterministically', v2.verdict === 'DISPUTED');
+    const dupesReversed = { perPortal: { acme: { ok: false, issues: [dupes.perPortal.acme.issues[1], dupes.perPortal.acme.issues[0]] } } };
+    const v3 = verifyRuleBased({ kind: 'binding', payload: CLAIM_SHAPES.binding.payload(bindingItem) }, dupesReversed);
+    ok('selection is independent of issue order', v3.verdict === 'DISPUTED' && v3.auditFp === v2.auditFp);
+    // Tie-breaking uses the fingerprint's normalized fields (review round
+    // 8, #401): a field the fingerprint omits cannot change the selection.
+    const dupeWithExtra = { perPortal: { acme: { ok: false, issues: [
+      { entityName: 'X', relType: 'treats', kind: 'k', severity: 'high', note: 'n', asserted: true },
+      { entityName: 'X', relType: 'treats', kind: 'k', severity: 'high', note: 'n' },
+    ] } } };
+    const dupeWithExtraR = { perPortal: { acme: { ok: false, issues: [dupeWithExtra.perPortal.acme.issues[1], dupeWithExtra.perPortal.acme.issues[0]] } } };
+    const e1 = verifyRuleBased({ kind: 'binding', payload: CLAIM_SHAPES.binding.payload(bindingItem) }, dupeWithExtra);
+    const e2 = verifyRuleBased({ kind: 'binding', payload: CLAIM_SHAPES.binding.payload(bindingItem) }, dupeWithExtraR);
+    ok('tie-breaking ignores fingerprint-omitted fields', e1.evidence[0] === e2.evidence[0] && e1.auditFp === e2.auditFp);
+  }
+    const a = { ok: false, issues: [
+      { entityName: 'X', relType: 'treats', kind: 'k1', severity: 'high', note: 'n1' },
+      { entityName: 'Y', relType: 'treats', kind: 'k2', severity: 'low', note: 'n2' },
+    ] };
+    const reordered = { ok: false, issues: [a.issues[1], a.issues[0]] };
+    ok('regenerating the same findings in a different order keeps the fingerprint',
+      portalAuditFingerprint(a) === portalAuditFingerprint(reordered));
+  }
+
+  // Fresh UNVERIFIABLE audit-failure verdicts are preserved, not rewritten
+  // stale (review round 3, #401).
+  {
+    const freshU = { verdict: 'UNVERIFIABLE', verifier: 'rule-based', ph: bPh, checkedAt: '2026-10-17T00:00:00Z', verifierVersion: VERIFIER_VERSION };
+    const cube5 = { cells: [mkCell({ portalBindings: [bindingItem] })] };
+    propagateVerdictsToCube(cube5, { verdicts: { [bId]: freshU } }, {});
+    ok('fresh UNVERIFIABLE from missing coverage is preserved as-is',
+      cube5.cells[0].portalBindings[0].verification.verdict === 'UNVERIFIABLE' && !cube5.cells[0].portalBindings[0].verification.stale);
+    const r2 = reconcilePopulation(cube5, { verdicts: { [bId]: freshU } }, 't', 'c', {});
+    ok('reconciliation counts the fresh UNVERIFIABLE', r2.effectiveCurrentByVerdict.UNVERIFIABLE === 1);
+  }
+
+  // ei2 PubMed verdicts re-enqueue under ei3 rules (review round 3, #401).
+  {
+    const cell = mkCell({ disorders: [{ ...disorderItem }] });
+    const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh, verifierVersion: 'claim-verification/2026-10-16.ei2' } } };
+    const claims = [];
+    extractCellClaims(cell, claims, ledger);
+    ok('ei2 pubmed verdict re-enqueues under ei3 rules', claims.length === 1);
+  }
+}
 ok('abbreviation ending a sentence still splits the sentence',
   !abstractContradicts('Exposure therapy improved symptoms in the U.S. Sertraline did not improve outcomes.', 'Exposure Therapy'));
 ok('randomization ratios do not split a clause',
