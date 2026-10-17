@@ -265,6 +265,16 @@ ok('negation sharing a sentence with the claim still disputes',
       general.length === 2 && general[0].claimId === 'rb-1' && general[1].claimId === 'rb-2');
     const pubmedLane = capQueueWithRetryRotation(q, ledger4, 2, ['pubmed'], true);
     ok('pubmed lane admits its own retries', pubmedLane.some((c) => c.claimId === 'pm-retry'));
+
+    // ALL pubmed work — fresh or retry — stays out of the general lane
+    // (review round 10, #399): the dedicated pubmed pass owns it.
+    const q2 = [
+      { claimId: 'pm-fresh', verifier: 'pubmed' },
+      { claimId: 'rb-3', verifier: 'rule-based' },
+    ];
+    const g2 = capQueueWithRetryRotation(q2, ledger4, 5, undefined, true);
+    ok('general lane excludes fresh pubmed claims too',
+      g2.length === 1 && g2[0].claimId === 'rb-3');
   }
 
   // Cursor isolation (review round 2, #399): narrowed invocations serve from

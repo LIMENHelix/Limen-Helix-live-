@@ -703,22 +703,19 @@ function capQueueWithRetryRotation(queue, ledger, max, verifierFilter, fullLane)
   if (max <= 0) return [];
   // Lane discipline: the scheduled general run has no filter and drains the
   // cheap rule-based/affinity front; the PubMed queue has its own reserved
-  // invocation. Retries only join the reserved window for verifiers this
-  // invocation is meant to serve — otherwise PubMed retries would ride the
-  // general lane AND the pubmed lane, double-spending the budget.
+  // invocation right after it. The general lane excludes PubMed claims
+  // ENTIRELY (review round 10, #399) — admitting one here means the PubMed
+  // pass queries the same claim again minutes later, double-spending the
+  // external-call budget, whether the claim is fresh or a retry.
   const lane = verifierFilter && verifierFilter.length ? new Set(verifierFilter) : null;
   const laneKey = lane ? [...lane].sort().join('+') : 'general';
-  const retryLaneOk = (c) => (lane ? lane.has(c.verifier) : c.verifier !== 'pubmed');
+  const inLane = (c) => (lane ? lane.has(c.verifier) : c.verifier !== 'pubmed');
   const rest = [];
   const retryable = [];
   for (const c of queue) {
+    if (!inLane(c)) continue;
     const lv = ledger.verdicts && ledger.verdicts[c.claimId];
     const isRetry = !!(lv && lv.verdict === 'UNVERIFIABLE' && lv.ph === c.payloadHash);
-    // Out-of-lane retries are EXCLUDED, not downgraded into the fresh lane
-    // (review round 8, #399): the dedicated PubMed pass follows the general
-    // pass, so a PubMed retry admitted here would be queried again there —
-    // a double-spend of the external-call budget.
-    if (isRetry && !retryLaneOk(c)) continue;
     (isRetry ? retryable : rest).push(c);
   }
   const reservedForRetry = Math.min(retryable.length, Math.max(1, Math.floor(max / 4)));
