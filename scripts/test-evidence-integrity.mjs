@@ -312,7 +312,10 @@ ok('negation sharing a sentence with the claim still disputes',
 // Reconciliation: stale verdict counted PENDING and tallied.
 {
   const cube = { cells: [mkCell({ disorders: [{ ...disorderItem }] })] };
-  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: 'deadbeefdeadbeef' } } };
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: 'deadbeefdeadbeef', verifierVersion: VERIFIER_VERSION } } };
+  propagateVerdictsToCube(cube, ledger);
+  ok('payload-drift stale reason is recorded as such',
+    cube.cells[0].disorders[0].verification.staleReason === 'payload-changed');
   const r = reconcilePopulation(cube, ledger, '2026-10-16T00:00:00Z', 'abc123');
   ok('reconciliation does not count a stale verdict as VERIFIED', r.effectiveCurrentByVerdict.VERIFIED === 0);
   ok('reconciliation counts a stale verdict as PENDING', r.effectiveCurrentByVerdict.PENDING === 1);
@@ -329,12 +332,15 @@ ok('negation sharing a sentence with the claim still disputes',
 
 // Rejected verifier versions are not presented as current anywhere (review
 // round 5, #399): an ei1 pubmed verdict is pending at display AND count,
-// while an accepted ei1 rule-based verdict still displays.
+// while an accepted ei1 rule-based verdict still displays. The stale reason
+// distinguishes rule rejection from payload drift (round 7).
 {
   const cube = { cells: [mkCell({ disorders: [{ ...disorderItem }] })] };
   const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh, verifierVersion: 'claim-verification/2026-10-16.ei1' } } };
   propagateVerdictsToCube(cube, ledger);
-  ok('ei1 pubmed verdict does not display (rejected version)', cube.cells[0].disorders[0].verification.stale === true);
+  const v = cube.cells[0].disorders[0].verification;
+  ok('ei1 pubmed verdict does not display (rejected version)', v.stale === true);
+  ok('stale reason is verifier-version, not payload-changed', v.staleReason === 'verifier-version');
   const r = reconcilePopulation(cube, ledger, 't', 'c');
   ok('ei1 pubmed verdict counts as pending, not verified', r.effectiveCurrentByVerdict.VERIFIED === 0 && r.staleLedgerVerdicts === 1);
 }

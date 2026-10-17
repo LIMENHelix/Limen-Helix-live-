@@ -1358,10 +1358,15 @@ function propagateVerdictsToCube(cube, ledger) {
       // id flips the hash, and the old verdict must NOT display on changed
       // content — a claim awaiting re-verification is shown as such, with
       // the prior verdict referenced but not presented as current truth.
-      if (lv.ph && lv.ph === payloadHash(shape.payload(item)) && verdictAccepted(lv)) {
+      // The stale reason is recorded honestly (review round 7, #399):
+      // "payload-changed" and "verifier-version" are different causes and
+      // the audit trail must not report one as the other.
+      const phMatch = lv.ph && lv.ph === payloadHash(shape.payload(item));
+      if (phMatch && verdictAccepted(lv)) {
         item.verification = lv;
         count++;
       } else {
+        const staleReason = phMatch ? 'verifier-version' : 'payload-changed';
         item.verification = {
           verdict: 'PENDING',
           verifier: lv.verifier || 'unknown',
@@ -1369,9 +1374,12 @@ function propagateVerdictsToCube(cube, ledger) {
           confidence: 0,
           checkedAt: null,
           stale: true,
+          staleReason,
           previousVerdict: lv.verdict,
           previousCheckedAt: lv.checkedAt || null,
-          note: 'Payload changed since the ledger verdict was computed — awaiting re-verification. The prior verdict is preserved in the ledger but not presented as current.',
+          note: staleReason === 'verifier-version'
+            ? 'Ledger verdict predates the current verifier rules — awaiting re-verification under repaired semantics. The prior verdict is preserved in the ledger but not presented as current.'
+            : 'Payload changed since the ledger verdict was computed — awaiting re-verification. The prior verdict is preserved in the ledger but not presented as current.',
         };
         staleCount++;
       }
