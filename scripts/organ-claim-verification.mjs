@@ -929,7 +929,8 @@ function verifyRuleBased(claim, bindingReport) {
       .sort(
         (a, b) =>
           (SEVERITY_RANK[b.severity] || 0) - (SEVERITY_RANK[a.severity] || 0) ||
-          (stableStringify(a) < stableStringify(b) ? -1 : stableStringify(a) > stableStringify(b) ? 1 : 0)
+          (stableStringify(normalizeIssue(a)) < stableStringify(normalizeIssue(b)) ? -1
+            : stableStringify(normalizeIssue(a)) > stableStringify(normalizeIssue(b)) ? 1 : 0)
       )[0];
     if (!matchedIssue) {
       return {
@@ -966,6 +967,26 @@ function verifyRuleBased(claim, bindingReport) {
 // outcome flag, error, and the issue list (entities, relations, kinds,
 // severities). Any change here means the audit evidence changed, even if
 // the audited claim payloads did not (cold audit 2026-10-17).
+// The normalized issue record used by BOTH the audit fingerprint and
+// duplicate-match selection (review round 8, #401): a field the fingerprint
+// omits can never change which duplicate supplies the persisted evidence.
+function normalizeIssue(i) {
+  const m = i && typeof i === 'object' ? i : {};
+  return {
+    // A null member must fingerprint differently from an empty-object
+    // member (review round 4, #401): [null] is malformed audit output,
+    // [{}] is a valid record with absent fields.
+    memberValid: !!(i && typeof i === 'object'),
+    entityName: m.entityName ?? null,
+    relType: m.relType ?? null,
+    kind: m.kind ?? null,
+    severity: m.severity ?? null,
+    // The note is embedded in the persisted verdict — it must invalidate
+    // the fingerprint too (review round 3, #401).
+    note: m.note ?? null,
+  };
+}
+
 function portalAuditFingerprint(pp) {
   return payloadHash({
     ok: pp.ok ?? null,
@@ -975,27 +996,9 @@ function portalAuditFingerprint(pp) {
     // audit-failure path as any malformed report. Validity is PART of the
     // fingerprint (fix on #401): malformed evidence must invalidate a
     // cached clean verdict, not silently fingerprint-identical to [].
-    // Members are guarded (round 4: [null] must not throw) and the records
-    // are sorted before hashing (round 4: regenerating the SAME findings in
-    // a different array order must not invalidate every cached binding for
-    // the portal).
     issuesValid: Array.isArray(pp.issues),
-    issues: (Array.isArray(pp.issues) ? pp.issues : []).map((i) => {
-      const m = i && typeof i === 'object' ? i : {};
-      return {
-        // A null member must fingerprint differently from an empty-object
-        // member (review round 4, #401): [null] is malformed audit output,
-        // [{}] is a valid record with absent fields.
-        memberValid: !!(i && typeof i === 'object'),
-        entityName: m.entityName ?? null,
-        relType: m.relType ?? null,
-        kind: m.kind ?? null,
-        severity: m.severity ?? null,
-        // The note is embedded in the persisted verdict — it must invalidate
-        // the fingerprint too (review round 3, #401).
-        note: m.note ?? null,
-      };
-    }).sort((a, b) => stableStringify(a) < stableStringify(b) ? -1 : stableStringify(a) > stableStringify(b) ? 1 : 0),
+    issues: (Array.isArray(pp.issues) ? pp.issues : []).map(normalizeIssue)
+      .sort((a, b) => stableStringify(a) < stableStringify(b) ? -1 : stableStringify(a) > stableStringify(b) ? 1 : 0),
   });
 }
 
@@ -1361,7 +1364,13 @@ function abstractContradicts(text, keyPhrase) {
   // the …" accepts only study-context nouns, so a different treatment's
   // group ("in the sertraline group, no improvement was observed") is
   // never absorbed as claim context.
-  const ADJUNCT = '(?:in (?:this|that|our|these|those) [a-z]+(?: [a-z]+)?|in (?:the|a|an) (?:[a-z]+ )?(?:study|studies|trial|trials|analysis|analyses|cohort|cohorts|investigation|investigations|experiment|experiments|review|reviews|arm|arms|subgroup|subgroups|sample|samples|pilot|population|populations)(?: [a-z]+)?|' + DISCOURSE + ')';
+  // Contextual adjuncts (review rounds on #401): any determiner
+  // (this/that/our/these/those/the/a/an) followed by any modifiers, but the
+  // head noun must be a study context — "in the randomized controlled
+  // trial" and "in our study" carry the claim, while "in this control
+  // group" or "in the sertraline group" belong to another arm.
+  const STUDY_NOUN = '(?:study|studies|trial|trials|analysis|analyses|cohort|cohorts|investigation|investigations|experiment|experiments|review|reviews|arm|arms|subgroup|subgroups|sample|samples|pilot|population|populations)';
+  const ADJUNCT = '(?:in (?:this|that|our|these|those|the|a|an) (?:[a-z]+ )*' + STUDY_NOUN + '|' + DISCOURSE + ')';
   const COREF_START = new RegExp('^\\s*(?:' + DISCOURSE + '\\s+)?(it|this|these|they|the treatment|the intervention|the therapy|the approach|the result|the results)\\b');
   // Equivalence phrases ("no significant difference", "not superior") compare
   // arms — they are not a directional failure of the claim itself, so they
@@ -1470,7 +1479,7 @@ function abstractContradicts(text, keyPhrase) {
     if (opening) {
       const referent = opening[1];
       const after = n.slice(n.indexOf(referent));
-      const demonstrative = /^(this|these) (study|studies|trial|trials|analysis|analyses|cohort|group|groups|arm|arms|investigation|investigations|experiment|experiments|review|reviews|paper|papers|report|reports|meta-analysis)\b/.test(after.trim());
+      const demonstrative = /^(this|these) (?:[a-z]+ )?(?:study|studies|trial|trials|analysis|analyses|cohort|group|groups|arm|arms|investigation|investigations|experiment|experiments|review|reviews|paper|papers|report|reports|meta-analysis)\b/.test(after.trim());
       // Researcher "they" is not coreference when the reporting verb's
       // object is another named subject (fix on #401): "they found
       // sertraline did not improve" (no "that" needed) and "they found

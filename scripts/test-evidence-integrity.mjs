@@ -562,6 +562,15 @@ ok('reporting without that still rejects another treatment result',
 ok('coreferential treatment-group ownership still disputes',
   abstractContradicts('Exposure therapy was assessed; however, no improvement in the treatment group was observed.', 'Exposure Therapy'));
 
+// Review round 8, #401: possessive adjuncts are study-context only,
+// multi-modifier adjuncts, and modified demonstratives.
+ok('possessive non-study context does not carry another arm result',
+  !abstractContradicts('Exposure therapy improved symptoms; in this control group, no improvement occurred', 'Exposure Therapy'));
+ok('multi-modifier study adjunct still carries the passive result',
+  abstractContradicts('Exposure therapy was assessed; in a randomized controlled trial, no significant improvement was observed.', 'Exposure Therapy'));
+ok('modified demonstrative is not coreference',
+  !abstractContradicts('Exposure therapy improved symptoms; however, this randomized study found no benefit of sertraline', 'Exposure Therapy'));
+
 // Coreference (review on #399): the claim named in one clause and its
 // negative result continued by pronoun or passive result marker in the next
 // MUST dispute — clause delimiters do not break coreference.
@@ -709,6 +718,16 @@ ok('abbreviation periods do not split a clause',
     const dupesReversed = { perPortal: { acme: { ok: false, issues: [dupes.perPortal.acme.issues[1], dupes.perPortal.acme.issues[0]] } } };
     const v3 = verifyRuleBased({ kind: 'binding', payload: CLAIM_SHAPES.binding.payload(bindingItem) }, dupesReversed);
     ok('selection is independent of issue order', v3.verdict === 'DISPUTED' && v3.auditFp === v2.auditFp);
+    // Tie-breaking uses the fingerprint's normalized fields (review round
+    // 8, #401): a field the fingerprint omits cannot change the selection.
+    const dupeWithExtra = { perPortal: { acme: { ok: false, issues: [
+      { entityName: 'X', relType: 'treats', kind: 'k', severity: 'high', note: 'n', asserted: true },
+      { entityName: 'X', relType: 'treats', kind: 'k', severity: 'high', note: 'n' },
+    ] } } };
+    const dupeWithExtraR = { perPortal: { acme: { ok: false, issues: [dupeWithExtra.perPortal.acme.issues[1], dupeWithExtra.perPortal.acme.issues[0]] } } };
+    const e1 = verifyRuleBased({ kind: 'binding', payload: CLAIM_SHAPES.binding.payload(bindingItem) }, dupeWithExtra);
+    const e2 = verifyRuleBased({ kind: 'binding', payload: CLAIM_SHAPES.binding.payload(bindingItem) }, dupeWithExtraR);
+    ok('tie-breaking ignores fingerprint-omitted fields', e1.evidence[0] === e2.evidence[0] && e1.auditFp === e2.auditFp);
   }
     const a = { ok: false, issues: [
       { entityName: 'X', relType: 'treats', kind: 'k1', severity: 'high', note: 'n1' },
