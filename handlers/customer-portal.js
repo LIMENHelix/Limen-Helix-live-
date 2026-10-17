@@ -18,12 +18,21 @@
  * FAIL CLOSED, in both directions:
  *   unknown / inactive / wrong-domain email  → the SAME 200 body as a real subscriber, so
  *                                              the route cannot be used to enumerate who
- *                                              subscribes to what
+ *                                              subscribes to what — by body, status OR
+ *                                              timing. Subscriber-specific failures
+ *                                              (transport down, send failed, no customer
+ *                                              reference) are logged to function logs
+ *                                              (operator-only) and still answer 200.
  *   store unreachable                        → 503 subscription-lookup-unavailable; an
  *                                              unreadable store is NOT "no such subscriber"
- *   link secret / email transport missing    → 503 with the named reason, so the failure
- *                                              reads as an operator task, not a bug
+ *   link secret missing                      → 503 with the named reason, before any lookup
  *   Stripe portal not activated (dashboard)  → 503 with the named reason, at redeem time
+ *
+ * TIMING. The response never waits on the email transport: delivery is handed to the
+ * serverless waitUntil keep-alive when the runtime offers one (the invocation stays alive
+ * until the send settles — reliable), and is awaited inline where it does not (local dev —
+ * slower, never lost). Awaiting the transport in the response path would leak subscriber
+ * status through latency: only a matching subscriber has an email to send.
  *
  * No money moves here. A portal session is read-safe: minting one changes nothing.
  */
@@ -87,6 +96,13 @@ function linkEmail(domain, redeemUrl) {
   };
 }
 
+/* The serverless keep-alive, when the runtime offers one: the invocation stays alive until
+   the delivery promise settles even though the response has already gone out. Absent the
+   hook (local dev, non-Vercel), callers await the send inline — slower, never lost. */
+function runtimeWaitUntil() {
+  try { return require('@vercel/functions').waitUntil || null; } catch (e) { return null; }
+}
+
 function createHandler(deps) {
   deps = deps || {};
   var store = deps.store;                       // test seam; production uses the strict store
@@ -95,8 +111,16 @@ function createHandler(deps) {
   var env = deps.env || process.env;
   var now = deps.now || function () { return Date.now(); };
   var site = deps.site || SITE;
+  var waitUntil = Object.prototype.hasOwnProperty.call(deps, 'waitUntil') ? deps.waitUntil : runtimeWaitUntil();
+  var logger = Object.prototype.hasOwnProperty.call(deps, 'logger') ? deps.logger : console;
 
   function secret() { return String(env.CUSTOMER_PORTAL_LINK_SECRET || '').trim() || null; }
+
+  /* Subscriber-specific causes go ONLY here. Function logs are operator-only; the public
+     response must carry nothing that distinguishes a subscriber from a stranger. */
+  function diagnose(msg) {
+    try { (logger.error || logger.log).call(logger, '[customer-portal] ' + msg); } catch (e) { /* diagnostics must never break the route */ }
+  }
 
   async function requestLink(req, res) {
     var body = await readBody(req);
@@ -124,19 +148,45 @@ function createHandler(deps) {
       return send(res, { ok: true, message: GENERIC_MESSAGE });
     }
     if (!sub.customerId) {
-      return send(res, { ok: false, error: 'customer-portal-unavailable: no-customer-reference-on-record' }, 503);
+      /* Subscriber-specific cause: operator diagnostics only, never the public response. */
+      diagnose('customer-portal-unavailable: no-customer-reference-on-record');
+      return send(res, { ok: true, message: GENERIC_MESSAGE });
     }
 
     var token = link.sign({ email: email, domain: domain, customerId: sub.customerId }, secret(), now(), LINK_TTL_MS);
     var redeemUrl = site + '/api/customer-portal?token=' + encodeURIComponent(token);
     var message = linkEmail(domain, redeemUrl);
-    var sent = await mailer(sub.email || email, message.subject, message.body);
-    if (sent && sent.notReady) {
-      return send(res, { ok: false, error: 'customer-portal-email-unavailable: ' + (sent.reason || 'email transport not configured') }, 503);
+
+    /* Only a matching subscriber reaches this point, so the send is the one branch that
+       could differ in latency. Run it off the response path and report every
+       subscriber-specific cause through protected diagnostics. */
+    var delivery = (async function () {
+      try {
+        var sent = await mailer(sub.email || email, message.subject, message.body);
+        if (sent && sent.notReady) {
+          diagnose('customer-portal-email-unavailable: ' + (sent.reason || 'email transport not configured'));
+        } else if (!sent || !sent.ok) {
+          diagnose('portal-link-email-failed: ' + ((sent && (sent.error || sent.reason)) || 'email transport failed'));
+        }
+      } catch (e) {
+        diagnose('portal-link-email-failed: ' + (e && e.message ? e.message : 'email transport threw'));
+      }
+    })();
+
+    /* Hand delivery to the runtime keep-alive so the public response never waits on the
+       transport. If the runtime cannot register the task, await inline as the safe
+       fallback: slower, but the email is never lost. */
+    if (waitUntil) {
+      try {
+        waitUntil(delivery);
+      } catch (e) {
+        diagnose('customer-portal-waitUntil-unavailable: ' + (e && e.message ? e.message : 'registration failed'));
+        await delivery;
+      }
+    } else {
+      await delivery;
     }
-    if (!sent || !sent.ok) {
-      return send(res, { ok: false, error: 'portal-link-email-failed: the sign-in email could not be sent; try again shortly' }, 502);
-    }
+
     return send(res, { ok: true, message: GENERIC_MESSAGE });
   }
 
