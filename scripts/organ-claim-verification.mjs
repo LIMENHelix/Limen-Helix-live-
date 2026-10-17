@@ -1250,8 +1250,13 @@ function abstractContradicts(text, keyPhrase) {
     // Protect abbreviation periods before splitting (review on #399):
     // "tested in the U.S. and did not improve outcomes" must stay one
     // clause. Chained single-letter abbreviations (U.S., e.g., i.e., a.k.a.)
-    // and common titles lose their periods; decimals are protected in the
-    // clause splitter itself below.
+    // lose their INTERNAL periods — but when the chain ends a sentence
+    // (followed by whitespace + capital), the trailing period is kept as
+    // the terminator, so "...in the U.S. Sertraline did not improve…" does
+    // NOT merge into one clause (review round 6 on #399). Common titles
+    // (Dr., etc.) strip unconditionally — they virtually never end
+    // sentences in abstracts. Decimals are protected in the splitter below.
+    .replace(/\b(?:[A-Za-z]\.){2,}(?=\s+[A-Z])/g, (m) => m.replace(/\./g, '') + '.')
     .replace(/\b(?:[A-Za-z]\.){2,}/g, (m) => m.replace(/\./g, ''))
     .replace(/\b(etc|vs|cf|Dr|Drs|Mr|Mrs|Ms|St|Jr|Sr)\./gi, '$1')
     .split(/\n+/);

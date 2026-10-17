@@ -473,6 +473,8 @@ ok('decimal points do not split a clause',
   abstractContradicts('Exposure therapy produced an effect size of 0.2 and did not improve outcomes', 'Exposure Therapy'));
 ok('abbreviation periods do not split a clause',
   abstractContradicts('Exposure therapy was tested in the U.S. and did not improve outcomes', 'Exposure Therapy'));
+ok('abbreviation ending a sentence still splits the sentence',
+  !abstractContradicts('Exposure therapy improved symptoms in the U.S. Sertraline did not improve outcomes.', 'Exposure Therapy'));
 
 // Reconciliation uses the same per-verifier acceptance policy (review #399).
 {
