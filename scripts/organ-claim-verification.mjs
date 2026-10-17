@@ -186,8 +186,8 @@ async function main() {
     const sourceCommit = process.env.LIMEN_SOURCE_COMMIT || null;
     // Propagate BEFORE reconciling (same order as the full run), so the
     // reconciliation counts the verdicts the cube actually displays.
-    const propagated = propagateVerdictsToCube(cube, ledger);
-    const reconciliation = reconcilePopulation(cube, ledger, snapshotAt, sourceCommit);
+    const propagated = propagateVerdictsToCube(cube, ledger, bindingReport);
+    const reconciliation = reconcilePopulation(cube, ledger, snapshotAt, sourceCommit, bindingReport);
     ledger.reconciliation = reconciliation;
 
     cube.verificationReconciliation = reconciliation;
@@ -216,7 +216,7 @@ async function main() {
   // ============================================================================
   // EXTRACT CLAIMS — every PENDING claim across every cell
   // ============================================================================
-  const claims = extractAllClaims(cube, ledger);
+  const claims = extractAllClaims(cube, ledger, bindingReport);
   console.log(`[verification-organ] PENDING claims extracted: ${claims.length}` +
     (stalePayloadCount ? ` (${stalePayloadCount} stale payload — source edited under a preserved id)` : ''));
 
@@ -254,7 +254,10 @@ async function main() {
   // regardless of turnover. Fresh claims keep priority order.
   queue = capQueueWithRetryRotation(queue, ledger, ARG.maxClaims, ARG.verifierFilter,
     (ARG.priorityNodes.length ? 'pri:' + ARG.priorityNodes.join(',') : '') +
-    (ARG.reverifyIds.length ? 'ids:' + ARG.reverifyIds.length : ''));
+    // Cursor scope carries a stable fingerprint of the SELECTED ids, not
+    // their count (cold audit 2026-10-17): two same-size reverify lists
+    // must never share a rotation window.
+    (ARG.reverifyIds.length ? 'ids:' + payloadHash(ARG.reverifyIds.slice().sort().join(',')).slice(0, 8) : ''));
   console.log(`[verification-organ] working set this run: ${queue.length}`);
 
   if (ARG.dryRun) {
@@ -332,12 +335,13 @@ async function main() {
   // ============================================================================
   console.log('');
   console.log('[verification-organ] propagating verdicts to cube cells');
-  const propagated = propagateVerdictsToCube(cube, ledger);
+  const propagated = propagateVerdictsToCube(cube, ledger, bindingReport);
   const reconciliation = reconcilePopulation(
     cube,
     ledger,
     ledger.lastUpdatedAt,
-    process.env.LIMEN_SOURCE_COMMIT || null
+    process.env.LIMEN_SOURCE_COMMIT || null,
+    bindingReport
   );
   ledger.reconciliation = reconciliation;
   cube.verificationReconciliation = reconciliation;
@@ -376,12 +380,12 @@ async function main() {
 // CLAIM EXTRACTION
 // ============================================================================
 
-function extractAllClaims(cube, ledger) {
+function extractAllClaims(cube, ledger, bindingReport) {
   const claims = [];
   const reverifySet = new Set(ARG.reverifyIds || []);
   stalePayloadCount = 0;
   for (const cell of cube.cells) {
-    extractCellClaims(cell, claims, ledger, reverifySet);
+    extractCellClaims(cell, claims, ledger, reverifySet, false, bindingReport);
   }
   return claims;
 }
@@ -444,7 +448,7 @@ function collectCurrentClaims(cube) {
   return claims;
 }
 
-function reconcilePopulation(cube, ledger, snapshotAt, sourceCommit) {
+function reconcilePopulation(cube, ledger, snapshotAt, sourceCommit, bindingReport = null) {
   const currentClaims = collectCurrentClaims(cube);
   const ledgerIds = Object.keys(ledger.verdicts || {});
   const currentIds = new Set(currentClaims.keys());
@@ -459,10 +463,14 @@ function reconcilePopulation(cube, ledger, snapshotAt, sourceCommit) {
   // preserved in the ledger but counts as PENDING here — the claim is
   // awaiting re-verification and must not be tallied under its old label.
   const currentPh = new Map();
+  const currentItem = new Map();
   for (const cell of cube.cells || []) {
     forEachCellClaim(cell, (kind, shape, item, cellId) => {
       const id = shape.id(item, cellId);
-      if (!currentPh.has(id)) currentPh.set(id, payloadHash(shape.payload(item)));
+      if (!currentPh.has(id)) {
+        currentPh.set(id, payloadHash(shape.payload(item)));
+        currentItem.set(id, item);
+      }
     });
   }
 
@@ -473,7 +481,11 @@ function reconcilePopulation(cube, ledger, snapshotAt, sourceCommit) {
     let effective = sourceVerdict;
     if (lv) {
       const ph = currentPh.get(claimId);
-      if (lv.ph && ph && lv.ph === ph && verdictAccepted(lv)) {
+      const auditOk = !claimId.startsWith('bind::') || !lv.auditFp ||
+        (bindingReport && currentItem.get(claimId)
+          ? bindingAuditFingerprint(bindingReport, currentItem.get(claimId).portalSlug) === lv.auditFp
+          : true);
+      if (lv.ph && ph && lv.ph === ph && verdictAccepted(lv) && auditOk) {
         effective = lv.verdict;
       } else {
         effective = 'PENDING';
@@ -612,7 +624,7 @@ function verdictAccepted(lv) {
   return !accepted || accepted.has(lv.verifierVersion || null);
 }
 
-function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collectOnly = false) {
+function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collectOnly = false, bindingReport = null) {
   // Each claim is a (claimId, kind, verifier, payload, cell context) tuple.
   // Co-occurrence context — disorder names + node region terms — is what the
   // tightened PubMed query AND's against so token matches can't drift to
@@ -656,6 +668,15 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collec
     if (lv && !reverifySet.has(claimId)) {
       if (RETRYABLE.has(lv.verdict)) return false;
       if (!verdictAccepted(lv)) return false;
+      // Audit-evidence applicability (cold audit 2026-10-17): a binding
+      // verdict recorded WHICH audit content it came from. If the
+      // regenerated fidelity report now says something different for this
+      // portal, the verdict's evidence is out of date even though the
+      // claim payload and verifier version are unchanged — re-attest.
+      if (claimId.startsWith('bind::') && lv.auditFp && bindingReport) {
+        const fp = bindingAuditFingerprint(bindingReport, item.portalSlug);
+        if (fp && fp !== lv.auditFp) return false;
+      }
     }
     if (ledgerCurrent(claimId, ph) && !reverifySet.has(claimId)) return true;
     if (!ledger.verdicts[claimId]) {
@@ -859,6 +880,11 @@ function verifyRuleBased(claim, bindingReport) {
         note: `Binding-fidelity audit for portal "${claim.payload.portalSlug}" failed or produced no issue list — the audit did not complete, so no verdict can issue. Retryable once the audit succeeds.`,
       };
     }
+    // Audit-input fingerprint (cold audit 2026-10-17): the verdict records
+    // exactly which audit content it was computed from, so a REGENERATED
+    // report with different findings can invalidate it even when the
+    // claim's own five-field payload is unchanged.
+    const auditFp = portalAuditFingerprint(pp);
     if (pp.issues.length === 0) {
       return {
         verdict: 'VERIFIED',
@@ -866,6 +892,7 @@ function verifyRuleBased(claim, bindingReport) {
         evidence: ['binding-fidelity-report:no-issues'],
         confidence: 0.7,
         checkedAt: new Date().toISOString(),
+        auditFp,
         note: 'No issues in binding-fidelity audit for this portal.',
       };
     }
@@ -881,6 +908,7 @@ function verifyRuleBased(claim, bindingReport) {
         evidence: ['binding-fidelity-report:passed'],
         confidence: 0.75,
         checkedAt: new Date().toISOString(),
+        auditFp,
         note: 'Binding passed audit at fidelity-report time.',
       };
     }
@@ -890,6 +918,7 @@ function verifyRuleBased(claim, bindingReport) {
       evidence: [`binding-fidelity-report:${matchedIssue.kind}`],
       confidence: 0.6,
       checkedAt: new Date().toISOString(),
+      auditFp,
       note: `Flagged by binding-fidelity-report: ${matchedIssue.kind}${matchedIssue.note ? ' — ' + matchedIssue.note : ''}`,
     };
   }
@@ -901,6 +930,35 @@ function verifyRuleBased(claim, bindingReport) {
     checkedAt: new Date().toISOString(),
     note: 'rule-based verifier not implemented for this kind',
   };
+}
+
+// Fingerprint of the audit content that can affect a portal's verdicts —
+// outcome flag, error, and the issue list (entities, relations, kinds,
+// severities). Any change here means the audit evidence changed, even if
+// the audited claim payloads did not (cold audit 2026-10-17).
+function portalAuditFingerprint(pp) {
+  return payloadHash({
+    ok: pp.ok ?? null,
+    error: pp.error || null,
+    issues: (pp.issues || []).map((i) => ({
+      entityName: i.entityName ?? null,
+      relType: i.relType ?? null,
+      kind: i.kind ?? null,
+      severity: i.severity ?? null,
+    })),
+  });
+}
+
+// Current audit fingerprint for a portal, or null when the portal is not
+// covered / the report is absent — so callers can require the fingerprint
+// a verdict was computed from (extraction, propagation, reconciliation).
+function bindingAuditFingerprint(bindingReport, portalSlug) {
+  const perPortal =
+    bindingReport && typeof bindingReport.perPortal === 'object' && bindingReport.perPortal !== null
+      ? bindingReport.perPortal
+      : null;
+  const pp = perPortal && perPortal[portalSlug];
+  return pp ? portalAuditFingerprint(pp) : null;
 }
 
 /**
@@ -1237,8 +1295,15 @@ function abstractContradicts(text, keyPhrase) {
   // coreferential pronoun or passive result marker and an earlier clause
   // named the claim. Residual limitation, honestly noted: outcome-typed
   // checking ("which outcome was null?") is a model task, not a regex one.
-  const COREF_START = /^\s*(it|this|these|they|the treatment|the intervention|the therapy|the approach|the result|the results)\b/;
-  const PASSIVE_RESULT = /\b(was|were) (observed|found|seen|noted|reported|demonstrated)\b/;
+  // A coreferential continuation may open with a discourse marker
+  // ("however, it did not improve outcomes") — the pronoun still belongs to
+  // the claim (cold audit 2026-10-17). Passive-result markers are NOT
+  // enough on their own: "sertraline showed no benefit, which was observed
+  // in controls" would misattribute sertraline's result to the claim, so
+  // carry-over requires an anchored pronoun OR a directional failure at
+  // clause start.
+  const DISCOURSE = '(?:however|but|and|yet|still|though|although|overall|interestingly|notably|unfortunately|surprisingly|sadly)';
+  const COREF_START = new RegExp('^\\s*(?:' + DISCOURSE + '\\s+)?(it|this|these|they|the treatment|the intervention|the therapy|the approach|the result|the results)\\b');
   // Equivalence phrases ("no significant difference", "not superior") compare
   // arms — they are not a directional failure of the claim itself, so they
   // can only contradict when the claim is named in the SAME clause. They are
@@ -1299,14 +1364,15 @@ function abstractContradicts(text, keyPhrase) {
     const hasNegation = NEGATION_PATTERNS.some((p) => n.includes(` ${p} `));
     if (hasNegation && mentionsClaim) return true;
     // Carry-over: the clause never names the claim, so it continues the
-    // claim only when it clearly belongs to it (review rounds on #399):
-    // it STARTS with a coreference marker, OR it starts with the
-    // directional failure itself ("…was assessed: no improvement
-    // occurred"), OR it carries a passive result marker — and in every
-    // case the failure phrase must be directional, never an arm
-    // comparison.
+    // claim only when it clearly belongs to it (review rounds on #399,
+    // cold audit 2026-10-17): it STARTS with a coreference marker
+    // (discourse adverbs allowed), OR it starts with the directional
+    // failure itself ("…was assessed: no improvement occurred") — and in
+    // every case the failure phrase must be directional, never an arm
+    // comparison and never a mid-clause passive attached to another
+    // subject.
     const startsDirectional = CARRYOVER_NEGATIONS.some((p) => n.startsWith(` ${p}`));
-    if (!mentionsClaim && claimSeenInSentence && (COREF_START.test(n) || PASSIVE_RESULT.test(n) || startsDirectional)
+    if (!mentionsClaim && claimSeenInSentence && (COREF_START.test(n) || startsDirectional)
         && CARRYOVER_NEGATIONS.some((p) => n.includes(` ${p} `))) return true;
     if (mentionsClaim) claimSeenInSentence = true;
     if (/[.!?]$/.test(trimmed)) claimSeenInSentence = false;
@@ -1371,7 +1437,7 @@ async function verifyEdgar(claim) {
 // PROPAGATE TO CUBE
 // ============================================================================
 
-function propagateVerdictsToCube(cube, ledger) {
+function propagateVerdictsToCube(cube, ledger, bindingReport = null) {
   let count = 0;
   let staleCount = 0;
   for (const cell of cube.cells) {
@@ -1384,15 +1450,19 @@ function propagateVerdictsToCube(cube, ledger) {
       // id flips the hash, and the old verdict must NOT display on changed
       // content — a claim awaiting re-verification is shown as such, with
       // the prior verdict referenced but not presented as current truth.
-      // The stale reason is recorded honestly (review round 7, #399):
-      // "payload-changed" and "verifier-version" are different causes and
-      // the audit trail must not report one as the other.
+      // The stale reason is recorded honestly (review round 7, #399;
+      // audit-input changes added in the 2026-10-17 cold audit):
+      // "payload-changed", "verifier-version" and "audit-input-changed" are
+      // different causes and the audit trail must not report one as another.
       const phMatch = lv.ph && lv.ph === payloadHash(shape.payload(item));
-      if (phMatch && verdictAccepted(lv)) {
+      const auditOk = !cid.startsWith('bind::') || !lv.auditFp ||
+        (bindingReport ? bindingAuditFingerprint(bindingReport, item.portalSlug) === lv.auditFp : true);
+      if (phMatch && verdictAccepted(lv) && auditOk) {
         item.verification = lv;
         count++;
       } else {
-        const staleReason = phMatch ? 'verifier-version' : 'payload-changed';
+        const staleReason = !phMatch ? 'payload-changed'
+          : (!verdictAccepted(lv) ? 'verifier-version' : 'audit-input-changed');
         item.verification = {
           verdict: 'PENDING',
           verifier: lv.verifier || 'unknown',
@@ -1405,7 +1475,9 @@ function propagateVerdictsToCube(cube, ledger) {
           previousCheckedAt: lv.checkedAt || null,
           note: staleReason === 'verifier-version'
             ? 'Ledger verdict predates the current verifier rules — awaiting re-verification under repaired semantics. The prior verdict is preserved in the ledger but not presented as current.'
-            : 'Payload changed since the ledger verdict was computed — awaiting re-verification. The prior verdict is preserved in the ledger but not presented as current.',
+            : staleReason === 'audit-input-changed'
+              ? 'The binding-fidelity audit was regenerated with different findings for this portal — the verdict recorded older audit evidence and is awaiting re-attestation. The prior verdict is preserved in the ledger but not presented as current.'
+              : 'Payload changed since the ledger verdict was computed — awaiting re-verification. The prior verdict is preserved in the ledger but not presented as current.',
         };
         staleCount++;
       }
@@ -1495,4 +1567,6 @@ export {
   forEachCellClaim,
   CLAIM_SHAPES,
   VERIFIER_VERSION,
+  portalAuditFingerprint,
+  bindingAuditFingerprint,
 };
