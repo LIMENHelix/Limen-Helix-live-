@@ -551,6 +551,15 @@ ok('another treatment group opening does not dispute',
 ok('population-only ownership still disputes the claim',
   abstractContradicts('Exposure therapy was tested; no benefit was observed for adults.', 'Exposure Therapy'));
 
+// FIX on #401: adjective before trial nouns, reporting without "that", and
+// coreferential group labels.
+ok('adjective before trial noun still carries the passive result',
+  abstractContradicts('Exposure therapy was assessed; in the randomized trial, no significant improvement was observed.', 'Exposure Therapy'));
+ok('reporting without that still rejects another treatment result',
+  !abstractContradicts('Exposure therapy improved symptoms; however, they found sertraline did not improve outcomes.', 'Exposure Therapy'));
+ok('coreferential treatment-group ownership still disputes',
+  abstractContradicts('Exposure therapy was assessed; however, no improvement in the treatment group was observed.', 'Exposure Therapy'));
+
 // Coreference (review on #399): the claim named in one clause and its
 // negative result continued by pronoun or passive result marker in the next
 // MUST dispute — clause delimiters do not break coreference.

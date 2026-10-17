@@ -1361,7 +1361,7 @@ function abstractContradicts(text, keyPhrase) {
   // the …" accepts only study-context nouns, so a different treatment's
   // group ("in the sertraline group, no improvement was observed") is
   // never absorbed as claim context.
-  const ADJUNCT = '(?:in (?:this|that|our|these|those) [a-z]+(?: [a-z]+)?|in the (?:study|studies|trial|trials|analysis|analyses|cohort|cohorts|investigation|investigations|experiment|experiments|review|reviews|arm|arms|subgroup|subgroups|sample|samples|pilot|population|populations)(?: [a-z]+)?|' + DISCOURSE + ')';
+  const ADJUNCT = '(?:in (?:this|that|our|these|those) [a-z]+(?: [a-z]+)?|in the (?:[a-z]+ )?(?:study|studies|trial|trials|analysis|analyses|cohort|cohorts|investigation|investigations|experiment|experiments|review|reviews|arm|arms|subgroup|subgroups|sample|samples|pilot|population|populations)(?: [a-z]+)?|' + DISCOURSE + ')';
   const COREF_START = new RegExp('^\\s*(?:' + DISCOURSE + '\\s+)?(it|this|these|they|the treatment|the intervention|the therapy|the approach|the result|the results)\\b');
   // Equivalence phrases ("no significant difference", "not superior") compare
   // arms — they are not a directional failure of the claim itself, so they
@@ -1443,7 +1443,11 @@ function abstractContradicts(text, keyPhrase) {
       // Populations are not treatments (fix on #401): "no benefit was
       // observed for adults" reports the claim's own negative result in a
       // population, not another treatment's.
-      'adults', 'adult', 'children', 'child', 'adolescents', 'adolescent', 'elderly', 'seniors', 'senior', 'men', 'women', 'males', 'male', 'females', 'female', 'youth', 'kids', 'infants', 'toddlers', 'teenagers', 'teenager', 'geriatrics', 'pediatrics']);
+      'adults', 'adult', 'children', 'child', 'adolescents', 'adolescent', 'elderly', 'seniors', 'senior', 'men', 'women', 'males', 'male', 'females', 'female', 'youth', 'kids', 'infants', 'toddlers', 'teenagers', 'teenager', 'geriatrics', 'pediatrics',
+      // Coreferential group labels refer to the CURRENT claim (fix on
+      // #401): "no improvement in the treatment group" is the claim's own
+      // arm, not another treatment.
+      'treatment', 'intervention', 'therapy', 'approach']);
     const ownerOf = (word) =>
       !!word && !GENERIC_OWNER.has(word) && !tokens.includes(word);
     // Ownership requires a treatment/group construction (review round 5,
@@ -1467,13 +1471,17 @@ function abstractContradicts(text, keyPhrase) {
       const referent = opening[1];
       const after = n.slice(n.indexOf(referent));
       const demonstrative = /^(this|these) (study|studies|trial|trials|analysis|analyses|cohort|group|groups|arm|arms|investigation|investigations|experiment|experiments|review|reviews|paper|papers|report|reports|meta-analysis)\b/.test(after.trim());
-      // Researcher "they" is not coreference ONLY in a reporting
-      // construction (fix on #401): "they found/reported that sertraline
-      // did not improve" belongs to the investigators — but "they showed no
-      // benefit" is the treatments failing in person and must still
-      // dispute. Reporting verbs without a that-clause are the subject's
-      // own result, not investigator speech.
-      const researcherThey = /^they (found|observed|reported|noted|demonstrated|showed|concluded|determined|saw|measured|assessed|evaluated) that\b/.test(after.trim());
+      // Researcher "they" is not coreference when the reporting verb's
+      // object is another named subject (fix on #401): "they found
+      // sertraline did not improve" (no "that" needed) and "they found
+      // that sertraline did not improve" both belong to investigators —
+      // but "they showed no benefit" / "they demonstrated no significant
+      // improvement" is the treatments failing in person and must dispute.
+      const researcherMatch = after.trim().match(/^they (found|observed|reported|noted|concluded|determined|saw|measured|assessed|evaluated|demonstrated|showed)(?: that)?\s*([a-z][a-z-]*)/);
+      const researcherThey = !!(researcherMatch &&
+        !/^(that|no|not|never|nothing|none|failed|didn|did|does|do|had|has|have|was|were|is|are|remained|proved)\b/.test(researcherMatch[2]) &&
+        !tokens.includes(researcherMatch[2]) &&
+        !GENERIC_OWNER.has(researcherMatch[2]));
       // Expletive "it" is not coreference ONLY when another subject owns
       // the result (fix on #401): "it was found that sertraline did not
       // improve" and "it appears that sertraline did not improve" reject —
