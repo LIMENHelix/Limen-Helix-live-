@@ -483,6 +483,14 @@ ok('abbreviation ending a sentence still splits the sentence',
   !abstractContradicts('Exposure therapy improved symptoms in the U.S. Sertraline did not improve outcomes.', 'Exposure Therapy'));
 ok('randomization ratios do not split a clause',
   abstractContradicts('Exposure therapy was compared 1:1 with control and did not improve outcomes', 'Exposure Therapy'));
+ok('abbreviation before a capitalized proper noun stays one clause',
+  abstractContradicts('Exposure therapy was tested by the U.S. Department and did not improve outcomes', 'Exposure Therapy'));
+ok('abbreviation before an institutional adjunct stays one clause',
+  abstractContradicts('Exposure therapy was tested by the U.K. National Health Service and did not improve outcomes', 'Exposure Therapy'));
+ok('soft line wrap does not break claim context',
+  abstractContradicts('Exposure therapy was tested in adults\nand did not improve outcomes', 'Exposure Therapy'));
+ok('hard newline after a sentence still resets context',
+  !abstractContradicts('Exposure therapy improved symptoms.\nSertraline did not improve outcomes.', 'Exposure Therapy'));
 
 // Reconciliation uses the same per-verifier acceptance policy (review #399).
 {

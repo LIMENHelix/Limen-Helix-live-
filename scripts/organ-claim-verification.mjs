@@ -1248,47 +1248,51 @@ function abstractContradicts(text, keyPhrase) {
     'no benefit', 'not effective',
     'did not reduce', 'no evidence of benefit',
   ];
-  // Coreference carries across ; and : but resets at real sentence ends
-  // (review on #399): "Exposure therapy improved symptoms. Sertraline was
-  // also tested. It did not improve outcomes." — the pronoun belongs to
-  // sertraline, not the claim. Newlines count as sentence boundaries.
-  const lines = String(text)
-    // Protect abbreviation periods before splitting (review on #399):
-    // "tested in the U.S. and did not improve outcomes" must stay one
-    // clause. Chained single-letter abbreviations (U.S., e.g., i.e., a.k.a.)
-    // lose their INTERNAL periods — but when the chain ends a sentence
-    // (followed by whitespace + capital), the trailing period is kept as
-    // the terminator, so "...in the U.S. Sertraline did not improve…" does
-    // NOT merge into one clause (review round 6 on #399). Common titles
-    // (Dr., etc.) strip unconditionally — they virtually never end
-    // sentences in abstracts. Decimals are protected in the splitter below.
-    .replace(/\b(?:[A-Za-z]\.){2,}(?=\s+[A-Z])/g, (m) => m.replace(/\./g, '') + '.')
+  // Text normalization before clause parsing (review rounds on #399):
+  //  - abbreviation chains (U.S., e.g., i.e.) lose internal periods; when a
+  //    chain ends a sentence (capitalized next word that is NOT a known
+  //    institutional adjunct like Department or National) the trailing
+  //    period is kept as the terminator — "U.S. Department" stays one
+  //    clause, "in the U.S. Sertraline did not…" still splits;
+  //  - common titles (Dr., etc., et al.) strip unconditionally;
+  //  - soft line wraps (a newline NOT preceded by sentence punctuation)
+  //    join with a space — efetch plain text wraps sentences arbitrarily
+  //    and a wrap is not a boundary;
+  //  - the clause splitter treats digit-period-digit (0.2) and
+  //    digit-colon-digit (1:1) as numbers, not terminators.
+  // Coreference carries across ; and : but resets at real sentence ends.
+  const NOUN_ADJUNCTS = new Set([
+    'department', 'agency', 'institute', 'national', 'university', 'center', 'centre',
+    'health', 'service', 'services', 'administration', 'foundation', 'college',
+    'hospital', 'clinic', 'group', 'program', 'programme', 'association',
+    'society', 'committee', 'board', 'office', 'bureau', 'laboratory',
+    'laboratories', 'academy', 'council',
+  ]);
+  const clean = String(text)
+    .replace(/\b(?:[A-Za-z]\.){2,}(?=\s+([A-Z][A-Za-z]*))/g, (m, next) =>
+      NOUN_ADJUNCTS.has(next.toLowerCase()) ? m.replace(/\./g, '') : m.replace(/\./g, '') + '.')
     .replace(/\b(?:[A-Za-z]\.){2,}/g, (m) => m.replace(/\./g, ''))
-    .replace(/\b(etc|vs|cf|Dr|Drs|Mr|Mrs|Ms|St|Jr|Sr)\./gi, '$1')
-    .split(/\n+/);
-  for (const line of lines) {
-    let claimSeenInSentence = false;
-    // Clause splitter: a period or colon between digits is a decimal or a
-    // ratio (0.2, 1:1), not a terminator (reviews on #399).
-    const clauses = line.match(/(?:[^.!?;:\n]|\.(?=\d)|:(?=\d))+(?:[.!?;:](?!\d)|$)/g) || [];
-    for (const s of clauses) {
-      const trimmed = s.trim();
-      if (!trimmed) continue;
-      const n = ` ${trimmed.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ')} `;
-      const mentionsClaim = tokens.length
-        ? tokens.every((tok) => n.includes(tok))
-        : n.includes(keyPhrase.toLowerCase());
-      const hasNegation = NEGATION_PATTERNS.some((p) => n.includes(` ${p} `));
-      if (hasNegation && mentionsClaim) return true;
-      // Carry-over: the clause never names the claim, so it only continues
-      // the claim when it STARTS with a coreference marker (a mid-clause
-      // pronoun belongs to whatever subject the clause itself introduced)
-      // and carries a directional failure phrase — not an arm comparison.
-      if (!mentionsClaim && claimSeenInSentence && (COREF_START.test(n) || PASSIVE_RESULT.test(n))
-          && CARRYOVER_NEGATIONS.some((p) => n.includes(` ${p} `))) return true;
-      if (mentionsClaim) claimSeenInSentence = true;
-      if (/[.!?]$/.test(trimmed)) claimSeenInSentence = false;
-    }
+    .replace(/\b(etc|vs|cf|Dr|Drs|Mr|Mrs|Ms|St|Jr|Sr|al)\./gi, '$1')
+    .replace(/([^.!?;:\n])\s*\n+\s*/g, '$1 ');
+  let claimSeenInSentence = false;
+  const clauses = clean.match(/(?:[^.!?;:\n]|\.(?=\d)|:(?=\d))+(?:[.!?;:](?!\d)|$)/g) || [];
+  for (const s of clauses) {
+    const trimmed = s.trim();
+    if (!trimmed) continue;
+    const n = ` ${trimmed.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ')} `;
+    const mentionsClaim = tokens.length
+      ? tokens.every((tok) => n.includes(tok))
+      : n.includes(keyPhrase.toLowerCase());
+    const hasNegation = NEGATION_PATTERNS.some((p) => n.includes(` ${p} `));
+    if (hasNegation && mentionsClaim) return true;
+    // Carry-over: the clause never names the claim, so it only continues
+    // the claim when it STARTS with a coreference marker (a mid-clause
+    // pronoun belongs to whatever subject the clause itself introduced)
+    // and carries a directional failure phrase — not an arm comparison.
+    if (!mentionsClaim && claimSeenInSentence && (COREF_START.test(n) || PASSIVE_RESULT.test(n))
+        && CARRYOVER_NEGATIONS.some((p) => n.includes(` ${p} `))) return true;
+    if (mentionsClaim) claimSeenInSentence = true;
+    if (/[.!?]$/.test(trimmed)) claimSeenInSentence = false;
   }
   return false;
 }
