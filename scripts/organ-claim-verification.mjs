@@ -481,7 +481,7 @@ function reconcilePopulation(cube, ledger, snapshotAt, sourceCommit, bindingRepo
     let effective = sourceVerdict;
     if (lv) {
       const ph = currentPh.get(claimId);
-      const auditOk = !claimId.startsWith('bind::') ||
+      const auditOk = !claimId.startsWith('bind::') || lv.verdict === 'UNVERIFIABLE' ||
         (bindingReport && currentItem.get(claimId)
           ? !!(lv.auditFp && bindingAuditFingerprint(bindingReport, currentItem.get(claimId).portalSlug) === lv.auditFp)
           : true);
@@ -597,8 +597,10 @@ function forEachCellClaim(cell, cb) {
 // predating it are reported by reconcilePopulation so the regeneration step
 // can see exactly how much of the ledger predates the evidence-integrity
 // repair — without auto-invalidating them mid-pipeline. ei2: negation-guard
-// coreference/decimal fixes (#399) — ei1 pubmed verdicts re-enqueue.
-const VERIFIER_VERSION = 'claim-verification/2026-10-16.ei2';
+// coreference/decimal fixes (#399) — ei1 pubmed verdicts re-enqueue. ei3:
+// discourse/adjunct/expletive semantics (#401) — ei2 pubmed verdicts
+// re-enqueue so cached claims are re-judged under the final rules.
+const VERIFIER_VERSION = 'claim-verification/2026-10-17.ei3';
 
 // Verdicts produced before the evidence-integrity repair re-enqueue even
 // when the payload hash matches — a hash match proves the content is
@@ -611,8 +613,8 @@ const VERIFIER_VERSION = 'claim-verification/2026-10-16.ei2';
 // reconcilePopulation (reporting) must apply the SAME acceptance policy
 // (review round 4 on #399).
 const ACCEPTED_VERSIONS = {
-  'rule-based': new Set(['claim-verification/2026-10-16.ei1', 'claim-verification/2026-10-16.ei2']),
-  pubmed: new Set(['claim-verification/2026-10-16.ei2']),
+  'rule-based': new Set(['claim-verification/2026-10-16.ei1', 'claim-verification/2026-10-16.ei2', 'claim-verification/2026-10-17.ei3']),
+  pubmed: new Set(['claim-verification/2026-10-17.ei3']),
 };
 
 // skipFor (extraction), propagateVerdictsToCube (display), and
@@ -673,7 +675,7 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collec
       // regenerated fidelity report now says something different for this
       // portal, the verdict's evidence is out of date even though the
       // claim payload and verifier version are unchanged — re-attest.
-      if (claimId.startsWith('bind::') && bindingReport) {
+      if (claimId.startsWith('bind::') && bindingReport && lv.verdict !== 'UNVERIFIABLE') {
         // A missing fingerprint is a mismatch too (review on #401): if the
         // report vanished or the portal was dropped, the verdict's audit
         // basis is gone — re-attest instead of stranding the claim pending
@@ -957,6 +959,9 @@ function portalAuditFingerprint(pp) {
       relType: i.relType ?? null,
       kind: i.kind ?? null,
       severity: i.severity ?? null,
+      // The note is embedded in the persisted verdict — it must invalidate
+      // the fingerprint too (review round 3, #401).
+      note: i.note ?? null,
     })),
   });
 }
@@ -1389,6 +1394,12 @@ function abstractContradicts(text, keyPhrase) {
     // subject.
     const startsDirectional = CARRYOVER_NEGATIONS.some((p) =>
       n.startsWith(` ${p}`) || new RegExp(`^ ${ADJUNCT} ${p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')} `).test(n));
+    // A directional failure owned by another named subject is not the
+    // claim's result (review round 3, #401): "no benefit of sertraline
+    // emerged" attributes nothing to the claim under test.
+    const ownerMatch = n.match(/\b(?:no benefit|no improvement|no significant improvement|no significant effect|no significant benefit|no effect|not effective|no evidence of benefit) (?:of|with|for|from) ([a-z][a-z-]*)/);
+    const GENERIC_OBJECTS = new Set(['symptoms', 'symptom', 'outcomes', 'outcome', 'measures', 'measure', 'endpoints', 'endpoint', 'patients', 'patient', 'subjects', 'subject', 'participants', 'benefit', 'improvement', 'response']);
+    const ownedByOther = !!(ownerMatch && !GENERIC_OBJECTS.has(ownerMatch[1]) && !tokens.includes(ownerMatch[1]));
     // Coreference gates (review rounds on #401):
     //  - the demonstrative exclusion applies only to the OPENING referent —
     //   "it did not improve outcomes in this study" is still coreference;
@@ -1413,7 +1424,7 @@ function abstractContradicts(text, keyPhrase) {
       const expletive = !!expletiveMatch && !refersBackToClaim;
       coref = !demonstrative && !expletive;
     }
-    if (!mentionsClaim && claimSeenInSentence && (coref || startsDirectional)
+    if (!mentionsClaim && claimSeenInSentence && (coref || (startsDirectional && !ownedByOther))
         && CARRYOVER_NEGATIONS.some((p) => n.includes(` ${p} `))) return true;
     if (mentionsClaim) claimSeenInSentence = true;
     if (/[.!?]$/.test(trimmed)) claimSeenInSentence = false;
@@ -1496,7 +1507,10 @@ function propagateVerdictsToCube(cube, ledger, bindingReport = null) {
       // "payload-changed", "verifier-version" and "audit-input-changed" are
       // different causes and the audit trail must not report one as another.
       const phMatch = lv.ph && lv.ph === payloadHash(shape.payload(item));
-      const auditOk = !cid.startsWith('bind::') ||
+      // The fingerprint requirement applies to TERMINAL verdicts (review
+      // round 3, #401): a fresh UNVERIFIABLE from missing coverage has no
+      // auditFp by design and must be preserved as-is, not rewritten stale.
+      const auditOk = !cid.startsWith('bind::') || lv.verdict === 'UNVERIFIABLE' ||
         (bindingReport
           ? !!(lv.auditFp && bindingAuditFingerprint(bindingReport, item.portalSlug) === lv.auditFp)
           : true);

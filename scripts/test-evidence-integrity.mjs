@@ -511,6 +511,12 @@ ok('expletive it before another treatment result does not dispute',
 ok('expletive referring back to the claim still disputes',
   abstractContradicts('Exposure therapy was tested; it was found that the treatment did not improve symptoms.', 'Exposure Therapy'));
 
+// Review round 3, #401: directional failures owned by another named subject.
+ok('directional failure owned by another treatment does not dispute',
+  !abstractContradicts('Exposure therapy improved symptoms; however, no benefit of sertraline emerged', 'Exposure Therapy'));
+ok('directional failure with a generic object still disputes (control)',
+  abstractContradicts('Exposure therapy improved symptoms; however, no benefit for patients emerged', 'Exposure Therapy'));
+
 // Coreference (review on #399): the claim named in one clause and its
 // negative result continued by pronoun or passive result marker in the next
 // MUST dispute — clause delimiters do not break coreference.
@@ -622,6 +628,35 @@ ok('abbreviation periods do not split a clause',
   propagateVerdictsToCube(cube4, { verdicts: { [bId]: lv } }, { perPortal: { acme: { ok: true, issues: 'oops' } } });
   ok('malformed evidence displays pending with audit-input reason',
     cube4.cells[0].portalBindings[0].verification.staleReason === 'audit-input-changed');
+
+  // Issue notes are part of the fingerprint (review round 3, #401).
+  {
+    const base = { ok: false, issues: [{ entityName: 'X', relType: 'treats', kind: 'k', severity: 'high', note: 'old rationale' }] };
+    const noted = { ok: false, issues: [{ entityName: 'X', relType: 'treats', kind: 'k', severity: 'high', note: 'corrected rationale' }] };
+    ok('a corrected issue note changes the fingerprint',
+      portalAuditFingerprint(base) !== portalAuditFingerprint(noted));
+  }
+
+  // Fresh UNVERIFIABLE audit-failure verdicts are preserved, not rewritten
+  // stale (review round 3, #401).
+  {
+    const freshU = { verdict: 'UNVERIFIABLE', verifier: 'rule-based', ph: bPh, checkedAt: '2026-10-17T00:00:00Z', verifierVersion: VERIFIER_VERSION };
+    const cube5 = { cells: [mkCell({ portalBindings: [bindingItem] })] };
+    propagateVerdictsToCube(cube5, { verdicts: { [bId]: freshU } }, {});
+    ok('fresh UNVERIFIABLE from missing coverage is preserved as-is',
+      cube5.cells[0].portalBindings[0].verification.verdict === 'UNVERIFIABLE' && !cube5.cells[0].portalBindings[0].verification.stale);
+    const r2 = reconcilePopulation(cube5, { verdicts: { [bId]: freshU } }, 't', 'c', {});
+    ok('reconciliation counts the fresh UNVERIFIABLE', r2.effectiveCurrentByVerdict.UNVERIFIABLE === 1);
+  }
+
+  // ei2 PubMed verdicts re-enqueue under ei3 rules (review round 3, #401).
+  {
+    const cell = mkCell({ disorders: [{ ...disorderItem }] });
+    const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh, verifierVersion: 'claim-verification/2026-10-16.ei2' } } };
+    const claims = [];
+    extractCellClaims(cell, claims, ledger);
+    ok('ei2 pubmed verdict re-enqueues under ei3 rules', claims.length === 1);
+  }
 }
 ok('abbreviation ending a sentence still splits the sentence',
   !abstractContradicts('Exposure therapy improved symptoms in the U.S. Sertraline did not improve outcomes.', 'Exposure Therapy'));
