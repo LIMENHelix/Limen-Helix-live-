@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "builtAt": "2026-10-12T16:57:36.189Z",
+  "builtAt": "2026-10-17T11:28:14.833Z",
   "totalCells": 5524,
   "populatedCells": 5471,
   "cellsWithResiduals": 1695,
@@ -53,35 +53,38 @@
     "cellsWithResiduals": 1695,
     "cellsWithSimilar": 2,
     "similarityThreshold": 0.3,
-    "computedAt": "2026-10-12T16:57:36.189Z"
+    "computedAt": "2026-10-17T11:28:14.833Z"
   },
-  "unverifiedClaimsCount": 41043,
+  "unverifiedClaimsCount": 46732,
   "pendingClaimOccurrences": 74386,
   "verificationReconciliation": {
-    "schemaVersion": "verification-reconciliation/1.0",
-    "snapshotAt": "2026-10-12T16:57:36.189Z",
-    "sourceCommit": "605c1f3f59c857cf90e7a05cdf71d05529b7017a",
-    "uniqueCurrentClaims": 46934,
-    "matchedLedgerClaims": 5891,
-    "currentClaimsWithoutLedger": 41043,
-    "archivedLedgerClaims": 2209,
+    "schemaVersion": "verification-reconciliation/1.1",
+    "snapshotAt": "2026-10-17T11:28:14.833Z",
+    "sourceCommit": "6ca35eb41f5dbdb14ddfcd26370999b3b8cd4a43",
+    "verifierVersion": "claim-verification/2026-10-16.ei2",
+    "uniqueCurrentClaims": 46940,
+    "matchedLedgerClaims": 3008,
+    "currentClaimsWithoutLedger": 43932,
+    "archivedLedgerClaims": 5242,
+    "staleLedgerVerdicts": 2800,
+    "verdictsFromOlderVerifierRules": 2800,
     "effectiveCurrentByVerdict": {
-      "VERIFIED": 2409,
-      "DISPUTED": 89,
-      "THEORETICAL": 873,
-      "UNVERIFIABLE": 2520,
+      "VERIFIED": 124,
+      "DISPUTED": 0,
+      "THEORETICAL": 72,
+      "UNVERIFIABLE": 12,
       "FABRICATED": 0,
-      "PENDING": 41043
+      "PENDING": 46732
     },
     "ledgerAllTimeByVerdict": {
-      "VERIFIED": 3846,
-      "DISPUTED": 89,
-      "THEORETICAL": 1583,
+      "VERIFIED": 3931,
+      "DISPUTED": 83,
+      "THEORETICAL": 1654,
       "UNVERIFIABLE": 2582,
       "FABRICATED": 0,
       "PENDING": 0
     },
-    "note": "Current claims are the unique claim-id population in this cube snapshot. Archived ledger claims are preserved evidence whose ids no longer occur in the current cube; they are not counted as current rendered claims."
+    "note": "Current claims are the unique claim-id population in this cube snapshot. A ledger verdict counts as effective only when its payload hash matches the current claim payload; stale or unattested verdicts count as PENDING (awaiting re-verification) and are tallied in staleLedgerVerdicts. Archived ledger claims are preserved evidence whose ids no longer occur in the current cube; they are not counted as current rendered claims."
   },
   "loadedComparisonDomains": [
     "addiction",
@@ -119,22 +122,22 @@
   ],
   "note": "Treatment-discovery report uses (brainNodeId × comparisonDomain × stateBucket) cells. Six-step chain per cell: ISSUE → NODE → DISORDER → NEURO_TX → DOMAIN_TX → RESIDUAL. Verification labels each claim by epistemic state (PROVEN / UNPROVEN / UNKNOWN / IMPOSSIBLE) and keeps every residual — none are suppressed.",
   "epistemicBuckets": {
-    "proven": 2409,
-    "unproven": 873,
-    "unknown": 43563,
-    "impossible": 89,
-    "totalClaims": 46934,
-    "processedVerdicts": 5891,
+    "proven": 124,
+    "unproven": 72,
+    "unknown": 46744,
+    "impossible": 0,
+    "totalClaims": 46940,
+    "processedVerdicts": 3008,
     "verdictCounts": {
-      "VERIFIED": 2409,
-      "DISPUTED": 89,
-      "THEORETICAL": 873,
-      "UNVERIFIABLE": 2520,
+      "VERIFIED": 124,
+      "DISPUTED": 0,
+      "THEORETICAL": 72,
+      "UNVERIFIABLE": 12,
       "FABRICATED": 0,
-      "PENDING": 41043
+      "PENDING": 46732
     },
     "note": "Every claim kept and separated by epistemic state. Verification writes the state; it never deletes the finding. Impossible = study why it fails (kept, not discarded).",
-    "archivedLedgerClaims": 2209,
-    "computedAt": "2026-10-12T16:57:36.189Z"
+    "archivedLedgerClaims": 5242,
+    "computedAt": "2026-10-17T11:28:14.833Z"
   }
 }

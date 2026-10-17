@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "createdAt": "2026-05-31T02:11:40.256Z",
-  "lastUpdatedAt": "2026-10-12T16:57:35.054Z",
+  "lastUpdatedAt": "2026-10-17T11:28:13.197Z",
   "verdicts": {
     "bind::AI__hyperactive__economy::vtr::regulators::Centers for Medicare & Medicaid Services (CMS)": {
       "verdict": "VERIFIED",
@@ -53275,15 +53275,30 @@
       "ph": "b10b5410b51ef24b"
     },
     "ntx::BLA-hyperactive-vmpfc-to-amygdala-connectivity-restoration": {
-      "verdict": "DISPUTED",
+      "verdict": "UNVERIFIABLE",
       "verifier": "pubmed",
       "evidence": [
         "query:\"vmPFC-to-amygdala connectivity restoration\"[Title/Abstract] AND (PTSD[Title/Abstract] OR \"anxiety disorders\"[Title/Abstract] OR phobias[Title/Abstract] OR \"Basolateral Amygdala\"[Title/Abstract] OR Amygdala[Title/Abstract] OR BLA[Title/Abstract])"
       ],
-      "confidence": 0.6,
-      "checkedAt": "2026-05-31T13:55:57.478Z",
-      "note": "PubMed returned 0 articles for tightened query — possibly fabricated, mis-cited, or named protocol does not exist.",
-      "ph": "bd361d39fd62a32c"
+      "confidence": 0.2,
+      "checkedAt": "2026-10-17T11:27:39.707Z",
+      "note": "PubMed returned 0 articles for the tightened query — the claim could not be examined, so it stays UNKNOWN/retryable. Zero hits is not a contradiction: the citation may be mis-cited, the protocol renamed, or the query too tight.",
+      "ph": "bd361d39fd62a32c",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "DISPUTED",
+          "verifier": "pubmed",
+          "evidence": [
+            "query:\"vmPFC-to-amygdala connectivity restoration\"[Title/Abstract] AND (PTSD[Title/Abstract] OR \"anxiety disorders\"[Title/Abstract] OR phobias[Title/Abstract] OR \"Basolateral Amygdala\"[Title/Abstract] OR Amygdala[Title/Abstract] OR BLA[Title/Abstract])"
+          ],
+          "confidence": 0.6,
+          "checkedAt": "2026-05-31T13:55:57.478Z",
+          "note": "PubMed returned 0 articles for tightened query — possibly fabricated, mis-cited, or named protocol does not exist.",
+          "ph": "bd361d39fd62a32c"
+        }
+      ],
+      "supersedes": "2026-05-31T13:55:57.478Z"
     },
     "res::residual-BLA-hyperactive-addiction-D2N-addiction-BLA-gabapentin-gabaergic-anxiolysis": {
       "verdict": "UNVERIFIABLE",
@@ -53394,33 +53409,74 @@
       "ph": "2e44ffa26cf5a700"
     },
     "dx::A1-hyperactive-auditory-hallucinations-damaged-cortical-deafness": {
-      "verdict": "DISPUTED",
+      "verdict": "UNVERIFIABLE",
       "verifier": "pubmed",
       "evidence": [
         "query:\"auditory hallucinations Damaged → cortical deafness\"[Title/Abstract] AND (tinnitus[Title/Abstract] OR \"auditory hallucinations Damaged → cortical deafness\"[Title/Abstract] OR \"auditory hallucinations\"[Title/Abstract] OR \"Primary Auditory Cortex\"[Title/Abstract] OR Cortex[Title/Abstract] OR A1[Title/Abstract])"
       ],
-      "confidence": 0.6,
-      "checkedAt": "2026-06-03T01:46:15.849Z",
-      "note": "PubMed returned 0 articles for tightened query — possibly fabricated, mis-cited, or named protocol does not exist.",
-      "ph": "1fde81b4bca15bdc"
+      "confidence": 0.2,
+      "checkedAt": "2026-10-17T11:26:59.817Z",
+      "note": "PubMed returned 0 articles for the tightened query — the claim could not be examined, so it stays UNKNOWN/retryable. Zero hits is not a contradiction: the citation may be mis-cited, the protocol renamed, or the query too tight.",
+      "ph": "1fde81b4bca15bdc",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "DISPUTED",
+          "verifier": "pubmed",
+          "evidence": [
+            "query:\"auditory hallucinations Damaged → cortical deafness\"[Title/Abstract] AND (tinnitus[Title/Abstract] OR \"auditory hallucinations Damaged → cortical deafness\"[Title/Abstract] OR \"auditory hallucinations\"[Title/Abstract] OR \"Primary Auditory Cortex\"[Title/Abstract] OR Cortex[Title/Abstract] OR A1[Title/Abstract])"
+          ],
+          "confidence": 0.6,
+          "checkedAt": "2026-06-03T01:46:15.849Z",
+          "note": "PubMed returned 0 articles for tightened query — possibly fabricated, mis-cited, or named protocol does not exist.",
+          "ph": "1fde81b4bca15bdc"
+        }
+      ],
+      "supersedes": "2026-06-03T01:46:15.849Z"
     },
     "res::residual-A1-hyperactive-communication-D2N-communication-A1-spectrum-allocation-reform": {
       "verdict": "UNVERIFIABLE",
       "verifier": "pubmed",
       "evidence": [],
       "confidence": 0,
-      "checkedAt": "2026-06-03T01:46:18.006Z",
+      "checkedAt": "2026-10-17T11:28:12.690Z",
       "note": "no PubMed query producible from this claim",
-      "ph": "98fcd5c8a7f77810"
+      "ph": "98fcd5c8a7f77810",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "UNVERIFIABLE",
+          "verifier": "pubmed",
+          "evidence": [],
+          "confidence": 0,
+          "checkedAt": "2026-06-03T01:46:18.006Z",
+          "note": "no PubMed query producible from this claim",
+          "ph": "98fcd5c8a7f77810"
+        }
+      ],
+      "supersedes": "2026-06-03T01:46:18.006Z"
     },
     "res::residual-A1-hyperactive-communication-D2N-communication-A1-emergency-broadcast-modernization": {
       "verdict": "UNVERIFIABLE",
       "verifier": "pubmed",
       "evidence": [],
       "confidence": 0,
-      "checkedAt": "2026-06-03T01:46:18.522Z",
+      "checkedAt": "2026-10-17T11:28:12.189Z",
       "note": "no PubMed query producible from this claim",
-      "ph": "e2dbdbecd6883811"
+      "ph": "e2dbdbecd6883811",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "UNVERIFIABLE",
+          "verifier": "pubmed",
+          "evidence": [],
+          "confidence": 0,
+          "checkedAt": "2026-06-03T01:46:18.522Z",
+          "note": "no PubMed query producible from this claim",
+          "ph": "e2dbdbecd6883811"
+        }
+      ],
+      "supersedes": "2026-06-03T01:46:18.522Z"
     },
     "res::residual-A1-hyperactive-culture-D2N-culture-A1-traditional-music-archives": {
       "verdict": "UNVERIFIABLE",
@@ -53495,15 +53551,30 @@
       "ph": "68faf5e9827b5ff1"
     },
     "dx::AI-hyperactive-chronic-pain-amplification": {
-      "verdict": "DISPUTED",
+      "verdict": "UNVERIFIABLE",
       "verifier": "pubmed",
       "evidence": [
         "query:\"chronic pain amplification\"[Title/Abstract] AND (anxiety[Title/Abstract] OR hypochondria[Title/Abstract] OR \"chronic pain amplification\"[Title/Abstract] OR \"Anterior Insula\"[Title/Abstract] OR Insula[Title/Abstract] OR AI[Title/Abstract])"
       ],
-      "confidence": 0.6,
-      "checkedAt": "2026-06-03T01:46:35.772Z",
-      "note": "PubMed returned 0 articles for tightened query — possibly fabricated, mis-cited, or named protocol does not exist.",
-      "ph": "35ea402c65f95f44"
+      "confidence": 0.2,
+      "checkedAt": "2026-10-17T11:27:16.308Z",
+      "note": "PubMed returned 0 articles for the tightened query — the claim could not be examined, so it stays UNKNOWN/retryable. Zero hits is not a contradiction: the citation may be mis-cited, the protocol renamed, or the query too tight.",
+      "ph": "35ea402c65f95f44",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "DISPUTED",
+          "verifier": "pubmed",
+          "evidence": [
+            "query:\"chronic pain amplification\"[Title/Abstract] AND (anxiety[Title/Abstract] OR hypochondria[Title/Abstract] OR \"chronic pain amplification\"[Title/Abstract] OR \"Anterior Insula\"[Title/Abstract] OR Insula[Title/Abstract] OR AI[Title/Abstract])"
+          ],
+          "confidence": 0.6,
+          "checkedAt": "2026-06-03T01:46:35.772Z",
+          "note": "PubMed returned 0 articles for tightened query — possibly fabricated, mis-cited, or named protocol does not exist.",
+          "ph": "35ea402c65f95f44"
+        }
+      ],
+      "supersedes": "2026-06-03T01:46:35.772Z"
     },
     "res::residual-AI-hyperactive-addiction-D2N-addiction-AI-hrv-biofeedback-training": {
       "verdict": "UNVERIFIABLE",
@@ -53902,15 +53973,30 @@
       "ph": "19f31dff4d5c89a4"
     },
     "ntx::AI-mixed-interoceptive-exposure-training": {
-      "verdict": "DISPUTED",
+      "verdict": "UNVERIFIABLE",
       "verifier": "pubmed",
       "evidence": [
         "query:\"interoceptive exposure training\"[Title/Abstract] AND (\"Anterior Insula\"[Title/Abstract] OR Insula[Title/Abstract] OR AI[Title/Abstract])"
       ],
-      "confidence": 0.6,
-      "checkedAt": "2026-06-03T01:47:02.278Z",
-      "note": "PubMed returned 0 articles for tightened query — possibly fabricated, mis-cited, or named protocol does not exist.",
-      "ph": "fe9f7bfe77ac55e7"
+      "confidence": 0.2,
+      "checkedAt": "2026-10-17T11:27:20.343Z",
+      "note": "PubMed returned 0 articles for the tightened query — the claim could not be examined, so it stays UNKNOWN/retryable. Zero hits is not a contradiction: the citation may be mis-cited, the protocol renamed, or the query too tight.",
+      "ph": "fe9f7bfe77ac55e7",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "DISPUTED",
+          "verifier": "pubmed",
+          "evidence": [
+            "query:\"interoceptive exposure training\"[Title/Abstract] AND (\"Anterior Insula\"[Title/Abstract] OR Insula[Title/Abstract] OR AI[Title/Abstract])"
+          ],
+          "confidence": 0.6,
+          "checkedAt": "2026-06-03T01:47:02.278Z",
+          "note": "PubMed returned 0 articles for tightened query — possibly fabricated, mis-cited, or named protocol does not exist.",
+          "ph": "fe9f7bfe77ac55e7"
+        }
+      ],
+      "supersedes": "2026-06-03T01:47:02.278Z"
     },
     "res::residual-AI-mixed-addiction-D2N-addiction-AI-interoceptive-exposure-during-craving": {
       "verdict": "UNVERIFIABLE",
@@ -54280,9 +54366,25 @@
         "query:\"Urbach-Wiethe disease\"[Title/Abstract] AND (\"Urbach-Wiethe disease\"[Title/Abstract] OR fearlessness[Title/Abstract] OR \"Basolateral Amygdala\"[Title/Abstract] OR Amygdala[Title/Abstract] OR BLA[Title/Abstract])"
       ],
       "confidence": 0.3,
-      "checkedAt": "2026-06-03T01:47:30.037Z",
-      "note": "esearch returned 3 article(s) but top PMID 26803878's title+abstract does not contain claim phrase \"Urbach-Wiethe disease\" (literal or token-proximate). Loose-query match. Article: GeneReviews(®) [Internet]. Seattle (WA): University of Washington, Seattle;",
-      "ph": "734bebf40f3390f1"
+      "checkedAt": "2026-10-17T11:27:56.430Z",
+      "note": "esearch returned 3 article(s) but top PMID 26803878's title+abstract does not contain claim phrase \"Urbach-Wiethe disease\" (literal or token-proximate). Loose-query match. Article: In: Adam MP, Bick S, Mirzaa GM, Wallace SE, Amemiya A, editors. GeneReviews(®)",
+      "ph": "734bebf40f3390f1",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "UNVERIFIABLE",
+          "verifier": "pubmed",
+          "evidence": [
+            "top-pmid:26803878",
+            "query:\"Urbach-Wiethe disease\"[Title/Abstract] AND (\"Urbach-Wiethe disease\"[Title/Abstract] OR fearlessness[Title/Abstract] OR \"Basolateral Amygdala\"[Title/Abstract] OR Amygdala[Title/Abstract] OR BLA[Title/Abstract])"
+          ],
+          "confidence": 0.3,
+          "checkedAt": "2026-06-03T01:47:30.037Z",
+          "note": "esearch returned 3 article(s) but top PMID 26803878's title+abstract does not contain claim phrase \"Urbach-Wiethe disease\" (literal or token-proximate). Loose-query match. Article: GeneReviews(®) [Internet]. Seattle (WA): University of Washington, Seattle;",
+          "ph": "734bebf40f3390f1"
+        }
+      ],
+      "supersedes": "2026-06-03T01:47:30.037Z"
     },
     "res::residual-BLA-hypoactive-addiction-D2N-addiction-BLA-gabapentin-gabaergic-anxiolysis": {
       "verdict": "UNVERIFIABLE",
@@ -54501,15 +54603,30 @@
       "ph": "2c476afdfe3296a8"
     },
     "dx::BNST-hyperactive-sustained-threat-vigilance": {
-      "verdict": "DISPUTED",
+      "verdict": "UNVERIFIABLE",
       "verifier": "pubmed",
       "evidence": [
         "query:\"sustained threat vigilance\"[Title/Abstract] AND (\"generalized anxiety disorder\"[Title/Abstract] OR \"anticipatory anxiety\"[Title/Abstract] OR \"sustained threat vigilance\"[Title/Abstract] OR \"Bed Nucleus of Stria Terminalis\"[Title/Abstract] OR Terminalis[Title/Abstract] OR BNST[Title/Abstract])"
       ],
-      "confidence": 0.6,
-      "checkedAt": "2026-06-03T01:47:48.022Z",
-      "note": "PubMed returned 0 articles for tightened query — possibly fabricated, mis-cited, or named protocol does not exist.",
-      "ph": "637d4a0a396b6b64"
+      "confidence": 0.2,
+      "checkedAt": "2026-10-17T11:27:45.704Z",
+      "note": "PubMed returned 0 articles for the tightened query — the claim could not be examined, so it stays UNKNOWN/retryable. Zero hits is not a contradiction: the citation may be mis-cited, the protocol renamed, or the query too tight.",
+      "ph": "637d4a0a396b6b64",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "DISPUTED",
+          "verifier": "pubmed",
+          "evidence": [
+            "query:\"sustained threat vigilance\"[Title/Abstract] AND (\"generalized anxiety disorder\"[Title/Abstract] OR \"anticipatory anxiety\"[Title/Abstract] OR \"sustained threat vigilance\"[Title/Abstract] OR \"Bed Nucleus of Stria Terminalis\"[Title/Abstract] OR Terminalis[Title/Abstract] OR BNST[Title/Abstract])"
+          ],
+          "confidence": 0.6,
+          "checkedAt": "2026-06-03T01:47:48.022Z",
+          "note": "PubMed returned 0 articles for tightened query — possibly fabricated, mis-cited, or named protocol does not exist.",
+          "ph": "637d4a0a396b6b64"
+        }
+      ],
+      "supersedes": "2026-06-03T01:47:48.022Z"
     },
     "res::residual-BNST-hyperactive-addiction-D2N-addiction-BNST-clonidine-alpha-2-agonist": {
       "verdict": "UNVERIFIABLE",
@@ -54548,15 +54665,30 @@
       "ph": "9c30e314fd1c8d06"
     },
     "dx::BROCA-mixed-broca-s-aphasia-non-fluent": {
-      "verdict": "DISPUTED",
+      "verdict": "UNVERIFIABLE",
       "verifier": "pubmed",
       "evidence": [
         "query:\"Broca's aphasia (non-fluent)\"[Title/Abstract] AND (\"Broca's aphasia (non-fluent)\"[Title/Abstract] OR \"Broca's Area\"[Title/Abstract] OR BROCA[Title/Abstract])"
       ],
-      "confidence": 0.6,
-      "checkedAt": "2026-06-03T01:47:50.752Z",
-      "note": "PubMed returned 0 articles for tightened query — possibly fabricated, mis-cited, or named protocol does not exist.",
-      "ph": "be1ec42f611ef9eb"
+      "confidence": 0.2,
+      "checkedAt": "2026-10-17T11:27:46.445Z",
+      "note": "PubMed returned 0 articles for the tightened query — the claim could not be examined, so it stays UNKNOWN/retryable. Zero hits is not a contradiction: the citation may be mis-cited, the protocol renamed, or the query too tight.",
+      "ph": "be1ec42f611ef9eb",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "DISPUTED",
+          "verifier": "pubmed",
+          "evidence": [
+            "query:\"Broca's aphasia (non-fluent)\"[Title/Abstract] AND (\"Broca's aphasia (non-fluent)\"[Title/Abstract] OR \"Broca's Area\"[Title/Abstract] OR BROCA[Title/Abstract])"
+          ],
+          "confidence": 0.6,
+          "checkedAt": "2026-06-03T01:47:50.752Z",
+          "note": "PubMed returned 0 articles for tightened query — possibly fabricated, mis-cited, or named protocol does not exist.",
+          "ph": "be1ec42f611ef9eb"
+        }
+      ],
+      "supersedes": "2026-06-03T01:47:50.752Z"
     },
     "res::residual-BROCA-mixed-business-D2N-business-BROCA-crisis-communications-playbook": {
       "verdict": "UNVERIFIABLE",
@@ -55913,16 +56045,33 @@
       "ph": "cf13764e6d3eda0b"
     },
     "dx::CON-hyperactive-hypervigilance": {
-      "verdict": "UNVERIFIABLE",
+      "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
-        "top-pmid:25910393",
-        "query:hypervigilance[Title/Abstract] AND (hypervigilance[Title/Abstract] OR \"Cingulo-Opercular Network\"[Title/Abstract] OR Network[Title/Abstract] OR CON[Title/Abstract])"
+        "pubmed:27144625",
+        "pubmed:42031441",
+        "pubmed:38865028"
       ],
-      "confidence": 0.3,
-      "checkedAt": "2026-06-03T02:03:24.722Z",
-      "note": "esearch returned 3 article(s) but top PMID 25910393's title+abstract does not contain claim phrase \"hypervigilance\" (literal or token-proximate). Loose-query match. Article: Loneliness across the life span.",
-      "ph": "f9be82fa0477b98a"
+      "confidence": 0.8,
+      "checkedAt": "2026-10-17T11:27:58.094Z",
+      "note": "Top PMID 27144625's abstract contains claim phrase \"hypervigilance\". Title: 10.1053/j.gastro.2016.02.012. Online ahead of print.",
+      "ph": "f9be82fa0477b98a",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "UNVERIFIABLE",
+          "verifier": "pubmed",
+          "evidence": [
+            "top-pmid:25910393",
+            "query:hypervigilance[Title/Abstract] AND (hypervigilance[Title/Abstract] OR \"Cingulo-Opercular Network\"[Title/Abstract] OR Network[Title/Abstract] OR CON[Title/Abstract])"
+          ],
+          "confidence": 0.3,
+          "checkedAt": "2026-06-03T02:03:24.722Z",
+          "note": "esearch returned 3 article(s) but top PMID 25910393's title+abstract does not contain claim phrase \"hypervigilance\" (literal or token-proximate). Loose-query match. Article: Loneliness across the life span.",
+          "ph": "f9be82fa0477b98a"
+        }
+      ],
+      "supersedes": "2026-06-03T02:03:24.722Z"
     },
     "res::residual-CON-hyperactive-legal-D2N-legal-CON-cost-benefit-analysis-requirement": {
       "verdict": "UNVERIFIABLE",
@@ -56729,9 +56878,25 @@
         "query:codependency[Title/Abstract] AND (\"empathic distress burnout\"[Title/Abstract] OR \"empathic distress\"[Title/Abstract] OR \"compassion fatigue\"[Title/Abstract] OR codependency[Title/Abstract] OR \"Empathy circuit\"[Title/Abstract] OR circuit[Title/Abstract] OR EMP[Title/Abstract])"
       ],
       "confidence": 0.3,
-      "checkedAt": "2026-06-03T02:04:40.809Z",
+      "checkedAt": "2026-10-17T11:28:01.596Z",
       "note": "esearch returned 3 article(s) but top PMID 35623342's title+abstract does not contain claim phrase \"codependency\" (literal or token-proximate). Loose-query match. Article: Epub 2022 May 26.",
-      "ph": "38119eaad7f397c4"
+      "ph": "38119eaad7f397c4",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "UNVERIFIABLE",
+          "verifier": "pubmed",
+          "evidence": [
+            "top-pmid:35623342",
+            "query:codependency[Title/Abstract] AND (\"empathic distress burnout\"[Title/Abstract] OR \"empathic distress\"[Title/Abstract] OR \"compassion fatigue\"[Title/Abstract] OR codependency[Title/Abstract] OR \"Empathy circuit\"[Title/Abstract] OR circuit[Title/Abstract] OR EMP[Title/Abstract])"
+          ],
+          "confidence": 0.3,
+          "checkedAt": "2026-06-03T02:04:40.809Z",
+          "note": "esearch returned 3 article(s) but top PMID 35623342's title+abstract does not contain claim phrase \"codependency\" (literal or token-proximate). Loose-query match. Article: Epub 2022 May 26.",
+          "ph": "38119eaad7f397c4"
+        }
+      ],
+      "supersedes": "2026-06-03T02:04:40.809Z"
     },
     "res::residual-EMP-hyperactive-business-D2N-business-EMP-nps-tracking-program": {
       "verdict": "UNVERIFIABLE",
@@ -59818,9 +59983,25 @@
         "query:\"vocal fatigue\"[Title/Abstract] AND (\"breathy voice\"[Title/Abstract] OR \"vocal fatigue\"[Title/Abstract] OR \"loss of prosody\"[Title/Abstract] OR \"monotone speech\"[Title/Abstract] OR \"Larynx motor + sensory control\"[Title/Abstract] OR control[Title/Abstract] OR LAR[Title/Abstract])"
       ],
       "confidence": 0.3,
-      "checkedAt": "2026-06-03T02:08:44.926Z",
+      "checkedAt": "2026-10-17T11:28:05.042Z",
       "note": "esearch returned 3 article(s) but top PMID 31088695's title+abstract does not contain claim phrase \"vocal fatigue\" (literal or token-proximate). Loose-query match. Article: 10.1016/j.otc.2019.03.008. Epub 2019 May 11.",
-      "ph": "ee73eb23105bb8c0"
+      "ph": "ee73eb23105bb8c0",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "UNVERIFIABLE",
+          "verifier": "pubmed",
+          "evidence": [
+            "top-pmid:31088695",
+            "query:\"vocal fatigue\"[Title/Abstract] AND (\"breathy voice\"[Title/Abstract] OR \"vocal fatigue\"[Title/Abstract] OR \"loss of prosody\"[Title/Abstract] OR \"monotone speech\"[Title/Abstract] OR \"Larynx motor + sensory control\"[Title/Abstract] OR control[Title/Abstract] OR LAR[Title/Abstract])"
+          ],
+          "confidence": 0.3,
+          "checkedAt": "2026-06-03T02:08:44.926Z",
+          "note": "esearch returned 3 article(s) but top PMID 31088695's title+abstract does not contain claim phrase \"vocal fatigue\" (literal or token-proximate). Loose-query match. Article: 10.1016/j.otc.2019.03.008. Epub 2019 May 11.",
+          "ph": "ee73eb23105bb8c0"
+        }
+      ],
+      "supersedes": "2026-06-03T02:08:44.926Z"
     },
     "dx::LAR-hypoactive-loss-of-prosody": {
       "verdict": "DISPUTED",
@@ -60883,9 +61064,25 @@
         "query:\"Alzheimer's cognitive decline\"[Title/Abstract] AND (\"Alzheimer's cognitive decline\"[Title/Abstract] OR \"Nucleus Basalis of Meynert\"[Title/Abstract] OR Meynert[Title/Abstract] OR NBM[Title/Abstract])"
       ],
       "confidence": 0.3,
-      "checkedAt": "2026-06-03T02:10:32.948Z",
+      "checkedAt": "2026-10-17T11:28:06.579Z",
       "note": "esearch returned 1 article(s) but top PMID 27632569's title+abstract does not contain claim phrase \"Alzheimer's cognitive decline\" (literal or token-proximate). Loose-query match. Article: Targeting therapy for homocysteic acid in the blood represents a potential",
-      "ph": "8f8e6dc39659880a"
+      "ph": "8f8e6dc39659880a",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "UNVERIFIABLE",
+          "verifier": "pubmed",
+          "evidence": [
+            "top-pmid:27632569",
+            "query:\"Alzheimer's cognitive decline\"[Title/Abstract] AND (\"Alzheimer's cognitive decline\"[Title/Abstract] OR \"Nucleus Basalis of Meynert\"[Title/Abstract] OR Meynert[Title/Abstract] OR NBM[Title/Abstract])"
+          ],
+          "confidence": 0.3,
+          "checkedAt": "2026-06-03T02:10:32.948Z",
+          "note": "esearch returned 1 article(s) but top PMID 27632569's title+abstract does not contain claim phrase \"Alzheimer's cognitive decline\" (literal or token-proximate). Loose-query match. Article: Targeting therapy for homocysteic acid in the blood represents a potential",
+          "ph": "8f8e6dc39659880a"
+        }
+      ],
+      "supersedes": "2026-06-03T02:10:32.948Z"
     },
     "res::residual-NEOCER-mixed-technology-D2N-technology-NEOCER-mlops-pipeline-governance": {
       "verdict": "UNVERIFIABLE",
@@ -62879,16 +63076,33 @@
       "ph": "c634a60a905a02e6"
     },
     "dx::STRI-hyperactive-compulsion": {
-      "verdict": "UNVERIFIABLE",
+      "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
-        "top-pmid:38883111",
-        "query:compulsion[Title/Abstract] AND (compulsion[Title/Abstract] OR OCD[Title/Abstract] OR Tourette's[Title/Abstract] OR Striatum[Title/Abstract] OR STRI[Title/Abstract])"
+        "pubmed:10855759",
+        "pubmed:38883111",
+        "pubmed:35219003"
       ],
-      "confidence": 0.3,
-      "checkedAt": "2026-06-03T02:58:46.032Z",
-      "note": "esearch returned 3 article(s) but top PMID 38883111's title+abstract does not contain claim phrase \"compulsion\" (literal or token-proximate). Loose-query match. Article: May.",
-      "ph": "e23f0e19be0aa026"
+      "confidence": 0.8,
+      "checkedAt": "2026-10-17T11:28:08.358Z",
+      "note": "Top PMID 10855759's abstract contains claim phrase \"compulsion\". Title: A conceptualization of the repetition compulsion.",
+      "ph": "e23f0e19be0aa026",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "UNVERIFIABLE",
+          "verifier": "pubmed",
+          "evidence": [
+            "top-pmid:38883111",
+            "query:compulsion[Title/Abstract] AND (compulsion[Title/Abstract] OR OCD[Title/Abstract] OR Tourette's[Title/Abstract] OR Striatum[Title/Abstract] OR STRI[Title/Abstract])"
+          ],
+          "confidence": 0.3,
+          "checkedAt": "2026-06-03T02:58:46.032Z",
+          "note": "esearch returned 3 article(s) but top PMID 38883111's title+abstract does not contain claim phrase \"compulsion\" (literal or token-proximate). Loose-query match. Article: May.",
+          "ph": "e23f0e19be0aa026"
+        }
+      ],
+      "supersedes": "2026-06-03T02:58:46.032Z"
     },
     "res::residual-STRI-hyperactive-addiction-D2N-addiction-STRI-cue-exposure-and-response-prevention": {
       "verdict": "UNVERIFIABLE",
@@ -76966,13 +77180,30 @@
       "verifier": "pubmed",
       "evidence": [
         "pubmed:31220837",
-        "pubmed:10598334",
-        "pubmed:30844182"
+        "pubmed:30844182",
+        "pubmed:10598334"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:51:36.120Z",
+      "checkedAt": "2026-10-17T11:26:57.474Z",
       "note": "Top PMID 31220837's abstract contains claim phrase \"cortical deafness\". Title: 30.",
-      "ph": "ca522e36cc5ae6fb"
+      "ph": "ca522e36cc5ae6fb",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:31220837",
+            "pubmed:10598334",
+            "pubmed:30844182"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:51:36.120Z",
+          "note": "Top PMID 31220837's abstract contains claim phrase \"cortical deafness\". Title: 30.",
+          "ph": "ca522e36cc5ae6fb"
+        }
+      ],
+      "supersedes": "2026-10-10T13:51:36.120Z"
     },
     "dx::A1-hyperactive-tinnitus": {
       "verdict": "VERIFIED",
@@ -76980,12 +77211,29 @@
       "evidence": [
         "pubmed:33480192",
         "pubmed:26868680",
-        "pubmed:18560741"
+        "pubmed:12543153"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:51:37.793Z",
+      "checkedAt": "2026-10-17T11:26:59.074Z",
       "note": "Top PMID 33480192's abstract contains claim phrase \"tinnitus\". Title: Tinnitus Update.",
-      "ph": "209ba8c4b0c66682"
+      "ph": "209ba8c4b0c66682",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:33480192",
+            "pubmed:26868680",
+            "pubmed:18560741"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:51:37.793Z",
+          "note": "Top PMID 33480192's abstract contains claim phrase \"tinnitus\". Title: Tinnitus Update.",
+          "ph": "209ba8c4b0c66682"
+        }
+      ],
+      "supersedes": "2026-10-10T13:51:37.793Z"
     },
     "dx::A1-hyperactive-auditory-hallucinations": {
       "verdict": "VERIFIED",
@@ -76996,9 +77244,26 @@
         "pubmed:25034472"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:51:39.428Z",
+      "checkedAt": "2026-10-17T11:27:01.694Z",
       "note": "Top PMID 32491565's abstract contains claim phrase \"auditory hallucinations\". Title: In: StatPearls [Internet]. Treasure Island (FL): StatPearls Publishing; 2023",
-      "ph": "80fe94205142f00d"
+      "ph": "80fe94205142f00d",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:32491565",
+            "pubmed:18852574",
+            "pubmed:25034472"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:51:39.428Z",
+          "note": "Top PMID 32491565's abstract contains claim phrase \"auditory hallucinations\". Title: In: StatPearls [Internet]. Treasure Island (FL): StatPearls Publishing; 2023",
+          "ph": "80fe94205142f00d"
+        }
+      ],
+      "supersedes": "2026-10-10T13:51:39.428Z"
     },
     "dx::ACC-hypoactive-adhd": {
       "verdict": "VERIFIED",
@@ -77006,51 +77271,119 @@
       "evidence": [
         "pubmed:22169776",
         "pubmed:19393378",
-        "pubmed:33035524"
+        "pubmed:39128574"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:51:41.025Z",
+      "checkedAt": "2026-10-17T11:27:03.428Z",
       "note": "Top PMID 22169776's abstract contains claim phrase \"ADHD\". Title: 2011 Dec 12.",
-      "ph": "169f5fe272e8cf5e"
+      "ph": "169f5fe272e8cf5e",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:22169776",
+            "pubmed:19393378",
+            "pubmed:33035524"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:51:41.025Z",
+          "note": "Top PMID 22169776's abstract contains claim phrase \"ADHD\". Title: 2011 Dec 12.",
+          "ph": "169f5fe272e8cf5e"
+        }
+      ],
+      "supersedes": "2026-10-10T13:51:41.025Z"
     },
     "dx::ACC-hypoactive-apathy": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
+        "pubmed:1821241",
         "pubmed:33527880",
-        "pubmed:26522489",
-        "pubmed:28802937"
+        "pubmed:20540829"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:51:42.584Z",
-      "note": "Top PMID 33527880's abstract contains claim phrase \"apathy\". Title: Feb 4.",
-      "ph": "a633c2fd93a6b5e3"
+      "checkedAt": "2026-10-17T11:27:05.265Z",
+      "note": "Top PMID 1821241's abstract contains claim phrase \"apathy\". Title: 10.1176/jnp.3.3.243.",
+      "ph": "a633c2fd93a6b5e3",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:33527880",
+            "pubmed:26522489",
+            "pubmed:28802937"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:51:42.584Z",
+          "note": "Top PMID 33527880's abstract contains claim phrase \"apathy\". Title: Feb 4.",
+          "ph": "a633c2fd93a6b5e3"
+        }
+      ],
+      "supersedes": "2026-10-10T13:51:42.584Z"
     },
     "dx::ACC-hypoactive-reduced-error-detection": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
-        "pubmed:34995870",
-        "pubmed:28811254",
-        "pubmed:34676371"
+        "pubmed:34676371",
+        "pubmed:24795441",
+        "pubmed:34995870"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:51:44.070Z",
-      "note": "Top PMID 34995870's abstract contains claim phrase \"reduced error detection\". Title: Jan  3.",
-      "ph": "c1423d2f5db58372"
+      "checkedAt": "2026-10-17T11:27:06.813Z",
+      "note": "Top PMID 34676371's abstract contains claim phrase \"reduced error detection\". Title: Sep 1.",
+      "ph": "c1423d2f5db58372",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:34995870",
+            "pubmed:28811254",
+            "pubmed:34676371"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:51:44.070Z",
+          "note": "Top PMID 34995870's abstract contains claim phrase \"reduced error detection\". Title: Jan  3.",
+          "ph": "c1423d2f5db58372"
+        }
+      ],
+      "supersedes": "2026-10-10T13:51:44.070Z"
     },
     "dx::ACC-hyperactive-ocd": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
         "pubmed:1806635",
-        "pubmed:27282021",
-        "pubmed:25952989"
+        "pubmed:34400778",
+        "pubmed:31109199"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:51:45.703Z",
+      "checkedAt": "2026-10-17T11:27:08.648Z",
       "note": "Top PMID 1806635's abstract contains claim phrase \"OCD\". Title: 1. Int Clin Psychopharmacol. 1991 Dec;6 Suppl 3:57-66; discussion 66-8.",
-      "ph": "7d55f879b91c4d22"
+      "ph": "7d55f879b91c4d22",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:1806635",
+            "pubmed:27282021",
+            "pubmed:25952989"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:51:45.703Z",
+          "note": "Top PMID 1806635's abstract contains claim phrase \"OCD\". Title: 1. Int Clin Psychopharmacol. 1991 Dec;6 Suppl 3:57-66; discussion 66-8.",
+          "ph": "7d55f879b91c4d22"
+        }
+      ],
+      "supersedes": "2026-10-10T13:51:45.703Z"
     },
     "dx::ACC-hyperactive-excessive-worry": {
       "verdict": "VERIFIED",
@@ -77061,74 +77394,176 @@
         "pubmed:38343381"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:51:47.192Z",
+      "checkedAt": "2026-10-17T11:27:10.388Z",
       "note": "Top PMID 37183813's abstract contains claim phrase \"excessive worry\". Title: 10.1080/14737175.2023.2211767. Epub 2023 May 15.",
-      "ph": "55c07e50c29f07c5"
+      "ph": "55c07e50c29f07c5",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:37183813",
+            "pubmed:28722900",
+            "pubmed:38343381"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:51:47.192Z",
+          "note": "Top PMID 37183813's abstract contains claim phrase \"excessive worry\". Title: 10.1080/14737175.2023.2211767. Epub 2023 May 15.",
+          "ph": "55c07e50c29f07c5"
+        }
+      ],
+      "supersedes": "2026-10-10T13:51:47.192Z"
     },
     "dx::ADR-hyperactive-cushing-s": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
-        "pubmed:27104844",
         "pubmed:39059481",
-        "pubmed:3538969"
+        "pubmed:27104844",
+        "pubmed:40250887"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:51:48.838Z",
-      "note": "Top PMID 27104844's abstract contains claim phrase \"Cushing's\". Title: Apr 22.",
-      "ph": "8c42024df7606f1c"
+      "checkedAt": "2026-10-17T11:27:12.157Z",
+      "note": "Top PMID 39059481's abstract contains claim phrase \"Cushing's\". Title: 2024 Jul 24.",
+      "ph": "8c42024df7606f1c",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:27104844",
+            "pubmed:39059481",
+            "pubmed:3538969"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:51:48.838Z",
+          "note": "Top PMID 27104844's abstract contains claim phrase \"Cushing's\". Title: Apr 22.",
+          "ph": "8c42024df7606f1c"
+        }
+      ],
+      "supersedes": "2026-10-10T13:51:48.838Z"
     },
     "dx::AI-hyperactive-anxiety": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
-        "pubmed:17898336",
         "pubmed:36656625",
-        "pubmed:40349510"
+        "pubmed:779913",
+        "pubmed:17898336"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:51:50.418Z",
-      "note": "Top PMID 17898336's abstract contains claim phrase \"anxiety\". Title: 10.1176/appi.ajp.2007.07030504.",
-      "ph": "3ae1b1e7c752345a"
+      "checkedAt": "2026-10-17T11:27:13.847Z",
+      "note": "Top PMID 36656625's abstract contains claim phrase \"anxiety\". Title: Wearable Artificial Intelligence for Anxiety and Depression: Scoping Review.",
+      "ph": "3ae1b1e7c752345a",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:17898336",
+            "pubmed:36656625",
+            "pubmed:40349510"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:51:50.418Z",
+          "note": "Top PMID 17898336's abstract contains claim phrase \"anxiety\". Title: 10.1176/appi.ajp.2007.07030504.",
+          "ph": "3ae1b1e7c752345a"
+        }
+      ],
+      "supersedes": "2026-10-10T13:51:50.418Z"
     },
     "dx::AI-hyperactive-hypochondria": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
         "pubmed:29151088",
-        "pubmed:26290944",
-        "pubmed:25439855"
+        "pubmed:779913",
+        "pubmed:16413863"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:51:52.072Z",
+      "checkedAt": "2026-10-17T11:27:15.565Z",
       "note": "Top PMID 29151088's abstract contains claim phrase \"hypochondria\". Title: 17.",
-      "ph": "c0b91a61fe515c65"
+      "ph": "c0b91a61fe515c65",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:29151088",
+            "pubmed:26290944",
+            "pubmed:25439855"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:51:52.072Z",
+          "note": "Top PMID 29151088's abstract contains claim phrase \"hypochondria\". Title: 17.",
+          "ph": "c0b91a61fe515c65"
+        }
+      ],
+      "supersedes": "2026-10-10T13:51:52.072Z"
     },
     "dx::AI-hypoactive-alexithymia": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
-        "pubmed:36566943",
         "pubmed:22715878",
+        "pubmed:36566943",
         "pubmed:30399531"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:51:53.527Z",
-      "note": "Top PMID 36566943's abstract contains claim phrase \"alexithymia\". Title: 2022 Dec 23.",
-      "ph": "5e5dd2d3e6713dff"
+      "checkedAt": "2026-10-17T11:27:18.020Z",
+      "note": "Top PMID 22715878's abstract contains claim phrase \"alexithymia\". Title: The neural basis of empathy.",
+      "ph": "5e5dd2d3e6713dff",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:36566943",
+            "pubmed:22715878",
+            "pubmed:30399531"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:51:53.527Z",
+          "note": "Top PMID 36566943's abstract contains claim phrase \"alexithymia\". Title: 2022 Dec 23.",
+          "ph": "5e5dd2d3e6713dff"
+        }
+      ],
+      "supersedes": "2026-10-10T13:51:53.527Z"
     },
     "dx::AI-hypoactive-anorexia": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
         "pubmed:26169883",
-        "pubmed:40465304",
-        "pubmed:26195100"
+        "pubmed:26195100",
+        "pubmed:40465304"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:51:55.064Z",
+      "checkedAt": "2026-10-17T11:27:19.591Z",
       "note": "Top PMID 26169883's abstract contains claim phrase \"anorexia\". Title: Jul  10.",
-      "ph": "41a606455d590d51"
+      "ph": "41a606455d590d51",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:26169883",
+            "pubmed:40465304",
+            "pubmed:26195100"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:51:55.064Z",
+          "note": "Top PMID 26169883's abstract contains claim phrase \"anorexia\". Title: Jul  10.",
+          "ph": "41a606455d590d51"
+        }
+      ],
+      "supersedes": "2026-10-10T13:51:55.064Z"
     },
     "ntx::AI-mixed-body-scan-meditation": {
       "verdict": "VERIFIED",
@@ -77137,165 +77572,384 @@
         "pubmed:26720411"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:51:56.558Z",
+      "checkedAt": "2026-10-17T11:27:21.903Z",
       "note": "Top PMID 26720411's abstract contains claim phrase \"body-scan meditation\". Title: Dec  22.",
-      "ph": "7c5db28d0b25ae2b"
+      "ph": "7c5db28d0b25ae2b",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:26720411"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:51:56.558Z",
+          "note": "Top PMID 26720411's abstract contains claim phrase \"body-scan meditation\". Title: Dec  22.",
+          "ph": "7c5db28d0b25ae2b"
+        }
+      ],
+      "supersedes": "2026-10-10T13:51:56.558Z"
     },
     "ntx::AI-mixed-biofeedback": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
+        "pubmed:30567012",
         "pubmed:40142654",
-        "pubmed:27269967",
-        "pubmed:30567012"
+        "pubmed:39261436"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:51:58.036Z",
-      "note": "Top PMID 40142654's abstract contains claim phrase \"biofeedback\". Title: How to Limit Interdialytic Weight Gain in Patients on Maintenance Hemodialysis:",
-      "ph": "707e06b7bbd1269c"
+      "checkedAt": "2026-10-17T11:27:23.480Z",
+      "note": "Top PMID 30567012's abstract contains claim phrase \"biofeedback\". Title: 10.1002/14651858.CD012622.pub2.",
+      "ph": "707e06b7bbd1269c",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:40142654",
+            "pubmed:27269967",
+            "pubmed:30567012"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:51:58.036Z",
+          "note": "Top PMID 40142654's abstract contains claim phrase \"biofeedback\". Title: How to Limit Interdialytic Weight Gain in Patients on Maintenance Hemodialysis:",
+          "ph": "707e06b7bbd1269c"
+        }
+      ],
+      "supersedes": "2026-10-10T13:51:58.036Z"
     },
     "ntx::AI-mixed-vagal-nerve-stimulation": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
-        "pubmed:32659483",
         "pubmed:36281057",
-        "pubmed:41763327"
+        "pubmed:32659483",
+        "pubmed:34292205"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:51:59.446Z",
-      "note": "Top PMID 32659483's abstract contains claim phrase \"vagal nerve stimulation\". Title: Epub  2020 Jul 10.",
-      "ph": "f6c918aa1176d2db"
+      "checkedAt": "2026-10-17T11:27:25.104Z",
+      "note": "Top PMID 36281057's abstract contains claim phrase \"vagal nerve stimulation\". Title: 2022 Oct 24.",
+      "ph": "f6c918aa1176d2db",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:32659483",
+            "pubmed:36281057",
+            "pubmed:41763327"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:51:59.446Z",
+          "note": "Top PMID 32659483's abstract contains claim phrase \"vagal nerve stimulation\". Title: Epub  2020 Jul 10.",
+          "ph": "f6c918aa1176d2db"
+        }
+      ],
+      "supersedes": "2026-10-10T13:51:59.446Z"
     },
     "dx::ANT-mixed-episodic-memory-failure": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
         "pubmed:17319586",
-        "pubmed:2472126",
+        "pubmed:40147813",
         "pubmed:16009250"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:52:00.876Z",
+      "checkedAt": "2026-10-17T11:27:26.744Z",
       "note": "Top PMID 17319586's abstract contains claim phrase \"episodic-memory failure\". Title: Memory encoding and retrieval in the aging brain.",
-      "ph": "7af7359fb21e8267"
+      "ph": "7af7359fb21e8267",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:17319586",
+            "pubmed:2472126",
+            "pubmed:16009250"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:52:00.876Z",
+          "note": "Top PMID 17319586's abstract contains claim phrase \"episodic-memory failure\". Title: Memory encoding and retrieval in the aging brain.",
+          "ph": "7af7359fb21e8267"
+        }
+      ],
+      "supersedes": "2026-10-10T13:52:00.876Z"
     },
     "dx::BLA-hyperactive-ptsd": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
+        "pubmed:33517749",
         "pubmed:32840220",
-        "pubmed:28823091",
-        "pubmed:31952856"
+        "pubmed:28823091"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:52:02.338Z",
-      "note": "Top PMID 32840220's abstract contains claim phrase \"PTSD\". Title: Neurobiology of emotional trauma.",
-      "ph": "639a3e4d83f48b5e"
+      "checkedAt": "2026-10-17T11:27:28.468Z",
+      "note": "Top PMID 33517749's abstract contains claim phrase \"PTSD\". Title: 10.1176/appi.ajp.2020.20121738.",
+      "ph": "639a3e4d83f48b5e",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:32840220",
+            "pubmed:28823091",
+            "pubmed:31952856"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:52:02.338Z",
+          "note": "Top PMID 32840220's abstract contains claim phrase \"PTSD\". Title: Neurobiology of emotional trauma.",
+          "ph": "639a3e4d83f48b5e"
+        }
+      ],
+      "supersedes": "2026-10-10T13:52:02.338Z"
     },
     "dx::BLA-hyperactive-anxiety-disorders": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
         "pubmed:33424664",
-        "pubmed:30060873",
-        "pubmed:31738952"
+        "pubmed:33517749",
+        "pubmed:30060873"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:52:03.914Z",
+      "checkedAt": "2026-10-17T11:27:30.168Z",
       "note": "Top PMID 33424664's abstract contains claim phrase \"anxiety disorders\". Title: eCollection 2020.",
-      "ph": "b90ae424b266b4f5"
+      "ph": "b90ae424b266b4f5",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:33424664",
+            "pubmed:30060873",
+            "pubmed:31738952"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:52:03.914Z",
+          "note": "Top PMID 33424664's abstract contains claim phrase \"anxiety disorders\". Title: eCollection 2020.",
+          "ph": "b90ae424b266b4f5"
+        }
+      ],
+      "supersedes": "2026-10-10T13:52:03.914Z"
     },
     "dx::BLA-hyperactive-phobias": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
         "pubmed:30060873",
-        "pubmed:27510423",
-        "pubmed:30287083"
+        "pubmed:34186152",
+        "pubmed:29763098"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:52:05.538Z",
+      "checkedAt": "2026-10-17T11:27:31.904Z",
       "note": "Top PMID 30060873's abstract contains claim phrase \"phobias\". Title: Specific phobias.",
-      "ph": "85ed8d955c616682"
+      "ph": "85ed8d955c616682",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:30060873",
+            "pubmed:27510423",
+            "pubmed:30287083"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:52:05.538Z",
+          "note": "Top PMID 30060873's abstract contains claim phrase \"phobias\". Title: Specific phobias.",
+          "ph": "85ed8d955c616682"
+        }
+      ],
+      "supersedes": "2026-10-10T13:52:05.538Z"
     },
     "ntx::BLA-hyperactive-exposure-therapy": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
         "pubmed:34954460",
-        "pubmed:39505447",
-        "pubmed:30060873"
+        "pubmed:30060873",
+        "pubmed:39505447"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:52:07.437Z",
+      "checkedAt": "2026-10-17T11:27:33.653Z",
       "note": "Top PMID 34954460's abstract contains claim phrase \"exposure therapy\". Title: 2021  Dec 21.",
-      "ph": "bffb758c7d13ba62"
+      "ph": "bffb758c7d13ba62",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:34954460",
+            "pubmed:39505447",
+            "pubmed:30060873"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:52:07.437Z",
+          "note": "Top PMID 34954460's abstract contains claim phrase \"exposure therapy\". Title: 2021  Dec 21.",
+          "ph": "bffb758c7d13ba62"
+        }
+      ],
+      "supersedes": "2026-10-10T13:52:07.437Z"
     },
     "ntx::BLA-hyperactive-ssri": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
         "pubmed:32439401",
-        "pubmed:37032427",
-        "pubmed:35900161"
+        "pubmed:31643629",
+        "pubmed:35234292"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:52:09.066Z",
+      "checkedAt": "2026-10-17T11:27:35.493Z",
       "note": "Top PMID 32439401's abstract contains claim phrase \"SSRI\". Title: 10.1016/j.jaac.2020.05.005. Epub 2020 May 18.",
-      "ph": "4659857608888af4"
+      "ph": "4659857608888af4",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:32439401",
+            "pubmed:37032427",
+            "pubmed:35900161"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:52:09.066Z",
+          "note": "Top PMID 32439401's abstract contains claim phrase \"SSRI\". Title: 10.1016/j.jaac.2020.05.005. Epub 2020 May 18.",
+          "ph": "4659857608888af4"
+        }
+      ],
+      "supersedes": "2026-10-10T13:52:09.066Z"
     },
     "ntx::BLA-hyperactive-propranolol-memory-reconsolidation": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
         "pubmed:33424664",
-        "pubmed:19454111",
-        "pubmed:26487439"
+        "pubmed:30155780",
+        "pubmed:28431779"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:52:10.760Z",
+      "checkedAt": "2026-10-17T11:27:37.264Z",
       "note": "Top PMID 33424664's abstract contains claim phrase \"propranolol\". Title: eCollection 2020.",
-      "ph": "24f694d1d119e24e"
+      "ph": "24f694d1d119e24e",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:33424664",
+            "pubmed:19454111",
+            "pubmed:26487439"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:52:10.760Z",
+          "note": "Top PMID 33424664's abstract contains claim phrase \"propranolol\". Title: eCollection 2020.",
+          "ph": "24f694d1d119e24e"
+        }
+      ],
+      "supersedes": "2026-10-10T13:52:10.760Z"
     },
     "ntx::BLA-hyperactive-emdr": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
+        "pubmed:38282286",
         "pubmed:32840220",
-        "pubmed:34924624",
-        "pubmed:38282286"
+        "pubmed:34924624"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:52:12.343Z",
-      "note": "Top PMID 32840220's abstract contains claim phrase \"EMDR\". Title: Neurobiology of emotional trauma.",
-      "ph": "1f8603df85cb26e5"
+      "checkedAt": "2026-10-17T11:27:38.944Z",
+      "note": "Top PMID 38282286's abstract contains claim phrase \"EMDR\". Title: 28.",
+      "ph": "1f8603df85cb26e5",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:32840220",
+            "pubmed:34924624",
+            "pubmed:38282286"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:52:12.343Z",
+          "note": "Top PMID 32840220's abstract contains claim phrase \"EMDR\". Title: Neurobiology of emotional trauma.",
+          "ph": "1f8603df85cb26e5"
+        }
+      ],
+      "supersedes": "2026-10-10T13:52:12.343Z"
     },
     "dx::BLA-hypoactive-fearlessness": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
         "pubmed:30012735",
-        "pubmed:33814695",
-        "pubmed:33359029"
+        "pubmed:38214901",
+        "pubmed:35130004"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:52:13.817Z",
+      "checkedAt": "2026-10-17T11:27:41.405Z",
       "note": "Top PMID 30012735's abstract contains claim phrase \"fearlessness\". Title: 10.1098/rstb.2017.0268.",
-      "ph": "e51969a950583bdf"
+      "ph": "e51969a950583bdf",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:30012735",
+            "pubmed:33814695",
+            "pubmed:33359029"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:52:13.817Z",
+          "note": "Top PMID 30012735's abstract contains claim phrase \"fearlessness\". Title: 10.1098/rstb.2017.0268.",
+          "ph": "e51969a950583bdf"
+        }
+      ],
+      "supersedes": "2026-10-10T13:52:13.817Z"
     },
     "dx::BNST-hyperactive-generalized-anxiety-disorder": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
-        "pubmed:28867939",
         "pubmed:30934083",
+        "pubmed:28867939",
         "pubmed:39505448"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:52:15.502Z",
-      "note": "Top PMID 28867939's abstract contains claim phrase \"generalized anxiety disorder\". Title: 10.31887/DCNS.2017.19.2/dnutt.",
-      "ph": "606169476f9443fc"
+      "checkedAt": "2026-10-17T11:27:43.174Z",
+      "note": "Top PMID 30934083's abstract contains claim phrase \"generalized anxiety disorder\". Title: Generalized Anxiety Disorder.",
+      "ph": "606169476f9443fc",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:28867939",
+            "pubmed:30934083",
+            "pubmed:39505448"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:52:15.502Z",
+          "note": "Top PMID 28867939's abstract contains claim phrase \"generalized anxiety disorder\". Title: 10.31887/DCNS.2017.19.2/dnutt.",
+          "ph": "606169476f9443fc"
+        }
+      ],
+      "supersedes": "2026-10-10T13:52:15.502Z"
     },
     "dx::BNST-hyperactive-anticipatory-anxiety": {
       "verdict": "VERIFIED",
@@ -77303,25 +77957,59 @@
       "evidence": [
         "pubmed:36573969",
         "pubmed:26186143",
-        "pubmed:17898336"
+        "pubmed:41407638"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:52:17.128Z",
+      "checkedAt": "2026-10-17T11:27:44.952Z",
       "note": "Top PMID 36573969's abstract contains claim phrase \"anticipatory anxiety\". Title: Anxiety Disorders: A Review.",
-      "ph": "996655b2f316a08f"
+      "ph": "996655b2f316a08f",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:36573969",
+            "pubmed:26186143",
+            "pubmed:17898336"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:52:17.128Z",
+          "note": "Top PMID 36573969's abstract contains claim phrase \"anticipatory anxiety\". Title: Anxiety Disorders: A Review.",
+          "ph": "996655b2f316a08f"
+        }
+      ],
+      "supersedes": "2026-10-10T13:52:17.128Z"
     },
     "dx::BROCA-hyperactive-palilalia": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
         "pubmed:31747170",
-        "pubmed:26952954",
-        "pubmed:21286050"
+        "pubmed:21286050",
+        "pubmed:28911819"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:52:18.564Z",
+      "checkedAt": "2026-10-17T11:27:48.086Z",
       "note": "Top PMID 31747170's abstract contains claim phrase \"palilalia\". Title: In: StatPearls [Internet]. Treasure Island (FL): StatPearls Publishing; 2023",
-      "ph": "c9a01c33728ad4c8"
+      "ph": "c9a01c33728ad4c8",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:31747170",
+            "pubmed:26952954",
+            "pubmed:21286050"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:52:18.564Z",
+          "note": "Top PMID 31747170's abstract contains claim phrase \"palilalia\". Title: In: StatPearls [Internet]. Treasure Island (FL): StatPearls Publishing; 2023",
+          "ph": "c9a01c33728ad4c8"
+        }
+      ],
+      "supersedes": "2026-10-10T13:52:18.564Z"
     },
     "dx::CARD-hypoactive-cardiovascular-risk": {
       "verdict": "VERIFIED",
@@ -77329,51 +78017,119 @@
       "evidence": [
         "pubmed:31504418",
         "pubmed:28577619",
-        "pubmed:23185977"
+        "pubmed:39551681"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:52:20.176Z",
+      "checkedAt": "2026-10-17T11:27:49.798Z",
       "note": "Top PMID 31504418's abstract contains claim phrase \"cardiovascular risk\". Title: 2019 ESC/EAS Guidelines for the management of dyslipidaemias: lipid modification",
-      "ph": "adfde087ab048638"
+      "ph": "adfde087ab048638",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:31504418",
+            "pubmed:28577619",
+            "pubmed:23185977"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:52:20.176Z",
+          "note": "Top PMID 31504418's abstract contains claim phrase \"cardiovascular risk\". Title: 2019 ESC/EAS Guidelines for the management of dyslipidaemias: lipid modification",
+          "ph": "adfde087ab048638"
+        }
+      ],
+      "supersedes": "2026-10-10T13:52:20.176Z"
     },
     "dx::CARD-hypoactive-poor-stress-resilience": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
-        "pubmed:34387354",
+        "pubmed:39132861",
         "pubmed:14693362",
-        "pubmed:39298868"
+        "pubmed:34387354"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:52:21.599Z",
-      "note": "Top PMID 34387354's abstract contains claim phrase \"poor stress resilience\". Title: Evolutionary innovations driving abiotic stress tolerance in C4 grasses and",
-      "ph": "e66afcee52ec4cfe"
+      "checkedAt": "2026-10-17T11:27:51.367Z",
+      "note": "Top PMID 39132861's abstract contains claim phrase \"poor stress resilience\". Title: 10.1111/jpn.14032.  Epub 2024 Aug 12.",
+      "ph": "e66afcee52ec4cfe",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:34387354",
+            "pubmed:14693362",
+            "pubmed:39298868"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:52:21.599Z",
+          "note": "Top PMID 34387354's abstract contains claim phrase \"poor stress resilience\". Title: Evolutionary innovations driving abiotic stress tolerance in C4 grasses and",
+          "ph": "e66afcee52ec4cfe"
+        }
+      ],
+      "supersedes": "2026-10-10T13:52:21.599Z"
     },
     "dx::CARD-hypoactive-bradycardia": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
+        "pubmed:39082698",
         "pubmed:8516554",
-        "pubmed:26780751",
-        "pubmed:34540397"
+        "pubmed:26780751"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:52:23.243Z",
-      "note": "Top PMID 8516554's abstract contains claim phrase \"bradycardia\". Title: Salvucci F(1), Leuzzi S, Calciati A, Valle F, Giangregorio F, Spadacini G, Coco",
-      "ph": "bb915cb7a32e7863"
+      "checkedAt": "2026-10-17T11:27:53.082Z",
+      "note": "Top PMID 39082698's abstract contains claim phrase \"bradycardia\". Title: Cardioneuroablation for the treatment of reflex syncope and functional",
+      "ph": "bb915cb7a32e7863",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:8516554",
+            "pubmed:26780751",
+            "pubmed:34540397"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:52:23.243Z",
+          "note": "Top PMID 8516554's abstract contains claim phrase \"bradycardia\". Title: Salvucci F(1), Leuzzi S, Calciati A, Valle F, Giangregorio F, Spadacini G, Coco",
+          "ph": "bb915cb7a32e7863"
+        }
+      ],
+      "supersedes": "2026-10-10T13:52:23.243Z"
     },
     "dx::CARD-hypoactive-vasovagal-syncope": {
       "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
-        "pubmed:33587095",
         "pubmed:34748224",
-        "pubmed:8516554"
+        "pubmed:33587095",
+        "pubmed:40310318"
       ],
       "confidence": 0.8,
-      "checkedAt": "2026-10-10T13:52:24.851Z",
-      "note": "Top PMID 33587095's abstract contains claim phrase \"vasovagal syncope\". Title: Vasovagal Syncope.",
-      "ph": "986f26156e771f82"
+      "checkedAt": "2026-10-17T11:27:54.800Z",
+      "note": "Top PMID 34748224's abstract contains claim phrase \"vasovagal syncope\". Title: 10.1111/pace.14402.  Epub 2021 Nov 23.",
+      "ph": "986f26156e771f82",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "VERIFIED",
+          "verifier": "pubmed",
+          "evidence": [
+            "pubmed:33587095",
+            "pubmed:34748224",
+            "pubmed:8516554"
+          ],
+          "confidence": 0.8,
+          "checkedAt": "2026-10-10T13:52:24.851Z",
+          "note": "Top PMID 33587095's abstract contains claim phrase \"vasovagal syncope\". Title: Vasovagal Syncope.",
+          "ph": "986f26156e771f82"
+        }
+      ],
+      "supersedes": "2026-10-10T13:52:24.851Z"
     },
     "dx::CARD-hypoactive-orthostatic-intolerance": {
       "verdict": "VERIFIED",
@@ -77804,16 +78560,33 @@
       "ph": "812ebfa4c7ddf029"
     },
     "dx::DMN-hypoactive-depersonalization": {
-      "verdict": "UNVERIFIABLE",
+      "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
-        "top-pmid:33517751",
-        "query:depersonalization[Title/Abstract] AND (depersonalization[Title/Abstract] OR \"psychedelic ego dissolution\"[Title/Abstract] OR \"Default Mode Network\"[Title/Abstract] OR Network[Title/Abstract] OR DMN[Title/Abstract])"
+        "pubmed:9807645",
+        "pubmed:33517751",
+        "pubmed:15807226"
       ],
-      "confidence": 0.3,
-      "checkedAt": "2026-10-10T13:53:19.570Z",
-      "note": "esearch returned 3 article(s) but top PMID 33517751's title+abstract does not contain claim phrase \"depersonalization\" (literal or token-proximate). Loose-query match. Article: 10.1176/appi.ajp.2020.20121728.",
-      "ph": "d743af93c045f627"
+      "confidence": 0.8,
+      "checkedAt": "2026-10-17T11:27:59.907Z",
+      "note": "Top PMID 9807645's abstract contains claim phrase \"depersonalization\". Title: Depersonalization: neurobiological perspectives.",
+      "ph": "d743af93c045f627",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "UNVERIFIABLE",
+          "verifier": "pubmed",
+          "evidence": [
+            "top-pmid:33517751",
+            "query:depersonalization[Title/Abstract] AND (depersonalization[Title/Abstract] OR \"psychedelic ego dissolution\"[Title/Abstract] OR \"Default Mode Network\"[Title/Abstract] OR Network[Title/Abstract] OR DMN[Title/Abstract])"
+          ],
+          "confidence": 0.3,
+          "checkedAt": "2026-10-10T13:53:19.570Z",
+          "note": "esearch returned 3 article(s) but top PMID 33517751's title+abstract does not contain claim phrase \"depersonalization\" (literal or token-proximate). Loose-query match. Article: 10.1176/appi.ajp.2020.20121728.",
+          "ph": "d743af93c045f627"
+        }
+      ],
+      "supersedes": "2026-10-10T13:53:19.570Z"
     },
     "dx::DMNMTL-hypoactive-alzheimer-s": {
       "verdict": "VERIFIED",
@@ -77907,16 +78680,33 @@
       "ph": "4cbd4fbc55ac454c"
     },
     "dx::EMP-hypoactive-callous-unemotional-traits": {
-      "verdict": "UNVERIFIABLE",
+      "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
-        "top-pmid:23542910",
-        "query:\"callous-unemotional traits\"[Title/Abstract] AND (psychopathy[Title/Abstract] OR \"autism social cognition deficit\"[Title/Abstract] OR \"autism spectrum social deficits\"[Title/Abstract] OR \"callous-unemotional traits\"[Title/Abstract] OR \"Empathy circuit\"[Title/Abstract] OR circuit[Title/Abstract] OR EMP[Title/Abstract])"
+        "pubmed:28040454",
+        "pubmed:32867520",
+        "pubmed:41056873"
       ],
-      "confidence": 0.3,
-      "checkedAt": "2026-10-10T13:53:32.043Z",
-      "note": "esearch returned 3 article(s) but top PMID 23542910's title+abstract does not contain claim phrase \"callous-unemotional traits\" (literal or token-proximate). Loose-query match. Article: Psychopathy: developmental perspectives and their implications for treatment.",
-      "ph": "cfd6831b803c0832"
+      "confidence": 0.8,
+      "checkedAt": "2026-10-17T11:28:03.303Z",
+      "note": "Top PMID 28040454's abstract contains claim phrase \"callous-unemotional traits\". Title: 10.1016/j.neubiorev.2016.12.029. Epub 2016 Dec 28.",
+      "ph": "cfd6831b803c0832",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "UNVERIFIABLE",
+          "verifier": "pubmed",
+          "evidence": [
+            "top-pmid:23542910",
+            "query:\"callous-unemotional traits\"[Title/Abstract] AND (psychopathy[Title/Abstract] OR \"autism social cognition deficit\"[Title/Abstract] OR \"autism spectrum social deficits\"[Title/Abstract] OR \"callous-unemotional traits\"[Title/Abstract] OR \"Empathy circuit\"[Title/Abstract] OR circuit[Title/Abstract] OR EMP[Title/Abstract])"
+          ],
+          "confidence": 0.3,
+          "checkedAt": "2026-10-10T13:53:32.043Z",
+          "note": "esearch returned 3 article(s) but top PMID 23542910's title+abstract does not contain claim phrase \"callous-unemotional traits\" (literal or token-proximate). Loose-query match. Article: Psychopathy: developmental perspectives and their implications for treatment.",
+          "ph": "cfd6831b803c0832"
+        }
+      ],
+      "supersedes": "2026-10-10T13:53:32.043Z"
     },
     "dx::ENDO-hyperactive-motivation-deficit": {
       "verdict": "VERIFIED",
@@ -78465,16 +79255,33 @@
       "ph": "e7f52786153fbe9f"
     },
     "ntx::LC-hyperactive-vagal-nerve-stimulation": {
-      "verdict": "UNVERIFIABLE",
+      "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
-        "top-pmid:26671658",
-        "query:\"vagal nerve stimulation\"[Title/Abstract] AND (\"PTSD hyperarousal\"[Title/Abstract] OR panic[Title/Abstract] OR \"Locus Coeruleus\"[Title/Abstract] OR Coeruleus[Title/Abstract] OR LC[Title/Abstract])"
+        "pubmed:39892503",
+        "pubmed:35572001",
+        "pubmed:26671658"
       ],
-      "confidence": 0.3,
-      "checkedAt": "2026-10-10T13:54:36.478Z",
-      "note": "esearch returned 3 article(s) but top PMID 26671658's title+abstract does not contain claim phrase \"vagal nerve stimulation\" (literal or token-proximate). Loose-query match. Article: Enhancing Rehabilitative Therapies with Vagus Nerve Stimulation.",
-      "ph": "d88d0a9821771a6a"
+      "confidence": 0.8,
+      "checkedAt": "2026-10-17T11:28:11.688Z",
+      "note": "Top PMID 39892503's abstract contains claim phrase \"vagal nerve stimulation\". Title: 2025 Jan 30.",
+      "ph": "d88d0a9821771a6a",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "UNVERIFIABLE",
+          "verifier": "pubmed",
+          "evidence": [
+            "top-pmid:26671658",
+            "query:\"vagal nerve stimulation\"[Title/Abstract] AND (\"PTSD hyperarousal\"[Title/Abstract] OR panic[Title/Abstract] OR \"Locus Coeruleus\"[Title/Abstract] OR Coeruleus[Title/Abstract] OR LC[Title/Abstract])"
+          ],
+          "confidence": 0.3,
+          "checkedAt": "2026-10-10T13:54:36.478Z",
+          "note": "esearch returned 3 article(s) but top PMID 26671658's title+abstract does not contain claim phrase \"vagal nerve stimulation\" (literal or token-proximate). Loose-query match. Article: Enhancing Rehabilitative Therapies with Vagus Nerve Stimulation.",
+          "ph": "d88d0a9821771a6a"
+        }
+      ],
+      "supersedes": "2026-10-10T13:54:36.478Z"
     },
     "dx::LC-hypoactive-fatigue": {
       "verdict": "VERIFIED",
@@ -79970,16 +80777,33 @@
       "ph": "b1c70fe12c77058d"
     },
     "dx::mPFC-hypoactive-depersonalization": {
-      "verdict": "UNVERIFIABLE",
+      "verdict": "VERIFIED",
       "verifier": "pubmed",
       "evidence": [
-        "top-pmid:33517751",
-        "query:depersonalization[Title/Abstract] AND (depersonalization[Title/Abstract] OR \"psychedelic ego dissolution\"[Title/Abstract] OR \"Medial Prefrontal Cortex\"[Title/Abstract] OR Cortex[Title/Abstract] OR mPFC[Title/Abstract])"
+        "pubmed:40093848",
+        "pubmed:9807645",
+        "pubmed:33517751"
       ],
-      "confidence": 0.3,
-      "checkedAt": "2026-10-10T13:57:39.698Z",
-      "note": "esearch returned 3 article(s) but top PMID 33517751's title+abstract does not contain claim phrase \"depersonalization\" (literal or token-proximate). Loose-query match. Article: 10.1176/appi.ajp.2020.20121728.",
-      "ph": "26ef593248cd36a9"
+      "confidence": 0.8,
+      "checkedAt": "2026-10-17T11:28:10.087Z",
+      "note": "Top PMID 40093848's abstract contains claim phrase \"depersonalization\". Title: eCollection 2024 Apr-Jun.",
+      "ph": "26ef593248cd36a9",
+      "verifierVersion": "claim-verification/2026-10-16.ei2",
+      "history": [
+        {
+          "verdict": "UNVERIFIABLE",
+          "verifier": "pubmed",
+          "evidence": [
+            "top-pmid:33517751",
+            "query:depersonalization[Title/Abstract] AND (depersonalization[Title/Abstract] OR \"psychedelic ego dissolution\"[Title/Abstract] OR \"Medial Prefrontal Cortex\"[Title/Abstract] OR Cortex[Title/Abstract] OR mPFC[Title/Abstract])"
+          ],
+          "confidence": 0.3,
+          "checkedAt": "2026-10-10T13:57:39.698Z",
+          "note": "esearch returned 3 article(s) but top PMID 33517751's title+abstract does not contain claim phrase \"depersonalization\" (literal or token-proximate). Loose-query match. Article: 10.1176/appi.ajp.2020.20121728.",
+          "ph": "26ef593248cd36a9"
+        }
+      ],
+      "supersedes": "2026-10-10T13:57:39.698Z"
     },
     "dx::rACC-hyperactive-depression": {
       "verdict": "VERIFIED",
@@ -82236,45 +83060,1854 @@
       "checkedAt": "2026-10-12T16:57:34.547Z",
       "note": "no PubMed query producible from this claim",
       "ph": "a3da94a1dbaddbae"
+    },
+    "bind::AI__hyperactive__communication::nxst::regulators::State Attorneys General (Multi-state)::Consumer Protection & Emergency Broadcast": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.271Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "843b0cdcf7efbfc8",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__defense::l3harris::suppliers::United States Department of State (DDTC)::Export Control & ITAR Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.271Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "aeebcc62610bf77f",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__defense::l3harris::suppliers::United States Department of Commerce (BIS)::Export Administration & Rare-Earth Controls": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.271Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "414acd6656851f21",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__defense::l3harris::regulators::United States Department of State (DDTC)::Export Control & ITAR Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.271Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "f65318f482455f39",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__defense::l3harris::regulators::United States Department of Commerce (BIS)::Export Administration & Rare-Earth Controls": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.271Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "303df5b5a06f703f",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__education::chegg::regulators::U.S. Department of Education (Title IV Compliance)::Crisis Detection & Regulatory Oversight": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.271Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "c61f942b3bcea274",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__education::houghton_mifflin_harcourt::regulators::U.S. Department of Education::Crisis Detection & Policy": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.271Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "0b9a6a97b18a89ca",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__education::houghton_mifflin_harcourt::regulators::State Attorneys General (Education & Consumer Protection)::Consumer Protection & Data Privacy": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.271Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "878084f596771703",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__education::inst::regulators::U.S. Department of Education, Office for Civil Rights (OCR)::Accessibility & Civil-Rights Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.271Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "7f9cfd847d2758ea",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__energy::atlas_energy_solutions_inc::regulators::U.S. Environmental Protection Agency::Environmental Compliance & Emissions": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "e1e1621a38e66f91",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__energy::barnwell_industries_inc::regulators::Chilean Ministry of Environment (Ministerio del Medio Ambiente)::Environmental Permitting & Climate Regulation": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "311284cb092cf8ff",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__energy::devon_energy_corp_de::regulators::U.S. Environmental Protection Agency::Methane Emissions & Air Quality Regulation": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "98a36490d880fc1d",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__energy::enphase_energy::regulators::U.S. Department of Energy (DOE)::Crisis Detection & Policy": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "4c7e6e232e367c1a",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__energy::gulfport_energy_corp::regulators::U.S. Bureau of Land Management (BLM)::Oil & Gas Lease Administration": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "a57db7996e521010",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__energy::gulfport_energy_corp::regulators::U.S. Environmental Protection Agency (EPA)::Environmental Compliance & Methane Emissions": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "a091abe593421501",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__energy::northern_oil_and_gas_inc::regulators::North Dakota Industrial Commission, Department of Mineral Resources::Oil & Gas Production Regulation & Taxation": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "ceefb26c336bc90a",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__energy::northern_oil_and_gas_inc::regulators::U.S. Environmental Protection Agency::Methane Emissions & Environmental Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "d4cacfda0a3bf1e1",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__energy::permian_resources_corp::regulators::U.S. Department of Interior — Bureau of Land Management::Federal Lease & Environmental Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "6cc1cd54873fc759",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__energy::permian_resources_corp::regulators::U.S. Environmental Protection Agency::Air Quality & Methane Emissions": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "095fd69f05a233af",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__energy::talos_energy_inc::regulators::U.S. Environmental Protection Agency::Environmental & Air-Quality Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "04eda1ed4565dc16",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__environment::consolidated_water::regulators::Cayman Islands Government (Department of Environment)::Environmental & Water-Quality Regulation": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "ce1e370bb8d78d78",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__environment::consolidated_water::regulators::Belize Ministry of Natural Resources::Water Resources & Environmental Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "8592d59db62ce606",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__environment::consolidated_water::regulators::U.S. Environmental Protection Agency (EPA)::Environmental Standards & Brine Discharge": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "bf3d9d513e84c9b6",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__environment::vlto::regulators::U.S. Environmental Protection Agency (EPA)::Environmental Compliance & Regulatory Standards": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "efc6f91bef50b897",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__environment::vlto::regulators::U.S. Food and Drug Administration (FDA)::Medical Device & Diagnostics Regulation": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "ee1de956ea7f3e06",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__environment::vlto::regulators::European Medicines Agency (EMA)::Medical Device & Diagnostics Regulation (EU)": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "c289b83057b95a37",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__finance::bank_of_america::regulators::Consumer Financial Protection Bureau (CFPB)::Crisis Detection & Consumer Protection": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "7c7e0cf0e5dd6177",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__finance::blackrock::regulators::U.S. Department of Labor (Employee Benefits Security Administration)::ERISA Fiduciary & Fee-Disclosure Regulator": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "582466ce21f295cf",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__finance::pnc::regulators::Federal Deposit Insurance Corporation (FDIC)::Deposit Insurance & Bank Resolution": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "6dd42207675a2226",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__finance::usb::regulators::Federal Deposit Insurance Corporation::Deposit Insurance & Crisis Management": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "2d0644c067447ede",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__finance::usb::regulators::Consumer Financial Protection Bureau::Consumer Protection & Fair Lending": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "3331a7bfc0c088cf",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__finance::we::regulators::State & Local Real Estate Regulators (NYC, California, UK, Germany)::Zoning, Landlord-Tenant Law, Health & Safety": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "bc6003fee5e36946",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__finance::we::regulators::U.S. Department of Labor (OSHA, Wage & Hour Division)::Workplace Safety & Labor Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "1595b7a5913fbc2c",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__governance::brown_and_brown::suppliers::Mandiant (Google Cloud Security)::Cyber Threat Intelligence & Incident Response": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "ddba36b16b3ee30e",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__industry::cabot_corporation::regulators::U.S. Environmental Protection Agency (EPA)::Crisis Detection — Environmental Compliance": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "14a964783de92f0d",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__industry::cabot_corporation::regulators::Occupational Safety and Health Administration (OSHA)::Crisis Detection — Workplace Safety": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "c78f9fd3dab5bc60",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__industry::cabot_corporation::regulators::China Ministry of Ecology and Environment (MEE)::Crisis Detection — Environmental Compliance (China)": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "1da2711a9d20f475",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__industry::mksi::regulators::U.S. Environmental Protection Agency (EPA)::Environmental & Hazmat Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "f0420e5e48930b8e",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__industry::mksi::regulators::Occupational Safety and Health Administration (OSHA)::Workplace Safety & Health": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "4c983744e545c2b9",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__infrastructure::jacobs_solutions::regulators::U.S. Environmental Protection Agency (EPA) & State Environmental Agencies::Environmental & Safety Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "082749e3319aa418",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__infrastructure::jacobs_solutions::regulators::U.S. Nuclear Regulatory Commission (NRC)::Safety & Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "01851456fbd72615",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__intelligence::saic::regulators::Bureau of Industry and Security (BIS) & Directorate of Defense Trade Controls (DDTC)::Export Control & Technology Transfer Compliance": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "0dac25fddfad09f4",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__medicine::acadia_pharmaceuticals::regulators::U.S. Food and Drug Administration::Crisis Detection & Health-Safety Regulation": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "a5aba6a6deb1033b",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__medicine::acadia_pharmaceuticals::regulators::U.S. Department of Health and Human Services — Office of Inspector General::Crisis Detection & Health-Safety Regulation": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "0a2dbbb3b224d3db",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__medicine::cannapharmarx_inc::regulators::California Department of Cannabis Regulation (CDCR)::State Licensing & Compliance": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "e52483e5628e9a59",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__medicine::cannapharmarx_inc::regulators::Colorado Marijuana Enforcement Division (MED)::State Licensing & Compliance": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.272Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "f0bb296ef2821572",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__medicine::humana::regulators::Office of Inspector General (OIG), U.S. Department of Health & Human Services::MA-RADV Audit & Fraud Detection": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "80566800ad7c8ca4",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__medicine::humana::regulators::Office for Civil Rights (OCR), U.S. Department of Health & Human Services::HIPAA Privacy & Breach Notification Enforcement": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "a6f59e3d4e79a82d",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__medicine::indivior::regulators::U.S. Drug Enforcement Administration (DEA)::Crisis Detection — Scheduling & Quota Management": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "f0e475c8424c8d93",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__medicine::jaguar_health_inc::regulators::Centers for Medicare & Medicaid Services (CMS)::Crisis Detection & Reimbursement Policy": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "a004a30b255b9320",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__medicine::lipocine_inc::regulators::U.S. Drug Enforcement Administration (DEA)::Controlled Substance Regulation": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "f7a1de29c1278740",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__medicine::natures_sunshine_products_inc::regulators::U.S. Food and Drug Administration (FDA)::Product Safety & Regulatory Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "68cef43e0f79aaf8",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__medicine::natures_sunshine_products_inc::regulators::State Attorneys General (Multi-State)::Consumer Protection & MLM Enforcement": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "5e36c0f58a0a7e4e",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__medicine::opko_health_inc::regulators::U.S. Food and Drug Administration (FDA)::Drug & Diagnostic Safety & Efficacy Approval": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "d8e0d2c3592e448d",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__medicine::opko_health_inc::regulators::Clinical Laboratory Improvement Amendments (CLIA) / Centers for Disease Control and Prevention (CDC)::Laboratory Certification & Quality Standards": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "5020f9f9305e5758",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__medicine::xencor_inc::suppliers::National Institutes of Health (NIH)::Research Funding & Scientific Authority": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "8143376cb8aad1b1",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__medicine::xencor_inc::regulators::National Institutes of Health (NIH)::Research Funding & Scientific Authority": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "7d02466a950f7838",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__technology::snowflake::regulators::General Services Administration (GSA) / FedRAMP Program::Crisis Detection (federal-customer compliance)": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "5bd1d654e6d3b1b0",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__technology::snowflake::regulators::Ministry of Electronics and Information Technology (India)::Crisis Detection (data-localization enforcement)": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "3aebc777a24c6369",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__agriculture::archer_daniels_midland::regulators::US Department of Agriculture (USDA)::Agricultural Policy & Commodity Markets": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "dbb99e19339812cb",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__agriculture::archer_daniels_midland::regulators::US Food and Drug Administration (FDA)::Food Safety & Ingredient Approval": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "bcaab661582ce1f3",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__agriculture::archer_daniels_midland::regulators::US Environmental Protection Agency (EPA)::Environmental Compliance & Emissions": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "30f8801d76fa08d6",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__supplyChain::keurig_dr_pepper_inc::regulators::U.S. Food and Drug Administration (FDA)::Crisis Detection — Food Safety & Labeling": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "06bf34d4a43bb4bd",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__supplyChain::keurig_dr_pepper_inc::regulators::U.S. Environmental Protection Agency (EPA)::Crisis Detection — Environmental Compliance & Sustainability": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "f2c8cbbc35a495b1",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hyperactive__supplyChain::keurig_dr_pepper_inc::regulators::U.S. Department of Agriculture (USDA)::Crisis Detection — Agricultural Commodity & Food Safety": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "ab33f5c00ff8a7eb",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__communication::american_tower::regulators::Brazil National Telecommunications Agency (ANATEL)::Brazil Tower & Spectrum Regulation": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "334d9b4a45d69555",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__communication::american_tower::regulators::Mexico Federal Telecommunications Institute (COFETEL)::Mexico Tower & Spectrum Regulation": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "a8a438944b70cbeb",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__communication::atandt::regulators::State Public Utility Commissions (Multi-State)::State-Level Telecom & Broadband Regulation": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "94293f7fa6ad3ddf",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__communication::cloudflare::regulators::Federal Trade Commission (FTC)::Crisis Detection (AI Bias Scrutiny)": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "82da6db52f67b4ce",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__communication::cloudflare::regulators::Consumer Financial Protection Bureau (CFPB)::Crisis Detection (AI Bias in Financial Services)": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "e4b90807c86fb6ad",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__communication::gannett::suppliers::State Attorneys General (Multi-State)::Consumer Protection & Data Privacy": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "f5f6db97623648b4",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__communication::gannett::regulators::State Attorneys General (Multi-State)::Consumer Protection & Data Privacy": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "9f87d2a32932d0ab",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__communication::verizon::regulators::State Public Utility Commissions (aggregate)::State-Level Telecom Regulation": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "0aa16ff46f705ad2",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__communication::zm::regulators::European Commission (GDPR Authority)::Data Privacy & Residency Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "2c2f22bc7941030d",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__communication::zm::regulators::U.S. Department of Commerce (NIST)::Cybersecurity Standards & FedRAMP": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "3ce84d082fc43b3c",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__culture::caesars_entertainment::regulators::Financial Crimes Enforcement Network (FinCEN)::AML/BSA Compliance & Anti-Money Laundering": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "76a06e9866892267",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__culture::live_nation::regulators::State Attorneys General (Multi-state)::Consumer Protection & Dynamic Pricing": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "10fd66f88af0f1d6",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__culture::roku::regulators::California Attorney General (Privacy Enforcement)::Data Privacy & Consumer Protection": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "e8aaa9aae1ad4b5a",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__culture::sqsp::regulators::California Attorney General (Consumer Privacy)::State-Level Data Privacy & Consumer Protection": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "ffa7028a53e8de38",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__culture::walt_disney::regulators::California Labor Commissioner::Labor & Employment Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "7354d789666b635f",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__defense::booz_allen_hamilton::regulators::U.S. Department of Defense — Defense Counterintelligence and Security Agency (DCSA)::Security Clearance & Facility Oversight": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "4cb9a7f7c08ea820",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__defense::cameco::regulators::International Atomic Energy Agency (IAEA)::Nuclear Safeguards & Non-Proliferation": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "9d04fe6fb2c136d3",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__defense::cameco::regulators::Saskatchewan Ministry of Energy and Resources / Athabasca Basin First Nations::Environmental & Indigenous Consultation": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "1f8733ddca1284c7",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__defense::huntington_ingalls::regulators::U.S. Environmental Protection Agency (EPA)::Environmental Compliance & Remediation": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "d51db73a6b304035",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__defense::leidos::regulators::Defense Counterintelligence and Security Agency::Security Clearance & Facility Access": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "1ee9247976a7e261",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__defense::leidos::regulators::National Institute of Standards and Technology::Cybersecurity Standards & Compliance": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "5a82ae62c4537eea",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__defense::mog_a::regulators::Federal Aviation Administration (FAA)::Crisis Detection — Aviation Safety": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "af3fb22ed043645e",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__defense::northrop_grumman::regulators::United States Department of Defense — Defense Counterintelligence and Security Agency (DCSA)::Security Clearance & ITAR Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.273Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "85531d10332074b0",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__defense::northrop_grumman::regulators::United States Environmental Protection Agency (EPA)::Environmental Compliance & Remediation": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "86fa77cc387daa4a",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::carmax::regulators::Consumer Financial Protection Bureau (CFPB)::Auto-Finance Regulation + Consumer Protection": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "c9283e9c25788cc2",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::carmax::regulators::National Highway Traffic Safety Administration (NHTSA)::Vehicle Safety + Recall Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "02643c836635d9be",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::church_and_dwight_co_inc_de::regulators::U.S. Food and Drug Administration::Crisis Detection": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "1c8bfa246e41c6ca",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::church_and_dwight_co_inc_de::regulators::U.S. Environmental Protection Agency::Crisis Detection": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "22964c55dd8ba4de",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::church_and_dwight_co_inc_de::regulators::U.S. Consumer Product Safety Commission::Crisis Detection": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "ae047b574db00d2d",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::expe::regulators::UK Civil Aviation Authority (CAA)::Crisis Detection (aviation & consumer protection)": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "19ad1ddb44d17162",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::intuit::regulators::Internal Revenue Service (IRS)::Tax Compliance & E-File Standards": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "1777279241347db9",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::intuit::regulators::Consumer Financial Protection Bureau (CFPB)::Consumer Financial Services Oversight": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "09693ed86def6835",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::lululemon::regulators::U.S. Department of Labor::Crisis Detection — Labor & Compliance": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "8d4798f8edd03955",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::lululemon::regulators::U.S. Environmental Protection Agency::Crisis Detection — Environmental Compliance": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "218ca3dd2fd4ab5c",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::robert_half::suppliers::Background Check & Compliance Vendors (Sterling Talent Solutions, Checkr, HireRight)::Risk & Compliance Screening": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "4510e09b847d7854",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::robert_half::suppliers::Insurance Providers (Liability, E&O, Workers' Comp)::Risk Mitigation & Claims Management": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "49ce524de0b30c44",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::robert_half::regulators::U.S. Department of Labor (DOL)::Wage & Hour Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "fa0218d616e05c9c",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::robert_half::regulators::State Attorneys General & Labor Departments::State-Level Wage & Employment Regulation": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "2825498e5145149f",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::vtr::regulators::Centers for Medicare & Medicaid Services (CMS)::Healthcare Reimbursement & Operator Risk": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "9052b238740ae89b",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::vtr::regulators::State Health Departments & Licensing Boards::Operator Licensing & Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "7b907783031c10f7",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::well::regulators::Centers for Medicare & Medicaid Services (CMS)::Healthcare Reimbursement & Regulatory Policy": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "6e4b2fa4a44e0960",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::well::regulators::State Departments of Health & Human Services::State-Level Healthcare Regulation & Licensing": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "28b6adcea96d85a7",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::willamette_valley_vineyards_inc::regulators::Alcohol and Tobacco Tax and Trade Bureau (TTB)::Crisis Detection (Alcohol Compliance)": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "921ba8dc21ec259e",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__economy::willamette_valley_vineyards_inc::regulators::U.S. Environmental Protection Agency (EPA)::Crisis Detection (Environmental)": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "348a8ebc32b99cf0",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__education::coursera::regulators::U.S. Department of Education::Education Regulation & Accreditation": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "43c5295a69ad7572",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__education::coursera::regulators::Ministry of Education (India)::International Education Regulation": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "c2313fd69740a187",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__energy::american_electric_power::regulators::Environmental Protection Agency::Crisis Detection (Environmental Compliance)": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "f6e315bea28a1fed",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__energy::american_electric_power::regulators::Nuclear Regulatory Commission::Crisis Detection (Nuclear Safety)": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "3fcceef777fad6d9",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__energy::constellation_energy::regulators::U.S. Nuclear Regulatory Commission::Nuclear Safety & Licensing": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "eee1402789fcfb3f",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__energy::constellation_energy::regulators::U.S. Environmental Protection Agency::Environmental Compliance & Emissions": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "b29b4c36e5740af3",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__energy::d::regulators::U.S. Environmental Protection Agency::Crisis Detection — Environmental Compliance": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "5007720d35e2d48d",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__energy::ge_vernova::suppliers::U.S. Environmental Protection Agency (EPA)::Environmental & Emissions Regulation": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "5eeffab928ad59fd",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__energy::ge_vernova::regulators::U.S. Environmental Protection Agency (EPA)::Environmental & Emissions Regulation": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "2045e23767f700bb",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__energy::hess_midstream_lp::regulators::U.S. Department of Transportation (PHMSA)::Pipeline Safety & Operations": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "fc735e9a7063c630",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__energy::hess_midstream_lp::regulators::U.S. Environmental Protection Agency (EPA)::Environmental Compliance & Emissions": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.274Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "accc501be085b31c",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__energy::primeenergy_resources_corp::regulators::U.S. Environmental Protection Agency (EPA)::Environmental & Emissions Compliance": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.275Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "7e1bf06f3697e692",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__energy::so::suppliers::U.S. Environmental Protection Agency::Environmental Compliance & Coal-Plant Retirement": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.275Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "829d3bd5e8f4ba0f",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__energy::so::suppliers::U.S. Nuclear Regulatory Commission::Nuclear Safety & Licensing": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.275Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "4e5df76b4617a88f",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__environment::advanced_drainage_systems::regulators::U.S. Environmental Protection Agency (EPA)::Crisis Detection — Stormwater & Wastewater Compliance": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.275Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "0bdc612605d211b6",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__environment::advanced_drainage_systems::regulators::U.S. Department of Energy (DOE) & State Plastic-Recycling Programs::Crisis Detection — Plastic Recycling & EPR Compliance": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.275Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "de5f3a3d4c4daa12",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__environment::casella_waste_systems::regulators::Vermont Department of Environmental Conservation (DEC)::Crisis Detection / Environmental Regulation": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.275Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "195aa60e335eb5a8",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__environment::casella_waste_systems::regulators::New Hampshire Department of Environmental Services (DES)::Crisis Detection / Environmental Regulation": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.275Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "410046e92607072d",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__environment::casella_waste_systems::regulators::U.S. Environmental Protection Agency (EPA)::Crisis Detection / Environmental Regulation": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.275Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "aa9406ce57a6f9ea",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__environment::ecolab::regulators::U.S. Environmental Protection Agency (EPA)::Crisis Detection & Environmental Compliance": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.275Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "5cb21f70a2650d17",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__environment::ecolab::regulators::U.S. Food and Drug Administration (FDA)::Crisis Detection & Health/Safety Compliance": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.275Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "1464bc2f31fc94fc",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__environment::ecolab::regulators::European Chemicals Agency (ECHA) & EU REACH Regulation::Crisis Detection & Environmental Compliance": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.275Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "413b32ec436bec24",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__environment::republic_services::regulators::U.S. Environmental Protection Agency::Environmental Compliance & Permitting": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.275Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "76d3a55ae9d853da",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__environment::republic_services::regulators::State Environmental Agencies::State-Level Environmental Regulation": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.275Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "c4a4821742a9ba49",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__environment::ryn::regulators::U.S. Environmental Protection Agency::Crisis Detection & Environmental Compliance": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.275Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "6dadc4ea517a7a2a",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__environment::ufpi::regulators::U.S. Environmental Protection Agency::Environmental Compliance & Air Quality": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.275Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "6afd39334ba47a19",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__environment::ufpi::regulators::U.S. Department of Labor / Occupational Safety and Health Administration::Workplace Safety & Health": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.275Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "0dd23d3d96fb802f",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__environment::us_ecology::regulators::U.S. Department of Transportation (DOT)::Crisis Detection & Safety": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.276Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "739a4b4dc420591e",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__environment::wtrg::suppliers::U.S. Environmental Protection Agency (EPA)::Water Quality & Safety Regulation": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.276Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "4936e181d2b92980",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__environment::wtrg::suppliers::Federal Energy Regulatory Commission (FERC)::Energy & Infrastructure Oversight": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.276Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "9f93039f76d62da0",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__finance::aig::regulators::Hong Kong Insurance Authority (HKIA) + Japan Financial Services Agency (JFSA)::Crisis Detection (Asia regulatory)": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.276Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "74459e38f261944b",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__finance::coinbase::suppliers::Chainalysis, Inc.::Crisis Detection (AML/sanctions screening)": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.276Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "4dae365cdc3e8c85",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__finance::coinbase::suppliers::TRM Labs, Inc.::Crisis Detection (AML/sanctions screening)": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.276Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "86e3b4602aff9379",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__finance::coinbase::regulators::Financial Crimes Enforcement Network (FinCEN)::Crisis Detection (AML/BSA enforcement)": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.276Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "fcb5d0f29721f894",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__finance::coinbase::regulators::Office of Foreign Assets Control (OFAC)::Crisis Detection (sanctions enforcement)": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.276Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "27e29c40152cc67c",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__finance::dlocal::regulators::Banco Central do Brasil (BCRA)::Regional Regulator / Payment System Oversight": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.276Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "eeedfcf0ee89648b",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__finance::dlocal::regulators::Unidad de Información Financiera (UIF) — Argentina::AML/Sanctions Regulator": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.276Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "7dc5460a07435c07",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__finance::fidelity_national_info::regulators::Office of the Comptroller of the Currency::Bank Safety & Soundness; Third-Party Vendor Risk": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:passed"
+      ],
+      "confidence": 0.75,
+      "checkedAt": "2026-10-17T11:26:53.276Z",
+      "note": "Binding passed audit at fidelity-report time.",
+      "ph": "dc8811fe14e6e345",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__finance::fidelity_national_info::regulators::Consumer Financial Protection Bureau::Consumer Financial Protection & Fair Lending": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.276Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "6be8e2bce57cb546",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__finance::four::regulators::Consumer Financial Protection Bureau (CFPB)::Consumer Protection & Payment Processor Oversight": {
+      "verdict": "THEORETICAL",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:role_text_inconsistent"
+      ],
+      "confidence": 0.6,
+      "checkedAt": "2026-10-17T11:26:53.276Z",
+      "note": "Flagged by binding-fidelity-report: role_text_inconsistent",
+      "ph": "8df12f114c0accf3",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
+    },
+    "bind::AI__hypoactive__finance::mastercard::regulators::Consumer Financial Protection Bureau (CFPB)::Crisis Detection": {
+      "verdict": "VERIFIED",
+      "verifier": "rule-based",
+      "evidence": [
+        "binding-fidelity-report:no-issues"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-10-17T11:26:53.276Z",
+      "note": "No issues in binding-fidelity audit for this portal.",
+      "ph": "dcdf0c639ff1a515",
+      "verifierVersion": "claim-verification/2026-10-16.ei2"
     }
   },
   "stats": {
-    "VERIFIED": 3846,
-    "DISPUTED": 89,
-    "THEORETICAL": 1583,
+    "VERIFIED": 3931,
+    "DISPUTED": 83,
+    "THEORETICAL": 1654,
     "UNVERIFIABLE": 2582,
     "FABRICATED": 0,
     "PENDING": 0,
     "byVerifier": {
-      "rule-based": 5180,
+      "rule-based": 5330,
       "internal-consistency": 8,
       "pubmed": 2912
     }
   },
   "reconciliation": {
-    "schemaVersion": "verification-reconciliation/1.0",
-    "snapshotAt": "2026-10-12T16:57:36.189Z",
-    "sourceCommit": "605c1f3f59c857cf90e7a05cdf71d05529b7017a",
-    "uniqueCurrentClaims": 46934,
-    "matchedLedgerClaims": 5891,
-    "currentClaimsWithoutLedger": 41043,
-    "archivedLedgerClaims": 2209,
+    "schemaVersion": "verification-reconciliation/1.1",
+    "snapshotAt": "2026-10-17T11:28:14.833Z",
+    "sourceCommit": "6ca35eb41f5dbdb14ddfcd26370999b3b8cd4a43",
+    "verifierVersion": "claim-verification/2026-10-16.ei2",
+    "uniqueCurrentClaims": 46940,
+    "matchedLedgerClaims": 3008,
+    "currentClaimsWithoutLedger": 43932,
+    "archivedLedgerClaims": 5242,
+    "staleLedgerVerdicts": 2800,
+    "verdictsFromOlderVerifierRules": 2800,
     "effectiveCurrentByVerdict": {
-      "VERIFIED": 2409,
-      "DISPUTED": 89,
-      "THEORETICAL": 873,
-      "UNVERIFIABLE": 2520,
+      "VERIFIED": 124,
+      "DISPUTED": 0,
+      "THEORETICAL": 72,
+      "UNVERIFIABLE": 12,
       "FABRICATED": 0,
-      "PENDING": 41043
+      "PENDING": 46732
     },
     "ledgerAllTimeByVerdict": {
-      "VERIFIED": 3846,
-      "DISPUTED": 89,
-      "THEORETICAL": 1583,
+      "VERIFIED": 3931,
+      "DISPUTED": 83,
+      "THEORETICAL": 1654,
       "UNVERIFIABLE": 2582,
       "FABRICATED": 0,
       "PENDING": 0
     },
-    "note": "Current claims are the unique claim-id population in this cube snapshot. Archived ledger claims are preserved evidence whose ids no longer occur in the current cube; they are not counted as current rendered claims."
+    "note": "Current claims are the unique claim-id population in this cube snapshot. A ledger verdict counts as effective only when its payload hash matches the current claim payload; stale or unattested verdicts count as PENDING (awaiting re-verification) and are tallied in staleLedgerVerdicts. Archived ledger claims are preserved evidence whose ids no longer occur in the current cube; they are not counted as current rendered claims."
+  },
+  "retryCursors": {
+    "pubmed": {
+      "lastClaimId": "res::residual-A1-hyperactive-communication-D2N-communication-A1-spectrum-allocation-reform",
+      "updatedAt": "2026-10-17T11:26:56.097Z"
+    }
   }
 }
