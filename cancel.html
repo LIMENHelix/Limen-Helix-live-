@@ -26,7 +26,7 @@
 <div class="wrap">
   <p class="dim"><a href="/">← LIMEN Helix</a></p>
   <h1>Manage or cancel a subscription</h1>
-  <p>Cancellation is self-serve through the Stripe Customer Portal. Enter the email you subscribed with and the domain you subscribed to; if there is an active subscription on them, we will send you straight to your portal, where you can cancel or update your payment details. Cancellation takes effect at the end of the current paid period — nothing further is charged.</p>
+  <p>Cancellation is self-serve through the Stripe Customer Portal. Enter the email you subscribed with and the domain you subscribed to; if there is an active subscription on them, we email a sign-in link to that address. Opening the link proves the inbox is yours and takes you straight to your portal, where you can cancel or update your payment details. Cancellation takes effect at the end of the current paid period — nothing further is charged.</p>
 
   <form id="f" novalidate>
     <label for="email">Email you subscribed with</label>
@@ -55,7 +55,7 @@
       <option value="technology">Tech Watch</option>
       <option value="trade">Trade Watch</option>
     </select>
-    <button type="submit" id="go">Open my customer portal →</button>
+    <button type="submit" id="go">Email me my portal sign-in link →</button>
     <div id="status" role="status"></div>
   </form>
 
@@ -73,7 +73,7 @@
     status.className = ''; status.textContent = '';
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { status.className = 'err'; status.textContent = 'Enter a valid email address.'; return; }
     if (!domain) { status.className = 'err'; status.textContent = 'Choose the domain you subscribed to.'; return; }
-    btn.disabled = true; status.textContent = 'Checking your subscription…';
+    btn.disabled = true; status.textContent = 'Sending your sign-in link…';
     fetch('/api/customer-portal', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
@@ -81,9 +81,8 @@
     }).then(function (r) {
       return r.json().then(function (j) { return { code: r.status, body: j }; });
     }).then(function (r) {
-      if (r.body && r.body.ok && r.body.url) {
-        status.textContent = 'Subscription found — opening your portal…';
-        location.href = r.body.url;
+      if (r.body && r.body.ok) {
+        status.textContent = r.body.message || 'If that email has an active subscription on that domain, a sign-in link is on its way to that inbox. The link expires in 30 minutes.';
         return;
       }
       btn.disabled = false;

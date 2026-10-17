@@ -39,6 +39,7 @@ are never returned — presence booleans and cap numbers only.
 | `RESEND_FROM_EMAIL` | from-address on a domain verified in Resend (`Name <user@limenhelix.com>` or bare address) | `transport.fromEmail.deliverableClass` must be `own-domain-assumed-verified` |
 | `CRM_SENDER_ADDRESS` | CAN-SPAM postal footer — without it every send renders "[sender postal address not configured]" | `transport.postalAddress.configured`; **blocks GREEN** |
 | `CRM_REPLY_TO` | optional reply-to | `transport.replyTo.configured` |
+| `CUSTOMER_PORTAL_LINK_SECRET` | HMAC key signing the customer-portal sign-in links emailed to subscribers (FIX-0068); unset, `/api/customer-portal` fails closed with `customer-portal-link-not-configured` | not in the registry — request and redeem both 503 naming the var when it is unset |
 
 `RESEND_API_KEY` and `RESEND_FROM_EMAIL` are already set in production
 (limenhelix.com verified in Resend, 2026-09-20). `CRM_SENDER_ADDRESS` is a
