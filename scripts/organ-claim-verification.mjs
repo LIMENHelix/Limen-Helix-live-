@@ -249,12 +249,12 @@ async function main() {
   }
 
   // Apply max-claims cap — retryable (UNVERIFIABLE) claims re-enqueue every
-  // run by design (item 3), so the backlog rotates deterministically by week:
-  // fresh claims keep priority order, and every run works a different window
-  // of the retryable backlog instead of the same first-N forever (review
-  // on #398).
-  const weekSeed = Math.floor(Date.now() / (7 * 24 * 3600 * 1000));
-  queue = capQueueWithRetryRotation(queue, ledger, ARG.maxClaims, weekSeed, ARG.verifierFilter);
+  // run by design (item 3); the backlog is tiled by a durable cursor stored
+  // in the ledger itself, so weekly runs continue where the last one stopped
+  // regardless of turnover. Fresh claims keep priority order.
+  queue = capQueueWithRetryRotation(queue, ledger, ARG.maxClaims, ARG.verifierFilter,
+    (ARG.priorityNodes.length ? 'pri:' + ARG.priorityNodes.join(',') : '') +
+    (ARG.reverifyIds.length ? 'ids:' + ARG.reverifyIds.length : ''));
   console.log(`[verification-organ] working set this run: ${queue.length}`);
 
   if (ARG.dryRun) {
@@ -473,13 +473,19 @@ function reconcilePopulation(cube, ledger, snapshotAt, sourceCommit) {
     let effective = sourceVerdict;
     if (lv) {
       const ph = currentPh.get(claimId);
-      if (lv.ph && ph && lv.ph === ph) {
+      if (lv.ph && ph && lv.ph === ph && verdictAccepted(lv)) {
         effective = lv.verdict;
       } else {
         effective = 'PENDING';
         staleLedgerVerdicts++;
       }
-      if ((lv.verifierVersion || null) !== VERIFIER_VERSION) olderVerifierRules++;
+      if ((lv.verifierVersion || null) !== VERIFIER_VERSION) {
+        // Per-verifier acceptance (review round 4, #399): only count a
+        // verdict as older-rules when its verifier actually rejects that
+        // version — ei1 rule-based records are deliberately accepted, not
+        // backlog.
+        if (!verdictAccepted(lv)) olderVerifierRules++;
+      }
     }
     effectiveCurrentByVerdict[effective] = (effectiveCurrentByVerdict[effective] || 0) + 1;
   }
@@ -578,8 +584,33 @@ function forEachCellClaim(cell, cb) {
 // Verdicts written by this build are stamped with this version. Records
 // predating it are reported by reconcilePopulation so the regeneration step
 // can see exactly how much of the ledger predates the evidence-integrity
-// repair — without auto-invalidating them mid-pipeline.
-const VERIFIER_VERSION = 'claim-verification/2026-10-16.ei1';
+// repair — without auto-invalidating them mid-pipeline. ei2: negation-guard
+// coreference/decimal fixes (#399) — ei1 pubmed verdicts re-enqueue.
+const VERIFIER_VERSION = 'claim-verification/2026-10-16.ei2';
+
+// Verdicts produced before the evidence-integrity repair re-enqueue even
+// when the payload hash matches — a hash match proves the content is
+// unchanged, not that the old rules were sound (review on #398). Versions
+// are accepted PER VERIFIER (review round 3 on #399): the ei2 bump changed
+// only PubMed's contradiction semantics, so rule-based ei1 verdicts stay
+// accepted and don't churn the general lane; rule-based records predating
+// ei1 (the 150 unsupported VERIFIEDs) and all pre-ei2 PubMed verdicts
+// re-enqueue. Module-level because skipFor (extraction) and
+// reconcilePopulation (reporting) must apply the SAME acceptance policy
+// (review round 4 on #399).
+const ACCEPTED_VERSIONS = {
+  'rule-based': new Set(['claim-verification/2026-10-16.ei1', 'claim-verification/2026-10-16.ei2']),
+  pubmed: new Set(['claim-verification/2026-10-16.ei2']),
+};
+
+// skipFor (extraction), propagateVerdictsToCube (display), and
+// reconcilePopulation (reporting) all consume this: a verdict written under
+// a rejected verifier version is re-enqueued AND nowhere presented as
+// current (review round 5 on #399).
+function verdictAccepted(lv) {
+  const accepted = ACCEPTED_VERSIONS[lv.verifier];
+  return !accepted || accepted.has(lv.verifierVersion || null);
+}
 
 function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collectOnly = false) {
   // Each claim is a (claimId, kind, verifier, payload, cell context) tuple.
@@ -620,18 +651,11 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collec
   // permanently suppressed retries, stranding thousands of unexamined
   // claims under a hash that proved nothing.
   const RETRYABLE = new Set(['UNVERIFIABLE']);
-  // Verdicts produced before the evidence-integrity repair by verifiers
-  // whose semantics changed re-enqueue even when the payload hash matches —
-  // a hash match proves the content is unchanged, not that the old rules
-  // were sound (review on #398). This is what lets the post-merge
-  // regeneration re-evaluate the 150 unsupported rule-based VERIFIEDs and
-  // the 89 zero-hit DISPUTEDs under repaired semantics.
-  const STALE_RULE_VERIFIERS = new Set(['rule-based', 'pubmed']);
   const skipFor = (item, claimId, ph) => {
     const lv = ledger.verdicts[claimId];
     if (lv && !reverifySet.has(claimId)) {
       if (RETRYABLE.has(lv.verdict)) return false;
-      if ((lv.verifierVersion || null) !== VERIFIER_VERSION && STALE_RULE_VERIFIERS.has(lv.verifier)) return false;
+      if (!verdictAccepted(lv)) return false;
     }
     if (ledgerCurrent(claimId, ph) && !reverifySet.has(claimId)) return true;
     if (!ledger.verdicts[claimId]) {
@@ -674,36 +698,72 @@ function verifierPriority(verifier) {
 // the cursor advances by the admitted window per week, not by one slot.
 // A quarter of the cap is reserved for the retry backlog so a full fresh
 // queue can never starve it to zero (review round 3).
-function capQueueWithRetryRotation(queue, ledger, max, weekSeed, verifierFilter) {
+function capQueueWithRetryRotation(queue, ledger, max, verifierFilter, scopeSuffix) {
   // A zero budget means zero claims (review round 3, #398) — without this,
   // the reserved-slot math turns slice(0, -1) into "almost everything".
   if (max <= 0) return [];
-  // Lane discipline: the scheduled general run has no filter and drains the
-  // cheap rule-based/affinity front; the PubMed queue has its own reserved
-  // invocation. Retries only join the reserved window for verifiers this
-  // invocation is meant to serve — otherwise PubMed retries would ride the
-  // general lane AND the pubmed lane, double-spending the budget.
+  // Lane discipline: an explicit filter selects the verifiers this
+  // invocation serves; NO filter is the documented FULL run and admits
+  // everything (review round 11, #399) — including reverify-only runs, which
+  // must never silently process nothing. The scheduled "general" pass in the
+  // workflow carries its own explicit non-PubMed filter, so lane separation
+  // lives in the caller, not in a hardcoded verifier name.
   const lane = verifierFilter && verifierFilter.length ? new Set(verifierFilter) : null;
-  const retryLaneOk = (c) => (lane ? lane.has(c.verifier) : c.verifier !== 'pubmed');
+  // Cursor scope (review round 11): narrowed invocations (--priority,
+  // --reverify-ids) get their own persisted cursor instead of sharing the
+  // full-lane one — otherwise a manual run would drag the scheduled window
+  // past untried claims, and repeated narrowed runs would serve the same
+  // first-N forever.
+  const laneKey = (lane ? [...lane].sort().join('+') : 'full') + (scopeSuffix ? '|' + scopeSuffix : '');
+  const inLane = (c) => (lane ? lane.has(c.verifier) : true);
   const rest = [];
   const retryable = [];
   for (const c of queue) {
+    if (!inLane(c)) continue;
     const lv = ledger.verdicts && ledger.verdicts[c.claimId];
-    (lv && lv.verdict === 'UNVERIFIABLE' && lv.ph === c.payloadHash && retryLaneOk(c) ? retryable : rest).push(c);
+    const isRetry = !!(lv && lv.verdict === 'UNVERIFIABLE' && lv.ph === c.payloadHash);
+    (isRetry ? retryable : rest).push(c);
   }
   const reservedForRetry = Math.min(retryable.length, Math.max(1, Math.floor(max / 4)));
+  const restAdmitted = rest.slice(0, max - reservedForRetry);
+  const retrySlots = Math.min(retryable.length, max - restAdmitted.length);
+
+  // Persistent cursor, stored IN THE LEDGER (review on #399): the workflow
+  // commits the ledger every run, so cursors survive between weekly
+  // invocations. A recomputed offset modulo a list that shrinks as claims
+  // resolve does NOT continue the previous window — it revisits failures
+  // while skipping untried claims. A durable cursor tiles the backlog
+  // regardless of turnover. Cursors are scoped per invocation
+  // (lane + narrowing), so a manual --priority run rotates its own backlog
+  // without touching the scheduled lane's window.
+  retryable.sort((a, b) => (a.claimId < b.claimId ? -1 : a.claimId > b.claimId ? 1 : 0));
   let rotated = retryable;
-  if (retryable.length > 1) {
-    const rot = (((weekSeed * reservedForRetry) % retryable.length) + retryable.length) % retryable.length;
-    rotated = retryable.slice(rot).concat(retryable.slice(0, rot));
+  if (retryable.length > 1 && retrySlots > 0) {
+    ledger.retryCursors = ledger.retryCursors || {};
+    const cursorId = ledger.retryCursors[laneKey] && ledger.retryCursors[laneKey].lastClaimId;
+    let startIdx = 0;
+    if (cursorId) {
+      const next = retryable.findIndex((c) => c.claimId > cursorId);
+      startIdx = next === -1 ? 0 : next; // wrapped past the end → restart the cycle
+    }
+    rotated = retryable.slice(startIdx).concat(retryable.slice(0, startIdx));
+    const served = rotated.slice(0, retrySlots);
+    if (served.length) {
+      ledger.retryCursors[laneKey] = {
+        lastClaimId: served[served.length - 1].claimId,
+        updatedAt: new Date().toISOString(),
+      };
+    }
   }
-  const restCap = max - reservedForRetry;
-  const admitted = rest.slice(0, restCap).concat(rotated.slice(0, reservedForRetry));
-  // Spare capacity backfills from whichever lane has more work.
+  const retryAdmitted = rotated.slice(0, retrySlots);
+  const admitted = restAdmitted.concat(retryAdmitted);
+  // Spare capacity backfills from whichever lane has more work — continuing
+  // PAST the admitted retry window so backfill never re-serves next week's
+  // window early.
   let spare = max - admitted.length;
   if (spare > 0) {
     const seen = new Set(admitted.map((c) => c.claimId));
-    for (const c of rest.slice(restCap).concat(rotated.slice(reservedForRetry))) {
+    for (const c of rest.slice(restAdmitted.length).concat(retryable.filter((c) => !seen.has(c.claimId)))) {
       if (spare <= 0) break;
       if (!seen.has(c.claimId)) { admitted.push(c); seen.add(c.claimId); spare--; }
     }
@@ -1166,14 +1226,90 @@ function abstractContradicts(text, keyPhrase) {
     .replace(/[^a-z0-9 ]/g, ' ')
     .split(/\s+/)
     .filter((tok) => tok.length >= 4);
-  const sentences = String(text).split(/(?<=[.!?])\s+/);
-  for (const s of sentences) {
-    const n = ` ${s.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ')} `;
+  // Clause-level scoping (post-merge replay on #398): semicolons and colons
+  // separate clauses just like sentence stops — "...improved symptoms; there
+  // was no significant difference in dropout rates" must NOT dispute,
+  // because the null result belongs to a different outcome in a different
+  // clause. BUT a clause can also CONTINUE the claim by coreference
+  // (review on #399): "…was tested; it did not improve outcomes" or
+  // "…was clear: no significant improvement was observed" — so a negation
+  // clause that never names the claim still disputes when it carries a
+  // coreferential pronoun or passive result marker and an earlier clause
+  // named the claim. Residual limitation, honestly noted: outcome-typed
+  // checking ("which outcome was null?") is a model task, not a regex one.
+  const COREF_START = /^\s*(it|this|these|they|the treatment|the intervention|the therapy|the approach|the result|the results)\b/;
+  const PASSIVE_RESULT = /\b(was|were) (observed|found|seen|noted|reported|demonstrated)\b/;
+  // Equivalence phrases ("no significant difference", "not superior") compare
+  // arms — they are not a directional failure of the claim itself, so they
+  // can only contradict when the claim is named in the SAME clause. They are
+  // excluded from carry-over mode (review on #399).
+  const CARRYOVER_NEGATIONS = [
+    'did not improve', 'does not improve', 'do not improve',
+    'failed to improve', 'failed to show', 'failed to demonstrate',
+    'no improvement', 'no significant improvement', 'no significant effect', 'no significant benefit',
+    'no benefit', 'not effective',
+    'did not reduce', 'no evidence of benefit',
+  ];
+  // Text normalization before clause parsing (review rounds on #399):
+  //  - abbreviation chains (U.S., e.g., i.e.) lose internal periods; when a
+  //    chain ends a sentence (capitalized next word that is NOT a known
+  //    institutional adjunct like Department or National) the trailing
+  //    period is kept as the terminator — "U.S. Department" stays one
+  //    clause, "in the U.S. Sertraline did not…" still splits;
+  //  - common titles (Dr., etc., et al.) strip unconditionally;
+  //  - soft line wraps (a newline NOT preceded by sentence punctuation)
+  //    join with a space — efetch plain text wraps sentences arbitrarily
+  //    and a wrap is not a boundary;
+  //  - the clause splitter treats digit-period-digit (0.2) and
+  //    digit-colon-digit (1:1) as numbers, not terminators.
+  // Coreference carries across ; and : but resets at real sentence ends.
+  const NOUN_ADJUNCTS = new Set([
+    'department', 'agency', 'institute', 'national', 'university', 'center', 'centre',
+    'health', 'service', 'services', 'administration', 'foundation', 'college',
+    'hospital', 'clinic', 'group', 'program', 'programme', 'association',
+    'society', 'committee', 'board', 'office', 'bureau', 'laboratory',
+    'laboratories', 'academy', 'council',
+  ]);
+  const clean = String(text)
+    // An abbreviation chain followed by a capitalized word: continuation if
+    // the word is an institutional adjunct whose OWN following word keeps
+    // the name going (another capital, or a connector like "and"/"of") —
+    // "the U.S. Department and did not improve…" stays one clause; a new
+    // subject after the adjunct ("U.S. National surveys found…") or any
+    // non-adjunct capital ("U.S. Sertraline…") keeps the boundary.
+    .replace(/\b(?:[A-Za-z]\.){2,}(?=\s+([A-Z][A-Za-z]*)\s*([A-Za-z]*))/g, (m, next, after) => {
+      const adjunct = NOUN_ADJUNCTS.has(next.toLowerCase());
+      const continues = adjunct &&
+        (/^[A-Z]/.test(after) ||
+          /^(and|but|or|nor|which|that|who|whom|whose|where|when|of|for|to|in|on|at|by|with|from|as)$/i.test(after));
+      return continues ? m.replace(/\./g, '') : m.replace(/\./g, '') + '.';
+    })
+    .replace(/\b(?:[A-Za-z]\.){2,}/g, (m) => m.replace(/\./g, ''))
+    .replace(/\b(etc|vs|cf|Dr|Drs|Mr|Mrs|Ms|St|Jr|Sr|al)\./gi, '$1')
+    .replace(/([^.!?;:\n])\s*\n+\s*/g, '$1 ');
+  let claimSeenInSentence = false;
+  const clauses = clean.match(/(?:[^.!?;:\n]|\.(?=\d)|:(?=\d))+(?:[.!?;:](?!\d)|$)/g) || [];
+  for (const s of clauses) {
+    const trimmed = s.trim();
+    if (!trimmed) continue;
+    const n = ` ${trimmed.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ')} `;
     const mentionsClaim = tokens.length
       ? tokens.every((tok) => n.includes(tok))
       : n.includes(keyPhrase.toLowerCase());
-    if (!mentionsClaim) continue;
-    if (NEGATION_PATTERNS.some((p) => n.includes(` ${p} `))) return true;
+    const hasNegation = NEGATION_PATTERNS.some((p) => n.includes(` ${p} `));
+    if (hasNegation && mentionsClaim) return true;
+    // Carry-over: the clause never names the claim, so it continues the
+    // claim only when it clearly belongs to it (review rounds on #399):
+    // it STARTS with a coreference marker, OR it starts with the
+    // directional failure itself ("…was assessed: no improvement
+    // occurred"), OR it carries a passive result marker — and in every
+    // case the failure phrase must be directional, never an arm
+    // comparison.
+    const startsDirectional = CARRYOVER_NEGATIONS.some((p) => n.startsWith(` ${p}`));
+    if (!mentionsClaim && claimSeenInSentence && (COREF_START.test(n) || PASSIVE_RESULT.test(n) || startsDirectional)
+        && CARRYOVER_NEGATIONS.some((p) => n.includes(` ${p} `))) return true;
+    if (mentionsClaim) claimSeenInSentence = true;
+    if (/[.!?]$/.test(trimmed)) claimSeenInSentence = false;
   }
   return false;
 }
@@ -1248,10 +1384,15 @@ function propagateVerdictsToCube(cube, ledger) {
       // id flips the hash, and the old verdict must NOT display on changed
       // content — a claim awaiting re-verification is shown as such, with
       // the prior verdict referenced but not presented as current truth.
-      if (lv.ph && lv.ph === payloadHash(shape.payload(item))) {
+      // The stale reason is recorded honestly (review round 7, #399):
+      // "payload-changed" and "verifier-version" are different causes and
+      // the audit trail must not report one as the other.
+      const phMatch = lv.ph && lv.ph === payloadHash(shape.payload(item));
+      if (phMatch && verdictAccepted(lv)) {
         item.verification = lv;
         count++;
       } else {
+        const staleReason = phMatch ? 'verifier-version' : 'payload-changed';
         item.verification = {
           verdict: 'PENDING',
           verifier: lv.verifier || 'unknown',
@@ -1259,9 +1400,12 @@ function propagateVerdictsToCube(cube, ledger) {
           confidence: 0,
           checkedAt: null,
           stale: true,
+          staleReason,
           previousVerdict: lv.verdict,
           previousCheckedAt: lv.checkedAt || null,
-          note: 'Payload changed since the ledger verdict was computed — awaiting re-verification. The prior verdict is preserved in the ledger but not presented as current.',
+          note: staleReason === 'verifier-version'
+            ? 'Ledger verdict predates the current verifier rules — awaiting re-verification under repaired semantics. The prior verdict is preserved in the ledger but not presented as current.'
+            : 'Payload changed since the ledger verdict was computed — awaiting re-verification. The prior verdict is preserved in the ledger but not presented as current.',
         };
         staleCount++;
       }

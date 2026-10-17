@@ -91,10 +91,13 @@ jobs:
         run: node scripts/reconcile-discovery-stores.mjs
 
       - name: Verify PENDING claims — general queue (rule-based, affinities)
+        # Explicit filter (review on #399): an UNFILTERED organ run is the
+        # documented full run and admits every verifier, so the general lane
+        # must name its verifiers rather than rely on absence of a filter.
         run: |
           MAX="${{ github.event.inputs.general_claims || 150 }}"
           echo "General organ budget this run: $MAX claims"
-          node scripts/organ-claim-verification.mjs --max="$MAX"
+          node scripts/organ-claim-verification.mjs --verifier=rule-based,internal-consistency,websearch,edgar --max="$MAX"
 
       - name: Verify PENDING claims — PubMed queue (reserved budget)
         env:

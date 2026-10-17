@@ -24,6 +24,7 @@ import {
   recordVerdict,
   capQueueWithRetryRotation,
   VERIFIER_VERSION,
+  CLAIM_SHAPES,
 } from './organ-claim-verification.mjs';
 
 let passed = 0;
@@ -193,7 +194,7 @@ ok('negation sharing a sentence with the claim still disputes',
 }
 
 // Retry rotation: fresh claims first, changed payloads are fresh, the cursor
-// advances by the admitted window, and the backlog converges.
+// persists in the ledger, and the backlog converges regardless of turnover.
 {
   const ledger = { verdicts: {} };
   const fresh = [{ claimId: 'fresh-1' }, { claimId: 'fresh-2' }];
@@ -201,34 +202,40 @@ ok('negation sharing a sentence with the claim still disputes',
   for (const r of retries) ledger.verdicts[r.claimId] = { verdict: 'UNVERIFIABLE', ph: 'x' };
   const queue = [...retries, ...fresh];
 
-  const w1 = capQueueWithRetryRotation(queue, ledger, 5, 100);
+  const w1 = capQueueWithRetryRotation(queue, ledger, 5);
   ok('cap respects max', w1.length === 5);
   ok('fresh claims are not crowded out by the retry backlog', w1[0].claimId === 'fresh-1' && w1[1].claimId === 'fresh-2');
 
-  const firstRetryA = capQueueWithRetryRotation(queue, ledger, 5, 100).find((c) => c.claimId.startsWith('retry-')).claimId;
-  const firstRetryB = capQueueWithRetryRotation(queue, ledger, 5, 101).find((c) => c.claimId.startsWith('retry-')).claimId;
-  ok('different weeks start at different windows of the backlog', firstRetryA !== firstRetryB);
+  // The durable cursor: successive runs continue where the last stopped.
+  const firstRun = capQueueWithRetryRotation(queue, ledger, 5);
+  const firstRetryA = firstRun.find((c) => c.claimId.startsWith('retry-')).claimId;
+  ok('cursor state is persisted in the ledger', !!(ledger.retryCursors && ledger.retryCursors.full));
+  const secondRun = capQueueWithRetryRotation(queue, ledger, 5);
+  const firstRetryB = secondRun.find((c) => c.claimId.startsWith('retry-')).claimId;
+  ok('successive runs start at different windows of the backlog', firstRetryA !== firstRetryB);
 
   const allIds = new Set();
-  for (let w = 100; w < 110; w++) {
-    for (const c of capQueueWithRetryRotation(queue, ledger, 5, w)) {
+  for (let run = 0; run < 4; run++) {
+    for (const c of capQueueWithRetryRotation(queue, ledger, 5)) {
       if (c.claimId.startsWith('retry-')) allIds.add(c.claimId);
     }
   }
-  ok('rotation reaches every retryable claim over ten weeks', allIds.size === 10);
+  ok('the cursor reaches every retryable claim in four runs', allIds.size === 10);
 
   // A changed payload under an UNVERIFIABLE verdict is fresh work.
   const changed = { claimId: 'retry-0', payloadHash: 'changed-hash' };
-  const w2 = capQueueWithRetryRotation([changed], ledger, 5, 100);
+  const w2 = capQueueWithRetryRotation([changed], ledger, 5);
   ok('changed payload under UNVERIFIABLE verdict takes the fresh lane', w2[0].claimId === 'retry-0');
-  ok('unchanged retryable stays in the rotating backlog (control)',
-    capQueueWithRetryRotation(retries, ledger, 3, 100).length === 3);
+  ok('unchanged retryable fills the window (control)',
+    capQueueWithRetryRotation(retries, ledger, 3).length === 3);
 
   // Reserved capacity: even when fresh work could fill the whole cap, the
   // retry backlog keeps its quarter (review round 3, #398).
   {
+    const ledger2 = { verdicts: {} };
+    for (const r of retries) ledger2.verdicts[r.claimId] = { verdict: 'UNVERIFIABLE', ph: 'x' };
     const bigRest = Array.from({ length: 300 }, (_, i) => ({ claimId: `fresh-${i}` }));
-    const w = capQueueWithRetryRotation(bigRest.concat(retries), ledger, 200, 100);
+    const w = capQueueWithRetryRotation(bigRest.concat(retries), ledger2, 200);
     ok('retry backlog keeps reserved capacity under a full fresh queue',
       w.some((c) => c.claimId.startsWith('retry-')));
     ok('cap still respected under reservation', w.length === 200);
@@ -239,25 +246,45 @@ ok('negation sharing a sentence with the claim still disputes',
 
   // Zero budget admits nothing (review round 3, #398).
   {
-    const ledger = { verdicts: { 'retry-0': { verdict: 'UNVERIFIABLE', ph: 'x' } } };
+    const ledger3 = { verdicts: { 'retry-0': { verdict: 'UNVERIFIABLE', ph: 'x' } } };
     const q = [{ claimId: 'fresh-1' }, { claimId: 'retry-0', payloadHash: 'x' }];
-    ok('a zero claim cap admits zero claims', capQueueWithRetryRotation(q, ledger, 0, 100).length === 0);
+    ok('a zero claim cap admits zero claims', capQueueWithRetryRotation(q, ledger3, 0).length === 0);
   }
 
-  // Lane discipline (review round 3, #398): a PubMed retry must not ride the
-  // general lane's reserved window — it belongs to the --verifier=pubmed run.
+  // Lane discipline (review round 11, #399): an explicit filter selects the
+  // invocation's lane; NO filter is the documented full run.
   {
-    const ledger = { verdicts: { 'pm-retry': { verdict: 'UNVERIFIABLE', ph: 'x' } } };
+    const ledger4 = { verdicts: { 'pm-retry': { verdict: 'UNVERIFIABLE', ph: 'x' } } };
     const q = [
       { claimId: 'rb-1', verifier: 'rule-based' },
       { claimId: 'rb-2', verifier: 'rule-based' },
       { claimId: 'pm-retry', payloadHash: 'x', verifier: 'pubmed' },
     ];
-    const general = capQueueWithRetryRotation(q, ledger, 2, 100);
-    ok('general lane does not pull pubmed retries ahead of cheaper work',
-      general.length === 2 && general[0].claimId === 'rb-1' && general[1].claimId === 'rb-2');
-    const pubmedLane = capQueueWithRetryRotation(q, ledger, 2, 100, ['pubmed']);
+    const generalPass = capQueueWithRetryRotation(q, ledger4, 2, ['rule-based']);
+    ok('the filtered general pass excludes pubmed retries entirely (no double-spend)',
+      generalPass.length === 2 && generalPass[0].claimId === 'rb-1' && generalPass[1].claimId === 'rb-2');
+    const pubmedLane = capQueueWithRetryRotation(q, ledger4, 2, ['pubmed']);
     ok('pubmed lane admits its own retries', pubmedLane.some((c) => c.claimId === 'pm-retry'));
+    const fullRun = capQueueWithRetryRotation(q, ledger4, 3);
+    ok('an unfiltered invocation is the full run — pubmed included',
+      fullRun.some((c) => c.claimId === 'pm-retry'));
+  }
+
+  // Scoped cursors (review round 11, #399): each narrowing rotates its own
+  // backlog and never touches another scope's window.
+  {
+    const ledger5 = { verdicts: {} };
+    const retries5 = Array.from({ length: 10 }, (_, i) => ({ claimId: `retry-${i}`, payloadHash: 'x' }));
+    for (const r of retries5) ledger5.verdicts[r.claimId] = { verdict: 'UNVERIFIABLE', ph: 'x' };
+    capQueueWithRetryRotation(retries5, ledger5, 5);
+    ok('the unscoped run persists its cursor', ledger5.retryCursors.full.lastClaimId === 'retry-4');
+    capQueueWithRetryRotation(retries5, ledger5, 3, undefined, 'pri:BLA');
+    ok('a narrowed run keeps its own cursor', ledger5.retryCursors['full|pri:BLA'].lastClaimId === 'retry-2');
+    ok('the narrowed run does not advance the full-lane cursor', ledger5.retryCursors.full.lastClaimId === 'retry-4');
+    const resumed = capQueueWithRetryRotation(retries5, ledger5, 5);
+    ok('the full lane resumes from its own cursor', resumed[0].claimId === 'retry-5');
+    const narrowedAgain = capQueueWithRetryRotation(retries5, ledger5, 3, undefined, 'pri:BLA');
+    ok('the narrowed scope resumes from ITS cursor', narrowedAgain[0].claimId === 'retry-3');
   }
 }
 
@@ -270,7 +297,7 @@ ok('negation sharing a sentence with the claim still disputes',
 // Propagation: fresh verdict applies (control).
 {
   const cube = { cells: [mkCell({ disorders: [{ ...disorderItem }] })] };
-  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh } } };
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh, verifierVersion: VERIFIER_VERSION } } };
   const n = propagateVerdictsToCube(cube, ledger);
   ok('fresh verdict propagates to the cube (control)', n === 1 && cube.cells[0].disorders[0].verification.verdict === 'VERIFIED');
 }
@@ -291,7 +318,10 @@ ok('negation sharing a sentence with the claim still disputes',
 // Reconciliation: stale verdict counted PENDING and tallied.
 {
   const cube = { cells: [mkCell({ disorders: [{ ...disorderItem }] })] };
-  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: 'deadbeefdeadbeef' } } };
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: 'deadbeefdeadbeef', verifierVersion: VERIFIER_VERSION } } };
+  propagateVerdictsToCube(cube, ledger);
+  ok('payload-drift stale reason is recorded as such',
+    cube.cells[0].disorders[0].verification.staleReason === 'payload-changed');
   const r = reconcilePopulation(cube, ledger, '2026-10-16T00:00:00Z', 'abc123');
   ok('reconciliation does not count a stale verdict as VERIFIED', r.effectiveCurrentByVerdict.VERIFIED === 0);
   ok('reconciliation counts a stale verdict as PENDING', r.effectiveCurrentByVerdict.PENDING === 1);
@@ -301,9 +331,34 @@ ok('negation sharing a sentence with the claim still disputes',
 // Reconciliation: fresh verdict counts (control).
 {
   const cube = { cells: [mkCell({ disorders: [{ ...disorderItem }] })] };
-  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh } } };
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh, verifierVersion: VERIFIER_VERSION } } };
   const r = reconcilePopulation(cube, ledger, '2026-10-16T00:00:00Z', 'abc123');
   ok('fresh ledger verdict counts as VERIFIED (control)', r.effectiveCurrentByVerdict.VERIFIED === 1 && r.staleLedgerVerdicts === 0);
+}
+
+// Rejected verifier versions are not presented as current anywhere (review
+// round 5, #399): an ei1 pubmed verdict is pending at display AND count,
+// while an accepted ei1 rule-based verdict still displays. The stale reason
+// distinguishes rule rejection from payload drift (round 7).
+{
+  const cube = { cells: [mkCell({ disorders: [{ ...disorderItem }] })] };
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh, verifierVersion: 'claim-verification/2026-10-16.ei1' } } };
+  propagateVerdictsToCube(cube, ledger);
+  const v = cube.cells[0].disorders[0].verification;
+  ok('ei1 pubmed verdict does not display (rejected version)', v.stale === true);
+  ok('stale reason is verifier-version, not payload-changed', v.staleReason === 'verifier-version');
+  const r = reconcilePopulation(cube, ledger, 't', 'c');
+  ok('ei1 pubmed verdict counts as pending, not verified', r.effectiveCurrentByVerdict.VERIFIED === 0 && r.staleLedgerVerdicts === 1);
+}
+{
+  const bindingItem = { portalSlug: 'acme', relationshipType: 'treats', entityName: 'X', role: 'target', confidence: 0.9 };
+  const bPh = payloadHash(CLAIM_SHAPES.binding.payload(bindingItem));
+  const cell = mkCell({ portalBindings: [bindingItem] });
+  const bId = 'bind::BLA__active__trade::acme::treats::X::target';
+  const cube = { cells: [cell] };
+  const ledger = { verdicts: { [bId]: { verdict: 'VERIFIED', verifier: 'rule-based', checkedAt: '2026-01-01T00:00:00Z', ph: bPh, verifierVersion: 'claim-verification/2026-10-16.ei1' } } };
+  propagateVerdictsToCube(cube, ledger);
+  ok('accepted ei1 rule-based verdict still displays (control)', cube.cells[0].portalBindings[0].verification.verdict === 'VERIFIED');
 }
 
 // Hash discipline: extraction/propagation/reconciliation must all hash the
@@ -392,6 +447,115 @@ ok('negation sharing a sentence with the claim still disputes',
   propagateVerdictsToCube(cube, ledger);
   const r = reconcilePopulation(cube, ledger, 't', 'c');
   ok('reconcile completes on formerly-colliding bindings', r.uniqueCurrentClaims === 2);
+}
+
+// --- Post-merge replays (#398 follow-up) -----------------------------------
+
+// Codex's reproduced false contradiction: a semicolon-separated null
+// secondary outcome in the same sentence-line must NOT dispute.
+ok('null secondary outcome after a semicolon does not dispute',
+  !abstractContradicts('Exposure therapy improved symptoms; there was no significant difference in dropout rates', 'Exposure Therapy'));
+ok('genuine contradiction still fires (control)',
+  abstractContradicts('In this cohort, exposure therapy did not improve outcomes.', 'Exposure Therapy'));
+
+// Coreference (review on #399): the claim named in one clause and its
+// negative result continued by pronoun or passive result marker in the next
+// MUST dispute — clause delimiters do not break coreference.
+ok('pronoun continuation across a semicolon still disputes',
+  abstractContradicts('Exposure therapy was tested; it did not improve outcomes', 'Exposure Therapy'));
+ok('passive result continuation across a colon still disputes',
+  abstractContradicts('The result for exposure therapy was clear: no significant improvement was observed', 'Exposure Therapy'));
+ok('unrelated negation without coreference does not dispute (control)',
+  !abstractContradicts('Exposure therapy improved primary outcomes. Sertraline did not improve secondary measures in the same cohort.', 'Exposure Therapy'));
+
+// Carry-over resets at true sentence boundaries (review round 2, #399).
+ok('pronoun after a sentence break belongs to the new subject',
+  !abstractContradicts('Exposure therapy improved symptoms. Sertraline was also tested. It did not improve outcomes.', 'Exposure Therapy'));
+ok('passive marker in a fresh sentence about another outcome does not dispute',
+  !abstractContradicts('Exposure therapy improved symptoms. No significant difference was observed in dropout rates.', 'Exposure Therapy'));
+
+// Carry-over limits within a sentence (review round 3, #399): a mid-clause
+// pronoun belongs to the clause's own subject, and arm-equivalence phrases
+// are not directional failures.
+ok('mid-clause pronoun for another subject does not carry over',
+  !abstractContradicts('Exposure therapy improved symptoms; sertraline was tested but it did not improve outcomes', 'Exposure Therapy'));
+ok('arm-equivalence phrase in a continuation does not dispute',
+  !abstractContradicts('Exposure therapy improved symptoms; no significant difference was observed in dropout rates', 'Exposure Therapy'));
+ok('decimal points do not split a clause',
+  abstractContradicts('Exposure therapy produced an effect size of 0.2 and did not improve outcomes', 'Exposure Therapy'));
+ok('a clause opening with the negative result itself still carries over',
+  abstractContradicts('Exposure therapy was assessed: no improvement occurred', 'Exposure Therapy'));
+ok('an adjunct starting a new sentence keeps the boundary',
+  !abstractContradicts('Exposure therapy improved outcomes in the U.S. National surveys found no benefit.', 'Exposure Therapy'));
+ok('abbreviation periods do not split a clause',
+  abstractContradicts('Exposure therapy was tested in the U.S. and did not improve outcomes', 'Exposure Therapy'));
+ok('abbreviation ending a sentence still splits the sentence',
+  !abstractContradicts('Exposure therapy improved symptoms in the U.S. Sertraline did not improve outcomes.', 'Exposure Therapy'));
+ok('randomization ratios do not split a clause',
+  abstractContradicts('Exposure therapy was compared 1:1 with control and did not improve outcomes', 'Exposure Therapy'));
+ok('abbreviation before a capitalized proper noun stays one clause',
+  abstractContradicts('Exposure therapy was tested by the U.S. Department and did not improve outcomes', 'Exposure Therapy'));
+ok('abbreviation before an institutional adjunct stays one clause',
+  abstractContradicts('Exposure therapy was tested by the U.K. National Health Service and did not improve outcomes', 'Exposure Therapy'));
+ok('soft line wrap does not break claim context',
+  abstractContradicts('Exposure therapy was tested in adults\nand did not improve outcomes', 'Exposure Therapy'));
+ok('hard newline after a sentence still resets context',
+  !abstractContradicts('Exposure therapy improved symptoms.\nSertraline did not improve outcomes.', 'Exposure Therapy'));
+
+// Reconciliation uses the same per-verifier acceptance policy (review #399).
+{
+  const bindingItem = { portalSlug: 'acme', relationshipType: 'treats', entityName: 'X', role: 'target', confidence: 0.9 };
+  const bPh = payloadHash(CLAIM_SHAPES.binding.payload(bindingItem));
+  const cell = mkCell({ portalBindings: [bindingItem] });
+  const bId = 'bind::BLA__active__trade::acme::treats::X::target';
+  const ledger = { verdicts: { [bId]: { verdict: 'VERIFIED', verifier: 'rule-based', checkedAt: '2026-01-01T00:00:00Z', ph: bPh, verifierVersion: 'claim-verification/2026-10-16.ei1' } } };
+  const r = reconcilePopulation({ cells: [cell] }, ledger, 't', 'c');
+  ok('accepted ei1 rule-based verdict is not counted as older-rules', r.verdictsFromOlderVerifierRules === 0);
+}
+{
+  const cell = mkCell({ disorders: [{ ...disorderItem }] });
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh, verifierVersion: 'claim-verification/2026-10-16.ei1' } } };
+  const r = reconcilePopulation({ cells: [cell] }, ledger, 't', 'c');
+  ok('ei1 pubmed verdict is counted as older-rules', r.verdictsFromOlderVerifierRules === 1);
+}
+
+// ei1 rule-based verdicts stay accepted (their semantics were repaired in
+// ei1); ei1 pubmed verdicts re-enqueue (negation rules changed in ei2).
+{
+  const { CLAIM_SHAPES } = await import('./organ-claim-verification.mjs');
+  const bindingItem = { portalSlug: 'acme', relationshipType: 'treats', entityName: 'X', role: 'target', confidence: 0.9 };
+  const bPh = payloadHash(CLAIM_SHAPES.binding.payload(bindingItem));
+  const cell = mkCell({ portalBindings: [bindingItem] });
+  const claims = [];
+  extractCellClaims(cell, claims, { verdicts: { [`bind::BLA__active__trade::acme::treats::X::target`]: { verdict: 'VERIFIED', verifier: 'rule-based', ph: bPh, verifierVersion: 'claim-verification/2026-10-16.ei1' } } });
+  ok('rule-based ei1 verdict stays accepted (no churn)', claims.length === 0);
+}
+{
+  const cell = mkCell({ disorders: [{ ...disorderItem }] });
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh, verifierVersion: 'claim-verification/2026-10-16.ei1' } } };
+  const claims = [];
+  extractCellClaims(cell, claims, ledger);
+  ok('pubmed ei1 verdict re-enqueues under ei2 rules', claims.length === 1);
+}
+
+// Codex's reproduced coverage defect, now with turnover: 52 successive
+// budget-50 PubMed runs must reach every claim even while half of each
+// admitted batch resolves terminally and the backlog compacts (the fixed-
+// list version of this test masked the production failure).
+{
+  const ledger = { verdicts: {} };
+  const all = Array.from({ length: 2582 }, (_, i) => ({ claimId: `r${String(i).padStart(4, '0')}`, payloadHash: 'x', verifier: 'pubmed' }));
+  for (const r of all) ledger.verdicts[r.claimId] = { verdict: 'UNVERIFIABLE', ph: 'x' };
+  const admitted = new Set();
+  let population = all.slice();
+  for (let w = 0; w < 52 && population.length; w++) {
+    const batch = capQueueWithRetryRotation(population, ledger, 50, ['pubmed']);
+    for (const c of batch) admitted.add(c.claimId);
+    // Half of each admitted batch resolves terminally; the rest stays.
+    batch.forEach((c, i) => { if (i % 2 === 0) delete ledger.verdicts[c.claimId]; });
+    population = all.filter((c) => ledger.verdicts[c.claimId]);
+  }
+  ok('52 budget-50 runs reach every claim despite turnover', admitted.size === 2582);
 }
 
 console.log(`\n${passed} evidence-integrity assertions passed`);
