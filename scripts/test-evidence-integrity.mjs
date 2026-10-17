@@ -492,6 +492,13 @@ ok('passive marker attached to another subject does not misattribute',
 ok('plain pronoun continuation still disputes (control)',
   abstractContradicts('Exposure therapy was tested; it did not improve outcomes.', 'Exposure Therapy'));
 
+// Review on #401: adjunct-prefixed passive continuations carry over, but
+// demonstrative determiners are not pronouns.
+ok('adjunct before a passive result still disputes',
+  abstractContradicts('Exposure therapy was assessed; in this study, no significant improvement was observed', 'Exposure Therapy'));
+ok('demonstrative determiner is not coreference',
+  !abstractContradicts('Exposure therapy improved symptoms; however, this study found no benefit of sertraline', 'Exposure Therapy'));
+
 // Coreference (review on #399): the claim named in one clause and its
 // negative result continued by pronoun or passive result marker in the next
 // MUST dispute — clause delimiters do not break coreference.
@@ -568,6 +575,15 @@ ok('abbreviation periods do not split a clause',
   const cube2 = { cells: [mkCell({ portalBindings: [bindingItem] })] };
   propagateVerdictsToCube(cube2, { verdicts: { [bId]: lv } }, cleanReport);
   ok('unchanged audit evidence still displays VERIFIED (control)', cube2.cells[0].portalBindings[0].verification.verdict === 'VERIFIED');
+
+  // A vanished report or removed portal is a mismatch too (review on #401):
+  // the claim must re-attest, not strand pending forever.
+  const claims3 = [];
+  extractCellClaims(mkCell({ portalBindings: [bindingItem] }), claims3, { verdicts: { [bId]: lv } }, new Set(), false, {});
+  ok('missing report re-enqueues the binding', claims3.length === 1);
+  const claims4 = [];
+  extractCellClaims(mkCell({ portalBindings: [bindingItem] }), claims4, { verdicts: { [bId]: lv } }, new Set(), false, { perPortal: { 'other-portal': { ok: true, issues: [] } } });
+  ok('portal removed from the report re-enqueues the binding', claims4.length === 1);
 }
 ok('abbreviation ending a sentence still splits the sentence',
   !abstractContradicts('Exposure therapy improved symptoms in the U.S. Sertraline did not improve outcomes.', 'Exposure Therapy'));

@@ -674,8 +674,12 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collec
       // portal, the verdict's evidence is out of date even though the
       // claim payload and verifier version are unchanged — re-attest.
       if (claimId.startsWith('bind::') && lv.auditFp && bindingReport) {
+        // A missing fingerprint is a mismatch too (review on #401): if the
+        // report vanished or the portal was dropped, the verdict's audit
+        // basis is gone — re-attest instead of stranding the claim pending
+        // forever without dispatching the verifier.
         const fp = bindingAuditFingerprint(bindingReport, item.portalSlug);
-        if (fp && fp !== lv.auditFp) return false;
+        if (!fp || fp !== lv.auditFp) return false;
       }
     }
     if (ledgerCurrent(claimId, ph) && !reverifySet.has(claimId)) return true;
@@ -1301,9 +1305,14 @@ function abstractContradicts(text, keyPhrase) {
   // enough on their own: "sertraline showed no benefit, which was observed
   // in controls" would misattribute sertraline's result to the claim, so
   // carry-over requires an anchored pronoun OR a directional failure at
-  // clause start.
+  // clause start (optionally behind a contextual adjunct like "in this
+  // study"). Demonstrative determiners are not pronouns (review on #401):
+  // "however, this study found no benefit of sertraline" — "this" owns a
+  // noun, not the claim.
   const DISCOURSE = '(?:however|but|and|yet|still|though|although|overall|interestingly|notably|unfortunately|surprisingly|sadly)';
+  const ADJUNCT = '(?:in this study|in this trial|in this analysis|in the study|in this cohort|in the trial|in these analyses|' + DISCOURSE + ')';
   const COREF_START = new RegExp('^\\s*(?:' + DISCOURSE + '\\s+)?(it|this|these|they|the treatment|the intervention|the therapy|the approach|the result|the results)\\b');
+  const DEMONSTRATIVE_NP = /\b(this|these) (study|studies|trial|trials|analysis|analyses|cohort|group|groups|arm|arms|investigation|investigations|experiment|experiments|review|reviews|paper|papers|report|reports|meta-analysis)\b/;
   // Equivalence phrases ("no significant difference", "not superior") compare
   // arms — they are not a directional failure of the claim itself, so they
   // can only contradict when the claim is named in the SAME clause. They are
@@ -1371,8 +1380,10 @@ function abstractContradicts(text, keyPhrase) {
     // every case the failure phrase must be directional, never an arm
     // comparison and never a mid-clause passive attached to another
     // subject.
-    const startsDirectional = CARRYOVER_NEGATIONS.some((p) => n.startsWith(` ${p}`));
-    if (!mentionsClaim && claimSeenInSentence && (COREF_START.test(n) || startsDirectional)
+    const startsDirectional = CARRYOVER_NEGATIONS.some((p) =>
+      n.startsWith(` ${p}`) || new RegExp(`^ ${ADJUNCT} ${p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')} `).test(n));
+    if (!mentionsClaim && claimSeenInSentence
+        && ((COREF_START.test(n) && !DEMONSTRATIVE_NP.test(n)) || startsDirectional)
         && CARRYOVER_NEGATIONS.some((p) => n.includes(` ${p} `))) return true;
     if (mentionsClaim) claimSeenInSentence = true;
     if (/[.!?]$/.test(trimmed)) claimSeenInSentence = false;
