@@ -21,9 +21,10 @@
  *   - Failure responses: transport-not-ready, send-failed and no-customer-reference used to
  *     return subscriber-specific 503/502s. All well-formed POSTs now return the identical
  *     body; subscriber-specific causes go to protected diagnostics (function logs).
- *   - Timing: the response never waits on the email transport. Delivery runs through the
- *     serverless waitUntil (reliable: the invocation stays alive until the send settles);
- *     without that runtime hook the send is awaited — slow locally, never lost.
+ *   - Timing: the response never waits on the email transport. Delivery is registered via
+ *     the runtime's waitUntil for every well-formed POST, before the subscriber lookup.
+ *     If the real SDK has no request context or registration throws, the route fails
+ *     closed with one identical 503 and sends nothing. It never claims delivery.
  *
  * FAIL CLOSED, in both directions:
  *   unknown / inactive / wrong-domain email → the SAME 200 body as a real subscriber, so the
@@ -119,6 +120,25 @@ function deps(over) {
   return d;
 }
 
+/* The real SDK reads this global holder at call time. Install a controlled request context
+   so the actual @vercel/functions waitUntil (not a stub) is exercised. */
+var REQUEST_CONTEXT = Symbol.for('@vercel/request-context');
+function withRequestContext(waitUntilImpl, fn) {
+  var previous = globalThis[REQUEST_CONTEXT];
+  globalThis[REQUEST_CONTEXT] = { get: function () { return { waitUntil: waitUntilImpl }; } };
+  return Promise.resolve().then(fn).finally(function () {
+    if (previous === undefined) delete globalThis[REQUEST_CONTEXT];
+    else globalThis[REQUEST_CONTEXT] = previous;
+  });
+}
+function withoutRequestContext(fn) {
+  var previous = globalThis[REQUEST_CONTEXT];
+  delete globalThis[REQUEST_CONTEXT];
+  return Promise.resolve().then(fn).finally(function () {
+    if (previous !== undefined) globalThis[REQUEST_CONTEXT] = previous;
+  });
+}
+
 var ACTIVE = {
   'buyer@example.com': {
     email: 'buyer@example.com', domain: 'finance', active: true,
@@ -209,31 +229,82 @@ async function main() {
     assert.equal(d.captured.logs.length, 0, 'a clean send logs nothing');
   });
 
-  await check('without a waitUntil hook the send is awaited — slow, never lost (local fallback)', async function () {
-    var order = [];
-    var mailer = async function () {
-      order.push('send-start');
-      await new Promise(function (r) { setTimeout(r, 5); });
-      order.push('send-end');
-      return { ok: true, id: 'e1' };
-    };
-    var d = deps({ mailer: mailer, waitUntil: null });
+  await check('real SDK, no request context: uniform 503, no lookup, nothing sent', async function () {
+    var portal = portalSpy(), mailer = mailSpy(), gets = 0;
+    var store = { assertDurable: function () {}, get: async function () { gets++; return ACTIVE; } };
+    var d = deps({ waitUntil: undefined, store: store, createPortalSession: portal, mailer: mailer });
     var h = mod.createHandler(d);
-    var res = fakeRes();
-    await h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), res);
-    assert.equal(res.statusCode, 200);
-    assert.deepEqual(order, ['send-start', 'send-end'], 'the send settled before the response');
+    await withoutRequestContext(async function () {
+      var res = fakeRes();
+      await h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), res);
+      assert.equal(res.statusCode, 503);
+      assert.equal(res.body.error, 'customer-portal-runtime-unavailable');
+      assert.equal(gets, 0, 'the failure is decided before the subscriber lookup');
+      assert.equal(portal.calls.length, 0);
+      assert.equal(mailer.calls.length, 0, 'no untracked send is started');
+      assert.ok(d.captured.logs.some(function (m) { return /no-request-context/.test(m); }),
+        'the operator can see the runtime reason: ' + JSON.stringify(d.captured.logs));
+    });
   });
 
-  await check('a runtime that cannot register waitUntil: delivery still happens inline, failure logged', async function () {
-    var d = deps({ waitUntil: function () { throw new Error('no request context'); } });
+  await check('real SDK, registration throws: uniform 503 before lookup, nothing sent', async function () {
+    var portal = portalSpy(), mailer = mailSpy(), gets = 0;
+    var store = { assertDurable: function () {}, get: async function () { gets++; return ACTIVE; } };
+    var d = deps({ waitUntil: undefined, store: store, createPortalSession: portal, mailer: mailer });
     var h = mod.createHandler(d);
-    var res = fakeRes();
-    await h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), res);
-    assert.deepEqual(res.body, { ok: true, message: GENERIC_MESSAGE });
-    assert.equal(d.mailer.calls.length, 1, 'the email is never dropped');
-    assert.ok(d.captured.logs.some(function (m) { return /waitUntil-unavailable/.test(m); }),
-      'registration failure is operator-visible: ' + JSON.stringify(d.captured.logs));
+    var contextCalls = 0;
+    await withRequestContext(function () { contextCalls++; throw new Error('registration failed'); }, async function () {
+      var res = fakeRes();
+      await h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), res);
+      assert.equal(res.statusCode, 503);
+      assert.equal(res.body.error, 'customer-portal-runtime-unavailable');
+      assert.equal(contextCalls, 1, 'the real SDK reached the request context');
+      assert.equal(gets, 0, 'the failure is decided before the subscriber lookup');
+      assert.equal(portal.calls.length, 0);
+      assert.equal(mailer.calls.length, 0);
+      assert.ok(d.captured.logs.some(function (m) { return /waitUntil-registration-failed/.test(m); }),
+        'the operator can see the registration failure: ' + JSON.stringify(d.captured.logs));
+    });
+  });
+
+  await check('real SDK, functioning context: delivery tracked, response does not wait', async function () {
+    var resolveSend;
+    var gate = new Promise(function (resolve) { resolveSend = resolve; });
+    var calls = 0;
+    var mailer = async function () { calls++; await gate; return { ok: true, id: 'e1' }; };
+    var tracked = [];
+    var d = deps({ waitUntil: undefined, mailer: mailer });
+    var h = mod.createHandler(d);
+    await withRequestContext(function (p) { tracked.push(p); }, async function () {
+      var res = fakeRes();
+      var responded = false;
+      var p = h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), res)
+        .then(function () { responded = true; });
+      await new Promise(function (r) { setTimeout(r, 25); });
+      assert.equal(calls, 1, 'the send started');
+      assert.equal(responded, true, 'the response did not wait on the transport');
+      assert.deepEqual(res.body, { ok: true, message: GENERIC_MESSAGE });
+      assert.equal(tracked.length, 1, 'the real SDK registered the delivery promise');
+      resolveSend();
+      await p;
+      await Promise.all(tracked);
+      assert.equal(d.captured.logs.length, 0, 'a clean send logs nothing');
+    });
+  });
+
+  await check('real SDK, unknown email: registration is uniform and no email is sent', async function () {
+    var tracked = [];
+    var mailer = mailSpy();
+    var d = deps({ waitUntil: undefined, store: memStrict({}), mailer: mailer });
+    var h = mod.createHandler(d);
+    await withRequestContext(function (p) { tracked.push(p); }, async function () {
+      var res = fakeRes();
+      await h(fakeReq('POST', { email: 'stranger@example.com', domain: 'finance' }), res);
+      assert.equal(res.statusCode, 200);
+      assert.equal(tracked.length, 1, 'every well-formed POST registers before the lookup');
+      await Promise.all(tracked);
+      assert.equal(mailer.calls.length, 0);
+    });
   });
 
   await check('transport not ready: generic body publicly, named reason in protected diagnostics', async function () {

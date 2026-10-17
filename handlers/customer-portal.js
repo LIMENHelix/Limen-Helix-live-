@@ -26,13 +26,16 @@
  *   store unreachable                        → 503 subscription-lookup-unavailable; an
  *                                              unreadable store is NOT "no such subscriber"
  *   link secret missing                      → 503 with the named reason, before any lookup
+ *   runtime cannot register waitUntil        → 503 customer-portal-runtime-unavailable,
+ *                                              identical for every requester, and nothing
+ *                                              is sent. A silent SDK no-op is not delivery.
  *   Stripe portal not activated (dashboard)  → 503 with the named reason, at redeem time
  *
- * TIMING. The response never waits on the email transport: delivery is handed to the
- * serverless waitUntil keep-alive when the runtime offers one (the invocation stays alive
- * until the send settles — reliable), and is awaited inline where it does not (local dev —
- * slower, never lost). Awaiting the transport in the response path would leak subscriber
- * status through latency: only a matching subscriber has an email to send.
+ * TIMING. The response never waits on the email transport. Delivery is registered with
+ * the runtime's waitUntil for every well-formed POST, before the subscriber lookup, so
+ * registration failure is requester-independent and no subscriber-only await exists. If
+ * registration is unavailable or throws, the route fails closed with one identical 503.
+ * It never claims the email was delivered.
  *
  * No money moves here. A portal session is read-safe: minting one changes nothing.
  */
@@ -96,11 +99,33 @@ function linkEmail(domain, redeemUrl) {
   };
 }
 
-/* The serverless keep-alive, when the runtime offers one: the invocation stays alive until
-   the delivery promise settles even though the response has already gone out. Absent the
-   hook (local dev, non-Vercel), callers await the send inline — slower, never lost. */
-function runtimeWaitUntil() {
-  try { return require('@vercel/functions').waitUntil || null; } catch (e) { return null; }
+/* Resolve the runtime keep-alive for THIS request. The SDK's waitUntil reads the request
+   context at call time and silently returns undefined when no context is installed, so a
+   function check alone cannot prove registration. Require both the SDK function and a
+   request context that actually exposes waitUntil. If either is absent the route fails
+   closed below instead of returning while delivery is untracked. */
+function resolveDeliveryRegistration(deps) {
+  if (typeof deps.waitUntil === 'function') {
+    return { ok: true, waitUntil: deps.waitUntil, source: 'injected' };
+  }
+  var sdk;
+  try { sdk = require('@vercel/functions'); } catch (e) {
+    return { ok: false, reason: 'sdk-unavailable' };
+  }
+  if (!sdk || typeof sdk.waitUntil !== 'function') {
+    return { ok: false, reason: 'sdk-unavailable' };
+  }
+  var ctx = null;
+  try {
+    var holder = globalThis[Symbol.for('@vercel/request-context')];
+    ctx = holder && typeof holder.get === 'function' ? holder.get() : null;
+  } catch (e) {
+    ctx = null;
+  }
+  if (!ctx || typeof ctx.waitUntil !== 'function') {
+    return { ok: false, reason: 'no-request-context' };
+  }
+  return { ok: true, waitUntil: sdk.waitUntil, source: 'sdk' };
 }
 
 function createHandler(deps) {
@@ -111,7 +136,6 @@ function createHandler(deps) {
   var env = deps.env || process.env;
   var now = deps.now || function () { return Date.now(); };
   var site = deps.site || SITE;
-  var waitUntil = Object.prototype.hasOwnProperty.call(deps, 'waitUntil') ? deps.waitUntil : runtimeWaitUntil();
   var logger = Object.prototype.hasOwnProperty.call(deps, 'logger') ? deps.logger : console;
 
   function secret() { return String(env.CUSTOMER_PORTAL_LINK_SECRET || '').trim() || null; }
@@ -134,10 +158,40 @@ function createHandler(deps) {
       return send(res, { ok: false, error: 'customer-portal-link-not-configured: CUSTOMER_PORTAL_LINK_SECRET must be set before sign-in links can be issued' }, 503);
     }
 
+    /* Resolve delivery registration BEFORE any subscriber-dependent branch. Without a
+       request context the SDK silently drops the task, so an unavailable registration is
+       a global configuration failure: answer every well-formed POST identically and send
+       nothing, rather than returning while delivery is untracked. */
+    var registration = resolveDeliveryRegistration(deps);
+    if (!registration.ok) {
+      diagnose('customer-portal-runtime-unavailable: ' + registration.reason);
+      return send(res, { ok: false, error: 'customer-portal-runtime-unavailable' }, 503);
+    }
+
+    /* Register one delivery promise for every well-formed request, before the lookup.
+       Unknown addresses settle it immediately; subscribers settle it when the send ends.
+       Registration failure is therefore never a subscriber-specific branch. */
+    var settleDelivery;
+    var delivery = new Promise(function (resolve) { settleDelivery = resolve; });
+    try {
+      var registered = registration.waitUntil(delivery);
+      if (registered && typeof registered.then === 'function') {
+        registered.catch(function (e) {
+          diagnose('customer-portal-runtime-unavailable: waitUntil-registration-rejected: ' + (e && e.message ? e.message : 'registration rejected'));
+          settleDelivery();
+        });
+      }
+    } catch (e) {
+      settleDelivery();
+      diagnose('customer-portal-runtime-unavailable: waitUntil-registration-failed: ' + (e && e.message ? e.message : 'registration failed'));
+      return send(res, { ok: false, error: 'customer-portal-runtime-unavailable' }, 503);
+    }
+
     var sub;
     try {
       sub = await subs.getStrict(email, store || undefined);
     } catch (e) {
+      settleDelivery();
       /* The strict store THROWS rather than guesses. An unreachable store must never be
          read as "no such subscriber" (that would refuse real subscribers) nor waved through
          to link issuance (that would mail a portal link for an unverified email). */
@@ -145,22 +199,30 @@ function createHandler(deps) {
     }
 
     if (!sub || sub.active !== true || (sub.domain && sub.domain !== domain)) {
+      settleDelivery();
       return send(res, { ok: true, message: GENERIC_MESSAGE });
     }
     if (!sub.customerId) {
+      settleDelivery();
       /* Subscriber-specific cause: operator diagnostics only, never the public response. */
       diagnose('customer-portal-unavailable: no-customer-reference-on-record');
       return send(res, { ok: true, message: GENERIC_MESSAGE });
     }
 
-    var token = link.sign({ email: email, domain: domain, customerId: sub.customerId }, secret(), now(), LINK_TTL_MS);
-    var redeemUrl = site + '/api/customer-portal?token=' + encodeURIComponent(token);
-    var message = linkEmail(domain, redeemUrl);
+    var message;
+    try {
+      var token = link.sign({ email: email, domain: domain, customerId: sub.customerId }, secret(), now(), LINK_TTL_MS);
+      var redeemUrl = site + '/api/customer-portal?token=' + encodeURIComponent(token);
+      message = linkEmail(domain, redeemUrl);
+    } catch (e) {
+      settleDelivery();
+      diagnose('customer-portal-link-build-failed: ' + (e && e.message ? e.message : 'link build failed'));
+      return send(res, { ok: true, message: GENERIC_MESSAGE });
+    }
 
-    /* Only a matching subscriber reaches this point, so the send is the one branch that
-       could differ in latency. Run it off the response path and report every
-       subscriber-specific cause through protected diagnostics. */
-    var delivery = (async function () {
+    /* Only a matching subscriber reaches this point. Run the send off the response path;
+       the promise registered above keeps the invocation alive until it settles. */
+    (async function () {
       try {
         var sent = await mailer(sub.email || email, message.subject, message.body);
         if (sent && sent.notReady) {
@@ -170,22 +232,10 @@ function createHandler(deps) {
         }
       } catch (e) {
         diagnose('portal-link-email-failed: ' + (e && e.message ? e.message : 'email transport threw'));
+      } finally {
+        settleDelivery();
       }
     })();
-
-    /* Hand delivery to the runtime keep-alive so the public response never waits on the
-       transport. If the runtime cannot register the task, await inline as the safe
-       fallback: slower, but the email is never lost. */
-    if (waitUntil) {
-      try {
-        waitUntil(delivery);
-      } catch (e) {
-        diagnose('customer-portal-waitUntil-unavailable: ' + (e && e.message ? e.message : 'registration failed'));
-        await delivery;
-      }
-    } else {
-      await delivery;
-    }
 
     return send(res, { ok: true, message: GENERIC_MESSAGE });
   }
