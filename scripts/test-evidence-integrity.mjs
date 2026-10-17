@@ -530,6 +530,10 @@ ok('modal expletive with another owner does not dispute',
   !abstractContradicts('Exposure therapy improved symptoms; however, it is possible that sertraline did not improve outcomes', 'Exposure Therapy'));
 ok('postposed owner does not dispute the claim',
   !abstractContradicts('Exposure therapy improved symptoms; however, no benefit emerged for sertraline', 'Exposure Therapy'));
+ok('outcome nouns are not alternate owners',
+  abstractContradicts('Exposure therapy was assessed; however, no improvement in quality of life was observed', 'Exposure Therapy'));
+ok('researcher they does not carry another treatment result',
+  !abstractContradicts('Exposure therapy improved symptoms; however, they found that sertraline did not improve outcomes', 'Exposure Therapy'));
 
 // Coreference (review on #399): the claim named in one clause and its
 // negative result continued by pronoun or passive result marker in the next

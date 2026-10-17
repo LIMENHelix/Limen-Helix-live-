@@ -1437,10 +1437,15 @@ function abstractContradicts(text, keyPhrase) {
     // emerged", "no improvement in the sertraline group emerged", and
     // postposed ownership ("no benefit emerged for sertraline") all
     // attribute nothing to the claim under test.
-    const GENERIC_OWNER = new Set(['symptoms', 'symptom', 'outcomes', 'outcome', 'measures', 'measure', 'endpoints', 'endpoint', 'patients', 'patient', 'subjects', 'subject', 'participants', 'benefit', 'improvement', 'response', 'this', 'that', 'these', 'those', 'study', 'trial', 'analysis', 'cohort', 'rate', 'rates', 'levels', 'level', 'score', 'scores']);
+    const GENERIC_OWNER = new Set(['symptoms', 'symptom', 'outcomes', 'outcome', 'measures', 'measure', 'endpoints', 'endpoint', 'patients', 'patient', 'subjects', 'subject', 'participants', 'benefit', 'improvement', 'response', 'this', 'that', 'these', 'those', 'study', 'trial', 'analysis', 'cohort', 'rate', 'rates', 'levels', 'level', 'score', 'scores', 'quality', 'life', 'pain', 'function', 'mood', 'sleep', 'anxiety', 'depression', 'energy', 'cognition', 'memory', 'attention', 'weight', 'appetite', 'libido']);
     const ownerOf = (word) =>
       !!word && !GENERIC_OWNER.has(word) && !tokens.includes(word);
-    const ownerMatch = n.match(/\b(?:no benefit|no improvement|no significant improvement|no significant effect|no significant benefit|no effect|not effective|no evidence of benefit) (?:of|with|for|from|in) (?:the )?([a-z][a-z-]*)(?: group| arm| cohort)?\b/) ||
+    // Ownership requires a treatment/group construction (review round 5,
+    // #401): a bare noun after "in" ("no improvement in quality of life")
+    // is an outcome, not an owner — "in" only counts with a group/arm/
+    // cohort suffix; of/with/for/from keep bare treatment names.
+    const ownerMatch = n.match(/\b(?:no benefit|no improvement|no significant improvement|no significant effect|no significant benefit|no effect|not effective|no evidence of benefit) (?:of|with|for|from) (?:the )?([a-z][a-z-]*)(?: group| arm| cohort)?\b/) ||
+      n.match(/\b(?:no benefit|no improvement|no significant improvement|no significant effect|no significant benefit|no effect|not effective|no evidence of benefit) in (?:the )?([a-z][a-z-]*) (?:group|arm|cohort)\b/) ||
       n.match(/\b(?:emerged|occurred|appeared|emerge|occurs|appears|was observed|was found|was seen|was reported) (?:of|for|from|with) (?:the )?([a-z][a-z-]*)(?: group| arm| cohort)?\b/) ||
       n.match(/\b(?:emerged|occurred|appeared|emerge|occurs|appears) in (?:the )?([a-z][a-z-]*) (?:group|arm|cohort)\b/);
     const ownedByOther = !!(ownerMatch && ownerOf(ownerMatch[1]));
@@ -1456,6 +1461,10 @@ function abstractContradicts(text, keyPhrase) {
       const referent = opening[1];
       const after = n.slice(n.indexOf(referent));
       const demonstrative = /^(this|these) (study|studies|trial|trials|analysis|analyses|cohort|group|groups|arm|arms|investigation|investigations|experiment|experiments|review|reviews|paper|papers|report|reports|meta-analysis)\b/.test(after.trim());
+      // Researcher "they" is not coreference (review round 5, #401): "they
+      // found/reported/noted that sertraline did not improve" — the
+      // pronoun belongs to the investigators.
+      const researcherThey = /^they (found|observed|reported|noted|demonstrated|showed|concluded|determined|saw|measured|assessed|evaluated)\b/.test(after.trim());
       // Expletive "it" is not coreference ONLY when another subject owns
       // the result (fix on #401): "it was found that sertraline did not
       // improve" and "it appears that sertraline did not improve" reject —
@@ -1466,7 +1475,7 @@ function abstractContradicts(text, keyPhrase) {
         ? /^(the treatment|the intervention|the therapy|the approach)\b/.test(expletiveMatch[2])
         : false;
       const expletive = !!expletiveMatch && !refersBackToClaim;
-      coref = !demonstrative && !expletive;
+      coref = !demonstrative && !expletive && !researcherThey;
     }
     if (!mentionsClaim && claimSeenInSentence && (coref || (startsDirectional && !ownedByOther))
         && CARRYOVER_NEGATIONS.some((p) => n.includes(` ${p} `))) return true;
