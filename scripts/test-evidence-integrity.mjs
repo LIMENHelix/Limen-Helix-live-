@@ -448,6 +448,27 @@ ok('arm-equivalence phrase in a continuation does not dispute',
   !abstractContradicts('Exposure therapy improved symptoms; no significant difference was observed in dropout rates', 'Exposure Therapy'));
 ok('decimal points do not split a clause',
   abstractContradicts('Exposure therapy produced an effect size of 0.2 and did not improve outcomes', 'Exposure Therapy'));
+ok('abbreviation periods do not split a clause',
+  abstractContradicts('Exposure therapy was tested in the U.S. and did not improve outcomes', 'Exposure Therapy'));
+
+// ei1 rule-based verdicts stay accepted (their semantics were repaired in
+// ei1); ei1 pubmed verdicts re-enqueue (negation rules changed in ei2).
+{
+  const { CLAIM_SHAPES } = await import('./organ-claim-verification.mjs');
+  const bindingItem = { portalSlug: 'acme', relationshipType: 'treats', entityName: 'X', role: 'target', confidence: 0.9 };
+  const bPh = payloadHash(CLAIM_SHAPES.binding.payload(bindingItem));
+  const cell = mkCell({ portalBindings: [bindingItem] });
+  const claims = [];
+  extractCellClaims(cell, claims, { verdicts: { [`bind::BLA__active__trade::acme::treats::X::target`]: { verdict: 'VERIFIED', verifier: 'rule-based', ph: bPh, verifierVersion: 'claim-verification/2026-10-16.ei1' } } });
+  ok('rule-based ei1 verdict stays accepted (no churn)', claims.length === 0);
+}
+{
+  const cell = mkCell({ disorders: [{ ...disorderItem }] });
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh, verifierVersion: 'claim-verification/2026-10-16.ei1' } } };
+  const claims = [];
+  extractCellClaims(cell, claims, ledger);
+  ok('pubmed ei1 verdict re-enqueues under ei2 rules', claims.length === 1);
+}
 
 // Codex's reproduced coverage defect, now with turnover: 52 successive
 // budget-50 PubMed runs must reach every claim even while half of each

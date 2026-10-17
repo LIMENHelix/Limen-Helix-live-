@@ -620,18 +620,24 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collec
   // permanently suppressed retries, stranding thousands of unexamined
   // claims under a hash that proved nothing.
   const RETRYABLE = new Set(['UNVERIFIABLE']);
-  // Verdicts produced before the evidence-integrity repair by verifiers
-  // whose semantics changed re-enqueue even when the payload hash matches —
-  // a hash match proves the content is unchanged, not that the old rules
-  // were sound (review on #398). This is what lets the post-merge
-  // regeneration re-evaluate the 150 unsupported rule-based VERIFIEDs and
-  // the 89 zero-hit DISPUTEDs under repaired semantics.
-  const STALE_RULE_VERIFIERS = new Set(['rule-based', 'pubmed']);
+  // Verdicts produced before the evidence-integrity repair re-enqueue even
+  // when the payload hash matches — a hash match proves the content is
+  // unchanged, not that the old rules were sound (review on #398). Versions
+  // are accepted PER VERIFIER (review round 3 on #399): the ei2 bump changed
+  // only PubMed's contradiction semantics, so rule-based ei1 verdicts stay
+  // accepted and don't churn the general lane; rule-based records predating
+  // ei1 (the 150 unsupported VERIFIEDs) and all pre-ei2 PubMed verdicts
+  // re-enqueue.
+  const ACCEPTED_VERSIONS = {
+    'rule-based': new Set(['claim-verification/2026-10-16.ei1', 'claim-verification/2026-10-16.ei2']),
+    pubmed: new Set(['claim-verification/2026-10-16.ei2']),
+  };
   const skipFor = (item, claimId, ph) => {
     const lv = ledger.verdicts[claimId];
     if (lv && !reverifySet.has(claimId)) {
       if (RETRYABLE.has(lv.verdict)) return false;
-      if ((lv.verifierVersion || null) !== VERIFIER_VERSION && STALE_RULE_VERIFIERS.has(lv.verifier)) return false;
+      const accepted = ACCEPTED_VERSIONS[lv.verifier];
+      if (accepted && !accepted.has(lv.verifierVersion || null)) return false;
     }
     if (ledgerCurrent(claimId, ph) && !reverifySet.has(claimId)) return true;
     if (!ledger.verdicts[claimId]) {
@@ -1223,7 +1229,15 @@ function abstractContradicts(text, keyPhrase) {
   // (review on #399): "Exposure therapy improved symptoms. Sertraline was
   // also tested. It did not improve outcomes." — the pronoun belongs to
   // sertraline, not the claim. Newlines count as sentence boundaries.
-  const lines = String(text).split(/\n+/);
+  const lines = String(text)
+    // Protect abbreviation periods before splitting (review on #399):
+    // "tested in the U.S. and did not improve outcomes" must stay one
+    // clause. Chained single-letter abbreviations (U.S., e.g., i.e., a.k.a.)
+    // and common titles lose their periods; decimals are protected in the
+    // clause splitter itself below.
+    .replace(/\b(?:[A-Za-z]\.){2,}/g, (m) => m.replace(/\./g, ''))
+    .replace(/\b(etc|vs|cf|Dr|Drs|Mr|Mrs|Ms|St|Jr|Sr)\./gi, '$1')
+    .split(/\n+/);
   for (const line of lines) {
     let claimSeenInSentence = false;
     // Clause splitter: a period followed by a digit is a decimal, not a
