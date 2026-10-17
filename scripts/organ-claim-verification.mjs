@@ -478,7 +478,14 @@ function reconcilePopulation(cube, ledger, snapshotAt, sourceCommit) {
         effective = 'PENDING';
         staleLedgerVerdicts++;
       }
-      if ((lv.verifierVersion || null) !== VERIFIER_VERSION) olderVerifierRules++;
+      if ((lv.verifierVersion || null) !== VERIFIER_VERSION) {
+        // Per-verifier acceptance (review round 4, #399): only count a
+        // verdict as older-rules when its verifier actually rejects that
+        // version — ei1 rule-based records are deliberately accepted, not
+        // backlog.
+        const accepted = ACCEPTED_VERSIONS[lv.verifier];
+        if (accepted && !accepted.has(lv.verifierVersion || null)) olderVerifierRules++;
+      }
     }
     effectiveCurrentByVerdict[effective] = (effectiveCurrentByVerdict[effective] || 0) + 1;
   }
@@ -581,6 +588,21 @@ function forEachCellClaim(cell, cb) {
 // coreference/decimal fixes (#399) — ei1 pubmed verdicts re-enqueue.
 const VERIFIER_VERSION = 'claim-verification/2026-10-16.ei2';
 
+// Verdicts produced before the evidence-integrity repair re-enqueue even
+// when the payload hash matches — a hash match proves the content is
+// unchanged, not that the old rules were sound (review on #398). Versions
+// are accepted PER VERIFIER (review round 3 on #399): the ei2 bump changed
+// only PubMed's contradiction semantics, so rule-based ei1 verdicts stay
+// accepted and don't churn the general lane; rule-based records predating
+// ei1 (the 150 unsupported VERIFIEDs) and all pre-ei2 PubMed verdicts
+// re-enqueue. Module-level because skipFor (extraction) and
+// reconcilePopulation (reporting) must apply the SAME acceptance policy
+// (review round 4 on #399).
+const ACCEPTED_VERSIONS = {
+  'rule-based': new Set(['claim-verification/2026-10-16.ei1', 'claim-verification/2026-10-16.ei2']),
+  pubmed: new Set(['claim-verification/2026-10-16.ei2']),
+};
+
 function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collectOnly = false) {
   // Each claim is a (claimId, kind, verifier, payload, cell context) tuple.
   // Co-occurrence context — disorder names + node region terms — is what the
@@ -620,18 +642,6 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collec
   // permanently suppressed retries, stranding thousands of unexamined
   // claims under a hash that proved nothing.
   const RETRYABLE = new Set(['UNVERIFIABLE']);
-  // Verdicts produced before the evidence-integrity repair re-enqueue even
-  // when the payload hash matches — a hash match proves the content is
-  // unchanged, not that the old rules were sound (review on #398). Versions
-  // are accepted PER VERIFIER (review round 3 on #399): the ei2 bump changed
-  // only PubMed's contradiction semantics, so rule-based ei1 verdicts stay
-  // accepted and don't churn the general lane; rule-based records predating
-  // ei1 (the 150 unsupported VERIFIEDs) and all pre-ei2 PubMed verdicts
-  // re-enqueue.
-  const ACCEPTED_VERSIONS = {
-    'rule-based': new Set(['claim-verification/2026-10-16.ei1', 'claim-verification/2026-10-16.ei2']),
-    pubmed: new Set(['claim-verification/2026-10-16.ei2']),
-  };
   const skipFor = (item, claimId, ph) => {
     const lv = ledger.verdicts[claimId];
     if (lv && !reverifySet.has(claimId)) {

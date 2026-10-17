@@ -24,6 +24,7 @@ import {
   recordVerdict,
   capQueueWithRetryRotation,
   VERIFIER_VERSION,
+  CLAIM_SHAPES,
 } from './organ-claim-verification.mjs';
 
 let passed = 0;
@@ -450,6 +451,23 @@ ok('decimal points do not split a clause',
   abstractContradicts('Exposure therapy produced an effect size of 0.2 and did not improve outcomes', 'Exposure Therapy'));
 ok('abbreviation periods do not split a clause',
   abstractContradicts('Exposure therapy was tested in the U.S. and did not improve outcomes', 'Exposure Therapy'));
+
+// Reconciliation uses the same per-verifier acceptance policy (review #399).
+{
+  const bindingItem = { portalSlug: 'acme', relationshipType: 'treats', entityName: 'X', role: 'target', confidence: 0.9 };
+  const bPh = payloadHash(CLAIM_SHAPES.binding.payload(bindingItem));
+  const cell = mkCell({ portalBindings: [bindingItem] });
+  const bId = 'bind::BLA__active__trade::acme::treats::X::target';
+  const ledger = { verdicts: { [bId]: { verdict: 'VERIFIED', verifier: 'rule-based', checkedAt: '2026-01-01T00:00:00Z', ph: bPh, verifierVersion: 'claim-verification/2026-10-16.ei1' } } };
+  const r = reconcilePopulation({ cells: [cell] }, ledger, 't', 'c');
+  ok('accepted ei1 rule-based verdict is not counted as older-rules', r.verdictsFromOlderVerifierRules === 0);
+}
+{
+  const cell = mkCell({ disorders: [{ ...disorderItem }] });
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh, verifierVersion: 'claim-verification/2026-10-16.ei1' } } };
+  const r = reconcilePopulation({ cells: [cell] }, ledger, 't', 'c');
+  ok('ei1 pubmed verdict is counted as older-rules', r.verdictsFromOlderVerifierRules === 1);
+}
 
 // ei1 rule-based verdicts stay accepted (their semantics were repaired in
 // ei1); ei1 pubmed verdicts re-enqueue (negation rules changed in ei2).
