@@ -202,21 +202,21 @@ ok('negation sharing a sentence with the claim still disputes',
   for (const r of retries) ledger.verdicts[r.claimId] = { verdict: 'UNVERIFIABLE', ph: 'x' };
   const queue = [...retries, ...fresh];
 
-  const w1 = capQueueWithRetryRotation(queue, ledger, 5, undefined, true);
+  const w1 = capQueueWithRetryRotation(queue, ledger, 5);
   ok('cap respects max', w1.length === 5);
   ok('fresh claims are not crowded out by the retry backlog', w1[0].claimId === 'fresh-1' && w1[1].claimId === 'fresh-2');
 
   // The durable cursor: successive runs continue where the last stopped.
-  const firstRun = capQueueWithRetryRotation(queue, ledger, 5, undefined, true);
+  const firstRun = capQueueWithRetryRotation(queue, ledger, 5);
   const firstRetryA = firstRun.find((c) => c.claimId.startsWith('retry-')).claimId;
-  ok('cursor state is persisted in the ledger', !!(ledger.retryCursors && ledger.retryCursors.general));
-  const secondRun = capQueueWithRetryRotation(queue, ledger, 5, undefined, true);
+  ok('cursor state is persisted in the ledger', !!(ledger.retryCursors && ledger.retryCursors.full));
+  const secondRun = capQueueWithRetryRotation(queue, ledger, 5);
   const firstRetryB = secondRun.find((c) => c.claimId.startsWith('retry-')).claimId;
   ok('successive runs start at different windows of the backlog', firstRetryA !== firstRetryB);
 
   const allIds = new Set();
   for (let run = 0; run < 4; run++) {
-    for (const c of capQueueWithRetryRotation(queue, ledger, 5, undefined, true)) {
+    for (const c of capQueueWithRetryRotation(queue, ledger, 5)) {
       if (c.claimId.startsWith('retry-')) allIds.add(c.claimId);
     }
   }
@@ -224,10 +224,10 @@ ok('negation sharing a sentence with the claim still disputes',
 
   // A changed payload under an UNVERIFIABLE verdict is fresh work.
   const changed = { claimId: 'retry-0', payloadHash: 'changed-hash' };
-  const w2 = capQueueWithRetryRotation([changed], ledger, 5, undefined, true);
+  const w2 = capQueueWithRetryRotation([changed], ledger, 5);
   ok('changed payload under UNVERIFIABLE verdict takes the fresh lane', w2[0].claimId === 'retry-0');
   ok('unchanged retryable fills the window (control)',
-    capQueueWithRetryRotation(retries, ledger, 3, undefined, true).length === 3);
+    capQueueWithRetryRotation(retries, ledger, 3).length === 3);
 
   // Reserved capacity: even when fresh work could fill the whole cap, the
   // retry backlog keeps its quarter (review round 3, #398).
@@ -235,7 +235,7 @@ ok('negation sharing a sentence with the claim still disputes',
     const ledger2 = { verdicts: {} };
     for (const r of retries) ledger2.verdicts[r.claimId] = { verdict: 'UNVERIFIABLE', ph: 'x' };
     const bigRest = Array.from({ length: 300 }, (_, i) => ({ claimId: `fresh-${i}` }));
-    const w = capQueueWithRetryRotation(bigRest.concat(retries), ledger2, 200, undefined, true);
+    const w = capQueueWithRetryRotation(bigRest.concat(retries), ledger2, 200);
     ok('retry backlog keeps reserved capacity under a full fresh queue',
       w.some((c) => c.claimId.startsWith('retry-')));
     ok('cap still respected under reservation', w.length === 200);
@@ -251,8 +251,8 @@ ok('negation sharing a sentence with the claim still disputes',
     ok('a zero claim cap admits zero claims', capQueueWithRetryRotation(q, ledger3, 0).length === 0);
   }
 
-  // Lane discipline (review round 3, #398): a PubMed retry must not ride the
-  // general lane's reserved window — it belongs to the --verifier=pubmed run.
+  // Lane discipline (review round 11, #399): an explicit filter selects the
+  // invocation's lane; NO filter is the documented full run.
   {
     const ledger4 = { verdicts: { 'pm-retry': { verdict: 'UNVERIFIABLE', ph: 'x' } } };
     const q = [
@@ -260,35 +260,31 @@ ok('negation sharing a sentence with the claim still disputes',
       { claimId: 'rb-2', verifier: 'rule-based' },
       { claimId: 'pm-retry', payloadHash: 'x', verifier: 'pubmed' },
     ];
-    const general = capQueueWithRetryRotation(q, ledger4, 2);
-    ok('general lane excludes out-of-lane retries entirely (no double-spend)',
-      general.length === 2 && general[0].claimId === 'rb-1' && general[1].claimId === 'rb-2');
-    const pubmedLane = capQueueWithRetryRotation(q, ledger4, 2, ['pubmed'], true);
+    const generalPass = capQueueWithRetryRotation(q, ledger4, 2, ['rule-based']);
+    ok('the filtered general pass excludes pubmed retries entirely (no double-spend)',
+      generalPass.length === 2 && generalPass[0].claimId === 'rb-1' && generalPass[1].claimId === 'rb-2');
+    const pubmedLane = capQueueWithRetryRotation(q, ledger4, 2, ['pubmed']);
     ok('pubmed lane admits its own retries', pubmedLane.some((c) => c.claimId === 'pm-retry'));
-
-    // ALL pubmed work — fresh or retry — stays out of the general lane
-    // (review round 10, #399): the dedicated pubmed pass owns it.
-    const q2 = [
-      { claimId: 'pm-fresh', verifier: 'pubmed' },
-      { claimId: 'rb-3', verifier: 'rule-based' },
-    ];
-    const g2 = capQueueWithRetryRotation(q2, ledger4, 5, undefined, true);
-    ok('general lane excludes fresh pubmed claims too',
-      g2.length === 1 && g2[0].claimId === 'rb-3');
+    const fullRun = capQueueWithRetryRotation(q, ledger4, 3);
+    ok('an unfiltered invocation is the full run — pubmed included',
+      fullRun.some((c) => c.claimId === 'pm-retry'));
   }
 
-  // Cursor isolation (review round 2, #399): narrowed invocations serve from
-  // the front WITHOUT touching the shared lane cursor.
+  // Scoped cursors (review round 11, #399): each narrowing rotates its own
+  // backlog and never touches another scope's window.
   {
     const ledger5 = { verdicts: {} };
     const retries5 = Array.from({ length: 10 }, (_, i) => ({ claimId: `retry-${i}`, payloadHash: 'x' }));
     for (const r of retries5) ledger5.verdicts[r.claimId] = { verdict: 'UNVERIFIABLE', ph: 'x' };
-    capQueueWithRetryRotation(retries5, ledger5, 5, undefined, true);
-    ok('full-lane run persists its cursor', ledger5.retryCursors.general.lastClaimId === 'retry-4');
-    capQueueWithRetryRotation(retries5, ledger5, 3, undefined, false); // narrowed manual run
-    ok('narrowed run does not advance the shared cursor', ledger5.retryCursors.general.lastClaimId === 'retry-4');
-    const resumed = capQueueWithRetryRotation(retries5, ledger5, 5, undefined, true);
-    ok('full lane resumes from the shared cursor', resumed[0].claimId === 'retry-5');
+    capQueueWithRetryRotation(retries5, ledger5, 5);
+    ok('the unscoped run persists its cursor', ledger5.retryCursors.full.lastClaimId === 'retry-4');
+    capQueueWithRetryRotation(retries5, ledger5, 3, undefined, 'pri:BLA');
+    ok('a narrowed run keeps its own cursor', ledger5.retryCursors['full|pri:BLA'].lastClaimId === 'retry-2');
+    ok('the narrowed run does not advance the full-lane cursor', ledger5.retryCursors.full.lastClaimId === 'retry-4');
+    const resumed = capQueueWithRetryRotation(retries5, ledger5, 5);
+    ok('the full lane resumes from its own cursor', resumed[0].claimId === 'retry-5');
+    const narrowedAgain = capQueueWithRetryRotation(retries5, ledger5, 3, undefined, 'pri:BLA');
+    ok('the narrowed scope resumes from ITS cursor', narrowedAgain[0].claimId === 'retry-3');
   }
 }
 
@@ -487,6 +483,10 @@ ok('arm-equivalence phrase in a continuation does not dispute',
   !abstractContradicts('Exposure therapy improved symptoms; no significant difference was observed in dropout rates', 'Exposure Therapy'));
 ok('decimal points do not split a clause',
   abstractContradicts('Exposure therapy produced an effect size of 0.2 and did not improve outcomes', 'Exposure Therapy'));
+ok('a clause opening with the negative result itself still carries over',
+  abstractContradicts('Exposure therapy was assessed: no improvement occurred', 'Exposure Therapy'));
+ok('an adjunct starting a new sentence keeps the boundary',
+  !abstractContradicts('Exposure therapy improved outcomes in the U.S. National surveys found no benefit.', 'Exposure Therapy'));
 ok('abbreviation periods do not split a clause',
   abstractContradicts('Exposure therapy was tested in the U.S. and did not improve outcomes', 'Exposure Therapy'));
 ok('abbreviation ending a sentence still splits the sentence',
@@ -549,7 +549,7 @@ ok('hard newline after a sentence still resets context',
   const admitted = new Set();
   let population = all.slice();
   for (let w = 0; w < 52 && population.length; w++) {
-    const batch = capQueueWithRetryRotation(population, ledger, 50, ['pubmed'], true);
+    const batch = capQueueWithRetryRotation(population, ledger, 50, ['pubmed']);
     for (const c of batch) admitted.add(c.claimId);
     // Half of each admitted batch resolves terminally; the rest stays.
     batch.forEach((c, i) => { if (i % 2 === 0) delete ledger.verdicts[c.claimId]; });

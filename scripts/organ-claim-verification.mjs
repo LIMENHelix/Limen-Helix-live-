@@ -253,7 +253,8 @@ async function main() {
   // in the ledger itself, so weekly runs continue where the last one stopped
   // regardless of turnover. Fresh claims keep priority order.
   queue = capQueueWithRetryRotation(queue, ledger, ARG.maxClaims, ARG.verifierFilter,
-    ARG.priorityNodes.length === 0 && ARG.reverifyIds.length === 0);
+    (ARG.priorityNodes.length ? 'pri:' + ARG.priorityNodes.join(',') : '') +
+    (ARG.reverifyIds.length ? 'ids:' + ARG.reverifyIds.length : ''));
   console.log(`[verification-organ] working set this run: ${queue.length}`);
 
   if (ARG.dryRun) {
@@ -697,19 +698,24 @@ function verifierPriority(verifier) {
 // the cursor advances by the admitted window per week, not by one slot.
 // A quarter of the cap is reserved for the retry backlog so a full fresh
 // queue can never starve it to zero (review round 3).
-function capQueueWithRetryRotation(queue, ledger, max, verifierFilter, fullLane) {
+function capQueueWithRetryRotation(queue, ledger, max, verifierFilter, scopeSuffix) {
   // A zero budget means zero claims (review round 3, #398) — without this,
   // the reserved-slot math turns slice(0, -1) into "almost everything".
   if (max <= 0) return [];
-  // Lane discipline: the scheduled general run has no filter and drains the
-  // cheap rule-based/affinity front; the PubMed queue has its own reserved
-  // invocation right after it. The general lane excludes PubMed claims
-  // ENTIRELY (review round 10, #399) — admitting one here means the PubMed
-  // pass queries the same claim again minutes later, double-spending the
-  // external-call budget, whether the claim is fresh or a retry.
+  // Lane discipline: an explicit filter selects the verifiers this
+  // invocation serves; NO filter is the documented FULL run and admits
+  // everything (review round 11, #399) — including reverify-only runs, which
+  // must never silently process nothing. The scheduled "general" pass in the
+  // workflow carries its own explicit non-PubMed filter, so lane separation
+  // lives in the caller, not in a hardcoded verifier name.
   const lane = verifierFilter && verifierFilter.length ? new Set(verifierFilter) : null;
-  const laneKey = lane ? [...lane].sort().join('+') : 'general';
-  const inLane = (c) => (lane ? lane.has(c.verifier) : c.verifier !== 'pubmed');
+  // Cursor scope (review round 11): narrowed invocations (--priority,
+  // --reverify-ids) get their own persisted cursor instead of sharing the
+  // full-lane one — otherwise a manual run would drag the scheduled window
+  // past untried claims, and repeated narrowed runs would serve the same
+  // first-N forever.
+  const laneKey = (lane ? [...lane].sort().join('+') : 'full') + (scopeSuffix ? '|' + scopeSuffix : '');
+  const inLane = (c) => (lane ? lane.has(c.verifier) : true);
   const rest = [];
   const retryable = [];
   for (const c of queue) {
@@ -723,17 +729,16 @@ function capQueueWithRetryRotation(queue, ledger, max, verifierFilter, fullLane)
   const retrySlots = Math.min(retryable.length, max - restAdmitted.length);
 
   // Persistent cursor, stored IN THE LEDGER (review on #399): the workflow
-  // commits the ledger every run, so the cursor survives between weekly
+  // commits the ledger every run, so cursors survive between weekly
   // invocations. A recomputed offset modulo a list that shrinks as claims
   // resolve does NOT continue the previous window — it revisits failures
   // while skipping untried claims. A durable cursor tiles the backlog
-  // regardless of turnover. Only FULL lane invocations move the cursor
-  // (review round 2 on #399): a narrowed --priority/--reverify-ids run
-  // serves its small queue from the front and leaves the shared cursor
-  // alone, so manual runs can't skip untried claims past it.
+  // regardless of turnover. Cursors are scoped per invocation
+  // (lane + narrowing), so a manual --priority run rotates its own backlog
+  // without touching the scheduled lane's window.
   retryable.sort((a, b) => (a.claimId < b.claimId ? -1 : a.claimId > b.claimId ? 1 : 0));
   let rotated = retryable;
-  if (retryable.length > 1 && retrySlots > 0 && fullLane) {
+  if (retryable.length > 1 && retrySlots > 0) {
     ledger.retryCursors = ledger.retryCursors || {};
     const cursorId = ledger.retryCursors[laneKey] && ledger.retryCursors[laneKey].lastClaimId;
     let startIdx = 0;
@@ -1266,8 +1271,19 @@ function abstractContradicts(text, keyPhrase) {
     'laboratories', 'academy', 'council',
   ]);
   const clean = String(text)
-    .replace(/\b(?:[A-Za-z]\.){2,}(?=\s+([A-Z][A-Za-z]*))/g, (m, next) =>
-      NOUN_ADJUNCTS.has(next.toLowerCase()) ? m.replace(/\./g, '') : m.replace(/\./g, '') + '.')
+    // An abbreviation chain followed by a capitalized word: continuation if
+    // the word is an institutional adjunct whose OWN following word keeps
+    // the name going (another capital, or a connector like "and"/"of") —
+    // "the U.S. Department and did not improve…" stays one clause; a new
+    // subject after the adjunct ("U.S. National surveys found…") or any
+    // non-adjunct capital ("U.S. Sertraline…") keeps the boundary.
+    .replace(/\b(?:[A-Za-z]\.){2,}(?=\s+([A-Z][A-Za-z]*)\s*([A-Za-z]*))/g, (m, next, after) => {
+      const adjunct = NOUN_ADJUNCTS.has(next.toLowerCase());
+      const continues = adjunct &&
+        (/^[A-Z]/.test(after) ||
+          /^(and|but|or|nor|which|that|who|whom|whose|where|when|of|for|to|in|on|at|by|with|from|as)$/i.test(after));
+      return continues ? m.replace(/\./g, '') : m.replace(/\./g, '') + '.';
+    })
     .replace(/\b(?:[A-Za-z]\.){2,}/g, (m) => m.replace(/\./g, ''))
     .replace(/\b(etc|vs|cf|Dr|Drs|Mr|Mrs|Ms|St|Jr|Sr|al)\./gi, '$1')
     .replace(/([^.!?;:\n])\s*\n+\s*/g, '$1 ');
@@ -1282,11 +1298,15 @@ function abstractContradicts(text, keyPhrase) {
       : n.includes(keyPhrase.toLowerCase());
     const hasNegation = NEGATION_PATTERNS.some((p) => n.includes(` ${p} `));
     if (hasNegation && mentionsClaim) return true;
-    // Carry-over: the clause never names the claim, so it only continues
-    // the claim when it STARTS with a coreference marker (a mid-clause
-    // pronoun belongs to whatever subject the clause itself introduced)
-    // and carries a directional failure phrase — not an arm comparison.
-    if (!mentionsClaim && claimSeenInSentence && (COREF_START.test(n) || PASSIVE_RESULT.test(n))
+    // Carry-over: the clause never names the claim, so it continues the
+    // claim only when it clearly belongs to it (review rounds on #399):
+    // it STARTS with a coreference marker, OR it starts with the
+    // directional failure itself ("…was assessed: no improvement
+    // occurred"), OR it carries a passive result marker — and in every
+    // case the failure phrase must be directional, never an arm
+    // comparison.
+    const startsDirectional = CARRYOVER_NEGATIONS.some((p) => n.startsWith(` ${p}`));
+    if (!mentionsClaim && claimSeenInSentence && (COREF_START.test(n) || PASSIVE_RESULT.test(n) || startsDirectional)
         && CARRYOVER_NEGATIONS.some((p) => n.includes(` ${p} `))) return true;
     if (mentionsClaim) claimSeenInSentence = true;
     if (/[.!?]$/.test(trimmed)) claimSeenInSentence = false;
