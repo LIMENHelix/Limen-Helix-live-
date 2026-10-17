@@ -481,9 +481,9 @@ function reconcilePopulation(cube, ledger, snapshotAt, sourceCommit, bindingRepo
     let effective = sourceVerdict;
     if (lv) {
       const ph = currentPh.get(claimId);
-      const auditOk = !claimId.startsWith('bind::') || !lv.auditFp ||
+      const auditOk = !claimId.startsWith('bind::') ||
         (bindingReport && currentItem.get(claimId)
-          ? bindingAuditFingerprint(bindingReport, currentItem.get(claimId).portalSlug) === lv.auditFp
+          ? !!(lv.auditFp && bindingAuditFingerprint(bindingReport, currentItem.get(claimId).portalSlug) === lv.auditFp)
           : true);
       if (lv.ph && ph && lv.ph === ph && verdictAccepted(lv) && auditOk) {
         effective = lv.verdict;
@@ -673,13 +673,15 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collec
       // regenerated fidelity report now says something different for this
       // portal, the verdict's evidence is out of date even though the
       // claim payload and verifier version are unchanged — re-attest.
-      if (claimId.startsWith('bind::') && lv.auditFp && bindingReport) {
+      if (claimId.startsWith('bind::') && bindingReport) {
         // A missing fingerprint is a mismatch too (review on #401): if the
         // report vanished or the portal was dropped, the verdict's audit
         // basis is gone — re-attest instead of stranding the claim pending
-        // forever without dispatching the verifier.
+        // forever without dispatching the verifier. A verdict recorded
+        // BEFORE fingerprints existed is likewise re-attested when a report
+        // is available to judge it (review round 2 on #401).
         const fp = bindingAuditFingerprint(bindingReport, item.portalSlug);
-        if (!fp || fp !== lv.auditFp) return false;
+        if (!lv.auditFp || !fp || fp !== lv.auditFp) return false;
       }
     }
     if (ledgerCurrent(claimId, ph) && !reverifySet.has(claimId)) return true;
@@ -944,7 +946,10 @@ function portalAuditFingerprint(pp) {
   return payloadHash({
     ok: pp.ok ?? null,
     error: pp.error || null,
-    issues: (pp.issues || []).map((i) => ({
+    // Normalize before mapping (review round 2 on #401): a truthy non-array
+    // issues value must not crash the organ — it follows the same retryable
+    // audit-failure path as any malformed report.
+    issues: (Array.isArray(pp.issues) ? pp.issues : []).map((i) => ({
       entityName: i.entityName ?? null,
       relType: i.relType ?? null,
       kind: i.kind ?? null,
@@ -1312,7 +1317,6 @@ function abstractContradicts(text, keyPhrase) {
   const DISCOURSE = '(?:however|but|and|yet|still|though|although|overall|interestingly|notably|unfortunately|surprisingly|sadly)';
   const ADJUNCT = '(?:in this study|in this trial|in this analysis|in the study|in this cohort|in the trial|in these analyses|' + DISCOURSE + ')';
   const COREF_START = new RegExp('^\\s*(?:' + DISCOURSE + '\\s+)?(it|this|these|they|the treatment|the intervention|the therapy|the approach|the result|the results)\\b');
-  const DEMONSTRATIVE_NP = /\b(this|these) (study|studies|trial|trials|analysis|analyses|cohort|group|groups|arm|arms|investigation|investigations|experiment|experiments|review|reviews|paper|papers|report|reports|meta-analysis)\b/;
   // Equivalence phrases ("no significant difference", "not superior") compare
   // arms — they are not a directional failure of the claim itself, so they
   // can only contradict when the claim is named in the SAME clause. They are
@@ -1382,8 +1386,22 @@ function abstractContradicts(text, keyPhrase) {
     // subject.
     const startsDirectional = CARRYOVER_NEGATIONS.some((p) =>
       n.startsWith(` ${p}`) || new RegExp(`^ ${ADJUNCT} ${p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')} `).test(n));
-    if (!mentionsClaim && claimSeenInSentence
-        && ((COREF_START.test(n) && !DEMONSTRATIVE_NP.test(n)) || startsDirectional)
+    // Coreference gates (review rounds on #401):
+    //  - the demonstrative exclusion applies only to the OPENING referent —
+    //   "it did not improve outcomes in this study" is still coreference;
+    //   "this study found no benefit of sertraline" is not.
+    //  - expletive "it" is not coreference: "it was found that sertraline
+    //   did not improve outcomes" — a named subject owns the result.
+    let coref = false;
+    const opening = n.match(COREF_START);
+    if (opening) {
+      const referent = opening[1];
+      const after = n.slice(n.indexOf(referent));
+      const demonstrative = /^(this|these) (study|studies|trial|trials|analysis|analyses|cohort|group|groups|arm|arms|investigation|investigations|experiment|experiments|review|reviews|paper|papers|report|reports|meta-analysis)\b/.test(after.trim());
+      const expletive = /^(it|this) (was|is|were) (found|shown|observed|reported|noted|demonstrated|seen) that\b/.test(after.trim());
+      coref = !demonstrative && !expletive;
+    }
+    if (!mentionsClaim && claimSeenInSentence && (coref || startsDirectional)
         && CARRYOVER_NEGATIONS.some((p) => n.includes(` ${p} `))) return true;
     if (mentionsClaim) claimSeenInSentence = true;
     if (/[.!?]$/.test(trimmed)) claimSeenInSentence = false;
@@ -1466,8 +1484,10 @@ function propagateVerdictsToCube(cube, ledger, bindingReport = null) {
       // "payload-changed", "verifier-version" and "audit-input-changed" are
       // different causes and the audit trail must not report one as another.
       const phMatch = lv.ph && lv.ph === payloadHash(shape.payload(item));
-      const auditOk = !cid.startsWith('bind::') || !lv.auditFp ||
-        (bindingReport ? bindingAuditFingerprint(bindingReport, item.portalSlug) === lv.auditFp : true);
+      const auditOk = !cid.startsWith('bind::') ||
+        (bindingReport
+          ? !!(lv.auditFp && bindingAuditFingerprint(bindingReport, item.portalSlug) === lv.auditFp)
+          : true);
       if (phMatch && verdictAccepted(lv) && auditOk) {
         item.verification = lv;
         count++;

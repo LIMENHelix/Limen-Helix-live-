@@ -25,6 +25,7 @@ import {
   capQueueWithRetryRotation,
   VERIFIER_VERSION,
   CLAIM_SHAPES,
+  portalAuditFingerprint,
 } from './organ-claim-verification.mjs';
 
 let passed = 0;
@@ -499,6 +500,12 @@ ok('adjunct before a passive result still disputes',
 ok('demonstrative determiner is not coreference',
   !abstractContradicts('Exposure therapy improved symptoms; however, this study found no benefit of sertraline', 'Exposure Therapy'));
 
+// Review round 2, #401: opening-referent gating and expletives.
+ok('pronoun still corefers when the demonstrative is not the opening referent',
+  abstractContradicts('Exposure therapy was tested; it did not improve outcomes in this study', 'Exposure Therapy'));
+ok('expletive it before another treatment result does not dispute',
+  !abstractContradicts('Exposure therapy improved symptoms; however, it was found that sertraline did not improve outcomes', 'Exposure Therapy'));
+
 // Coreference (review on #399): the claim named in one clause and its
 // negative result continued by pronoun or passive result marker in the next
 // MUST dispute — clause delimiters do not break coreference.
@@ -584,6 +591,20 @@ ok('abbreviation periods do not split a clause',
   const claims4 = [];
   extractCellClaims(mkCell({ portalBindings: [bindingItem] }), claims4, { verdicts: { [bId]: lv } }, new Set(), false, { perPortal: { 'other-portal': { ok: true, issues: [] } } });
   ok('portal removed from the report re-enqueues the binding', claims4.length === 1);
+
+  // Pre-fingerprint accepted verdicts re-attest when a report can judge
+  // them (review round 2, #401); malformed issue lists never crash the
+  // fingerprint (review round 2, #401).
+  const legacyLv = { verdict: 'VERIFIED', verifier: 'rule-based', ph: bPh, verifierVersion: VERIFIER_VERSION };
+  const claims5 = [];
+  extractCellClaims(mkCell({ portalBindings: [bindingItem] }), claims5, { verdicts: { [bId]: legacyLv } }, new Set(), false, cleanReport);
+  ok('pre-fingerprint accepted verdict re-attests when a report exists', claims5.length === 1);
+  const cube3 = { cells: [mkCell({ portalBindings: [bindingItem] })] };
+  propagateVerdictsToCube(cube3, { verdicts: { [bId]: legacyLv } }, cleanReport);
+  ok('pre-fingerprint verdict displays pending with audit-input reason',
+    cube3.cells[0].portalBindings[0].verification.staleReason === 'audit-input-changed');
+  ok('malformed issue list never crashes the fingerprint',
+    portalAuditFingerprint({ ok: false, issues: 'oops' }).length > 0);
 }
 ok('abbreviation ending a sentence still splits the sentence',
   !abstractContradicts('Exposure therapy improved symptoms in the U.S. Sertraline did not improve outcomes.', 'Exposure Therapy'));
