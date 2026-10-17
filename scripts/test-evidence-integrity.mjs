@@ -637,6 +637,21 @@ ok('abbreviation periods do not split a clause',
       portalAuditFingerprint(base) !== portalAuditFingerprint(noted));
   }
 
+  // Fingerprint hardening (review round 4, #401): malformed members never
+  // throw, and regenerating the same findings in a different order does not
+  // churn every cached binding for the portal.
+  {
+    ok('malformed issue members never crash the fingerprint',
+      portalAuditFingerprint({ ok: false, issues: [null] }).length > 0);
+    const a = { ok: false, issues: [
+      { entityName: 'X', relType: 'treats', kind: 'k1', severity: 'high', note: 'n1' },
+      { entityName: 'Y', relType: 'treats', kind: 'k2', severity: 'low', note: 'n2' },
+    ] };
+    const reordered = { ok: false, issues: [a.issues[1], a.issues[0]] };
+    ok('regenerating the same findings in a different order keeps the fingerprint',
+      portalAuditFingerprint(a) === portalAuditFingerprint(reordered));
+  }
+
   // Fresh UNVERIFIABLE audit-failure verdicts are preserved, not rewritten
   // stale (review round 3, #401).
   {

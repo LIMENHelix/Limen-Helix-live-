@@ -953,16 +953,23 @@ function portalAuditFingerprint(pp) {
     // audit-failure path as any malformed report. Validity is PART of the
     // fingerprint (fix on #401): malformed evidence must invalidate a
     // cached clean verdict, not silently fingerprint-identical to [].
+    // Members are guarded (round 4: [null] must not throw) and the records
+    // are sorted before hashing (round 4: regenerating the SAME findings in
+    // a different array order must not invalidate every cached binding for
+    // the portal).
     issuesValid: Array.isArray(pp.issues),
-    issues: (Array.isArray(pp.issues) ? pp.issues : []).map((i) => ({
-      entityName: i.entityName ?? null,
-      relType: i.relType ?? null,
-      kind: i.kind ?? null,
-      severity: i.severity ?? null,
-      // The note is embedded in the persisted verdict — it must invalidate
-      // the fingerprint too (review round 3, #401).
-      note: i.note ?? null,
-    })),
+    issues: (Array.isArray(pp.issues) ? pp.issues : []).map((i) => {
+      const m = i && typeof i === 'object' ? i : {};
+      return {
+        entityName: m.entityName ?? null,
+        relType: m.relType ?? null,
+        kind: m.kind ?? null,
+        severity: m.severity ?? null,
+        // The note is embedded in the persisted verdict — it must invalidate
+        // the fingerprint too (review round 3, #401).
+        note: m.note ?? null,
+      };
+    }).sort((a, b) => stableStringify(a) < stableStringify(b) ? -1 : stableStringify(a) > stableStringify(b) ? 1 : 0),
   });
 }
 
