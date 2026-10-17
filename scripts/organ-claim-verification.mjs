@@ -1361,7 +1361,7 @@ function abstractContradicts(text, keyPhrase) {
   // the …" accepts only study-context nouns, so a different treatment's
   // group ("in the sertraline group, no improvement was observed") is
   // never absorbed as claim context.
-  const ADJUNCT = '(?:in (?:this|that|our|these|those) [a-z]+(?: [a-z]+)?|in the (?:[a-z]+ )?(?:study|studies|trial|trials|analysis|analyses|cohort|cohorts|investigation|investigations|experiment|experiments|review|reviews|arm|arms|subgroup|subgroups|sample|samples|pilot|population|populations)(?: [a-z]+)?|' + DISCOURSE + ')';
+  const ADJUNCT = '(?:in (?:this|that|our|these|those) [a-z]+(?: [a-z]+)?|in (?:the|a|an) (?:[a-z]+ )?(?:study|studies|trial|trials|analysis|analyses|cohort|cohorts|investigation|investigations|experiment|experiments|review|reviews|arm|arms|subgroup|subgroups|sample|samples|pilot|population|populations)(?: [a-z]+)?|' + DISCOURSE + ')';
   const COREF_START = new RegExp('^\\s*(?:' + DISCOURSE + '\\s+)?(it|this|these|they|the treatment|the intervention|the therapy|the approach|the result|the results)\\b');
   // Equivalence phrases ("no significant difference", "not superior") compare
   // arms — they are not a directional failure of the claim itself, so they

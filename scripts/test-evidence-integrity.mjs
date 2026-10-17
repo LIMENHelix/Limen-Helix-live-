@@ -555,6 +555,8 @@ ok('population-only ownership still disputes the claim',
 // coreferential group labels.
 ok('adjective before trial noun still carries the passive result',
   abstractContradicts('Exposure therapy was assessed; in the randomized trial, no significant improvement was observed.', 'Exposure Therapy'));
+ok('indefinite article before trial noun still carries the passive result',
+  abstractContradicts('Exposure therapy was assessed; in a randomized trial, no significant improvement was observed.', 'Exposure Therapy'));
 ok('reporting without that still rejects another treatment result',
   !abstractContradicts('Exposure therapy improved symptoms; however, they found sertraline did not improve outcomes.', 'Exposure Therapy'));
 ok('coreferential treatment-group ownership still disputes',
