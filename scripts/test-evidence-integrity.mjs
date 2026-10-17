@@ -517,6 +517,14 @@ ok('directional failure owned by another treatment does not dispute',
 ok('directional failure with a generic object still disputes (control)',
   abstractContradicts('Exposure therapy improved symptoms; however, no benefit for patients emerged', 'Exposure Therapy'));
 
+// Review round 4, #401: group-ownership and wider expletive forms.
+ok('failure assigned to another group does not dispute',
+  !abstractContradicts('Exposure therapy improved symptoms; however, no improvement in the sertraline group emerged', 'Exposure Therapy'));
+ok('appears-that expletive with another owner does not dispute',
+  !abstractContradicts('Exposure therapy improved symptoms; however, it appears that sertraline did not improve outcomes', 'Exposure Therapy'));
+ok('appears-that referring back to the claim still disputes',
+  abstractContradicts('Exposure therapy was tested; it appears that the treatment did not improve outcomes.', 'Exposure Therapy'));
+
 // Coreference (review on #399): the claim named in one clause and its
 // negative result continued by pronoun or passive result marker in the next
 // MUST dispute — clause delimiters do not break coreference.
@@ -643,6 +651,28 @@ ok('abbreviation periods do not split a clause',
   {
     ok('malformed issue members never crash the fingerprint',
       portalAuditFingerprint({ ok: false, issues: [null] }).length > 0);
+  // A null member fingerprints differently from an empty-object member
+  // (review round 4, #401), and direct verification treats both malformed
+  // shapes as retryable audit failures.
+  ok('[null] fingerprints differently from [{}]',
+    portalAuditFingerprint({ ok: false, issues: [null] }) !== portalAuditFingerprint({ ok: false, issues: [{}] }));
+  {
+    const v = verifyRuleBased({ kind: 'binding', payload: CLAIM_SHAPES.binding.payload(bindingItem) },
+      { perPortal: { acme: { ok: false, issues: [null] } } });
+    ok('malformed members are a retryable audit failure, never a crash', v.verdict === 'UNVERIFIABLE');
+  }
+  // Duplicate matches resolve deterministically (review round 4, #401).
+  {
+    const dupes = { perPortal: { acme: { ok: false, issues: [
+      { entityName: 'X', relType: 'treats', kind: 'k-low', severity: 'low', note: 'low' },
+      { entityName: 'X', relType: 'treats', kind: 'k-high', severity: 'high', note: 'high' },
+    ] } } };
+    const v2 = verifyRuleBased({ kind: 'binding', payload: CLAIM_SHAPES.binding.payload(bindingItem) }, dupes);
+    ok('duplicate matches resolve to the highest severity deterministically', v2.verdict === 'DISPUTED');
+    const dupesReversed = { perPortal: { acme: { ok: false, issues: [dupes.perPortal.acme.issues[1], dupes.perPortal.acme.issues[0]] } } };
+    const v3 = verifyRuleBased({ kind: 'binding', payload: CLAIM_SHAPES.binding.payload(bindingItem) }, dupesReversed);
+    ok('selection is independent of issue order', v3.verdict === 'DISPUTED' && v3.auditFp === v2.auditFp);
+  }
     const a = { ok: false, issues: [
       { entityName: 'X', relType: 'treats', kind: 'k1', severity: 'high', note: 'n1' },
       { entityName: 'Y', relType: 'treats', kind: 'k2', severity: 'low', note: 'n2' },

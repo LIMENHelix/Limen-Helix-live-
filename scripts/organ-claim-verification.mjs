@@ -888,6 +888,17 @@ function verifyRuleBased(claim, bindingReport) {
         note: `Binding-fidelity audit for portal "${claim.payload.portalSlug}" failed or produced no issue list — the audit did not complete, so no verdict can issue. Retryable once the audit succeeds.`,
       };
     }
+    // Malformed members are audit failures too (review round 4, #401).
+    if (pp.issues.some((i) => !i || typeof i !== 'object')) {
+      return {
+        verdict: 'UNVERIFIABLE',
+        verifier: 'rule-based',
+        evidence: ['binding-fidelity-report:malformed-issues'],
+        confidence: 0,
+        checkedAt: new Date().toISOString(),
+        note: `Binding-fidelity audit for portal "${claim.payload.portalSlug}" contains malformed issue entries — retryable once the audit produces valid records.`,
+      };
+    }
     // Audit-input fingerprint (cold audit 2026-10-17): the verdict records
     // exactly which audit content it was computed from, so a REGENERATED
     // report with different findings can invalidate it even when the
@@ -904,11 +915,22 @@ function verifyRuleBased(claim, bindingReport) {
         note: 'No issues in binding-fidelity audit for this portal.',
       };
     }
-    const matchedIssue = pp.issues?.find(
-      (i) =>
-        i.entityName === claim.payload.entityName &&
-        i.relType === claim.payload.relationshipType
-    );
+    // Deterministic selection among duplicate matches (review round 4,
+    // #401): the fingerprint is order-independent, so selection must be
+    // too — duplicates resolve by severity (highest first), then canonical
+    // content order.
+    const SEVERITY_RANK = { high: 3, medium: 2, low: 1 };
+    const matchedIssue = pp.issues
+      .filter(
+        (i) =>
+          i.entityName === claim.payload.entityName &&
+          i.relType === claim.payload.relationshipType
+      )
+      .sort(
+        (a, b) =>
+          (SEVERITY_RANK[b.severity] || 0) - (SEVERITY_RANK[a.severity] || 0) ||
+          (stableStringify(a) < stableStringify(b) ? -1 : stableStringify(a) > stableStringify(b) ? 1 : 0)
+      )[0];
     if (!matchedIssue) {
       return {
         verdict: 'VERIFIED',
@@ -961,6 +983,10 @@ function portalAuditFingerprint(pp) {
     issues: (Array.isArray(pp.issues) ? pp.issues : []).map((i) => {
       const m = i && typeof i === 'object' ? i : {};
       return {
+        // A null member must fingerprint differently from an empty-object
+        // member (review round 4, #401): [null] is malformed audit output,
+        // [{}] is a valid record with absent fields.
+        memberValid: !!(i && typeof i === 'object'),
         entityName: m.entityName ?? null,
         relType: m.relType ?? null,
         kind: m.kind ?? null,
@@ -1402,9 +1428,10 @@ function abstractContradicts(text, keyPhrase) {
     const startsDirectional = CARRYOVER_NEGATIONS.some((p) =>
       n.startsWith(` ${p}`) || new RegExp(`^ ${ADJUNCT} ${p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')} `).test(n));
     // A directional failure owned by another named subject is not the
-    // claim's result (review round 3, #401): "no benefit of sertraline
-    // emerged" attributes nothing to the claim under test.
-    const ownerMatch = n.match(/\b(?:no benefit|no improvement|no significant improvement|no significant effect|no significant benefit|no effect|not effective|no evidence of benefit) (?:of|with|for|from) ([a-z][a-z-]*)/);
+    // claim's result (review rounds on #401): "no benefit of sertraline
+    // emerged" or "no improvement in the sertraline group emerged"
+    // attributes nothing to the claim under test.
+    const ownerMatch = n.match(/\b(?:no benefit|no improvement|no significant improvement|no significant effect|no significant benefit|no effect|not effective|no evidence of benefit) (?:of|with|for|from|in) (?:the )?([a-z][a-z-]*)(?: group| arm| cohort)?\b/);
     const GENERIC_OBJECTS = new Set(['symptoms', 'symptom', 'outcomes', 'outcome', 'measures', 'measure', 'endpoints', 'endpoint', 'patients', 'patient', 'subjects', 'subject', 'participants', 'benefit', 'improvement', 'response']);
     const ownedByOther = !!(ownerMatch && !GENERIC_OBJECTS.has(ownerMatch[1]) && !tokens.includes(ownerMatch[1]));
     // Coreference gates (review rounds on #401):
@@ -1421,12 +1448,12 @@ function abstractContradicts(text, keyPhrase) {
       const demonstrative = /^(this|these) (study|studies|trial|trials|analysis|analyses|cohort|group|groups|arm|arms|investigation|investigations|experiment|experiments|review|reviews|paper|papers|report|reports|meta-analysis)\b/.test(after.trim());
       // Expletive "it" is not coreference ONLY when another subject owns
       // the result (fix on #401): "it was found that sertraline did not
-      // improve" rejects — but "it was found that the treatment did not
-      // improve" is an explicit reference back to the claim and must
-      // dispute.
-      const expletiveMatch = after.trim().match(/^(it|this) (was|is|were) (found|shown|observed|reported|noted|demonstrated|seen) that\s+(.*)$/);
+      // improve" and "it appears that sertraline did not improve" reject —
+      // but "it was found that the treatment did not improve" is an
+      // explicit reference back to the claim and must dispute.
+      const expletiveMatch = after.trim().match(/^(it|this) (?:was|is|were|appears|appeared|seems|seemed)(?: (?:found|shown|observed|reported|noted|demonstrated|seen|clear|evident|apparent))? that\s+(.*)$/);
       const refersBackToClaim = expletiveMatch
-        ? /^(the treatment|the intervention|the therapy|the approach)\b/.test(expletiveMatch[4])
+        ? /^(the treatment|the intervention|the therapy|the approach)\b/.test(expletiveMatch[2])
         : false;
       const expletive = !!expletiveMatch && !refersBackToClaim;
       coref = !demonstrative && !expletive;
