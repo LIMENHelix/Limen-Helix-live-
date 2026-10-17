@@ -497,6 +497,8 @@ ok('plain pronoun continuation still disputes (control)',
 // demonstrative determiners are not pronouns.
 ok('adjunct before a passive result still disputes',
   abstractContradicts('Exposure therapy was assessed; in this study, no significant improvement was observed', 'Exposure Therapy'));
+ok('unlisted contextual adjunct still disputes',
+  abstractContradicts('Exposure therapy was assessed; in our study, no significant improvement was observed', 'Exposure Therapy'));
 ok('demonstrative determiner is not coreference',
   !abstractContradicts('Exposure therapy improved symptoms; however, this study found no benefit of sertraline', 'Exposure Therapy'));
 
@@ -524,6 +526,10 @@ ok('appears-that expletive with another owner does not dispute',
   !abstractContradicts('Exposure therapy improved symptoms; however, it appears that sertraline did not improve outcomes', 'Exposure Therapy'));
 ok('appears-that referring back to the claim still disputes',
   abstractContradicts('Exposure therapy was tested; it appears that the treatment did not improve outcomes.', 'Exposure Therapy'));
+ok('modal expletive with another owner does not dispute',
+  !abstractContradicts('Exposure therapy improved symptoms; however, it is possible that sertraline did not improve outcomes', 'Exposure Therapy'));
+ok('postposed owner does not dispute the claim',
+  !abstractContradicts('Exposure therapy improved symptoms; however, no benefit emerged for sertraline', 'Exposure Therapy'));
 
 // Coreference (review on #399): the claim named in one clause and its
 // negative result continued by pronoun or passive result marker in the next

@@ -1356,7 +1356,10 @@ function abstractContradicts(text, keyPhrase) {
   // "however, this study found no benefit of sertraline" — "this" owns a
   // noun, not the claim.
   const DISCOURSE = '(?:however|but|and|yet|still|though|although|overall|interestingly|notably|unfortunately|surprisingly|sadly)';
-  const ADJUNCT = '(?:in this study|in this trial|in this analysis|in the study|in this cohort|in the trial|in these analyses|' + DISCOURSE + ')';
+  // Contextual adjuncts are recognized generically (review round 5, #401):
+  // "in this study", "in our study", "in the trial", "in those analyses" —
+  // any demonstrative/possessive + noun, not just a fixed list.
+  const ADJUNCT = '(?:in (?:this|that|our|the|these|those) [a-z]+(?: [a-z]+)?|' + DISCOURSE + ')';
   const COREF_START = new RegExp('^\\s*(?:' + DISCOURSE + '\\s+)?(it|this|these|they|the treatment|the intervention|the therapy|the approach|the result|the results)\\b');
   // Equivalence phrases ("no significant difference", "not superior") compare
   // arms — they are not a directional failure of the claim itself, so they
@@ -1429,11 +1432,18 @@ function abstractContradicts(text, keyPhrase) {
       n.startsWith(` ${p}`) || new RegExp(`^ ${ADJUNCT} ${p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')} `).test(n));
     // A directional failure owned by another named subject is not the
     // claim's result (review rounds on #401): "no benefit of sertraline
-    // emerged" or "no improvement in the sertraline group emerged"
-    // attributes nothing to the claim under test.
-    const ownerMatch = n.match(/\b(?:no benefit|no improvement|no significant improvement|no significant effect|no significant benefit|no effect|not effective|no evidence of benefit) (?:of|with|for|from|in) (?:the )?([a-z][a-z-]*)(?: group| arm| cohort)?\b/);
-    const GENERIC_OBJECTS = new Set(['symptoms', 'symptom', 'outcomes', 'outcome', 'measures', 'measure', 'endpoints', 'endpoint', 'patients', 'patient', 'subjects', 'subject', 'participants', 'benefit', 'improvement', 'response']);
-    const ownedByOther = !!(ownerMatch && !GENERIC_OBJECTS.has(ownerMatch[1]) && !tokens.includes(ownerMatch[1]));
+    // A directional failure owned by another named subject is not the
+    // claim's result (review rounds on #401): "no benefit of sertraline
+    // emerged", "no improvement in the sertraline group emerged", and
+    // postposed ownership ("no benefit emerged for sertraline") all
+    // attribute nothing to the claim under test.
+    const GENERIC_OWNER = new Set(['symptoms', 'symptom', 'outcomes', 'outcome', 'measures', 'measure', 'endpoints', 'endpoint', 'patients', 'patient', 'subjects', 'subject', 'participants', 'benefit', 'improvement', 'response', 'this', 'that', 'these', 'those', 'study', 'trial', 'analysis', 'cohort', 'rate', 'rates', 'levels', 'level', 'score', 'scores']);
+    const ownerOf = (word) =>
+      !!word && !GENERIC_OWNER.has(word) && !tokens.includes(word);
+    const ownerMatch = n.match(/\b(?:no benefit|no improvement|no significant improvement|no significant effect|no significant benefit|no effect|not effective|no evidence of benefit) (?:of|with|for|from|in) (?:the )?([a-z][a-z-]*)(?: group| arm| cohort)?\b/) ||
+      n.match(/\b(?:emerged|occurred|appeared|emerge|occurs|appears|was observed|was found|was seen|was reported) (?:of|for|from|with) (?:the )?([a-z][a-z-]*)(?: group| arm| cohort)?\b/) ||
+      n.match(/\b(?:emerged|occurred|appeared|emerge|occurs|appears) in (?:the )?([a-z][a-z-]*) (?:group|arm|cohort)\b/);
+    const ownedByOther = !!(ownerMatch && ownerOf(ownerMatch[1]));
     // Coreference gates (review rounds on #401):
     //  - the demonstrative exclusion applies only to the OPENING referent —
     //   "it did not improve outcomes in this study" is still coreference;
@@ -1451,7 +1461,7 @@ function abstractContradicts(text, keyPhrase) {
       // improve" and "it appears that sertraline did not improve" reject —
       // but "it was found that the treatment did not improve" is an
       // explicit reference back to the claim and must dispute.
-      const expletiveMatch = after.trim().match(/^(it|this) (?:was|is|were|appears|appeared|seems|seemed)(?: (?:found|shown|observed|reported|noted|demonstrated|seen|clear|evident|apparent))? that\s+(.*)$/);
+      const expletiveMatch = after.trim().match(/^(it|this) (?:was|is|were|appears|appeared|seems|seemed|is possible|is likely|is unlikely|may be|might be|could be)(?: (?:found|shown|observed|reported|noted|demonstrated|seen|clear|evident|apparent))? that\s+(.*)$/);
       const refersBackToClaim = expletiveMatch
         ? /^(the treatment|the intervention|the therapy|the approach)\b/.test(expletiveMatch[2])
         : false;
