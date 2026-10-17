@@ -948,7 +948,10 @@ function portalAuditFingerprint(pp) {
     error: pp.error || null,
     // Normalize before mapping (review round 2 on #401): a truthy non-array
     // issues value must not crash the organ — it follows the same retryable
-    // audit-failure path as any malformed report.
+    // audit-failure path as any malformed report. Validity is PART of the
+    // fingerprint (fix on #401): malformed evidence must invalidate a
+    // cached clean verdict, not silently fingerprint-identical to [].
+    issuesValid: Array.isArray(pp.issues),
     issues: (Array.isArray(pp.issues) ? pp.issues : []).map((i) => ({
       entityName: i.entityName ?? null,
       relType: i.relType ?? null,
@@ -1398,7 +1401,16 @@ function abstractContradicts(text, keyPhrase) {
       const referent = opening[1];
       const after = n.slice(n.indexOf(referent));
       const demonstrative = /^(this|these) (study|studies|trial|trials|analysis|analyses|cohort|group|groups|arm|arms|investigation|investigations|experiment|experiments|review|reviews|paper|papers|report|reports|meta-analysis)\b/.test(after.trim());
-      const expletive = /^(it|this) (was|is|were) (found|shown|observed|reported|noted|demonstrated|seen) that\b/.test(after.trim());
+      // Expletive "it" is not coreference ONLY when another subject owns
+      // the result (fix on #401): "it was found that sertraline did not
+      // improve" rejects — but "it was found that the treatment did not
+      // improve" is an explicit reference back to the claim and must
+      // dispute.
+      const expletiveMatch = after.trim().match(/^(it|this) (was|is|were) (found|shown|observed|reported|noted|demonstrated|seen) that\s+(.*)$/);
+      const refersBackToClaim = expletiveMatch
+        ? /^(the treatment|the intervention|the therapy|the approach)\b/.test(expletiveMatch[4])
+        : false;
+      const expletive = !!expletiveMatch && !refersBackToClaim;
       coref = !demonstrative && !expletive;
     }
     if (!mentionsClaim && claimSeenInSentence && (coref || startsDirectional)

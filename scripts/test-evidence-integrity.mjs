@@ -506,6 +506,11 @@ ok('pronoun still corefers when the demonstrative is not the opening referent',
 ok('expletive it before another treatment result does not dispute',
   !abstractContradicts('Exposure therapy improved symptoms; however, it was found that sertraline did not improve outcomes', 'Exposure Therapy'));
 
+// Fix on #401: an explicit reference back to the claim survives the
+// expletive exclusion.
+ok('expletive referring back to the claim still disputes',
+  abstractContradicts('Exposure therapy was tested; it was found that the treatment did not improve symptoms.', 'Exposure Therapy'));
+
 // Coreference (review on #399): the claim named in one clause and its
 // negative result continued by pronoun or passive result marker in the next
 // MUST dispute — clause delimiters do not break coreference.
@@ -605,6 +610,18 @@ ok('abbreviation periods do not split a clause',
     cube3.cells[0].portalBindings[0].verification.staleReason === 'audit-input-changed');
   ok('malformed issue list never crashes the fingerprint',
     portalAuditFingerprint({ ok: false, issues: 'oops' }).length > 0);
+
+  // Malformed audit evidence invalidates a cached clean verdict (fix on
+  // #401): validity is part of the fingerprint, so 'oops' no longer hashes
+  // identically to [].
+  const claims6 = [];
+  extractCellClaims(mkCell({ portalBindings: [bindingItem] }), claims6, { verdicts: { [bId]: lv } }, new Set(), false,
+    { perPortal: { acme: { ok: true, issues: 'oops' } } });
+  ok('malformed issue list re-enqueues the binding', claims6.length === 1);
+  const cube4 = { cells: [mkCell({ portalBindings: [bindingItem] })] };
+  propagateVerdictsToCube(cube4, { verdicts: { [bId]: lv } }, { perPortal: { acme: { ok: true, issues: 'oops' } } });
+  ok('malformed evidence displays pending with audit-input reason',
+    cube4.cells[0].portalBindings[0].verification.staleReason === 'audit-input-changed');
 }
 ok('abbreviation ending a sentence still splits the sentence',
   !abstractContradicts('Exposure therapy improved symptoms in the U.S. Sertraline did not improve outcomes.', 'Exposure Therapy'));
