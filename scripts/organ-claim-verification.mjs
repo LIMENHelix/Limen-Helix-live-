@@ -472,7 +472,7 @@ function reconcilePopulation(cube, ledger, snapshotAt, sourceCommit) {
     let effective = sourceVerdict;
     if (lv) {
       const ph = currentPh.get(claimId);
-      if (lv.ph && ph && lv.ph === ph) {
+      if (lv.ph && ph && lv.ph === ph && verdictAccepted(lv)) {
         effective = lv.verdict;
       } else {
         effective = 'PENDING';
@@ -483,8 +483,7 @@ function reconcilePopulation(cube, ledger, snapshotAt, sourceCommit) {
         // verdict as older-rules when its verifier actually rejects that
         // version — ei1 rule-based records are deliberately accepted, not
         // backlog.
-        const accepted = ACCEPTED_VERSIONS[lv.verifier];
-        if (accepted && !accepted.has(lv.verifierVersion || null)) olderVerifierRules++;
+        if (!verdictAccepted(lv)) olderVerifierRules++;
       }
     }
     effectiveCurrentByVerdict[effective] = (effectiveCurrentByVerdict[effective] || 0) + 1;
@@ -603,6 +602,15 @@ const ACCEPTED_VERSIONS = {
   pubmed: new Set(['claim-verification/2026-10-16.ei2']),
 };
 
+// skipFor (extraction), propagateVerdictsToCube (display), and
+// reconcilePopulation (reporting) all consume this: a verdict written under
+// a rejected verifier version is re-enqueued AND nowhere presented as
+// current (review round 5 on #399).
+function verdictAccepted(lv) {
+  const accepted = ACCEPTED_VERSIONS[lv.verifier];
+  return !accepted || accepted.has(lv.verifierVersion || null);
+}
+
 function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collectOnly = false) {
   // Each claim is a (claimId, kind, verifier, payload, cell context) tuple.
   // Co-occurrence context — disorder names + node region terms — is what the
@@ -646,8 +654,7 @@ function extractCellClaims(cell, claims, ledger, reverifySet = new Set(), collec
     const lv = ledger.verdicts[claimId];
     if (lv && !reverifySet.has(claimId)) {
       if (RETRYABLE.has(lv.verdict)) return false;
-      const accepted = ACCEPTED_VERSIONS[lv.verifier];
-      if (accepted && !accepted.has(lv.verifierVersion || null)) return false;
+      if (!verdictAccepted(lv)) return false;
     }
     if (ledgerCurrent(claimId, ph) && !reverifySet.has(claimId)) return true;
     if (!ledger.verdicts[claimId]) {
@@ -1346,7 +1353,7 @@ function propagateVerdictsToCube(cube, ledger) {
       // id flips the hash, and the old verdict must NOT display on changed
       // content — a claim awaiting re-verification is shown as such, with
       // the prior verdict referenced but not presented as current truth.
-      if (lv.ph && lv.ph === payloadHash(shape.payload(item))) {
+      if (lv.ph && lv.ph === payloadHash(shape.payload(item)) && verdictAccepted(lv)) {
         item.verification = lv;
         count++;
       } else {

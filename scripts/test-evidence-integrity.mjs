@@ -291,7 +291,7 @@ ok('negation sharing a sentence with the claim still disputes',
 // Propagation: fresh verdict applies (control).
 {
   const cube = { cells: [mkCell({ disorders: [{ ...disorderItem }] })] };
-  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh } } };
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh, verifierVersion: VERIFIER_VERSION } } };
   const n = propagateVerdictsToCube(cube, ledger);
   ok('fresh verdict propagates to the cube (control)', n === 1 && cube.cells[0].disorders[0].verification.verdict === 'VERIFIED');
 }
@@ -322,9 +322,31 @@ ok('negation sharing a sentence with the claim still disputes',
 // Reconciliation: fresh verdict counts (control).
 {
   const cube = { cells: [mkCell({ disorders: [{ ...disorderItem }] })] };
-  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh } } };
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh, verifierVersion: VERIFIER_VERSION } } };
   const r = reconcilePopulation(cube, ledger, '2026-10-16T00:00:00Z', 'abc123');
   ok('fresh ledger verdict counts as VERIFIED (control)', r.effectiveCurrentByVerdict.VERIFIED === 1 && r.staleLedgerVerdicts === 0);
+}
+
+// Rejected verifier versions are not presented as current anywhere (review
+// round 5, #399): an ei1 pubmed verdict is pending at display AND count,
+// while an accepted ei1 rule-based verdict still displays.
+{
+  const cube = { cells: [mkCell({ disorders: [{ ...disorderItem }] })] };
+  const ledger = { verdicts: { 'dx::d1': { verdict: 'VERIFIED', verifier: 'pubmed', checkedAt: '2026-01-01T00:00:00Z', ph: disorderPh, verifierVersion: 'claim-verification/2026-10-16.ei1' } } };
+  propagateVerdictsToCube(cube, ledger);
+  ok('ei1 pubmed verdict does not display (rejected version)', cube.cells[0].disorders[0].verification.stale === true);
+  const r = reconcilePopulation(cube, ledger, 't', 'c');
+  ok('ei1 pubmed verdict counts as pending, not verified', r.effectiveCurrentByVerdict.VERIFIED === 0 && r.staleLedgerVerdicts === 1);
+}
+{
+  const bindingItem = { portalSlug: 'acme', relationshipType: 'treats', entityName: 'X', role: 'target', confidence: 0.9 };
+  const bPh = payloadHash(CLAIM_SHAPES.binding.payload(bindingItem));
+  const cell = mkCell({ portalBindings: [bindingItem] });
+  const bId = 'bind::BLA__active__trade::acme::treats::X::target';
+  const cube = { cells: [cell] };
+  const ledger = { verdicts: { [bId]: { verdict: 'VERIFIED', verifier: 'rule-based', checkedAt: '2026-01-01T00:00:00Z', ph: bPh, verifierVersion: 'claim-verification/2026-10-16.ei1' } } };
+  propagateVerdictsToCube(cube, ledger);
+  ok('accepted ei1 rule-based verdict still displays (control)', cube.cells[0].portalBindings[0].verification.verdict === 'VERIFIED');
 }
 
 // Hash discipline: extraction/propagation/reconciliation must all hash the
