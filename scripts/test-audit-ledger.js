@@ -118,6 +118,36 @@ console.log('T6-T8: db-backed (in-memory limen-db)');
     vWindowTamper.ok === false && /hash mismatch/.test(vWindowTamper.reason)
       && vWindowTamper.brokenAt > 0, JSON.stringify(vWindowTamper));
 
+  // T6e: malformed entries are a structured result, not a thrown TypeError.
+  function fakeDb(pages) {
+    var i = 0;
+    return { lrange: async function () { return pages[Math.min(i++, pages.length - 1)]; } };
+  }
+  var tailEntry = L.makeEntry(1, 2, 'b', 's', { i: 1 }, 'f'.repeat(64));
+
+  var fullNull = await L.verify(fakeDb([[tailEntry, null]]), 'null-full');
+  assert('full verify with a null oldest entry does not throw',
+    fullNull.ok === false && /missing entry\/hash/.test(fullNull.reason), JSON.stringify(fullNull));
+  assert('full verify null metadata is guarded',
+    fullNull.firstSeq === null && fullNull.lastSeq === 1, JSON.stringify(fullNull));
+
+  var cappedNull = await L.verify(fakeDb([[tailEntry, null], [tailEntry]]), 'null-capped', 2);
+  assert('capped verify with a null window anchor does not throw',
+    cappedNull.ok === false && /missing entry\/hash/.test(cappedNull.reason), JSON.stringify(cappedNull));
+  assert('capped null result keeps partial/boundary semantics',
+    cappedNull.partial === true && cappedNull.boundaryChecked === false,
+    JSON.stringify(cappedNull));
+
+  var cappedNullNoBoundary = await L.verify(fakeDb([[tailEntry, null], []]), 'null-capped-end', 2);
+  assert('capped verify with a null oldest entry and no boundary is structured',
+    cappedNullNoBoundary.ok === false && cappedNullNoBoundary.firstSeq === null,
+    JSON.stringify(cappedNullNoBoundary));
+
+  var onlyNull = await L.verify(fakeDb([[null]]), 'null-only');
+  assert('full verify with only a null entry is structured',
+    onlyNull.ok === false && onlyNull.head === null && onlyNull.lastSeq === null,
+    JSON.stringify(onlyNull));
+
   // T8: consumer proof — the consolidator appends a provenance event
   await db.set('feedhist:index', ['energy']);
   var t0 = 1700000000000;
