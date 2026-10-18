@@ -737,6 +737,22 @@ def _input_presence(company_data: dict) -> dict:
     }
 
 
+def _thing0_history_quarters(company_data: dict) -> int:
+    """Raw filing quarters across the required series, before rolling windows.
+
+    Thing 2 rows are post-window feature output; using their length for the
+    Thing 0 eight-quarter floor would refuse companies with 8-11 raw quarters.
+    """
+    quarters = set()
+    for key in ("Revenue", "OCF", "Cash", "Debt"):
+        series = company_data.get(key) or {}
+        if isinstance(series, dict):
+            quarters.update(series.keys())
+        elif isinstance(series, (list, tuple, set)):
+            quarters.update(series)
+    return len(quarters)
+
+
 # Neutral phase-state labels (no loaded language). Used in the Thing 2
 # section's `phase_state_label`. "instability," "terminal," "collapse,"
 # "alert" are NOT permitted here.
@@ -849,6 +865,7 @@ def _build_thing0_section(
         "kernel_id": "thing0-company-envelope/1.0",
         **qualification,
         "is_financial": bool(is_financial),
+        "history_quarters": history_quarters,
         "required_input_presence": required,
         "required_inputs_present": present_count,
         "required_inputs_total": len(required),
@@ -1232,6 +1249,7 @@ def _build_safe_packet(
     quarters = [r.get("quarter") for r in rows if r.get("quarter")]
     latest_quarter = quarters[-1] if quarters else None
     history_quarters = len(rows)
+    thing0_history_quarters = _thing0_history_quarters(company_data)
     cik_padded = str(cik).lstrip("0").zfill(10) if cik else ""
     history_sufficiency = _history_sufficiency(history_quarters)
 
@@ -1242,7 +1260,7 @@ def _build_safe_packet(
         is_financial=is_financial,
         facts=facts,
         company_data=company_data,
-        history_quarters=history_quarters,
+        history_quarters=thing0_history_quarters,
     )
 
     # ── Section 1: Thing 1 (validated distress scorer) ─────────
@@ -1408,10 +1426,15 @@ async def _score_safe(cik: str, requested_report_type: str, request_body: dict |
     # don't render "kernel not working" anywhere.
     try:
         company_data = build_company_data(facts, is_financial=is_financial) if facts else {}
+    except Exception:
+        company_data = {}
+    try:
         result = run_pipeline(company_data, polyvagal_context=polyvagal_context)
         rows = result.get("rows", [])
     except Exception:
-        company_data, result, rows = {}, {}, []
+        # Thing 2 is interpretive. Its failure must not erase the raw company
+        # inputs that Thing 0 uses to qualify Thing 1.
+        result, rows = {}, []
     t2_runtime_ms = int(round((time.time() - t2_started) * 1000))
 
     # Stamp the polyvagal source onto the result so _build_thing2_section

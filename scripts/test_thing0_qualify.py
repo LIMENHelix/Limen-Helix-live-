@@ -185,9 +185,53 @@ def _local_packet_integration():
         assert len(calls) == 0, "Thing 1 must not run without all required series"
 
         calls.clear()
-        short = packet(rows=rows[:7])
+        short_data = {key: series(7) for key in full_data}
+        short = packet(company_data=short_data, rows=rows[:7])
         assert short["thing0_eligibility"]["permits_thing1_use"] is False, short
-        assert len(calls) == 0, "Thing 1 must not run below the history floor"
+        assert len(calls) == 0, "Thing 1 must not run below the raw history floor"
+
+        import asyncio
+
+        async def fake_facts(cik):
+            return {"entityName": "Fixture"}
+
+        async def fake_sic(cik):
+            return 0
+
+        def fail_pipeline(*args, **kwargs):
+            raise RuntimeError("thing2 failure")
+
+        old_fetch_facts = helix_index._fetch_sec_facts
+        old_fetch_sic = helix_index._fetch_sic_code
+        old_build = helix_index.build_company_data
+        old_pipeline = helix_index.run_pipeline
+        old_poly = helix_index._build_polyvagal_context_from_server
+        old_audit_build = helix_index._build_audit_entry
+        old_audit_emit = helix_index._emit_audit
+        calls.clear()
+        helix_index._fetch_sec_facts = fake_facts
+        helix_index._fetch_sic_code = fake_sic
+        helix_index.build_company_data = lambda facts, is_financial=False: full_data
+        helix_index.run_pipeline = fail_pipeline
+        helix_index._build_polyvagal_context_from_server = lambda cik, sic: None
+        helix_index._build_audit_entry = lambda **kwargs: {}
+        helix_index._emit_audit = lambda entry: None
+        try:
+            packet_fail = asyncio.run(
+                helix_index._score_safe("0000000001", "partial_phase_snapshot")
+            )
+            assert packet_fail["thing0_eligibility"]["permits_thing1_use"] is True, packet_fail
+            assert len(calls) == 1, "Thing 1 must run when Thing 2 fails after inputs are built"
+            assert packet_fail["validated_signal"]["validation_status"] == "unavailable", packet_fail
+            print("  pass: local Thing 2 failure does not suppress Thing 1")
+        finally:
+            helix_index._fetch_sec_facts = old_fetch_facts
+            helix_index._fetch_sic_code = old_fetch_sic
+            helix_index.build_company_data = old_build
+            helix_index.run_pipeline = old_pipeline
+            helix_index._build_polyvagal_context_from_server = old_poly
+            helix_index._build_audit_entry = old_audit_build
+            helix_index._emit_audit = old_audit_emit
 
         rec = old_reconciliation(
             {"validation_status": "not_permitted_by_thing0", "alert": None},

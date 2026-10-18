@@ -76,6 +76,20 @@ check('Thing 0 formula module exists and has no Thing 1 input', function () {
   assert.ok(!match[1].includes('validated_signal'),
     'Thing 0 formula takes validated_signal');
 });
+check('Thing 2 failure preserves raw company inputs for Thing 0', function () {
+  assert.ok(!source.includes('company_data, result, rows = {}, {}, []'),
+    'Thing 2 failure still clears company_data');
+  assert.ok(source.includes('result, rows = {}, []'),
+    'Thing 2 failure should clear only result and rows');
+});
+check('Thing 0 uses raw filing quarters, not Thing 2 feature rows', function () {
+  assert.ok(source.includes('def _thing0_history_quarters('),
+    'raw history helper missing');
+  assert.ok(source.includes('thing0_history_quarters = _thing0_history_quarters(company_data)'),
+    'raw history not derived from company_data');
+  assert.ok(source.includes('history_quarters=thing0_history_quarters'),
+    'Thing 0 gate not using raw history');
+});
 check('JS brain-signals already evaluates Thing 0 before Thing 1', function () {
   var brain = fs.readFileSync(path.join(ROOT, 'handlers', 'brain-signals.js'), 'utf8');
   var t0 = brain.indexOf('F.thing0Eligible(c)');
