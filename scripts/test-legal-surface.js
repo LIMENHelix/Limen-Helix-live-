@@ -74,6 +74,9 @@ check('the terms page promises cancellation at period end via the portal, and no
   var html = read('terms.html');
   assert.ok(html.indexOf('/cancel') !== -1);
   assert.ok(/end of the current paid period/.test(html), 'cancel timing is period-end');
+  assert.ok(/sign-in link/i.test(html), 'explains the emailed sign-in link');
+  assert.ok(/inbox/i.test(html), 'names the inbox ownership step');
+  assert.ok(/30 minutes/i.test(html), 'states the link lifetime');
   assert.ok(!/reply to/i.test(html), 'no reply-to-cancel language');
 });
 

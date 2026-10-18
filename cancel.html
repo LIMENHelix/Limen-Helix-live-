@@ -82,6 +82,9 @@
       return r.json().then(function (j) { return { code: r.status, body: j }; });
     }).then(function (r) {
       if (r.body && r.body.ok) {
+        /* The success body is intentionally generic, not proof of membership. Re-enable
+           the button so a mistyped address or domain can be corrected and retried. */
+        btn.disabled = false;
         status.textContent = r.body.message || 'If that email has an active subscription on that domain, a sign-in link is on its way to that inbox. The link expires in 30 minutes.';
         return;
       }

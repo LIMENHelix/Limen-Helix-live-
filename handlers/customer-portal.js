@@ -83,10 +83,28 @@ function readBody(req) {
 /* Transactional billing email on the existing Resend transport. sendToLead is NOT used: its
    marketing suppression list must never stand between a subscriber and the only cancellation
    path we promise, and a portal link is not marketing. */
-async function defaultMailer(to, subject, body) {
+async function defaultMailer(to, subject, body, html) {
   var cfg = crm.emailConfig();
   if (!cfg.ready) return { ok: false, notReady: true, reason: cfg.reason || 'email transport not configured' };
-  return crm.sendEmailResend(cfg, to, subject, body, { transactional: true });
+  return crm.sendEmailResend(cfg, to, subject, body, { transactional: true, html: html });
+}
+
+/* HTML body with one explicit link. Every dynamic value is escaped; the URL is
+   server-built, so the anchor target cannot be supplied by the requester. Attribute
+   escaping is separate because the href is quoted. */
+function escAttr(value) {
+  return crm.esc(value).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function linkEmailHtml(domain, redeemUrl) {
+  var d = crm.esc(domain);
+  var uText = crm.esc(redeemUrl);
+  var uAttr = escAttr(redeemUrl);
+  return '<p>You asked to manage your LIMEN Helix ' + d + ' subscription.</p>' +
+    '<p><a href="' + uAttr + '" style="color:#1a5fb4;font-weight:600">Open your customer portal</a></p>' +
+    '<p style="font-size:12px;color:#555">Or paste this link into your browser:<br>' + uText + '</p>' +
+    '<p>This link expires in 30 minutes. Cancellation takes effect at the end of the current paid period. Nothing further is charged.</p>' +
+    '<p>If you did not ask for this, ignore this email: no one can open your portal without access to this inbox.</p>';
 }
 
 function linkEmail(domain, redeemUrl) {
@@ -95,7 +113,8 @@ function linkEmail(domain, redeemUrl) {
     body: 'You asked to manage your LIMEN Helix ' + domain + ' subscription.\n\n' +
       'Open your customer portal to update payment details or cancel:\n' + redeemUrl + '\n\n' +
       'This link expires in 30 minutes. Cancellation takes effect at the end of the current paid period — nothing further is charged.\n\n' +
-      'If you did not ask for this, ignore this email: no one can open your portal without access to this inbox.'
+      'If you did not ask for this, ignore this email: no one can open your portal without access to this inbox.',
+    html: linkEmailHtml(domain, redeemUrl)
   };
 }
 
@@ -224,7 +243,7 @@ function createHandler(deps) {
        the promise registered above keeps the invocation alive until it settles. */
     (async function () {
       try {
-        var sent = await mailer(sub.email || email, message.subject, message.body);
+        var sent = await mailer(sub.email || email, message.subject, message.body, message.html);
         if (sent && sent.notReady) {
           diagnose('customer-portal-email-unavailable: ' + (sent.reason || 'email transport not configured'));
         } else if (!sent || !sent.ok) {

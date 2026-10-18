@@ -43,6 +43,9 @@
 'use strict';
 
 var assert = require('assert');
+var fs = require('fs');
+var path = require('path');
+var { JSDOM } = require('jsdom');
 var mod = require('../handlers/customer-portal.js');
 var link = require('../lib/customer-portal-link.js');
 
@@ -99,8 +102,8 @@ function portalSpy(opts) {
 function mailSpy(opts) {
   opts = opts || {};
   var calls = [];
-  var fn = async function (to, subject, body) {
-    calls.push({ to: to, subject: subject, body: body });
+  var fn = async function (to, subject, body, html) {
+    calls.push({ to: to, subject: subject, body: body, html: html });
     if (opts.notReady) return { ok: false, notReady: true, reason: 'RESEND_API_KEY not set' };
     if (opts.fail) return { ok: false, error: 'resend 500' };
     return { ok: true, id: 'email_test_1' };
@@ -204,6 +207,88 @@ async function main() {
     assert.equal(mailer.calls[0].to, 'buyer@example.com', 'and it goes to the subscriber, not the requester');
     assert.ok(mailer.calls[0].body.indexOf('https://limenhelix.com/api/customer-portal?token=') !== -1,
       'the email carries the signed redeem link');
+  });
+
+  await check('the transactional email carries a clickable HTML link to the redeem URL', async function () {
+    var mailer = mailSpy();
+    var h = mod.createHandler(deps({ mailer: mailer }));
+    var res = fakeRes();
+    await h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), res);
+    assert.equal(mailer.calls.length, 1);
+    var html = mailer.calls[0].html;
+    assert.ok(html, 'the mailer receives an HTML body');
+    assert.ok(/<a href="https:\/\/limenhelix\.com\/api\/customer-portal\?token=[^"]+"/.test(html),
+      'the redeem URL is an anchor target');
+    assert.ok(/Open your customer portal/.test(html), 'the anchor has human-readable text');
+    assert.ok(!/billing\.stripe\.com/.test(html), 'no direct Stripe URL in the email');
+  });
+
+  await check('the transactional mail shell preserves caller HTML and adds the footer', async function () {
+    var crm = require('../lib/crm-send.js');
+    var realFetch = global.fetch;
+    var captured = null;
+    global.fetch = async function (url, opts) {
+      captured = JSON.parse(opts.body);
+      return { ok: true, json: async function () { return { id: 'email_test_1' }; } };
+    };
+    try {
+      var result = await crm.sendEmailResend(
+        { from: 'LIMEN <portal@limenhelix.com>', apiKey: 'test', addr: '1 Main St', ready: true },
+        'buyer@example.com',
+        'Subject',
+        'plain body',
+        { transactional: true, html: '<p>Hello <a href="https://example.com/x">link</a></p>' }
+      );
+      assert.equal(result.ok, true);
+      assert.ok(captured.html.indexOf('<a href="https://example.com/x">link</a>') !== -1, 'caller HTML survives');
+      assert.ok(captured.html.indexOf('This is a transactional message') !== -1, 'transactional footer present');
+      assert.equal(captured.html.indexOf('Unsubscribe'), -1, 'no marketing footer');
+      assert.equal(captured.text.indexOf('plain body'), 0, 'plain-text fallback intact');
+    } finally {
+      global.fetch = realFetch;
+    }
+  });
+
+  await check('the HTML link escapes a hostile domain value', async function () {
+    var hostileDomain = 'finance<script>alert(1)</script>';
+    var hostile = { 'buyer@example.com': Object.assign({}, ACTIVE['buyer@example.com'], { domain: hostileDomain }) };
+    var mailer = mailSpy();
+    var h = mod.createHandler(deps({ store: memStrict(hostile), mailer: mailer }));
+    var res = fakeRes();
+    await h(fakeReq('POST', { email: 'buyer@example.com', domain: hostileDomain }), res);
+    assert.equal(mailer.calls.length, 1);
+    var html = mailer.calls[0].html;
+    assert.ok(html.indexOf('finance&lt;script&gt;alert(1)&lt;/script&gt;') !== -1, 'domain is escaped in HTML');
+    assert.equal(html.indexOf('<script>alert(1)</script>'), -1, 'raw markup is not present');
+  });
+
+  await check('cancel.html re-enables the request button after a generic success', async function () {
+    var html = fs.readFileSync(path.join(__dirname, '..', 'cancel.html'), 'utf8');
+    var fetchCalls = 0;
+    var dom = new JSDOM(html, {
+      url: 'https://limenhelix.com/cancel',
+      runScripts: 'dangerously',
+      beforeParse: function (window) {
+        window.fetch = function () {
+          fetchCalls++;
+          return Promise.resolve({
+            status: 200,
+            json: function () { return Promise.resolve({ ok: true, message: 'If an active subscription exists, a link is on its way.' }); }
+          });
+        };
+      }
+    });
+    var doc = dom.window.document;
+    doc.getElementById('email').value = 'buyer@example.com';
+    doc.getElementById('domain').value = 'finance';
+    var form = doc.getElementById('f');
+    var btn = doc.getElementById('go');
+    form.dispatchEvent(new dom.window.Event('submit', { bubbles: true, cancelable: true }));
+    await new Promise(function (r) { setTimeout(r, 10); });
+    assert.equal(fetchCalls, 1, 'the form posted');
+    assert.equal(btn.disabled, false, 'the button is usable again after success');
+    assert.ok(/link is on its way/.test(doc.getElementById('status').textContent));
+    dom.window.close();
   });
 
   await check('the response does NOT wait on the email transport, and delivery still completes (timing oracle closed)', async function () {
