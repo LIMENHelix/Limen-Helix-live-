@@ -140,14 +140,14 @@ console.log('T6-T8: db-backed (in-memory limen-db)');
   assert('full verify null metadata is guarded',
     fullNull.firstSeq === null && fullNull.lastSeq === 1, JSON.stringify(fullNull));
 
-  var cappedNull = await L.verify(fakeDb([[tailEntry, null], [tailEntry]]), 'null-capped', 2);
+  var cappedNull = await L.verify(fakeDb([[tailEntry, null, tailEntry]]), 'null-capped', 2);
   assert('capped verify with a null window anchor does not throw',
     cappedNull.ok === false && /missing entry\/hash/.test(cappedNull.reason), JSON.stringify(cappedNull));
   assert('capped null result keeps partial/boundary semantics',
     cappedNull.partial === true && cappedNull.boundaryChecked === false,
     JSON.stringify(cappedNull));
 
-  var cappedNullNoBoundary = await L.verify(fakeDb([[tailEntry, null], []]), 'null-capped-end', 2);
+  var cappedNullNoBoundary = await L.verify(fakeDb([[tailEntry, null]]), 'null-capped-end', 2);
   assert('capped verify with a null oldest entry and no boundary is structured',
     cappedNullNoBoundary.ok === false && cappedNullNoBoundary.firstSeq === null,
     JSON.stringify(cappedNullNoBoundary));
@@ -166,7 +166,7 @@ console.log('T6-T8: db-backed (in-memory limen-db)');
     var value = malformedBoundaries[mb];
     /* A genesis-anchored window: treating the malformed boundary as absent would
        verify this window clean, which is exactly the reported false pass. */
-    var mv = await L.verify(fakeDb([[c1, c0], [value]]), 'boundary-' + mb, 2);
+    var mv = await L.verify(fakeDb([[c1, c0, value]]), 'boundary-' + mb, 2);
     assert('malformed boundary ' + JSON.stringify(value) + ' is rejected',
       mv.ok === false && /window boundary entry missing hash/.test(mv.reason),
       JSON.stringify(mv));
@@ -176,10 +176,44 @@ console.log('T6-T8: db-backed (in-memory limen-db)');
   var b0 = L.makeEntry(0, 0, 'b', 's', { i: 0 }, L.GENESIS);
   var b1 = L.makeEntry(1, 1, 'b', 's', { i: 1 }, b0.hash);
   var b2 = L.makeEntry(2, 2, 'b', 's', { i: 2 }, b1.hash);
-  var validBoundary = await L.verify(fakeDb([[b2, b1], [b0]]), 'boundary-valid', 2);
+  var validBoundary = await L.verify(fakeDb([[b2, b1, b0]]), 'boundary-valid', 2);
   assert('a valid boundary still verifies as a checked partial window',
     validBoundary.ok === true && validBoundary.partial === true
       && validBoundary.boundaryChecked === true, JSON.stringify(validBoundary));
+
+  // T6g: window and boundary come from ONE snapshot, so an append between reads
+  // cannot make a legitimate chain look tampered.
+  var callCount = 0, ranges = [];
+  var singleSnapshot = {
+    lrange: async function (k, start, stop) {
+      callCount++;
+      ranges.push([start, stop]);
+      if (callCount === 1) return [b2, b1, b0];
+      return ['stale-boundary-that-must-not-be-read'];
+    }
+  };
+  var vSingle = await L.verify(singleSnapshot, 'single-read', 2);
+  assert('capped verify reads window and boundary in one LRANGE',
+    callCount === 1 && ranges[0][0] === 0 && ranges[0][1] === 2,
+    JSON.stringify({ callCount: callCount, ranges: ranges }));
+  assert('one-snapshot verify accepts the valid boundary',
+    vSingle.ok === true && vSingle.partial === true && vSingle.boundaryChecked === true,
+    JSON.stringify(vSingle));
+
+  // T6h: boundaryChecked reflects checks actually performed.
+  var e2Edited = Object.assign({}, b2);
+  e2Edited.payload = { i: 'edited-newest' };
+  var windowFail = await L.verify(fakeDb([[e2Edited, b1, b0]]), 'window-fail', 2);
+  assert('an in-window hash failure reports boundaryChecked:false',
+    windowFail.ok === false && /hash mismatch/.test(windowFail.reason)
+      && windowFail.boundaryChecked === false, JSON.stringify(windowFail));
+
+  var e0Edited = Object.assign({}, b0);
+  e0Edited.payload = { i: 'edited-boundary' };
+  var boundaryFail = await L.verify(fakeDb([[b2, b1, e0Edited]]), 'boundary-fail', 2);
+  assert('a performed boundary check reports boundaryChecked:true even when it fails',
+    boundaryFail.ok === false && /boundary hash mismatch/.test(boundaryFail.reason)
+      && boundaryFail.boundaryChecked === true, JSON.stringify(boundaryFail));
 
   // T8: consumer proof — the consolidator appends a provenance event
   await db.set('feedhist:index', ['energy']);
