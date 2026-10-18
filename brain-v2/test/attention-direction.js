@@ -255,11 +255,51 @@ check('restore is deterministic across different wall-clock times', function () 
     var second = LOOP.serialize(LOOP.restore(fixture.spec, JSON.parse(JSON.stringify(fixture.snap))));
     assert.equal(JSON.stringify(first), JSON.stringify(second),
       'restoring the same snapshot produced different serialized outputs');
-    assert.equal(first.attentionRecovery.at, 7,
-      'recovery timestamp is not the persisted snapshot time');
+    assert.equal(first.attentionRecoveryHistory[0].at, 7,
+      'recovery history timestamp is not the persisted snapshot time');
   } finally {
     Date.now = realNow;
   }
+});
+
+check('historical recovery survives serialization without becoming a new event', function () {
+  var fixture = legacySnapshot();
+  var first = LOOP.restore(fixture.spec, fixture.snap);
+  assert.ok(first.attentionRecovery, 'initial 1.0.0 restore did not report a recovery');
+  assert.equal(first.attentionRecoveryHistory.length, 1, 'initial recovery was not recorded');
+  assert.deepEqual(first.attentionRecoveryHistory[0].recovered, ['src']);
+
+  var snap2 = LOOP.serialize(first);
+  assert.equal(snap2.version, LOOP.VERSION, 'serialized state did not advance to 1.0.1');
+  assert.equal(snap2.attentionRecovery, undefined,
+    'the current restore event was serialized as durable state');
+  assert.equal(snap2.attentionRecoveryHistory.length, 1,
+    'the durable recovery audit was not serialized');
+
+  var second = LOOP.restore(fixture.spec, snap2);
+  assert.equal(second.attentionRecovery, null,
+    'a historical recovery was republished as a new event');
+  assert.equal(second.attentionRecoveryHistory.length, 1,
+    'the durable recovery audit was lost on 1.0.1 restore');
+  assert.deepEqual(second.attentionRecoveryHistory[0].recovered, ['src']);
+  var src = second.brain.channels.filter(function (c) { return c.key === 'src'; })[0];
+  assert.equal(src.rGain, 1, 'restored attention state did not remain recovered');
+});
+
+check('restore adopts a legacy serialized attentionRecovery into history once', function () {
+  var fixture = legacySnapshot();
+  var first = LOOP.restore(fixture.spec, fixture.snap);
+  var snap2 = LOOP.serialize(first);
+  var legacySnapshotShape = Object.assign({}, snap2, {
+    attentionRecovery: snap2.attentionRecoveryHistory[0]
+  });
+  delete legacySnapshotShape.attentionRecoveryHistory;
+
+  var restored = LOOP.restore(fixture.spec, legacySnapshotShape);
+  assert.equal(restored.attentionRecovery, null,
+    'a legacy serialized event was treated as a new recovery');
+  assert.equal(restored.attentionRecoveryHistory.length, 1,
+    'a legacy serialized event was not preserved as history');
 });
 
 check('restore falls back to a retained episode when history has no kind', function () {
@@ -425,7 +465,9 @@ async function healthProjectionCheck() {
     return {
       domain: domain, ok: true, startedAt: 1, finishedAt: 2,
       rowsAvailable: 0, rowsApplied: 0, ticks: 0,
-      attentionRecovery: domain === target ? recovery : null
+      /* A restored 1.0.1 cycle: history is present, no NEW recovery occurred. */
+      attentionRecovery: null,
+      attentionRecoveryHistory: domain === target ? [recovery] : []
     };
   };
   try {
@@ -441,9 +483,12 @@ async function healthProjectionCheck() {
     assert.ok(payload && payload.ok === true, JSON.stringify(payload));
     var projected = payload.cycles && payload.cycles[target];
     assert.ok(projected, 'health projection omitted domain ' + target);
-    assert.ok(projected.attentionRecovery, 'health projection omitted attentionRecovery');
-    assert.deepEqual(projected.attentionRecovery.recovered, ['src']);
-    assert.equal(projected.attentionRecovery.evidence.src, 'history_kind');
+    assert.equal(projected.attentionRecovery, null,
+      'a historical recovery was republished as a current event');
+    assert.ok(Array.isArray(projected.attentionRecoveryHistory),
+      'health projection omitted attentionRecoveryHistory');
+    assert.deepEqual(projected.attentionRecoveryHistory[0].recovered, ['src']);
+    assert.equal(projected.attentionRecoveryHistory[0].evidence.src, 'history_kind');
   } finally {
     STORE.readCycle = originalReadCycle;
     delete process.env.BRAIN_SHADOW_TOKEN;

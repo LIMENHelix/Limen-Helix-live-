@@ -194,6 +194,12 @@ module.exports = async function handler(req, res) {
          */
         attentionRecovery: cyc.attentionRecovery || null,
         /**
+         * DURABLE ATTENTION-RECOVERY AUDIT, kept separate from the current event above.
+         * A cycle that restores a 1.0.1 snapshot must report no new recovery while the
+         * historical record remains visible. Null for a cycle written before this field.
+         */
+        attentionRecoveryHistory: cyc.attentionRecoveryHistory || null,
+        /**
          * RELATIONSHIP COMPARABILITY, on the allow-list for the same reason compaction,
          * calibration, the cold-start skip and cursorBefore are: this projection drops
          * anything not named here, and a field the runtime records but the operator read

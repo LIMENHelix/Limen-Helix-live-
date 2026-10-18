@@ -104,8 +104,11 @@ function create(spec) {
     noiseEveryTicks: spec.noiseEveryTicks || 24,
     ticks: 0,
     lastTickAt: null,
-    /* Written only by the 1.0.0 attention recovery in restore(). Null otherwise. */
+    /* CURRENT-RESTORE EVENT. Null unless the 1.0.0 attention migration ran during
+       THIS restore. Never restored from a snapshot; a past recovery is history. */
     attentionRecovery: null,
+    /* DURABLE AUDIT of past recoveries. Serialized and restored. */
+    attentionRecoveryHistory: [],
     errors: []
   };
   wireConnectome(loop);
@@ -1176,7 +1179,9 @@ function serialize(loop) {
     modulators: MOD.serialize(loop.modulators),
     vitals: VIT.serialize(loop.vitals),
     attention: loop.attention,
-    attentionRecovery: loop.attentionRecovery || null,
+    /* HISTORY, NOT THE CURRENT EVENT. Serializing the current event is what made
+       every later cycle republish an old recovery as if it had just happened. */
+    attentionRecoveryHistory: loop.attentionRecoveryHistory || [],
     topology: TOPO.serialize(loop.topology),
     routed: loop._routed || [],
     efferences: loop._efferences || [],
@@ -1270,7 +1275,7 @@ function recoverInvertedAttention(loop, snap) {
   });
 
   if (!recovered.length && !unidentified.length) return null;
-  loop.attentionRecovery = {
+  var record = {
     fromVersion: snap.version,
     toVersion: VERSION,
     at: recoveredAt,
@@ -1278,7 +1283,15 @@ function recoverInvertedAttention(loop, snap) {
     evidence: evidence,
     unidentified: unidentified
   };
-  return loop.attentionRecovery;
+  /* The current event is what a cycle report may publish. The history is durable
+     audit and is the only part that crosses serialize/restore. */
+  loop.attentionRecovery = record;
+  if (!Array.isArray(loop.attentionRecoveryHistory)) loop.attentionRecoveryHistory = [];
+  loop.attentionRecoveryHistory.push(record);
+  if (loop.attentionRecoveryHistory.length > 32) {
+    loop.attentionRecoveryHistory = loop.attentionRecoveryHistory.slice(-32);
+  }
+  return record;
 }
 
 /**
@@ -1397,7 +1410,14 @@ function restore(spec, snap) {
   loop.vitals = VIT.deserialize(snap.vitals);
   if (!loop.vitals.ownerDomain) loop.vitals.ownerDomain = loop.domain;
   loop.attention = snap.attention || Object.create(null);
-  loop.attentionRecovery = snap.attentionRecovery || null;
+  /* A RESTORED RECOVERY IS HISTORY, NOT A NEW EVENT. Snapshots written before the
+     history field existed serialized `attentionRecovery`; adopt that record into
+     history once so its audit survives, then leave the current event null. Only
+     recoverInvertedAttention() may set a current event, and only on a 1.0.0 restore. */
+  loop.attentionRecovery = null;
+  loop.attentionRecoveryHistory = Array.isArray(snap.attentionRecoveryHistory)
+    ? snap.attentionRecoveryHistory.slice()
+    : (snap.attentionRecovery ? [snap.attentionRecovery] : []);
   /* AFTER the attention state and memory are restored: the recovery needs the
      persisted actionId -> kind map and must not run before both exist. */
   recoverInvertedAttention(loop, snap);
