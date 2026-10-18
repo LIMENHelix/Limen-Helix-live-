@@ -435,7 +435,11 @@ def score(req: ScoreRequest):
     # stale filers, and thin-history are out of envelope regardless.
     envelope = assess_envelope(df, input_presence, sic, path_c=path_c)
     envelope = _thing1.apply_fingerprint_to_envelope(envelope, fp)
-    effective_validated = bool(envelope.get("in_envelope")) and envelope.get("status") == "validated"
+    effective_validated = (
+        bool(thing0_eligibility.get("permits_thing1_use"))
+        and bool(envelope.get("in_envelope"))
+        and envelope.get("status") == "validated"
+    )
 
     if alert:
         firing = []
