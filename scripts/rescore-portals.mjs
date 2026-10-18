@@ -23,6 +23,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import investmentEngine from './run-investment-engine.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -144,7 +145,7 @@ async function main() {
     console.log(`  ${fh.distressBand === 'red' ? '🔴' : fh.inEnvelope ? '🟢' : '⚪'} ${(j.slug || f).padEnd(38)} ${String(fh.validationStatus).padEnd(20)} ${fh.latestQuarter || '-'}  ${fh.alert ? 'ALERT ' + (fh.pathway || '') : ''}`);
 
     if (!DRY) {
-      j.financialHealth = { ...(j.financialHealth || {}), ...fh };
+      applyFinancialRefresh(j, fh, new Date(NOW.getTime()).toISOString());
       fs.writeFileSync(fp, JSON.stringify(j));
       fs.appendFileSync(LOG, JSON.stringify({ t: Date.now(), slug: j.slug || f, cik, status: fh.validationStatus, latest: fh.latestQuarter, alert: fh.alert }) + '\n');
       updated++;
@@ -158,4 +159,14 @@ async function main() {
   Object.entries(buckets).sort((a, b) => b[1] - a[1]).forEach(([k, v]) => console.log(`    ${k.padEnd(28)} ${v}`));
 }
 
-main().catch((e) => { console.error(e); process.exit(1); });
+export function applyFinancialRefresh(portal, financialHealth, at) {
+  portal.financialHealth = { ...(portal.financialHealth || {}), ...financialHealth };
+  if (financialHealth.thing0PermitsThing1 !== true) {
+    investmentEngine.quarantineInvestmentSignals(portal, 'thing0_not_permitted', at);
+  }
+  return portal;
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((e) => { console.error(e); process.exit(1); });
+}
