@@ -31,6 +31,7 @@ from python_runtime.helix_app.thing2 import KERNEL_ID as THING2_KERNEL_ID
 from python_runtime.helix_app.thing2 import KERNEL_RUNTIME as THING2_KERNEL_RUNTIME
 from python_runtime.helix_app.thing2 import KERNEL_VERSION as THING2_KERNEL_VERSION
 
+from python_runtime.helix_app import thing0 as thing0_pkg
 from python_runtime.helix_app import thing1 as thing1_pkg
 from python_runtime.helix_app.audit import build_log_entry as _build_audit_entry, emit as _emit_audit
 
@@ -736,6 +737,52 @@ def _input_presence(company_data: dict) -> dict:
     }
 
 
+def _thing0_company_data_from_facts(facts: dict) -> dict:
+    """Tolerant qualifier inputs derived directly from SEC facts.
+
+    Used only when the Thing 2 input builder raises, so a malformed entry that
+    Thing 1's extractor tolerates cannot suppress Thing 0 qualification.
+    """
+    if not facts:
+        return {}
+    try:
+        from python_runtime.helix_app.thing1 import limen_backtest as lb
+        data = {
+            "Revenue": lb.extract_quarterly_series(
+                facts, lb.TAG_MAP["Revenue"], "Revenue", is_flow=True),
+            "OCF": lb.extract_quarterly_series(
+                facts, lb.TAG_MAP["OCF"], "OCF", is_flow=True),
+            "Cash": lb.extract_quarterly_series(
+                facts, lb.TAG_MAP["Cash"], "Cash", is_flow=False),
+        }
+        dc = lb.extract_quarterly_series(
+            facts, lb.TAG_MAP["DebtCurrent"], "DebtCurrent", is_flow=False)
+        dl = lb.extract_quarterly_series(
+            facts, lb.TAG_MAP["DebtLong"], "DebtLong", is_flow=False)
+        all_q = set(dc.keys()) | set(dl.keys())
+        data["Debt"] = {q: dc.get(q, 0) + dl.get(q, 0) for q in all_q}
+        return data
+    except Exception:
+        return {}
+
+
+def _thing0_history_quarters(company_data: dict) -> int:
+    """Common raw filing-quarter coverage across the required series.
+
+    The eight-quarter floor must hold for every required series; a union would
+    let one long series mask missing coverage in the others. Thing 2 rows are
+    post-window feature output and are not used here.
+    """
+    lengths = []
+    for key in ("Revenue", "OCF", "Cash", "Debt"):
+        series = company_data.get(key) or {}
+        try:
+            lengths.append(len(series))
+        except Exception:
+            lengths.append(0)
+    return min(lengths) if lengths else 0
+
+
 # Neutral phase-state labels (no loaded language). Used in the Thing 2
 # section's `phase_state_label`. "instability," "terminal," "collapse,"
 # "alert" are NOT permitted here.
@@ -822,15 +869,11 @@ def _build_thing0_section(
     facts: dict,
     company_data: dict,
     history_quarters: int,
-    validated_signal: dict,
 ) -> dict:
     """Explicit Thing 0 company-envelope assessment for Thing 1.
 
-    Thing 0 does not score distress and never authorizes an action. It states
-    whether this company's identity, sector, history, and required SEC series
-    fully qualify, partially qualify, or do not qualify for the validated
-    Thing 1 operating envelope. Runtime/kernel readiness is reported
-    separately so a deploy problem is not mislabelled as a company defect.
+    Thing 0 does not score distress and never authorizes an action. It qualifies
+    entry to Thing 1 from company-level facts only; it has no Thing 1 input.
     """
     presence = _input_presence(company_data) if company_data else _input_presence({})
     required = {
@@ -840,67 +883,63 @@ def _build_thing0_section(
         "debt": presence.get("debt_quarters", 0) > 0,
     }
     present_count = sum(1 for value in required.values() if value)
-    reasons: list[str] = []
-
-    validated_available = (
-        validated_signal.get("available") is True
-        and validated_signal.get("validation_status") == "validated"
+    qualification = thing0_pkg.qualify(
+        is_financial=is_financial,
+        facts_present=bool(facts),
+        present_count=present_count,
+        required_count=len(required),
+        history_quarters=history_quarters,
     )
-
-    if is_financial:
-        qualification = "not_qualified"
-        reasons.append("financial_institution_requires_regime_2_adapter")
-    elif validated_available:
-        qualification = "qualified"
-        reasons.append("validated_thing1_success_confirms_full_envelope")
-    elif not facts or present_count == 0:
-        qualification = "not_qualified"
-        reasons.append("sec_company_facts_or_required_series_unavailable")
-    elif present_count == len(required) and history_quarters >= 8:
-        qualification = "qualified"
-        reasons.append("non_financial_required_series_and_history_present")
-    else:
-        qualification = "partially_qualified"
-        if present_count < len(required):
-            reasons.append("one_or_more_required_series_incomplete")
-        if history_quarters < 8:
-            reasons.append("quarterly_history_below_full_envelope")
-
-    validation_status = validated_signal.get("validation_status") or "unavailable"
-    permits_use = (
-        qualification == "qualified"
-        and validated_available
-    )
-    if permits_use:
-        execution_status = "ready"
-    elif qualification == "partially_qualified":
-        execution_status = "blocked_by_company_data"
-    elif qualification == "not_qualified":
-        execution_status = "not_applicable"
-    else:
-        execution_status = "blocked_by_thing1_runtime"
 
     return {
         "kernel_id": "thing0-company-envelope/1.0",
-        "qualification_status": qualification,
-        "thing1_execution_status": execution_status,
-        "permits_thing1_use": permits_use,
+        **qualification,
         "is_financial": bool(is_financial),
-        "history_requirement": (
-            "met" if validated_available or history_quarters >= 8
-            else "partial" if history_quarters >= 4
-            else "not_met"
-        ),
+        "history_quarters": history_quarters,
         "required_input_presence": required,
         "required_inputs_present": present_count,
         "required_inputs_total": len(required),
-        "thing1_validation_status": validation_status,
-        "reasons": reasons,
         "action_authority": "none",
         "note": (
             "Thing 0 is an operating-envelope qualifier for Thing 1 only. "
             "Partial qualification does not permit a validated Thing 1 claim."
         ),
+    }
+
+
+def _thing1_not_permitted(thing0_eligibility: dict, facts_error: bool = False) -> dict:
+    """Thing 1 refusal when Thing 0 does not permit entry.
+
+    The fingerprint is reported for runtime provenance only. It neither
+    qualifies the company nor overrides Thing 0. An upstream SEC fetch failure
+    keeps its extraction-error reason so the audit bucketer does not confuse it
+    with an ordinary company-data qualification failure.
+    """
+    reasons = list(thing0_eligibility.get("reasons") or [])
+    status = thing0_eligibility.get("qualification_status") or "not_qualified"
+    unsupported = ["thing0_not_permitted"] + reasons
+    narrative = [
+        "Thing 0 did not qualify this company for Thing 1 scoring.",
+        "Thing 0 qualification: " + status + ".",
+    ]
+    if facts_error:
+        unsupported.append("extraction_error: SEC EDGAR fetch failed.")
+        narrative.append("Unable to retrieve SEC filings for this CIK.")
+    return {
+        "kernel_id": "limen_backtest.py",
+        "kernel_runtime": "python-vercel",
+        "kernel_version": None,
+        "validation_status": "not_permitted_by_thing0",
+        "available": False,
+        "alert": None,
+        "first_alert_quarter": None,
+        "distress_band": None,
+        "recovered": None,
+        "fingerprint_status": thing1_pkg.fingerprint_status(),
+        "narrative_safe": narrative,
+        "unsupported_reasons": unsupported,
+        "thing0_qualification_status": status,
+        "thing0_permits_thing1_use": False,
     }
 
 
@@ -1076,6 +1115,7 @@ def _build_reconciliation(
     t1_unavailable = t1_status in (
         "unavailable", "unvalidated_after_modification",
         "bank_adapter_required", "insufficient_data",
+        "not_permitted_by_thing0",
     )
 
     # Eight-case matrix.
@@ -1109,6 +1149,17 @@ def _build_reconciliation(
                 "summary": (
                     "Validated distress scorer has been modified since validation; refusing to score. "
                     "Long-arc tracker is interpretive only and cannot substitute for validated assessment."
+                ),
+                "action_authority": "none",
+                "language_constraints": _language_constraints(False),
+            }
+        if t1_status == "not_permitted_by_thing0":
+            return {
+                "primacy": "thing1",
+                "agree": "indeterminate",
+                "summary": (
+                    "Thing 0 did not qualify this company for Thing 1. "
+                    "No validated distress assessment is available."
                 ),
                 "action_authority": "none",
                 "language_constraints": _language_constraints(False),
@@ -1224,6 +1275,7 @@ def _build_safe_packet(
     rows: list,
     requested_report_type: str,
     request_id: str | None = None,
+    facts_error: bool = False,
 ) -> dict:
     """Sectioned safe packet: Thing 0 + Thing 1 + Thing 2 + reconciliation + warnings.
 
@@ -1235,39 +1287,41 @@ def _build_safe_packet(
     quarters = [r.get("quarter") for r in rows if r.get("quarter")]
     latest_quarter = quarters[-1] if quarters else None
     history_quarters = len(rows)
+    thing0_history_quarters = _thing0_history_quarters(company_data)
     cik_padded = str(cik).lstrip("0").zfill(10) if cik else ""
     history_sufficiency = _history_sufficiency(history_quarters)
 
-    # ── Section 1: Thing 1 (validated distress scorer) ─────────
-    # Always returns unavailable in Phases 1-3 because real limen_backtest.py
-    # is not imported. Bank entities short-circuit to bank_adapter_required.
-    validated_signal = thing1_pkg.score_validated(
-        cik=cik_padded,
-        sec_facts=facts if facts else None,
-        fred_delta=None,
-        is_financial=is_financial,
-    )
-
-    # Insufficient-data flag for Thing 1 too — propagate so the renderer
-    # can show the right banner. Bank already handled by thing1_pkg.
-    if not is_financial and not facts:
-        validated_signal["validation_status"] = "unavailable"
-        if "Unable to retrieve filings" not in " ".join(validated_signal.get("narrative_safe") or []):
-            validated_signal.setdefault("narrative_safe", []).append(
-                "Unable to retrieve SEC filings for this CIK."
-            )
-            validated_signal.setdefault("unsupported_reasons", []).append(
-                "extraction_error: SEC EDGAR fetch failed."
-            )
-
-    # ── Section 0: Thing 0 (Thing 1 operating-envelope qualifier) ──
+    # ── Section 0: Thing 0 (qualification for Thing 1) ─────────
+    # Qualification is established first from company-level facts. Thing 1
+    # runs only when Thing 0 permits it.
     thing0_eligibility = _build_thing0_section(
         is_financial=is_financial,
         facts=facts,
         company_data=company_data,
-        history_quarters=history_quarters,
-        validated_signal=validated_signal,
+        history_quarters=thing0_history_quarters,
     )
+
+    # ── Section 1: Thing 1 (validated distress scorer) ─────────
+    if thing0_eligibility["permits_thing1_use"]:
+        validated_signal = thing1_pkg.score_validated(
+            cik=cik_padded,
+            sec_facts=facts if facts else None,
+            fred_delta=None,
+            is_financial=is_financial,
+        )
+        # Qualification stays independent; execution status reflects the
+        # actual Thing 1 result rather than pre-claiming readiness.
+        t1_status = validated_signal.get("validation_status")
+        if t1_status == "validated" and validated_signal.get("available") is True:
+            thing0_eligibility["thing1_execution_status"] = "executed"
+        elif t1_status == "unavailable":
+            thing0_eligibility["thing1_execution_status"] = "unavailable"
+        else:
+            thing0_eligibility["thing1_execution_status"] = "blocked_by_thing1_runtime"
+    else:
+        validated_signal = _thing1_not_permitted(
+            thing0_eligibility, facts_error=facts_error
+        )
 
     # ── Section 2: Thing 2 (long-arc recursive phase tracker) ──
     phase_tracker_signal = _build_thing2_section(
@@ -1368,6 +1422,7 @@ async def _score_safe(cik: str, requested_report_type: str, request_body: dict |
     # ── Fetch SEC ──
     facts: dict = {}
     sic: int = 0
+    facts_error = False
     try:
         facts, sic = await asyncio.gather(_fetch_sec_facts(cik), _fetch_sic_code(cik))
     except (HTTPException, Exception):
@@ -1375,6 +1430,7 @@ async def _score_safe(cik: str, requested_report_type: str, request_body: dict |
         # the extraction error via Thing 1's unsupported_reasons.
         facts = {}
         sic = 0
+        facts_error = True
 
     is_financial = 6000 <= sic <= 6999
 
@@ -1421,10 +1477,15 @@ async def _score_safe(cik: str, requested_report_type: str, request_body: dict |
     # don't render "kernel not working" anywhere.
     try:
         company_data = build_company_data(facts, is_financial=is_financial) if facts else {}
+    except Exception:
+        company_data = _thing0_company_data_from_facts(facts)
+    try:
         result = run_pipeline(company_data, polyvagal_context=polyvagal_context)
         rows = result.get("rows", [])
     except Exception:
-        company_data, result, rows = {}, {}, []
+        # Thing 2 is interpretive. Its failure must not erase the raw company
+        # inputs that Thing 0 uses to qualify Thing 1.
+        result, rows = {}, []
     t2_runtime_ms = int(round((time.time() - t2_started) * 1000))
 
     # Stamp the polyvagal source onto the result so _build_thing2_section
@@ -1438,7 +1499,7 @@ async def _score_safe(cik: str, requested_report_type: str, request_body: dict |
     t1_started = time.time()
     packet = _build_safe_packet(
         cik, facts, sic, is_financial, company_data, result, rows,
-        requested_report_type, request_id=request_id,
+        requested_report_type, request_id=request_id, facts_error=facts_error,
     )
     t1_runtime_ms = int(round((time.time() - t1_started) * 1000)) - t2_runtime_ms
     if t1_runtime_ms < 0:
