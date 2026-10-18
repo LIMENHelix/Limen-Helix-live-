@@ -238,6 +238,13 @@ def score(req: ScoreRequest):
     if not cik:
         raise HTTPException(400, "CIK required")
 
+    # Fail before any external fetch when FRED configuration is absent. The
+    # later adapter call still handles transport failures separately.
+    try:
+        _fred.api_key()
+    except _fred.FredNotConfigured:
+        raise HTTPException(503, "fred-not-configured")
+
     facts = lbt.fetch_sec_facts(cik)
     if facts is None:
         raise HTTPException(502, "SEC EDGAR fetch failed")

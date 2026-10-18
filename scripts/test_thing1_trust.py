@@ -334,7 +334,11 @@ def _local_health_integration():
     old_facts = limen_app.lbt.fetch_sec_facts
     old_sic = limen_app._fetch_sic
     old_fred = limen_app._fetch_fred_quiet
-    limen_app.lbt.fetch_sec_facts = lambda cik: {"entityName": "Fixture", "facts": {}}
+    old_key = os.environ.pop("FRED_API_KEY", None)
+    facts_calls = []
+    limen_app.lbt.fetch_sec_facts = lambda cik: (
+        facts_calls.append(cik) or {"entityName": "Fixture", "facts": {}}
+    )
     limen_app._fetch_sic = lambda cik: 0
     limen_app._fetch_fred_quiet = lambda: {
         "ok": False, "reason": "fred-not-configured", "provider_called": False
@@ -347,6 +351,7 @@ def _local_health_integration():
             detail = getattr(exc, "detail", None)
             assert status_code == 503, (status_code, detail)
             assert detail == "fred-not-configured", detail
+            assert facts_calls == [], "missing FRED config must fail before the SEC fetch"
             print("  pass: local score endpoint refuses missing FRED config before any request")
         else:
             raise AssertionError("score did not fail closed on missing FRED config")
@@ -357,7 +362,11 @@ def _local_health_integration():
         limen_app.lbt.fetch_sec_facts = old_facts
         limen_app._fetch_sic = old_sic
         limen_app._fetch_fred_quiet = old_fred
+        if old_key is not None:
+            os.environ["FRED_API_KEY"] = old_key
 
+    old_key = os.environ.get("FRED_API_KEY")
+    os.environ["FRED_API_KEY"] = "test-fred-key"
     old = {
         "fetch_sec_facts": limen_app.lbt.fetch_sec_facts,
         "extract": limen_app.lbt.extract_quarterly_series,
@@ -427,6 +436,10 @@ def _local_health_integration():
         limen_app._fetch_fred_quiet = old["fred"]
         limen_app.assess_envelope = old["envelope"]
         limen_app._thing1.fingerprint_status = old["fingerprint"]
+        if old_key is None:
+            os.environ.pop("FRED_API_KEY", None)
+        else:
+            os.environ["FRED_API_KEY"] = old_key
 
 
 if __name__ == "__main__":
