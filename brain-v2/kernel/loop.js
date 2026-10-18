@@ -58,8 +58,9 @@ var TOPO  = require('./topology.js');
 var BRAIN = require('../core/brain.js');
 var DIV   = require('../core/divergence.js');
 var C     = require('../core/channel.js');
+var KERN  = require('./version.js');
 
-var VERSION = 'brain-v2/kernel/1.0.1';
+var VERSION = KERN.KERNEL_VERSION;
 var ERROR_WINDOW = 64;
 
 /** Modules that can be individually ablated. TEST 19. */
@@ -138,19 +139,19 @@ function wireConnectome(loop) {
     kinds: [PK.KIND.PREDICTION_ERROR, PK.KIND.DIAGNOSIS, PK.KIND.CONTRADICTION],
     direction: PK.DIRECTION.ASCENDING,
     role: PK.ROLE.DRIVER,
-    handler: function (p) { received.push({ at: p.processingTime, kind: p.signalKind, id: p.id }); return { accepted: true }; }
+    handler: function (p) { received.push({ at: p.processingTime, kind: p.signalKind, id: p.id, sourceVersion: p.sourceVersion, direction: p.direction }); return { accepted: true }; }
   }, 'pre-existing kernel wiring: the ascending residual path, declared before topology existed');
   wire('integration:descending', {
     kinds: [PK.KIND.PREDICTION, PK.KIND.MODULATION],
     direction: PK.DIRECTION.DESCENDING,
     role: PK.ROLE.MODULATOR,
-    handler: function (p) { received.push({ at: p.processingTime, kind: p.signalKind, id: p.id }); return { accepted: true }; }
+    handler: function (p) { received.push({ at: p.processingTime, kind: p.signalKind, id: p.id, sourceVersion: p.sourceVersion, direction: p.direction }); return { accepted: true }; }
   }, 'pre-existing kernel wiring: the descending prediction path required by INV-7');
   wire('selector:lateral', {
     kinds: [PK.KIND.ACTION_CANDIDATE, PK.KIND.INHIBITION],
     direction: PK.DIRECTION.LATERAL,
     role: PK.ROLE.DRIVER,
-    handler: function (p) { received.push({ at: p.processingTime, kind: p.signalKind, id: p.id }); return { accepted: true }; }
+    handler: function (p) { received.push({ at: p.processingTime, kind: p.signalKind, id: p.id, sourceVersion: p.sourceVersion, direction: p.direction }); return { accepted: true }; }
   }, 'pre-existing kernel wiring: the lateral selector path');
 }
 
@@ -326,6 +327,7 @@ function tick(loop, readings, now, runtimeMeasurements) {
       pkt = PK.create({
         traceId: traceId, seq: seq++,
         sourceDomain: loop.domain, sourceModule: 'bind/' + loop.domain,
+        sourceVersion: VERSION,
         signalKind: PK.KIND.OBSERVATION,
         role: PK.ROLE.DRIVER, direction: PK.DIRECTION.ASCENDING,
         /* IDENTITY TRAVELS INSIDE THE PACKET, so it is covered by the provenance hash
@@ -668,6 +670,7 @@ function tick(loop, readings, now, runtimeMeasurements) {
     var ascend = PK.create({
       traceId: traceId, seq: seq++,
       sourceDomain: loop.domain, sourceModule: 'kernel/loop',
+      sourceVersion: VERSION,
       signalKind: cycle.dysregulation && cycle.dysregulation.detected ? PK.KIND.DIAGNOSIS : PK.KIND.PREDICTION_ERROR,
       role: PK.ROLE.DRIVER, direction: PK.DIRECTION.ASCENDING,
       // INV-9: the RESIDUAL ascends, never the full state.
@@ -685,6 +688,7 @@ function tick(loop, readings, now, runtimeMeasurements) {
       var descend = PK.create({
         traceId: traceId, seq: seq++, causalParentIds: [ascend.id],
         sourceDomain: loop.domain, sourceModule: 'kernel/loop',
+        sourceVersion: VERSION,
         signalKind: PK.KIND.PREDICTION,
         role: PK.ROLE.MODULATOR, direction: PK.DIRECTION.DESCENDING,
         payload: { variable: prediction.variable, expected: prediction.expected, interval: prediction.interval },
@@ -1204,6 +1208,11 @@ function serialize(loop) {
  */
 function recoverInvertedAttention(loop, snap) {
   if (!snap || snap.version !== 'brain-v2/kernel/1.0.0') return null;
+  /* STABLE TIME. Restoring the same snapshot twice must serialize identically. The
+     migration happened during the restored interval, so the snapshot's own last tick
+     is the only time that is guaranteed to be identical across restores. */
+  var recoveredAt = (typeof snap.lastTickAt === 'number' && isFinite(snap.lastTickAt))
+    ? snap.lastTickAt : 0;
   var kindByAction = Object.create(null);
   ((loop.memory && loop.memory.episodic) || []).forEach(function (ep) {
     if (ep && ep.actionId && ep.selection && ep.selection.kind) {
@@ -1222,7 +1231,7 @@ function recoverInvertedAttention(loop, snap) {
     var beforeR = ch.r, beforeGain = ch.rGain;
     C.setAttentionGain(ch, 1.0);
     hist.push({
-      at: Date.now(),
+      at: recoveredAt,
       kind: 'fix0118_recovery',
       from: beforeR,
       to: ch.r,
@@ -1239,7 +1248,7 @@ function recoverInvertedAttention(loop, snap) {
   loop.attentionRecovery = {
     fromVersion: snap.version,
     toVersion: VERSION,
-    at: Date.now(),
+    at: recoveredAt,
     recovered: recovered
   };
   return loop.attentionRecovery;

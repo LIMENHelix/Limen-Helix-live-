@@ -18,6 +18,7 @@
 var assert = require('assert');
 var LOOP = require('../kernel/loop.js');
 var PROP = require('../kernel/propose.js');
+var PK = require('../kernel/packet.js');
 var C = require('../core/channel.js');
 
 var failures = 0;
@@ -202,6 +203,7 @@ function legacySnapshot(options) {
   C.setAttentionGain(src, options.srcGain === undefined ? 0.05 : options.srcGain);
   C.setAttentionGain(other, options.otherGain === undefined ? 0.5 : options.otherGain);
   loop.ticks = options.ticks === undefined ? 7 : options.ticks;
+  loop.lastTickAt = options.lastTickAt === undefined ? 7 : options.lastTickAt;
   loop.attention.src = {
     rBase: src.rBase,
     history: options.srcHistory || [{
@@ -234,8 +236,27 @@ check('restore recovers a 1.0.0 snapshot stuck at the inverted rGain floor', fun
   assert.equal(last.kind, 'fix0118_recovery', 'no recovery history entry');
   assert.equal(last.gainFrom, 0.05);
   assert.equal(last.gainTo, 1);
+  assert.equal(last.at, 7, 'recovery history entry used wall-clock time');
+  assert.equal(restored.attentionRecovery.at, 7, 'recovery record used wall-clock time');
   assert.equal(loweredSet(restored).src, true,
     'recovered channel would still be re-proposed');
+});
+
+check('restore is deterministic across different wall-clock times', function () {
+  var fixture = legacySnapshot();
+  var realNow = Date.now;
+  try {
+    Date.now = function () { return 111111; };
+    var first = LOOP.serialize(LOOP.restore(fixture.spec, JSON.parse(JSON.stringify(fixture.snap))));
+    Date.now = function () { return 999999; };
+    var second = LOOP.serialize(LOOP.restore(fixture.spec, JSON.parse(JSON.stringify(fixture.snap))));
+    assert.equal(JSON.stringify(first), JSON.stringify(second),
+      'restoring the same snapshot produced different serialized outputs');
+    assert.equal(first.attentionRecovery.at, 7,
+      'recovery timestamp is not the persisted snapshot time');
+  } finally {
+    Date.now = realNow;
+  }
 });
 
 check('restore preserves a legitimate attention change made after the bug', function () {
@@ -272,6 +293,28 @@ check('restore skips a channel whose inverted action cannot be identified', func
   var src = restored.brain.channels.filter(function (c) { return c.key === 'src'; })[0];
   assert.equal(src.rGain, 0.05, 'unidentifiable state was rewritten');
   assert.equal(restored.attentionRecovery, null, 'unidentified state was reported as recovered');
+});
+
+check('internally generated packets carry the current kernel version', function () {
+  var p = PK.create({
+    traceId: 't', seq: 0, sourceDomain: 'd', sourceModule: 'm',
+    signalKind: PK.KIND.OBSERVATION,
+    simulationStatus: PK.STATUS.OBSERVED,
+    eventTime: 0, observationTime: 0, processingTime: 0
+  });
+  assert.equal(p.sourceVersion, LOOP.VERSION,
+    'packet default sourceVersion is not the kernel version');
+
+  var loop = freshLoop();
+  LOOP.tick(loop, { src: { value: 0.5, eventTime: 1000 } }, 1000);
+  var received = loop._received || [];
+  assert.ok(received.length > 0, 'no packet was routed');
+  assert.ok(received.some(function (r) { return r.direction === PK.DIRECTION.ASCENDING; }),
+    'no ascending packet was routed');
+  received.forEach(function (r) {
+    assert.equal(r.sourceVersion, LOOP.VERSION,
+      'routed packet sourceVersion ' + r.sourceVersion);
+  });
 });
 
 console.log('');
