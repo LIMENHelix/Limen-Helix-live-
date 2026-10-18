@@ -31,7 +31,7 @@
   footer a{color:var(--soft)}
   .search{flex:1;max-width:560px;display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff;transition:border-color .15s}
   .search:focus-within{border-color:var(--accent)}
-  .search input{flex:1;border:none;outline:none;padding:9px 13px;font-size:.95rem;background:transparent}
+  .search input{flex:1;border:none;outline:none;padding:9px 13px;font-size:16px;background:transparent}
   .search button{border:none;background:var(--accent);color:#fff;padding:0 16px;cursor:pointer;font-size:.9rem;font-weight:500}
   .cartbtn{position:relative;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 15px;cursor:pointer;font-weight:500;font-size:.9rem;white-space:nowrap}
   .cartbtn:hover{border-color:var(--accent)}
@@ -116,7 +116,7 @@
 <body>
 <header>
   <a class="logo" href="/relay">Relay Supply<b>.</b><small>by LIMEN Helix</small></a>
-  <div class="search"><input id="q" placeholder="Search the shelf, or describe what you want…" onkeyup="if(event.key==='Enter')doSearch()" /><button onclick="doSearch()">Search</button></div>
+  <form class="search" role="search" onsubmit="event.preventDefault();doSearch();document.getElementById('q').blur()"><input id="q" type="search" enterkeyhint="search" autocapitalize="none" autocorrect="off" spellcheck="false" aria-label="Search the shelf" placeholder="Search the shelf, or describe what you want…" oninput="render()" /><button type="submit">Search</button></form>
   <button class="cartbtn" onclick="openCart()">Sourced cart<span class="badge" id="cartBadge" style="display:none">0</span></button>
 </header>
 
