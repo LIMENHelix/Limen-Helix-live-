@@ -738,19 +738,20 @@ def _input_presence(company_data: dict) -> dict:
 
 
 def _thing0_history_quarters(company_data: dict) -> int:
-    """Raw filing quarters across the required series, before rolling windows.
+    """Common raw filing-quarter coverage across the required series.
 
-    Thing 2 rows are post-window feature output; using their length for the
-    Thing 0 eight-quarter floor would refuse companies with 8-11 raw quarters.
+    The eight-quarter floor must hold for every required series; a union would
+    let one long series mask missing coverage in the others. Thing 2 rows are
+    post-window feature output and are not used here.
     """
-    quarters = set()
+    lengths = []
     for key in ("Revenue", "OCF", "Cash", "Debt"):
         series = company_data.get(key) or {}
-        if isinstance(series, dict):
-            quarters.update(series.keys())
-        elif isinstance(series, (list, tuple, set)):
-            quarters.update(series)
-    return len(quarters)
+        try:
+            lengths.append(len(series))
+        except Exception:
+            lengths.append(0)
+    return min(lengths) if lengths else 0
 
 
 # Neutral phase-state labels (no loaded language). Used in the Thing 2
@@ -877,14 +878,24 @@ def _build_thing0_section(
     }
 
 
-def _thing1_not_permitted(thing0_eligibility: dict) -> dict:
+def _thing1_not_permitted(thing0_eligibility: dict, facts_error: bool = False) -> dict:
     """Thing 1 refusal when Thing 0 does not permit entry.
 
     The fingerprint is reported for runtime provenance only. It neither
-    qualifies the company nor overrides Thing 0.
+    qualifies the company nor overrides Thing 0. An upstream SEC fetch failure
+    keeps its extraction-error reason so the audit bucketer does not confuse it
+    with an ordinary company-data qualification failure.
     """
     reasons = list(thing0_eligibility.get("reasons") or [])
     status = thing0_eligibility.get("qualification_status") or "not_qualified"
+    unsupported = ["thing0_not_permitted"] + reasons
+    narrative = [
+        "Thing 0 did not qualify this company for Thing 1 scoring.",
+        "Thing 0 qualification: " + status + ".",
+    ]
+    if facts_error:
+        unsupported.append("extraction_error: SEC EDGAR fetch failed.")
+        narrative.append("Unable to retrieve SEC filings for this CIK.")
     return {
         "kernel_id": "limen_backtest.py",
         "kernel_runtime": "python-vercel",
@@ -896,11 +907,8 @@ def _thing1_not_permitted(thing0_eligibility: dict) -> dict:
         "distress_band": None,
         "recovered": None,
         "fingerprint_status": thing1_pkg.fingerprint_status(),
-        "narrative_safe": [
-            "Thing 0 did not qualify this company for Thing 1 scoring.",
-            "Thing 0 qualification: " + status + ".",
-        ],
-        "unsupported_reasons": ["thing0_not_permitted"] + reasons,
+        "narrative_safe": narrative,
+        "unsupported_reasons": unsupported,
         "thing0_qualification_status": status,
         "thing0_permits_thing1_use": False,
     }
@@ -1238,6 +1246,7 @@ def _build_safe_packet(
     rows: list,
     requested_report_type: str,
     request_id: str | None = None,
+    facts_error: bool = False,
 ) -> dict:
     """Sectioned safe packet: Thing 0 + Thing 1 + Thing 2 + reconciliation + warnings.
 
@@ -1281,7 +1290,9 @@ def _build_safe_packet(
         else:
             thing0_eligibility["thing1_execution_status"] = "blocked_by_thing1_runtime"
     else:
-        validated_signal = _thing1_not_permitted(thing0_eligibility)
+        validated_signal = _thing1_not_permitted(
+            thing0_eligibility, facts_error=facts_error
+        )
 
     # ── Section 2: Thing 2 (long-arc recursive phase tracker) ──
     phase_tracker_signal = _build_thing2_section(
@@ -1382,6 +1393,7 @@ async def _score_safe(cik: str, requested_report_type: str, request_body: dict |
     # ── Fetch SEC ──
     facts: dict = {}
     sic: int = 0
+    facts_error = False
     try:
         facts, sic = await asyncio.gather(_fetch_sec_facts(cik), _fetch_sic_code(cik))
     except (HTTPException, Exception):
@@ -1389,6 +1401,7 @@ async def _score_safe(cik: str, requested_report_type: str, request_body: dict |
         # the extraction error via Thing 1's unsupported_reasons.
         facts = {}
         sic = 0
+        facts_error = True
 
     is_financial = 6000 <= sic <= 6999
 
@@ -1457,7 +1470,7 @@ async def _score_safe(cik: str, requested_report_type: str, request_body: dict |
     t1_started = time.time()
     packet = _build_safe_packet(
         cik, facts, sic, is_financial, company_data, result, rows,
-        requested_report_type, request_id=request_id,
+        requested_report_type, request_id=request_id, facts_error=facts_error,
     )
     t1_runtime_ms = int(round((time.time() - t1_started) * 1000)) - t2_runtime_ms
     if t1_runtime_ms < 0:

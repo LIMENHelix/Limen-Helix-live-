@@ -215,6 +215,16 @@ def _local_packet_integration():
         assert short["thing0_eligibility"]["permits_thing1_use"] is False, short
         assert len(calls) == 0, "Thing 1 must not run below the raw history floor"
 
+        calls.clear()
+        mixed_data = {
+            "Revenue": series(8), "OCF": series(1),
+            "Cash": series(1), "Debt": series(1),
+        }
+        mixed = packet(company_data=mixed_data)
+        assert mixed["thing0_eligibility"]["permits_thing1_use"] is False, mixed
+        assert mixed["thing0_eligibility"]["history_quarters"] == 1, mixed
+        assert len(calls) == 0, "Thing 1 must not run without common coverage"
+
         import asyncio
 
         async def fake_facts(cik):
@@ -249,6 +259,34 @@ def _local_packet_integration():
             assert len(calls) == 1, "Thing 1 must run when Thing 2 fails after inputs are built"
             assert packet_fail["validated_signal"]["validation_status"] == "unavailable", packet_fail
             print("  pass: local Thing 2 failure does not suppress Thing 1")
+        finally:
+            helix_index._fetch_sec_facts = old_fetch_facts
+            helix_index._fetch_sic_code = old_fetch_sic
+            helix_index.build_company_data = old_build
+            helix_index.run_pipeline = old_pipeline
+            helix_index._build_polyvagal_context_from_server = old_poly
+            helix_index._build_audit_entry = old_audit_build
+            helix_index._emit_audit = old_audit_emit
+
+        async def fail_facts(cik):
+            raise RuntimeError("SEC down")
+
+        helix_index._fetch_sec_facts = fail_facts
+        helix_index._fetch_sic_code = fake_sic
+        helix_index.build_company_data = lambda facts, is_financial=False: {}
+        helix_index.run_pipeline = lambda *a, **k: {"rows": []}
+        helix_index._build_polyvagal_context_from_server = lambda cik, sic: None
+        helix_index._build_audit_entry = lambda **kwargs: {}
+        helix_index._emit_audit = lambda entry: None
+        try:
+            packet_extract = asyncio.run(
+                helix_index._score_safe("0000000001", "partial_phase_snapshot")
+            )
+            refusal = packet_extract["validated_signal"]
+            assert refusal["validation_status"] == "not_permitted_by_thing0", refusal
+            assert "extraction_error: SEC EDGAR fetch failed." in refusal["unsupported_reasons"], refusal
+            assert "Unable to retrieve SEC filings for this CIK." in refusal["narrative_safe"], refusal
+            print("  pass: SEC extraction failure is preserved in the refusal")
         finally:
             helix_index._fetch_sec_facts = old_fetch_facts
             helix_index._fetch_sic_code = old_fetch_sic

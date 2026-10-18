@@ -55,7 +55,7 @@ check('Thing 0 is built before Thing 1 in _build_safe_packet', function () {
 check('Thing 1 is gated on permits_thing1_use', function () {
   assert.ok(source.includes('if thing0_eligibility["permits_thing1_use"]:'),
     'missing Thing 0 gate around Thing 1');
-  assert.ok(source.includes('_thing1_not_permitted(thing0_eligibility)'),
+  assert.ok(source.includes('_thing1_not_permitted('),
     'missing non-permitted Thing 1 refusal');
 });
 check('old validated-Thing1 qualification shortcut is gone', function () {
@@ -82,13 +82,31 @@ check('Thing 2 failure preserves raw company inputs for Thing 0', function () {
   assert.ok(source.includes('result, rows = {}, []'),
     'Thing 2 failure should clear only result and rows');
 });
-check('Thing 0 uses raw filing quarters, not Thing 2 feature rows', function () {
+check('Thing 0 uses common raw coverage, not Thing 2 feature rows', function () {
   assert.ok(source.includes('def _thing0_history_quarters('),
     'raw history helper missing');
   assert.ok(source.includes('thing0_history_quarters = _thing0_history_quarters(company_data)'),
     'raw history not derived from company_data');
   assert.ok(source.includes('history_quarters=thing0_history_quarters'),
     'Thing 0 gate not using raw history');
+  assert.ok(source.includes('return min(lengths)'),
+    'history gate must use common coverage across required series');
+});
+check('SEC extraction failure is preserved in the refusal', function () {
+  assert.ok(source.includes('extraction_error: SEC EDGAR fetch failed.'),
+    'extraction-error reason missing');
+  assert.ok(source.includes('Unable to retrieve SEC filings for this CIK.'),
+    'extraction-error narrative missing');
+});
+check('Thing 0 refusal is registered in the audit template map', function () {
+  var audit = fs.readFileSync(
+    path.join(ROOT, 'python_runtime', 'helix_app', 'audit', 'reconciliation_log.py'),
+    'utf8'
+  );
+  assert.ok(audit.includes('Thing 0 did not qualify this company for Thing 1. No validated distress assessment is available.'),
+    'refusal summary missing from template map');
+  assert.ok(audit.includes('t1_thing0_not_permitted'),
+    'stable template id missing');
 });
 check('Thing 1 execution status reflects the actual result', function () {
   assert.ok(source.includes('thing0_eligibility["thing1_execution_status"] = "executed"'),

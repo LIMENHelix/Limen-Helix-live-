@@ -51,6 +51,8 @@ _TEMPLATE_IDS = {
         "t1_unvalidated_after_modification",
     "Validated distress scorer unavailable. Long-arc tracker is interpretive only and cannot substitute for validated assessment.":
         "t1_unavailable_generic",
+    "Thing 0 did not qualify this company for Thing 1. No validated distress assessment is available.":
+        "t1_thing0_not_permitted",
 }
 
 # Path resolution. Best-effort; serverless filesystems (Vercel) are
