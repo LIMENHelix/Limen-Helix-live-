@@ -70,6 +70,54 @@ console.log('T6-T8: db-backed (in-memory limen-db)');
   var v7 = await L.verify(db, STREAM);
   assert('verify catches the in-store tamper', v7.ok === false, JSON.stringify(v7));
 
+  // T6b: chains longer than the old 5,000-entry read cap must verify, not report tamper.
+  async function bulkChain(stream, n) {
+    await db.del('audit:' + stream);
+    var chain = [], prev = L.GENESIS;
+    for (var i = 0; i < n; i++) {
+      var e = L.makeEntry(i, i, 'bulk', 'unit', { i: i }, prev);
+      chain.push(e); prev = e.hash;
+    }
+    // LPUSH prepends, so push oldest-first to leave the newest at index 0.
+    for (var j = 0; j < chain.length; j++) await db.lpush('audit:' + stream, chain[j]);
+    return chain;
+  }
+
+  var LONG = 'testchain-long';
+  var longChain = await bulkChain(LONG, 5003);
+  var vLong = await L.verify(db, LONG);
+  assert('a 5,003-entry intact chain verifies', vLong.ok === true, JSON.stringify(vLong));
+  assert('whole-chain check reports the true length', vLong.length === 5003 && vLong.partial === false, JSON.stringify(vLong));
+  assert('whole-chain check is anchored at genesis', vLong.genesisAnchored === true, JSON.stringify(vLong));
+  assert('whole-chain check reports the long-chain head', vLong.head === longChain[5002].hash, JSON.stringify(vLong.head));
+
+  var vWindow = await L.verify(db, LONG, 5000);
+  assert('bounded verify of the same chain is ok', vWindow.ok === true, JSON.stringify(vWindow));
+  assert('bounded verify is marked partial and boundary-checked',
+    vWindow.partial === true && vWindow.boundaryChecked === true, JSON.stringify(vWindow));
+  assert('bounded window spans seq 3..5002',
+    vWindow.firstSeq === 3 && vWindow.lastSeq === 5002, JSON.stringify(vWindow));
+  assert('bounded window does not claim genesis anchoring', vWindow.genesisAnchored === false, JSON.stringify(vWindow));
+
+  // T6c: tampering at the window boundary must still be caught.
+  var BOUNDARY = 'testchain-boundary';
+  await bulkChain(BOUNDARY, 5003);
+  var rawB = await db.lrange('audit:' + BOUNDARY, 0, 5003);
+  rawB[5000].payload = { i: 'edited-at-boundary' };   // seq 2, just outside the 5,000 window
+  var vBoundary = await L.verify(db, BOUNDARY, 5000);
+  assert('bounded verify catches an edited boundary entry',
+    vBoundary.ok === false && /boundary hash mismatch/.test(vBoundary.reason), JSON.stringify(vBoundary));
+
+  // T6d: tampering inside the window must still be caught.
+  var WINDOW = 'testchain-window';
+  await bulkChain(WINDOW, 5003);
+  var rawW = await db.lrange('audit:' + WINDOW, 0, 5003);
+  rawW[100].payload = { i: 'edited-in-window' };       // seq 4902
+  var vWindowTamper = await L.verify(db, WINDOW, 5000);
+  assert('bounded verify catches an edited window entry',
+    vWindowTamper.ok === false && /hash mismatch/.test(vWindowTamper.reason)
+      && vWindowTamper.brokenAt > 0, JSON.stringify(vWindowTamper));
+
   // T8: consumer proof — the consolidator appends a provenance event
   await db.set('feedhist:index', ['energy']);
   var t0 = 1700000000000;

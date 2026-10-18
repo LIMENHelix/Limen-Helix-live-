@@ -1,7 +1,7 @@
 /**
  * handlers/audit-ledger.js — read + verify the tamper-evident provenance ledger (lib/audit-ledger).
  *
- *   GET /api/audit-ledger?stream=consolidation&verify=1  → { ok, verify:{ok,brokenAt,reason,head} }
+ *   GET /api/audit-ledger?stream=consolidation&verify=1  → { ok, verify:{ok,brokenAt,reason,head,partial} }
  *   GET /api/audit-ledger?stream=consolidation&n=50       → newest-first entries (read)
  *
  * READ-ONLY. This endpoint cannot append, edit, or delete — appends happen inside the code paths that
