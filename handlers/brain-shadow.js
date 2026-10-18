@@ -186,6 +186,14 @@ module.exports = async function handler(req, res) {
            like loss rather than repair. */
         prospectiveRepair: cyc.prospectiveRepair || null,
         /**
+         * 1.0.0 ATTENTION RECOVERY. On the allow-list because this projection drops any
+         * field not named here, and the recovery mutates restored attention state.
+         * Operators need to see which channels were repaired, which retained record
+         * identified each repair, and which affected-looking channels could not be
+         * classified safely. Null means no recovery ran on the last cycle.
+         */
+        attentionRecovery: cyc.attentionRecovery || null,
+        /**
          * RELATIONSHIP COMPARABILITY, on the allow-list for the same reason compaction,
          * calibration, the cold-start skip and cursorBefore are: this projection drops
          * anything not named here, and a field the runtime records but the operator read

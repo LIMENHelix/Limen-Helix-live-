@@ -1200,11 +1200,16 @@ function serialize(loop) {
  *
  * RECOVERY IS DELIBERATELY NARROW. A channel is reset to the neutral attention gain
  * (1.0) only when BOTH hold:
- *   - its most recent attention history entry is an identifiable lower_attention;
+ *   - its most recent attention history entry identifies a lower_attention;
  *   - its current rGain is below neutral.
- * The action kind comes from the persisted episodic record for that actionId, so a
- * channel whose attention was legitimately changed AFTER the bug is left alone. Only
- * attention gain changes; rBase, values, variances and every other channel are kept.
+ *
+ * THE IDENTIFICATION HAS TWO SOURCES. Newer history entries carry `kind` directly, and
+ * compaction retains up to 256 of them per source. Older entries do not, so the persisted
+ * episodic record for that actionId is the fallback. If neither exists, the channel is
+ * left unchanged and listed in `unidentified`; guessing between a legitimate raise and
+ * the inverted lower is exactly the unsafe repair this finding rejects. A retained
+ * `raise_attention` is always preserved. Only attention gain changes; rBase, values,
+ * variances and every other channel are kept.
  */
 function recoverInvertedAttention(loop, snap) {
   if (!snap || snap.version !== 'brain-v2/kernel/1.0.0') return null;
@@ -1221,13 +1226,31 @@ function recoverInvertedAttention(loop, snap) {
   });
 
   var recovered = [];
+  var evidence = Object.create(null);
+  var unidentified = [];
   Object.keys(loop.attention || {}).forEach(function (key) {
     var ch = (loop.brain.channels || []).filter(function (c) { return c.key === key; })[0];
     if (!ch || !(ch.rGain < 1)) return;
     var hist = (loop.attention[key] && loop.attention[key].history) || [];
     var last = hist[hist.length - 1];
-    if (!last || kindByAction[last.actionId] !== 'lower_attention') return;
+    if (!last) {
+      unidentified.push({ key: key, gain: ch.rGain, reason: 'no_attention_history' });
+      return;
+    }
+    var retainedKind = last.kind || null;
+    var episodeKind = kindByAction[last.actionId] || null;
+    var kind = retainedKind || episodeKind;
+    if (kind === 'raise_attention') return;          // legitimate raise: preserve
+    if (kind !== 'lower_attention') {
+      unidentified.push({
+        key: key, gain: ch.rGain,
+        reason: retainedKind ? 'unrecognized_retained_kind'
+          : (episodeKind ? 'unrecognized_episode_kind' : 'no_retained_kind')
+      });
+      return;
+    }
 
+    var source = retainedKind ? 'history_kind' : 'episode_kind';
     var beforeR = ch.r, beforeGain = ch.rGain;
     C.setAttentionGain(ch, 1.0);
     hist.push({
@@ -1239,17 +1262,21 @@ function recoverInvertedAttention(loop, snap) {
       gainTo: ch.rGain,
       actionId: 'fix0118_recovery:' + key,
       recoveredActionId: last.actionId,
+      evidence: source,
       why: '1.0.0 lower_attention multiplied rGain; reset to neutral attention'
     });
     recovered.push(key);
+    evidence[key] = source;
   });
 
-  if (!recovered.length) return null;
+  if (!recovered.length && !unidentified.length) return null;
   loop.attentionRecovery = {
     fromVersion: snap.version,
     toVersion: VERSION,
     at: recoveredAt,
-    recovered: recovered
+    recovered: recovered,
+    evidence: evidence,
+    unidentified: unidentified
   };
   return loop.attentionRecovery;
 }

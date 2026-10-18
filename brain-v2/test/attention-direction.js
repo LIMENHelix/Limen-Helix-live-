@@ -19,6 +19,7 @@ var assert = require('assert');
 var LOOP = require('../kernel/loop.js');
 var PROP = require('../kernel/propose.js');
 var PK = require('../kernel/packet.js');
+var COMPACT = require('../kernel/compact.js');
 var C = require('../core/channel.js');
 
 var failures = 0;
@@ -231,6 +232,8 @@ check('restore recovers a 1.0.0 snapshot stuck at the inverted rGain floor', fun
   assert.ok(restored.attentionRecovery, 'no recovery record');
   assert.deepEqual(restored.attentionRecovery.recovered, ['src'],
     JSON.stringify(restored.attentionRecovery));
+  assert.equal(restored.attentionRecovery.evidence.src, 'history_kind',
+    JSON.stringify(restored.attentionRecovery));
   var hist = restored.attention.src.history;
   var last = hist[hist.length - 1];
   assert.equal(last.kind, 'fix0118_recovery', 'no recovery history entry');
@@ -257,6 +260,76 @@ check('restore is deterministic across different wall-clock times', function () 
   } finally {
     Date.now = realNow;
   }
+});
+
+check('restore falls back to a retained episode when history has no kind', function () {
+  var fixture = legacySnapshot({
+    srcHistory: [{ at: 1, from: 0.10, to: 0.01,
+      gainFrom: 1, gainTo: 0.05, actionId: 'old-lower' }],
+    episodic: [
+      { id: 'ep-old-lower', actionId: 'old-lower', selection: { kind: PROP.KIND.LOWER_ATTENTION } }
+    ]
+  });
+  var restored = LOOP.restore(fixture.spec, fixture.snap);
+  var src = restored.brain.channels.filter(function (c) { return c.key === 'src'; })[0];
+  assert.equal(src.rGain, 1, 'episode-identified channel was not recovered');
+  assert.deepEqual(restored.attentionRecovery.recovered, ['src']);
+  assert.equal(restored.attentionRecovery.evidence.src, 'episode_kind',
+    JSON.stringify(restored.attentionRecovery));
+});
+
+check('restore preserves a retained raise when its episode is gone', function () {
+  var fixture = legacySnapshot({
+    srcGain: 0.5,
+    episodic: [],
+    srcHistory: [{ at: 1, kind: PROP.KIND.RAISE_ATTENTION, from: 0.10, to: 0.05,
+      gainFrom: 1, gainTo: 0.5, actionId: 'old-raise' }]
+  });
+  var restored = LOOP.restore(fixture.spec, fixture.snap);
+  var src = restored.brain.channels.filter(function (c) { return c.key === 'src'; })[0];
+  assert.equal(src.rGain, 0.5, 'a legitimate raise was overwritten');
+  assert.equal(restored.attentionRecovery, null,
+    'a legitimate raise was reported as affected');
+});
+
+check('compaction that retires the episode still recovers from history kind', function () {
+  var fixture = legacySnapshot({
+    srcHistory: [{ at: 1, kind: PROP.KIND.LOWER_ATTENTION, from: 0.10, to: 0.01,
+      gainFrom: 1, gainTo: 0.05, actionId: 'old-lower' }],
+    episodic: [
+      /* Oldest first: retain 1 keeps the NEWER unrelated episode, retiring old-lower. */
+      { id: 'ep-old-lower', actionId: 'old-lower', selection: { kind: PROP.KIND.LOWER_ATTENTION } },
+      { id: 'ep-newer', actionId: 'unrelated', selection: { kind: PROP.KIND.RAISE_ATTENTION } }
+    ]
+  });
+  var state = {
+    memory: fixture.snap.memory,
+    registry: fixture.snap.registry,
+    forwardModel: fixture.snap.forwardModel,
+    attention: fixture.snap.attention,
+    archiveHead: { sequence: 0, hash: null, totals: COMPACT.emptyTotals(), retired: {} }
+  };
+  var compacted = COMPACT.plan(state, { retain: { episodic: 1 } }).apply(null);
+  assert.ok(!compacted.memory.episodic.some(function (e) { return e.actionId === 'old-lower'; }),
+    'fixture did not retire the episode');
+  assert.equal(compacted.attention.src.history.length, 1, 'attention history was not retained');
+  assert.equal(compacted.attention.src.history[0].kind, PROP.KIND.LOWER_ATTENTION,
+    'retained attention entry lost its kind');
+
+  var snap = Object.assign({}, fixture.snap, {
+    memory: compacted.memory,
+    registry: compacted.registry,
+    forwardModel: compacted.forwardModel,
+    attention: compacted.attention,
+    archiveHead: compacted.archiveHead,
+    version: 'brain-v2/kernel/1.0.0'
+  });
+  var restored = LOOP.restore(fixture.spec, snap);
+  var src = restored.brain.channels.filter(function (c) { return c.key === 'src'; })[0];
+  assert.equal(src.rGain, 1, 'compacted snapshot was not recovered');
+  assert.deepEqual(restored.attentionRecovery.recovered, ['src']);
+  assert.equal(restored.attentionRecovery.evidence.src, 'history_kind',
+    JSON.stringify(restored.attentionRecovery));
 });
 
 check('restore preserves a legitimate attention change made after the bug', function () {
@@ -287,12 +360,21 @@ check('restore does not migrate a current-version snapshot', function () {
   assert.equal(restored.attentionRecovery, null, 'current version was reported as recovered');
 });
 
-check('restore skips a channel whose inverted action cannot be identified', function () {
-  var fixture = legacySnapshot({ episodic: [] });
+check('restore discloses a channel whose action cannot be identified', function () {
+  var fixture = legacySnapshot({
+    episodic: [],
+    srcHistory: [{ at: 1, from: 0.10, to: 0.01,
+      gainFrom: 1, gainTo: 0.05, actionId: 'old-lower' }]
+  });
   var restored = LOOP.restore(fixture.spec, fixture.snap);
   var src = restored.brain.channels.filter(function (c) { return c.key === 'src'; })[0];
   assert.equal(src.rGain, 0.05, 'unidentifiable state was rewritten');
-  assert.equal(restored.attentionRecovery, null, 'unidentified state was reported as recovered');
+  assert.ok(restored.attentionRecovery, 'unidentified state was not disclosed');
+  assert.deepEqual(restored.attentionRecovery.recovered, []);
+  assert.equal(restored.attentionRecovery.unidentified.length, 1,
+    JSON.stringify(restored.attentionRecovery));
+  assert.equal(restored.attentionRecovery.unidentified[0].key, 'src');
+  assert.equal(restored.attentionRecovery.unidentified[0].reason, 'no_retained_kind');
 });
 
 check('internally generated packets carry the current kernel version', function () {
@@ -318,8 +400,61 @@ check('internally generated packets carry the current kernel version', function 
 });
 
 console.log('');
-if (failures) {
-  console.error(failures + ' failure(s)');
-  process.exit(1);
+
+async function checkAsync(name, fn) {
+  try {
+    await fn();
+    console.log('  pass: ' + name);
+  } catch (e) {
+    failures++;
+    console.error('  FAIL: ' + name + ' — ' + (e && e.message));
+  }
 }
-console.log('attention direction: all checks passed');
+
+async function healthProjectionCheck() {
+  process.env.BRAIN_SHADOW_TOKEN = 'test-token';
+  var RUNTIME = require('../../lib/brain-shadow-runtime');
+  var STORE = require('../../lib/brain-shadow-store');
+  var target = RUNTIME.INSTALLED_DOMAINS[0];
+  var originalReadCycle = STORE.readCycle;
+  var recovery = {
+    fromVersion: 'brain-v2/kernel/1.0.0', toVersion: LOOP.VERSION, at: 7,
+    recovered: ['src'], evidence: { src: 'history_kind' }, unidentified: []
+  };
+  STORE.readCycle = async function (domain) {
+    return {
+      domain: domain, ok: true, startedAt: 1, finishedAt: 2,
+      rowsAvailable: 0, rowsApplied: 0, ticks: 0,
+      attentionRecovery: domain === target ? recovery : null
+    };
+  };
+  try {
+    var handler = require('../../handlers/brain-shadow');
+    var payload = null;
+    await new Promise(function (resolve) {
+      var res = {
+        setHeader: function () {}, statusCode: 200,
+        end: function (s) { payload = JSON.parse(s); resolve(); }
+      };
+      handler({ method: 'GET', url: '/api/brain-shadow', headers: { 'x-brain-token': 'test-token' } }, res);
+    });
+    assert.ok(payload && payload.ok === true, JSON.stringify(payload));
+    var projected = payload.cycles && payload.cycles[target];
+    assert.ok(projected, 'health projection omitted domain ' + target);
+    assert.ok(projected.attentionRecovery, 'health projection omitted attentionRecovery');
+    assert.deepEqual(projected.attentionRecovery.recovered, ['src']);
+    assert.equal(projected.attentionRecovery.evidence.src, 'history_kind');
+  } finally {
+    STORE.readCycle = originalReadCycle;
+    delete process.env.BRAIN_SHADOW_TOKEN;
+  }
+}
+
+(async function () {
+  await checkAsync('operator health projection exposes attention recovery', healthProjectionCheck);
+  if (failures) {
+    console.error(failures + ' failure(s)');
+    process.exit(1);
+  }
+  console.log('attention direction: all checks passed');
+})();
