@@ -45,21 +45,21 @@ def main():
     print("thing0 connection")
 
     check("qualified from all required series and common history", lambda: _assert(
-        thing0.from_company_data(full_data(), is_financial=False, facts_present=True),
+        thing0.from_company_data(full_data(), is_financial=False, facts_present=True, sic=1311),
         "qualified", True))
 
     check("partial when one required series is short", lambda: _assert(
         thing0.from_company_data(
             {**full_data(), "OCF": series(3)},
-            is_financial=False, facts_present=True),
+            is_financial=False, facts_present=True, sic=1311),
         "partially_qualified", False))
 
     check("partial when common history is below 8", lambda: _assert(
-        thing0.from_company_data(full_data(7), is_financial=False, facts_present=True),
+        thing0.from_company_data(full_data(7), is_financial=False, facts_present=True, sic=1311),
         "partially_qualified", False))
 
     check("not qualified with no facts", lambda: _assert(
-        thing0.from_company_data({}, is_financial=False, facts_present=False),
+        thing0.from_company_data({}, is_financial=False, facts_present=False, sic=1311),
         "not_qualified", False))
 
     check("history counts aligned quarter IDs, not minimum lengths", _common_history)
@@ -69,6 +69,12 @@ def main():
     check("sectioned rule: every SIC 6000-6999 is financial", _sectioned_rule)
 
     check("sector disagreement is exposed, not reconciled", _sector_disagreement)
+
+    check("unknown SIC is incomplete evidence, not non-financial permission",
+          _sector_unknown)
+
+    check("flat scorer refuses an unknown SIC before the kernel",
+          _flat_scorer_unknown_sic)
 
     check("flat scorer qualifies before Thing 1 and refuses without the kernel",
           _flat_scorer_refusal)
@@ -94,7 +100,7 @@ def _common_history():
     aligned = {key: series(8) for key in thing0.REQUIRED_SERIES}
     assert thing0.common_history_quarters(aligned) == 8, aligned
     result = thing0.from_company_data(
-        aligned, is_financial=False, facts_present=True)
+        aligned, is_financial=False, facts_present=True, sic=1311)
     assert result["history_quarters"] == 8, result
     assert result["qualification_status"] == "qualified", result
 
@@ -104,7 +110,7 @@ def _common_history():
         disjoint[key] = {(2000 + index * 10, q): float(q) for q in range(1, 9)}
     assert thing0.common_history_quarters(disjoint) == 0, disjoint
     result = thing0.from_company_data(
-        disjoint, is_financial=False, facts_present=True)
+        disjoint, is_financial=False, facts_present=True, sic=1311)
     assert result["history_quarters"] == 0, result
     assert result["permits_thing1_use"] is False, result
     assert result["qualification_status"] == "partially_qualified", result
@@ -113,7 +119,7 @@ def _common_history():
     shared = {key: series(7) for key in thing0.REQUIRED_SERIES}
     assert thing0.common_history_quarters(shared) == 7, shared
     result = thing0.from_company_data(
-        shared, is_financial=False, facts_present=True)
+        shared, is_financial=False, facts_present=True, sic=1311)
     assert result["permits_thing1_use"] is False, result
 
     # One long series must not mask partial overlap in another.
@@ -125,7 +131,7 @@ def _common_history():
     }
     assert thing0.common_history_quarters(partial) == 8, partial
     result = thing0.from_company_data(
-        partial, is_financial=False, facts_present=True)
+        partial, is_financial=False, facts_present=True, sic=1311)
     assert result["history_quarters"] == 8, result
     assert result["qualification_status"] == "qualified", result
 
@@ -159,6 +165,23 @@ def _sector_disagreement():
         assert provenance["agrees_with_alternate_rule"] is True, provenance
 
 
+def _sector_unknown():
+    unknown = thing0.from_company_data(
+        full_data(), is_financial=False, facts_present=True, sic=0,
+        sector_rule_id=thing0.SECTOR_RULE_FLAT_SCORER)
+    assert unknown["qualification_status"] == "partially_qualified", unknown
+    assert unknown["permits_thing1_use"] is False, unknown
+    assert "sector_lookup_unavailable" in unknown["reasons"], unknown
+    assert unknown["sector_known"] is False, unknown
+    assert unknown["sector_rule"]["sector_known"] is False, unknown
+
+    known = thing0.from_company_data(
+        full_data(), is_financial=False, facts_present=True, sic=2911,
+        sector_rule_id=thing0.SECTOR_RULE_FLAT_SCORER)
+    assert known["qualification_status"] == "qualified", known
+    assert known["sector_known"] is True, known
+
+
 def _flat_scorer_refusal():
     try:
         import pandas  # noqa: F401
@@ -179,6 +202,26 @@ def _flat_scorer_refusal():
         assert response["alert"] is False and response["alert_authorized"] is False, response
         assert response["dominant_phase"] is None, response
         assert response["input_presence"]["revenue_quarters"] == 8, response
+    finally:
+        _restore_flat_scorer(limen_app, state)
+
+
+def _flat_scorer_unknown_sic():
+    try:
+        import pandas  # noqa: F401
+        from python_runtime import limen_app
+    except Exception as exc:  # noqa: BLE001
+        print("  SKIP: flat scorer integration (dependencies unavailable: "
+              + type(exc).__name__ + ")")
+        return
+
+    state = _patch_flat_scorer(limen_app, sic=0)
+    try:
+        response = limen_app.score(limen_app.ScoreRequest(cik="0000000001"))
+        assert response["validation_status"] == "not_permitted_by_thing0", response
+        assert response["thing0_eligibility"]["permits_thing1_use"] is False, response
+        assert "sector_lookup_unavailable" in response["thing0_eligibility"]["reasons"], response
+        assert state["kernel_calls"] == 0, "kernel ran for an unknown-SIC refusal"
     finally:
         _restore_flat_scorer(limen_app, state)
 

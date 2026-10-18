@@ -95,6 +95,17 @@ function evaluatePortal(co) {
     return { signals: [], skipped: 'INSUFFICIENT_HISTORY (kernel needs ≥32Q)' };
   }
 
+  /* A refreshed Thing 0 refusal revokes use of the kernel-derived fields this
+     engine reads. Do not emit a new signal from stale evidence. */
+  const t0 = fh.thing0Eligibility || fh.thing0 || null;
+  const t0Status = t0 ? (t0.qualification_status || t0.qualificationStatus || null) : null;
+  if (t0) {
+    const permits = t0.permits_thing1_use === true || t0.permitsThing1Use === true;
+    if (!permits && t0Status) {
+      return { signals: [], skipped: 'thing0_not_permitted:' + t0Status, quarantine: true };
+    }
+  }
+
   const composite = fh.compositeScore;
   const alert = !!fh.alert;
   const phase = fh.dominantPhase;
@@ -116,6 +127,7 @@ function evaluatePortal(co) {
     envelopeStatus: envelope,
     kernelShaLock: fh.kernelShaLock,
     lastKernelRun: fh.lastKernelRun,
+    thing0Qualification: t0Status,
   };
 
   const signals = [];
@@ -244,10 +256,55 @@ function applySignals(co, newSignals) {
   return filtered.concat(newSignals);
 }
 
+/**
+ * Remove this engine's kernel-derived signals from the active list and archive
+ * them under quarantinedOpportunitySignals. Other engines' signals are kept.
+ * Called only when a refreshed Thing 0 object refuses Thing 1 use.
+ */
+function quarantineInvestmentSignals(co, reason, at) {
+  const existing = Array.isArray(co.opportunitySignals) ? co.opportunitySignals : [];
+  const keep = [], moved = [];
+  existing.forEach(function (s) {
+    if (s && s.engine === ENGINE_NAME) {
+      moved.push(Object.assign({}, s, {
+        status: 'quarantined',
+        quarantined: true,
+        quarantineReason: reason,
+        quarantinedAt: at || isoNow()
+      }));
+    } else {
+      keep.push(s);
+    }
+  });
+  if (!moved.length) return 0;
+
+  co.opportunitySignals = keep;
+  const archive = Array.isArray(co.quarantinedOpportunitySignals)
+    ? co.quarantinedOpportunitySignals.slice() : [];
+  const seen = Object.create(null);
+  archive.forEach(function (s) { if (s && s.id) seen[s.id] = true; });
+  moved.forEach(function (s) {
+    if (!s.id || !seen[s.id]) {
+      archive.push(s);
+      if (s.id) seen[s.id] = true;
+    }
+  });
+  co.quarantinedOpportunitySignals = archive;
+  return moved.length;
+}
+
 function processOne(slug) {
   const file = path.join(COMPANIES_DIR, slug + '.json');
   const co = JSON.parse(fs.readFileSync(file, 'utf8'));
-  const { signals, skipped } = evaluatePortal(co);
+  const { signals, skipped, quarantine } = evaluatePortal(co);
+  if (quarantine) {
+    if (DRY_RUN) {
+      return { slug, signals: [], skipped: skipped + ' (would quarantine kernel-derived signals)' };
+    }
+    const n = quarantineInvestmentSignals(co, skipped, isoNow());
+    fs.writeFileSync(file, JSON.stringify(co, null, 2) + '\n');
+    return { slug, signals: [], skipped: skipped + ' (quarantined ' + n + ')' };
+  }
   if (skipped) return { slug, signals: [], skipped };
   if (!signals.length) {
     if (!DRY_RUN) {
@@ -311,4 +368,10 @@ function main() {
   }
 }
 
-main();
+if (require.main === module) main();
+
+module.exports = {
+  evaluatePortal,
+  applySignals,
+  quarantineInvestmentSignals
+};

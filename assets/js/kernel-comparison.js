@@ -101,8 +101,8 @@ function classifySignal(d) {
   if (d.p === 'ERROR') return 'DATA_ERROR';
   // Rule 2: Terminal-like phase but domain stress low → likely extraction bug
   if (TERMINAL_PHASES.indexOf(d.p) !== -1 && d.ds < 0.30) return 'DATA_ERROR';
-  // Rule 3: Linear alert with no data contradiction
-  if (d.a && d.p !== 'ERROR') return 'ALERT';
+  // Rule 3: Linear alert with no data contradiction (validated Thing 1 only)
+  if (_isValidatedAlert(d)) return 'ALERT';
   // Rule 4: Stable phase but extreme domain stress
   if (STABLE_PHASES.indexOf(d.p) !== -1 && d.ds >= 0.90) return 'EARLY_WARNING';
   // Rule 5: Stable phase in high-stress domain
@@ -128,8 +128,8 @@ var SEVERITY_BASE = {
 function computeSeverity(d) {
   var base = SEVERITY_BASE[d._signal] || 10;
   if (d.ds >= 0.80) base += 10;
-  if (d.a) base += 10;
-  if (d.co >= 1.0) base += 5;
+  if (_isValidatedAlert(d)) base += 10;
+  if (typeof d.co === 'number' && isFinite(d.co) && d.co >= 1.0) base += 5;
   if (d.tr === 'STABLE' && d.ds < 0.40) base -= 10;
   return Math.max(0, base);
 }
@@ -175,7 +175,8 @@ var VERDICT_TAG = {
   p8:'PIVOT_RECOGNIZED', p9:'CASCADE_FAILURE', p10:'NEUROPLASTIC_REFORMATION'
 };
 function _isValidatedAlert(d) {
-  return d && d.a === true && d.kid === 'limen_backtest.py' && d.vs === 'validated';
+  return d && d.a === true && d.kid === 'limen_backtest.py'
+    && d.vs === 'validated' && d._thing0Status === 'QUALIFIED';
 }
 
 // LIMEN lanes — INVESTMENT + RESEARCH ONLY. Patent/Grant/SBA/Franchise/Loan are PERMANENTLY
@@ -413,8 +414,11 @@ function renderTable(rows, startOffset) {
     var tc = trajColor(d.tr);
     var sc = stressColor(d.ds);
     var sig = SIGNAL_ENUM[d._signal] || SIGNAL_ENUM.NOMINAL;
-    var dsPct = Math.round(d.ds * 100);
-    var compPct = Math.min(Math.round(d.co * 50), 100);
+    var dsPct = Math.round((typeof d.ds === 'number' ? d.ds : 0) * 100);
+    var co = (typeof d.co === 'number' && isFinite(d.co)) ? d.co : null;
+    var compPct = co === null ? 0 : Math.min(Math.round(co * 50), 100);
+    var phaseLabel = PHASE_LABELS[d.p] || (d.p ? String(d.p).toUpperCase() : '—');
+    var trajLabel = d.tr ? String(d.tr).replace(/_/g, ' ') : 'UNKNOWN';
 
     // Watchlist star
     var wl = _getWatchlist();
@@ -437,9 +441,9 @@ function renderTable(rows, startOffset) {
       '<td style="color:#555"><span class="wl-star' + (isWatched ? ' active' : '') + '" onclick="_toggleStar(\'' + d.t + '\',event)">' + (isWatched ? '★' : '☆') + '</span>' + (startOffset + i + 1) + '</td>' +
       '<td>' + (d._thing1Result === 'ALERT' ? '<span style="font-size:0.55em;padding:1px 4px;border-radius:2px;margin-right:5px;background:rgba(232,84,84,0.15);color:#e85454">T1 ALERT</span>' : '') + '<span style="color:rgba(201,169,78,0.5)">' + d.n + '</span></td>' +
       '<td style="color:#C9A94E">' + d.t + '</td>' +
-      '<td><span class="phase" style="background:' + pc + '22;color:' + pc + ';border:1px solid ' + pc + '44">' + (PHASE_LABELS[d.p] || d.p.toUpperCase()) + '</span></td>' +
-      '<td style="color:' + tc + '">' + d.tr.replace(/_/g, ' ') + '</td>' +
-      '<td>' + d.co.toFixed(2) + ' <span class="bar-bg"><span class="bar" style="width:' + compPct + '%;background:' + tc + '"></span></span></td>' +
+      '<td><span class="phase" style="background:' + pc + '22;color:' + pc + ';border:1px solid ' + pc + '44">' + phaseLabel + '</span></td>' +
+      '<td style="color:' + tc + '">' + trajLabel + '</td>' +
+      '<td>' + (co === null ? '—' : co.toFixed(2)) + ' <span class="bar-bg"><span class="bar" style="width:' + compPct + '%;background:' + tc + '"></span></span></td>' +
       '<td style="color:rgba(200,195,184,0.4)">' + d.d + '</td>' +
       '<td>' + dsPct + '% <span class="bar-bg"><span class="bar" style="width:' + dsPct + '%;background:' + sc + '"></span></span></td>' +
       '<td>' + srcBadges + '</td>' +
@@ -479,20 +483,27 @@ function _buildExpandContent(d) {
   // Thing 1 alert — never on Thing 2 posture alone.
   h += '<div>';
   h += '<div class="expand-label">THING 1 — VALIDATED DISTRESS</div>';
-  h += '<div style="color:rgba(200,195,184,0.6)">Phase: <b style="color:' + phaseColor(d.p) + '">' + (PHASE_LABELS[d.p] || d.p.toUpperCase()) + '</b></div>';
+  var detailPhase = PHASE_LABELS[d.p] || (d.p ? String(d.p).toUpperCase() : '—');
+  var detailCo = (typeof d.co === 'number' && isFinite(d.co)) ? d.co : null;
+  var t1 = d._thing1Result;
+  var t1Text = t1 === 'ALERT' ? 'ALERT FIRED'
+    : t1 === 'NO_ALERT' ? 'NO ALERT'
+    : 'ABSTAIN — Thing 1 not validated';
+  var t1Color = t1 === 'ALERT' ? '#e85454' : t1 === 'NO_ALERT' ? '#5ab5a0' : '#C9A94E';
+  h += '<div style="color:rgba(200,195,184,0.6)">Phase: <b style="color:' + phaseColor(d.p) + '">' + detailPhase + '</b></div>';
   if (_isValidatedAlert(d) && VERDICT_TAG[d.p]) {
     h += '<div style="color:#e85454;font-size:0.4rem;letter-spacing:1px;font-weight:600">' + VERDICT_TAG[d.p] + ' — ALERT FIRED</div>';
   }
-  h += '<div style="color:rgba(200,195,184,0.6)">Composite: <b>' + d.co.toFixed(3) + '</b>'
+  h += '<div style="color:rgba(200,195,184,0.6)">Composite: <b>' + (detailCo === null ? '—' : detailCo.toFixed(3)) + '</b>'
      + (d.path ? ' · Path <b>' + d.path + '</b>' : '') + '</div>';
   if (typeof d.pa === 'number' || typeof d.pb === 'number' || typeof d.pc === 'number') {
     h += '<div style="color:rgba(200,195,184,0.45);font-size:0.34rem">'
-       + 'A:' + (d.pa || 0).toFixed(2)
-       + ' · B:' + (d.pb || 0).toFixed(2)
-       + ' · C:' + (d.pc || 0).toFixed(2)
+       + 'A:' + (typeof d.pa === 'number' ? d.pa : 0).toFixed(2)
+       + ' · B:' + (typeof d.pb === 'number' ? d.pb : 0).toFixed(2)
+       + ' · C:' + (typeof d.pc === 'number' ? d.pc : 0).toFixed(2)
        + '</div>';
   }
-  h += '<div style="color:rgba(200,195,184,0.6)">Alert: <b style="color:' + (d.a ? '#e85454' : '#5ab5a0') + '">' + (d.a ? 'ALERT FIRED' : 'NO ALERT') + '</b>'
+  h += '<div style="color:rgba(200,195,184,0.6)">Alert: <b style="color:' + t1Color + '">' + t1Text + '</b>'
      + (d.fq ? ' · ' + d.fq : '') + '</div>';
   h += '<div style="font-size:0.32rem;color:rgba(200,195,184,0.35);margin-top:2px">'
      + (d.q ? 'latest ' + d.q + ' · ' : '')
@@ -576,6 +587,9 @@ function _classifyAction(d) {
   }
   if (d._thing0Status !== 'QUALIFIED') {
     return { label: 'THING 0 · ' + d._thing0Status.replace(/_/g, ' '), color: '#C9A94E', reason: 'Thing 0 did not qualify this row for a validated Thing 1 claim. Legacy row data remains visible for research only.', whatNow: 'It may still be researched or invested through Finance using company news and market performance; no Thing 1 claim is permitted.' };
+  }
+  if (d._thing1Result === 'ABSTAIN') {
+    return { label: 'THING 1 · ABSTAIN (NOT VALIDATED)', color: '#C9A94E', reason: 'Thing 0 qualifies the row, but the retained Thing 1 result is not effectively validated. Neither ALERT nor NO_ALERT is permitted.', whatNow: 'Run the protected Helix Report after validation is restored. Until then this row is not a Thing 1 result.' };
   }
   if (d._thing1Result === 'ALERT') {
     return { label: 'VALIDATED THING 1 ALERT PRESENT', color: '#e85454', reason: 'Thing 0 qualifies the company and the retained validated Thing 1 row carries an alert.', whatNow: 'This is distress evidence, not an automatic trade. Finance must independently assess current feeds, history, risk, and account state.' };
@@ -821,8 +835,15 @@ function _thing0Status(d) {
   if (normalized === 'PARTIALLY_QUALIFIED') return 'PARTIALLY_QUALIFIED';
   return 'NOT_QUALIFIED';
 }
+function _thing1Validated(d) {
+  /* Effective Thing 1 validation. A snapshot can carry an alert flag from an
+     older run while its current validation status is unvalidated; neither
+     ALERT nor NO_ALERT is permitted in that state. */
+  return !!(d && d.kid === 'limen_backtest.py' && d.vs === 'validated');
+}
 function _thing1Result(d) {
   if (d._thing0Status !== 'QUALIFIED') return null;
+  if (!_thing1Validated(d)) return 'ABSTAIN';
   return d.a === true ? 'ALERT' : 'NO_ALERT';
 }
 
@@ -830,9 +851,12 @@ function _initBoard() {
   // Enrich every row. FIRE companies remain visible as Thing 0 NOT_QUALIFIED;
   // they are not silently erased and may still be researched outside Thing 1.
   DATA.forEach(function(d) {
+    /* Thing 0 first: signal severity and validated-alert classification both
+       consult it, and a validated Thing 1 alert may not outrank a Thing 0
+       refusal. */
+    d._thing0Status = _thing0Status(d);
     d._signal = classifySignal(d);
     d._severity = computeSeverity(d);
-    d._thing0Status = _thing0Status(d);
     d._thing1Result = _thing1Result(d);
     d._matters = d._thing0Status === 'QUALIFIED';
   });

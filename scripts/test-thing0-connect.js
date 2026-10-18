@@ -118,7 +118,8 @@ check('thing0Eligible has no legacy positive eligibility branch', function () {
 var brain = read('handlers/brain-signals.js');
 check('brain-signals marshals Thing 0 evidence', function () {
   assert.ok(brain.includes('thing0Evidence'), 'evidence counter missing');
-  assert.ok(brain.includes('c.thing0 = r.thing0'), 'evidence is not attached to rows');
+  assert.ok(brain.includes('c.thing0 = _thing0Of(r)'), 'evidence is not attached to rows');
+  assert.ok(brain.includes('_mergeThing0Evidence('), 'per-ticker merge missing');
   assert.ok(brain.includes('no company is qualified for Thing 1 or action authority'),
     'legacy-unqualified note missing');
 });
@@ -188,6 +189,86 @@ check('Command Board derives Thing 0 only from snapshot evidence', function () {
   assert.ok(!commandBoardPage.includes("validation === 'validated' && history >= 8"),
     'Command Board still infers qualification from Thing 1 validation status');
 });
+check('Command Board requires effective Thing 1 validation before ALERT or NO_ALERT', function () {
+  assert.ok(commandBoardPage.includes('function _thing1Validated('),
+    'effective validation helper missing');
+  assert.ok(commandBoardPage.includes("return 'ABSTAIN'"),
+    'abstention result missing');
+  assert.ok(commandBoardPage.includes("d.vs === 'validated'"),
+    'validation status is not required');
+});
+check('Command Board rendering tolerates null composite scores', function () {
+  assert.ok(!/d\.co\.toFixed/.test(commandBoardPage),
+    'unguarded d.co.toFixed remains');
+  assert.ok(commandBoardPage.includes("co === null ? '—'"),
+    'table composite fallback missing');
+  assert.ok(commandBoardPage.includes("detailCo === null ? '—'"),
+    'detail composite fallback missing');
+});
+
+check('brain-signals merges Thing 0 evidence per ticker', function () {
+  var emitter = require('../handlers/brain-signals');
+  var merged = emitter._mergeThing0Evidence(
+    { ticker: 'X', composite: 0.9, alert: false },
+    { thing0: { qualification_status: 'qualified', permits_thing1_use: true } }
+  );
+  assert.equal(merged.composite, 0.9);
+  assert.ok(merged.thing0 && merged.thing0.permits_thing1_use === true,
+    'fallback Thing 0 evidence was not attached');
+  var preferred = { ticker: 'X', thing0: { qualification_status: 'qualified' } };
+  assert.strictEqual(
+    emitter._mergeThing0Evidence(preferred, { thing0: { qualification_status: 'not_qualified' } }),
+    preferred, 'preferred Thing 0 evidence was overwritten');
+  var untouched = { ticker: 'Y', composite: 0.5 };
+  emitter._mergeThing0Evidence(untouched, { thing0: { qualification_status: 'qualified' } });
+  assert.equal(untouched.thing0, undefined, 'source snapshot was mutated');
+});
+
+check('snapshot --resume rescored rows missing Thing 0 evidence', function () {
+  var script = read('scripts/build-command-board.js');
+  assert.ok(/prior\.t0 \|\| prior\.thing0 \|\| prior\.thing0Eligibility/.test(script),
+    'resume still skips rows without Thing 0 evidence');
+  assert.ok(script.includes('rescoredLegacy'),
+    'legacy rescores are not counted');
+});
+check('snapshot writing preserves refused trajectories', function () {
+  var script = read('scripts/build-command-board.js');
+  assert.ok(/d\.trajectory === 'NOT_RUN' \|\| d\.trajectory === 'UNVALIDATED'/.test(script),
+    'refused trajectory can still be derived as STABLE');
+});
+
+check('phase scorer invalidates cached phases on Thing 0 refusal', function () {
+  var scorer = read('lib/company-phase-scorer.js');
+  assert.ok(scorer.includes("await db.del('company_phase_' + company.cik)"),
+    'cache invalidation missing');
+  assert.ok(scorer.includes('invalidated: invalidated'),
+    'invalidation result missing');
+});
+
+check('investment engine quarantines stale kernel signals on Thing 0 refusal', function () {
+  var engine = require('../scripts/run-investment-engine');
+  var co = {
+    slug: 'fixture', kernelStatus: 'ELIGIBLE_NOW',
+    financialHealth: {
+      compositeScore: 1.6, alert: true,
+      thing0Eligibility: { qualification_status: 'partially_qualified', permits_thing1_use: false }
+    },
+    opportunitySignals: [
+      { engine: 'investment', id: 'inv-1' },
+      { engine: 'other', id: 'other-1' }
+    ]
+  };
+  var evaluated = engine.evaluatePortal(co);
+  assert.equal(evaluated.quarantine, true, JSON.stringify(evaluated));
+  assert.equal(evaluated.signals.length, 0);
+  assert.equal(engine.quarantineInvestmentSignals(co, 'thing0_not_permitted', '2026-01-01T00:00:00.000Z'), 1);
+  assert.equal(co.opportunitySignals.length, 1);
+  assert.equal(co.opportunitySignals[0].engine, 'other');
+  assert.equal(co.quarantinedOpportunitySignals.length, 1);
+  assert.equal(co.quarantinedOpportunitySignals[0].quarantined, true);
+  assert.equal(engine.quarantineInvestmentSignals(co, 'thing0_not_permitted', '2026-01-01T00:00:00.000Z'), 0);
+  assert.equal(co.quarantinedOpportunitySignals.length, 1, 'quarantine archive was duplicated');
+});
 
 // ── Handler contract against the current static snapshots ──────────────────
 async function handlerCheck() {
@@ -217,14 +298,54 @@ async function handlerCheck() {
   }
 }
 
-handlerCheck().then(function () {
+async function phaseCacheCheck() {
+  var db = require('../lib/limen-db');
+  var scorer = require('../lib/company-phase-scorer');
+  var origGet = db.get, origDel = db.del, origFetch = global.fetch;
+  var deleted = [];
+  db.get = async function () { return { phase: 'p4', timestamp: 1 }; };
+  db.del = async function (k) { deleted.push(k); };
+  global.fetch = async function () {
+    return {
+      json: async function () {
+        return {
+          thing0_eligibility: {
+            permits_thing1_use: false,
+            qualification_status: 'not_qualified'
+          }
+        };
+      }
+    };
+  };
+  try {
+    var r = await scorer._scoreOne({ cik: '123', ticker: 'T', domain: 'energy' });
+    assert.equal(r.scored, false, JSON.stringify(r));
+    assert.equal(r.invalidated, true, JSON.stringify(r));
+    assert.deepEqual(deleted, ['company_phase_123']);
+  } finally {
+    db.get = origGet;
+    db.del = origDel;
+    global.fetch = origFetch;
+  }
+}
+
+async function checkAsync(name, fn) {
+  try {
+    await fn();
+    console.log('  pass: ' + name);
+  } catch (e) {
+    failures++;
+    console.error('  FAIL: ' + name + ' — ' + (e && e.message));
+  }
+}
+
+(async function () {
+  await checkAsync('phase scorer actually deletes a refused cached phase', phaseCacheCheck);
+  await checkAsync('handler contract against current static snapshots', handlerCheck);
   console.log('');
   if (failures) {
     console.error(failures + ' failure(s)');
     process.exit(1);
   }
   console.log('thing0 connect: all checks passed');
-}).catch(function (e) {
-  console.error('  FAIL: handler contract — ' + (e && e.message));
-  process.exit(1);
-});
+})();

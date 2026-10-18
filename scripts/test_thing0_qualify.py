@@ -87,6 +87,7 @@ def main():
             "one_or_more_required_series_incomplete",
             "quarterly_history_below_full_envelope",
             "sec_company_facts_or_required_series_unavailable",
+            "sector_lookup_unavailable",
             "extraction_error: SEC EDGAR fetch failed.",
         ])
         assert "thing0_not_permitted" in categories, categories
@@ -171,7 +172,7 @@ def _local_packet_integration():
         values = dict(
             cik="0000000001",
             facts={"entityName": "Fixture"},
-            sic=0,
+            sic=2911,
             is_financial=False,
             company_data=full_data,
             result={},
@@ -249,7 +250,7 @@ def _local_packet_integration():
             return {"entityName": "Fixture"}
 
         async def fake_sic(cik):
-            return 0
+            return 2911
 
         def fail_pipeline(*args, **kwargs):
             raise RuntimeError("thing2 failure")

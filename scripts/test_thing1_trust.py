@@ -440,7 +440,7 @@ def _local_health_integration():
              "stress_rate": 0.9, "max_consec": 2,
              "cash_decline": 0.1, "rupture_n_quarters": 1},
         )
-        limen_app._fetch_sic = lambda cik: 0
+        limen_app._fetch_sic = lambda cik: 2911
         limen_app._fetch_fred_quiet = lambda: {"ok": True, "reason": None, "delta": {}}
         limen_app.assess_envelope = lambda *a, **k: {
             "in_envelope": True, "status": "validated", "status_code": None,

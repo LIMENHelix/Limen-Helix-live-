@@ -93,6 +93,9 @@ function deriveSlug(ticker, name) {
 
 function deriveTrajectory(d) {
   if (!d) return 'NO_DATA';
+  /* Refused and unvalidated results are not stability. Preserve the scorer's
+     explicit state instead of deriving STABLE from the absence of an alert. */
+  if (d.trajectory === 'NOT_RUN' || d.trajectory === 'UNVALIDATED') return d.trajectory;
   if (d.alert) {
     const path = d.pathway || '?';
     if (path.indexOf('C') !== -1) return 'RUPTURE';
@@ -175,12 +178,18 @@ async function main() {
   }
 
   const results = [];
-  let scored = 0, errors = 0, resumed = 0;
+  let scored = 0, errors = 0, resumed = 0, rescoredLegacy = 0;
   const start = Date.now();
 
   for (let i = 0; i < queue.length; i++) {
     const c = queue[i];
-    if (existing[c.cik]) { results.push(existing[c.cik]); resumed++; continue; }
+    const prior = existing[c.cik];
+    /* --resume may only skip a row that already carries Thing 0 evidence.
+       Legacy rows without t0 are rescored so qualification is not assumed. */
+    if (prior && (prior.t0 || prior.thing0 || prior.thing0Eligibility)) {
+      results.push(prior); resumed++; continue;
+    }
+    if (prior) rescoredLegacy++;
 
     const domainId = SECTOR_TO_DOMAIN[c.primary_sector] || 'trade';
     const slug = deriveSlug(c.ticker, c.name);
@@ -244,7 +253,8 @@ async function main() {
   writeOutput(results, queue.length, scored, errors, resumed, false);
   const dur = Math.round((Date.now() - start) / 1000);
   console.log('\n──── DONE ────');
-  console.log('Run: ' + dur + 's, scored=' + scored + ', resumed=' + resumed + ', errors=' + errors);
+  console.log('Run: ' + dur + 's, scored=' + scored + ', resumed=' + resumed +
+    ', rescored_legacy=' + rescoredLegacy + ', errors=' + errors);
   console.log('Output: ' + OUTPUT_PATH);
 }
 

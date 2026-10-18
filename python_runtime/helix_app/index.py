@@ -869,6 +869,7 @@ def _build_thing0_section(
         "debt": presence.get("debt_quarters", 0) > 0,
     }
     present_count = sum(1 for value in required.values() if value)
+    sector_known = thing0_pkg.sector_is_known(sic)
     qualification = thing0_pkg.qualify(
         is_financial=is_financial,
         facts_present=bool(facts),
@@ -876,8 +877,10 @@ def _build_thing0_section(
         required_count=len(required),
         history_quarters=history_quarters,
         sector_rule=thing0_pkg.sector_provenance(
-            thing0_pkg.SECTOR_RULE_SECTIONED_REPORT, sic, is_financial
+            thing0_pkg.SECTOR_RULE_SECTIONED_REPORT, sic, is_financial,
+            sector_known=sector_known,
         ),
+        sector_known=sector_known,
     )
 
     return {

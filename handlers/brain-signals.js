@@ -54,6 +54,28 @@ try {
   });
 } catch (e) {}
 
+function _thing0Of(row) {
+  return (row && (row.thing0 || row.thing0Eligibility || row.t0)) || null;
+}
+
+/**
+ * Merge Thing 0 evidence per ticker. The preferred score row wins for Thing 1
+ * fields, but command-board rows can carry Thing 0 evidence the energy snapshot
+ * lacks. The merge is a copy; neither source snapshot is mutated.
+ */
+function _mergeThing0Evidence(preferred, fallback) {
+  if (!preferred) return fallback || null;
+  if (_thing0Of(preferred)) return preferred;
+  var evidence = _thing0Of(fallback);
+  if (!evidence) return preferred;
+  var merged = {};
+  for (var k in preferred) {
+    if (Object.prototype.hasOwnProperty.call(preferred, k)) merged[k] = preferred[k];
+  }
+  merged.thing0 = evidence;
+  return merged;
+}
+
 function run(domain) {
   var out = { tracked: 0, scanned: 0, eligible: 0, flagged: 0, degenerate: false, thing0Evidence: 0, publishable: [], note: '' };
   if (!CB || !CB.companies) { out.note = 'engine data unavailable'; return out; }
@@ -67,14 +89,17 @@ function run(domain) {
   out.tracked = comps.length;
   if (!comps.length) { out.note = 'no companies tracked in this domain yet'; return out; }
 
-  var realMap = REAL[dq] || ELIG[dq] || {};
+  var preferredMap = REAL[dq] || null;
+  var fallbackMap = ELIG[dq] || null;
   var hasReal = false;
   comps.forEach(function (c) {
-    var r = realMap[c.t];
+    var r = preferredMap
+      ? _mergeThing0Evidence(preferredMap[c.t], fallbackMap && fallbackMap[c.t])
+      : (fallbackMap && fallbackMap[c.t]);
     if (!r) return;
     c.real = r;
     // Only a scorer-produced Thing 0 object is qualification evidence.
-    c.thing0 = r.thing0 || r.thing0Eligibility || r.t0 || null;
+    c.thing0 = _thing0Of(r);
     if (c.thing0) out.thing0Evidence++;
     if (!r.error) { hasReal = true; out.scanned++; }
   });
@@ -125,3 +150,7 @@ module.exports = async function handler(req, res) {
     publishable: r.publishable, note: r.note
   }));
 };
+
+/* Exported for the focused THING0-CONNECT-1 merge regression. */
+module.exports._mergeThing0Evidence = _mergeThing0Evidence;
+module.exports._thing0Of = _thing0Of;

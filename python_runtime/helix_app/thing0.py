@@ -60,7 +60,24 @@ def is_financial_depository_bank(sic: int) -> bool:
     return bool(value and (value == 6000 or 6020 <= value <= 6099))
 
 
-def sector_provenance(rule_id: str, sic: int, is_financial: bool) -> dict:
+def sector_is_known(sic) -> bool:
+    """True only for a real SEC SIC code.
+
+    `_fetch_sic` returns 0 when the submissions lookup fails. Zero and None are
+    UNKNOWN, not a non-financial classification: the sector gate could not run.
+    """
+    try:
+        return int(sic) > 0
+    except (TypeError, ValueError):
+        return False
+
+
+def sector_provenance(
+    rule_id: str,
+    sic: int,
+    is_financial: bool,
+    sector_known: bool | None = None,
+) -> dict:
     """Record the applied sector rule and whether the other rule disagrees.
 
     This is provenance, not a new qualification rule. `reconciled` stays False
@@ -71,6 +88,8 @@ def sector_provenance(rule_id: str, sic: int, is_financial: bool) -> dict:
         sic_value = int(sic)
     except (TypeError, ValueError):
         sic_value = 0
+    if sector_known is None:
+        sector_known = sector_is_known(sic_value)
     alternate_id = (
         SECTOR_RULE_FLAT_SCORER
         if rule_id == SECTOR_RULE_SECTIONED_REPORT
@@ -85,6 +104,7 @@ def sector_provenance(rule_id: str, sic: int, is_financial: bool) -> dict:
         "consumer": rule.get("consumer"),
         "financial_sic": rule.get("financial_sic"),
         "sic": sic_value,
+        "sector_known": bool(sector_known),
         "classified_financial": bool(is_financial),
         "alternate_rule_id": alternate_id,
         "alternate_classified_financial": bool(alternate_financial),
@@ -125,13 +145,16 @@ def from_company_data(
     facts_present: bool,
     sic: int = 0,
     sector_rule_id: str | None = None,
+    sector_known: bool | None = None,
 ) -> dict:
     """Qualification from extracted company series, preserving the released rules."""
     required = required_presence(company_data)
     present_count = sum(1 for value in required.values() if value)
     history_quarters = common_history_quarters(company_data)
+    if sector_known is None:
+        sector_known = sector_is_known(sic)
     provenance = (
-        sector_provenance(sector_rule_id, sic, is_financial)
+        sector_provenance(sector_rule_id, sic, is_financial, sector_known=sector_known)
         if sector_rule_id
         else None
     )
@@ -142,6 +165,7 @@ def from_company_data(
         required_count=len(required),
         history_quarters=history_quarters,
         sector_rule=provenance,
+        sector_known=sector_known,
     )
     result["history_quarters"] = history_quarters
     result["required_input_presence"] = required
@@ -157,11 +181,14 @@ def qualify(
     required_count: int,
     history_quarters: int,
     sector_rule: dict | None = None,
+    sector_known: bool = True,
 ) -> dict:
     """Return the Thing 0 qualification for a company.
 
     Inputs are company-level facts only. There is no validated_signal,
-    fingerprint, alert or other Thing 1 parameter.
+    fingerprint, alert or other Thing 1 parameter. `sector_known=False` means
+    the SIC lookup failed: the sector gate could not run, so the company is
+    partially qualified and Thing 1 is not permitted. Unknown is not permission.
     """
     reasons: list[str] = []
 
@@ -171,6 +198,13 @@ def qualify(
     elif not facts_present or present_count == 0:
         qualification = "not_qualified"
         reasons.append("sec_company_facts_or_required_series_unavailable")
+    elif not sector_known:
+        qualification = "partially_qualified"
+        reasons.append("sector_lookup_unavailable")
+        if present_count < required_count:
+            reasons.append("one_or_more_required_series_incomplete")
+        if history_quarters < 8:
+            reasons.append("quarterly_history_below_full_envelope")
     elif present_count == required_count and history_quarters >= 8:
         qualification = "qualified"
         reasons.append("non_financial_required_series_and_history_present")
@@ -193,6 +227,7 @@ def qualify(
         "qualification_status": qualification,
         "thing1_execution_status": execution_status,
         "permits_thing1_use": permits,
+        "sector_known": bool(sector_known),
         "history_requirement": (
             "met" if history_quarters >= 8
             else "partial" if history_quarters >= 4
