@@ -569,6 +569,8 @@
       var t1 = packet.validated_signal || {};
       var t2 = packet.phase_tracker_signal || {};
       var rec = packet.reconciliation || {};
+      var thing0Permits = !!(packet.thing0_eligibility && packet.thing0_eligibility.permits_thing1_use === true);
+      var combinedAuthority = thing0Permits && t1.validation_status === 'validated';
       var rendered = {
         // Identity / context
         historyQuarters: packet.history_quarters || 0,
@@ -579,8 +581,8 @@
         // Section 1 — Thing 1
         t1: {
           available: !!t1.available,
-          alert: t1.alert === true,
-          firstAlertQuarter: t1.first_alert_quarter || null,
+          alert: combinedAuthority && t1.alert === true,
+          firstAlertQuarter: combinedAuthority ? (t1.first_alert_quarter || null) : null,
           distressBand: t1.distress_band || null,
           kernelId: t1.kernel_id || null,
           validationStatus: t1.validation_status || 'unsupported',
@@ -600,8 +602,10 @@
         // Section 3 — Reconciliation (server-authored)
         reconciliation: {
           agree: rec.agree,
-          summary: rec.summary || '',
-          actionAuthority: rec.action_authority || 'none',
+          summary: combinedAuthority
+            ? (rec.summary || '')
+            : 'Thing 0 qualification and Thing 1 validation are both required for an authoritative result.',
+          actionAuthority: combinedAuthority ? (rec.action_authority || 'none') : 'none',
         },
       };
       try { sessionStorage.setItem(cacheKey, JSON.stringify(rendered)); } catch (e) {}

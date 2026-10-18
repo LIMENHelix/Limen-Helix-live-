@@ -260,6 +260,7 @@ def main():
     check("source: no embedded FRED key literal", _assert_no_embedded_key)
     check("source: no hardcoded lock hash in the scorer", _assert_no_hardcoded_lock)
     check("consumer: report uses the server fingerprint, not a fabricated one", _assert_report_consumer)
+    check("consumer: portal requires Thing 0 qualification and Thing 1 validation", _assert_portal_consumer)
 
     _local_health_integration()
 
@@ -352,6 +353,18 @@ def _assert_report_consumer():
     )
     assert "THING 1 ALERT" in source, (
         "a Thing 1 alert without Thing 0 qualification must be labeled separately"
+    )
+
+
+def _assert_portal_consumer():
+    source = (ROOT / "company-portal.html").read_text(encoding="utf-8")
+    assert "packet.thing0_eligibility" in source, "portal must read Thing 0 eligibility"
+    assert "combinedAuthority" in source, "portal must compute combined authority"
+    assert "actionAuthority: combinedAuthority ?" in source, (
+        "portal action authority must require both Thing 0 and Thing 1"
+    )
+    assert "Thing 0 qualification and Thing 1 validation are both required" in source, (
+        "portal must explain why authority is withheld"
     )
 
 
