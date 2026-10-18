@@ -10,7 +10,14 @@
  *   T6  db round-trip: append builds a chain, read is newest-first, verify ok
  *   T7  db TAMPER: overwrite a stored entry ⇒ verify reports brokenAt
  *   T8  consumer proof: the consolidator handler appends a provenance event
+ *
+ * FIXTURE ISOLATION: this file builds thousands of entries. Redis configuration is
+ * cleared BEFORE any module can cache availability, so bulk fixtures never write to
+ * an environment's configured database.
  */
+delete process.env.UPSTASH_REDIS_REST_URL;
+delete process.env.UPSTASH_REDIS_REST_TOKEN;
+
 var L = require('../lib/audit-ledger');
 var failures = 0, tests = 0;
 function assert(name, cond, detail) { tests++; if (cond) console.log('  PASS ' + name); else { failures++; console.error('  FAIL ' + name + (detail ? ' :: ' + detail : '')); } }
@@ -51,6 +58,8 @@ assert('deletion breaks', v5.ok === false && v5.brokenAt === 1, JSON.stringify(v
 console.log('T6-T8: db-backed (in-memory limen-db)');
 (async function () {
   var db = require('../lib/limen-db');
+  assert('audit tests use an isolated in-memory store',
+    db.getBackend() === 'memory', db.getBackend());
   var STREAM = 'testchain';
   var x1 = await L.append(db, STREAM, { ts: 10, type: 'evt', actor: 'unit', payload: { n: 1 } });
   var x2 = await L.append(db, STREAM, { ts: 20, type: 'evt', actor: 'unit', payload: { n: 2 } });
@@ -148,6 +157,30 @@ console.log('T6-T8: db-backed (in-memory limen-db)');
     onlyNull.ok === false && onlyNull.head === null && onlyNull.lastSeq === null,
     JSON.stringify(onlyNull));
 
+  // T6f: a boundary that exists but is malformed is not "absent". All four falsy
+  // shapes must be rejected, not treated as the end of the chain.
+  var c0 = L.makeEntry(0, 0, 'b', 's', { i: 0 }, L.GENESIS);
+  var c1 = L.makeEntry(1, 1, 'b', 's', { i: 1 }, c0.hash);
+  var malformedBoundaries = [null, false, 0, ''];
+  for (var mb = 0; mb < malformedBoundaries.length; mb++) {
+    var value = malformedBoundaries[mb];
+    /* A genesis-anchored window: treating the malformed boundary as absent would
+       verify this window clean, which is exactly the reported false pass. */
+    var mv = await L.verify(fakeDb([[c1, c0], [value]]), 'boundary-' + mb, 2);
+    assert('malformed boundary ' + JSON.stringify(value) + ' is rejected',
+      mv.ok === false && /window boundary entry missing hash/.test(mv.reason),
+      JSON.stringify(mv));
+    assert('malformed boundary ' + JSON.stringify(value) + ' is not reported clean',
+      mv.partial === true && mv.boundaryChecked === false, JSON.stringify(mv));
+  }
+  var b0 = L.makeEntry(0, 0, 'b', 's', { i: 0 }, L.GENESIS);
+  var b1 = L.makeEntry(1, 1, 'b', 's', { i: 1 }, b0.hash);
+  var b2 = L.makeEntry(2, 2, 'b', 's', { i: 2 }, b1.hash);
+  var validBoundary = await L.verify(fakeDb([[b2, b1], [b0]]), 'boundary-valid', 2);
+  assert('a valid boundary still verifies as a checked partial window',
+    validBoundary.ok === true && validBoundary.partial === true
+      && validBoundary.boundaryChecked === true, JSON.stringify(validBoundary));
+
   // T8: consumer proof — the consolidator appends a provenance event
   await db.set('feedhist:index', ['energy']);
   var t0 = 1700000000000;
@@ -160,6 +193,31 @@ console.log('T6-T8: db-backed (in-memory limen-db)');
   assert('provenance event marks applied:false', prov[0] && prov[0].payload && prov[0].payload.applied === false);
   var vProv = await L.verify(db, 'consolidation');
   assert('consolidation audit chain verifies', vProv.ok === true, JSON.stringify(vProv));
+
+  // T8b: the unauthenticated handler uses a fixed cap and discloses partial coverage.
+  var PUBLIC = 'testchain-public-cap';
+  await bulkChain(PUBLIC, 5003);
+  var auditHandler = require('../handlers/audit-ledger');
+  var payload = null;
+  await new Promise(function (resolve) {
+    var res = {
+      setHeader: function () {}, statusCode: 200,
+      end: function (s) { payload = JSON.parse(s); resolve(); }
+    };
+    auditHandler({ method: 'GET', url: '/api/audit-ledger?stream=' + PUBLIC + '&verify=1', headers: {} }, res);
+  });
+  assert('public verify response is returned', !!payload && payload.ok === true, JSON.stringify(payload));
+  assert('public verify cap is disclosed', payload.verifyCap === L.PUBLIC_VERIFY_CAP, JSON.stringify(payload));
+  assert('public verify is marked partial with a checked boundary',
+    payload.verify.partial === true && payload.verify.boundaryChecked === true,
+    JSON.stringify(payload.verify));
+  assert('public verify reads only the capped window',
+    payload.verify.length === L.PUBLIC_VERIFY_CAP, JSON.stringify(payload.verify));
+
+  var transferSource = require('fs').readFileSync(
+    require('path').join(__dirname, '..', 'handlers', 'transfer-record.js'), 'utf8');
+  assert('transfer-record public verify also uses the fixed cap',
+    /audit\.verify\(db, TL\.stream\(target\), audit\.PUBLIC_VERIFY_CAP\)/.test(transferSource));
 
   console.log('\n' + (tests - failures) + '/' + tests + ' passed');
   process.exit(failures ? 1 : 0);
