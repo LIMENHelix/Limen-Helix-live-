@@ -84,7 +84,7 @@ def _fetch_fred_quiet():
     Missing configuration is a named failure before any request; transport
     failures are reported as unavailable and never include the URL or key.
     """
-    return _fred.fetch_quiet(lbt.requests.get)
+    return lbt.fetch_fred_quiet(lbt.requests.get)
 
 # ─── Operating Envelope (v1.0.1) — objective gates ───────────────────
 # Per the LIMEN Phase Kernel Operating Envelope Statement v1.0.1, the

@@ -534,10 +534,10 @@
     if (!btn || !result) return;
 
     // Check session cache first
-    var cacheKey = 'limen_kernel_' + co.cik;
+    var cacheKey = 'limen_kernel_v2_' + co.cik;
     var cached = null;
     try { cached = JSON.parse(sessionStorage.getItem(cacheKey)); } catch (e) {}
-    if (cached) {
+    if (cached && cached.schemaVersion === 2) {
       _renderKernelResult(result, cached, co);
       return;
     }
@@ -572,6 +572,7 @@
       var thing0Permits = !!(packet.thing0_eligibility && packet.thing0_eligibility.permits_thing1_use === true);
       var combinedAuthority = thing0Permits && t1.validation_status === 'validated';
       var rendered = {
+        schemaVersion: 2,
         // Identity / context
         historyQuarters: packet.history_quarters || 0,
         historySufficiency: packet.history_sufficiency || 'insufficient',

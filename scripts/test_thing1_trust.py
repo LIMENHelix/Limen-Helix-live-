@@ -218,44 +218,11 @@ def main():
     check("FRED: blank key raises a named failure", _assert_fred_blank)
     check("FRED: configured key is returned unchanged", _assert_fred_configured)
 
-    def fred_missing_no_request():
-        calls = []
-        result = fred.fetch_quiet(fake_transport(calls), env={})
-        assert result["ok"] is False, result
-        assert result["reason"] == "fred-not-configured", result
-        assert result["provider_called"] is False, result
-        assert calls == [], "missing config must not call the transport"
-    check("FRED: missing config performs no request", fred_missing_no_request)
-
-    def fred_configured_mocked():
-        calls = []
-        observations = [
-            {"date": "2020-01-31", "value": "1.0"},
-            {"date": "2020-02-29", "value": "2.0"},
-            {"date": "2020-03-31", "value": "3.0"},
-            {"date": "2020-04-30", "value": "4.0"},
-        ]
-        result = fred.fetch_quiet(
-            fake_transport(calls, observations=observations),
-            env={"FRED_API_KEY": "test-fred-key"},
-        )
-        assert result["ok"] is True, result
-        assert calls and calls[0]["params"]["api_key"] == "test-fred-key", calls
-        assert calls[0]["params"]["series_id"] == "FEDFUNDS", calls
-        assert result["delta"] == {(2020, 2): 2.0}, result
-    check("FRED: configured access uses the injected transport and test key", fred_configured_mocked)
-
-    def fred_transport_error_is_sanitized():
-        calls = []
-        result = fred.fetch_quiet(
-            fake_transport(calls, error=RuntimeError("boom https://example.test?api_key=SECRET")),
-            env={"FRED_API_KEY": "test-fred-key"},
-        )
-        assert result["ok"] is False, result
-        assert result["reason"] == "fred-unavailable", result
-        serialized = json.dumps(result)
-        assert "SECRET" not in serialized and "api_key" not in serialized, serialized
-    check("FRED: transport errors are named and do not leak the key", fred_transport_error_is_sanitized)
+    def fred_params_configured():
+        params = fred.fedfunds_params({"FRED_API_KEY": "test-fred-key"})
+        assert params["api_key"] == "test-fred-key", params
+        assert params["series_id"] == "FEDFUNDS", params
+    check("FRED: configured parameters use the environment key", fred_params_configured)
 
     check("source: no embedded FRED key literal", _assert_no_embedded_key)
     check("source: no hardcoded lock hash in the scorer", _assert_no_hardcoded_lock)
@@ -316,7 +283,8 @@ def _assert_fred_configured():
 def _assert_no_embedded_key():
     source = (ROOT / "python_runtime/helix_app/thing1/limen_backtest.py").read_text(encoding="utf-8")
     assert not re.search(r'FRED_KEY\s*=\s*["\'][A-Fa-f0-9]{20,}["\']', source), "embedded FRED key literal remains"
-    assert "fred_config.fetch_quiet" in source, "kernel must use the shared FRED adapter"
+    assert "def fetch_fred_quiet(" in source, "kernel must contain the fingerprinted FRED adapter"
+    assert "fred_config.fedfunds_params" in source, "kernel must use env-only FRED configuration"
 
 
 def _assert_no_hardcoded_lock():
@@ -354,6 +322,12 @@ def _assert_report_consumer():
     assert "THING 1 ALERT" in source, (
         "a Thing 1 alert without Thing 0 qualification must be labeled separately"
     )
+    assert "t1.alert || t1.raw_alert" in source, (
+        "the non-authoritative crossing diagnostic must read raw_alert"
+    )
+    assert "raw_alert: t1.raw_alert === true" in source, (
+        "the report packet must preserve the raw alert for diagnostics"
+    )
 
 
 def _assert_portal_consumer():
@@ -366,6 +340,11 @@ def _assert_portal_consumer():
     assert "Thing 0 qualification and Thing 1 validation are both required" in source, (
         "portal must explain why authority is withheld"
     )
+    assert "limen_kernel_v2_" in source, "portal cache key must be versioned"
+    assert "cached.schemaVersion === 2" in source, (
+        "portal must reject cached results created before authority gating"
+    )
+    assert "schemaVersion: 2" in source, "portal must stamp the cache schema version"
 
 
 def _local_health_integration():
@@ -530,6 +509,40 @@ def _local_health_integration():
             os.environ.pop("FRED_API_KEY", None)
         else:
             os.environ["FRED_API_KEY"] = old_key
+
+    try:
+        observations = [
+            {"date": "2020-01-31", "value": "1.0"},
+            {"date": "2020-02-29", "value": "2.0"},
+            {"date": "2020-03-31", "value": "3.0"},
+            {"date": "2020-04-30", "value": "4.0"},
+        ]
+        calls = []
+        configured = limen_app.lbt.fetch_fred_quiet(
+            fake_transport(calls, observations=observations),
+            env={"FRED_API_KEY": "test-fred-key"},
+        )
+        assert configured["ok"] is True, configured
+        assert calls and calls[0]["params"]["api_key"] == "test-fred-key", calls
+        assert configured["delta"] == {(2020, 2): 2.0}, configured
+
+        missing_calls = []
+        missing = limen_app.lbt.fetch_fred_quiet(fake_transport(missing_calls), env={})
+        assert missing["reason"] == "fred-not-configured", missing
+        assert missing_calls == [], "missing config must not call the transport"
+
+        error_calls = []
+        errored = limen_app.lbt.fetch_fred_quiet(
+            fake_transport(error_calls, error=RuntimeError("boom https://example.test?api_key=SECRET")),
+            env={"FRED_API_KEY": "test-fred-key"},
+        )
+        assert errored["reason"] == "fred-unavailable", errored
+        serialized = json.dumps(errored)
+        assert "SECRET" not in serialized and "api_key" not in serialized, serialized
+        print("  pass: local fingerprinted FRED adapter (missing, configured, error)")
+    except Exception as exc:  # noqa: BLE001
+        FAILURES += 1
+        print("  FAIL: local fingerprinted FRED adapter — " + str(exc)[:200])
 
 
 if __name__ == "__main__":

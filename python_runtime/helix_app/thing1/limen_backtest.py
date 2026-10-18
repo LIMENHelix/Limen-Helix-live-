@@ -308,9 +308,57 @@ def fetch_company_data(company):
     return data
 
 # ─── FRED Data Fetch ──────────────────────────────────────────────────────────
+def _fred_delta_from_observations(observations):
+    """Validated FRED input transformation. Kept inside the fingerprinted file."""
+    monthly = {}
+    for observation in observations or []:
+        try:
+            dt = datetime.strptime(observation["date"], "%Y-%m-%d")
+            monthly[dt] = float(observation["value"])
+        except (KeyError, TypeError, ValueError):
+            continue
+    if not monthly:
+        return {}
+    quarterly = {}
+    for dt in sorted(monthly):
+        quarterly.setdefault(date_to_quarter(dt), []).append(monthly[dt])
+    means = {quarter: np.mean(values) for quarter, values in quarterly.items()}
+    ordered = sorted(means)
+    return {
+        ordered[index]: means[ordered[index]] - means[ordered[index - 1]]
+        for index in range(1, len(ordered))
+    }
+
+
+def fetch_fred_quiet(transport, env=None, timeout=30):
+    """Fetch FEDFUNDS through an injected transport without logging the URL.
+
+    Missing configuration is a named failure before the transport call. The
+    parsed quarterly delta is produced inside this fingerprinted file.
+    """
+    try:
+        params = fred_config.fedfunds_params(env)
+    except fred_config.FredNotConfigured as exc:
+        return {"ok": False, "reason": str(exc), "provider_called": False}
+
+    try:
+        response = transport(fred_config.FRED_URL, params=params, timeout=timeout)
+        response.raise_for_status()
+        observations = response.json().get("observations", [])
+    except Exception:
+        # Deliberately do not include the exception text: provider errors can
+        # embed the request URL, which carries the API key.
+        return {"ok": False, "reason": "fred-unavailable", "provider_called": True}
+
+    delta = _fred_delta_from_observations(observations)
+    if not delta:
+        return {"ok": False, "reason": "fred-unavailable", "provider_called": True}
+    return {"ok": True, "reason": None, "provider_called": True, "delta": delta}
+
+
 def fetch_fred():
     print("  Fetching FRED FEDFUNDS...")
-    result = fred_config.fetch_quiet(requests.get)
+    result = fetch_fred_quiet(requests.get)
     if not result.get("ok"):
         if result.get("reason") == "fred-not-configured":
             raise fred_config.FredNotConfigured("fred-not-configured")

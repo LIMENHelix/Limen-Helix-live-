@@ -15,16 +15,20 @@ assert.doesNotMatch(wrapper, /redirect_stdout|fred_delta = lbt\.fetch_fred\(\)/,
   'production must not mutate process-global stdout or invoke the noisy CLI fetcher');
 assert.doesNotMatch(wrapper, /lbt\.FRED_KEY/,
   'production must not fall back to an embedded kernel credential');
-assert.match(wrapper, /_fred\.fetch_quiet\(lbt\.requests\.get\)/,
-  'the production adapter must delegate to the env-only FRED module');
+assert.match(wrapper, /lbt\.fetch_fred_quiet\(lbt\.requests\.get\)/,
+  'the production adapter must delegate to the fingerprinted FRED fetch');
 assert.match(wrapper, /FRED fetch unavailable; request details withheld/,
   'the replacement production diagnostic must not contain a request URL');
 assert.match(wrapper, /raise HTTPException\(503, "fred-not-configured"\)/,
   'missing FRED configuration must be a named failure before scoring');
 assert.match(locked, /def fetch_fred\(\):/,
   'the validated kernel remains present and is not replaced by the wrapper fix');
-assert.match(locked, /fred_config\.fetch_quiet\(requests\.get\)/,
-  'the kernel fetch path must use the env-only adapter');
+assert.match(locked, /def fetch_fred_quiet\(/,
+  'the kernel must own the fingerprinted FRED fetch');
+assert.match(locked, /_fred_delta_from_observations/,
+  'the validated FRED input transformation must remain inside the fingerprinted file');
+assert.doesNotMatch(fred, /def fetch_quiet/,
+  'the configuration module must not own the validated input transformation');
 assert.doesNotMatch(locked, /FRED_KEY\s*=\s*["'][A-Fa-f0-9]{20,}["']/,
   'the kernel must not embed a FRED credential');
 assert.match(fred, /FRED_API_KEY_ENV = "FRED_API_KEY"/,
