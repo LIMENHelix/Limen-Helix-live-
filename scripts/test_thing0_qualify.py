@@ -79,6 +79,24 @@ def main():
         assert not present, "Thing 0 formula must not take Thing 1 inputs: " + str(present)
     check("formula has no Thing 1 input", no_thing1_input)
 
+    def audit_categories():
+        from python_runtime.helix_app.audit import reconciliation_log as rlog
+        categories = rlog._t1_unsupported_categories([
+            "thing0_not_permitted",
+            "financial_institution_requires_regime_2_adapter",
+            "one_or_more_required_series_incomplete",
+            "quarterly_history_below_full_envelope",
+            "sec_company_facts_or_required_series_unavailable",
+            "extraction_error: SEC EDGAR fetch failed.",
+        ])
+        assert "thing0_not_permitted" in categories, categories
+        assert "bank_adapter_required" in categories, categories
+        assert "company_data_incomplete" in categories, categories
+        assert "insufficient_data" in categories, categories
+        assert "extraction_error" in categories, categories
+        assert "other" not in categories, categories
+    check("audit categories map Thing 0 refusal reasons", audit_categories)
+
     _local_packet_integration()
 
     print("")

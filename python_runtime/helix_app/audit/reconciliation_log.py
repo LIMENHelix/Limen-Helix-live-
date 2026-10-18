@@ -95,12 +95,20 @@ def _t1_unsupported_categories(reasons: list[str] | None) -> list[str]:
             out.append("fingerprint_mismatch")
         elif "phase 4 has not landed" in rl or "thing1_runtime_not_wired" in rl:
             out.append("thing1_runtime_not_wired")
-        elif "bank_adapter_required" in rl or "regime 2" in rl:
+        elif ("bank_adapter_required" in rl or "regime 2" in rl
+              or "regime_2" in rl
+              or "financial_institution_requires_regime_2_adapter" in rl):
             out.append("bank_adapter_required")
+        elif "thing0_not_permitted" in rl:
+            out.append("thing0_not_permitted")
+        elif ("one_or_more_required_series_incomplete" in rl
+              or "sec_company_facts_or_required_series_unavailable" in rl):
+            out.append("company_data_incomplete")
+        elif ("quarterly_history_below_full_envelope" in rl
+              or "minimum 5" in rl or "insufficient" in rl):
+            out.append("insufficient_data")
         elif "extraction_error" in rl or "edgar fetch failed" in rl:
             out.append("extraction_error")
-        elif "minimum 5" in rl or "insufficient" in rl:
-            out.append("insufficient_data")
         else:
             out.append("other")
     return out

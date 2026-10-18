@@ -98,6 +98,18 @@ check('SEC extraction failure is preserved in the refusal', function () {
   assert.ok(source.includes('Unable to retrieve SEC filings for this CIK.'),
     'extraction-error narrative missing');
 });
+check('Thing 0 refusal reason codes are mapped in the audit bucketer', function () {
+  var audit = fs.readFileSync(
+    path.join(ROOT, 'python_runtime', 'helix_app', 'audit', 'reconciliation_log.py'),
+    'utf8'
+  );
+  assert.ok(audit.includes('thing0_not_permitted'), 'thing0_not_permitted bucket missing');
+  assert.ok(audit.includes('company_data_incomplete'), 'company_data_incomplete bucket missing');
+  assert.ok(audit.includes('quarterly_history_below_full_envelope'),
+    'history reason mapping missing');
+  assert.ok(audit.includes('financial_institution_requires_regime_2_adapter'),
+    'bank reason mapping missing');
+});
 check('Thing 0 refusal is registered in the audit template map', function () {
   var audit = fs.readFileSync(
     path.join(ROOT, 'python_runtime', 'helix_app', 'audit', 'reconciliation_log.py'),
