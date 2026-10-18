@@ -331,6 +331,7 @@ def score(req: ScoreRequest):
     envelope = assess_envelope(df, input_presence, sic, path_c=path_c)
     fp = _thing1.fingerprint_status()
     envelope = _thing1.apply_fingerprint_to_envelope(envelope, fp)
+    effective_validated = bool(envelope.get("in_envelope")) and envelope.get("status") == "validated"
 
     if alert:
         firing = []
@@ -452,7 +453,7 @@ def score(req: ScoreRequest):
             "cash_runway_q": _f(latest.get("runway")),
         }
 
-    return {
+    response = {
         "cik": cik,
         "entity_name": facts.get("entityName", ""),
         "alert": alert,
@@ -500,3 +501,4 @@ def score(req: ScoreRequest):
         "dominant_phase": dominant_phase,
         "phase_history": phase_history,
     }
+    return _thing1.gate_alert_fields(response, effective_validated)

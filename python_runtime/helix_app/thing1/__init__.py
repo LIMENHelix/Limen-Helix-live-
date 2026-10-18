@@ -167,6 +167,33 @@ def apply_fingerprint_to_envelope(envelope: dict, fp: dict) -> dict:
     return out
 
 
+def gate_alert_fields(fields: dict, effective_validated: bool) -> dict:
+    """Clear authoritative alert fields when validation is not established.
+
+    The raw threshold result is preserved under raw_* keys for diagnostics.
+    A validated result keeps its alert fields and gains alert_authorized.
+    """
+    out = dict(fields or {})
+    out["alert_authorized"] = bool(effective_validated and out.get("alert"))
+    if effective_validated:
+        return out
+    out["raw_alert"] = out.get("alert")
+    out["raw_alert_a"] = out.get("alert_a")
+    out["raw_alert_b"] = out.get("alert_b")
+    out["raw_alert_c"] = out.get("alert_c")
+    out["raw_pathway"] = out.get("pathway")
+    out["raw_trajectory"] = out.get("trajectory")
+    out["raw_first_alert_quarter"] = out.get("first_alert_quarter")
+    out["alert"] = False
+    out["alert_a"] = False
+    out["alert_b"] = False
+    out["alert_c"] = False
+    out["pathway"] = None
+    out["trajectory"] = "UNVALIDATED"
+    out["first_alert_quarter"] = None
+    return out
+
+
 def _ensure_optional_dep_shims() -> list:
     """Satisfy limen_backtest.py's module-level plot/report-only imports.
 

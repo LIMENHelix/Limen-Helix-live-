@@ -190,6 +190,30 @@ def main():
         assert out["envelope_status_code"] == "FINGERPRINT_UNAVAILABLE", out
     check("envelope: absent kernel is unavailable", envelope_absent)
 
+    def gate_alert_fields_case():
+        fields = {
+            "alert": True, "alert_a": True, "alert_b": False, "alert_c": False,
+            "pathway": "A", "trajectory": "UNRECOVERED_P3",
+            "first_alert_quarter": "2020Q1",
+        }
+        gated = thing1.gate_alert_fields(fields, False)
+        assert gated["alert"] is False, gated
+        assert gated["alert_a"] is False, gated
+        assert gated["alert_b"] is False and gated["alert_c"] is False, gated
+        assert gated["pathway"] is None, gated
+        assert gated["trajectory"] == "UNVALIDATED", gated
+        assert gated["first_alert_quarter"] is None, gated
+        assert gated["alert_authorized"] is False, gated
+        assert gated["raw_alert"] is True, gated
+        assert gated["raw_pathway"] == "A", gated
+        assert gated["raw_trajectory"] == "UNRECOVERED_P3", gated
+        assert gated["raw_first_alert_quarter"] == "2020Q1", gated
+        allowed = thing1.gate_alert_fields(fields, True)
+        assert allowed["alert"] is True, allowed
+        assert allowed["alert_authorized"] is True, allowed
+        assert "raw_alert" not in allowed, allowed
+    check("alert fields: unvalidated clears authoritative alert fields", gate_alert_fields_case)
+
     check("FRED: missing key raises a named failure", _assert_fred_missing)
     check("FRED: blank key raises a named failure", _assert_fred_blank)
     check("FRED: configured key is returned unchanged", _assert_fred_configured)
@@ -307,6 +331,9 @@ def _assert_report_consumer():
     assert "state: 'server_validated'" not in source, "fabricated server_validated fingerprint remains"
     assert "t1.fingerprint_status" in source, "report must use the server fingerprint"
     assert "kernel_sha256_actual" in source, "report must expose the actual hash"
+    assert "var clientValidated = envelope.status === 'validated'" in source, (
+        "the browser envelope failure must participate in effective validation"
+    )
     assert "var effectiveAlert = effectiveValidation === 'validated'" in source, (
         "alert presentation must be gated on effective validation"
     )
@@ -428,7 +455,38 @@ def _local_health_integration():
         assert out["kernel_sha256_lock"] == "b" * 64, out
         assert out["fingerprint_status"]["state"] == "mismatch", out
         assert out["fred_status"] == "configured", out
-        print("  pass: local score endpoint downgrades a mismatched fingerprint")
+        assert out["alert"] is False, out
+        assert out["alert_a"] is False and out["alert_b"] is False and out["alert_c"] is False, out
+        assert out["pathway"] is None, out
+        assert out["trajectory"] == "UNVALIDATED", out
+        assert out["first_alert_quarter"] is None, out
+        assert out["alert_authorized"] is False, out
+        assert out["raw_alert"] is True, out
+        assert out["raw_pathway"] == "A", out
+        assert out["raw_trajectory"] == "UNRECOVERED_P3", out
+
+        fp_match = {
+            "state": "match", "kernel_sha256": "a" * 64,
+            "lock_sha256": "a" * 64, "validation_evidence_present": True,
+        }
+        limen_app._thing1.fingerprint_status = lambda: dict(fp_match)
+        out_match = limen_app.score(limen_app.ScoreRequest(cik="0000000001"))
+        assert out_match["validation_status"] == "validated", out_match
+        assert out_match["alert"] is True, out_match
+        assert out_match["alert_authorized"] is True, out_match
+        assert "raw_alert" not in out_match, out_match
+
+        limen_app.assess_envelope = lambda *a, **k: {
+            "in_envelope": False, "status": "ingestion_suspect",
+            "status_code": "INGESTION_SUSPECT", "regime_context": "extrapolated",
+            "is_financial": False, "sic_code": 0, "disclaimer": "coverage",
+        }
+        out_env = limen_app.score(limen_app.ScoreRequest(cik="0000000001"))
+        assert out_env["validation_status"] == "ingestion_suspect", out_env
+        assert out_env["alert"] is False, out_env
+        assert out_env["alert_authorized"] is False, out_env
+        assert out_env["raw_alert"] is True, out_env
+        print("  pass: local score endpoint gates alerts on fingerprint and envelope")
     except Exception as exc:  # noqa: BLE001
         FAILURES += 1
         print("  FAIL: local score status integration — " + str(exc)[:300])

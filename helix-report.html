@@ -1213,7 +1213,13 @@ function _packServerResult(t1) {
   };
   var fingerprintMatches = serverFingerprint.state === 'match';
   var serverValidation = t1.validation_status || null;
-  var effectiveValidation = serverValidation || envelope.status;
+  var clientValidated = envelope.status === 'validated';
+  var effectiveValidation;
+  if (!clientValidated) {
+    effectiveValidation = envelope.status;
+  } else {
+    effectiveValidation = serverValidation || envelope.status;
+  }
   if (effectiveValidation === 'validated' && !fingerprintMatches) {
     effectiveValidation = 'unvalidated_after_modification';
   }
