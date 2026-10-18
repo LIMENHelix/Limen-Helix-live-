@@ -196,6 +196,8 @@ check('Command Board requires effective Thing 1 validation before ALERT or NO_AL
     'abstention result missing');
   assert.ok(commandBoardPage.includes("d.vs === 'validated'"),
     'validation status is not required');
+  assert.ok(commandBoardPage.includes("d._thing1Result || 'ABSTAIN'"),
+    'T1 badge still falls back to raw validation status');
 });
 check('Command Board rendering tolerates null composite scores', function () {
   assert.ok(!/d\.co\.toFixed/.test(commandBoardPage),

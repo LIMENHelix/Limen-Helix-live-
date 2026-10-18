@@ -429,7 +429,7 @@ function renderTable(rows, startOffset) {
     var srcDataClass = d.p === 'ERROR' ? 'src-dat-err' : (d.ds > 0 ? 'src-dat-ok' : 'src-dat-part');
     var t0Class = d._thing0Status === 'QUALIFIED' ? 'src-dat-ok' : (d._thing0Status === 'PARTIALLY_QUALIFIED' ? 'src-dat-part' : 'src-dat-err');
     var srcBadges = '<span class="src-badge ' + t0Class + '">T0:' + d._thing0Status.replace('_QUALIFIED', '') + '</span>' +
-      '<span class="src-badge src-lin">T1:' + (d._thing1Result || (d.vs || 'NONE').toUpperCase()) + '</span>' +
+      '<span class="src-badge src-lin">T1:' + (d._thing1Result || 'ABSTAIN') + '</span>' +
       '<span class="src-badge src-rec">T2:MASK CHECK</span>' +
       '<span class="src-badge ' + srcDataClass + '">DAT:' + srcData + '</span>';
 
