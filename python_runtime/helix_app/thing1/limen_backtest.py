@@ -32,6 +32,11 @@ except ImportError:
 
 warnings.filterwarnings("ignore")
 
+try:
+    from . import fred as fred_config
+except ImportError:
+    import fred as fred_config
+
 # ─── Configuration ────────────────────────────────────────────────────────────
 OUTPUT_DIR = Path(__file__).parent / "output"
 PLOT_DIR   = OUTPUT_DIR / "plots"
@@ -39,7 +44,6 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 PLOT_DIR.mkdir(parents=True, exist_ok=True)
 
 SEC_UA      = "limenhelix@gmail.com"
-FRED_KEY    = "a0735d0210d8a8d572dc3fad39219d97"
 SEC_HEADERS = {"User-Agent": SEC_UA, "Accept-Encoding": "gzip, deflate"}
 SEC_SLEEP   = 0.15
 START_YEAR  = 2015
@@ -304,36 +308,63 @@ def fetch_company_data(company):
     return data
 
 # ─── FRED Data Fetch ──────────────────────────────────────────────────────────
-def fetch_fred():
-    print("  Fetching FRED FEDFUNDS...")
-    url = (f"https://api.stlouisfed.org/fred/series/observations"
-           f"?series_id=FEDFUNDS&api_key={FRED_KEY}&file_type=json"
-           f"&observation_start=2014-01-01")
-    try:
-        r = requests.get(url, timeout=30)
-        r.raise_for_status()
-        obs = r.json().get("observations", [])
-    except Exception as e:
-        print(f"    FRED error: {e}")
-        return {}
+def _fred_delta_from_observations(observations):
+    """Validated FRED input transformation. Kept inside the fingerprinted file."""
     monthly = {}
-    for o in obs:
+    for observation in observations or []:
         try:
-            dt = datetime.strptime(o["date"], "%Y-%m-%d")
-            monthly[dt] = float(o["value"])
-        except:
-            pass
+            dt = datetime.strptime(observation["date"], "%Y-%m-%d")
+            monthly[dt] = float(observation["value"])
+        except (KeyError, TypeError, ValueError):
+            continue
     if not monthly:
         return {}
     quarterly = {}
     for dt in sorted(monthly):
-        yq = date_to_quarter(dt)
-        quarterly.setdefault(yq, []).append(monthly[dt])
-    ff_q = {yq: np.mean(v) for yq, v in quarterly.items()}
-    sorted_q = sorted(ff_q)
-    delta = {}
-    for i in range(1, len(sorted_q)):
-        delta[sorted_q[i]] = ff_q[sorted_q[i]] - ff_q[sorted_q[i - 1]]
+        quarterly.setdefault(date_to_quarter(dt), []).append(monthly[dt])
+    means = {quarter: np.mean(values) for quarter, values in quarterly.items()}
+    ordered = sorted(means)
+    return {
+        ordered[index]: means[ordered[index]] - means[ordered[index - 1]]
+        for index in range(1, len(ordered))
+    }
+
+
+def fetch_fred_quiet(transport, env=None, timeout=30):
+    """Fetch FEDFUNDS through an injected transport without logging the URL.
+
+    Missing configuration is a named failure before the transport call. The
+    parsed quarterly delta is produced inside this fingerprinted file.
+    """
+    try:
+        params = fred_config.fedfunds_params(env)
+    except fred_config.FredNotConfigured as exc:
+        return {"ok": False, "reason": str(exc), "provider_called": False}
+
+    try:
+        response = transport(fred_config.FRED_URL, params=params, timeout=timeout)
+        response.raise_for_status()
+        observations = response.json().get("observations", [])
+    except Exception:
+        # Deliberately do not include the exception text: provider errors can
+        # embed the request URL, which carries the API key.
+        return {"ok": False, "reason": "fred-unavailable", "provider_called": True}
+
+    delta = _fred_delta_from_observations(observations)
+    if not delta:
+        return {"ok": False, "reason": "fred-unavailable", "provider_called": True}
+    return {"ok": True, "reason": None, "provider_called": True, "delta": delta}
+
+
+def fetch_fred():
+    print("  Fetching FRED FEDFUNDS...")
+    result = fetch_fred_quiet(requests.get)
+    if not result.get("ok"):
+        if result.get("reason") == "fred-not-configured":
+            raise fred_config.FredNotConfigured("fred-not-configured")
+        print("    FRED unavailable; continuing without FEDFUNDS deltas")
+        return {}
+    delta = result.get("delta", {})
     print(f"    FEDFUNDS: {len(delta)} quarterly deltas")
     return delta
 
@@ -2166,12 +2197,16 @@ def run_holdout_validation(cohort_csv=None):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) >= 2 and sys.argv[1] == "--holdout":
-        if len(sys.argv) >= 3:
-            run_holdout_validation(cohort_csv=sys.argv[2])
+    try:
+        if len(sys.argv) >= 2 and sys.argv[1] == "--holdout":
+            if len(sys.argv) >= 3:
+                run_holdout_validation(cohort_csv=sys.argv[2])
+            else:
+                print("ERROR: --holdout requires a CSV path argument")
+                print("Usage: python limen_backtest.py --holdout <cohort_holdout.csv>")
+                sys.exit(1)
         else:
-            print("ERROR: --holdout requires a CSV path argument")
-            print("Usage: python limen_backtest.py --holdout <cohort_holdout.csv>")
-            sys.exit(1)
-    else:
-        main()
+            main()
+    except fred_config.FredNotConfigured:
+        print("ERROR: fred-not-configured (set FRED_API_KEY)", file=sys.stderr)
+        sys.exit(1)

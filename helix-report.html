@@ -996,7 +996,7 @@ function _wrapPhase0Result(secFacts, kernelResult, cik) {
       return {
         kernel_id: 'limen_backtest.py',
         kernel_runtime: hasResult ? 'browser-client-side (Phase 0)' : 'absent',
-        kernel_version: '4.0-validated',
+        kernel_version: '4.0',
         available: hasResult,
         alert: hasResult ? !!kr.alert : null,
         first_alert_quarter: faStr,
@@ -1139,6 +1139,12 @@ async function runAnalysis(opts) {
     }
     var t1 = await resp.json();
     var packet = _packServerResult(t1);
+    var gatedT1 = packet.validated_signal || {};
+    var combinedAlert = !!(
+      gatedT1.alert
+      && packet.thing0_eligibility
+      && packet.thing0_eligibility.permits_thing1_use === true
+    );
     currentResult = packet;
     _entityName = packet.entity_name || ('CIK ' + cik);
     applyResults(packet);
@@ -1146,7 +1152,9 @@ async function runAnalysis(opts) {
     if (thing1Label) {
       statusBits = [
         _entityName, '\u2014',
-        t1.alert ? ('ALERT \u00b7 Path ' + (t1.pathway || '?')) : 'NO ALERT',
+        combinedAlert ? ('AUTHORIZED ALERT \u00b7 Path ' + (gatedT1.pathway || '?'))
+          : (gatedT1.alert ? 'THING 1 ALERT \u00b7 THING 0 NOT ESTABLISHED'
+            : (gatedT1.raw_alert ? 'NO AUTHORIZED ALERT \u00b7 RAW CROSSING' : 'NO ALERT')),
         '\u00b7',
         'composite ' + (t1.composite_score != null ? t1.composite_score.toFixed(3) : '\u2014')
       ];
@@ -1158,7 +1166,7 @@ async function runAnalysis(opts) {
         'phase ' + domTxt + ' (interpretive)',
       ];
     }
-    setStatus('analysisStatus', statusBits.join(' '), (thing1Label && t1.alert) ? 'error' : 'success');
+    setStatus('analysisStatus', statusBits.join(' '), (thing1Label && combinedAlert) ? 'error' : 'success');
     btn.disabled = false;
   } catch (err) {
     setStatus('analysisStatus', 'Server error: ' + err.message, 'error');
@@ -1208,6 +1216,29 @@ function _packServerResult(t1) {
     return { status: 'validated', reasons: [] };
   })();
 
+  var serverFingerprint = t1.fingerprint_status || {
+    state: 'absent', kernel_sha256: null, lock_sha256: null
+  };
+  var fingerprintMatches = serverFingerprint.state === 'match';
+  var serverValidation = t1.validation_status || null;
+  var clientValidated = envelope.status === 'validated';
+  var effectiveValidation;
+  if (!clientValidated) {
+    effectiveValidation = envelope.status;
+  } else {
+    effectiveValidation = serverValidation || envelope.status;
+  }
+  if (effectiveValidation === 'validated' && !fingerprintMatches) {
+    effectiveValidation = 'unvalidated_after_modification';
+  }
+  var effectiveAlert = effectiveValidation === 'validated' ? !!t1.alert : false;
+  var fingerprintReasons = [];
+  if (!fingerprintMatches) {
+    fingerprintReasons.push('kernel fingerprint ' + serverFingerprint.state
+      + ' (expected ' + (serverFingerprint.lock_sha256 || 'none')
+      + ', actual ' + (serverFingerprint.kernel_sha256 || 'none') + ')');
+  }
+
   var distressBand = (function() {
     var c = t1.composite_score;
     if (c == null) return null;
@@ -1222,9 +1253,11 @@ function _packServerResult(t1) {
   narrative.push('Path A (stress): ' + t1.path_a_score.toFixed(3) + '/' + t1.path_a_threshold
                + ' \u00b7 Path B (cash): ' + t1.path_b_score.toFixed(3) + '/' + t1.path_b_threshold
                + ' \u00b7 Path C (rupture): ' + t1.path_c_score.toFixed(3) + '/' + t1.path_c_threshold);
-  if (t1.alert) {
+  if (effectiveAlert) {
     narrative.push('Alert fired via Path ' + (t1.pathway || '?')
                  + (t1.first_alert_quarter ? ' first at ' + t1.first_alert_quarter : ''));
+  } else if (t1.alert || t1.raw_alert) {
+    narrative.push('Raw threshold crossing present, but kernel validation is not established; no alert is authorized.');
   } else {
     narrative.push('No alert. Hysteresis of 2 quarters required to fire.');
   }
@@ -1232,35 +1265,37 @@ function _packServerResult(t1) {
     request_id: 'server-' + Date.now(),
     cik: t1.cik,
     entity_name: t1.entity_name || ('CIK ' + t1.cik),
-    is_financial: false,
-    sic_code: null,
+    is_financial: t1.is_financial === true,
+    sic_code: t1.sic_code || null,
     latest_quarter: t1.latest_quarter || null,
     history_quarters: hist,
     history_sufficiency: hist >= 32 ? 'ample' : (hist >= 16 ? 'moderate' : 'thin'),
     confidence_status: hist >= 32 ? 'moderate' : 'low',
     formula_visibility: 'server_only',
-    runtime_label: 'server-side validated kernel',
+    runtime_label: 'server-side kernel',
     financial_state: t1.financial_state || null,
     phase_history: Array.isArray(t1.phase_history) ? t1.phase_history : [],
     input_presence: t1.input_presence || null,
     validated_signal: {
       kernel_id: t1.kernel_id || 'limen_backtest.py',
       kernel_runtime: t1.kernel_runtime || 'python-vercel',
-      kernel_version: '4.0-validated',
-      kernel_sha256_lock: t1.kernel_sha256_lock || null,
+      kernel_version: '4.0',
+      kernel_sha256_lock: t1.kernel_sha256_lock || serverFingerprint.lock_sha256 || null,
+      kernel_sha256_actual: t1.kernel_sha256_actual || serverFingerprint.kernel_sha256 || null,
       available: true,
-      alert: !!t1.alert,
-      first_alert_quarter: t1.first_alert_quarter || null,
+      alert: effectiveAlert,
+      raw_alert: t1.raw_alert === true,
+      first_alert_quarter: effectiveAlert ? (t1.first_alert_quarter || null) : null,
       distress_band: distressBand,
-      pathway: t1.pathway || null,
+      pathway: effectiveAlert ? (t1.pathway || null) : null,
       composite_score: t1.composite_score,
       path_a_score: t1.path_a_score,
       path_b_score: t1.path_b_score,
       path_c_score: t1.path_c_score,
-      fingerprint_status: { state: 'server_validated', kernel_sha256: t1.kernel_sha256_lock || null, lock_sha256: t1.kernel_sha256_lock || null },
+      fingerprint_status: serverFingerprint,
       narrative_safe: narrative,
-      unsupported_reasons: envelope.reasons,
-      validation_status: envelope.status
+      unsupported_reasons: envelope.reasons.concat(fingerprintReasons),
+      validation_status: effectiveValidation
     },
     phase_tracker_signal: (function() {
       var ps = (t1 && t1.phase_scores) || {};
@@ -1303,7 +1338,7 @@ function _packServerResult(t1) {
           runway_classification: 'n/a'
         },
         narrative_safe: hasScores
-          ? ['Per-quarter phase scores below are intermediate values from the validated kernel’s pipeline. Interpretive only — alert authority belongs to Thing 1 above.']
+          ? ['Per-quarter phase scores below are intermediate values from the kernel’s pipeline. Interpretive only — alert authority belongs to Thing 1 above.']
           : ['Phase scores not returned by server.'],
         unsupported_reasons: hasScores ? [] : ['No phase_scores in server response']
       };
@@ -1314,10 +1349,12 @@ function _packServerResult(t1) {
       masking_assessment: 'unassessed',
       thing2_role: 'alignment_and_masking_reconciliation_only',
       thing2_trade_weight: 0,
-      summary: t1.alert
-        ? ('Validated kernel fired alert via Path ' + (t1.pathway || '?') + '. Composite score ' + (t1.composite_score != null ? t1.composite_score.toFixed(3) : 'n/a') + '.')
-        : 'Validated kernel reports no alert.',
-      action_authority: t1.alert ? 'thing1' : 'none',
+      summary: effectiveValidation !== 'validated'
+        ? 'Validation is not established for this kernel fingerprint; the raw threshold result is not an authorized alert.'
+        : (effectiveAlert
+          ? ('Validated Thing 1 fired alert via Path ' + (t1.pathway || '?') + '. Composite score ' + (t1.composite_score != null ? t1.composite_score.toFixed(3) : 'n/a') + '. Thing 0 qualification is not available in this score path; no combined action authority is granted.')
+          : 'Validated Thing 1 reports no alert.'),
+      action_authority: 'none',  // Thing 0 qualification is not carried by this flat score path
       language_constraints: [
         'thing2_section_must_label_unvalidated',
         'thing2_section_no_alert_field',
@@ -1440,6 +1477,11 @@ function _adapt(packet) {
       kernel_version: t1.kernel_version || null,
       validation_status: t1.validation_status || 'unsupported',
       alert: t1.alert === true ? true : (t1.alert === false ? false : null),
+      authoritative_alert: (
+        t1.alert === true
+        && t1.validation_status === 'validated'
+        && t0.permits_thing1_use === true
+      ),
       first_alert_quarter: t1.first_alert_quarter || null,
       distress_band: t1.distress_band || null,
       composite_score: (typeof t1.composite_score === 'number') ? t1.composite_score : null,
@@ -1494,7 +1536,11 @@ function _adapt(packet) {
       thing2_role: 'alignment_and_masking_reconciliation_only',
       thing2_trade_weight: 0,
       summary: rec.summary || '',
-      action_authority: rec.action_authority || 'none',
+      action_authority: (
+        t0.permits_thing1_use === true
+        && t1.validation_status === 'validated'
+        && rec.action_authority === 'thing1'
+      ) ? 'thing1' : 'none',
       language_constraints: rec.language_constraints || [],
     },
 
@@ -1510,7 +1556,7 @@ function _isValidatedThing1(t1) {
 
 // Action authority comes from the reconciliation block, not from heuristics.
 function _alertActive(t1) {
-  return t1 && t1.alert === true && _isValidatedThing1(t1);
+  return t1 && t1.authoritative_alert === true && _isValidatedThing1(t1);
 }
 
 // Clinical/business templates (PHASE_CLINICAL.bioAnalog, businessSeq, etc.)
@@ -1538,7 +1584,7 @@ function applyResults(packet) {
   // Overlay \u2014 Thing 1 verdict has primacy. Only Thing 1 may surface "ALERT".
   var overlay = document.getElementById('dxOverlay');
   overlay.style.display = 'block';
-  var alertActive = _alertActive(data.t1);
+  var alertActive = _alertActive(data.t1) && data.reconciliation.action_authority === 'thing1';
   var overlayPhaseText;
   if (alertActive) {
     overlayPhaseText = 'VALIDATED DISTRESS \u2014 ALERT'

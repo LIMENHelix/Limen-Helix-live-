@@ -73,4 +73,4 @@ jobs:
 
       - name: Python syntax
         if: '!cancelled()'
-        run: python -m compileall -q api scripts
+        run: python -m compileall -q api scripts python_runtime

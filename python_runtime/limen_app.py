@@ -1,16 +1,19 @@
 """
-python_runtime/limen_app.py — LIMEN validated scorer application module.
+python_runtime/limen_app.py — LIMEN distress scorer application module.
 LIMEN three-path composite distress kernel.
 
-Imports the locked validated source (python_runtime/helix_app/thing1/limen_backtest.py,
-sha256 3ce4a652…82d20) without modifying it. Heavy validation-only deps
-(matplotlib + sklearn) are stubbed at sys.modules to avoid lambda bloat.
-Path.mkdir is patched to tolerate Vercel's read-only filesystem at
-/var/task. The locked file is unchanged on disk.
+Imports python_runtime/helix_app/thing1/limen_backtest.py and compares its
+actual deployed sha256 with VALIDATION_LOCK.json through the Thing 1
+fingerprint contract. A mismatch, missing lock or absent kernel is reported
+truthfully and never claims validated. The kernel mathematics and the lock
+file are not modified here. Heavy validation-only deps (matplotlib + sklearn)
+are stubbed at sys.modules to avoid lambda bloat. Path.mkdir is patched to
+tolerate Vercel's read-only filesystem at /var/task.
 
 Routes:
-  GET  /api/limen/health   liveness probe
-  POST /api/limen/score    validated three-path distress alert for a CIK
+  GET  /api/limen/health   liveness and fingerprint-status probe
+  POST /api/limen/score    three-path distress alert for a CIK, with truthful
+                           validation state
 """
 
 import os
@@ -50,6 +53,8 @@ from python_runtime.helix_app.thing1.statsmodels_compat import install as _insta
 
 _install_statsmodels_compat()
 from python_runtime.helix_app.thing1 import limen_backtest as lbt  # noqa: E402
+from python_runtime.helix_app import thing1 as _thing1  # noqa: E402
+from python_runtime.helix_app.thing1 import fred as _fred  # noqa: E402
 
 Path.mkdir = _orig_mkdir  # restore for any downstream user code
 
@@ -74,42 +79,12 @@ THRESH_C = 1.5
 
 
 def _fetch_fred_quiet():
-    """Reproduce the locked fetch adapter without logging credential-bearing URLs."""
-    try:
-        response = lbt.requests.get(
-            "https://api.stlouisfed.org/fred/series/observations",
-            params={
-                "series_id": "FEDFUNDS",
-                "api_key": os.environ.get("FRED_API_KEY") or lbt.FRED_KEY,
-                "file_type": "json",
-                "observation_start": "2014-01-01",
-            },
-            timeout=30,
-        )
-        response.raise_for_status()
-        observations = response.json().get("observations", [])
-    except Exception:
-        return {}
+    """Fetch FEDFUNDS through the shared env-only adapter.
 
-    monthly = {}
-    for observation in observations:
-        try:
-            dt = lbt.datetime.strptime(observation["date"], "%Y-%m-%d")
-            monthly[dt] = float(observation["value"])
-        except (KeyError, TypeError, ValueError):
-            pass
-    if not monthly:
-        return {}
-
-    quarterly = {}
-    for dt in sorted(monthly):
-        quarterly.setdefault(lbt.date_to_quarter(dt), []).append(monthly[dt])
-    quarterly_means = {quarter: lbt.np.mean(values) for quarter, values in quarterly.items()}
-    ordered = sorted(quarterly_means)
-    return {
-        ordered[index]: quarterly_means[ordered[index]] - quarterly_means[ordered[index - 1]]
-        for index in range(1, len(ordered))
-    }
+    Missing configuration is a named failure before any request; transport
+    failures are reported as unavailable and never include the URL or key.
+    """
+    return lbt.fetch_fred_quiet(lbt.requests.get)
 
 # ─── Operating Envelope (v1.0.1) — objective gates ───────────────────
 # Per the LIMEN Phase Kernel Operating Envelope Statement v1.0.1, the
@@ -246,10 +221,14 @@ class ScoreRequest(BaseModel):
 
 @app.get("/api/limen/health")
 def health():
+    fp = _thing1.fingerprint_status()
     return {
         "status": "ok",
         "kernel_id": "limen_backtest.py",
-        "validation_status": "validated",
+        "validation_status": _thing1.validation_status_for_fingerprint(fp),
+        "fingerprint_status": fp,
+        "kernel_sha256_actual": fp.get("kernel_sha256"),
+        "kernel_sha256_lock": fp.get("lock_sha256"),
     }
 
 
@@ -258,6 +237,13 @@ def score(req: ScoreRequest):
     cik = req.cik.lstrip("0").zfill(10) if req.cik else ""
     if not cik:
         raise HTTPException(400, "CIK required")
+
+    # Fail before any external fetch when FRED configuration is absent. The
+    # later adapter call still handles transport failures separately.
+    try:
+        _fred.api_key()
+    except _fred.FredNotConfigured:
+        raise HTTPException(503, "fred-not-configured")
 
     facts = lbt.fetch_sec_facts(cik)
     if facts is None:
@@ -308,10 +294,14 @@ def score(req: ScoreRequest):
         "debt_long_quarters":    len(dl),
     }
 
-    # FRED delta — best-effort (proceed with empty dict if unreachable). The
-    # validated source remains byte-identical; its CLI-oriented fetcher prints
-    # HTTPError URLs, so production uses the equivalent request-local adapter.
-    fred_delta = _fetch_fred_quiet()
+    # FRED delta — env-only configuration. Missing configuration is a named
+    # failure before any request; transport failures are best-effort and
+    # disclosed in the response.
+    fred_result = _fetch_fred_quiet()
+    if fred_result.get("reason") == "fred-not-configured":
+        raise HTTPException(503, "fred-not-configured")
+    fred_delta = fred_result.get("delta", {})
+    fred_status = "configured" if fred_result.get("ok") else "unavailable"
     if not fred_delta:
         print("FRED fetch unavailable; request details withheld")
 
@@ -339,6 +329,9 @@ def score(req: ScoreRequest):
     # Path C (it only matters when Path C is actually elevated). Banks,
     # stale filers, and thin-history are out of envelope regardless.
     envelope = assess_envelope(df, input_presence, sic, path_c=path_c)
+    fp = _thing1.fingerprint_status()
+    envelope = _thing1.apply_fingerprint_to_envelope(envelope, fp)
+    effective_validated = bool(envelope.get("in_envelope")) and envelope.get("status") == "validated"
 
     if alert:
         firing = []
@@ -460,7 +453,7 @@ def score(req: ScoreRequest):
             "cash_runway_q": _f(latest.get("runway")),
         }
 
-    return {
+    response = {
         "cik": cik,
         "entity_name": facts.get("entityName", ""),
         "alert": alert,
@@ -491,7 +484,10 @@ def score(req: ScoreRequest):
         "sic_code": envelope["sic_code"],
         "interpretive_only": (not envelope["in_envelope"]),
         "envelope_disclaimer": envelope["disclaimer"],
-        "kernel_sha256_lock": "3ce4a652ff8af4b4ea26ad1811f5cb31f746b5abceda05470d921f6e7a482d20",
+        "fingerprint_status": fp,
+        "kernel_sha256_actual": fp.get("kernel_sha256"),
+        "kernel_sha256_lock": fp.get("lock_sha256"),
+        "fred_status": fred_status,
         "latest_quarter": latest_quarter,
         "history_quarters": int(len(df)),
         "stress_rate": float(details.get("stress_rate", 0.0)),
@@ -505,3 +501,4 @@ def score(req: ScoreRequest):
         "dominant_phase": dominant_phase,
         "phase_history": phase_history,
     }
+    return _thing1.gate_alert_fields(response, effective_validated)

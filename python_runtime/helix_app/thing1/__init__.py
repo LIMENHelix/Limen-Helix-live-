@@ -10,16 +10,11 @@ truth). It is the ONLY code path in the system permitted to:
     `Chapter 11`, `intervention window closing`,
     `terminal path`, `point of no return`.
 
-CURRENT STATUS: PHASE 4 LANDED (2026-06-08). The validated limen_backtest.py
-is deployed, its sha256 matches VALIDATION_LOCK.json, and the match branch
-below calls the real kernel: extract series from the server-fetched SEC facts
-(mirroring fetch_company_data byte-for-byte, minus the refetch), then
-compute_all_features -> score_all_phases -> analyse_trajectory ->
-compute_trajectory_alert at the locked HOLDOUT_P3_ENTRY=0.59 operating point.
-Plot/report-only imports (matplotlib, sklearn.metrics) are satisfied with
-inert shims when absent — they are never executed on the scoring path, and
-the locked file is not modified. Any error returns a refusal, never a fake
-score.
+CURRENT STATUS: the deployed fingerprint is computed at runtime and compared
+with VALIDATION_LOCK.json. A mismatch or missing lock is a hard fail; the match
+branch below runs the real kernel only when the fingerprint matches. The lock
+and kernel bytes are not edited by this module. Any error returns a refusal,
+never a fake score.
 
 VALIDATION_LOCK.json holds the bytes-level fingerprint that the deployed
 `limen_backtest.py` must match. Mismatch is a hard fail — the stub returns
@@ -64,28 +59,139 @@ def fingerprint_status() -> dict:
     """Compute deployed-file fingerprint and compare to lock.
 
     Returns one of:
-      - {"state": "absent",   "kernel_sha256": None, "lock_sha256": <or None>}
+      - {"state": "absent",   "kernel_sha256": None, "lock_sha256": <or None>,
+         "validation_evidence_present": <bool>}
         → real limen_backtest.py is not deployed; stub mode.
-      - {"state": "match",    "kernel_sha256": "...", "lock_sha256": "..."}
-        → fingerprint matches; validated kernel is callable.
-      - {"state": "mismatch", "kernel_sha256": "...", "lock_sha256": "..."}
+      - {"state": "match",    "kernel_sha256": "...", "lock_sha256": "...",
+         "validation_evidence_present": <bool>}
+        → fingerprint matches. A validated claim additionally requires
+          validation_evidence_present; a match alone is not a scientific claim.
+      - {"state": "mismatch", "kernel_sha256": "...", "lock_sha256": "...",
+         "validation_evidence_present": <bool>}
         → fingerprint differs from lock; HARD FAIL. Score path returns
           validation_status="unvalidated_after_modification".
-      - {"state": "no_lock",  "kernel_sha256": "...", "lock_sha256": None}
+      - {"state": "no_lock",  "kernel_sha256": "...", "lock_sha256": None,
+         "validation_evidence_present": <bool>}
         → file present but no lock entry yet (e.g., import in progress).
           HARD FAIL — refuse to validate.
     """
     lock = _read_lock()
     lock_sha = lock.get("sha256") if isinstance(lock, dict) else None
+    evidence = bool(lock.get("validation_evidence")) if isinstance(lock, dict) else False
     kernel_present = os.path.isfile(_KERNEL_PATH)
     if not kernel_present:
-        return {"state": "absent", "kernel_sha256": None, "lock_sha256": lock_sha}
+        return {"state": "absent", "kernel_sha256": None, "lock_sha256": lock_sha,
+                "validation_evidence_present": evidence}
     kernel_sha = _file_sha256(_KERNEL_PATH)
     if not lock_sha:
-        return {"state": "no_lock", "kernel_sha256": kernel_sha, "lock_sha256": None}
+        return {"state": "no_lock", "kernel_sha256": kernel_sha, "lock_sha256": None,
+                "validation_evidence_present": evidence}
     if kernel_sha == lock_sha:
-        return {"state": "match", "kernel_sha256": kernel_sha, "lock_sha256": lock_sha}
-    return {"state": "mismatch", "kernel_sha256": kernel_sha, "lock_sha256": lock_sha}
+        return {"state": "match", "kernel_sha256": kernel_sha, "lock_sha256": lock_sha,
+                "validation_evidence_present": evidence}
+    return {"state": "mismatch", "kernel_sha256": kernel_sha, "lock_sha256": lock_sha,
+            "validation_evidence_present": evidence}
+
+
+def validation_status_for_fingerprint(fp: dict) -> str:
+    """Map the fingerprint contract to the public validation status."""
+    fp = fp or {}
+    state = fp.get("state")
+    if state == "match":
+        if fp.get("validation_evidence_present", True):
+            return "validated"
+        return "unvalidated"
+    if state == "absent":
+        return "unavailable"
+    return "unvalidated_after_modification"
+
+
+def _fingerprint_disclaimer(fp: dict, prior: str | None = None) -> str | None:
+    fp = fp or {}
+    state = fp.get("state")
+    if state == "match" and not fp.get("validation_evidence_present", True):
+        note = (
+            "The validation lock has no recorded validation evidence. The score "
+            "is interpretive only and must not be reported as validated."
+        )
+    elif state == "mismatch":
+        note = (
+            "Kernel fingerprint mismatch: deployed sha256 "
+            + str(fp.get("kernel_sha256"))
+            + " does not match the signed lock "
+            + str(fp.get("lock_sha256"))
+            + ". The score is interpretive only and must not be reported as validated."
+        )
+    elif state == "no_lock":
+        note = (
+            "No usable validation lock is present. The score is interpretive only "
+            "and must not be reported as validated."
+        )
+    elif state == "absent":
+        note = (
+            "The Thing 1 kernel is not present in this deployment. No validated "
+            "assessment is available."
+        )
+    else:
+        return prior
+    prior_text = str(prior).strip() if prior else ""
+    return (prior_text + " " + note).strip() if prior_text else note
+
+
+def apply_fingerprint_to_envelope(envelope: dict, fp: dict) -> dict:
+    """Apply the fingerprint contract to an operating-envelope result.
+
+    A matching fingerprint never overrides a failed envelope condition. A
+    mismatch, missing lock, or absent kernel forces a non-validated result.
+    """
+    out = dict(envelope or {})
+    out["fingerprint_status"] = fp
+    state = (fp or {}).get("state")
+    evidence = (fp or {}).get("validation_evidence_present", True)
+    if state == "match" and evidence:
+        return out
+    out["in_envelope"] = False
+    out["validation_status"] = validation_status_for_fingerprint(fp)
+    out["status"] = out["validation_status"]
+    if state == "absent":
+        code = "FINGERPRINT_UNAVAILABLE"
+    elif state == "no_lock":
+        code = "NO_LOCK"
+    elif state == "match":
+        code = "VALIDATION_EVIDENCE_MISSING"
+    else:
+        code = "FINGERPRINT_MISMATCH"
+    out["status_code"] = code
+    out["envelope_status_code"] = code
+    out["disclaimer"] = _fingerprint_disclaimer(fp, out.get("disclaimer"))
+    return out
+
+
+def gate_alert_fields(fields: dict, effective_validated: bool) -> dict:
+    """Clear authoritative alert fields when validation is not established.
+
+    The raw threshold result is preserved under raw_* keys for diagnostics.
+    A validated result keeps its alert fields and gains alert_authorized.
+    """
+    out = dict(fields or {})
+    out["alert_authorized"] = bool(effective_validated and out.get("alert"))
+    if effective_validated:
+        return out
+    out["raw_alert"] = out.get("alert")
+    out["raw_alert_a"] = out.get("alert_a")
+    out["raw_alert_b"] = out.get("alert_b")
+    out["raw_alert_c"] = out.get("alert_c")
+    out["raw_pathway"] = out.get("pathway")
+    out["raw_trajectory"] = out.get("trajectory")
+    out["raw_first_alert_quarter"] = out.get("first_alert_quarter")
+    out["alert"] = False
+    out["alert_a"] = False
+    out["alert_b"] = False
+    out["alert_c"] = False
+    out["pathway"] = None
+    out["trajectory"] = "UNVALIDATED"
+    out["first_alert_quarter"] = None
+    return out
 
 
 def _ensure_optional_dep_shims() -> list:
@@ -250,6 +356,14 @@ def score_validated(
         base["unsupported_reasons"].append(
             "fingerprint_mismatch: live limen_backtest.py sha256 != VALIDATION_LOCK.sha256."
         )
+        return base
+    if not fp.get("validation_evidence_present", True):
+        base["validation_status"] = "unvalidated"
+        base["narrative_safe"].append(
+            "VALIDATION_LOCK.json has no recorded validation evidence. "
+            "Refusing to validate."
+        )
+        base["unsupported_reasons"].append("validation_evidence_missing")
         return base
 
     # ── state == "match": Phase 4 — run the validated kernel ─────
