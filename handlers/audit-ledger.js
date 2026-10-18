@@ -1,7 +1,7 @@
 /**
  * handlers/audit-ledger.js — read + verify the tamper-evident provenance ledger (lib/audit-ledger).
  *
- *   GET /api/audit-ledger?stream=consolidation&verify=1  → { ok, verify:{ok,brokenAt,reason,head} }
+ *   GET /api/audit-ledger?stream=consolidation&verify=1  → { ok, verifyCap, verify:{ok,brokenAt,reason,head,partial} }
  *   GET /api/audit-ledger?stream=consolidation&n=50       → newest-first entries (read)
  *
  * READ-ONLY. This endpoint cannot append, edit, or delete — appends happen inside the code paths that
@@ -29,8 +29,13 @@ module.exports = async function handler(req, res) {
 
   try {
     if (q.verify) {
-      var v = await audit.verify(db, stream);
-      return res.end(JSON.stringify({ ok: true, stream: stream, verify: v, backend: db.getBackend() }));
+      /* UNAUTHENTICATED READ: fixed cap. The response's verify.partial discloses that
+         only the newest PUBLIC_VERIFY_CAP entries were checked. */
+      var v = await audit.verify(db, stream, audit.PUBLIC_VERIFY_CAP);
+      return res.end(JSON.stringify({
+        ok: true, stream: stream, verify: v,
+        verifyCap: audit.PUBLIC_VERIFY_CAP, backend: db.getBackend()
+      }));
     }
     var n = Math.max(1, Math.min(500, parseInt(q.n, 10) || 100));
     var entries = await audit.read(db, stream, n);
