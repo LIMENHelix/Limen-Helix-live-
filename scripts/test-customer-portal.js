@@ -1,23 +1,53 @@
 /**
- * test-customer-portal.js — self-serve cancellation opens a Stripe Customer Portal session
- * for a VERIFIED active subscriber, and for nobody else.
+ * test-customer-portal.js — self-serve cancellation. A Stripe Customer Portal session reaches
+ * ONLY the inbox of the verified active subscriber it belongs to, and nobody else.
  *
- * WHY. The portal is the only cancellation channel the legal pages promise, so this route
- * is the whole promise. Its two failure modes are opposite and both matter: minting a
- * session for an unverified email hands a stranger control of someone's subscription, and
- * refusing a real subscriber (or 500ing because the store hiccuped) breaks the one
- * cancellation path we publish. Fail closed, and fail with a named reason when the cause
- * is operator-side (portal not activated in the Stripe dashboard).
+ * WHY THE CONTRACT CHANGED (FIX-0068, customer-portal portion of FIX-0115). The old route
+ * returned the portal session URL in the POST response to anyone who presented an {email,
+ * domain} pair matching an active subscriber. Knowing a victim's email and domain is not
+ * ownership of the account — breach dumps carry both — so a stranger could read the victim's
+ * invoices and cancel their subscription. Email is the identity (lib/subscriptions.js), so
+ * proof of ownership is control of the inbox:
  *
- * NO NETWORK, NO STRIPE. The rail's portal helper is injected; the subscriber lookup runs
- * against an in-memory strict store shaped like lib/autofire-efference-store.
+ *   POST /api/customer-portal  { email, domain }  → 200 { ok, message }   ALWAYS the same body;
+ *                                  a verified subscriber is EMAILED a signed, expiring link.
+ *                                  No portal session is minted at request time.
+ *   GET  /api/customer-portal?token=…             → 302 to a freshly minted Stripe portal
+ *                                  session, after signature + expiry + a fresh strict-store
+ *                                  check that the token's email still maps to the token's
+ *                                  Stripe customer.
+ *
+ * REVIEW ROUND 2 (Codex P2s): the response must not enumerate subscribers by ANY channel.
+ *   - Failure responses: transport-not-ready, send-failed and no-customer-reference used to
+ *     return subscriber-specific 503/502s. All well-formed POSTs now return the identical
+ *     body; subscriber-specific causes go to protected diagnostics (function logs).
+ *   - Timing: the response never waits on the email transport. Delivery is registered via
+ *     the runtime's waitUntil for every well-formed POST, before the subscriber lookup.
+ *     If the real SDK has no request context or registration throws, the route fails
+ *     closed with one identical 503 and sends nothing. It never claims delivery.
+ *
+ * FAIL CLOSED, in both directions:
+ *   unknown / inactive / wrong-domain email → the SAME 200 body as a real subscriber, so the
+ *                                             route cannot enumerate who subscribes to what
+ *   store unreachable                       → 503 subscription-lookup-unavailable (identical
+ *                                             for every requester — not an account oracle)
+ *   link secret missing                     → 503 with the named reason, before any lookup
+ *   Stripe portal not activated (dashboard) → 503 with the named reason, at redeem time
+ *
+ * NO NETWORK, NO STRIPE, NO RESEND. The rail's portal helper and the mail transport are
+ * injected; the subscriber lookup runs against an in-memory strict store shaped like
+ * lib/autofire-efference-store.
  *
  * RUN: node scripts/test-customer-portal.js
  */
 'use strict';
 
 var assert = require('assert');
+var fs = require('fs');
+var path = require('path');
+var { JSDOM } = require('jsdom');
 var mod = require('../handlers/customer-portal.js');
+var link = require('../lib/customer-portal-link.js');
 
 var failures = 0;
 function check(name, fn) {
@@ -27,15 +57,23 @@ function check(name, fn) {
   );
 }
 
+var SECRET = 'route-test-secret';
+var NOW = 1730000000000;
+var ENV = { CUSTOMER_PORTAL_LINK_SECRET: SECRET };
+/* The public contract, pinned verbatim: every well-formed POST returns exactly this. */
+var GENERIC_MESSAGE = 'If an active subscription exists for that email on that domain, a sign-in link is on its way to that inbox. It expires in 30 minutes.';
+
 function fakeRes() {
   return {
     statusCode: 0, headers: {}, body: null,
-    setHeader: function (k, v) { this.headers[k] = v; },
-    end: function (s) { this.body = JSON.parse(s); }
+    setHeader: function (k, v) { this.headers[k.toLowerCase()] = v; },
+    end: function (s) {
+      try { this.body = JSON.parse(s); } catch (e) { this.body = s; }
+    }
   };
 }
-function fakeReq(method, body) {
-  return { method: method, url: '/api/customer-portal', body: body || undefined, on: function () {} };
+function fakeReq(method, body, query) {
+  return { method: method, url: '/api/customer-portal', query: query || {}, body: body || undefined, on: function () {} };
 }
 /* Shaped like the strict store subscriptions.getStrict drives: assertDurable + get. */
 function memStrict(subsMap, opts) {
@@ -61,6 +99,48 @@ function portalSpy(opts) {
   fn.calls = calls;
   return fn;
 }
+function mailSpy(opts) {
+  opts = opts || {};
+  var calls = [];
+  var fn = async function (to, subject, body, html) {
+    calls.push({ to: to, subject: subject, body: body, html: html });
+    if (opts.notReady) return { ok: false, notReady: true, reason: 'RESEND_API_KEY not set' };
+    if (opts.fail) return { ok: false, error: 'resend 500' };
+    return { ok: true, id: 'email_test_1' };
+  };
+  fn.calls = calls;
+  return fn;
+}
+function deps(over) {
+  var captured = { pending: [], logs: [] };
+  var d = Object.assign({
+    store: memStrict(ACTIVE), createPortalSession: portalSpy(), mailer: mailSpy(),
+    env: ENV, now: function () { return NOW; }, site: 'https://limenhelix.com',
+    waitUntil: function (p) { captured.pending.push(p); },
+    logger: { error: function (m) { captured.logs.push(String(m)); } }
+  }, over || {});
+  d.captured = captured;
+  return d;
+}
+
+/* The real SDK reads this global holder at call time. Install a controlled request context
+   so the actual @vercel/functions waitUntil (not a stub) is exercised. */
+var REQUEST_CONTEXT = Symbol.for('@vercel/request-context');
+function withRequestContext(waitUntilImpl, fn) {
+  var previous = globalThis[REQUEST_CONTEXT];
+  globalThis[REQUEST_CONTEXT] = { get: function () { return { waitUntil: waitUntilImpl }; } };
+  return Promise.resolve().then(fn).finally(function () {
+    if (previous === undefined) delete globalThis[REQUEST_CONTEXT];
+    else globalThis[REQUEST_CONTEXT] = previous;
+  });
+}
+function withoutRequestContext(fn) {
+  var previous = globalThis[REQUEST_CONTEXT];
+  delete globalThis[REQUEST_CONTEXT];
+  return Promise.resolve().then(fn).finally(function () {
+    if (previous !== undefined) globalThis[REQUEST_CONTEXT] = previous;
+  });
+}
 
 var ACTIVE = {
   'buyer@example.com': {
@@ -72,99 +152,391 @@ var ACTIVE = {
 async function main() {
   console.log('customer portal');
 
-  await check('an unknown email gets the generic refusal and NO portal session', async function () {
-    var portal = portalSpy();
-    var h = mod.createHandler({ store: memStrict({}), createPortalSession: portal });
+  await check('an unknown email gets the generic 200 and NOTHING else — no session, no email', async function () {
+    var portal = portalSpy(), mailer = mailSpy();
+    var h = mod.createHandler(deps({ store: memStrict({}), createPortalSession: portal, mailer: mailer }));
     var res = fakeRes();
     await h(fakeReq('POST', { email: 'stranger@example.com', domain: 'finance' }), res);
-    assert.equal(res.statusCode, 404);
-    assert.ok(!/stranger@example\.com/.test(res.body.error), 'the refusal must not echo the email back');
-    assert.equal(portal.calls.length, 0, 'never mint a session for an unverified email');
+    assert.equal(res.statusCode, 200);
+    assert.deepEqual(res.body, { ok: true, message: GENERIC_MESSAGE });
+    assert.ok(!('url' in res.body), 'the response must never carry a portal URL');
+    assert.equal(portal.calls.length, 0, 'never mint a session at request time');
+    assert.equal(mailer.calls.length, 0, 'no email for an unknown address');
   });
 
-  await check('an INACTIVE subscriber gets the same generic refusal as a stranger', async function () {
-    var portal = portalSpy();
-    var map = { 'buyer@example.com': Object.assign({}, ACTIVE['buyer@example.com'], { active: false }) };
-    var h = mod.createHandler({ store: memStrict(map), createPortalSession: portal });
+  await check('EVERY well-formed POST is byte-identical: unknown, inactive, wrong-domain, transport-down, send-failed, no-customer-ref, subscriber', async function () {
+    var inactive = { 'buyer@example.com': Object.assign({}, ACTIVE['buyer@example.com'], { active: false }) };
+    var noCust = { 'buyer@example.com': Object.assign({}, ACTIVE['buyer@example.com'], { customerId: null }) };
+    var cases = [
+      deps({ store: memStrict({}) }),                                        // unknown email
+      deps({ store: memStrict(inactive) }),                                  // inactive
+      deps({ store: memStrict(ACTIVE) }),                                    // wrong domain (below)
+      deps({ store: memStrict(ACTIVE), mailer: mailSpy({ notReady: true }) }),   // transport down
+      deps({ store: memStrict(ACTIVE), mailer: mailSpy({ fail: true }) }),       // send failed
+      deps({ store: memStrict(noCust) }),                                    // no customer reference
+      deps({ store: memStrict(ACTIVE) })                                     // the real subscriber
+    ];
+    var bodies = [];
+    for (var i = 0; i < cases.length; i++) {
+      var domain = i === 2 ? 'law' : 'finance';
+      var h = mod.createHandler(cases[i]);
+      var res = fakeRes();
+      await h(fakeReq('POST', { email: i === 0 ? 'a@b.co' : 'buyer@example.com', domain: domain }), res);
+      await Promise.all(cases[i].captured.pending);   // let background delivery settle
+      bodies.push({ code: res.statusCode, body: JSON.stringify(res.body) });
+    }
+    for (var j = 1; j < bodies.length; j++) {
+      assert.deepEqual(bodies[j], bodies[0], 'case ' + j + ' must be indistinguishable from case 0: ' + JSON.stringify(bodies));
+    }
+    assert.deepEqual(bodies[0], { code: 200, body: JSON.stringify({ ok: true, message: GENERIC_MESSAGE }) });
+  });
+
+  /* THE FIX-0068 DEFECT: the requester is a stranger; the only place a portal link may go
+     is the subscriber's own inbox. */
+  await check('a stranger presenting a victim\'s email+domain gets no session — the link goes only to the victim\'s inbox', async function () {
+    var portal = portalSpy(), mailer = mailSpy();
+    var h = mod.createHandler(deps({ createPortalSession: portal, mailer: mailer }));
     var res = fakeRes();
     await h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), res);
-    assert.equal(res.statusCode, 404);
+    assert.equal(res.statusCode, 200);
+    var raw = JSON.stringify(res.body);
+    assert.ok(!/billing\.stripe\.com/.test(raw), 'no Stripe session URL may reach the requester');
+    assert.ok(!('url' in res.body), 'no url field at all');
+    assert.equal(portal.calls.length, 0, 'no session is minted at request time');
+    assert.equal(mailer.calls.length, 1, 'exactly one email');
+    assert.equal(mailer.calls[0].to, 'buyer@example.com', 'and it goes to the subscriber, not the requester');
+    assert.ok(mailer.calls[0].body.indexOf('https://limenhelix.com/api/customer-portal?token=') !== -1,
+      'the email carries the signed redeem link');
+  });
+
+  await check('the transactional email carries a clickable HTML link to the redeem URL', async function () {
+    var mailer = mailSpy();
+    var h = mod.createHandler(deps({ mailer: mailer }));
+    var res = fakeRes();
+    await h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), res);
+    assert.equal(mailer.calls.length, 1);
+    var html = mailer.calls[0].html;
+    assert.ok(html, 'the mailer receives an HTML body');
+    assert.ok(/<a href="https:\/\/limenhelix\.com\/api\/customer-portal\?token=[^"]+"/.test(html),
+      'the redeem URL is an anchor target');
+    assert.ok(/Open your customer portal/.test(html), 'the anchor has human-readable text');
+    assert.ok(!/billing\.stripe\.com/.test(html), 'no direct Stripe URL in the email');
+  });
+
+  await check('the transactional mail shell preserves caller HTML and adds the footer', async function () {
+    var crm = require('../lib/crm-send.js');
+    var realFetch = global.fetch;
+    var captured = null;
+    global.fetch = async function (url, opts) {
+      captured = JSON.parse(opts.body);
+      return { ok: true, json: async function () { return { id: 'email_test_1' }; } };
+    };
+    try {
+      var result = await crm.sendEmailResend(
+        { from: 'LIMEN <portal@limenhelix.com>', apiKey: 'test', addr: '1 Main St', ready: true },
+        'buyer@example.com',
+        'Subject',
+        'plain body',
+        { transactional: true, html: '<p>Hello <a href="https://example.com/x">link</a></p>' }
+      );
+      assert.equal(result.ok, true);
+      assert.ok(captured.html.indexOf('<a href="https://example.com/x">link</a>') !== -1, 'caller HTML survives');
+      assert.ok(captured.html.indexOf('This is a transactional message') !== -1, 'transactional footer present');
+      assert.equal(captured.html.indexOf('Unsubscribe'), -1, 'no marketing footer');
+      assert.equal(captured.text.indexOf('plain body'), 0, 'plain-text fallback intact');
+    } finally {
+      global.fetch = realFetch;
+    }
+  });
+
+  await check('the HTML link escapes a hostile domain value', async function () {
+    var hostileDomain = 'finance<script>alert(1)</script>';
+    var hostile = { 'buyer@example.com': Object.assign({}, ACTIVE['buyer@example.com'], { domain: hostileDomain }) };
+    var mailer = mailSpy();
+    var h = mod.createHandler(deps({ store: memStrict(hostile), mailer: mailer }));
+    var res = fakeRes();
+    await h(fakeReq('POST', { email: 'buyer@example.com', domain: hostileDomain }), res);
+    assert.equal(mailer.calls.length, 1);
+    var html = mailer.calls[0].html;
+    assert.ok(html.indexOf('finance&lt;script&gt;alert(1)&lt;/script&gt;') !== -1, 'domain is escaped in HTML');
+    assert.equal(html.indexOf('<script>alert(1)</script>'), -1, 'raw markup is not present');
+  });
+
+  await check('cancel.html re-enables the request button after a generic success', async function () {
+    var html = fs.readFileSync(path.join(__dirname, '..', 'cancel.html'), 'utf8');
+    var fetchCalls = 0;
+    var dom = new JSDOM(html, {
+      url: 'https://limenhelix.com/cancel',
+      runScripts: 'dangerously',
+      beforeParse: function (window) {
+        window.fetch = function () {
+          fetchCalls++;
+          return Promise.resolve({
+            status: 200,
+            json: function () { return Promise.resolve({ ok: true, message: 'If an active subscription exists, a link is on its way.' }); }
+          });
+        };
+      }
+    });
+    var doc = dom.window.document;
+    doc.getElementById('email').value = 'buyer@example.com';
+    doc.getElementById('domain').value = 'finance';
+    var form = doc.getElementById('f');
+    var btn = doc.getElementById('go');
+    form.dispatchEvent(new dom.window.Event('submit', { bubbles: true, cancelable: true }));
+    await new Promise(function (r) { setTimeout(r, 10); });
+    assert.equal(fetchCalls, 1, 'the form posted');
+    assert.equal(btn.disabled, false, 'the button is usable again after success');
+    assert.ok(/link is on its way/.test(doc.getElementById('status').textContent));
+    dom.window.close();
+  });
+
+  await check('the response does NOT wait on the email transport, and delivery still completes (timing oracle closed)', async function () {
+    var resolveSend;
+    var gate = new Promise(function (resolve) { resolveSend = resolve; });
+    var calls = 0;
+    var mailer = async function () { calls++; await gate; return { ok: true, id: 'e1' }; };
+    var d = deps({ mailer: mailer });
+    var h = mod.createHandler(d);
+    var res = fakeRes();
+    var responded = false;
+    var p = h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), res)
+      .then(function () { responded = true; });
+    /* Give the handler every chance to respond; the send is still blocked on the gate. */
+    await new Promise(function (r) { setTimeout(r, 25); });
+    assert.equal(calls, 1, 'the send started');
+    assert.equal(responded, true, 'the response must not wait on the transport (188ms-vs-0ms oracle)');
+    assert.deepEqual(res.body, { ok: true, message: GENERIC_MESSAGE });
+    assert.equal(d.captured.pending.length, 1, 'delivery was handed to the runtime keep-alive');
+    resolveSend();                                   // let the transport finish
+    await p;
+    await Promise.all(d.captured.pending);           // reliable: delivery really settles
+    assert.equal(d.captured.logs.length, 0, 'a clean send logs nothing');
+  });
+
+  await check('real SDK, no request context: uniform 503, no lookup, nothing sent', async function () {
+    var portal = portalSpy(), mailer = mailSpy(), gets = 0;
+    var store = { assertDurable: function () {}, get: async function () { gets++; return ACTIVE; } };
+    var d = deps({ waitUntil: undefined, store: store, createPortalSession: portal, mailer: mailer });
+    var h = mod.createHandler(d);
+    await withoutRequestContext(async function () {
+      var res = fakeRes();
+      await h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), res);
+      assert.equal(res.statusCode, 503);
+      assert.equal(res.body.error, 'customer-portal-runtime-unavailable');
+      assert.equal(gets, 0, 'the failure is decided before the subscriber lookup');
+      assert.equal(portal.calls.length, 0);
+      assert.equal(mailer.calls.length, 0, 'no untracked send is started');
+      assert.ok(d.captured.logs.some(function (m) { return /no-request-context/.test(m); }),
+        'the operator can see the runtime reason: ' + JSON.stringify(d.captured.logs));
+    });
+  });
+
+  await check('real SDK, registration throws: uniform 503 before lookup, nothing sent', async function () {
+    var portal = portalSpy(), mailer = mailSpy(), gets = 0;
+    var store = { assertDurable: function () {}, get: async function () { gets++; return ACTIVE; } };
+    var d = deps({ waitUntil: undefined, store: store, createPortalSession: portal, mailer: mailer });
+    var h = mod.createHandler(d);
+    var contextCalls = 0;
+    await withRequestContext(function () { contextCalls++; throw new Error('registration failed'); }, async function () {
+      var res = fakeRes();
+      await h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), res);
+      assert.equal(res.statusCode, 503);
+      assert.equal(res.body.error, 'customer-portal-runtime-unavailable');
+      assert.equal(contextCalls, 1, 'the real SDK reached the request context');
+      assert.equal(gets, 0, 'the failure is decided before the subscriber lookup');
+      assert.equal(portal.calls.length, 0);
+      assert.equal(mailer.calls.length, 0);
+      assert.ok(d.captured.logs.some(function (m) { return /waitUntil-registration-failed/.test(m); }),
+        'the operator can see the registration failure: ' + JSON.stringify(d.captured.logs));
+    });
+  });
+
+  await check('real SDK, functioning context: delivery tracked, response does not wait', async function () {
+    var resolveSend;
+    var gate = new Promise(function (resolve) { resolveSend = resolve; });
+    var calls = 0;
+    var mailer = async function () { calls++; await gate; return { ok: true, id: 'e1' }; };
+    var tracked = [];
+    var d = deps({ waitUntil: undefined, mailer: mailer });
+    var h = mod.createHandler(d);
+    await withRequestContext(function (p) { tracked.push(p); }, async function () {
+      var res = fakeRes();
+      var responded = false;
+      var p = h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), res)
+        .then(function () { responded = true; });
+      await new Promise(function (r) { setTimeout(r, 25); });
+      assert.equal(calls, 1, 'the send started');
+      assert.equal(responded, true, 'the response did not wait on the transport');
+      assert.deepEqual(res.body, { ok: true, message: GENERIC_MESSAGE });
+      assert.equal(tracked.length, 1, 'the real SDK registered the delivery promise');
+      resolveSend();
+      await p;
+      await Promise.all(tracked);
+      assert.equal(d.captured.logs.length, 0, 'a clean send logs nothing');
+    });
+  });
+
+  await check('real SDK, unknown email: registration is uniform and no email is sent', async function () {
+    var tracked = [];
+    var mailer = mailSpy();
+    var d = deps({ waitUntil: undefined, store: memStrict({}), mailer: mailer });
+    var h = mod.createHandler(d);
+    await withRequestContext(function (p) { tracked.push(p); }, async function () {
+      var res = fakeRes();
+      await h(fakeReq('POST', { email: 'stranger@example.com', domain: 'finance' }), res);
+      assert.equal(res.statusCode, 200);
+      assert.equal(tracked.length, 1, 'every well-formed POST registers before the lookup');
+      await Promise.all(tracked);
+      assert.equal(mailer.calls.length, 0);
+    });
+  });
+
+  await check('transport not ready: generic body publicly, named reason in protected diagnostics', async function () {
+    var portal = portalSpy();
+    var d = deps({ mailer: mailSpy({ notReady: true }), createPortalSession: portal });
+    var h = mod.createHandler(d);
+    var res = fakeRes();
+    await h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), res);
+    assert.deepEqual(res.body, { ok: true, message: GENERIC_MESSAGE });
+    await Promise.all(d.captured.pending);
+    assert.ok(d.captured.logs.some(function (m) { return /customer-portal-email-unavailable/.test(m); }),
+      'the operator can still see why: ' + JSON.stringify(d.captured.logs));
     assert.equal(portal.calls.length, 0);
   });
 
-  await check('the refusal is byte-identical for unknown vs inactive (no account enumeration)', async function () {
-    var h1 = mod.createHandler({ store: memStrict({}), createPortalSession: portalSpy() });
-    var map = { 'buyer@example.com': Object.assign({}, ACTIVE['buyer@example.com'], { active: false }) };
-    var h2 = mod.createHandler({ store: memStrict(map), createPortalSession: portalSpy() });
-    var r1 = fakeRes(), r2 = fakeRes();
-    await h1(fakeReq('POST', { email: 'a@b.co', domain: 'finance' }), r1);
-    await h2(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), r2);
-    assert.equal(r1.body.error, r2.body.error, 'identical error text');
-    assert.equal(r1.statusCode, r2.statusCode, 'identical status');
-  });
-
-  await check('the right email on the WRONG domain is refused', async function () {
+  await check('a failed send: generic body publicly, named reason in protected diagnostics', async function () {
     var portal = portalSpy();
-    var h = mod.createHandler({ store: memStrict(ACTIVE), createPortalSession: portal });
+    var d = deps({ mailer: mailSpy({ fail: true }), createPortalSession: portal });
+    var h = mod.createHandler(d);
     var res = fakeRes();
-    await h(fakeReq('POST', { email: 'buyer@example.com', domain: 'law' }), res);
-    assert.equal(res.statusCode, 404);
+    await h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), res);
+    assert.deepEqual(res.body, { ok: true, message: GENERIC_MESSAGE });
+    await Promise.all(d.captured.pending);
+    assert.ok(d.captured.logs.some(function (m) { return /portal-link-email-failed/.test(m); }),
+      'the operator can still see why: ' + JSON.stringify(d.captured.logs));
     assert.equal(portal.calls.length, 0);
   });
 
-  await check('an unreachable store fails CLOSED with 503, never as "no such subscriber"', async function () {
-    var portal = portalSpy();
-    var h = mod.createHandler({ store: memStrict(ACTIVE, { down: true }), createPortalSession: portal });
+  await check('an active record with no Stripe customer reference: generic body publicly, named reason logged, nothing sent', async function () {
+    var portal = portalSpy(), mailer = mailSpy();
+    var map = { 'buyer@example.com': Object.assign({}, ACTIVE['buyer@example.com'], { customerId: null }) };
+    var d = deps({ store: memStrict(map), createPortalSession: portal, mailer: mailer });
+    var h = mod.createHandler(d);
     var res = fakeRes();
     await h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), res);
-    assert.equal(res.statusCode, 503);
-    assert.equal(res.body.error, 'subscription-lookup-unavailable');
-    assert.equal(portal.calls.length, 0, 'an unreadable store must never become a session');
+    assert.deepEqual(res.body, { ok: true, message: GENERIC_MESSAGE });
+    assert.ok(d.captured.logs.some(function (m) { return /no-customer-reference-on-record/.test(m); }),
+      'the operator can still see why: ' + JSON.stringify(d.captured.logs));
+    assert.equal(portal.calls.length, 0);
+    assert.equal(mailer.calls.length, 0);
   });
 
-  await check('a verified ACTIVE subscriber gets a portal session for their Stripe customer', async function () {
-    var portal = portalSpy();
-    var h = mod.createHandler({ store: memStrict(ACTIVE), createPortalSession: portal, site: 'https://limenhelix.com' });
+  await check('the emailed token redeems: strict-store recheck, session minted for the token\'s customer, 302', async function () {
+    var portal = portalSpy(), mailer = mailSpy();
+    var d = deps({ createPortalSession: portal, mailer: mailer });
+    var h = mod.createHandler(d);
+    var req = fakeRes();
+    await h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), req);
+    var token = mailer.calls[0].body.match(/token=([^\s]+)/)[1];
+
     var res = fakeRes();
-    await h(fakeReq('POST', { email: 'Buyer@Example.com ', domain: 'finance' }), res);
-    assert.equal(res.statusCode, 200, JSON.stringify(res.body));
-    assert.equal(res.body.url, 'https://billing.stripe.com/session/test_123');
+    await h(fakeReq('GET', undefined, { token: token }), res);
+    assert.equal(res.statusCode, 302, JSON.stringify(res.body));
+    assert.equal(res.headers.location, 'https://billing.stripe.com/session/test_123');
     assert.equal(portal.calls.length, 1);
     assert.equal(portal.calls[0].customerId, 'cus_123', 'the session is for the subscriber\'s Stripe customer');
     assert.equal(portal.calls[0].returnUrl, 'https://limenhelix.com/finance', 'and returns them to their domain');
   });
 
-  await check('an active record with no Stripe customer reference cannot mint a session', async function () {
+  await check('a tampered token redeems nothing', async function () {
     var portal = portalSpy();
-    var map = { 'buyer@example.com': Object.assign({}, ACTIVE['buyer@example.com'], { customerId: null }) };
-    var h = mod.createHandler({ store: memStrict(map), createPortalSession: portal });
+    var h = mod.createHandler(deps({ createPortalSession: portal }));
+    var token = link.sign({ email: 'buyer@example.com', domain: 'finance', customerId: 'cus_123' }, SECRET, NOW, 1800000);
+    var parts = token.split('.');
+    var forged = JSON.parse(Buffer.from(parts[1], 'base64url').toString('utf8'));
+    forged.customerId = 'cus_ATTACKER';
+    parts[1] = Buffer.from(JSON.stringify(forged), 'utf8').toString('base64url');
     var res = fakeRes();
-    await h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), res);
-    assert.equal(res.statusCode, 503);
-    assert.ok(/no-customer-reference/.test(res.body.error));
+    await h(fakeReq('GET', undefined, { token: parts.join('.') }), res);
+    assert.equal(res.statusCode, 400);
     assert.equal(portal.calls.length, 0);
   });
 
-  await check('portal not activated in the Stripe dashboard → 503 with the named operator reason', async function () {
-    var portal = portalSpy({ notConfigured: true });
-    var h = mod.createHandler({ store: memStrict(ACTIVE), createPortalSession: portal });
+  await check('an expired token redeems nothing, with a named reason', async function () {
+    var portal = portalSpy();
+    var h = mod.createHandler(deps({ createPortalSession: portal }));
+    var stale = link.sign({ email: 'buyer@example.com', domain: 'finance', customerId: 'cus_123' }, SECRET, NOW - 3600000, 1800000);
+    var res = fakeRes();
+    await h(fakeReq('GET', undefined, { token: stale }), res);
+    assert.equal(res.statusCode, 410, 'expired links get 410 Gone');
+    assert.ok(/expired/.test(String(res.body)), 'the page says why');
+    assert.equal(portal.calls.length, 0);
+  });
+
+  await check('cross-customer: a token whose email no longer maps to its Stripe customer redeems nothing', async function () {
+    var portal = portalSpy();
+    /* The record changed since the link was issued (re-subscribe on a new customer, or the
+       token was minted for someone else entirely). customerId comes from the token AND the
+       store; a mismatch is a refusal, never a session for the token's claims alone. */
+    var moved = { 'buyer@example.com': Object.assign({}, ACTIVE['buyer@example.com'], { customerId: 'cus_NEW' }) };
+    var h = mod.createHandler(deps({ store: memStrict(moved), createPortalSession: portal }));
+    var token = link.sign({ email: 'buyer@example.com', domain: 'finance', customerId: 'cus_123' }, SECRET, NOW, 1800000);
+    var res = fakeRes();
+    await h(fakeReq('GET', undefined, { token: token }), res);
+    assert.equal(res.statusCode, 400);
+    assert.equal(portal.calls.length, 0, 'never mint for a customer the store no longer binds to this email');
+  });
+
+  await check('redeem with an unreachable store fails closed, never mints', async function () {
+    var portal = portalSpy();
+    var h = mod.createHandler(deps({ store: memStrict(ACTIVE, { down: true }), createPortalSession: portal }));
+    var token = link.sign({ email: 'buyer@example.com', domain: 'finance', customerId: 'cus_123' }, SECRET, NOW, 1800000);
+    var res = fakeRes();
+    await h(fakeReq('GET', undefined, { token: token }), res);
+    assert.equal(res.statusCode, 503);
+    assert.equal(portal.calls.length, 0);
+  });
+
+  await check('redeem surfaces the operator reasons: portal-not-configured 503, generic stripe failure 502', async function () {
+    var token = link.sign({ email: 'buyer@example.com', domain: 'finance', customerId: 'cus_123' }, SECRET, NOW, 1800000);
+    var h1 = mod.createHandler(deps({ createPortalSession: portalSpy({ notConfigured: true }) }));
+    var r1 = fakeRes();
+    await h1(fakeReq('GET', undefined, { token: token }), r1);
+    assert.equal(r1.statusCode, 503);
+    assert.ok(/stripe-customer-portal-not-configured/.test(String(r1.body)), String(r1.body));
+
+    var h2 = mod.createHandler(deps({ createPortalSession: portalSpy({ fail: true }) }));
+    var r2 = fakeRes();
+    await h2(fakeReq('GET', undefined, { token: token }), r2);
+    assert.equal(r2.statusCode, 502);
+  });
+
+  await check('an unreachable store fails CLOSED with 503 at request time, nothing sent or minted', async function () {
+    var portal = portalSpy(), mailer = mailSpy();
+    var h = mod.createHandler(deps({ store: memStrict(ACTIVE, { down: true }), createPortalSession: portal, mailer: mailer }));
     var res = fakeRes();
     await h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), res);
     assert.equal(res.statusCode, 503);
-    assert.ok(/stripe-customer-portal-not-configured/.test(res.body.error), res.body.error);
+    assert.equal(res.body.error, 'subscription-lookup-unavailable');
+    assert.equal(portal.calls.length, 0);
+    assert.equal(mailer.calls.length, 0);
   });
 
-  await check('a generic Stripe failure is a 502, not a refusal and not a 500', async function () {
-    var h = mod.createHandler({ store: memStrict(ACTIVE), createPortalSession: portalSpy({ fail: true }) });
+  await check('no link secret configured → 503 with the named operator reason, fail closed', async function () {
+    var portal = portalSpy(), mailer = mailSpy();
+    var h = mod.createHandler(deps({ env: {}, createPortalSession: portal, mailer: mailer }));
     var res = fakeRes();
     await h(fakeReq('POST', { email: 'buyer@example.com', domain: 'finance' }), res);
-    assert.equal(res.statusCode, 502);
-    assert.equal(res.body.ok, false);
+    assert.equal(res.statusCode, 503);
+    assert.ok(/customer-portal-link-not-configured/.test(res.body.error), res.body.error);
+    assert.equal(portal.calls.length, 0);
+    assert.equal(mailer.calls.length, 0);
   });
 
-  await check('malformed input is a 400 before any lookup', async function () {
-    var portal = portalSpy();
-    var h = mod.createHandler({ store: memStrict(ACTIVE), createPortalSession: portal });
+  await check('malformed input is a 400 before any lookup, send or mint', async function () {
+    var portal = portalSpy(), mailer = mailSpy();
+    var h = mod.createHandler(deps({ createPortalSession: portal, mailer: mailer }));
     var r1 = fakeRes();
     await h(fakeReq('POST', { email: 'not-an-email', domain: 'finance' }), r1);
     assert.equal(r1.statusCode, 400);
@@ -172,13 +544,24 @@ async function main() {
     await h(fakeReq('POST', { email: 'buyer@example.com' }), r2);
     assert.equal(r2.statusCode, 400);
     assert.equal(portal.calls.length, 0);
+    assert.equal(mailer.calls.length, 0);
   });
 
-  await check('GET is refused', async function () {
-    var h = mod.createHandler({ store: memStrict(ACTIVE), createPortalSession: portalSpy() });
+  await check('GET without a token is a 400, not a session', async function () {
+    var portal = portalSpy();
+    var h = mod.createHandler(deps({ createPortalSession: portal }));
     var res = fakeRes();
     await h(fakeReq('GET'), res);
-    assert.equal(res.statusCode, 405);
+    assert.equal(res.statusCode, 400);
+    assert.equal(portal.calls.length, 0);
+  });
+
+  await check('the declared waitUntil dependency resolves (deployed registration still needs a runtime check)', async function () {
+    var pkg = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, '..', 'package.json'), 'utf8'));
+    assert.ok(pkg.dependencies && pkg.dependencies['@vercel/functions'],
+      '@vercel/functions must be a declared dependency, not an assumed runtime global');
+    var fn = require('@vercel/functions').waitUntil;
+    assert.equal(typeof fn, 'function', 'the installed dependency must export waitUntil');
   });
 
   await check('the route is registered in the catch-all', async function () {
