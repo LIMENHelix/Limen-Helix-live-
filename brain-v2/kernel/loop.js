@@ -157,7 +157,7 @@ function wireConnectome(loop) {
  * receipt lets actuate.js write `executed`.
  */
 function wireMotor(loop) {
-  function attentionHandler(direction) {
+  function attentionHandler() {
     return function (cmd) {
       var key = cmd.action.parameters.channel;
       var ch = loop.brain.channels.filter(function (c) { return c.key === key; })[0];
@@ -167,13 +167,19 @@ function wireMotor(loop) {
       // Attention IS precision: lower observation noise -> higher Kalman gain -> higher
       // posterior precision -> more weight in fusion. Gain from adaptation scales the step.
       //
+      // `factor` is the ATTENTION multiplier, not an r multiplier: 1.5 means "look closer"
+      // (raise attention, lower r), 0.5 means "look away" (lower attention, raise r). Both
+      // directions therefore DIVIDE rGain by the adapted factor. Multiplying in the lower
+      // branch inverted the command: LOWER_ATTENTION (factor 0.5) halved r and raised
+      // attention, so the alreadyLowered termination check never saw r rise.
+      //
       // IT MOVES rGain, NOT r. Since row 22 the effective r is rBase * rGain, where rBase
       // is derived from the channel's own innovations. Writing ch.r here would put both
       // mechanisms on one field, and the next derivation would silently erase this action
       // — leaving an efference copy predicting a change to a variable something else had
       // already overwritten, which is a false outcome, not a missing one.
       var applied = 1 + (factor - 1) * cmd.gain;
-      C.setAttentionGain(ch, direction > 0 ? ch.rGain / applied : ch.rGain * applied);
+      C.setAttentionGain(ch, ch.rGain / applied);
       if (!loop.attention[key]) loop.attention[key] = { rBase: before, history: [] };
       loop.attention[key].history.push({ at: cmd.now, from: before, to: ch.r, actionId: cmd.action.actionId });
       return {
@@ -184,8 +190,8 @@ function wireMotor(loop) {
       };
     };
   }
-  ACT.register(loop.motor, PROP.KIND.RAISE_ATTENTION, attentionHandler(+1));
-  ACT.register(loop.motor, PROP.KIND.LOWER_ATTENTION, attentionHandler(-1));
+  ACT.register(loop.motor, PROP.KIND.RAISE_ATTENTION, attentionHandler());
+  ACT.register(loop.motor, PROP.KIND.LOWER_ATTENTION, attentionHandler());
   ACT.register(loop.motor, PROP.KIND.COLLECT_EVIDENCE, function (cmd) {
     return { applied: true, at: cmd.now, observedEffect: { deferred: true }, detail: 'deferred one cycle; no state changed' };
   });
