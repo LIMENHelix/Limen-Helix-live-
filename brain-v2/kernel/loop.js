@@ -58,8 +58,9 @@ var TOPO  = require('./topology.js');
 var BRAIN = require('../core/brain.js');
 var DIV   = require('../core/divergence.js');
 var C     = require('../core/channel.js');
+var KERN  = require('./version.js');
 
-var VERSION = 'brain-v2/kernel/1.0.0';
+var VERSION = KERN.KERNEL_VERSION;
 var ERROR_WINDOW = 64;
 
 /** Modules that can be individually ablated. TEST 19. */
@@ -103,6 +104,11 @@ function create(spec) {
     noiseEveryTicks: spec.noiseEveryTicks || 24,
     ticks: 0,
     lastTickAt: null,
+    /* CURRENT-RESTORE EVENT. Null unless the 1.0.0 attention migration ran during
+       THIS restore. Never restored from a snapshot; a past recovery is history. */
+    attentionRecovery: null,
+    /* DURABLE AUDIT of past recoveries. Serialized and restored. */
+    attentionRecoveryHistory: [],
     errors: []
   };
   wireConnectome(loop);
@@ -136,19 +142,19 @@ function wireConnectome(loop) {
     kinds: [PK.KIND.PREDICTION_ERROR, PK.KIND.DIAGNOSIS, PK.KIND.CONTRADICTION],
     direction: PK.DIRECTION.ASCENDING,
     role: PK.ROLE.DRIVER,
-    handler: function (p) { received.push({ at: p.processingTime, kind: p.signalKind, id: p.id }); return { accepted: true }; }
+    handler: function (p) { received.push({ at: p.processingTime, kind: p.signalKind, id: p.id, sourceVersion: p.sourceVersion, direction: p.direction }); return { accepted: true }; }
   }, 'pre-existing kernel wiring: the ascending residual path, declared before topology existed');
   wire('integration:descending', {
     kinds: [PK.KIND.PREDICTION, PK.KIND.MODULATION],
     direction: PK.DIRECTION.DESCENDING,
     role: PK.ROLE.MODULATOR,
-    handler: function (p) { received.push({ at: p.processingTime, kind: p.signalKind, id: p.id }); return { accepted: true }; }
+    handler: function (p) { received.push({ at: p.processingTime, kind: p.signalKind, id: p.id, sourceVersion: p.sourceVersion, direction: p.direction }); return { accepted: true }; }
   }, 'pre-existing kernel wiring: the descending prediction path required by INV-7');
   wire('selector:lateral', {
     kinds: [PK.KIND.ACTION_CANDIDATE, PK.KIND.INHIBITION],
     direction: PK.DIRECTION.LATERAL,
     role: PK.ROLE.DRIVER,
-    handler: function (p) { received.push({ at: p.processingTime, kind: p.signalKind, id: p.id }); return { accepted: true }; }
+    handler: function (p) { received.push({ at: p.processingTime, kind: p.signalKind, id: p.id, sourceVersion: p.sourceVersion, direction: p.direction }); return { accepted: true }; }
   }, 'pre-existing kernel wiring: the lateral selector path');
 }
 
@@ -157,15 +163,22 @@ function wireConnectome(loop) {
  * receipt lets actuate.js write `executed`.
  */
 function wireMotor(loop) {
-  function attentionHandler(direction) {
+  function attentionHandler() {
     return function (cmd) {
       var key = cmd.action.parameters.channel;
       var ch = loop.brain.channels.filter(function (c) { return c.key === key; })[0];
       if (!ch) return { applied: false, detail: 'no such channel ' + key };
       var before = ch.r;
+      var beforeGain = ch.rGain;
       var factor = cmd.action.parameters.factor;
       // Attention IS precision: lower observation noise -> higher Kalman gain -> higher
       // posterior precision -> more weight in fusion. Gain from adaptation scales the step.
+      //
+      // `factor` is the ATTENTION multiplier, not an r multiplier: 1.5 means "look closer"
+      // (raise attention, lower r), 0.5 means "look away" (lower attention, raise r). Both
+      // directions therefore DIVIDE rGain by the adapted factor. Multiplying in the lower
+      // branch inverted the command: LOWER_ATTENTION (factor 0.5) halved r and raised
+      // attention, so the alreadyLowered termination check never saw r rise.
       //
       // IT MOVES rGain, NOT r. Since row 22 the effective r is rBase * rGain, where rBase
       // is derived from the channel's own innovations. Writing ch.r here would put both
@@ -173,9 +186,21 @@ function wireMotor(loop) {
       // — leaving an efference copy predicting a change to a variable something else had
       // already overwritten, which is a false outcome, not a missing one.
       var applied = 1 + (factor - 1) * cmd.gain;
-      C.setAttentionGain(ch, direction > 0 ? ch.rGain / applied : ch.rGain * applied);
+      C.setAttentionGain(ch, ch.rGain / applied);
       if (!loop.attention[key]) loop.attention[key] = { rBase: before, history: [] };
-      loop.attention[key].history.push({ at: cmd.now, from: before, to: ch.r, actionId: cmd.action.actionId });
+      /* Track the ATTENTION GAIN alongside effective r. Effective r is clamped to [0.01,4],
+         so a channel whose rBase is already at the ceiling records 4 -> 4 even when the
+         command moved rGain 1 -> 2. The step-9 alreadyLowered key must use the gain, or a
+         saturated channel is re-proposed forever. */
+      loop.attention[key].history.push({
+        at: cmd.now,
+        kind: cmd.action.kind,
+        from: before,
+        to: ch.r,
+        gainFrom: beforeGain,
+        gainTo: ch.rGain,
+        actionId: cmd.action.actionId
+      });
       return {
         applied: true,
         at: cmd.now,
@@ -184,8 +209,8 @@ function wireMotor(loop) {
       };
     };
   }
-  ACT.register(loop.motor, PROP.KIND.RAISE_ATTENTION, attentionHandler(+1));
-  ACT.register(loop.motor, PROP.KIND.LOWER_ATTENTION, attentionHandler(-1));
+  ACT.register(loop.motor, PROP.KIND.RAISE_ATTENTION, attentionHandler());
+  ACT.register(loop.motor, PROP.KIND.LOWER_ATTENTION, attentionHandler());
   ACT.register(loop.motor, PROP.KIND.COLLECT_EVIDENCE, function (cmd) {
     return { applied: true, at: cmd.now, observedEffect: { deferred: true }, detail: 'deferred one cycle; no state changed' };
   });
@@ -305,6 +330,7 @@ function tick(loop, readings, now, runtimeMeasurements) {
       pkt = PK.create({
         traceId: traceId, seq: seq++,
         sourceDomain: loop.domain, sourceModule: 'bind/' + loop.domain,
+        sourceVersion: VERSION,
         signalKind: PK.KIND.OBSERVATION,
         role: PK.ROLE.DRIVER, direction: PK.DIRECTION.ASCENDING,
         /* IDENTITY TRAVELS INSIDE THE PACKET, so it is covered by the provenance hash
@@ -647,6 +673,7 @@ function tick(loop, readings, now, runtimeMeasurements) {
     var ascend = PK.create({
       traceId: traceId, seq: seq++,
       sourceDomain: loop.domain, sourceModule: 'kernel/loop',
+      sourceVersion: VERSION,
       signalKind: cycle.dysregulation && cycle.dysregulation.detected ? PK.KIND.DIAGNOSIS : PK.KIND.PREDICTION_ERROR,
       role: PK.ROLE.DRIVER, direction: PK.DIRECTION.ASCENDING,
       // INV-9: the RESIDUAL ascends, never the full state.
@@ -664,6 +691,7 @@ function tick(loop, readings, now, runtimeMeasurements) {
       var descend = PK.create({
         traceId: traceId, seq: seq++, causalParentIds: [ascend.id],
         sourceDomain: loop.domain, sourceModule: 'kernel/loop',
+        sourceVersion: VERSION,
         signalKind: PK.KIND.PREDICTION,
         role: PK.ROLE.MODULATOR, direction: PK.DIRECTION.DESCENDING,
         payload: { variable: prediction.variable, expected: prediction.expected, interval: prediction.interval },
@@ -686,7 +714,15 @@ function tick(loop, readings, now, runtimeMeasurements) {
   var lowered = Object.create(null);
   Object.keys(loop.attention).forEach(function (k) {
     var h = loop.attention[k].history || [];
-    if (h.length && h[h.length - 1].to > h[h.length - 1].from) lowered[k] = true;   // r raised = attention lowered
+    if (!h.length) return;
+    var last = h[h.length - 1];
+    /* PREFER THE ATTENTION GAIN. Effective r is clamped, so a saturated channel can
+       record 4 -> 4 while rGain actually rose. Entries written before 1.0.1 carry no
+       gain fields and fall back to the r comparison. */
+    var rose = (typeof last.gainTo === 'number' && typeof last.gainFrom === 'number')
+      ? last.gainTo > last.gainFrom
+      : last.to > last.from;
+    if (rose) lowered[k] = true;   // r raised (or the gain rose) = attention lowered
   });
   var candidates = PROP.generate({ cycle: cycle, now: now, horizonMs: loop.horizonMs, alreadyLowered: lowered });
   step('propose', { count: candidates.length, kinds: candidates.map(function (c) { return c.kind; }), proposedBy: PROP.MODULE_ID });
@@ -1143,6 +1179,9 @@ function serialize(loop) {
     modulators: MOD.serialize(loop.modulators),
     vitals: VIT.serialize(loop.vitals),
     attention: loop.attention,
+    /* HISTORY, NOT THE CURRENT EVENT. Serializing the current event is what made
+       every later cycle republish an old recovery as if it had just happened. */
+    attentionRecoveryHistory: loop.attentionRecoveryHistory || [],
     topology: TOPO.serialize(loop.topology),
     routed: loop._routed || [],
     efferences: loop._efferences || [],
@@ -1154,6 +1193,105 @@ function serialize(loop) {
     archiveHead: loop.archiveHead || null,
     errors: loop.errors.slice(-ERROR_WINDOW)
   };
+}
+
+/**
+ * Repair attention state written by the inverted 1.0.0 lower_attention.
+ *
+ * In 1.0.0, LOWER_ATTENTION multiplied rGain by an attention factor <=1 instead of
+ * dividing by it. Repeated commands walked rGain to the lower clamp (0.05), which is
+ * maximum attention on a channel the system was trying to stop watching. A single
+ * corrected command then raised it only slightly and the cleanup terminated.
+ *
+ * RECOVERY IS DELIBERATELY NARROW. A channel is reset to the neutral attention gain
+ * (1.0) only when BOTH hold:
+ *   - its most recent attention history entry identifies a lower_attention;
+ *   - its current rGain is below neutral.
+ *
+ * THE IDENTIFICATION HAS TWO SOURCES. Newer history entries carry `kind` directly, and
+ * compaction retains up to 256 of them per source. Older entries do not, so the persisted
+ * episodic record for that actionId is the fallback. If neither exists, the channel is
+ * left unchanged and listed in `unidentified`; guessing between a legitimate raise and
+ * the inverted lower is exactly the unsafe repair this finding rejects. A retained
+ * `raise_attention` is always preserved. Only attention gain changes; rBase, values,
+ * variances and every other channel are kept.
+ */
+function recoverInvertedAttention(loop, snap) {
+  if (!snap || snap.version !== 'brain-v2/kernel/1.0.0') return null;
+  /* STABLE TIME. Restoring the same snapshot twice must serialize identically. The
+     migration happened during the restored interval, so the snapshot's own last tick
+     is the only time that is guaranteed to be identical across restores. */
+  var recoveredAt = (typeof snap.lastTickAt === 'number' && isFinite(snap.lastTickAt))
+    ? snap.lastTickAt : 0;
+  var kindByAction = Object.create(null);
+  ((loop.memory && loop.memory.episodic) || []).forEach(function (ep) {
+    if (ep && ep.actionId && ep.selection && ep.selection.kind) {
+      kindByAction[ep.actionId] = ep.selection.kind;
+    }
+  });
+
+  var recovered = [];
+  var evidence = Object.create(null);
+  var unidentified = [];
+  Object.keys(loop.attention || {}).forEach(function (key) {
+    var ch = (loop.brain.channels || []).filter(function (c) { return c.key === key; })[0];
+    if (!ch || !(ch.rGain < 1)) return;
+    var hist = (loop.attention[key] && loop.attention[key].history) || [];
+    var last = hist[hist.length - 1];
+    if (!last) {
+      unidentified.push({ key: key, gain: ch.rGain, reason: 'no_attention_history' });
+      return;
+    }
+    var retainedKind = last.kind || null;
+    var episodeKind = kindByAction[last.actionId] || null;
+    var kind = retainedKind || episodeKind;
+    if (kind === 'raise_attention') return;          // legitimate raise: preserve
+    if (kind !== 'lower_attention') {
+      unidentified.push({
+        key: key, gain: ch.rGain,
+        reason: retainedKind ? 'unrecognized_retained_kind'
+          : (episodeKind ? 'unrecognized_episode_kind' : 'no_retained_kind')
+      });
+      return;
+    }
+
+    var source = retainedKind ? 'history_kind' : 'episode_kind';
+    var beforeR = ch.r, beforeGain = ch.rGain;
+    C.setAttentionGain(ch, 1.0);
+    hist.push({
+      at: recoveredAt,
+      kind: 'fix0118_recovery',
+      from: beforeR,
+      to: ch.r,
+      gainFrom: beforeGain,
+      gainTo: ch.rGain,
+      actionId: 'fix0118_recovery:' + key,
+      recoveredActionId: last.actionId,
+      evidence: source,
+      why: '1.0.0 lower_attention multiplied rGain; reset to neutral attention'
+    });
+    recovered.push(key);
+    evidence[key] = source;
+  });
+
+  if (!recovered.length && !unidentified.length) return null;
+  var record = {
+    fromVersion: snap.version,
+    toVersion: VERSION,
+    at: recoveredAt,
+    recovered: recovered,
+    evidence: evidence,
+    unidentified: unidentified
+  };
+  /* The current event is what a cycle report may publish. The history is durable
+     audit and is the only part that crosses serialize/restore. */
+  loop.attentionRecovery = record;
+  if (!Array.isArray(loop.attentionRecoveryHistory)) loop.attentionRecoveryHistory = [];
+  loop.attentionRecoveryHistory.push(record);
+  if (loop.attentionRecoveryHistory.length > 32) {
+    loop.attentionRecoveryHistory = loop.attentionRecoveryHistory.slice(-32);
+  }
+  return record;
 }
 
 /**
@@ -1272,6 +1410,17 @@ function restore(spec, snap) {
   loop.vitals = VIT.deserialize(snap.vitals);
   if (!loop.vitals.ownerDomain) loop.vitals.ownerDomain = loop.domain;
   loop.attention = snap.attention || Object.create(null);
+  /* A RESTORED RECOVERY IS HISTORY, NOT A NEW EVENT. Snapshots written before the
+     history field existed serialized `attentionRecovery`; adopt that record into
+     history once so its audit survives, then leave the current event null. Only
+     recoverInvertedAttention() may set a current event, and only on a 1.0.0 restore. */
+  loop.attentionRecovery = null;
+  loop.attentionRecoveryHistory = Array.isArray(snap.attentionRecoveryHistory)
+    ? snap.attentionRecoveryHistory.slice()
+    : (snap.attentionRecovery ? [snap.attentionRecovery] : []);
+  /* AFTER the attention state and memory are restored: the recovery needs the
+     persisted actionId -> kind map and must not run before both exist. */
+  recoverInvertedAttention(loop, snap);
   /* A snapshot written before row 25 has no topology; the freshly-wired one from
      create() stands, which is correct for that data — there was nothing to restore. */
   if (snap.topology) {
