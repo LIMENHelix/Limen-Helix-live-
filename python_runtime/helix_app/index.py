@@ -31,6 +31,7 @@ from python_runtime.helix_app.thing2 import KERNEL_ID as THING2_KERNEL_ID
 from python_runtime.helix_app.thing2 import KERNEL_RUNTIME as THING2_KERNEL_RUNTIME
 from python_runtime.helix_app.thing2 import KERNEL_VERSION as THING2_KERNEL_VERSION
 
+from python_runtime.helix_app import thing0 as thing0_pkg
 from python_runtime.helix_app import thing1 as thing1_pkg
 from python_runtime.helix_app.audit import build_log_entry as _build_audit_entry, emit as _emit_audit
 
@@ -822,15 +823,11 @@ def _build_thing0_section(
     facts: dict,
     company_data: dict,
     history_quarters: int,
-    validated_signal: dict,
 ) -> dict:
     """Explicit Thing 0 company-envelope assessment for Thing 1.
 
-    Thing 0 does not score distress and never authorizes an action. It states
-    whether this company's identity, sector, history, and required SEC series
-    fully qualify, partially qualify, or do not qualify for the validated
-    Thing 1 operating envelope. Runtime/kernel readiness is reported
-    separately so a deploy problem is not mislabelled as a company defect.
+    Thing 0 does not score distress and never authorizes an action. It qualifies
+    entry to Thing 1 from company-level facts only; it has no Thing 1 input.
     """
     presence = _input_presence(company_data) if company_data else _input_presence({})
     required = {
@@ -840,67 +837,55 @@ def _build_thing0_section(
         "debt": presence.get("debt_quarters", 0) > 0,
     }
     present_count = sum(1 for value in required.values() if value)
-    reasons: list[str] = []
-
-    validated_available = (
-        validated_signal.get("available") is True
-        and validated_signal.get("validation_status") == "validated"
+    qualification = thing0_pkg.qualify(
+        is_financial=is_financial,
+        facts_present=bool(facts),
+        present_count=present_count,
+        required_count=len(required),
+        history_quarters=history_quarters,
     )
-
-    if is_financial:
-        qualification = "not_qualified"
-        reasons.append("financial_institution_requires_regime_2_adapter")
-    elif validated_available:
-        qualification = "qualified"
-        reasons.append("validated_thing1_success_confirms_full_envelope")
-    elif not facts or present_count == 0:
-        qualification = "not_qualified"
-        reasons.append("sec_company_facts_or_required_series_unavailable")
-    elif present_count == len(required) and history_quarters >= 8:
-        qualification = "qualified"
-        reasons.append("non_financial_required_series_and_history_present")
-    else:
-        qualification = "partially_qualified"
-        if present_count < len(required):
-            reasons.append("one_or_more_required_series_incomplete")
-        if history_quarters < 8:
-            reasons.append("quarterly_history_below_full_envelope")
-
-    validation_status = validated_signal.get("validation_status") or "unavailable"
-    permits_use = (
-        qualification == "qualified"
-        and validated_available
-    )
-    if permits_use:
-        execution_status = "ready"
-    elif qualification == "partially_qualified":
-        execution_status = "blocked_by_company_data"
-    elif qualification == "not_qualified":
-        execution_status = "not_applicable"
-    else:
-        execution_status = "blocked_by_thing1_runtime"
 
     return {
         "kernel_id": "thing0-company-envelope/1.0",
-        "qualification_status": qualification,
-        "thing1_execution_status": execution_status,
-        "permits_thing1_use": permits_use,
+        **qualification,
         "is_financial": bool(is_financial),
-        "history_requirement": (
-            "met" if validated_available or history_quarters >= 8
-            else "partial" if history_quarters >= 4
-            else "not_met"
-        ),
         "required_input_presence": required,
         "required_inputs_present": present_count,
         "required_inputs_total": len(required),
-        "thing1_validation_status": validation_status,
-        "reasons": reasons,
         "action_authority": "none",
         "note": (
             "Thing 0 is an operating-envelope qualifier for Thing 1 only. "
             "Partial qualification does not permit a validated Thing 1 claim."
         ),
+    }
+
+
+def _thing1_not_permitted(thing0_eligibility: dict) -> dict:
+    """Thing 1 refusal when Thing 0 does not permit entry.
+
+    The fingerprint is reported for runtime provenance only. It neither
+    qualifies the company nor overrides Thing 0.
+    """
+    reasons = list(thing0_eligibility.get("reasons") or [])
+    status = thing0_eligibility.get("qualification_status") or "not_qualified"
+    return {
+        "kernel_id": "limen_backtest.py",
+        "kernel_runtime": "python-vercel",
+        "kernel_version": None,
+        "validation_status": "not_permitted_by_thing0",
+        "available": False,
+        "alert": None,
+        "first_alert_quarter": None,
+        "distress_band": None,
+        "recovered": None,
+        "fingerprint_status": thing1_pkg.fingerprint_status(),
+        "narrative_safe": [
+            "Thing 0 did not qualify this company for Thing 1 scoring.",
+            "Thing 0 qualification: " + status + ".",
+        ],
+        "unsupported_reasons": ["thing0_not_permitted"] + reasons,
+        "thing0_qualification_status": status,
+        "thing0_permits_thing1_use": False,
     }
 
 
@@ -1076,6 +1061,7 @@ def _build_reconciliation(
     t1_unavailable = t1_status in (
         "unavailable", "unvalidated_after_modification",
         "bank_adapter_required", "insufficient_data",
+        "not_permitted_by_thing0",
     )
 
     # Eight-case matrix.
@@ -1109,6 +1095,17 @@ def _build_reconciliation(
                 "summary": (
                     "Validated distress scorer has been modified since validation; refusing to score. "
                     "Long-arc tracker is interpretive only and cannot substitute for validated assessment."
+                ),
+                "action_authority": "none",
+                "language_constraints": _language_constraints(False),
+            }
+        if t1_status == "not_permitted_by_thing0":
+            return {
+                "primacy": "thing1",
+                "agree": "indeterminate",
+                "summary": (
+                    "Thing 0 did not qualify this company for Thing 1. "
+                    "No validated distress assessment is available."
                 ),
                 "action_authority": "none",
                 "language_constraints": _language_constraints(False),
@@ -1238,36 +1235,26 @@ def _build_safe_packet(
     cik_padded = str(cik).lstrip("0").zfill(10) if cik else ""
     history_sufficiency = _history_sufficiency(history_quarters)
 
-    # ── Section 1: Thing 1 (validated distress scorer) ─────────
-    # Always returns unavailable in Phases 1-3 because real limen_backtest.py
-    # is not imported. Bank entities short-circuit to bank_adapter_required.
-    validated_signal = thing1_pkg.score_validated(
-        cik=cik_padded,
-        sec_facts=facts if facts else None,
-        fred_delta=None,
-        is_financial=is_financial,
-    )
-
-    # Insufficient-data flag for Thing 1 too — propagate so the renderer
-    # can show the right banner. Bank already handled by thing1_pkg.
-    if not is_financial and not facts:
-        validated_signal["validation_status"] = "unavailable"
-        if "Unable to retrieve filings" not in " ".join(validated_signal.get("narrative_safe") or []):
-            validated_signal.setdefault("narrative_safe", []).append(
-                "Unable to retrieve SEC filings for this CIK."
-            )
-            validated_signal.setdefault("unsupported_reasons", []).append(
-                "extraction_error: SEC EDGAR fetch failed."
-            )
-
-    # ── Section 0: Thing 0 (Thing 1 operating-envelope qualifier) ──
+    # ── Section 0: Thing 0 (qualification for Thing 1) ─────────
+    # Qualification is established first from company-level facts. Thing 1
+    # runs only when Thing 0 permits it.
     thing0_eligibility = _build_thing0_section(
         is_financial=is_financial,
         facts=facts,
         company_data=company_data,
         history_quarters=history_quarters,
-        validated_signal=validated_signal,
     )
+
+    # ── Section 1: Thing 1 (validated distress scorer) ─────────
+    if thing0_eligibility["permits_thing1_use"]:
+        validated_signal = thing1_pkg.score_validated(
+            cik=cik_padded,
+            sec_facts=facts if facts else None,
+            fred_delta=None,
+            is_financial=is_financial,
+        )
+    else:
+        validated_signal = _thing1_not_permitted(thing0_eligibility)
 
     # ── Section 2: Thing 2 (long-arc recursive phase tracker) ──
     phase_tracker_signal = _build_thing2_section(
