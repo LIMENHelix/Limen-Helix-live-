@@ -286,6 +286,37 @@ def _local_packet_integration():
             helix_index._build_audit_entry = old_audit_build
             helix_index._emit_audit = old_audit_emit
 
+        def fail_build(facts, is_financial=False):
+            raise TypeError("malformed filed entry")
+
+        old_thing0_inputs = helix_index._thing0_company_data_from_facts
+        helix_index._fetch_sec_facts = fake_facts
+        helix_index._fetch_sic_code = fake_sic
+        helix_index.build_company_data = fail_build
+        helix_index._thing0_company_data_from_facts = lambda facts: full_data
+        helix_index.run_pipeline = lambda *a, **k: {"rows": []}
+        helix_index._build_polyvagal_context_from_server = lambda cik, sic: None
+        helix_index._build_audit_entry = lambda **kwargs: {}
+        helix_index._emit_audit = lambda entry: None
+        calls.clear()
+        try:
+            packet_build = asyncio.run(
+                helix_index._score_safe("0000000001", "partial_phase_snapshot")
+            )
+            assert packet_build["thing0_eligibility"]["permits_thing1_use"] is True, packet_build
+            assert len(calls) == 1, "Thing 1 must run when the Thing 2 input builder fails"
+            assert packet_build["validated_signal"]["validation_status"] == "unavailable", packet_build
+            print("  pass: local build_company_data failure does not suppress Thing 1")
+        finally:
+            helix_index._fetch_sec_facts = old_fetch_facts
+            helix_index._fetch_sic_code = old_fetch_sic
+            helix_index.build_company_data = old_build
+            helix_index.run_pipeline = old_pipeline
+            helix_index._build_polyvagal_context_from_server = old_poly
+            helix_index._build_audit_entry = old_audit_build
+            helix_index._emit_audit = old_audit_emit
+            helix_index._thing0_company_data_from_facts = old_thing0_inputs
+
         async def fail_facts(cik):
             raise RuntimeError("SEC down")
 

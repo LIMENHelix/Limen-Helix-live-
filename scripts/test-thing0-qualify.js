@@ -82,6 +82,12 @@ check('Thing 2 failure preserves raw company inputs for Thing 0', function () {
   assert.ok(source.includes('result, rows = {}, []'),
     'Thing 2 failure should clear only result and rows');
 });
+check('Thing 2 input-builder failure has an independent fallback', function () {
+  assert.ok(source.includes('def _thing0_company_data_from_facts('),
+    'independent qualifier-input fallback missing');
+  assert.ok(source.includes('company_data = _thing0_company_data_from_facts(facts)'),
+    'build_company_data failure does not use the fallback');
+});
 check('Thing 0 uses common raw coverage, not Thing 2 feature rows', function () {
   assert.ok(source.includes('def _thing0_history_quarters('),
     'raw history helper missing');

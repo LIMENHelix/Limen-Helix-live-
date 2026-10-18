@@ -737,6 +737,35 @@ def _input_presence(company_data: dict) -> dict:
     }
 
 
+def _thing0_company_data_from_facts(facts: dict) -> dict:
+    """Tolerant qualifier inputs derived directly from SEC facts.
+
+    Used only when the Thing 2 input builder raises, so a malformed entry that
+    Thing 1's extractor tolerates cannot suppress Thing 0 qualification.
+    """
+    if not facts:
+        return {}
+    try:
+        from python_runtime.helix_app.thing1 import limen_backtest as lb
+        data = {
+            "Revenue": lb.extract_quarterly_series(
+                facts, lb.TAG_MAP["Revenue"], "Revenue", is_flow=True),
+            "OCF": lb.extract_quarterly_series(
+                facts, lb.TAG_MAP["OCF"], "OCF", is_flow=True),
+            "Cash": lb.extract_quarterly_series(
+                facts, lb.TAG_MAP["Cash"], "Cash", is_flow=False),
+        }
+        dc = lb.extract_quarterly_series(
+            facts, lb.TAG_MAP["DebtCurrent"], "DebtCurrent", is_flow=False)
+        dl = lb.extract_quarterly_series(
+            facts, lb.TAG_MAP["DebtLong"], "DebtLong", is_flow=False)
+        all_q = set(dc.keys()) | set(dl.keys())
+        data["Debt"] = {q: dc.get(q, 0) + dl.get(q, 0) for q in all_q}
+        return data
+    except Exception:
+        return {}
+
+
 def _thing0_history_quarters(company_data: dict) -> int:
     """Common raw filing-quarter coverage across the required series.
 
@@ -1449,7 +1478,7 @@ async def _score_safe(cik: str, requested_report_type: str, request_body: dict |
     try:
         company_data = build_company_data(facts, is_financial=is_financial) if facts else {}
     except Exception:
-        company_data = {}
+        company_data = _thing0_company_data_from_facts(facts)
     try:
         result = run_pipeline(company_data, polyvagal_context=polyvagal_context)
         rows = result.get("rows", [])
