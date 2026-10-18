@@ -90,6 +90,14 @@ check('Thing 0 uses raw filing quarters, not Thing 2 feature rows', function () 
   assert.ok(source.includes('history_quarters=thing0_history_quarters'),
     'Thing 0 gate not using raw history');
 });
+check('Thing 1 execution status reflects the actual result', function () {
+  assert.ok(source.includes('thing0_eligibility["thing1_execution_status"] = "executed"'),
+    'executed status missing');
+  assert.ok(source.includes('thing0_eligibility["thing1_execution_status"] = "unavailable"'),
+    'unavailable status missing');
+  assert.ok(source.includes('thing0_eligibility["thing1_execution_status"] = "blocked_by_thing1_runtime"'),
+    'blocked status missing');
+});
 check('JS brain-signals already evaluates Thing 0 before Thing 1', function () {
   var brain = fs.readFileSync(path.join(ROOT, 'handlers', 'brain-signals.js'), 'utf8');
   var t0 = brain.indexOf('F.thing0Eligible(c)');

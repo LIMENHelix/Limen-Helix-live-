@@ -172,6 +172,31 @@ def _local_packet_integration():
         assert qualified["validated_signal"]["validation_status"] == "unavailable", qualified
         # Thing 0 remains qualified even when Thing 1 returns unavailable.
         assert qualified["thing0_eligibility"]["qualification_status"] == "qualified", qualified
+        assert qualified["thing0_eligibility"]["thing1_execution_status"] == "unavailable", qualified
+
+        def fake_validated(**kwargs):
+            calls.append(kwargs)
+            return {
+                "kernel_id": "limen_backtest.py",
+                "kernel_runtime": "python-vercel",
+                "kernel_version": None,
+                "validation_status": "validated",
+                "available": True,
+                "alert": False,
+                "first_alert_quarter": None,
+                "distress_band": None,
+                "recovered": None,
+                "fingerprint_status": {},
+                "narrative_safe": [],
+                "unsupported_reasons": [],
+            }
+
+        helix_index.thing1_pkg.score_validated = fake_validated
+        calls.clear()
+        executed = packet()
+        assert executed["thing0_eligibility"]["thing1_execution_status"] == "executed", executed
+        assert executed["thing0_eligibility"]["permits_thing1_use"] is True, executed
+        helix_index.thing1_pkg.score_validated = fake_score
 
         calls.clear()
         financial = packet(is_financial=True)

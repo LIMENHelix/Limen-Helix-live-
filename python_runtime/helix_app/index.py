@@ -1271,6 +1271,15 @@ def _build_safe_packet(
             fred_delta=None,
             is_financial=is_financial,
         )
+        # Qualification stays independent; execution status reflects the
+        # actual Thing 1 result rather than pre-claiming readiness.
+        t1_status = validated_signal.get("validation_status")
+        if t1_status == "validated" and validated_signal.get("available") is True:
+            thing0_eligibility["thing1_execution_status"] = "executed"
+        elif t1_status == "unavailable":
+            thing0_eligibility["thing1_execution_status"] = "unavailable"
+        else:
+            thing0_eligibility["thing1_execution_status"] = "blocked_by_thing1_runtime"
     else:
         validated_signal = _thing1_not_permitted(thing0_eligibility)
 
