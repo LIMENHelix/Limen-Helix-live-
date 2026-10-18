@@ -1336,7 +1336,7 @@ function _packServerResult(t1) {
       summary: t1.alert
         ? (kernelLabel + ' fired alert via Path ' + (t1.pathway || '?') + '. Composite score ' + (t1.composite_score != null ? t1.composite_score.toFixed(3) : 'n/a') + '.')
         : (kernelLabel + ' reports no alert.'),
-      action_authority: t1.alert ? 'thing1' : 'none',
+      action_authority: (effectiveValidation === 'validated' && t1.alert) ? 'thing1' : 'none',
       language_constraints: [
         'thing2_section_must_label_unvalidated',
         'thing2_section_no_alert_field',
