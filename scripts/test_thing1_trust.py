@@ -341,6 +341,18 @@ def _assert_report_consumer():
     assert "Raw threshold crossing present" in source, (
         "an unvalidated threshold crossing must be labeled, not presented as an alert"
     )
+    assert "authoritative_alert" in source, (
+        "authoritative alert state must combine Thing 0 qualification and Thing 1 validation"
+    )
+    assert "t0.permits_thing1_use === true" in source, (
+        "combined authority must require Thing 0 qualification"
+    )
+    assert "data.reconciliation.action_authority === 'thing1'" in source, (
+        "the overlay and clinical gates must require combined authority"
+    )
+    assert "THING 1 ALERT" in source, (
+        "a Thing 1 alert without Thing 0 qualification must be labeled separately"
+    )
 
 
 def _local_health_integration():
