@@ -25,37 +25,37 @@ var REAL = {};
 try {
   var _eng = require('../assets/data/energy-distress-scores.json');
   REAL.energy = {};
-  (_eng.scores || []).forEach(function (s) { if (s.ticker) REAL.energy[s.ticker] = s; });
+  (_eng.scores || []).forEach(function (s) {
+    if (s.ticker) REAL.energy[s.ticker] = s;
+  });
 } catch (e) {}
 
 // ELIG — kernel verdicts derived from the validated eligible frontier (assets/data/command-board-eligible.json),
 // the SAME per-company kernel data the Command Board (/kernel-comparison) renders. Keyed domain -> ticker.
 // This lets EVERY kernel-covered domain (not just energy) surface its verdicts through the identical honest
-// gate: each entry carries the real composite (co), alert (a), envelope status (es) and validation status (vs)
-// straight from the kernel — nothing is invented, and thing0/thing1 still abstain on anything that doesn't
-// pass (financial institutions, out-of-envelope, unvalidated). REAL (static snapshots) takes precedence.
+// gate. Each entry may carry the scorer-produced Thing 0 object (t0/thing0/thing0Eligibility). Legacy fields
+// (co, a, es, vs) remain available for Display/Thing 1, but they do NOT qualify a company by themselves.
 var ELIG = {};
 try {
   var _elig = require('../assets/data/command-board-eligible.json');
   (_elig.companies || []).forEach(function (c) {
     if (!c || !c.t || !c.d) return;
-    var sicNum = parseInt(c.sic, 10);
-    var isFin = (sicNum >= 6000 && sicNum <= 6799) || String(c.sec || '').toLowerCase() === 'financials';
     var _dk = String(c.d).toLowerCase();
     (ELIG[_dk] = ELIG[_dk] || {})[c.t] = {
       composite: (typeof c.co === 'number') ? c.co : null,
       alert: !!c.a,
       inEnvelope: /ELIGIBLE/.test(String(c.es || '')),
       validated: String(c.vs || '') === 'validated',
-      isFinancial: isFin,
       sic: c.sic,
-      firstAlertQuarter: c.fq || null
+      firstAlertQuarter: c.fq || null,
+      // Thing 0 evidence only when the snapshot writer recorded it.
+      thing0: c.t0 || c.thing0 || c.thing0Eligibility || null
     };
   });
 } catch (e) {}
 
 function run(domain) {
-  var out = { tracked: 0, scanned: 0, eligible: 0, flagged: 0, degenerate: false, publishable: [], note: '' };
+  var out = { tracked: 0, scanned: 0, eligible: 0, flagged: 0, degenerate: false, thing0Evidence: 0, publishable: [], note: '' };
   if (!CB || !CB.companies) { out.note = 'engine data unavailable'; return out; }
 
   // Alias the console's domainId to the command-board domain key (the medicine console calls
@@ -69,7 +69,15 @@ function run(domain) {
 
   var realMap = REAL[dq] || ELIG[dq] || {};
   var hasReal = false;
-  comps.forEach(function (c) { if (realMap[c.t]) { c.real = realMap[c.t]; if (!c.real.error) { hasReal = true; out.scanned++; } } });
+  comps.forEach(function (c) {
+    var r = realMap[c.t];
+    if (!r) return;
+    c.real = r;
+    // Only a scorer-produced Thing 0 object is qualification evidence.
+    c.thing0 = r.thing0 || r.thing0Eligibility || r.t0 || null;
+    if (c.thing0) out.thing0Evidence++;
+    if (!r.error) { hasReal = true; out.scanned++; }
+  });
 
   var domainStats = { degenerate: F.isDegenerate(comps.map(function (c) { return c.ds; })) };
   out.degenerate = domainStats.degenerate && !hasReal;   // real scores override the degenerate fallback
@@ -87,12 +95,16 @@ function run(domain) {
     out.publishable.push({ ticker: c.t, name: c.n, score: t1.score, band: t1.band, alert: t1.alert, asOf: t1.asOf });
   });
 
-  if (hasReal) {
+  if (out.thing0Evidence === 0) {
+    out.note = 'Thing 0 qualification evidence is unavailable in the current snapshot. Legacy scores remain visible for diagnostics only; no company is qualified for Thing 1 or action authority.';
+  } else if (!out.eligible) {
+    out.note = 'Thing 0 qualification evidence is present, but no company in this domain qualifies for Thing 1.';
+  } else if (hasReal) {
     out.note = 'Scored live via the validated kernel (api/limen/score). ' + out.flagged + ' flagged for review; the rest scanned and not flagged. Early-warning screen — not a prediction, not advice.';
   } else if (out.degenerate) {
     out.note = 'Per-company distress scores are a domain-level default (not individually computed); withheld until this domain is rescored.';
   } else if (!out.publishable.length) {
-    out.note = 'No companies pass the gate (need eligibility + validated status).';
+    out.note = 'No companies pass the gate (need Thing 0 qualification + validated Thing 1 status).';
   }
   return out;
 }
@@ -109,6 +121,7 @@ module.exports = async function handler(req, res) {
   return res.end(JSON.stringify({
     ok: true, domain: domain, pipelineVersion: F.FORMULA_VERSION,
     tracked: r.tracked, scanned: r.scanned, eligible: r.eligible, flagged: r.flagged,
-    degenerate: r.degenerate, publishable: r.publishable, note: r.note
+    degenerate: r.degenerate, thing0Evidence: r.thing0Evidence,
+    publishable: r.publishable, note: r.note
   }));
 };

@@ -575,7 +575,7 @@ function _classifyAction(d) {
     return { label: 'DATA REVIEW REQUIRED', color: '#e85454', reason: 'The snapshot has an extraction or consistency error, so neither Thing 0 nor Thing 1 should be inferred from this row.', whatNow: 'Run the protected Helix Report before using this company in research.' };
   }
   if (d._thing0Status !== 'QUALIFIED') {
-    return { label: 'THING 0 · ' + d._thing0Status.replace(/_/g, ' '), color: '#C9A94E', reason: 'This company is not fully inside the validated Thing 1 operating envelope on the retained row data.', whatNow: 'It may still be researched or invested through Finance using company news and market performance; no Thing 1 claim is permitted.' };
+    return { label: 'THING 0 · ' + d._thing0Status.replace(/_/g, ' '), color: '#C9A94E', reason: 'Thing 0 did not qualify this row for a validated Thing 1 claim. Legacy row data remains visible for research only.', whatNow: 'It may still be researched or invested through Finance using company news and market performance; no Thing 1 claim is permitted.' };
   }
   if (d._thing1Result === 'ALERT') {
     return { label: 'VALIDATED THING 1 ALERT PRESENT', color: '#e85454', reason: 'Thing 0 qualifies the company and the retained validated Thing 1 row carries an alert.', whatNow: 'This is distress evidence, not an automatic trade. Finance must independently assess current feeds, history, risk, and account state.' };
@@ -808,13 +808,17 @@ function _addPortfolioPrompt() {
 // ═══════════════════════════════════════════════════════════════════════
 
 // Board init — called after DATA loads from JSON
-function _isFIRE(d) { var s = parseInt(String(d.sic || d.SIC || '').slice(0, 4), 10); return !isNaN(s) && s >= 6000 && s <= 6799; }
+// Thing 0 qualification comes ONLY from scorer evidence recorded on the row
+// (t0 / thing0 / thing0Eligibility). Legacy validation status (vs) and history
+// describe Thing 1 and must not confer qualification. Rows without evidence
+// remain visible as NOT_QUALIFIED until a static refresh records it.
 function _thing0Status(d) {
-  var history = Number(d.hist || d.history_quarters || 0);
-  var validation = d.vs || d.validation_status || 'unsupported';
-  if (!d || !d.t || d.p === 'ERROR' || validation === 'error' || _isFIRE(d)) return 'NOT_QUALIFIED';
-  if (validation === 'validated' && history >= 8) return 'QUALIFIED';
-  if (history >= 4) return 'PARTIALLY_QUALIFIED';
+  if (!d || !d.t) return 'NOT_QUALIFIED';
+  var t0 = d.t0 || d.thing0 || d.thing0Eligibility || null;
+  var status = t0 && (t0.qualification_status || t0.qualificationStatus);
+  var normalized = String(status || '').toUpperCase();
+  if (normalized === 'QUALIFIED') return 'QUALIFIED';
+  if (normalized === 'PARTIALLY_QUALIFIED') return 'PARTIALLY_QUALIFIED';
   return 'NOT_QUALIFIED';
 }
 function _thing1Result(d) {

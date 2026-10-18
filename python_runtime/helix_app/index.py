@@ -609,7 +609,7 @@ async def edgar_company_facts(cik: str):
 async def edgar_extract(cik: str):
     """Fetch SEC facts and extract quarterly series (financial-aware)."""
     facts, sic = await asyncio.gather(_fetch_sec_facts(cik), _fetch_sic_code(cik))
-    is_financial = 6000 <= sic <= 6999
+    is_financial = thing0_pkg.is_financial_sectioned_report(sic)
     company_data = build_company_data(facts, is_financial=is_financial)
     return {
         "cik": cik,
@@ -766,23 +766,6 @@ def _thing0_company_data_from_facts(facts: dict) -> dict:
         return {}
 
 
-def _thing0_history_quarters(company_data: dict) -> int:
-    """Common raw filing-quarter coverage across the required series.
-
-    The eight-quarter floor must hold for every required series; a union would
-    let one long series mask missing coverage in the others. Thing 2 rows are
-    post-window feature output and are not used here.
-    """
-    lengths = []
-    for key in ("Revenue", "OCF", "Cash", "Debt"):
-        series = company_data.get(key) or {}
-        try:
-            lengths.append(len(series))
-        except Exception:
-            lengths.append(0)
-    return min(lengths) if lengths else 0
-
-
 # Neutral phase-state labels (no loaded language). Used in the Thing 2
 # section's `phase_state_label`. "instability," "terminal," "collapse,"
 # "alert" are NOT permitted here.
@@ -869,11 +852,14 @@ def _build_thing0_section(
     facts: dict,
     company_data: dict,
     history_quarters: int,
+    sic: int = 0,
 ) -> dict:
     """Explicit Thing 0 company-envelope assessment for Thing 1.
 
     Thing 0 does not score distress and never authorizes an action. It qualifies
     entry to Thing 1 from company-level facts only; it has no Thing 1 input.
+    `sector_rule` records which released SIC rule this consumer applied and
+    whether the other released rule would disagree; it does not reconcile them.
     """
     presence = _input_presence(company_data) if company_data else _input_presence({})
     required = {
@@ -889,6 +875,9 @@ def _build_thing0_section(
         present_count=present_count,
         required_count=len(required),
         history_quarters=history_quarters,
+        sector_rule=thing0_pkg.sector_provenance(
+            thing0_pkg.SECTOR_RULE_SECTIONED_REPORT, sic, is_financial
+        ),
     )
 
     return {
@@ -1287,7 +1276,7 @@ def _build_safe_packet(
     quarters = [r.get("quarter") for r in rows if r.get("quarter")]
     latest_quarter = quarters[-1] if quarters else None
     history_quarters = len(rows)
-    thing0_history_quarters = _thing0_history_quarters(company_data)
+    thing0_history_quarters = thing0_pkg.common_history_quarters(company_data)
     cik_padded = str(cik).lstrip("0").zfill(10) if cik else ""
     history_sufficiency = _history_sufficiency(history_quarters)
 
@@ -1299,6 +1288,7 @@ def _build_safe_packet(
         facts=facts,
         company_data=company_data,
         history_quarters=thing0_history_quarters,
+        sic=sic,
     )
 
     # ── Section 1: Thing 1 (validated distress scorer) ─────────
@@ -1432,7 +1422,7 @@ async def _score_safe(cik: str, requested_report_type: str, request_body: dict |
         sic = 0
         facts_error = True
 
-    is_financial = 6000 <= sic <= 6999
+    is_financial = thing0_pkg.is_financial_sectioned_report(sic)
 
     # ── Run Thing 2 (timed) ──
     # Bank lock: do not feed Liabilities-as-Debt into the phase pipeline.
@@ -1596,7 +1586,7 @@ async def _score_one(cik: str) -> dict:
     """Score a single CIK through Thing 2. Internal regression use only."""
     try:
         facts, sic = await asyncio.gather(_fetch_sec_facts(cik), _fetch_sic_code(cik))
-        is_financial = 6000 <= sic <= 6999
+        is_financial = thing0_pkg.is_financial_sectioned_report(sic)
         company_data = build_company_data(facts, is_financial=is_financial)
         result = run_pipeline(company_data)
         rows = result.get("rows", [])

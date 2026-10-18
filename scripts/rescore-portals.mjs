@@ -50,6 +50,7 @@ function qAgeOf(latest) {
 }
 
 function bandFor(r) {
+  if (r.thing0_eligibility && r.thing0_eligibility.permits_thing1_use !== true) return 'gray';
   if (r.interpretive_only) return 'gray';      // out of envelope -> not a validated read
   if (r.alert) return 'red';
   if ((r.composite_score || 0) >= 0.75) return 'yellow';
@@ -65,6 +66,9 @@ function toFinancialHealth(r, nowIso) {
     kernelId: r.kernel_id || 'limen_backtest.py',
     kernelShaLock: (r.kernel_sha256_lock || '').slice(0, 16),
     validationStatus: r.validation_status,
+    // ── Thing 0 qualification (authoritative; absent means unavailable) ──
+    thing0Eligibility: r.thing0_eligibility || null,
+    thing0PermitsThing1: !!(r.thing0_eligibility && r.thing0_eligibility.permits_thing1_use === true),
     // ── envelope (new) ──
     inEnvelope: r.in_envelope,
     interpretiveOnly: r.interpretive_only,

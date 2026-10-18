@@ -188,11 +188,14 @@ async function main() {
 
     try {
       const d = await postScore(c.cik);
+      const t0 = d.thing0_eligibility || d.thing0Eligibility || null;
+      const permitted = !!(t0 && t0.permits_thing1_use === true);
+      const validated = d.validation_status === 'validated';
       results.push({
         n: c.name, t: c.ticker || '', c: c.cik, s: slug, d: domainId,
         p: d.dominant_phase || '?',
         tr: deriveTrajectory(d),
-        co: d.composite_score || 0,
+        co: (typeof d.composite_score === 'number') ? d.composite_score : null,
         a: !!d.alert,
         path: d.pathway || null,
         pa: d.path_a_score || 0,
@@ -201,11 +204,15 @@ async function main() {
         fq: d.first_alert_quarter || null,
         q:  d.latest_quarter || null,
         hist: d.history_quarters || 0,
-        kid: 'limen_backtest.py',
-        vs: 'validated',
+        kid: d.kernel_id || 'limen_backtest.py',
+        // Record what the scorer actually returned; never stamp validated.
+        vs: d.validation_status || 'unavailable',
         ds: ds,
         // Envelope-aware fields (new — page can render badge if it wants)
-        es: 'ELIGIBLE_NOW',
+        es: !permitted ? 'NOT_QUALIFIED_BY_THING0'
+          : (validated ? 'ELIGIBLE_NOW' : 'OUT_OF_ENVELOPE'),
+        // Authoritative Thing 0 evidence for downstream consumers.
+        t0: t0,
         sec: c.primary_sector || null,
         sic: c.primary_sic || null,
       });
@@ -219,7 +226,7 @@ async function main() {
         path: null, pa: 0, pb: 0, pc: 0,
         fq: null, q: c.latest_quarter || null, hist: c.history_quarters || 0,
         kid: 'limen_backtest.py', vs: 'rebuild_error', ds: ds,
-        es: 'ELIGIBLE_NOW', sec: c.primary_sector || null, sic: c.primary_sic || null,
+        es: 'REBUILD_ERROR', sec: c.primary_sector || null, sic: c.primary_sic || null,
         rebuild_error: (e.message || String(e)).slice(0, 200),
       });
       errors++;

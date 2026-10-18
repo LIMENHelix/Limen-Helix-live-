@@ -426,8 +426,10 @@ def _local_health_integration():
             "slope_OCF": 0.0, "Cash": 10.0, "Debt": 5.0, "runway": 4.0,
         }])
         limen_app.lbt.fetch_sec_facts = lambda cik: {"entityName": "Fixture", "facts": {}}
+        # Eight raw quarters per required series: Thing 0 must permit Thing 1
+        # before this test can exercise fingerprint/envelope alert gating.
         limen_app.lbt.extract_quarterly_series = lambda *a, **k: {
-            (2020, 1): 1.0, (2020, 2): 2.0
+            (2020, q): float(q) for q in range(1, 9)
         }
         limen_app.lbt.compute_all_features = lambda *a, **k: fixture
         limen_app.lbt.score_all_phases = lambda *a, **k: fixture
