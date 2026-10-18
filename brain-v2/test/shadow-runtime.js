@@ -349,9 +349,13 @@ var firstReport, secondReport, firstState;
     });
   })(ROOT);
   var actionConsumers = storeConsumers.filter(function (rel) {
+    /* attention-direction requires the store only to mock readCycle and prove the
+       operator health projection carries attentionRecovery. It consumes no cycle
+       state for an action. */
     return rel !== 'lib/brain-shadow-runtime.js' && rel !== 'handlers/brain-shadow.js' &&
       rel !== 'lib/brain-shadow-archive.js' && rel !== 'brain-v2/test/shadow-runtime.js' &&
-      rel !== 'brain-v2/test/compaction.js' && rel.indexOf('scripts/brain-audit/') !== 0;
+      rel !== 'brain-v2/test/compaction.js' && rel !== 'brain-v2/test/attention-direction.js' &&
+      rel.indexOf('scripts/brain-audit/') !== 0;
   });
   assert('the autofire bridge is the only action consumer of shadow cycle state',
     JSON.stringify(actionConsumers) === JSON.stringify(['handlers/limen-worker-autofire.js']),

@@ -10,7 +10,7 @@
  *        → record whether an accepted transfer later improved/worsened/did-not-affect calibration.
  *   GET  /api/transfer-record?target=finance&uplift=1  → OBSERVATIONAL uplift readout (not a baseline).
  *   GET  /api/transfer-record?target=finance&n=50      → read the transfer ledger (newest-first).
- *   GET  /api/transfer-record?target=finance&verify=1  → verify the ledger's hash chain.
+ *   GET  /api/transfer-record?target=finance&verify=1  → verify the ledger's hash chain (capped, partial disclosed).
  *
  * Records provenance only — it builds/gates/logs a transfer; it changes no prior, arms nothing, spends
  * nothing, sends nothing. Writes are token-gated (reuse BRAIN_WEIGHTS_TOKEN, the durable-learning opt-in),
@@ -52,7 +52,11 @@ module.exports = async function handler(req, res) {
     if (!DOMAIN_RE.test(target)) { res.statusCode = 400; return res.end(JSON.stringify({ ok: false, error: 'bad or missing target' })); }
     try {
       if (q.uplift) return res.end(JSON.stringify({ ok: true, target: target, uplift: await TL.uplift(db, target), backend: db.getBackend() }));
-      if (q.verify) return res.end(JSON.stringify({ ok: true, target: target, verify: await audit.verify(db, TL.stream(target)), backend: db.getBackend() }));
+      if (q.verify) return res.end(JSON.stringify({
+        ok: true, target: target,
+        verify: await audit.verify(db, TL.stream(target), audit.PUBLIC_VERIFY_CAP),
+        verifyCap: audit.PUBLIC_VERIFY_CAP, backend: db.getBackend()
+      }));
       var n = Math.max(1, Math.min(500, parseInt(q.n, 10) || 100));
       return res.end(JSON.stringify({ ok: true, target: target, entries: await audit.read(db, TL.stream(target), n), backend: db.getBackend() }));
     } catch (e) { res.statusCode = 500; return res.end(JSON.stringify({ ok: false, error: e.message })); }

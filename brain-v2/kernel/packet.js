@@ -23,6 +23,7 @@
 'use strict';
 
 var crypto = require('crypto');
+var KERN = require('./version.js');
 
 var SCHEMA_VERSION = '1.0.0';
 
@@ -129,7 +130,7 @@ function create(spec) {
 
     sourceDomain: spec.sourceDomain,
     sourceModule: spec.sourceModule,
-    sourceVersion: spec.sourceVersion || 'brain-v2/kernel/1.0.0',
+    sourceVersion: spec.sourceVersion || KERN.KERNEL_VERSION,
     intendedTargets: (spec.intendedTargets || []).slice(),
 
     signalKind: spec.signalKind,
