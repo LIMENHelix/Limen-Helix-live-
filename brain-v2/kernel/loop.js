@@ -59,7 +59,7 @@ var BRAIN = require('../core/brain.js');
 var DIV   = require('../core/divergence.js');
 var C     = require('../core/channel.js');
 
-var VERSION = 'brain-v2/kernel/1.0.0';
+var VERSION = 'brain-v2/kernel/1.0.1';
 var ERROR_WINDOW = 64;
 
 /** Modules that can be individually ablated. TEST 19. */
@@ -103,6 +103,8 @@ function create(spec) {
     noiseEveryTicks: spec.noiseEveryTicks || 24,
     ticks: 0,
     lastTickAt: null,
+    /* Written only by the 1.0.0 attention recovery in restore(). Null otherwise. */
+    attentionRecovery: null,
     errors: []
   };
   wireConnectome(loop);
@@ -163,6 +165,7 @@ function wireMotor(loop) {
       var ch = loop.brain.channels.filter(function (c) { return c.key === key; })[0];
       if (!ch) return { applied: false, detail: 'no such channel ' + key };
       var before = ch.r;
+      var beforeGain = ch.rGain;
       var factor = cmd.action.parameters.factor;
       // Attention IS precision: lower observation noise -> higher Kalman gain -> higher
       // posterior precision -> more weight in fusion. Gain from adaptation scales the step.
@@ -181,7 +184,19 @@ function wireMotor(loop) {
       var applied = 1 + (factor - 1) * cmd.gain;
       C.setAttentionGain(ch, ch.rGain / applied);
       if (!loop.attention[key]) loop.attention[key] = { rBase: before, history: [] };
-      loop.attention[key].history.push({ at: cmd.now, from: before, to: ch.r, actionId: cmd.action.actionId });
+      /* Track the ATTENTION GAIN alongside effective r. Effective r is clamped to [0.01,4],
+         so a channel whose rBase is already at the ceiling records 4 -> 4 even when the
+         command moved rGain 1 -> 2. The step-9 alreadyLowered key must use the gain, or a
+         saturated channel is re-proposed forever. */
+      loop.attention[key].history.push({
+        at: cmd.now,
+        kind: cmd.action.kind,
+        from: before,
+        to: ch.r,
+        gainFrom: beforeGain,
+        gainTo: ch.rGain,
+        actionId: cmd.action.actionId
+      });
       return {
         applied: true,
         at: cmd.now,
@@ -692,7 +707,15 @@ function tick(loop, readings, now, runtimeMeasurements) {
   var lowered = Object.create(null);
   Object.keys(loop.attention).forEach(function (k) {
     var h = loop.attention[k].history || [];
-    if (h.length && h[h.length - 1].to > h[h.length - 1].from) lowered[k] = true;   // r raised = attention lowered
+    if (!h.length) return;
+    var last = h[h.length - 1];
+    /* PREFER THE ATTENTION GAIN. Effective r is clamped, so a saturated channel can
+       record 4 -> 4 while rGain actually rose. Entries written before 1.0.1 carry no
+       gain fields and fall back to the r comparison. */
+    var rose = (typeof last.gainTo === 'number' && typeof last.gainFrom === 'number')
+      ? last.gainTo > last.gainFrom
+      : last.to > last.from;
+    if (rose) lowered[k] = true;   // r raised (or the gain rose) = attention lowered
   });
   var candidates = PROP.generate({ cycle: cycle, now: now, horizonMs: loop.horizonMs, alreadyLowered: lowered });
   step('propose', { count: candidates.length, kinds: candidates.map(function (c) { return c.kind; }), proposedBy: PROP.MODULE_ID });
@@ -1149,6 +1172,7 @@ function serialize(loop) {
     modulators: MOD.serialize(loop.modulators),
     vitals: VIT.serialize(loop.vitals),
     attention: loop.attention,
+    attentionRecovery: loop.attentionRecovery || null,
     topology: TOPO.serialize(loop.topology),
     routed: loop._routed || [],
     efferences: loop._efferences || [],
@@ -1160,6 +1184,65 @@ function serialize(loop) {
     archiveHead: loop.archiveHead || null,
     errors: loop.errors.slice(-ERROR_WINDOW)
   };
+}
+
+/**
+ * Repair attention state written by the inverted 1.0.0 lower_attention.
+ *
+ * In 1.0.0, LOWER_ATTENTION multiplied rGain by an attention factor <=1 instead of
+ * dividing by it. Repeated commands walked rGain to the lower clamp (0.05), which is
+ * maximum attention on a channel the system was trying to stop watching. A single
+ * corrected command then raised it only slightly and the cleanup terminated.
+ *
+ * RECOVERY IS DELIBERATELY NARROW. A channel is reset to the neutral attention gain
+ * (1.0) only when BOTH hold:
+ *   - its most recent attention history entry is an identifiable lower_attention;
+ *   - its current rGain is below neutral.
+ * The action kind comes from the persisted episodic record for that actionId, so a
+ * channel whose attention was legitimately changed AFTER the bug is left alone. Only
+ * attention gain changes; rBase, values, variances and every other channel are kept.
+ */
+function recoverInvertedAttention(loop, snap) {
+  if (!snap || snap.version !== 'brain-v2/kernel/1.0.0') return null;
+  var kindByAction = Object.create(null);
+  ((loop.memory && loop.memory.episodic) || []).forEach(function (ep) {
+    if (ep && ep.actionId && ep.selection && ep.selection.kind) {
+      kindByAction[ep.actionId] = ep.selection.kind;
+    }
+  });
+
+  var recovered = [];
+  Object.keys(loop.attention || {}).forEach(function (key) {
+    var ch = (loop.brain.channels || []).filter(function (c) { return c.key === key; })[0];
+    if (!ch || !(ch.rGain < 1)) return;
+    var hist = (loop.attention[key] && loop.attention[key].history) || [];
+    var last = hist[hist.length - 1];
+    if (!last || kindByAction[last.actionId] !== 'lower_attention') return;
+
+    var beforeR = ch.r, beforeGain = ch.rGain;
+    C.setAttentionGain(ch, 1.0);
+    hist.push({
+      at: Date.now(),
+      kind: 'fix0118_recovery',
+      from: beforeR,
+      to: ch.r,
+      gainFrom: beforeGain,
+      gainTo: ch.rGain,
+      actionId: 'fix0118_recovery:' + key,
+      recoveredActionId: last.actionId,
+      why: '1.0.0 lower_attention multiplied rGain; reset to neutral attention'
+    });
+    recovered.push(key);
+  });
+
+  if (!recovered.length) return null;
+  loop.attentionRecovery = {
+    fromVersion: snap.version,
+    toVersion: VERSION,
+    at: Date.now(),
+    recovered: recovered
+  };
+  return loop.attentionRecovery;
 }
 
 /**
@@ -1278,6 +1361,10 @@ function restore(spec, snap) {
   loop.vitals = VIT.deserialize(snap.vitals);
   if (!loop.vitals.ownerDomain) loop.vitals.ownerDomain = loop.domain;
   loop.attention = snap.attention || Object.create(null);
+  loop.attentionRecovery = snap.attentionRecovery || null;
+  /* AFTER the attention state and memory are restored: the recovery needs the
+     persisted actionId -> kind map and must not run before both exist. */
+  recoverInvertedAttention(loop, snap);
   /* A snapshot written before row 25 has no topology; the freshly-wired one from
      create() stands, which is correct for that data — there was nothing to restore. */
   if (snap.topology) {
