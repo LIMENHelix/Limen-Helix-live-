@@ -307,6 +307,13 @@ def _assert_report_consumer():
     assert "state: 'server_validated'" not in source, "fabricated server_validated fingerprint remains"
     assert "t1.fingerprint_status" in source, "report must use the server fingerprint"
     assert "kernel_sha256_actual" in source, "report must expose the actual hash"
+    assert "var effectiveAlert = effectiveValidation === 'validated'" in source, (
+        "alert presentation must be gated on effective validation"
+    )
+    assert "alert: effectiveAlert" in source, "validated_signal.alert must use the gated value"
+    assert "Raw threshold crossing present" in source, (
+        "an unvalidated threshold crossing must be labeled, not presented as an alert"
+    )
 
 
 def _local_health_integration():
