@@ -191,14 +191,29 @@ async function main() {
   Object.entries(buckets).sort((a, b) => b[1] - a[1]).forEach(([k, v]) => console.log(`    ${k.padEnd(28)} ${v}`));
 }
 
+/* Fields owned by the Thing 1 verdict. A refresh replaces these and preserves
+   authored fundamentals not in this set (revenueLast4Q, margins, free cash
+   flow, etc.). */
+const KERNEL_VERDICT_FIELDS = [
+  'asOf', 'lastKernelRun', 'kernelId', 'kernelShaLock', 'validationStatus',
+  'thing1Validation', 'thing0Eligibility', 'thing0PermitsThing1', 'inEnvelope',
+  'interpretiveOnly', 'envelopeStatusCode', 'envelopeDisclaimer', 'regimeContext',
+  'isFinancial', 'sicCode', 'historyQuarters', 'latestQuarter', 'alert',
+  'alertA', 'alertB', 'alertC', 'pathA', 'pathB', 'pathC',
+  'pathAThreshold', 'pathBThreshold', 'pathCThreshold', 'pathway',
+  'firstAlertQuarter', 'distressBand', 'compositeScore', 'dominantPhase',
+  'financialState', 'inputPresence', 'envelopeStatus', 'phaseStateLabel',
+  'stressRate', 'quarantine'
+];
+
 export function applyFinancialRefresh(portal, financialHealth, at) {
-  /* THE VERDICT IS ALWAYS THE CURRENT THING 1 MAPPING. Spreading kept stale
-     pathA/B/C, their thresholds, phaseStateLabel and envelopeStatus from a
-     previous run even after a validated refresh. toFinancialHealth maps every
-     field the portal and engine consume, so replace the object. Thing 0 is
-     upstream and is not re-checked here; a refusal is already
-     not_permitted_by_thing0. */
-  portal.financialHealth = { ...financialHealth };
+  /* THE VERDICT SUBSET IS REPLACED; AUTHORED FUNDAMENTALS ARE KEPT. Deleting
+     the whole object removed revenueLast4Q, margins and free cash flow, which
+     are independent financial inputs used by the stage classifier and engine
+     context builder. */
+  const preserved = { ...(portal.financialHealth || {}) };
+  for (const key of KERNEL_VERDICT_FIELDS) delete preserved[key];
+  portal.financialHealth = { ...preserved, ...financialHealth };
   const thing1Validated = !!(financialHealth.thing1Validation &&
     financialHealth.thing1Validation.status === 'validated' &&
     financialHealth.thing1Validation.available === true);

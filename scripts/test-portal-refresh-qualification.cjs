@@ -52,7 +52,8 @@ const path = require('node:path');
   const stale = {
     financialHealth: {
       alert: true, phaseStateLabel: 'P7', pathA: 1.2, pathB: 0.5,
-      pathC: 0.4, envelopeStatus: 'ELIGIBLE_NOW'
+      pathC: 0.4, envelopeStatus: 'ELIGIBLE_NOW',
+      revenueLast4Q: 77, operatingCashFlow: 12, netLoss: -3
     }
   };
   applyFinancialRefresh(stale, {
@@ -67,6 +68,28 @@ const path = require('node:path');
   assert.equal(stale.financialHealth.pathC, undefined);
   assert.equal(stale.financialHealth.envelopeStatus, undefined);
   assert.equal(stale.financialHealth.alert, false);
+  /* Authored fundamentals are not kernel verdict fields. */
+  assert.equal(stale.financialHealth.revenueLast4Q, 77);
+  assert.equal(stale.financialHealth.operatingCashFlow, 12);
+  assert.equal(stale.financialHealth.netLoss, -3);
+
+  const fundamentals = {
+    financialHealth: {
+      revenueLast4Q: 123, operatingCashFlow: 45, netLoss: -6,
+      phaseStateLabel: 'P7', pathA: 1.2, envelopeStatus: 'ELIGIBLE_NOW'
+    }
+  };
+  applyFinancialRefresh(fundamentals, {
+    validationStatus: 'validated',
+    thing1Validation: { status: 'validated', available: true },
+    pathA: 0.2
+  }, '2026-10-18T00:00:02Z');
+  assert.equal(fundamentals.financialHealth.revenueLast4Q, 123);
+  assert.equal(fundamentals.financialHealth.operatingCashFlow, 45);
+  assert.equal(fundamentals.financialHealth.netLoss, -6);
+  assert.equal(fundamentals.financialHealth.pathA, 0.2);
+  assert.equal(fundamentals.financialHealth.phaseStateLabel, undefined);
+  assert.equal(fundamentals.financialHealth.envelopeStatus, undefined);
 
   /* A validated refresh also replaces the verdict object, so stale path and
      phase fields cannot survive beside fresh scores. */

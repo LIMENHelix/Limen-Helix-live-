@@ -443,8 +443,10 @@ check('investment engine quarantines when Thing 1 is not validated', function ()
     'portal refresh still gates on Thing 0');
   assert.ok(applyBody.includes('thing1Validation'),
     'portal refresh does not gate on Thing 1 provenance');
-  assert.ok(applyBody.includes('portal.financialHealth = { ...financialHealth }'),
-    'portal refresh still spreads stale kernel fields');
+  assert.ok(applyBody.includes('portal.financialHealth = { ...preserved, ...financialHealth }'),
+    'portal refresh does not replace the kernel verdict subset');
+  assert.ok(rescoreSource.includes('KERNEL_VERDICT_FIELDS'),
+    'refresh does not define the kernel verdict field set');
   assert.ok(rescoreSource.includes('pathA: r.path_a_score'),
     'refresh does not map pathA from the current response');
   assert.ok(rescoreSource.includes('pathAThreshold: r.path_a_threshold'),
@@ -489,6 +491,22 @@ check('eligibility probe honors a Thing 0 refusal', function () {
   });
   assert.equal(refused.status, 'NOT_QUALIFIED_BY_THING0', JSON.stringify(refused));
   assert.ok(refused.reasons.indexOf('sector_lookup_unavailable') !== -1, JSON.stringify(refused));
+
+  var noPermit = probe.deriveStatus({
+    history_quarters: 8,
+    latest_quarter: '2026Q3',
+    input_presence: { dc_coverage_quarters: 8, dl_coverage_quarters: 8 },
+    thing0_eligibility: { permits_thing1_use: false, qualification_status: 'qualified' }
+  });
+  assert.equal(noPermit.status, 'NOT_QUALIFIED_BY_THING0', JSON.stringify(noPermit));
+  assert.ok(noPermit.reasons.indexOf('thing0_permission_missing') !== -1, JSON.stringify(noPermit));
+
+  var legacy = probe.deriveStatus({
+    history_quarters: 8,
+    latest_quarter: '2026Q3',
+    input_presence: { dc_coverage_quarters: 8, dl_coverage_quarters: 8 }
+  });
+  assert.equal(legacy.status, 'THING0_EVIDENCE_UNAVAILABLE', JSON.stringify(legacy));
 
   var eligible = probe.deriveStatus({
     history_quarters: 8,
