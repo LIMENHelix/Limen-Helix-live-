@@ -86,14 +86,19 @@ function isoDate(d) { return (d || new Date()).toISOString().slice(0, 10); }
 function isoNow() { return new Date().toISOString(); }
 
 function evaluatePortal(co) {
-  const fh = co.financialHealth;
-  if (!fh) return { signals: [], skipped: 'no financialHealth' };
+  /* Kernel-side refusals also revoke the kernel-derived fields this engine
+     reads. Check them BEFORE financialHealth: a portal can carry stale
+     investment signals even when its health payload is absent or unusable.
+     All three must quarantine, not leave the old signals active. */
   if (co.kernelStatus === 'ERROR' || co.kernelStatus === 'PRIVATE') {
-    return { signals: [], skipped: 'kernelStatus=' + co.kernelStatus };
+    return { signals: [], skipped: 'kernelStatus=' + co.kernelStatus, quarantine: true };
   }
   if (co.kernelStatus === 'INSUFFICIENT_HISTORY') {
-    return { signals: [], skipped: 'INSUFFICIENT_HISTORY (kernel needs ≥32Q)' };
+    return { signals: [], skipped: 'INSUFFICIENT_HISTORY (kernel needs ≥32Q)', quarantine: true };
   }
+
+  const fh = co.financialHealth;
+  if (!fh) return { signals: [], skipped: 'no financialHealth' };
 
   /* A refreshed Thing 0 refusal revokes use of the kernel-derived fields this
      engine reads. Do not emit a new signal from stale evidence. */
@@ -302,8 +307,11 @@ function processOne(slug) {
       return { slug, signals: [], skipped: skipped + ' (would quarantine kernel-derived signals)' };
     }
     const n = quarantineInvestmentSignals(co, skipped, isoNow());
-    fs.writeFileSync(file, JSON.stringify(co, null, 2) + '\n');
-    return { slug, signals: [], skipped: skipped + ' (quarantined ' + n + ')' };
+    if (n > 0) fs.writeFileSync(file, JSON.stringify(co, null, 2) + '\n');
+    return {
+      slug, signals: [],
+      skipped: skipped + (n > 0 ? ' (quarantined ' + n + ')' : ' (no stale signals)')
+    };
   }
   if (skipped) return { slug, signals: [], skipped };
   if (!signals.length) {

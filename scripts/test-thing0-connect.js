@@ -198,6 +198,12 @@ check('Command Board requires effective Thing 1 validation before ALERT or NO_AL
     'validation status is not required');
   assert.ok(commandBoardPage.includes("d._thing1Result || 'ABSTAIN'"),
     'T1 badge still falls back to raw validation status');
+  assert.ok(commandBoardPage.includes('function _thing0Permits('),
+    'Thing 0 permit helper missing');
+  assert.ok(commandBoardPage.includes("normalized === 'QUALIFIED' && _thing0Permits(d)"),
+    'qualified label is trusted without permits_thing1_use');
+  assert.ok(commandBoardPage.includes("d._thing0Status !== 'QUALIFIED' || !_thing0Permits(d)"),
+    'T1 result does not re-check the Thing 0 permit');
 });
 check('Command Board rendering tolerates null composite scores', function () {
   assert.ok(!/d\.co\.toFixed/.test(commandBoardPage),
@@ -270,6 +276,30 @@ check('investment engine quarantines stale kernel signals on Thing 0 refusal', f
   assert.equal(co.quarantinedOpportunitySignals[0].quarantined, true);
   assert.equal(engine.quarantineInvestmentSignals(co, 'thing0_not_permitted', '2026-01-01T00:00:00.000Z'), 0);
   assert.equal(co.quarantinedOpportunitySignals.length, 1, 'quarantine archive was duplicated');
+});
+
+check('kernel-status refusals also quarantine stale investment signals', function () {
+  var engine = require('../scripts/run-investment-engine');
+  ['ERROR', 'PRIVATE', 'INSUFFICIENT_HISTORY'].forEach(function (status) {
+    var co = {
+      slug: 'fixture-' + status, kernelStatus: status,
+      financialHealth: status === 'INSUFFICIENT_HISTORY' ? {} : { compositeScore: 1.6, alert: true },
+      opportunitySignals: [
+        { engine: 'investment', id: 'inv-' + status },
+        { engine: 'other', id: 'other-' + status }
+      ]
+    };
+    var evaluated = engine.evaluatePortal(co);
+    assert.equal(evaluated.quarantine, true, status + ': ' + JSON.stringify(evaluated));
+    assert.equal(evaluated.signals.length, 0, status);
+    assert.equal(
+      engine.quarantineInvestmentSignals(co, evaluated.skipped, '2026-01-01T00:00:00.000Z'),
+      1, status + ': stale signal was not quarantined');
+    assert.equal(co.opportunitySignals.length, 1, status);
+    assert.equal(co.opportunitySignals[0].engine, 'other', status);
+    assert.equal(co.quarantinedOpportunitySignals.length, 1, status);
+    assert.equal(co.quarantinedOpportunitySignals[0].quarantined, true, status);
+  });
 });
 
 // ── Handler contract against the current static snapshots ──────────────────

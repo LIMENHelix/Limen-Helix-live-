@@ -826,12 +826,18 @@ function _addPortfolioPrompt() {
 // (t0 / thing0 / thing0Eligibility). Legacy validation status (vs) and history
 // describe Thing 1 and must not confer qualification. Rows without evidence
 // remain visible as NOT_QUALIFIED until a static refresh records it.
+function _thing0Permits(d) {
+  /* "qualified" is a label; permits_thing1_use is the authority. A missing or
+     false permit must not open Thing 1, even if the label says qualified. */
+  var t0 = d && (d.t0 || d.thing0 || d.thing0Eligibility) || null;
+  return !!(t0 && (t0.permits_thing1_use === true || t0.permitsThing1Use === true));
+}
 function _thing0Status(d) {
   if (!d || !d.t) return 'NOT_QUALIFIED';
   var t0 = d.t0 || d.thing0 || d.thing0Eligibility || null;
   var status = t0 && (t0.qualification_status || t0.qualificationStatus);
   var normalized = String(status || '').toUpperCase();
-  if (normalized === 'QUALIFIED') return 'QUALIFIED';
+  if (normalized === 'QUALIFIED' && _thing0Permits(d)) return 'QUALIFIED';
   if (normalized === 'PARTIALLY_QUALIFIED') return 'PARTIALLY_QUALIFIED';
   return 'NOT_QUALIFIED';
 }
@@ -842,7 +848,7 @@ function _thing1Validated(d) {
   return !!(d && d.kid === 'limen_backtest.py' && d.vs === 'validated');
 }
 function _thing1Result(d) {
-  if (d._thing0Status !== 'QUALIFIED') return null;
+  if (d._thing0Status !== 'QUALIFIED' || !_thing0Permits(d)) return null;
   if (!_thing1Validated(d)) return 'ABSTAIN';
   return d.a === true ? 'ALERT' : 'NO_ALERT';
 }
