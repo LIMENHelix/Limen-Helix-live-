@@ -172,7 +172,15 @@ async function main() {
     if (STALE_ONLY) {
       if (!shouldRescoreStaleOnly(j)) { skipped++; continue; }
       const lq = j.financialHealth && j.financialHealth.latestQuarter;
-      if (qAgeOf(lq) <= 2) tally('rescored:missing-thing1-provenance');
+      if (qAgeOf(lq) <= 2) {
+        /* Report which provenance is actually absent. A recent record can now
+           be rescored for missing Thing 0 while Thing 1 is validated. */
+        const fh = j.financialHealth || {};
+        const missing = [];
+        if (!hasThing1Provenance(fh)) missing.push('thing1');
+        if (!hasThing0Qualification(fh)) missing.push('thing0');
+        tally('rescored:missing-' + missing.join('+') + '-provenance');
+      }
     }
 
     scanned++;
