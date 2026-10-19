@@ -29,7 +29,8 @@
 const assert = require('assert');
 
 const SAVED = {};
-['GITHUB_TOKEN', 'GH_TOKEN', 'VERCEL_GITHUB_TOKEN'].forEach(function (k) { SAVED[k] = process.env[k]; });
+['GITHUB_TOKEN', 'GH_TOKEN', 'VERCEL_GITHUB_TOKEN', 'LIMEN_PORTAL_SOURCE_SHA',
+  'VERCEL_GIT_COMMIT_SHA', 'GITHUB_SHA'].forEach(function (k) { SAVED[k] = process.env[k]; });
 
 function restoreEnv() {
   Object.keys(SAVED).forEach(function (k) {
@@ -41,6 +42,7 @@ function restoreEnv() {
 const TOKEN = 'ghp_fetchportaltesttoken0000';
 const MAX_PORTAL_BYTES = 8 * 1024 * 1024;
 const SOURCE_SHA = 'a'.repeat(40);
+const DEPLOY_SHA = 'b'.repeat(40);
 
 const REAL_FETCH = global.fetch;
 const fetchedUrls = [];
@@ -174,6 +176,18 @@ async function main() {
     'https://api.github.com/repos/LIMENHelix/Limen-Helix/git/blobs/' + gitBlobSha(JSON.stringify(validPortal('energy_battery_battrecycling_collection'))));
   check('streamed success does not call unbounded text()', textCalls, 0);
 
+  // ── deployment SHA fallback when the explicit pin is absent ──────────────
+  delete process.env.LIMEN_PORTAL_SOURCE_SHA;
+  delete process.env.GITHUB_SHA;
+  process.env.VERCEL_GIT_COMMIT_SHA = DEPLOY_SHA;
+  fetchedUrls.length = 0;
+  r = await invoke(request({ domainId: 'energy_deploy_revision' }));
+  check('deployment SHA fallback passes (status)', r.status, 200);
+  check('deployment SHA fallback pins the deployment revision',
+    fetchedUrls[0].indexOf('?ref=' + DEPLOY_SHA) !== -1, true);
+  process.env.LIMEN_PORTAL_SOURCE_SHA = SOURCE_SHA;
+  delete process.env.VERCEL_GIT_COMMIT_SHA;
+
   // ── server token used upstream, never in the response ─────────────────────
   const blob = JSON.stringify(r.body) + JSON.stringify(r.headers);
   check('token absent from response', blob.indexOf(TOKEN), -1);
@@ -256,11 +270,17 @@ async function main() {
   r = await invoke(request({ domainId: 'energy_battery_battrecycling_collection' }));
   check('cross-domain payload fails closed (status)', r.status, 502);
   responseBody = JSON.stringify({
-    domainId: 'energy', title: 'Undeclared node', phase: 'p4',
+    domainId: 'energy', title: 'Authored label', phase: 'p4',
     activations: [{ brainNodeId: 'FUND' }], issues: []
   });
   r = await invoke(request({ domainId: 'energy' }));
-  check('undeclared activation node fails closed (status)', r.status, 502);
+  check('authored activation label passes (status)', r.status, 200);
+  responseBody = JSON.stringify({
+    domainId: 'energy', title: 'Undeclared edge', phase: 'p4',
+    activations: [], issues: [], edges: [{ from: 'FPN', to: 'NOT_DECLARED' }]
+  });
+  r = await invoke(request({ domainId: 'energy' }));
+  check('undeclared edge endpoint fails closed (status)', r.status, 502);
   responseBody = JSON.stringify({
     domainId: 'energy', title: 'Declared alias', phase: 'p4',
     activations: [{ brainNodeId: 'NAc' }], issues: [], edges: []

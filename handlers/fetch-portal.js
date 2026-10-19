@@ -130,13 +130,18 @@ function validatePortalSchema(portal, requestedDomainId) {
   // activations. If present, the field must still have the expected shape.
   if (portal.issues !== undefined && !Array.isArray(portal.issues)) return 'issues-not-array';
   if (portal.edges !== undefined && !Array.isArray(portal.edges)) return 'edges-not-array';
+  const authoredNodes = new Set();
   for (let i = 0; i < portal.activations.length; i++) {
     const activation = portal.activations[i];
     if (!activation || typeof activation !== 'object' || Array.isArray(activation)) return 'activation-shape@' + i;
     if (typeof activation.brainNodeId !== 'string' || activation.brainNodeId.length === 0) {
       return 'activation-brain-node-id@' + i;
     }
-    if (!isDeclaredNode(activation.brainNodeId)) return 'activation-undeclared-node@' + i;
+    /* Activation IDs are authored labels, not topology endpoints. The served
+       corpus contains labels outside the canonical registry (for example AMY
+       and INS in finance.json), so they are collected as portal-authored nodes
+       but not required to be canonical. */
+    authoredNodes.add(activation.brainNodeId);
     if (activation.treatments !== undefined && !Array.isArray(activation.treatments)) return 'activation-treatments-not-array@' + i;
   }
   for (let i = 0; i < (portal.issues || []).length; i++) {
@@ -148,17 +153,32 @@ function validatePortalSchema(portal, requestedDomainId) {
     if (issue.circuits !== undefined && !Array.isArray(issue.circuits)) return 'issue-circuits-not-array@' + i;
     if (issue._authored !== undefined && !Array.isArray(issue._authored)) return 'issue-authored-not-array@' + i;
     for (let j = 0; j < (issue.circuits || []).length; j++) {
-      if (!issue.circuits[j] || !isDeclaredNode(issue.circuits[j].nodeId)) return 'issue-circuit-undeclared-node@' + i + ':' + j;
+      const circuit = issue.circuits[j];
+      if (!circuit || typeof circuit !== 'object' || typeof circuit.nodeId !== 'string' || circuit.nodeId.length === 0) {
+        return 'issue-circuit-node-id@' + i + ':' + j;
+      }
+      authoredNodes.add(circuit.nodeId);
     }
     for (let j = 0; j < (issue._authored || []).length; j++) {
-      if (!issue._authored[j] || !isDeclaredNode(issue._authored[j].nodeId)) return 'issue-authored-undeclared-node@' + i + ':' + j;
+      const authored = issue._authored[j];
+      if (!authored || typeof authored !== 'object' || typeof authored.nodeId !== 'string' || authored.nodeId.length === 0) {
+        return 'issue-authored-node-id@' + i + ':' + j;
+      }
+      authoredNodes.add(authored.nodeId);
     }
-    if (issue.resolved && !isDeclaredNode(issue.resolved.nodeId)) return 'issue-resolved-undeclared-node@' + i;
+    if (issue.resolved) {
+      if (typeof issue.resolved !== 'object' || typeof issue.resolved.nodeId !== 'string' || issue.resolved.nodeId.length === 0) {
+        return 'issue-resolved-node-id@' + i;
+      }
+      authoredNodes.add(issue.resolved.nodeId);
+    }
   }
   for (let i = 0; i < (portal.edges || []).length; i++) {
     const edge = portal.edges[i];
     /* Three authored edge shapes exist in the source portals: source/target,
-       a/b, and from/to. All identify the same pair of declared nodes. */
+       a/b, and from/to. All identify the same pair of declared nodes. An edge
+       endpoint is declared when the canonical registry knows it, or when this
+       portal itself declares the label in its activations/issues. */
     const endpoints = edge && (edge.source !== undefined || edge.target !== undefined)
       ? [edge.source, edge.target]
       : edge && (edge.a !== undefined || edge.b !== undefined)
@@ -166,7 +186,7 @@ function validatePortalSchema(portal, requestedDomainId) {
         : edge && (edge.from !== undefined || edge.to !== undefined)
           ? [edge.from, edge.to]
           : null;
-    if (!endpoints || endpoints.some(nodeId => !isDeclaredNode(nodeId))) return 'edge-undeclared-node@' + i;
+    if (!endpoints || endpoints.some(nodeId => !isDeclaredNode(nodeId) && !authoredNodes.has(nodeId))) return 'edge-undeclared-node@' + i;
   }
   return null;
 }
@@ -179,8 +199,16 @@ function isDeclaredNode(nodeId) {
 }
 
 function sourceRevision() {
-  const value = process.env[SOURCE_SHA_ENV];
-  return typeof value === 'string' && /^[0-9a-f]{40}$/i.test(value) ? value.toLowerCase() : null;
+  /* The explicit pin wins. If deployment did not provision it, fall back to the
+     deployment commit SHA available in the runtime. Both are immutable 40-char
+     SHAs; the fallback prevents an ordinary deployment from 503ing every deep
+     portal before GitHub is contacted. */
+  const candidates = [SOURCE_SHA_ENV, 'VERCEL_GIT_COMMIT_SHA', 'GITHUB_SHA'];
+  for (const name of candidates) {
+    const value = process.env[name];
+    if (typeof value === 'string' && /^[0-9a-f]{40}$/i.test(value)) return value.toLowerCase();
+  }
+  return null;
 }
 
 module.exports = async function handler(req, res) {
@@ -208,7 +236,7 @@ module.exports = async function handler(req, res) {
   if (!revision) {
     return res.status(503).json({
       error: 'Portal source is not pinned',
-      hint: `Set ${SOURCE_SHA_ENV} to the approved immutable 40-character source commit SHA`
+      hint: `Set ${SOURCE_SHA_ENV} to the approved immutable 40-character source commit SHA, or deploy with VERCEL_GIT_COMMIT_SHA available`
     });
   }
 

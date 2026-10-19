@@ -65,6 +65,11 @@ function _thing0Of(row) {
  */
 function _mergeThing0Evidence(preferred, fallback) {
   if (!preferred) return fallback || null;
+  /* An errored preferred row is not a score. Attaching Thing 0 evidence to it
+     would let thing1Distress fall through to the legacy ds/vs path and publish
+     the domain default. Use the fallback row wholesale, or leave the error row
+     unqualified when there is no fallback. */
+  if (preferred.error) return fallback || preferred;
   if (_thing0Of(preferred)) return preferred;
   var evidence = _thing0Of(fallback);
   if (!evidence) return preferred;

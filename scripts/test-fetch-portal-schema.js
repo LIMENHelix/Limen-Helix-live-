@@ -53,6 +53,16 @@ check('registry hierarchy labels are declared nodes', function () {
   assert.equal(PORTAL.isDeclaredNode('NOT_DECLARED'), false, 'undeclared node accepted');
 });
 
+check('authored activation labels outside the canonical registry validate', function () {
+  /* finance.json serves AMY and INS. They are authored display labels, not
+     edge endpoints, so the canonical gate must not reject the file. */
+  var portal = validPortal({
+    domainId: 'finance',
+    activations: [{ brainNodeId: 'AMY' }, { brainNodeId: 'INS' }, { brainNodeId: 'HYPO' }]
+  });
+  assert.equal(PORTAL.validatePortalSchema(portal, 'finance'), null);
+});
+
 check('energy PVN -> HYPO edge validates at its authored index', function () {
   var edges = [];
   for (var i = 0; i < 30; i++) edges.push({ from: 'HYPO', to: 'HYPO' });
@@ -114,11 +124,34 @@ check('array-valued issue collections still validate', function () {
   assert.equal(PORTAL.validatePortalSchema(portal, 'energy'), null);
 });
 
-check('an undeclared node inside a valid array still fails', function () {
+check('an edge may reference a portal-authored node label', function () {
   var portal = validPortal({
-    issues: [{ circuits: [{ nodeId: 'NOT_DECLARED' }] }]
+    domainId: 'defense',
+    activations: [{ brainNodeId: 'FPN' }, { brainNodeId: 'EMG' }],
+    edges: [{ source: 'FPN', target: 'EMG', type: 'SUPPLIES' }]
   });
-  assert.equal(PORTAL.validatePortalSchema(portal, 'energy'), 'issue-circuit-undeclared-node@0:0');
+  assert.equal(PORTAL.validatePortalSchema(portal, 'defense'), null);
+});
+
+check('authored issue labels validate without canonical registry membership', function () {
+  var portal = validPortal({
+    domainId: 'education',
+    issues: [{ circuits: [{ nodeId: 'FUND' }, { nodeId: 'AIns' }] }]
+  });
+  assert.equal(PORTAL.validatePortalSchema(portal, 'education'), null);
+});
+
+check('an issue element with no nodeId still fails', function () {
+  var portal = validPortal({ issues: [{ circuits: [{}] }] });
+  assert.equal(PORTAL.validatePortalSchema(portal, 'energy'), 'issue-circuit-node-id@0:0');
+});
+
+check('an undeclared edge endpoint still fails', function () {
+  var portal = validPortal({
+    domainId: 'defense',
+    edges: [{ source: 'FPN', target: 'NOT_DECLARED' }]
+  });
+  assert.equal(PORTAL.validatePortalSchema(portal, 'defense'), 'edge-undeclared-node@0');
 });
 
 console.log('');

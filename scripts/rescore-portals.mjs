@@ -160,9 +160,15 @@ async function main() {
 }
 
 export function applyFinancialRefresh(portal, financialHealth, at) {
-  portal.financialHealth = { ...(portal.financialHealth || {}), ...financialHealth };
   if (financialHealth.thing0PermitsThing1 !== true) {
+    /* REFUSAL REPLACES THE VERDICT. Spreading kept old phaseStateLabel,
+       pathA/B/C and envelopeStatus: ELIGIBLE_NOW from a previously validated
+       run, and the renderer showed them under "Validated Kernel" beside a new
+       NO ALERT. A refusal has no verdict fields to preserve. */
+    portal.financialHealth = { ...financialHealth };
     investmentEngine.quarantineInvestmentSignals(portal, 'thing0_not_permitted', at);
+  } else {
+    portal.financialHealth = { ...(portal.financialHealth || {}), ...financialHealth };
   }
   return portal;
 }

@@ -111,6 +111,17 @@ function evaluatePortal(co) {
     }
   }
 
+  /* Effective Thing 1 validation. A raw compositeScore from a stale,
+     out-of-envelope, ingestion-suspect or fingerprint-unvalidated run is not a
+     validated distress signal. Quarantine rather than call it validated. */
+  if (fh.validationStatus !== 'validated') {
+    return {
+      signals: [],
+      skipped: 'thing1_not_validated:' + (fh.validationStatus || 'unavailable'),
+      quarantine: true
+    };
+  }
+
   const composite = fh.compositeScore;
   const alert = !!fh.alert;
   const phase = fh.dominantPhase;
@@ -133,6 +144,7 @@ function evaluatePortal(co) {
     kernelShaLock: fh.kernelShaLock,
     lastKernelRun: fh.lastKernelRun,
     thing0Qualification: t0Status,
+    validationStatus: fh.validationStatus,
   };
 
   const signals = [];

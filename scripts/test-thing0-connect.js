@@ -230,6 +230,20 @@ check('brain-signals merges Thing 0 evidence per ticker', function () {
   var untouched = { ticker: 'Y', composite: 0.5 };
   emitter._mergeThing0Evidence(untouched, { thing0: { qualification_status: 'qualified' } });
   assert.equal(untouched.thing0, undefined, 'source snapshot was mutated');
+
+  var errored = { ticker: 'GEV', error: 'http 502' };
+  var fallbackScore = {
+    ticker: 'GEV', composite: 0.8, validated: true, inEnvelope: true, alert: false,
+    thing0: { qualification_status: 'qualified', permits_thing1_use: true }
+  };
+  assert.strictEqual(emitter._mergeThing0Evidence(errored, fallbackScore), fallbackScore,
+    'errored preferred row was not replaced by the fallback');
+  var loneError = emitter._mergeThing0Evidence(errored, null);
+  assert.strictEqual(loneError, errored, 'errored preferred row was rewritten without a fallback');
+  assert.equal(emitter._thing0Of(loneError), null, 'errored row was given Thing 0 evidence');
+  var F = require('../lib/thing-formulas');
+  assert.equal(F.thing0Eligible({ ticker: 'GEV', real: loneError }).eligible, false,
+    'an errored row without a fallback qualified');
 });
 
 check('snapshot --resume rescored rows missing Thing 0 evidence', function () {
@@ -300,6 +314,37 @@ check('kernel-status refusals also quarantine stale investment signals', functio
     assert.equal(co.quarantinedOpportunitySignals.length, 1, status);
     assert.equal(co.quarantinedOpportunitySignals[0].quarantined, true, status);
   });
+});
+
+check('investment engine quarantines when Thing 1 is not validated', function () {
+  var engine = require('../scripts/run-investment-engine');
+  var co = {
+    slug: 'fixture', kernelStatus: 'ELIGIBLE_NOW',
+    financialHealth: {
+      compositeScore: 1.6, alert: true,
+      validationStatus: 'unvalidated_after_modification',
+      thing0Eligibility: { qualification_status: 'qualified', permits_thing1_use: true }
+    },
+    opportunitySignals: [{ engine: 'investment', id: 'inv-1' }]
+  };
+  var evaluated = engine.evaluatePortal(co);
+  assert.equal(evaluated.quarantine, true, JSON.stringify(evaluated));
+  assert.equal(evaluated.signals.length, 0);
+  assert.ok(/thing1_not_validated/.test(evaluated.skipped), evaluated.skipped);
+  assert.equal(engine.quarantineInvestmentSignals(co, evaluated.skipped, '2026-01-01T00:00:00.000Z'), 1);
+  assert.equal(co.opportunitySignals.length, 0);
+
+  var validated = {
+    slug: 'fixture-valid', kernelStatus: 'ELIGIBLE_NOW',
+    financialHealth: {
+      compositeScore: 1.6, alert: true, validationStatus: 'validated',
+      thing0Eligibility: { qualification_status: 'qualified', permits_thing1_use: true }
+    },
+    opportunitySignals: []
+  };
+  var ok = engine.evaluatePortal(validated);
+  assert.equal(ok.quarantine, undefined);
+  assert.ok(ok.signals.length > 0, 'validated signal did not fire');
 });
 
 // ── Handler contract against the current static snapshots ──────────────────
