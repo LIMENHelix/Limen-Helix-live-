@@ -98,17 +98,20 @@ function evaluatePortal(co) {
   }
 
   const fh = co.financialHealth;
-  if (!fh) return { signals: [], skipped: 'no financialHealth' };
+  if (!fh) return { signals: [], skipped: 'no financialHealth', quarantine: true };
 
   /* A refreshed Thing 0 refusal revokes use of the kernel-derived fields this
-     engine reads. Do not emit a new signal from stale evidence. */
+     engine reads. Absent or malformed Thing 0 evidence is also a refusal:
+     legacy portals without qualification evidence must not emit new
+     action-oriented signals. Do not emit from stale evidence. */
   const t0 = fh.thing0Eligibility || fh.thing0 || null;
   const t0Status = t0 ? (t0.qualification_status || t0.qualificationStatus || null) : null;
-  if (t0) {
-    const permits = t0.permits_thing1_use === true || t0.permitsThing1Use === true;
-    if (!permits && t0Status) {
-      return { signals: [], skipped: 'thing0_not_permitted:' + t0Status, quarantine: true };
-    }
+  if (!t0 || !t0Status) {
+    return { signals: [], skipped: 'thing0_evidence_unavailable', quarantine: true };
+  }
+  const permits = t0.permits_thing1_use === true || t0.permitsThing1Use === true;
+  if (!permits || t0Status !== 'qualified') {
+    return { signals: [], skipped: 'thing0_not_permitted:' + t0Status, quarantine: true };
   }
 
   /* Effective Thing 1 validation. A raw compositeScore from a stale,

@@ -160,15 +160,23 @@ async function main() {
 }
 
 export function applyFinancialRefresh(portal, financialHealth, at) {
-  if (financialHealth.thing0PermitsThing1 !== true) {
+  const refusedByThing0 = financialHealth.thing0PermitsThing1 !== true;
+  const thing1Validated = financialHealth.validationStatus === 'validated';
+  if (refusedByThing0) {
     /* REFUSAL REPLACES THE VERDICT. Spreading kept old phaseStateLabel,
        pathA/B/C and envelopeStatus: ELIGIBLE_NOW from a previously validated
        run, and the renderer showed them under "Validated Kernel" beside a new
        NO ALERT. A refusal has no verdict fields to preserve. */
     portal.financialHealth = { ...financialHealth };
-    investmentEngine.quarantineInvestmentSignals(portal, 'thing0_not_permitted', at);
   } else {
     portal.financialHealth = { ...(portal.financialHealth || {}), ...financialHealth };
+  }
+  if (refusedByThing0 || !thing1Validated) {
+    investmentEngine.quarantineInvestmentSignals(
+      portal,
+      refusedByThing0 ? 'thing0_not_permitted' : 'thing1_not_validated',
+      at
+    );
   }
   return portal;
 }

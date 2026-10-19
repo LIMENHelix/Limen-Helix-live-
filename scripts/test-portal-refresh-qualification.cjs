@@ -18,8 +18,23 @@ const path = require('node:path');
   applyFinancialRefresh(portal, { thing0PermitsThing1: false }, '2026-10-18T00:00:01Z');
   assert.equal(portal.quarantinedOpportunitySignals.length, 1);
   const permitted = { opportunitySignals: [{ engine: 'investment', id: 'valid' }] };
-  applyFinancialRefresh(permitted, { thing0PermitsThing1: true }, '2026-10-18T00:00:00Z');
+  applyFinancialRefresh(permitted, {
+    thing0PermitsThing1: true, validationStatus: 'validated'
+  }, '2026-10-18T00:00:00Z');
   assert.equal(permitted.opportunitySignals[0].id, 'valid');
+
+  const unvalidated = {
+    opportunitySignals: [
+      { engine: 'investment', id: 'stale-alert' },
+      { engine: 'research', id: 'research-keep' }
+    ]
+  };
+  applyFinancialRefresh(unvalidated, {
+    thing0PermitsThing1: true, validationStatus: 'unvalidated_after_modification'
+  }, '2026-10-18T00:00:00Z');
+  assert.deepEqual(unvalidated.opportunitySignals.map(s => s.id), ['research-keep']);
+  assert.equal(unvalidated.quarantinedOpportunitySignals[0].id, 'stale-alert');
+  assert.equal(unvalidated.quarantinedOpportunitySignals[0].quarantineReason, 'thing1_not_validated');
 
   const stale = {
     financialHealth: {

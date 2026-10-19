@@ -334,6 +334,17 @@ check('investment engine quarantines when Thing 1 is not validated', function ()
   assert.equal(engine.quarantineInvestmentSignals(co, evaluated.skipped, '2026-01-01T00:00:00.000Z'), 1);
   assert.equal(co.opportunitySignals.length, 0);
 
+  var legacy = {
+    slug: 'fixture-legacy', kernelStatus: 'ELIGIBLE_NOW',
+    financialHealth: { compositeScore: 1.6, alert: true, validationStatus: 'validated' },
+    opportunitySignals: [{ engine: 'investment', id: 'legacy-signal' }]
+  };
+  var evLegacy = engine.evaluatePortal(legacy);
+  assert.equal(evLegacy.quarantine, true, JSON.stringify(evLegacy));
+  assert.ok(/thing0_evidence_unavailable/.test(evLegacy.skipped), evLegacy.skipped);
+  assert.equal(engine.quarantineInvestmentSignals(legacy, evLegacy.skipped, '2026-01-01T00:00:00.000Z'), 1);
+  assert.equal(legacy.opportunitySignals.length, 0);
+
   var validated = {
     slug: 'fixture-valid', kernelStatus: 'ELIGIBLE_NOW',
     financialHealth: {
