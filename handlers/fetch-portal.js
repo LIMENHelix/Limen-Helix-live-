@@ -308,7 +308,15 @@ module.exports = async function handler(req, res) {
     });
 
     if (metaRes.status === 404) {
-      return res.status(404).json({ error: 'Domain not found' });
+      const payload = {
+        error: 'Domain not found',
+        sourceRepository: target.repository,
+        sourceOrigin: target.origin
+      };
+      if (target.origin !== 'explicit') {
+        payload.hint = `This file may exist only in the full upstream repository. Set ${SOURCE_SHA_ENV} to a verified full-repository revision for deep portals.`;
+      }
+      return res.status(404).json(payload);
     }
     if (!metaRes.ok) {
       return res.status(502).json({ error: 'GitHub metadata error', status: metaRes.status });

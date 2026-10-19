@@ -50,6 +50,21 @@ function qAgeOf(latest) {
   return (NOW_Y - +m[1]) * 4 + (NOW_Q - +m[2]);
 }
 
+/* Thing 1 provenance is the migration marker. A recent-quarter portal without
+   it predates the qualified pipeline and must be rescored even under
+   --stale-only. */
+export function hasThing1Provenance(financialHealth) {
+  const p = financialHealth && financialHealth.thing1Validation;
+  return !!(p && typeof p.status === 'string' && typeof p.available === 'boolean');
+}
+
+export function shouldRescoreStaleOnly(portal) {
+  const fh = portal && portal.financialHealth;
+  if (!fh) return true;
+  if (qAgeOf(fh.latestQuarter) > 2) return true;
+  return !hasThing1Provenance(fh);
+}
+
 function bandFor(r) {
   /* The band is a Thing 1 display. A Thing 0 refusal arrives as
      not_permitted_by_thing0, so this does not need a Thing 0 check. */
@@ -135,8 +150,9 @@ async function main() {
     if (!cik || /[^0-9]/.test(cik.replace(/^0+/, ''))) { skipped++; continue; }
 
     if (STALE_ONLY) {
+      if (!shouldRescoreStaleOnly(j)) { skipped++; continue; }
       const lq = j.financialHealth && j.financialHealth.latestQuarter;
-      if (qAgeOf(lq) <= 2) { skipped++; continue; }   // already current
+      if (qAgeOf(lq) <= 2) tally('rescored:missing-thing1-provenance');
     }
 
     scanned++;

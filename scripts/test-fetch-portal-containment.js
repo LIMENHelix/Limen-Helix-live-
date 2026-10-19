@@ -192,6 +192,14 @@ async function main() {
     fetchedUrls[0],
     'https://api.github.com/repos/LIMENHelix/Limen-Helix-live-/contents/assets/data/domains/energy_deploy_revision.json?ref=' + DEPLOY_SHA);
 
+  githubStatus = 404;
+  fetchedUrls.length = 0;
+  r = await invoke(request({ domainId: 'energy_full_repo_only' }));
+  check('full-repository-only file missing from deployment repo reports 404', r.status, 404);
+  check('deep portal 404 names the upstream pin requirement',
+    /LIMEN_PORTAL_SOURCE_SHA/.test(JSON.stringify(r.body)), true);
+  githubStatus = 200;
+
   // Mixed contexts: a repository without its own SHA is incomplete and ignored.
   process.env.GITHUB_REPOSITORY = 'SomeOther/Repo';
   delete process.env.GITHUB_SHA;

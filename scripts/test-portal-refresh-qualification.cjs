@@ -3,7 +3,9 @@ const assert = require('node:assert/strict');
 const { pathToFileURL } = require('node:url');
 const path = require('node:path');
 (async () => {
-  const { applyFinancialRefresh } = await import(pathToFileURL(path.join(__dirname, 'rescore-portals.mjs')));
+  const {
+    applyFinancialRefresh, hasThing1Provenance, shouldRescoreStaleOnly
+  } = await import(pathToFileURL(path.join(__dirname, 'rescore-portals.mjs')));
   const portal = {
     financialHealth: { alert: true },
     opportunitySignals: [{ engine: 'investment', id: 'old-alert' }, { engine: 'research', id: 'research' }]
@@ -72,5 +74,22 @@ const path = require('node:path');
     thing1Validation: { status: 'validated', available: true }
   }, '2026-10-18T00:00:03Z');
   assert.equal(keep.financialHealth.phaseStateLabel, 'P7');
-  console.log('portal refresh: Thing 1 provenance gates investment; refusal clears stale verdict fields; research preserved; repeat is idempotent');
+
+  const now = new Date();
+  const currentQ = now.getUTCFullYear() + 'Q' + (Math.floor(now.getUTCMonth() / 3) + 1);
+  assert.equal(shouldRescoreStaleOnly({
+    financialHealth: { latestQuarter: currentQ, thing1Validation: { status: 'validated', available: true } }
+  }), false, 'current portal with Thing 1 provenance should be skipped');
+  assert.equal(shouldRescoreStaleOnly({
+    financialHealth: { latestQuarter: currentQ }
+  }), true, 'current portal without Thing 1 provenance must be rescored');
+  assert.equal(shouldRescoreStaleOnly({
+    financialHealth: { latestQuarter: currentQ, thing1Validation: { status: 'not_permitted_by_thing0', available: false } }
+  }), false, 'current refusal provenance is still current provenance');
+  assert.equal(shouldRescoreStaleOnly({
+    financialHealth: { latestQuarter: '2000Q1', thing1Validation: { status: 'validated', available: true } }
+  }), true, 'old portal must be rescored');
+  assert.equal(hasThing1Provenance({}), false);
+  assert.equal(hasThing1Provenance({ thing1Validation: { status: 'validated', available: true } }), true);
+  console.log('portal refresh: Thing 1 provenance gates investment and stale-only migration; refusal clears stale verdict fields; research preserved; repeat is idempotent');
 })().catch(e => { console.error(e); process.exitCode = 1; });

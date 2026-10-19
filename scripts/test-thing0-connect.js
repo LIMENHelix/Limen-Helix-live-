@@ -412,24 +412,30 @@ async function phaseCacheCheck() {
   var scorer = require('../lib/company-phase-scorer');
   var origGet = db.get, origDel = db.del, origFetch = global.fetch;
   var deleted = [];
+  var payload = {
+    thing0_eligibility: {
+      permits_thing1_use: false,
+      qualification_status: 'not_qualified'
+    }
+  };
   db.get = async function () { return { phase: 'p4', timestamp: 1 }; };
   db.del = async function (k) { deleted.push(k); };
   global.fetch = async function () {
-    return {
-      json: async function () {
-        return {
-          thing0_eligibility: {
-            permits_thing1_use: false,
-            qualification_status: 'not_qualified'
-          }
-        };
-      }
-    };
+    return { json: async function () { return payload; } };
   };
   try {
     var r = await scorer._scoreOne({ cik: '123', ticker: 'T', domain: 'energy' });
     assert.equal(r.scored, false, JSON.stringify(r));
     assert.equal(r.invalidated, true, JSON.stringify(r));
+    assert.deepEqual(deleted, ['company_phase_123']);
+
+    /* A successful-looking phase without Thing 0 evidence must not be cached. */
+    deleted.length = 0;
+    payload = { dominant_phase: 'p4' };
+    var missing = await scorer._scoreOne({ cik: '123', ticker: 'T', domain: 'energy' });
+    assert.equal(missing.scored, false, JSON.stringify(missing));
+    assert.equal(missing.invalidated, true, JSON.stringify(missing));
+    assert.equal(missing.error, 'thing0_evidence_unavailable', JSON.stringify(missing));
     assert.deepEqual(deleted, ['company_phase_123']);
   } finally {
     db.get = origGet;
