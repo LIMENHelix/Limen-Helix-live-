@@ -106,6 +106,19 @@ function deriveStatus(apiResponse) {
     dc_dl_ratio: null,
   };
 
+  /* Thing 0 refusal is authoritative and precedes the legacy envelope checks.
+     A bank or incomplete-series company must not enter the eligibility frontier
+     just because its raw inputs look complete. */
+  const thing0 = apiResponse.thing0_eligibility || null;
+  if (thing0 && thing0.permits_thing1_use !== true) {
+    const t0Reasons = Array.isArray(thing0.reasons) ? thing0.reasons : [];
+    return {
+      status: 'NOT_QUALIFIED_BY_THING0',
+      facts,
+      reasons: t0Reasons.length ? t0Reasons : [String(thing0.qualification_status || 'not permitted')]
+    };
+  }
+
   // §4.1 priority
   if (hist < 8) {
     return { status: 'INSUFFICIENT_HISTORY', facts, reasons: [`history=${hist} < 8`] };
@@ -384,4 +397,7 @@ async function main() {
   console.log(`Status counts (frontier total): ` + JSON.stringify(frontier._status_counts));
 }
 
-main().catch((e) => { console.error('FATAL:', e); process.exit(1); });
+if (require.main === module) {
+  main().catch((e) => { console.error('FATAL:', e); process.exit(1); });
+}
+module.exports = { deriveStatus };

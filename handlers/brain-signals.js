@@ -58,6 +58,14 @@ function _thing0Of(row) {
   return (row && (row.thing0 || row.thing0Eligibility || row.t0)) || null;
 }
 
+function _thing1ValidatedRow(row) {
+  /* "Scanned" means Thing 1 actually produced a validated result. A transport
+     error, an out-of-envelope row, or an unvalidated fingerprint does not count
+     as a live validated scan. */
+  return !!(row && !row.error && row.inEnvelope === true
+    && (row.validated === true || row.validation_status === 'validated'));
+}
+
 /**
  * Merge Thing 0 evidence per ticker. The preferred score row wins for Thing 1
  * fields, but command-board rows can carry Thing 0 evidence the energy snapshot
@@ -106,7 +114,7 @@ function run(domain) {
     // Only a scorer-produced Thing 0 object is qualification evidence.
     c.thing0 = _thing0Of(r);
     if (c.thing0) out.thing0Evidence++;
-    if (!r.error) { hasReal = true; out.scanned++; }
+    if (_thing1ValidatedRow(r)) { hasReal = true; out.scanned++; }
   });
 
   var domainStats = { degenerate: F.isDegenerate(comps.map(function (c) { return c.ds; })) };
@@ -159,3 +167,4 @@ module.exports = async function handler(req, res) {
 /* Exported for the focused THING0-CONNECT-1 merge regression. */
 module.exports._mergeThing0Evidence = _mergeThing0Evidence;
 module.exports._thing0Of = _thing0Of;
+module.exports._thing1ValidatedRow = _thing1ValidatedRow;

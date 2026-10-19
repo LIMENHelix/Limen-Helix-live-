@@ -451,6 +451,54 @@ check('investment engine quarantines when Thing 1 is not validated', function ()
     'refresh does not map pathAThreshold from the current response');
 });
 
+check('legacy phase cache entries are not counted as scored', function () {
+  var scorer = require('../lib/company-phase-scorer');
+  assert.equal(scorer._cacheProvenanceValid({
+    validation_status: 'validated', thing0_qualification_status: 'qualified', timestamp: 1
+  }), true);
+  assert.equal(scorer._cacheProvenanceValid({
+    validation_status: 'unvalidated_after_modification', thing0_qualification_status: 'qualified'
+  }), false);
+  assert.equal(scorer._cacheProvenanceValid({ validation_status: 'validated' }), false);
+  assert.equal(scorer._cacheProvenanceValid({ timestamp: 1, phase: 'p4' }), false);
+  var source = read('lib/company-phase-scorer.js');
+  assert.ok(source.includes('_cacheProvenanceValid(cached)'),
+    'cache reads do not check validation provenance');
+});
+
+check('brain-signals counts only validated Thing 1 rows as scanned', function () {
+  var emitter = require('../handlers/brain-signals');
+  assert.equal(emitter._thing1ValidatedRow({ validated: true, inEnvelope: true }), true);
+  assert.equal(emitter._thing1ValidatedRow({ validation_status: 'validated', inEnvelope: true }), true);
+  assert.equal(emitter._thing1ValidatedRow({ validated: false, inEnvelope: true }), false);
+  assert.equal(emitter._thing1ValidatedRow({ validated: true, inEnvelope: false }), false);
+  assert.equal(emitter._thing1ValidatedRow({ error: 'http 502', validated: true, inEnvelope: true }), false);
+});
+
+check('eligibility probe honors a Thing 0 refusal', function () {
+  var probe = require('../scripts/probe-eligibility');
+  var refused = probe.deriveStatus({
+    history_quarters: 8,
+    latest_quarter: '2026Q3',
+    input_presence: { dc_coverage_quarters: 8, dl_coverage_quarters: 8 },
+    thing0_eligibility: {
+      permits_thing1_use: false,
+      qualification_status: 'partially_qualified',
+      reasons: ['sector_lookup_unavailable']
+    }
+  });
+  assert.equal(refused.status, 'NOT_QUALIFIED_BY_THING0', JSON.stringify(refused));
+  assert.ok(refused.reasons.indexOf('sector_lookup_unavailable') !== -1, JSON.stringify(refused));
+
+  var eligible = probe.deriveStatus({
+    history_quarters: 8,
+    latest_quarter: '2026Q3',
+    input_presence: { dc_coverage_quarters: 8, dl_coverage_quarters: 8 },
+    thing0_eligibility: { permits_thing1_use: true, qualification_status: 'qualified' }
+  });
+  assert.equal(eligible.status, 'ELIGIBLE_NOW', JSON.stringify(eligible));
+});
+
 // ── Handler contract against the current static snapshots ──────────────────
 async function handlerCheck() {
   var handler = require('../handlers/brain-signals');
