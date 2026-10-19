@@ -412,31 +412,68 @@ async function phaseCacheCheck() {
   var scorer = require('../lib/company-phase-scorer');
   var origGet = db.get, origDel = db.del, origFetch = global.fetch;
   var deleted = [];
-  var payload = {
-    thing0_eligibility: {
-      permits_thing1_use: false,
-      qualification_status: 'not_qualified'
-    }
-  };
   db.get = async function () { return { phase: 'p4', timestamp: 1 }; };
   db.del = async function (k) { deleted.push(k); };
-  global.fetch = async function () {
-    return { json: async function () { return payload; } };
-  };
+
+  async function run(payload) {
+    deleted.length = 0;
+    global.fetch = async function () {
+      return { json: async function () { return payload; } };
+    };
+    return scorer._scoreOne({ cik: '123', ticker: 'T', domain: 'energy' });
+  }
+
   try {
-    var r = await scorer._scoreOne({ cik: '123', ticker: 'T', domain: 'energy' });
+    var r = await run({
+      thing0_eligibility: { permits_thing1_use: false, qualification_status: 'not_qualified' }
+    });
     assert.equal(r.scored, false, JSON.stringify(r));
     assert.equal(r.invalidated, true, JSON.stringify(r));
     assert.deepEqual(deleted, ['company_phase_123']);
 
     /* A successful-looking phase without Thing 0 evidence must not be cached. */
-    deleted.length = 0;
-    payload = { dominant_phase: 'p4' };
-    var missing = await scorer._scoreOne({ cik: '123', ticker: 'T', domain: 'energy' });
+    var missing = await run({ dominant_phase: 'p4' });
     assert.equal(missing.scored, false, JSON.stringify(missing));
     assert.equal(missing.invalidated, true, JSON.stringify(missing));
     assert.equal(missing.error, 'thing0_evidence_unavailable', JSON.stringify(missing));
     assert.deepEqual(deleted, ['company_phase_123']);
+
+    /* A truthy status object plus a stray permit is not qualification. */
+    var statusObject = await run({
+      thing0_eligibility: { qualification_status: { bogus: true }, permits_thing1_use: true },
+      dominant_phase: 'p4'
+    });
+    assert.equal(statusObject.scored, false, JSON.stringify(statusObject));
+    assert.equal(statusObject.error, 'thing0_status_invalid', JSON.stringify(statusObject));
+    assert.equal(statusObject.invalidated, true, JSON.stringify(statusObject));
+
+    /* not_qualified with a stray permit must not cache. */
+    var notQualified = await run({
+      thing0_eligibility: { qualification_status: 'not_qualified', permits_thing1_use: true },
+      dominant_phase: 'p4'
+    });
+    assert.equal(notQualified.scored, false, JSON.stringify(notQualified));
+    assert.equal(notQualified.error, 'not_permitted_by_thing0:not_qualified', JSON.stringify(notQualified));
+    assert.equal(notQualified.invalidated, true, JSON.stringify(notQualified));
+
+    /* qualified without explicit permission must not cache. */
+    var noPermit = await run({
+      thing0_eligibility: { qualification_status: 'qualified', permits_thing1_use: false },
+      dominant_phase: 'p4'
+    });
+    assert.equal(noPermit.scored, false, JSON.stringify(noPermit));
+    assert.equal(noPermit.error, 'thing0_permission_missing', JSON.stringify(noPermit));
+    assert.equal(noPermit.invalidated, true, JSON.stringify(noPermit));
+
+    /* Valid qualified + explicit permission still caches. */
+    var valid = await run({
+      thing0_eligibility: { qualification_status: 'qualified', permits_thing1_use: true },
+      dominant_phase: 'p4',
+      trajectory: 'STABLE'
+    });
+    assert.equal(valid.scored, true, JSON.stringify(valid));
+    assert.equal(valid.phase, 'p4', JSON.stringify(valid));
+    assert.equal(deleted.length, 0, 'valid result invalidated the cache');
   } finally {
     db.get = origGet;
     db.del = origDel;
