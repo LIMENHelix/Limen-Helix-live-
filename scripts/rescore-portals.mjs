@@ -110,6 +110,12 @@ function toFinancialHealth(r, nowIso) {
     alertA: r.alert_a,
     alertB: r.alert_b,
     alertC: r.alert_c,
+    pathA: r.path_a_score,
+    pathB: r.path_b_score,
+    pathC: r.path_c_score,
+    pathAThreshold: r.path_a_threshold,
+    pathBThreshold: r.path_b_threshold,
+    pathCThreshold: r.path_c_threshold,
     pathway: r.pathway,
     firstAlertQuarter: r.first_alert_quarter,
     distressBand: bandFor(r),
@@ -186,17 +192,17 @@ async function main() {
 }
 
 export function applyFinancialRefresh(portal, financialHealth, at) {
-  /* THE VERDICT IS THING 1 OUTPUT. If Thing 1 is not validated, replace the
-     verdict object instead of spreading stale phaseStateLabel, pathA/B/C and
-     envelopeStatus from a previous run. Thing 0 is upstream and is not
-     re-checked here; a Thing 0 refusal is already not_permitted_by_thing0. */
+  /* THE VERDICT IS ALWAYS THE CURRENT THING 1 MAPPING. Spreading kept stale
+     pathA/B/C, their thresholds, phaseStateLabel and envelopeStatus from a
+     previous run even after a validated refresh. toFinancialHealth maps every
+     field the portal and engine consume, so replace the object. Thing 0 is
+     upstream and is not re-checked here; a refusal is already
+     not_permitted_by_thing0. */
+  portal.financialHealth = { ...financialHealth };
   const thing1Validated = !!(financialHealth.thing1Validation &&
     financialHealth.thing1Validation.status === 'validated' &&
     financialHealth.thing1Validation.available === true);
-  if (thing1Validated) {
-    portal.financialHealth = { ...(portal.financialHealth || {}), ...financialHealth };
-  } else {
-    portal.financialHealth = { ...financialHealth };
+  if (!thing1Validated) {
     investmentEngine.quarantineInvestmentSignals(portal, 'thing1_not_validated', at);
   }
   return portal;

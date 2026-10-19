@@ -3,6 +3,7 @@ const canonicalRegistry = require('../assets/data/connectome-node-registry.json'
 
 const MAX_PORTAL_BYTES = 8 * 1024 * 1024;
 const SOURCE_SHA_ENV = 'LIMEN_PORTAL_SOURCE_SHA';
+const SOURCE_REPOSITORY_ENV = 'LIMEN_PORTAL_SOURCE_REPOSITORY';
 const SOURCE_REPOSITORY = 'LIMENHelix/Limen-Helix';
 const CANONICAL_NODE_IDS = new Set(canonicalRegistry.canonical_ids || []);
 const CANONICAL_ALIASES = canonicalRegistry.aliases || {};
@@ -231,11 +232,17 @@ function _deploymentContexts() {
 }
 
 function sourceTarget() {
-  /* Explicit pin wins and always targets the canonical full repository. */
+  /* Explicit pair: repository and immutable revision are configured together.
+     The default repository is the canonical full repository, but an operator
+     may point the pair at the verified upstream repository explicitly. */
   const pinned = process.env[SOURCE_SHA_ENV];
+  const pinnedRepository = process.env[SOURCE_REPOSITORY_ENV];
+  const repository = _validRepository(pinnedRepository)
+    ? pinnedRepository
+    : SOURCE_REPOSITORY;
   if (_validSha(pinned)) {
     return {
-      repository: SOURCE_REPOSITORY,
+      repository: repository,
       revision: pinned.toLowerCase(),
       origin: 'explicit'
     };
@@ -288,7 +295,7 @@ module.exports = async function handler(req, res) {
   if (!target) {
     return res.status(503).json({
       error: 'Portal source is not pinned',
-      hint: `Set ${SOURCE_SHA_ENV} to the approved immutable 40-character source commit SHA, or deploy with GITHUB_REPOSITORY or VERCEL_GIT_REPO_OWNER/VERCEL_GIT_REPO_SLUG plus a commit SHA`
+      hint: `Set ${SOURCE_SHA_ENV} and, if the full repository differs from the default, ${SOURCE_REPOSITORY_ENV}; or deploy with GITHUB_REPOSITORY or VERCEL_GIT_REPO_OWNER/VERCEL_GIT_REPO_SLUG plus a commit SHA`
     });
   }
   const revision = target.revision;
@@ -314,7 +321,7 @@ module.exports = async function handler(req, res) {
         sourceOrigin: target.origin
       };
       if (target.origin !== 'explicit') {
-        payload.hint = `This file may exist only in the full upstream repository. Set ${SOURCE_SHA_ENV} to a verified full-repository revision for deep portals.`;
+        payload.hint = `This file may exist only in the full upstream repository. Set ${SOURCE_SHA_ENV} and ${SOURCE_REPOSITORY_ENV} to a verified matching full-repository pair for deep portals.`;
       }
       return res.status(404).json(payload);
     }
@@ -391,6 +398,7 @@ module.exports = async function handler(req, res) {
 
 module.exports.MAX_PORTAL_BYTES = MAX_PORTAL_BYTES;
 module.exports.SOURCE_SHA_ENV = SOURCE_SHA_ENV;
+module.exports.SOURCE_REPOSITORY_ENV = SOURCE_REPOSITORY_ENV;
 module.exports.SOURCE_REPOSITORY = SOURCE_REPOSITORY;
 module.exports.gitBlobSha = gitBlobSha;
 module.exports.validatePortalSchema = validatePortalSchema;

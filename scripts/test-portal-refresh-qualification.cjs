@@ -68,12 +68,27 @@ const path = require('node:path');
   assert.equal(stale.financialHealth.envelopeStatus, undefined);
   assert.equal(stale.financialHealth.alert, false);
 
-  const keep = { financialHealth: { phaseStateLabel: 'P7' } };
+  /* A validated refresh also replaces the verdict object, so stale path and
+     phase fields cannot survive beside fresh scores. */
+  const keep = {
+    financialHealth: {
+      phaseStateLabel: 'P7', pathA: 1.2, pathB: 0.5, pathC: 0.4,
+      pathAThreshold: 1.1, envelopeStatus: 'ELIGIBLE_NOW'
+    }
+  };
   applyFinancialRefresh(keep, {
     validationStatus: 'validated',
-    thing1Validation: { status: 'validated', available: true }
+    thing1Validation: { status: 'validated', available: true },
+    pathA: 0.2, pathB: 0.1, pathC: 0.0,
+    pathAThreshold: 1.1, pathBThreshold: 1.5, pathCThreshold: 1.5,
+    inEnvelope: true
   }, '2026-10-18T00:00:03Z');
-  assert.equal(keep.financialHealth.phaseStateLabel, 'P7');
+  assert.equal(keep.financialHealth.pathA, 0.2);
+  assert.equal(keep.financialHealth.pathB, 0.1);
+  assert.equal(keep.financialHealth.pathAThreshold, 1.1);
+  assert.equal(keep.financialHealth.phaseStateLabel, undefined);
+  assert.equal(keep.financialHealth.envelopeStatus, undefined);
+  assert.equal(keep.financialHealth.validationStatus, 'validated');
 
   const now = new Date();
   const currentQ = now.getUTCFullYear() + 'Q' + (Math.floor(now.getUTCMonth() / 3) + 1);

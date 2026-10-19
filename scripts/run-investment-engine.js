@@ -40,7 +40,7 @@
  *
  *   cohort-anchor (reference, research-only)
  *     IF compositeScore < 0.5 AND historyQuarters >= 60
- *     AND dominantPhase IN {p0, p6} AND envelopeStatus = ELIGIBLE_NOW
+ *     AND dominantPhase IN {p0, p6} AND inEnvelope = true
  *     "Kernel-stable across long history. Calibration-cohort anchor for
  *      retail/CPG-regime backtest. Reference data; not a trade thesis."
  *
@@ -118,7 +118,7 @@ function evaluatePortal(co) {
   const alert = !!fh.alert;
   const phase = fh.dominantPhase;
   const history = fh.historyQuarters || 0;
-  const envelope = fh.envelopeStatus;
+  const inEnvelope = fh.inEnvelope === true;
 
   // Frozen evidence snapshot for every signal this run — refers to kernel
   // state at signal-fire time, not the live state when the signal is read.
@@ -132,7 +132,7 @@ function evaluatePortal(co) {
     dominantPhase: phase,
     historyQuarters: history,
     distressBand: fh.distressBand,
-    envelopeStatus: envelope,
+    inEnvelope: inEnvelope,
     kernelShaLock: fh.kernelShaLock,
     lastKernelRun: fh.lastKernelRun,
     validationStatus: fh.validationStatus,
@@ -215,7 +215,7 @@ function evaluatePortal(co) {
   }
   // Rule 5: cohort-anchor (research-only reference)
   else if (composite != null && composite < 0.5 && history >= 60 &&
-           (phase === 'p0' || phase === 'p6') && envelope === 'ELIGIBLE_NOW') {
+           (phase === 'p0' || phase === 'p6') && inEnvelope) {
     signals.push({
       id: slug + '-investment-' + dateStamp + '-cohort-anchor',
       engine: ENGINE_NAME,

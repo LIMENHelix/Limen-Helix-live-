@@ -30,8 +30,9 @@ const assert = require('assert');
 
 const SAVED = {};
 ['GITHUB_TOKEN', 'GH_TOKEN', 'VERCEL_GITHUB_TOKEN', 'LIMEN_PORTAL_SOURCE_SHA',
-  'VERCEL_GIT_COMMIT_SHA', 'GITHUB_SHA', 'VERCEL_GIT_REPO_OWNER',
-  'VERCEL_GIT_REPO_SLUG', 'GITHUB_REPOSITORY'].forEach(function (k) { SAVED[k] = process.env[k]; });
+  'LIMEN_PORTAL_SOURCE_REPOSITORY', 'VERCEL_GIT_COMMIT_SHA', 'GITHUB_SHA',
+  'VERCEL_GIT_REPO_OWNER', 'VERCEL_GIT_REPO_SLUG', 'GITHUB_REPOSITORY']
+  .forEach(function (k) { SAVED[k] = process.env[k]; });
 
 function restoreEnv() {
   Object.keys(SAVED).forEach(function (k) {
@@ -177,6 +178,16 @@ async function main() {
     fetchedUrls[1],
     'https://api.github.com/repos/LIMENHelix/Limen-Helix/git/blobs/' + gitBlobSha(JSON.stringify(validPortal('energy_battery_battrecycling_collection'))));
   check('streamed success does not call unbounded text()', textCalls, 0);
+
+  // ── explicit repository + pin pair targets the configured full repo ──────
+  process.env.LIMEN_PORTAL_SOURCE_REPOSITORY = 'LIMENHelix/Limen-Helix-Canonical';
+  fetchedUrls.length = 0;
+  r = await invoke(request({ domainId: 'energy_custom_source' }));
+  check('explicit repository + pin pair is honored (status)', r.status, 200);
+  check('explicit pair queries the configured repository',
+    fetchedUrls[0],
+    'https://api.github.com/repos/LIMENHelix/Limen-Helix-Canonical/contents/assets/data/domains/energy_custom_source.json?ref=' + SOURCE_SHA);
+  delete process.env.LIMEN_PORTAL_SOURCE_REPOSITORY;
 
   // ── deployment SHA fallback is bound to the deployment repository ──────
   delete process.env.LIMEN_PORTAL_SOURCE_SHA;
