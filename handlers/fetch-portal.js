@@ -6,6 +6,14 @@ const SOURCE_SHA_ENV = 'LIMEN_PORTAL_SOURCE_SHA';
 const SOURCE_REPOSITORY = 'LIMENHelix/Limen-Helix';
 const CANONICAL_NODE_IDS = new Set(canonicalRegistry.canonical_ids || []);
 const CANONICAL_ALIASES = canonicalRegistry.aliases || {};
+/* Subfield/subnucleus labels the registry explicitly aggregates into a canonical
+   node (for example PVN -> HYPO). They are DECLARED topology, not undeclared
+   nodes. Accept them as authored; never rewrite the edge endpoint, because the
+   aggregation decision belongs to the registry, not this proxy. */
+const CANONICAL_HIERARCHY = new Set(
+  Object.keys(canonicalRegistry.hierarchy_collapses || {})
+    .filter(key => key && key.charAt(0) !== '_')
+);
 
 function header(res, name) {
   if (!res || !res.headers) return null;
@@ -134,6 +142,11 @@ function validatePortalSchema(portal, requestedDomainId) {
   for (let i = 0; i < (portal.issues || []).length; i++) {
     const issue = portal.issues[i];
     if (!issue || typeof issue !== 'object' || Array.isArray(issue)) return 'issue-shape@' + i;
+    /* Portal rendering calls array methods on these collections. An object
+       would pass the length-assuming loops below and then crash the renderer,
+       so a present collection must be an array. */
+    if (issue.circuits !== undefined && !Array.isArray(issue.circuits)) return 'issue-circuits-not-array@' + i;
+    if (issue._authored !== undefined && !Array.isArray(issue._authored)) return 'issue-authored-not-array@' + i;
     for (let j = 0; j < (issue.circuits || []).length; j++) {
       if (!issue.circuits[j] || !isDeclaredNode(issue.circuits[j].nodeId)) return 'issue-circuit-undeclared-node@' + i + ':' + j;
     }
@@ -144,11 +157,15 @@ function validatePortalSchema(portal, requestedDomainId) {
   }
   for (let i = 0; i < (portal.edges || []).length; i++) {
     const edge = portal.edges[i];
+    /* Three authored edge shapes exist in the source portals: source/target,
+       a/b, and from/to. All identify the same pair of declared nodes. */
     const endpoints = edge && (edge.source !== undefined || edge.target !== undefined)
       ? [edge.source, edge.target]
       : edge && (edge.a !== undefined || edge.b !== undefined)
         ? [edge.a, edge.b]
-        : null;
+        : edge && (edge.from !== undefined || edge.to !== undefined)
+          ? [edge.from, edge.to]
+          : null;
     if (!endpoints || endpoints.some(nodeId => !isDeclaredNode(nodeId))) return 'edge-undeclared-node@' + i;
   }
   return null;
@@ -157,6 +174,7 @@ function validatePortalSchema(portal, requestedDomainId) {
 function isDeclaredNode(nodeId) {
   return typeof nodeId === 'string' &&
     (CANONICAL_NODE_IDS.has(nodeId) ||
+      CANONICAL_HIERARCHY.has(nodeId) ||
       (typeof CANONICAL_ALIASES[nodeId] === 'string' && CANONICAL_NODE_IDS.has(CANONICAL_ALIASES[nodeId])));
 }
 
