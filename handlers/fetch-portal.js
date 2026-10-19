@@ -198,15 +198,36 @@ function isDeclaredNode(nodeId) {
       (typeof CANONICAL_ALIASES[nodeId] === 'string' && CANONICAL_NODE_IDS.has(CANONICAL_ALIASES[nodeId])));
 }
 
-function sourceRevision() {
-  /* The explicit pin wins. If deployment did not provision it, fall back to the
-     deployment commit SHA available in the runtime. Both are immutable 40-char
-     SHAs; the fallback prevents an ordinary deployment from 503ing every deep
-     portal before GitHub is contacted. */
-  const candidates = [SOURCE_SHA_ENV, 'VERCEL_GIT_COMMIT_SHA', 'GITHUB_SHA'];
-  for (const name of candidates) {
-    const value = process.env[name];
-    if (typeof value === 'string' && /^[0-9a-f]{40}$/i.test(value)) return value.toLowerCase();
+function _validSha(value) {
+  return typeof value === 'string' && /^[0-9a-f]{40}$/i.test(value);
+}
+
+function sourceTarget() {
+  /* Explicit pin: this repository is the canonical full repository. */
+  const pinned = process.env[SOURCE_SHA_ENV];
+  if (_validSha(pinned)) {
+    return {
+      repository: SOURCE_REPOSITORY,
+      revision: pinned.toLowerCase(),
+      origin: 'explicit'
+    };
+  }
+  /* Deployment fallback: the SHA and repository MUST come from the same
+     deployment context. A live-repository SHA is not assumed to exist in the
+     separate full repository; sending it there was an unverified mapping. */
+  const deploymentRepository = process.env.GITHUB_REPOSITORY ||
+    (process.env.VERCEL_GIT_REPO_OWNER && process.env.VERCEL_GIT_REPO_SLUG
+      ? process.env.VERCEL_GIT_REPO_OWNER + '/' + process.env.VERCEL_GIT_REPO_SLUG
+      : null);
+  const deploymentSha = process.env.VERCEL_GIT_COMMIT_SHA || process.env.GITHUB_SHA;
+  if (deploymentRepository &&
+    /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(deploymentRepository) &&
+    _validSha(deploymentSha)) {
+    return {
+      repository: deploymentRepository,
+      revision: deploymentSha.toLowerCase(),
+      origin: 'deployment'
+    };
   }
   return null;
 }
@@ -232,16 +253,17 @@ module.exports = async function handler(req, res) {
     return res.status(500).json({ error: 'Server misconfigured', hint: 'Set GITHUB_TOKEN env var' });
   }
 
-  const revision = sourceRevision();
-  if (!revision) {
+  const target = sourceTarget();
+  if (!target) {
     return res.status(503).json({
       error: 'Portal source is not pinned',
-      hint: `Set ${SOURCE_SHA_ENV} to the approved immutable 40-character source commit SHA, or deploy with VERCEL_GIT_COMMIT_SHA available`
+      hint: `Set ${SOURCE_SHA_ENV} to the approved immutable 40-character source commit SHA, or deploy with GITHUB_REPOSITORY or VERCEL_GIT_REPO_OWNER/VERCEL_GIT_REPO_SLUG plus a commit SHA`
     });
   }
+  const revision = target.revision;
 
   const relativePath = `assets/data/domains/${domainId}.json`;
-  const metadataUrl = `https://api.github.com/repos/${SOURCE_REPOSITORY}/contents/${relativePath}?ref=${revision}`;
+  const metadataUrl = `https://api.github.com/repos/${target.repository}/contents/${relativePath}?ref=${revision}`;
 
   try {
     // Resolve the file metadata at the immutable source revision first. The
@@ -276,7 +298,7 @@ module.exports = async function handler(req, res) {
     // default branch and gives the response an independently checkable source
     // identity even when the portal is larger than GitHub's inline-content cap.
     const blobSha = metadata.sha.toLowerCase();
-    const blobRes = await fetch(`https://api.github.com/repos/${SOURCE_REPOSITORY}/git/blobs/${blobSha}`, {
+    const blobRes = await fetch(`https://api.github.com/repos/${target.repository}/git/blobs/${blobSha}`, {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Accept': 'application/vnd.github.raw+json',
@@ -318,6 +340,8 @@ module.exports = async function handler(req, res) {
     res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('X-Limen-Portal-Source-Revision', revision);
+    res.setHeader('X-Limen-Portal-Source-Repository', target.repository);
+    res.setHeader('X-Limen-Portal-Source-Origin', target.origin);
     res.setHeader('X-Limen-Portal-Content-Sha', blobSha);
     return res.status(200).json(json);
 

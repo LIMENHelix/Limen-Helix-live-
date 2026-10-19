@@ -204,6 +204,12 @@ check('Command Board requires effective Thing 1 validation before ALERT or NO_AL
     'qualified label is trusted without permits_thing1_use');
   assert.ok(commandBoardPage.includes("d._thing0Status !== 'QUALIFIED' || !_thing0Permits(d)"),
     'T1 result does not re-check the Thing 0 permit');
+  assert.ok(commandBoardPage.includes("if (d._thing0Status !== 'QUALIFIED') return 'NOT_QUALIFIED'"),
+    'refused rows still classify as NOMINAL');
+  assert.ok(commandBoardPage.includes("if (d._thing1Result === 'ABSTAIN') return 'ABSTAIN'"),
+    'unvalidated rows can still classify as a scored signal');
+  assert.ok(commandBoardPage.includes('NOT_QUALIFIED: 0, ABSTAIN: 0'),
+    'refused rows can still carry severity');
 });
 check('Command Board rendering tolerates null composite scores', function () {
   assert.ok(!/d\.co\.toFixed/.test(commandBoardPage),

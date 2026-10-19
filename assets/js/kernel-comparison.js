@@ -89,6 +89,8 @@ var SIGNAL_ENUM = {
   FRAGILE_STABILITY:{ label: 'FRAGILE STABILITY', color: '#C9A94E',  icon: '◆' },
   ORDERED_WATCH:    { label: 'ORDERED WATCH',     color: '#4a8fd4',  icon: '○' },
   SECTOR_PRESSURE:  { label: 'SECTOR PRESSURE',   color: '#C9A94E',  icon: '▷' },
+  NOT_QUALIFIED:    { label: 'NOT QUALIFIED',     color: '#888',     icon: '⊘' },
+  ABSTAIN:          { label: 'ABSTAIN',           color: '#C9A94E',  icon: '◇' },
   NOMINAL:          { label: 'NOMINAL',           color: '#5ab5a0',  icon: '✓' }
 };
 
@@ -101,17 +103,20 @@ function classifySignal(d) {
   if (d.p === 'ERROR') return 'DATA_ERROR';
   // Rule 2: Terminal-like phase but domain stress low → likely extraction bug
   if (TERMINAL_PHASES.indexOf(d.p) !== -1 && d.ds < 0.30) return 'DATA_ERROR';
-  // Rule 3: Linear alert with no data contradiction (validated Thing 1 only)
+  // Rule 3: No valid Thing 1 claim. A refused or unscored row is not NOMINAL.
+  if (d._thing0Status !== 'QUALIFIED') return 'NOT_QUALIFIED';
+  if (d._thing1Result === 'ABSTAIN') return 'ABSTAIN';
+  // Rule 4: Linear alert with no data contradiction (validated Thing 1 only)
   if (_isValidatedAlert(d)) return 'ALERT';
-  // Rule 4: Stable phase but extreme domain stress
+  // Rule 5: Stable phase but extreme domain stress
   if (STABLE_PHASES.indexOf(d.p) !== -1 && d.ds >= 0.90) return 'EARLY_WARNING';
-  // Rule 5: Stable phase in high-stress domain
+  // Rule 6: Stable phase in high-stress domain
   if (STABLE_PHASES.indexOf(d.p) !== -1 && d.ds >= 0.70) return 'FRAGILE_STABILITY';
-  // Rule 6: Ordered/resurrected in moderate stress
+  // Rule 7: Ordered/resurrected in moderate stress
   if (ORDERED_PHASES.indexOf(d.p) !== -1 && d.ds >= 0.50) return 'ORDERED_WATCH';
-  // Rule 7: Stable in moderate stress
+  // Rule 8: Stable in moderate stress
   if (STABLE_PHASES.indexOf(d.p) !== -1 && d.ds >= 0.50) return 'SECTOR_PRESSURE';
-  // Rule 8: Default
+  // Rule 9: Default
   return 'NOMINAL';
 }
 
@@ -122,10 +127,13 @@ function classifySignal(d) {
 var SEVERITY_BASE = {
   DATA_ERROR: 100, ALERT: 90, EARLY_WARNING: 75,
   FRAGILE_STABILITY: 65, ORDERED_WATCH: 55,
-  SECTOR_PRESSURE: 45, NOMINAL: 10
+  SECTOR_PRESSURE: 45, NOMINAL: 10,
+  NOT_QUALIFIED: 0, ABSTAIN: 0
 };
 
 function computeSeverity(d) {
+  /* No qualification or no validated Thing 1 result means no severity claim. */
+  if (d._signal === 'NOT_QUALIFIED' || d._signal === 'ABSTAIN') return 0;
   var base = SEVERITY_BASE[d._signal] || 10;
   if (d.ds >= 0.80) base += 10;
   if (_isValidatedAlert(d)) base += 10;
@@ -398,6 +406,8 @@ var SIGNAL_RULES = {
   FRAGILE_STABILITY: 'Company stable but domain stress high (≥70%) — fragile operating environment',
   ORDERED_WATCH: 'Ordered/recovered company in moderately stressed domain (≥50%)',
   SECTOR_PRESSURE: 'Stable company in stressed sector (≥50%) — monitor for deterioration',
+  NOT_QUALIFIED: 'Thing 0 did not qualify this row — no Thing 1 claim or action authority',
+  ABSTAIN: 'Thing 1 is not effectively validated — neither ALERT nor NO_ALERT is permitted',
   NOMINAL: 'Both layers agree — no concern'
 };
 
@@ -861,9 +871,9 @@ function _initBoard() {
        consult it, and a validated Thing 1 alert may not outrank a Thing 0
        refusal. */
     d._thing0Status = _thing0Status(d);
+    d._thing1Result = _thing1Result(d);
     d._signal = classifySignal(d);
     d._severity = computeSeverity(d);
-    d._thing1Result = _thing1Result(d);
     d._matters = d._thing0Status === 'QUALIFIED';
   });
   _updateTimestamp();

@@ -30,7 +30,8 @@ const assert = require('assert');
 
 const SAVED = {};
 ['GITHUB_TOKEN', 'GH_TOKEN', 'VERCEL_GITHUB_TOKEN', 'LIMEN_PORTAL_SOURCE_SHA',
-  'VERCEL_GIT_COMMIT_SHA', 'GITHUB_SHA'].forEach(function (k) { SAVED[k] = process.env[k]; });
+  'VERCEL_GIT_COMMIT_SHA', 'GITHUB_SHA', 'VERCEL_GIT_REPO_OWNER',
+  'VERCEL_GIT_REPO_SLUG', 'GITHUB_REPOSITORY'].forEach(function (k) { SAVED[k] = process.env[k]; });
 
 function restoreEnv() {
   Object.keys(SAVED).forEach(function (k) {
@@ -176,17 +177,23 @@ async function main() {
     'https://api.github.com/repos/LIMENHelix/Limen-Helix/git/blobs/' + gitBlobSha(JSON.stringify(validPortal('energy_battery_battrecycling_collection'))));
   check('streamed success does not call unbounded text()', textCalls, 0);
 
-  // ── deployment SHA fallback when the explicit pin is absent ──────────────
+  // ── deployment SHA fallback is bound to the deployment repository ──────
   delete process.env.LIMEN_PORTAL_SOURCE_SHA;
   delete process.env.GITHUB_SHA;
+  delete process.env.GITHUB_REPOSITORY;
+  process.env.VERCEL_GIT_REPO_OWNER = 'LIMENHelix';
+  process.env.VERCEL_GIT_REPO_SLUG = 'Limen-Helix-live-';
   process.env.VERCEL_GIT_COMMIT_SHA = DEPLOY_SHA;
   fetchedUrls.length = 0;
   r = await invoke(request({ domainId: 'energy_deploy_revision' }));
   check('deployment SHA fallback passes (status)', r.status, 200);
-  check('deployment SHA fallback pins the deployment revision',
-    fetchedUrls[0].indexOf('?ref=' + DEPLOY_SHA) !== -1, true);
+  check('deployment fallback queries the deployment repository at its own SHA',
+    fetchedUrls[0],
+    'https://api.github.com/repos/LIMENHelix/Limen-Helix-live-/contents/assets/data/domains/energy_deploy_revision.json?ref=' + DEPLOY_SHA);
   process.env.LIMEN_PORTAL_SOURCE_SHA = SOURCE_SHA;
   delete process.env.VERCEL_GIT_COMMIT_SHA;
+  delete process.env.VERCEL_GIT_REPO_OWNER;
+  delete process.env.VERCEL_GIT_REPO_SLUG;
 
   // ── server token used upstream, never in the response ─────────────────────
   const blob = JSON.stringify(r.body) + JSON.stringify(r.headers);
