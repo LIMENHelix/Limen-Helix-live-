@@ -226,6 +226,10 @@ check('Command Board opens with unmigrated rows visible', function () {
     'default filter still hides unmigrated rows');
   assert.ok(commandBoardPage.includes("var _currentFilter = 'all'"),
     'default filter still starts at kernel');
+  assert.ok(commandBoardPage.includes('counts.NOT_QUALIFIED'),
+    'summary omits NOT_QUALIFIED count');
+  assert.ok(commandBoardPage.includes('counts.ABSTAIN'),
+    'summary omits ABSTAIN count');
 });
 
 check('Helix Report adapter carries Thing 0 and null-safe path scores', function () {
@@ -238,6 +242,14 @@ check('Helix Report adapter carries Thing 0 and null-safe path scores', function
     'unguarded path score formatting remains');
   assert.ok(report.includes('Thing 0 permits Thing 1 use.'),
     'reconciliation text does not derive from Thing 0');
+  assert.ok(report.includes('abstained: abstained'),
+    'report packet does not carry the abstention state');
+  assert.ok(report.includes('Thing 1 abstains:'),
+    'report narrative still issues NO ALERT for a refusal');
+  assert.ok(report.includes('gatedT1.abstained === true'),
+    'report status line still issues NO ALERT for a refusal');
+  assert.ok(report.includes("serverValidation === 'not_permitted_by_thing0' || serverValidation === 'unavailable'"),
+    'client envelope can overwrite the server refusal status');
 });
 
 check('brain-signals merges Thing 0 evidence per ticker', function () {
@@ -280,15 +292,28 @@ check('snapshot --resume retries incomplete qualification', function () {
     'legacy rescores are not counted');
   var board = require('../scripts/build-command-board');
   assert.equal(board.isResumeComplete({
-    t0: { qualification_status: 'qualified', permits_thing1_use: true }
-  }), true, 'qualified success should resume');
+    t0: { qualification_status: 'qualified', permits_thing1_use: true },
+    vs: 'validated', kid: 'limen_backtest.py'
+  }), true, 'qualified and validated should resume');
   assert.equal(board.isResumeComplete({
-    t0: { qualification_status: 'partially_qualified', permits_thing1_use: false }
+    t0: { qualification_status: 'qualified', permits_thing1_use: true },
+    vs: 'unvalidated_after_modification', kid: 'limen_backtest.py'
+  }), false, 'qualified but unvalidated must be retried');
+  assert.equal(board.isResumeComplete({
+    t0: { qualification_status: 'partially_qualified', permits_thing1_use: false },
+    vs: 'validated', kid: 'limen_backtest.py'
   }), false, 'transient partial qualification must be retried');
   assert.equal(board.isResumeComplete({
-    t0: { qualification_status: 'not_qualified', permits_thing1_use: false }
+    t0: { qualification_status: 'not_qualified', permits_thing1_use: false },
+    vs: 'not_permitted_by_thing0', kid: 'limen_backtest.py'
   }), false, 'refused qualification must be retried');
   assert.equal(board.isResumeComplete({}), false, 'missing evidence must be retried');
+  assert.equal(board.numOrNull(null), null);
+  assert.equal(board.numOrNull(0), 0);
+  assert.equal(board.numOrNull(1.2), 1.2);
+  assert.equal(board.numOrNull('0'), null, 'strings must not become numbers');
+  assert.ok(script.includes('pa: numOrNull(d.path_a_score)'),
+    'path scores still convert null to zero');
 });
 check('snapshot writing preserves refused trajectories', function () {
   var script = read('scripts/build-command-board.js');

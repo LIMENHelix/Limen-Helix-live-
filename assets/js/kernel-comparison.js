@@ -259,6 +259,8 @@ function renderStats() {
   h += '<div class="stat"><div class="stat-val" style="color:' + SIGNAL_ENUM.ORDERED_WATCH.color + '">' + counts.ORDERED_WATCH + '</div><div class="stat-label">WATCH</div></div>';
   h += '<div class="stat"><div class="stat-val" style="color:' + SIGNAL_ENUM.SECTOR_PRESSURE.color + '">' + counts.SECTOR_PRESSURE + '</div><div class="stat-label">PRESSURE</div></div>';
   h += '<div class="stat"><div class="stat-val" style="color:' + SIGNAL_ENUM.NOMINAL.color + '">' + counts.NOMINAL + '</div><div class="stat-label">NOMINAL</div></div>';
+  h += '<div class="stat"><div class="stat-val" style="color:' + SIGNAL_ENUM.NOT_QUALIFIED.color + '">' + counts.NOT_QUALIFIED + '</div><div class="stat-label">NOT QUALIFIED</div></div>';
+  h += '<div class="stat"><div class="stat-val" style="color:' + SIGNAL_ENUM.ABSTAIN.color + '">' + counts.ABSTAIN + '</div><div class="stat-label">ABSTAIN</div></div>';
   h += '<div class="stat"><div class="stat-val" style="color:#e85454">' + highStress + '</div><div class="stat-label">STRESS &ge;70%</div></div>';
   h += '<div class="stat"><div class="stat-val" style="color:#e85454">' + p7count + '</div><div class="stat-label">P7/P7a/P9</div></div>';
   h += '<div class="stat"><div class="stat-val" style="color:#5ab5a0">' + stableCount + '</div><div class="stat-label">P4/P6/P10</div></div>';

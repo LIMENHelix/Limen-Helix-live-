@@ -145,14 +145,21 @@ function postScore(cik, retries = 1) {
   });
 }
 
+function numOrNull(v) {
+  /* A null path score means the path was not computed. It is not zero. */
+  return (typeof v === 'number' && isFinite(v)) ? v : null;
+}
+
 function isResumeComplete(row) {
-  /* Only a successful qualification is terminal for --resume. A transient
-     partially_qualified result (for example sector_lookup_unavailable) must be
-     retried on the next run, not frozen into the snapshot forever. */
+  /* A row is complete only when Thing 0 qualified it AND Thing 1 actually
+     validated. A qualified-but-unvalidated row must be retried, as must a
+     transient partially_qualified result (for example sector_lookup_unavailable). */
   const t0 = row && (row.t0 || row.thing0 || row.thing0Eligibility);
   return !!(t0
     && t0.qualification_status === 'qualified'
-    && t0.permits_thing1_use === true);
+    && t0.permits_thing1_use === true
+    && row.vs === 'validated'
+    && row.kid === 'limen_backtest.py');
 }
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -214,12 +221,12 @@ async function main() {
         n: c.name, t: c.ticker || '', c: c.cik, s: slug, d: domainId,
         p: d.dominant_phase || '?',
         tr: deriveTrajectory(d),
-        co: (typeof d.composite_score === 'number') ? d.composite_score : null,
+        co: numOrNull(d.composite_score),
         a: !!d.alert,
         path: d.pathway || null,
-        pa: d.path_a_score || 0,
-        pb: d.path_b_score || 0,
-        pc: d.path_c_score || 0,
+        pa: numOrNull(d.path_a_score),
+        pb: numOrNull(d.path_b_score),
+        pc: numOrNull(d.path_c_score),
         fq: d.first_alert_quarter || null,
         q:  d.latest_quarter || null,
         hist: d.history_quarters || 0,
@@ -288,4 +295,4 @@ function writeOutput(rows, total, scored, errors, resumed, inProgress) {
 if (require.main === module) {
   main().catch(e => { console.error('FATAL:', e); process.exit(1); });
 }
-module.exports = { isResumeComplete };
+module.exports = { isResumeComplete, numOrNull };

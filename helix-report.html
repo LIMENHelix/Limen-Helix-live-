@@ -1150,11 +1150,14 @@ async function runAnalysis(opts) {
     applyResults(packet);
     var statusBits;
     if (thing1Label) {
+      var abstainLabel = gatedT1.abstained === true
+        ? ('ABSTAIN \u00b7 THING 1 ' + String(gatedT1.server_validation_status || gatedT1.validation_status || 'NOT VALIDATED').toUpperCase())
+        : (combinedAlert ? ('AUTHORIZED ALERT \u00b7 Path ' + (gatedT1.pathway || '?'))
+          : (gatedT1.alert ? 'THING 1 ALERT \u00b7 THING 0 NOT ESTABLISHED'
+            : (gatedT1.raw_alert ? 'NO AUTHORIZED ALERT \u00b7 RAW CROSSING' : 'NO ALERT')));
       statusBits = [
         _entityName, '\u2014',
-        combinedAlert ? ('AUTHORIZED ALERT \u00b7 Path ' + (gatedT1.pathway || '?'))
-          : (gatedT1.alert ? 'THING 1 ALERT \u00b7 THING 0 NOT ESTABLISHED'
-            : (gatedT1.raw_alert ? 'NO AUTHORIZED ALERT \u00b7 RAW CROSSING' : 'NO ALERT')),
+        abstainLabel,
         '\u00b7',
         'composite ' + (t1.composite_score != null ? t1.composite_score.toFixed(3) : '\u2014')
       ];
@@ -1228,7 +1231,11 @@ function _packServerResult(t1) {
   var serverValidation = t1.validation_status || null;
   var clientValidated = envelope.status === 'validated';
   var effectiveValidation;
-  if (!clientValidated) {
+  if (serverValidation === 'not_permitted_by_thing0' || serverValidation === 'unavailable') {
+    /* The server's refusal/unavailable status is authoritative. The client-side
+       envelope must not overwrite it with an insufficient-history label. */
+    effectiveValidation = serverValidation;
+  } else if (!clientValidated) {
     effectiveValidation = envelope.status;
   } else {
     effectiveValidation = serverValidation || envelope.status;
@@ -1237,6 +1244,8 @@ function _packServerResult(t1) {
     effectiveValidation = 'unvalidated_after_modification';
   }
   var effectiveAlert = effectiveValidation === 'validated' ? !!t1.alert : false;
+  /* Any non-validated result abstains. Neither ALERT nor NO_ALERT is permitted. */
+  var abstained = effectiveValidation !== 'validated';
   var fingerprintReasons = [];
   if (!fingerprintMatches) {
     fingerprintReasons.push('kernel fingerprint ' + serverFingerprint.state
@@ -1258,7 +1267,13 @@ function _packServerResult(t1) {
   narrative.push('Path A (stress): ' + _fmt3(t1.path_a_score) + '/' + _fmt3(t1.path_a_threshold)
                + ' \u00b7 Path B (cash): ' + _fmt3(t1.path_b_score) + '/' + _fmt3(t1.path_b_threshold)
                + ' \u00b7 Path C (rupture): ' + _fmt3(t1.path_c_score) + '/' + _fmt3(t1.path_c_threshold));
-  if (effectiveAlert) {
+  if (abstained) {
+    narrative.push('Thing 1 abstains: ' + (serverValidation || effectiveValidation)
+                 + '. No ALERT or NO_ALERT verdict is issued.');
+    if (t1.alert || t1.raw_alert) {
+      narrative.push('A raw threshold crossing is present, but it is not an authorized alert.');
+    }
+  } else if (effectiveAlert) {
     narrative.push('Alert fired via Path ' + (t1.pathway || '?')
                  + (t1.first_alert_quarter ? ' first at ' + t1.first_alert_quarter : ''));
   } else if (t1.alert || t1.raw_alert) {
@@ -1289,6 +1304,8 @@ function _packServerResult(t1) {
       kernel_sha256_lock: t1.kernel_sha256_lock || serverFingerprint.lock_sha256 || null,
       kernel_sha256_actual: t1.kernel_sha256_actual || serverFingerprint.kernel_sha256 || null,
       available: t0Permits,
+      abstained: abstained,
+      server_validation_status: serverValidation,
       alert: effectiveAlert,
       raw_alert: t1.raw_alert === true,
       first_alert_quarter: effectiveAlert ? (t1.first_alert_quarter || null) : null,
