@@ -4,7 +4,8 @@ const { pathToFileURL } = require('node:url');
 const path = require('node:path');
 (async () => {
   const {
-    applyFinancialRefresh, hasThing1Provenance, shouldRescoreStaleOnly
+    applyFinancialRefresh, hasThing0Qualification, hasThing1Provenance,
+    shouldRescoreStaleOnly
   } = await import(pathToFileURL(path.join(__dirname, 'rescore-portals.mjs')));
   const portal = {
     financialHealth: { alert: true },
@@ -115,23 +116,79 @@ const path = require('node:path');
 
   const now = new Date();
   const currentQ = now.getUTCFullYear() + 'Q' + (Math.floor(now.getUTCMonth() / 3) + 1);
+  const validatedT1 = { status: 'validated', available: true };
+  const qualifiedT0 = { qualification_status: 'qualified', permits_thing1_use: true };
+  const recent = (t0, t1) => ({
+    financialHealth: {
+      latestQuarter: currentQ,
+      thing1Validation: t1,
+      thing0Eligibility: t0
+    }
+  });
+
+  /* Skip requires BOTH affirmative provenances. */
+  assert.equal(shouldRescoreStaleOnly(recent(qualifiedT0, validatedT1)), false,
+    'recent record with validated Thing 1 and qualified/permitted Thing 0 should be skipped');
+
+  /* Missing Thing 0 evidence, even with a recent validated Thing 1. */
+  assert.equal(shouldRescoreStaleOnly(recent(undefined, validatedT1)), true,
+    'missing Thing 0 evidence must be rescored');
+  assert.equal(shouldRescoreStaleOnly(recent({}, validatedT1)), true,
+    'empty Thing 0 object must be rescored');
+  assert.equal(shouldRescoreStaleOnly(recent('qualified', validatedT1)), true,
+    'non-object Thing 0 evidence must be rescored');
+
+  /* Malformed, contradictory and non-permitting Thing 0 evidence. */
+  assert.equal(shouldRescoreStaleOnly(recent({ qualification_status: { value: 'qualified' }, permits_thing1_use: true }, validatedT1)), true,
+    'object-valued qualification_status must be rescored');
+  assert.equal(shouldRescoreStaleOnly(recent({ qualification_status: ['qualified'], permits_thing1_use: true }, validatedT1)), true,
+    'array-valued qualification_status must be rescored');
+  assert.equal(shouldRescoreStaleOnly(recent({ qualification_status: 'QUALIFIED', permits_thing1_use: true }, validatedT1)), true,
+    'non-canonical qualification_status must be rescored');
+  assert.equal(shouldRescoreStaleOnly(recent({ qualification_status: 'not_qualified', permits_thing1_use: true }, validatedT1)), true,
+    'refused Thing 0 with a stray permit must be rescored');
+  assert.equal(shouldRescoreStaleOnly(recent({ qualification_status: 'qualified' }, validatedT1)), true,
+    'qualified Thing 0 without a permit must be rescored');
+  assert.equal(shouldRescoreStaleOnly(recent({ qualification_status: 'qualified', permits_thing1_use: false }, validatedT1)), true,
+    'qualified Thing 0 with a false permit must be rescored');
+  assert.equal(shouldRescoreStaleOnly(recent({ qualification_status: 'partially_qualified', permits_thing1_use: false }, validatedT1)), true,
+    'partial Thing 0 qualification must be rescored');
+
+  /* Thing 1 must also be affirmative. */
+  assert.equal(shouldRescoreStaleOnly(recent(qualifiedT0, undefined)), true,
+    'missing Thing 1 provenance must be rescored');
+  assert.equal(shouldRescoreStaleOnly(recent(qualifiedT0, { status: 'unvalidated_after_modification', available: false })), true,
+    'recent unvalidated Thing 1 must be retried');
+  assert.equal(shouldRescoreStaleOnly(recent(qualifiedT0, { status: 'validated', available: false })), true,
+    'validated but unavailable Thing 1 must be retried');
+  assert.equal(shouldRescoreStaleOnly(recent(qualifiedT0, { status: 'not_permitted_by_thing0', available: false })), true,
+    'recent refusal must be retried');
+
+  /* An old quarter is rescored regardless of provenance. */
   assert.equal(shouldRescoreStaleOnly({
-    financialHealth: { latestQuarter: currentQ, thing1Validation: { status: 'validated', available: true } }
-  }), false, 'current portal with Thing 1 provenance should be skipped');
-  assert.equal(shouldRescoreStaleOnly({
-    financialHealth: { latestQuarter: currentQ }
-  }), true, 'current portal without Thing 1 provenance must be rescored');
-  assert.equal(shouldRescoreStaleOnly({
-    financialHealth: { latestQuarter: currentQ, thing1Validation: { status: 'unvalidated_after_modification', available: false } }
-  }), true, 'recent unvalidated Thing 1 must be retried');
-  assert.equal(shouldRescoreStaleOnly({
-    financialHealth: { latestQuarter: currentQ, thing1Validation: { status: 'not_permitted_by_thing0', available: false } }
-  }), true, 'recent refusal must be retried');
-  assert.equal(shouldRescoreStaleOnly({
-    financialHealth: { latestQuarter: '2000Q1', thing1Validation: { status: 'validated', available: true } }
+    financialHealth: { latestQuarter: '2000Q1', thing1Validation: validatedT1, thing0Eligibility: qualifiedT0 }
   }), true, 'old portal must be rescored');
+
+  /* A successful provenance migration is idempotent: the first run writes the
+     evidence, and the second --stale-only run skips the same record. */
+  const migrated = { financialHealth: { latestQuarter: currentQ } };
+  applyFinancialRefresh(migrated, {
+    latestQuarter: currentQ,
+    validationStatus: 'validated',
+    thing1Validation: validatedT1,
+    thing0Eligibility: qualifiedT0,
+    thing0PermitsThing1: true
+  }, '2026-10-19T00:00:00Z');
+  assert.equal(shouldRescoreStaleOnly(migrated), false,
+    'second stale-only run after successful provenance migration should skip');
+  assert.equal(shouldRescoreStaleOnly(migrated), false,
+    'stale-only migration check must be idempotent');
+
+  assert.equal(hasThing0Qualification({}), false);
+  assert.equal(hasThing0Qualification({ thing0Eligibility: qualifiedT0 }), true);
+  assert.equal(hasThing0Qualification({ thing0Eligibility: { qualification_status: 'not_qualified', permits_thing1_use: true } }), false);
   assert.equal(hasThing1Provenance({}), false);
-  assert.equal(hasThing1Provenance({ thing1Validation: { status: 'validated', available: true } }), true);
+  assert.equal(hasThing1Provenance({ thing1Validation: validatedT1 }), true);
   assert.equal(hasThing1Provenance({ thing1Validation: { status: 'unvalidated_after_modification', available: false } }), false);
-  console.log('portal refresh: Thing 1 provenance gates investment and stale-only migration; refusal clears stale verdict fields; research preserved; repeat is idempotent');
+  console.log('portal refresh: Thing 1 provenance gates investment and stale-only migration; Thing 0 qualification gates stale-only skips; refusal clears stale verdict fields; research preserved; repeat is idempotent');
 })().catch(e => { console.error(e); process.exitCode = 1; });

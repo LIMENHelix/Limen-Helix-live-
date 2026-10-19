@@ -58,11 +58,25 @@ export function hasThing1Provenance(financialHealth) {
   return !!(p && p.status === 'validated' && p.available === true);
 }
 
+/* Affirmative Thing 0 qualification. Missing, malformed, refused, partial or
+   non-permitting evidence is not qualification, even when the filing quarter
+   is recent. This is migration/readiness logic; it does not authorize an
+   investment selection and does not replace the downstream Thing 1 gate. */
+export function hasThing0Qualification(financialHealth) {
+  const t0 = financialHealth && financialHealth.thing0Eligibility;
+  if (!t0 || typeof t0 !== 'object' || Array.isArray(t0)) return false;
+  return t0.qualification_status === 'qualified'
+    && t0.permits_thing1_use === true;
+}
+
+/* Skip a recent record only when BOTH provenances are affirmative. The
+   investment engine continues to consume Thing 1 validation alone; Thing 0
+   remains the upstream qualifier for Thing 1. */
 export function shouldRescoreStaleOnly(portal) {
   const fh = portal && portal.financialHealth;
   if (!fh) return true;
   if (qAgeOf(fh.latestQuarter) > 2) return true;
-  return !hasThing1Provenance(fh);
+  return !(hasThing1Provenance(fh) && hasThing0Qualification(fh));
 }
 
 function bandFor(r) {
