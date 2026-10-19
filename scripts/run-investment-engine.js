@@ -100,27 +100,16 @@ function evaluatePortal(co) {
   const fh = co.financialHealth;
   if (!fh) return { signals: [], skipped: 'no financialHealth', quarantine: true };
 
-  /* A refreshed Thing 0 refusal revokes use of the kernel-derived fields this
-     engine reads. Absent or malformed Thing 0 evidence is also a refusal:
-     legacy portals without qualification evidence must not emit new
-     action-oriented signals. Do not emit from stale evidence. */
-  const t0 = fh.thing0Eligibility || fh.thing0 || null;
-  const t0Status = t0 ? (t0.qualification_status || t0.qualificationStatus || null) : null;
-  if (!t0 || !t0Status) {
-    return { signals: [], skipped: 'thing0_evidence_unavailable', quarantine: true };
-  }
-  const permits = t0.permits_thing1_use === true || t0.permitsThing1Use === true;
-  if (!permits || t0Status !== 'qualified') {
-    return { signals: [], skipped: 'thing0_not_permitted:' + t0Status, quarantine: true };
-  }
-
-  /* Effective Thing 1 validation. A raw compositeScore from a stale,
-     out-of-envelope, ingestion-suspect or fingerprint-unvalidated run is not a
-     validated distress signal. Quarantine rather than call it validated. */
-  if (fh.validationStatus !== 'validated') {
+  /* INVESTMENT CONSUMES THING 1. It does not re-run Thing 0 qualification.
+     A current Thing 1 run records thing1Validation; its status already carries
+     not_permitted_by_thing0, out-of-envelope and fingerprint outcomes. Legacy
+     portals without that provenance abstain until refreshed. */
+  const thing1 = fh.thing1Validation || null;
+  const thing1Validated = !!(thing1 && thing1.status === 'validated' && thing1.available === true);
+  if (!thing1Validated) {
     return {
       signals: [],
-      skipped: 'thing1_not_validated:' + (fh.validationStatus || 'unavailable'),
+      skipped: 'thing1_not_validated:' + ((thing1 && thing1.status) || 'no_provenance'),
       quarantine: true
     };
   }
@@ -146,8 +135,8 @@ function evaluatePortal(co) {
     envelopeStatus: envelope,
     kernelShaLock: fh.kernelShaLock,
     lastKernelRun: fh.lastKernelRun,
-    thing0Qualification: t0Status,
     validationStatus: fh.validationStatus,
+    thing1ValidationStatus: thing1.status,
   };
 
   const signals = [];
@@ -279,7 +268,9 @@ function applySignals(co, newSignals) {
 /**
  * Remove this engine's kernel-derived signals from the active list and archive
  * them under quarantinedOpportunitySignals. Other engines' signals are kept.
- * Called only when a refreshed Thing 0 object refuses Thing 1 use.
+ * Called when Thing 1 is not validated for investment use, including a Thing 0
+ * refusal (which appears as not_permitted_by_thing0) and stale/missing
+ * provenance.
  */
 function quarantineInvestmentSignals(co, reason, at) {
   const existing = Array.isArray(co.opportunitySignals) ? co.opportunitySignals : [];

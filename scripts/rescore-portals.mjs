@@ -51,7 +51,9 @@ function qAgeOf(latest) {
 }
 
 function bandFor(r) {
-  if (r.thing0_eligibility && r.thing0_eligibility.permits_thing1_use !== true) return 'gray';
+  /* The band is a Thing 1 display. A Thing 0 refusal arrives as
+     not_permitted_by_thing0, so this does not need a Thing 0 check. */
+  if (r.validation_status !== 'validated') return 'gray';
   if (r.interpretive_only) return 'gray';      // out of envelope -> not a validated read
   if (r.alert) return 'red';
   if ((r.composite_score || 0) >= 0.75) return 'yellow';
@@ -67,6 +69,14 @@ function toFinancialHealth(r, nowIso) {
     kernelId: r.kernel_id || 'limen_backtest.py',
     kernelShaLock: (r.kernel_sha256_lock || '').slice(0, 16),
     validationStatus: r.validation_status,
+    /* THING 1 PROVENANCE. Investment and the portal consume this, not Thing 0.
+       A Thing 0 refusal appears here as not_permitted_by_thing0. */
+    thing1Validation: {
+      status: r.validation_status || 'unavailable',
+      available: r.validation_status === 'validated',
+      source: 'api/limen/score',
+      runAt: nowIso
+    },
     // ── Thing 0 qualification (authoritative; absent means unavailable) ──
     thing0Eligibility: r.thing0_eligibility || null,
     thing0PermitsThing1: !!(r.thing0_eligibility && r.thing0_eligibility.permits_thing1_use === true),
@@ -160,23 +170,18 @@ async function main() {
 }
 
 export function applyFinancialRefresh(portal, financialHealth, at) {
-  const refusedByThing0 = financialHealth.thing0PermitsThing1 !== true;
-  const thing1Validated = financialHealth.validationStatus === 'validated';
-  if (refusedByThing0) {
-    /* REFUSAL REPLACES THE VERDICT. Spreading kept old phaseStateLabel,
-       pathA/B/C and envelopeStatus: ELIGIBLE_NOW from a previously validated
-       run, and the renderer showed them under "Validated Kernel" beside a new
-       NO ALERT. A refusal has no verdict fields to preserve. */
-    portal.financialHealth = { ...financialHealth };
-  } else {
+  /* THE VERDICT IS THING 1 OUTPUT. If Thing 1 is not validated, replace the
+     verdict object instead of spreading stale phaseStateLabel, pathA/B/C and
+     envelopeStatus from a previous run. Thing 0 is upstream and is not
+     re-checked here; a Thing 0 refusal is already not_permitted_by_thing0. */
+  const thing1Validated = !!(financialHealth.thing1Validation &&
+    financialHealth.thing1Validation.status === 'validated' &&
+    financialHealth.thing1Validation.available === true);
+  if (thing1Validated) {
     portal.financialHealth = { ...(portal.financialHealth || {}), ...financialHealth };
-  }
-  if (refusedByThing0 || !thing1Validated) {
-    investmentEngine.quarantineInvestmentSignals(
-      portal,
-      refusedByThing0 ? 'thing0_not_permitted' : 'thing1_not_validated',
-      at
-    );
+  } else {
+    portal.financialHealth = { ...financialHealth };
+    investmentEngine.quarantineInvestmentSignals(portal, 'thing1_not_validated', at);
   }
   return portal;
 }

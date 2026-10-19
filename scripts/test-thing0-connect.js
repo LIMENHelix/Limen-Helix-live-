@@ -273,13 +273,14 @@ check('phase scorer invalidates cached phases on Thing 0 refusal', function () {
     'invalidation result missing');
 });
 
-check('investment engine quarantines stale kernel signals on Thing 0 refusal', function () {
+check('investment engine quarantines on a Thing 1 refusal', function () {
   var engine = require('../scripts/run-investment-engine');
   var co = {
     slug: 'fixture', kernelStatus: 'ELIGIBLE_NOW',
     financialHealth: {
       compositeScore: 1.6, alert: true,
-      thing0Eligibility: { qualification_status: 'partially_qualified', permits_thing1_use: false }
+      validationStatus: 'not_permitted_by_thing0',
+      thing1Validation: { status: 'not_permitted_by_thing0', available: false }
     },
     opportunitySignals: [
       { engine: 'investment', id: 'inv-1' },
@@ -289,12 +290,13 @@ check('investment engine quarantines stale kernel signals on Thing 0 refusal', f
   var evaluated = engine.evaluatePortal(co);
   assert.equal(evaluated.quarantine, true, JSON.stringify(evaluated));
   assert.equal(evaluated.signals.length, 0);
-  assert.equal(engine.quarantineInvestmentSignals(co, 'thing0_not_permitted', '2026-01-01T00:00:00.000Z'), 1);
+  assert.ok(/thing1_not_validated/.test(evaluated.skipped), evaluated.skipped);
+  assert.equal(engine.quarantineInvestmentSignals(co, 'thing1_not_validated', '2026-01-01T00:00:00.000Z'), 1);
   assert.equal(co.opportunitySignals.length, 1);
   assert.equal(co.opportunitySignals[0].engine, 'other');
   assert.equal(co.quarantinedOpportunitySignals.length, 1);
   assert.equal(co.quarantinedOpportunitySignals[0].quarantined, true);
-  assert.equal(engine.quarantineInvestmentSignals(co, 'thing0_not_permitted', '2026-01-01T00:00:00.000Z'), 0);
+  assert.equal(engine.quarantineInvestmentSignals(co, 'thing1_not_validated', '2026-01-01T00:00:00.000Z'), 0);
   assert.equal(co.quarantinedOpportunitySignals.length, 1, 'quarantine archive was duplicated');
 });
 
@@ -329,7 +331,7 @@ check('investment engine quarantines when Thing 1 is not validated', function ()
     financialHealth: {
       compositeScore: 1.6, alert: true,
       validationStatus: 'unvalidated_after_modification',
-      thing0Eligibility: { qualification_status: 'qualified', permits_thing1_use: true }
+      thing1Validation: { status: 'unvalidated_after_modification', available: false }
     },
     opportunitySignals: [{ engine: 'investment', id: 'inv-1' }]
   };
@@ -347,7 +349,7 @@ check('investment engine quarantines when Thing 1 is not validated', function ()
   };
   var evLegacy = engine.evaluatePortal(legacy);
   assert.equal(evLegacy.quarantine, true, JSON.stringify(evLegacy));
-  assert.ok(/thing0_evidence_unavailable/.test(evLegacy.skipped), evLegacy.skipped);
+  assert.ok(/thing1_not_validated:no_provenance/.test(evLegacy.skipped), evLegacy.skipped);
   assert.equal(engine.quarantineInvestmentSignals(legacy, evLegacy.skipped, '2026-01-01T00:00:00.000Z'), 1);
   assert.equal(legacy.opportunitySignals.length, 0);
 
@@ -355,13 +357,26 @@ check('investment engine quarantines when Thing 1 is not validated', function ()
     slug: 'fixture-valid', kernelStatus: 'ELIGIBLE_NOW',
     financialHealth: {
       compositeScore: 1.6, alert: true, validationStatus: 'validated',
-      thing0Eligibility: { qualification_status: 'qualified', permits_thing1_use: true }
+      thing1Validation: { status: 'validated', available: true }
     },
     opportunitySignals: []
   };
   var ok = engine.evaluatePortal(validated);
   assert.equal(ok.quarantine, undefined);
   assert.ok(ok.signals.length > 0, 'validated signal did not fire');
+
+  var engineSource = read('scripts/run-investment-engine.js');
+  assert.ok(!/thing0Eligibility|thing0PermitsThing1|permits_thing1_use|thing0Qualification/.test(engineSource),
+    'investment engine still uses Thing 0 as an investment criterion');
+  assert.ok(engineSource.includes('thing1Validation'),
+    'investment engine does not consume Thing 1 provenance');
+
+  var rescoreSource = read('scripts/rescore-portals.mjs');
+  var applyBody = rescoreSource.slice(rescoreSource.indexOf('export function applyFinancialRefresh'));
+  assert.ok(!applyBody.includes('thing0PermitsThing1'),
+    'portal refresh still gates on Thing 0');
+  assert.ok(applyBody.includes('thing1Validation'),
+    'portal refresh does not gate on Thing 1 provenance');
 });
 
 // ── Handler contract against the current static snapshots ──────────────────
