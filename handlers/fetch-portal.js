@@ -202,8 +202,36 @@ function _validSha(value) {
   return typeof value === 'string' && /^[0-9a-f]{40}$/i.test(value);
 }
 
+function _validRepository(value) {
+  return typeof value === 'string' && /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(value);
+}
+
+function _deploymentContexts() {
+  const contexts = [];
+  /* GitHub context: repository and SHA are adopted together or not at all. */
+  if (_validRepository(process.env.GITHUB_REPOSITORY) && _validSha(process.env.GITHUB_SHA)) {
+    contexts.push({
+      repository: process.env.GITHUB_REPOSITORY,
+      revision: process.env.GITHUB_SHA.toLowerCase(),
+      origin: 'github'
+    });
+  }
+  /* Vercel context: repository and SHA are adopted together or not at all. */
+  const owner = process.env.VERCEL_GIT_REPO_OWNER;
+  const slug = process.env.VERCEL_GIT_REPO_SLUG;
+  const repository = owner && slug ? owner + '/' + slug : null;
+  if (_validRepository(repository) && _validSha(process.env.VERCEL_GIT_COMMIT_SHA)) {
+    contexts.push({
+      repository: repository,
+      revision: process.env.VERCEL_GIT_COMMIT_SHA.toLowerCase(),
+      origin: 'vercel'
+    });
+  }
+  return contexts;
+}
+
 function sourceTarget() {
-  /* Explicit pin: this repository is the canonical full repository. */
+  /* Explicit pin wins and always targets the canonical full repository. */
   const pinned = process.env[SOURCE_SHA_ENV];
   if (_validSha(pinned)) {
     return {
@@ -212,24 +240,21 @@ function sourceTarget() {
       origin: 'explicit'
     };
   }
-  /* Deployment fallback: the SHA and repository MUST come from the same
-     deployment context. A live-repository SHA is not assumed to exist in the
-     separate full repository; sending it there was an unverified mapping. */
-  const deploymentRepository = process.env.GITHUB_REPOSITORY ||
-    (process.env.VERCEL_GIT_REPO_OWNER && process.env.VERCEL_GIT_REPO_SLUG
-      ? process.env.VERCEL_GIT_REPO_OWNER + '/' + process.env.VERCEL_GIT_REPO_SLUG
-      : null);
-  const deploymentSha = process.env.VERCEL_GIT_COMMIT_SHA || process.env.GITHUB_SHA;
-  if (deploymentRepository &&
-    /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(deploymentRepository) &&
-    _validSha(deploymentSha)) {
-    return {
-      repository: deploymentRepository,
-      revision: deploymentSha.toLowerCase(),
-      origin: 'deployment'
-    };
-  }
-  return null;
+  const contexts = _deploymentContexts();
+  if (!contexts.length) return null;
+
+  /* Repository and SHA must come from ONE provider context. When both
+     providers are complete they must agree; a GitHub repository paired with a
+     Vercel SHA is exactly the unverified mapping this rejects. */
+  const first = contexts[0];
+  const conflict = contexts.some(function (context) {
+    return context.repository.toLowerCase() !== first.repository.toLowerCase()
+      || context.revision !== first.revision;
+  });
+  if (conflict) return { conflict: true, contexts: contexts };
+
+  /* Both providers agree. Prefer the runtime-native Vercel context. */
+  return contexts.filter(function (context) { return context.origin === 'vercel'; })[0] || first;
 }
 
 module.exports = async function handler(req, res) {
@@ -254,6 +279,12 @@ module.exports = async function handler(req, res) {
   }
 
   const target = sourceTarget();
+  if (target && target.conflict) {
+    return res.status(503).json({
+      error: 'Portal source context is ambiguous',
+      hint: `GITHUB_REPOSITORY/GITHUB_SHA and VERCEL_GIT_REPO_OWNER/VERCEL_GIT_REPO_SLUG + VERCEL_GIT_COMMIT_SHA disagree; set ${SOURCE_SHA_ENV}`
+    });
+  }
   if (!target) {
     return res.status(503).json({
       error: 'Portal source is not pinned',

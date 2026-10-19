@@ -44,6 +44,7 @@ const TOKEN = 'ghp_fetchportaltesttoken0000';
 const MAX_PORTAL_BYTES = 8 * 1024 * 1024;
 const SOURCE_SHA = 'a'.repeat(40);
 const DEPLOY_SHA = 'b'.repeat(40);
+const CONFLICT_SHA = 'c'.repeat(40);
 
 const REAL_FETCH = global.fetch;
 const fetchedUrls = [];
@@ -190,7 +191,37 @@ async function main() {
   check('deployment fallback queries the deployment repository at its own SHA',
     fetchedUrls[0],
     'https://api.github.com/repos/LIMENHelix/Limen-Helix-live-/contents/assets/data/domains/energy_deploy_revision.json?ref=' + DEPLOY_SHA);
+
+  // Mixed contexts: a repository without its own SHA is incomplete and ignored.
+  process.env.GITHUB_REPOSITORY = 'SomeOther/Repo';
+  delete process.env.GITHUB_SHA;
+  fetchedUrls.length = 0;
+  r = await invoke(request({ domainId: 'energy_mixed_context' }));
+  check('incomplete GitHub context is ignored (status)', r.status, 200);
+  check('fallback uses the complete Vercel context',
+    fetchedUrls[0],
+    'https://api.github.com/repos/LIMENHelix/Limen-Helix-live-/contents/assets/data/domains/energy_mixed_context.json?ref=' + DEPLOY_SHA);
+
+  // Both providers complete but disagree: fail closed.
+  process.env.GITHUB_REPOSITORY = 'SomeOther/Repo';
+  process.env.GITHUB_SHA = CONFLICT_SHA;
+  fetchedUrls.length = 0;
+  r = await invoke(request({ domainId: 'energy_conflict' }));
+  check('conflicting source contexts fail closed (status)', r.status, 503);
+  check('conflicting source contexts perform zero upstream fetches', fetchedUrls.length, 0);
+  check('conflicting source contexts explain the ambiguity',
+    /ambiguous/i.test(JSON.stringify(r.body)), true);
+
+  // Explicit pin wins over any conflicting deployment context.
   process.env.LIMEN_PORTAL_SOURCE_SHA = SOURCE_SHA;
+  fetchedUrls.length = 0;
+  r = await invoke(request({ domainId: 'energy_pin_wins' }));
+  check('explicit pin wins over conflicting contexts (status)', r.status, 200);
+  check('explicit pin queries the full repository',
+    fetchedUrls[0].indexOf('/repos/LIMENHelix/Limen-Helix/') !== -1, true);
+
+  delete process.env.GITHUB_REPOSITORY;
+  delete process.env.GITHUB_SHA;
   delete process.env.VERCEL_GIT_COMMIT_SHA;
   delete process.env.VERCEL_GIT_REPO_OWNER;
   delete process.env.VERCEL_GIT_REPO_SLUG;
