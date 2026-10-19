@@ -145,6 +145,16 @@ function postScore(cik, retries = 1) {
   });
 }
 
+function isResumeComplete(row) {
+  /* Only a successful qualification is terminal for --resume. A transient
+     partially_qualified result (for example sector_lookup_unavailable) must be
+     retried on the next run, not frozen into the snapshot forever. */
+  const t0 = row && (row.t0 || row.thing0 || row.thing0Eligibility);
+  return !!(t0
+    && t0.qualification_status === 'qualified'
+    && t0.permits_thing1_use === true);
+}
+
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function main() {
@@ -184,9 +194,9 @@ async function main() {
   for (let i = 0; i < queue.length; i++) {
     const c = queue[i];
     const prior = existing[c.cik];
-    /* --resume may only skip a row that already carries Thing 0 evidence.
-       Legacy rows without t0 are rescored so qualification is not assumed. */
-    if (prior && (prior.t0 || prior.thing0 || prior.thing0Eligibility)) {
+    /* --resume only skips a terminal successful qualification. Legacy rows and
+       transient/incomplete refusals are rescored. */
+    if (isResumeComplete(prior)) {
       results.push(prior); resumed++; continue;
     }
     if (prior) rescoredLegacy++;
@@ -275,4 +285,7 @@ function writeOutput(rows, total, scored, errors, resumed, inProgress) {
   fs.writeFileSync(OUTPUT_PATH, JSON.stringify(out));
 }
 
-main().catch(e => { console.error('FATAL:', e); process.exit(1); });
+if (require.main === module) {
+  main().catch(e => { console.error('FATAL:', e); process.exit(1); });
+}
+module.exports = { isResumeComplete };

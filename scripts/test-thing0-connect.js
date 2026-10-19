@@ -220,6 +220,26 @@ check('Command Board rendering tolerates null composite scores', function () {
     'detail composite fallback missing');
 });
 
+check('Command Board opens with unmigrated rows visible', function () {
+  var page = read('kernel-comparison.html');
+  assert.ok(page.includes('class="filter-btn active" data-filter="all"'),
+    'default filter still hides unmigrated rows');
+  assert.ok(commandBoardPage.includes("var _currentFilter = 'all'"),
+    'default filter still starts at kernel');
+});
+
+check('Helix Report adapter carries Thing 0 and null-safe path scores', function () {
+  var report = read('helix-report.html');
+  assert.ok(report.includes('thing0_eligibility: t0'),
+    'flat report adapter drops Thing 0');
+  assert.ok(report.includes('_fmt3(t1.path_a_score)'),
+    'path scores are not null-safe');
+  assert.ok(!report.includes('t1.path_a_score.toFixed(3)'),
+    'unguarded path score formatting remains');
+  assert.ok(report.includes('Thing 0 permits Thing 1 use.'),
+    'reconciliation text does not derive from Thing 0');
+});
+
 check('brain-signals merges Thing 0 evidence per ticker', function () {
   var emitter = require('../handlers/brain-signals');
   var merged = emitter._mergeThing0Evidence(
@@ -252,12 +272,23 @@ check('brain-signals merges Thing 0 evidence per ticker', function () {
     'an errored row without a fallback qualified');
 });
 
-check('snapshot --resume rescored rows missing Thing 0 evidence', function () {
+check('snapshot --resume retries incomplete qualification', function () {
   var script = read('scripts/build-command-board.js');
-  assert.ok(/prior\.t0 \|\| prior\.thing0 \|\| prior\.thing0Eligibility/.test(script),
-    'resume still skips rows without Thing 0 evidence');
+  assert.ok(script.includes('isResumeComplete(prior)'),
+    'resume does not use the terminal-success predicate');
   assert.ok(script.includes('rescoredLegacy'),
     'legacy rescores are not counted');
+  var board = require('../scripts/build-command-board');
+  assert.equal(board.isResumeComplete({
+    t0: { qualification_status: 'qualified', permits_thing1_use: true }
+  }), true, 'qualified success should resume');
+  assert.equal(board.isResumeComplete({
+    t0: { qualification_status: 'partially_qualified', permits_thing1_use: false }
+  }), false, 'transient partial qualification must be retried');
+  assert.equal(board.isResumeComplete({
+    t0: { qualification_status: 'not_qualified', permits_thing1_use: false }
+  }), false, 'refused qualification must be retried');
+  assert.equal(board.isResumeComplete({}), false, 'missing evidence must be retried');
 });
 check('snapshot writing preserves refused trajectories', function () {
   var script = read('scripts/build-command-board.js');

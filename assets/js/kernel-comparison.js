@@ -323,7 +323,7 @@ function renderDomainPanel() {
 // TASK 3 — SORT / FILTER ENGINE
 // ═══════════════════════════════════════════════════════════════════════
 
-var _currentFilter = 'kernel';   // default: companies fully qualified by Thing 0
+var _currentFilter = 'all';   // default: show every in-scope row, qualified or not
 var _currentSort = 'severity';
 var _currentPage = 1;
 var _pageSize = 50;
