@@ -277,7 +277,6 @@ def _patch_flat_scorer(limen_app, sic):
     frame = pd.DataFrame(rows)
 
     saved = {
-        "api_key": limen_app._fred.api_key,
         "fetch_sec_facts": limen_app.lbt.fetch_sec_facts,
         "fetch_sic": limen_app._fetch_sic,
         "extract": limen_app.lbt.extract_quarterly_series,
@@ -290,7 +289,6 @@ def _patch_flat_scorer(limen_app, sic):
     }
     state = {"saved": saved, "kernel_calls": 0}
 
-    limen_app._fred.api_key = lambda: "fixture"
     limen_app.lbt.fetch_sec_facts = lambda cik: dict(facts)
     limen_app._fetch_sic = lambda cik: sic
     limen_app.lbt.extract_quarterly_series = (
@@ -316,7 +314,6 @@ def _patch_flat_scorer(limen_app, sic):
 
 def _restore_flat_scorer(limen_app, state):
     saved = state["saved"]
-    limen_app._fred.api_key = saved["api_key"]
     limen_app.lbt.fetch_sec_facts = saved["fetch_sec_facts"]
     limen_app._fetch_sic = saved["fetch_sic"]
     limen_app.lbt.extract_quarterly_series = saved["extract"]

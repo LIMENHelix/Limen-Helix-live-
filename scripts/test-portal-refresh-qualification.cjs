@@ -99,12 +99,16 @@ const path = require('node:path');
     financialHealth: { latestQuarter: currentQ }
   }), true, 'current portal without Thing 1 provenance must be rescored');
   assert.equal(shouldRescoreStaleOnly({
+    financialHealth: { latestQuarter: currentQ, thing1Validation: { status: 'unvalidated_after_modification', available: false } }
+  }), true, 'recent unvalidated Thing 1 must be retried');
+  assert.equal(shouldRescoreStaleOnly({
     financialHealth: { latestQuarter: currentQ, thing1Validation: { status: 'not_permitted_by_thing0', available: false } }
-  }), false, 'current refusal provenance is still current provenance');
+  }), true, 'recent refusal must be retried');
   assert.equal(shouldRescoreStaleOnly({
     financialHealth: { latestQuarter: '2000Q1', thing1Validation: { status: 'validated', available: true } }
   }), true, 'old portal must be rescored');
   assert.equal(hasThing1Provenance({}), false);
   assert.equal(hasThing1Provenance({ thing1Validation: { status: 'validated', available: true } }), true);
+  assert.equal(hasThing1Provenance({ thing1Validation: { status: 'unvalidated_after_modification', available: false } }), false);
   console.log('portal refresh: Thing 1 provenance gates investment and stale-only migration; refusal clears stale verdict fields; research preserved; repeat is idempotent');
 })().catch(e => { console.error(e); process.exitCode = 1; });

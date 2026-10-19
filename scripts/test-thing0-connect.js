@@ -230,6 +230,10 @@ check('Command Board opens with unmigrated rows visible', function () {
     'summary omits NOT_QUALIFIED count');
   assert.ok(commandBoardPage.includes('counts.ABSTAIN'),
     'summary omits ABSTAIN count');
+  assert.ok(commandBoardPage.includes('dom.signals.NOT_QUALIFIED'),
+    'per-domain cards omit NOT_QUALIFIED');
+  assert.ok(commandBoardPage.includes('dom.signals.ABSTAIN'),
+    'per-domain cards omit ABSTAIN');
 });
 
 check('Helix Report adapter carries Thing 0 and null-safe path scores', function () {
@@ -244,6 +248,8 @@ check('Helix Report adapter carries Thing 0 and null-safe path scores', function
     'reconciliation text does not derive from Thing 0');
   assert.ok(report.includes('abstained: abstained'),
     'report packet does not carry the abstention state');
+  assert.ok(report.includes("available: t0Permits && effectiveValidation === 'validated'"),
+    'unvalidated results still report the scorer as available');
   assert.ok(report.includes('Thing 1 abstains:'),
     'report narrative still issues NO ALERT for a refusal');
   assert.ok(report.includes('gatedT1.abstained === true'),
@@ -532,9 +538,22 @@ async function phaseCacheCheck() {
     assert.equal(noPermit.error, 'thing0_permission_missing', JSON.stringify(noPermit));
     assert.equal(noPermit.invalidated, true, JSON.stringify(noPermit));
 
-    /* Valid qualified + explicit permission still caches. */
+    /* Thing 0 permits, but Thing 1 is not validated: do not cache. */
+    var unvalidatedPhase = await run(ok({
+      thing0_eligibility: { qualification_status: 'qualified', permits_thing1_use: true },
+      validation_status: 'unvalidated_after_modification',
+      dominant_phase: 'p4'
+    }));
+    assert.equal(unvalidatedPhase.scored, false, JSON.stringify(unvalidatedPhase));
+    assert.equal(unvalidatedPhase.error,
+      'thing1_not_validated:unvalidated_after_modification', JSON.stringify(unvalidatedPhase));
+    assert.equal(unvalidatedPhase.invalidated, true, JSON.stringify(unvalidatedPhase));
+    assert.deepEqual(deleted, ['company_phase_123']);
+
+    /* Valid qualified + explicit permission + validated Thing 1 still caches. */
     var valid = await run(ok({
       thing0_eligibility: { qualification_status: 'qualified', permits_thing1_use: true },
+      validation_status: 'validated',
       dominant_phase: 'p4',
       trajectory: 'STABLE'
     }));

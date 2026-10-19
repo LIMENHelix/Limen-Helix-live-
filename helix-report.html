@@ -1303,7 +1303,7 @@ function _packServerResult(t1) {
       kernel_version: '4.0',
       kernel_sha256_lock: t1.kernel_sha256_lock || serverFingerprint.lock_sha256 || null,
       kernel_sha256_actual: t1.kernel_sha256_actual || serverFingerprint.kernel_sha256 || null,
-      available: t0Permits,
+      available: t0Permits && effectiveValidation === 'validated',
       abstained: abstained,
       server_validation_status: serverValidation,
       alert: effectiveAlert,

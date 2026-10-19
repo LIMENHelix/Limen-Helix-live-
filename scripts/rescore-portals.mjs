@@ -50,12 +50,12 @@ function qAgeOf(latest) {
   return (NOW_Y - +m[1]) * 4 + (NOW_Q - +m[2]);
 }
 
-/* Thing 1 provenance is the migration marker. A recent-quarter portal without
-   it predates the qualified pipeline and must be rescored even under
-   --stale-only. */
+/* Completed Thing 1 provenance means validated, not merely present. A recent
+   portal whose last run was unvalidated, stale, ingestion-suspect or
+   unavailable must be retried once the runtime or data is restored. */
 export function hasThing1Provenance(financialHealth) {
   const p = financialHealth && financialHealth.thing1Validation;
-  return !!(p && typeof p.status === 'string' && typeof p.available === 'boolean');
+  return !!(p && p.status === 'validated' && p.available === true);
 }
 
 export function shouldRescoreStaleOnly(portal) {

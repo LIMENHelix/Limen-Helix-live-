@@ -55,7 +55,6 @@ _install_statsmodels_compat()
 from python_runtime.helix_app.thing1 import limen_backtest as lbt  # noqa: E402
 from python_runtime.helix_app import thing1 as _thing1  # noqa: E402
 from python_runtime.helix_app import thing0 as _thing0  # noqa: E402
-from python_runtime.helix_app.thing1 import fred as _fred  # noqa: E402
 
 Path.mkdir = _orig_mkdir  # restore for any downstream user code
 
@@ -318,13 +317,6 @@ def score(req: ScoreRequest):
     if not cik:
         raise HTTPException(400, "CIK required")
 
-    # Fail before any external fetch when FRED configuration is absent. The
-    # later adapter call still handles transport failures separately.
-    try:
-        _fred.api_key()
-    except _fred.FredNotConfigured:
-        raise HTTPException(503, "fred-not-configured")
-
     facts = lbt.fetch_sec_facts(cik)
     if facts is None:
         raise HTTPException(502, "SEC EDGAR fetch failed")
@@ -398,9 +390,10 @@ def score(req: ScoreRequest):
             data=data,
         )
 
-    # FRED delta — env-only configuration. Missing configuration is a named
-    # failure before any request; transport failures are best-effort and
-    # disclosed in the response.
+    # FRED delta — required only after Thing 0 permits Thing 1 to run. A
+    # deterministic Thing 0 refusal returns above without needing FRED.
+    # Missing configuration is a named failure before any provider request;
+    # transport failures are best-effort and disclosed in the response.
     fred_result = _fetch_fred_quiet()
     if fred_result.get("reason") == "fred-not-configured":
         raise HTTPException(503, "fred-not-configured")

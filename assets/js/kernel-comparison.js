@@ -306,6 +306,8 @@ function renderDomainPanel() {
     var warnCount = (dom.signals.EARLY_WARNING || 0) + (dom.signals.FRAGILE_STABILITY || 0) + (dom.signals.ORDERED_WATCH || 0);
     var nomCount = (dom.signals.NOMINAL || 0);
     var pressCount = (dom.signals.SECTOR_PRESSURE || 0);
+    var nqCount = (dom.signals.NOT_QUALIFIED || 0);
+    var abstainCount = (dom.signals.ABSTAIN || 0);
 
     h += '<div class="domain-card">';
     h += '<div class="domain-card-name" style="color:' + sc + '">' + dom.name + '</div>';
@@ -316,6 +318,8 @@ function renderDomainPanel() {
     if (warnCount) h += '<div class="domain-card-row"><span>Warn/Watch</span><b style="color:#C9A94E">' + warnCount + '</b></div>';
     if (pressCount) h += '<div class="domain-card-row"><span>Pressure</span><b style="color:#C9A94E">' + pressCount + '</b></div>';
     if (nomCount) h += '<div class="domain-card-row"><span>Nominal</span><b style="color:#5ab5a0">' + nomCount + '</b></div>';
+    if (nqCount) h += '<div class="domain-card-row"><span>Not Qualified</span><b style="color:#888">' + nqCount + '</b></div>';
+    if (abstainCount) h += '<div class="domain-card-row"><span>Abstain</span><b style="color:#C9A94E">' + abstainCount + '</b></div>';
     h += '</div>';
   }
   document.getElementById('domainPanel').innerHTML = h;
