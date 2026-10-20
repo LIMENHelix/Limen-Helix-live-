@@ -114,6 +114,49 @@ check('thing0Eligible has no legacy positive eligibility branch', function () {
     'missing no-evidence abstention');
 });
 
+check('real scorer selection is authoritative over legacy fields', function () {
+  var F = require('../lib/thing-formulas');
+  var legacy = { ds: 0.91, vs: 'validated', a: true, q: '2026Q2' };
+
+  assert.equal(F.thing1Distress(Object.assign({}, legacy, {
+    real: { composite: null, validated: false }
+  }), { degenerate: false }), null, 'null-composite real record borrowed legacy fields');
+
+  assert.equal(F.thing1Distress(Object.assign({}, legacy, { real: null }),
+    { degenerate: false }), null, 'real:null borrowed legacy fields');
+
+  var explicitUndefined = Object.assign({}, legacy);
+  explicitUndefined.real = undefined;
+  assert.equal(F.thing1Distress(explicitUndefined, { degenerate: false }), null,
+    'real:undefined borrowed legacy fields');
+
+  assert.equal(F.thing1Distress(Object.assign({}, legacy, {
+    real: { composite: '0.8', validated: true, inEnvelope: true }
+  }), { degenerate: false }), null, 'non-numeric real composite published');
+
+  assert.equal(F.thing1Distress(Object.assign({}, legacy, {
+    real: { composite: 0.8, validated: false, inEnvelope: true }
+  }), { degenerate: false }), null, 'unvalidated real record published');
+
+  assert.equal(F.thing1Distress(Object.assign({}, legacy, {
+    real: { composite: 0.8, validated: true, inEnvelope: false }
+  }), { degenerate: false }), null, 'out-of-envelope real record published');
+
+  assert.equal(F.thing1Distress(Object.assign({}, legacy, {
+    real: { composite: 0.8, validated: true, inEnvelope: true, error: 'http 502' }
+  }), { degenerate: false }), null, 'errored real record published');
+
+  var coherent = F.thing1Distress({
+    real: { composite: 0.8, validated: true, inEnvelope: true, alert: false, error: null, isFinancial: false }
+  }, { degenerate: false });
+  assert.ok(coherent && coherent.validated === true && coherent.score === 0.8,
+    'coherent real control did not publish');
+
+  var legacyOnly = F.thing1Distress(legacy, { degenerate: false });
+  assert.ok(legacyOnly && legacyOnly.score === 0.91 && legacyOnly.alert === true,
+    'validated legacy fallback without a real property was lost');
+});
+
 // ── Brain signals: marshal evidence, gate before Thing 1 ───────────────────
 var brain = read('handlers/brain-signals.js');
 check('brain-signals marshals Thing 0 evidence', function () {
@@ -597,6 +640,7 @@ async function handlerCheck() {
     'EOG still publishes beside unvalidated Thing 1 data');
   assert.equal(payload.publishable.length, 0,
     'unvalidated selected rows still publish');
+  assert.equal(payload.flagged, 0, 'unvalidated rows produced a fabricated alert');
   assert.ok(!/Scored live via the validated kernel/.test(payload.note),
     'note still claims a live validated kernel for unvalidated rows');
 
