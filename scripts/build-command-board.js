@@ -369,6 +369,7 @@ async function main() {
     _kernel_sha256: '3ce4a652ff8af4b4ea26ad1811f5cb31f746b5abceda05470d921f6e7a482d20',
     _total: results.length,
     _expected: eligible.length,
+    /* Last-invocation counts, not corpus coverage. */
     _scored: scored,
     _resumed: resumed,
     _errors: errors,
@@ -393,6 +394,7 @@ function writeOutput(rows, total, scored, errors, resumed, inProgress) {
     _kernel_sha256: '3ce4a652ff8af4b4ea26ad1811f5cb31f746b5abceda05470d921f6e7a482d20',
     _total: rows.length,
     _expected: total,
+    /* Last-invocation counts, not corpus coverage. */
     _scored: scored,
     _resumed: resumed,
     _errors: errors,

@@ -650,6 +650,8 @@ async function main() {
   const output = {
     _generated: new Date().toISOString(),
     _total: results.length,
+    /* Last-invocation counts, not corpus coverage. A targeted refresh can set
+       _scored to a subset even when every row carries evidence. */
     _scored: priorMetric('_scored', scored),
     _resumed: priorMetric('_resumed', skipped),
     _errors: priorMetric('_errors', errors),

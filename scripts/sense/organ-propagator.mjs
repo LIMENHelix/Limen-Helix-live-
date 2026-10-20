@@ -28,6 +28,22 @@ export const order = 90;
 
 const STALE_HOURS = 6;
 
+/* Pure Path-C count. This is the production calculation extracted so a focused
+   test can exercise the positive control without re-implementing the formula. */
+export function countPathCOverCap(companies, manifestIndex, cap, alertMult) {
+  if (!Number.isFinite(cap) || !Number.isFinite(alertMult)) return null;
+  const list = Array.isArray(companies) ? companies : [];
+  const portalCiks = new Set(Object.values(manifestIndex || {})
+    .map((portal) => String(portal?.cik ?? '').replace(/^0+/, ''))
+    .filter(Boolean));
+  return list.filter((row) => {
+    const composite = Number(row.co) || 0;
+    const rawStress = composite * (row.a ? alertMult : 1);
+    const cik = String(row.c ?? '').replace(/^0+/, '');
+    return portalCiks.has(cik) && row.path === 'C' && rawStress > cap;
+  }).length;
+}
+
 export function sense() {
   const io = inputs();
   const present = { propagator: fs.existsSync(PROPAGATOR), snapshot: fs.existsSync(SNAPSHOT) };
@@ -63,16 +79,9 @@ export function sense() {
   const manifest = io.json(COMPANIES_MANIFEST, 'assets/data/companies-manifest.json');
   const cap = Number(snap?.stats?.intrinsicPropagationCap);
   const alertMult = Number(snap?.stats?.alertMult);
-  if (cb && manifest && Number.isFinite(cap) && Number.isFinite(alertMult)) {
-    const portalCiks = new Set(Object.values(manifest.index || {})
-      .map((portal) => String(portal?.cik ?? '').replace(/^0+/, ''))
-      .filter(Boolean));
-    pathCCount = (cb.companies || []).filter((row) => {
-      const composite = Number(row.co) || 0;
-      const rawStress = composite * (row.a ? alertMult : 1);
-      const cik = String(row.c ?? '').replace(/^0+/, '');
-      return portalCiks.has(cik) && row.path === 'C' && rawStress > cap;
-    }).length;
+  if (cb && manifest) {
+    const counted = countPathCOverCap(cb.companies, manifest.index, cap, alertMult);
+    if (counted !== null) pathCCount = counted;
   }
 
   const attention = [];
