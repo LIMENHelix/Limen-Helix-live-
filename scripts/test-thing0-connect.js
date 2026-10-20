@@ -118,8 +118,8 @@ check('thing0Eligible has no legacy positive eligibility branch', function () {
 var brain = read('handlers/brain-signals.js');
 check('brain-signals marshals Thing 0 evidence', function () {
   assert.ok(brain.includes('thing0Evidence'), 'evidence counter missing');
-  assert.ok(brain.includes('c.thing0 = _thing0Of(r)'), 'evidence is not attached to rows');
-  assert.ok(brain.includes('_mergeThing0Evidence('), 'per-ticker merge missing');
+  assert.ok(brain.includes('row.thing0 = _thing0Of(r)'), 'evidence is not attached to rows');
+  assert.ok(brain.includes('_mergeThing0Evidence('), 'per-ticker selection missing');
   assert.ok(brain.includes('no company is qualified for Thing 1 or action authority'),
     'legacy-unqualified note missing');
 });
@@ -258,22 +258,41 @@ check('Helix Report adapter carries Thing 0 and null-safe path scores', function
     'client envelope can overwrite the server refusal status');
 });
 
-check('brain-signals merges Thing 0 evidence per ticker', function () {
+check('brain-signals selects coherent Thing 0 rows per ticker', function () {
   var emitter = require('../handlers/brain-signals');
-  var merged = emitter._mergeThing0Evidence(
-    { ticker: 'X', composite: 0.9, alert: false },
-    { thing0: { qualification_status: 'qualified', permits_thing1_use: true } }
-  );
-  assert.equal(merged.composite, 0.9);
-  assert.ok(merged.thing0 && merged.thing0.permits_thing1_use === true,
-    'fallback Thing 0 evidence was not attached');
-  var preferred = { ticker: 'X', thing0: { qualification_status: 'qualified' } };
+  var preferred = { ticker: 'X', composite: 0.9, alert: false, validated: true, inEnvelope: true };
+  var fallback = {
+    ticker: 'X', composite: null, alert: false, validated: false, inEnvelope: false,
+    thing0: { qualification_status: 'qualified', permits_thing1_use: true }
+  };
+  var selected = emitter._mergeThing0Evidence(preferred, fallback);
+  assert.strictEqual(selected, fallback,
+    'preferred Thing 1 fields were combined with fallback Thing 0 evidence');
+  assert.equal(selected.composite, null, 'old preferred score survived beside current evidence');
+  assert.equal(selected.validated, false, 'fallback validation state was not preserved');
+
+  var preferredOwn = {
+    ticker: 'X', composite: 0.4, validated: true, inEnvelope: true,
+    thing0: { qualification_status: 'qualified', permits_thing1_use: true }
+  };
   assert.strictEqual(
-    emitter._mergeThing0Evidence(preferred, { thing0: { qualification_status: 'not_qualified' } }),
-    preferred, 'preferred Thing 0 evidence was overwritten');
-  var untouched = { ticker: 'Y', composite: 0.5 };
-  emitter._mergeThing0Evidence(untouched, { thing0: { qualification_status: 'qualified' } });
-  assert.equal(untouched.thing0, undefined, 'source snapshot was mutated');
+    emitter._mergeThing0Evidence(preferredOwn, fallback), preferredOwn,
+    'preferred response with its own Thing 0 was not used wholesale');
+
+  var diagnostic = { ticker: 'Y', composite: 0.5 };
+  assert.strictEqual(emitter._mergeThing0Evidence(diagnostic, { ticker: 'Y' }), diagnostic,
+    'no-evidence row did not remain the diagnostic source');
+  assert.equal(emitter._thing0Of(diagnostic), null, 'diagnostic row acquired Thing 0 evidence');
+
+  var untouchedPreferred = { ticker: 'Z', composite: 0.7 };
+  var untouchedFallback = { ticker: 'Z', thing0: { qualification_status: 'qualified' } };
+  var preferredBefore = JSON.stringify(untouchedPreferred);
+  var fallbackBefore = JSON.stringify(untouchedFallback);
+  emitter._mergeThing0Evidence(untouchedPreferred, untouchedFallback);
+  assert.equal(JSON.stringify(untouchedPreferred), preferredBefore,
+    'preferred source row was mutated');
+  assert.equal(JSON.stringify(untouchedFallback), fallbackBefore,
+    'fallback source row was mutated');
 
   var errored = { ticker: 'GEV', error: 'http 502' };
   var fallbackScore = {
@@ -281,13 +300,39 @@ check('brain-signals merges Thing 0 evidence per ticker', function () {
     thing0: { qualification_status: 'qualified', permits_thing1_use: true }
   };
   assert.strictEqual(emitter._mergeThing0Evidence(errored, fallbackScore), fallbackScore,
-    'errored preferred row was not replaced by the fallback');
+    'errored preferred row was not replaced by the coherent fallback');
   var loneError = emitter._mergeThing0Evidence(errored, null);
   assert.strictEqual(loneError, errored, 'errored preferred row was rewritten without a fallback');
   assert.equal(emitter._thing0Of(loneError), null, 'errored row was given Thing 0 evidence');
+
+  var crossTicker = emitter._mergeThing0Evidence(
+    { ticker: 'AAA', composite: 0.9 },
+    { ticker: 'BBB', thing0: { qualification_status: 'qualified', permits_thing1_use: true } });
+  assert.equal(crossTicker.ticker, 'AAA', 'cross-ticker fallback was selected');
+  assert.equal(emitter._thing0Of(crossTicker), null, 'Thing 0 evidence crossed tickers');
+
   var F = require('../lib/thing-formulas');
   assert.equal(F.thing0Eligible({ ticker: 'GEV', real: loneError }).eligible, false,
     'an errored row without a fallback qualified');
+
+  var coherent = {
+    t: 'CTRL',
+    thing0: { qualification_status: 'qualified', permits_thing1_use: true },
+    real: { composite: 0.8, alert: false, inEnvelope: true, validated: true, error: null, isFinancial: false }
+  };
+  assert.equal(F.thing0Eligible(coherent).eligible, true,
+    'coherent qualified control failed Thing 0');
+  var signal = F.thing1Distress(coherent, { degenerate: false });
+  assert.ok(signal && signal.validated === true && signal.score === 0.8,
+    'coherent qualified + validated control did not publish');
+
+  var unvalidated = {
+    t: 'CTRL',
+    thing0: { qualification_status: 'qualified', permits_thing1_use: true },
+    real: { composite: 0.8, alert: false, inEnvelope: true, validated: false, error: null, isFinancial: false }
+  };
+  assert.equal(F.thing1Distress(unvalidated, { degenerate: false }), null,
+    'coherent unvalidated control did not abstain');
 });
 
 check('snapshot --resume retries incomplete qualification', function () {
@@ -519,6 +564,8 @@ check('eligibility probe honors a Thing 0 refusal', function () {
 
 // ── Handler contract against the current static snapshots ──────────────────
 async function handlerCheck() {
+  var cbPath = require.resolve('../assets/data/command-board-data.json');
+  var cbBefore = JSON.stringify(require(cbPath));
   var handler = require('../handlers/brain-signals');
   var payload = null;
   await handler(
@@ -530,6 +577,8 @@ async function handlerCheck() {
     console.log('  SKIP: handler integration (command-board data unavailable)');
     return;
   }
+  assert.equal(JSON.stringify(require(cbPath)), cbBefore,
+    'handler mutated command-board-data source rows');
 
   /* The checked-in Command Board now carries scorer-produced Thing 0 evidence.
      The handler must detect it even though the energy distress snapshot does
@@ -544,16 +593,28 @@ async function handlerCheck() {
   assert.ok(payload.thing0Evidence > 0, JSON.stringify(payload));
   assert.ok(payload.thing0Evidence <= energyWithThing0.length,
     'handler reported more Thing 0 evidence than the Command Board source');
+  assert.ok(!payload.publishable.some(function (row) { return row.ticker === 'EOG'; }),
+    'EOG still publishes beside unvalidated Thing 1 data');
+  assert.equal(payload.publishable.length, 0,
+    'unvalidated selected rows still publish');
+  assert.ok(!/Scored live via the validated kernel/.test(payload.note),
+    'note still claims a live validated kernel for unvalidated rows');
 
-  /* The merge is per ticker and returns a copy. It must not mutate either
-     source row or promote Thing 1 validation. */
-  var preferred = { validated: false, inEnvelope: false, composite: 1 };
-  var fallback = { thing0: { qualification_status: 'qualified', permits_thing1_use: true } };
+  /* Selection is wholesale and must not mutate either source row or promote
+     Thing 1 validation. */
+  var preferred = { ticker: 'X', validated: false, inEnvelope: false, composite: 1 };
+  var fallback = {
+    ticker: 'X', validated: false, composite: null, inEnvelope: false,
+    thing0: { qualification_status: 'qualified', permits_thing1_use: true }
+  };
   var preferredBefore = JSON.stringify(preferred);
   var fallbackBefore = JSON.stringify(fallback);
   var merged = handler._mergeThing0Evidence(preferred, fallback);
+  assert.strictEqual(merged, fallback,
+    'Thing 0 evidence was attached to preferred Thing 1 fields');
   assert.equal(merged.thing0.qualification_status, 'qualified');
-  assert.equal(merged.validated, false, 'Thing 0 evidence promoted Thing 1 validation');
+  assert.equal(merged.validated, false, 'Thing 1 validation was changed');
+  assert.equal(merged.composite, null, 'preferred score survived the coherent fallback');
   assert.equal(JSON.stringify(preferred), preferredBefore, 'preferred source row was mutated');
   assert.equal(JSON.stringify(fallback), fallbackBefore, 'fallback source row was mutated');
   assert.equal(handler._thing1ValidatedRow(merged), false,

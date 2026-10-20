@@ -42,6 +42,7 @@ try {
     if (!c || !c.t || !c.d) return;
     var _dk = String(c.d).toLowerCase();
     (ELIG[_dk] = ELIG[_dk] || {})[c.t] = {
+      ticker: c.t,
       composite: (typeof c.co === 'number') ? c.co : null,
       alert: !!c.a,
       inEnvelope: /ELIGIBLE/.test(String(c.es || '')),
@@ -66,27 +67,27 @@ function _thing1ValidatedRow(row) {
     && (row.validated === true || row.validation_status === 'validated'));
 }
 
+function _tickerOf(row) {
+  return row && (row.ticker || row.t);
+}
+
 /**
- * Merge Thing 0 evidence per ticker. The preferred score row wins for Thing 1
- * fields, but command-board rows can carry Thing 0 evidence the energy snapshot
- * lacks. The merge is a copy; neither source snapshot is mutated.
+ * Compatibility name. Select one coherent response wholesale; never attach
+ * Thing 0 evidence from one snapshot to Thing 1 fields from another. Ticker
+ * mismatch prevents a fallback row from crossing identities.
  */
 function _mergeThing0Evidence(preferred, fallback) {
-  if (!preferred) return fallback || null;
-  /* An errored preferred row is not a score. Attaching Thing 0 evidence to it
-     would let thing1Distress fall through to the legacy ds/vs path and publish
-     the domain default. Use the fallback row wholesale, or leave the error row
-     unqualified when there is no fallback. */
-  if (preferred.error) return fallback || preferred;
-  if (_thing0Of(preferred)) return preferred;
-  var evidence = _thing0Of(fallback);
-  if (!evidence) return preferred;
-  var merged = {};
-  for (var k in preferred) {
-    if (Object.prototype.hasOwnProperty.call(preferred, k)) merged[k] = preferred[k];
+  var pt = _tickerOf(preferred);
+  var ft = _tickerOf(fallback);
+  if (pt && ft && String(pt).toUpperCase() !== String(ft).toUpperCase()) {
+    return preferred || fallback || null;
   }
-  merged.thing0 = evidence;
-  return merged;
+  /* An errored preferred row is not a score. Use a coherent fallback wholesale,
+     or leave the error row unqualified when no fallback exists. */
+  if (preferred && preferred.error) return fallback || preferred;
+  if (preferred && _thing0Of(preferred)) return preferred;
+  if (fallback && _thing0Of(fallback)) return fallback;
+  return preferred || fallback || null;
 }
 
 function run(domain) {
@@ -105,28 +106,41 @@ function run(domain) {
   var preferredMap = REAL[dq] || null;
   var fallbackMap = ELIG[dq] || null;
   var hasReal = false;
+  var enriched = [];
   comps.forEach(function (c) {
     var r = preferredMap
       ? _mergeThing0Evidence(preferredMap[c.t], fallbackMap && fallbackMap[c.t])
       : (fallbackMap && fallbackMap[c.t]);
-    if (!r) return;
-    c.real = r;
+    /* Copy the source row before attaching derived fields. The loaded
+       command-board snapshot is shared by every request and must not be mutated. */
+    var row = {};
+    for (var k in c) {
+      if (Object.prototype.hasOwnProperty.call(c, k)) row[k] = c[k];
+    }
+    row.real = r || null;
     // Only a scorer-produced Thing 0 object is qualification evidence.
-    c.thing0 = _thing0Of(r);
-    if (c.thing0) out.thing0Evidence++;
-    if (_thing1ValidatedRow(r)) { hasReal = true; out.scanned++; }
+    row.thing0 = _thing0Of(r);
+    enriched.push(row);
+    if (row.thing0) out.thing0Evidence++;
+    if (_thing1ValidatedRow(r)) {
+      out.scanned++;
+      /* Only a coherent Thing 0-qualified row can support the "scored live"
+         note. A validated diagnostic row without Thing 0 evidence is not a
+         publishable live result. */
+      if (row.thing0 && F.thing0Eligible(row).eligible) hasReal = true;
+    }
   });
 
-  var domainStats = { degenerate: F.isDegenerate(comps.map(function (c) { return c.ds; })) };
+  var domainStats = { degenerate: F.isDegenerate(enriched.map(function (row) { return row.ds; })) };
   out.degenerate = domainStats.degenerate && !hasReal;   // real scores override the degenerate fallback
 
   var pubSeen = {};
-  comps.forEach(function (c) {
+  enriched.forEach(function (c) {                  // c is the copied, coherent row
     if (pubSeen[c.t]) return;                     // dedup tickers (command-board can have 2 CIK rows)
     var t0 = F.thing0Eligible(c);
     if (!t0.eligible) return;
     out.eligible++;
-    var t1 = F.thing1Distress(c, domainStats);   // null = abstain (no fake score)
+    var t1 = F.thing1Distress(c, domainStats);    // null = abstain (no fake score)
     if (!t1) return;
     pubSeen[c.t] = 1;
     if (t1.band === 'elevated') out.flagged++;
