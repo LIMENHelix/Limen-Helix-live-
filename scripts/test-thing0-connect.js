@@ -530,18 +530,100 @@ async function handlerCheck() {
     console.log('  SKIP: handler integration (command-board data unavailable)');
     return;
   }
-  var snapshot = require('../assets/data/energy-distress-scores.json');
-  var snapshotHasThing0 = (snapshot.scores || []).some(function (s) {
-    return s.thing0 || s.thing0Eligibility || s.thing0PermitsThing1;
+
+  /* The checked-in Command Board now carries scorer-produced Thing 0 evidence.
+     The handler must detect it even though the energy distress snapshot does
+     not carry it, and the merge must remain per ticker. */
+  var eligible = require('../assets/data/command-board-eligible.json');
+  var energyWithThing0 = (eligible.companies || []).filter(function (c) {
+    return c && String(c.d).toLowerCase() === 'energy'
+      && (c.t0 || c.thing0 || c.thing0Eligibility);
   });
-  if (!snapshotHasThing0) {
-    assert.equal(payload.thing0Evidence, 0, JSON.stringify(payload));
-    assert.equal(payload.eligible, 0, JSON.stringify(payload));
-    assert.equal(payload.publishable.length, 0, JSON.stringify(payload));
-    assert.ok(/Thing 0 qualification evidence is unavailable/.test(payload.note),
-      payload.note);
-  } else {
-    assert.ok(payload.thing0Evidence > 0, JSON.stringify(payload));
+  assert.ok(energyWithThing0.length > 0,
+    'current Command Board energy snapshot carries no Thing 0 evidence');
+  assert.ok(payload.thing0Evidence > 0, JSON.stringify(payload));
+  assert.ok(payload.thing0Evidence <= energyWithThing0.length,
+    'handler reported more Thing 0 evidence than the Command Board source');
+
+  /* The merge is per ticker and returns a copy. It must not mutate either
+     source row or promote Thing 1 validation. */
+  var preferred = { validated: false, inEnvelope: false, composite: 1 };
+  var fallback = { thing0: { qualification_status: 'qualified', permits_thing1_use: true } };
+  var preferredBefore = JSON.stringify(preferred);
+  var fallbackBefore = JSON.stringify(fallback);
+  var merged = handler._mergeThing0Evidence(preferred, fallback);
+  assert.equal(merged.thing0.qualification_status, 'qualified');
+  assert.equal(merged.validated, false, 'Thing 0 evidence promoted Thing 1 validation');
+  assert.equal(JSON.stringify(preferred), preferredBefore, 'preferred source row was mutated');
+  assert.equal(JSON.stringify(fallback), fallbackBefore, 'fallback source row was mutated');
+  assert.equal(handler._thing1ValidatedRow(merged), false,
+    'Thing 0 evidence alone made Thing 1 validated');
+
+  /* The board classifies a qualified but unvalidated row as ABSTAIN, never
+     ALERT or NO_ALERT. */
+  var vm = require('vm');
+  var boardSource = read('assets/js/kernel-comparison.js');
+  var boardStart = boardSource.indexOf('function _thing0Permits');
+  var boardEnd = boardSource.indexOf('function _initBoard');
+  assert.ok(boardStart !== -1 && boardEnd > boardStart,
+    'board classification functions not found');
+  var sandbox = {};
+  vm.createContext(sandbox);
+  vm.runInContext(boardSource.slice(boardStart, boardEnd) +
+    '\nthis._thing1Result = _thing1Result;', sandbox);
+  var boardBase = {
+    _thing0Status: 'QUALIFIED',
+    t0: { permits_thing1_use: true },
+    kid: 'limen_backtest.py',
+    a: false
+  };
+  assert.equal(sandbox._thing1Result(Object.assign({}, boardBase, {
+    vs: 'unvalidated_after_modification'
+  })), 'ABSTAIN', 'unvalidated row did not abstain');
+  assert.equal(sandbox._thing1Result(Object.assign({}, boardBase, {
+    vs: 'unavailable'
+  })), 'ABSTAIN', 'unavailable row did not abstain');
+  assert.equal(sandbox._thing1Result(Object.assign({}, boardBase, {
+    vs: 'validated'
+  })), 'NO_ALERT', 'validated no-alert row did not classify as NO_ALERT');
+  assert.equal(sandbox._thing1Result(Object.assign({}, boardBase, {
+    vs: 'validated', a: true
+  })), 'ALERT', 'validated alert row did not classify as ALERT');
+  assert.equal(sandbox._thing1Result(Object.assign({}, boardBase, {
+    _thing0Status: 'NOT_QUALIFIED', vs: 'validated'
+  })), null, 'Thing 0 refusal did not suppress the Thing 1 result');
+
+  /* Retain the missing-evidence fail-closed path with isolated in-memory
+     fixtures. The checked-in snapshot now has evidence; this coverage must not
+     disappear with it. */
+  var Module = require('module');
+  var originalLoad = Module._load;
+  var handlerPath = require.resolve('../handlers/brain-signals');
+  delete require.cache[handlerPath];
+  try {
+    Module._load = function (request, parent, isMain) {
+      if (request === '../assets/data/command-board-data.json') {
+        return { companies: [{ n: 'Fixture Co', t: 'FIX', d: 'energy', ds: 0.5 }] };
+      }
+      if (request === '../assets/data/energy-distress-scores.json') return { scores: [] };
+      if (request === '../assets/data/command-board-eligible.json') return { companies: [] };
+      return originalLoad.apply(this, arguments);
+    };
+    var fixtureHandler = require('../handlers/brain-signals');
+    var fixturePayload = null;
+    await fixtureHandler(
+      { url: '/api/brain-signals?domain=energy' },
+      { setHeader: function () {}, end: function (s) { fixturePayload = JSON.parse(s); } }
+    );
+    assert.ok(fixturePayload, 'fixture handler did not respond');
+    assert.equal(fixturePayload.thing0Evidence, 0, JSON.stringify(fixturePayload));
+    assert.equal(fixturePayload.eligible, 0, JSON.stringify(fixturePayload));
+    assert.equal(fixturePayload.publishable.length, 0, JSON.stringify(fixturePayload));
+    assert.ok(/Thing 0 qualification evidence is unavailable/.test(fixturePayload.note),
+      fixturePayload.note);
+  } finally {
+    Module._load = originalLoad;
+    delete require.cache[handlerPath];
   }
 }
 

@@ -52,6 +52,8 @@ function flag(name, def) {
 const BATCH = parseInt(flag('batch', 0), 10) || 0;
 const RESUME = !!flag('resume', false);
 const DRY_RUN = !!flag('dry-run', false);
+const ATOMIC = !!flag('atomic', false);
+const THING0_MIGRATION = !!flag('thing0-migration', false);
 
 // Sector → domainId mapping (imperfect — some sectors map to multiple LIMEN
 // domains; pick the most representative). domainStress overlay reads the
@@ -106,43 +108,72 @@ function deriveTrajectory(d) {
   return 'STABLE';
 }
 
-function postScore(cik, retries = 1) {
+async function postScore(cik, retries = 1) {
   const padded = ('0000000000' + String(cik).replace(/^0+/, '')).slice(-10);
   const body = JSON.stringify({ cik: padded });
-  const u = new URL(API_URL);
-  const opts = {
-    method: 'POST',
-    hostname: u.hostname,
-    path: u.pathname + u.search,
-    port: u.port || 443,
-    headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': Buffer.byteLength(body),
-      'User-Agent': 'limen-command-board-builder',
-    },
-    timeout: TIMEOUT_MS,
-  };
-  return new Promise((resolve, reject) => {
-    const req = https.request(opts, (res) => {
-      let data = '';
-      res.on('data', (c) => (data += c));
-      res.on('end', () => {
-        if (res.statusCode >= 400) return reject(new Error('HTTP ' + res.statusCode + ': ' + data.slice(0, 160)));
-        try { resolve(JSON.parse(data)); } catch (e) { reject(e); }
-      });
-    });
-    req.on('error', (e) => {
-      if (retries > 0) return setTimeout(() => postScore(cik, retries - 1).then(resolve).catch(reject), 1500);
-      reject(e);
-    });
-    req.on('timeout', () => {
-      req.destroy();
-      if (retries > 0) return setTimeout(() => postScore(cik, retries - 1).then(resolve).catch(reject), 1500);
-      reject(new Error('timeout'));
-    });
-    req.write(body);
-    req.end();
-  });
+  const base = new URL(API_URL);
+  const bypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    let url = API_URL;
+    let cookie = '';
+    try {
+      for (let redirects = 0; redirects < 3; redirects++) {
+        const headers = {
+          'Content-Type': 'application/json',
+          'User-Agent': 'limen-command-board-builder',
+        };
+        if (bypass) {
+          headers['x-vercel-protection-bypass'] = bypass;
+          headers['x-vercel-set-bypass-cookie'] = 'true';
+        }
+        if (cookie) headers['Cookie'] = cookie;
+
+        const res = await fetch(url, {
+          method: 'POST',
+          headers,
+          body,
+          redirect: 'manual',
+          signal: AbortSignal.timeout(TIMEOUT_MS),
+        });
+
+        if (res.status === 307 || res.status === 308) {
+          const loc = res.headers.get('location');
+          if (!loc) throw new Error('HTTP ' + res.status + ' redirect without Location');
+          const next = new URL(loc, url);
+          if (next.origin !== base.origin) {
+            throw new Error('redirect to unapproved origin: ' + next.origin);
+          }
+          const setCookies = typeof res.headers.getSetCookie === 'function'
+            ? res.headers.getSetCookie()
+            : (res.headers.get('set-cookie') ? [res.headers.get('set-cookie')] : []);
+          for (const sc of setCookies) {
+            const pair = sc.split(';')[0];
+            if (pair) cookie = cookie ? cookie + '; ' + pair : pair;
+          }
+          url = next.href;
+          continue;
+        }
+
+        if (res.status < 200 || res.status >= 300) {
+          const text = await res.text().catch(() => '');
+          const loc = res.headers.get('location') ? ' location=' + res.headers.get('location') : '';
+          throw new Error('HTTP ' + res.status + loc + ': ' + text.slice(0, 160));
+        }
+        const ctype = res.headers.get('content-type') || '';
+        if (!/application\/json/i.test(ctype)) {
+          const text = await res.text().catch(() => '');
+          throw new Error('Non-JSON content-type "' + ctype + '" (HTTP ' + res.status + '): ' + text.slice(0, 120));
+        }
+        const text = await res.text();
+        try { return JSON.parse(text); } catch (e) { throw new Error('parse error: ' + e.message); }
+      }
+      throw new Error('too many redirects');
+    } catch (e) {
+      if (attempt >= retries) throw e;
+      await new Promise(r => setTimeout(r, 1500));
+    }
+  }
 }
 
 function numOrNull(v) {
@@ -162,6 +193,33 @@ function isResumeComplete(row) {
     && row.kid === 'limen_backtest.py');
 }
 
+function normCik(c) {
+  return String(c == null ? '' : c).replace(/^0+/, '') || '0';
+}
+
+function hasThing0Evidence(row) {
+  /* Migration completion means the scorer returned a well-formed Thing Zero
+     object. It does not require Thing One validation; a refusal is still
+     evidence and must remain visible to the board as an abstention. */
+  const t0 = row && (row.t0 || row.thing0 || row.thing0Eligibility);
+  return !!(t0
+    && typeof t0 === 'object'
+    && !Array.isArray(t0)
+    && typeof t0.qualification_status === 'string'
+    && typeof t0.permits_thing1_use === 'boolean');
+}
+
+function writeOutputAtomic(out) {
+  const tmp = OUTPUT_PATH + '.tmp-' + process.pid;
+  try {
+    fs.writeFileSync(tmp, JSON.stringify(out));
+    fs.renameSync(tmp, OUTPUT_PATH);
+  } catch (e) {
+    try { fs.unlinkSync(tmp); } catch (_) {}
+    throw e;
+  }
+}
+
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function main() {
@@ -174,18 +232,39 @@ async function main() {
   const eligible = frontier.companies.filter(c => c.envelope_status === 'ELIGIBLE_NOW');
   console.log('frontier: ' + frontier.companies.length + ' total, ' + eligible.length + ' ELIGIBLE_NOW');
 
-  // Resume: skip CIKs already in output
+  // Resume: load every existing row so a batch never drops unprocessed rows.
   let existing = {};
+  let existingOrder = [];
   if (RESUME && fs.existsSync(OUTPUT_PATH)) {
     try {
       const prev = JSON.parse(fs.readFileSync(OUTPUT_PATH, 'utf8'));
-      (prev.companies || []).forEach(c => { existing[c.c] = c; });
-      console.log('resume: ' + Object.keys(existing).length + ' rows already scored');
+      (prev.companies || []).forEach(c => {
+        const key = normCik(c.c);
+        if (!(key in existing)) {
+          existing[key] = c;
+          existingOrder.push(key);
+        }
+      });
+      console.log('resume: ' + existingOrder.length + ' rows loaded');
     } catch (e) { console.log('resume: prior file unreadable, starting fresh'); }
   }
 
-  let queue = eligible.slice();
+  const complete = (row) => THING0_MIGRATION ? hasThing0Evidence(row) : isResumeComplete(row);
+  const frontierKeys = eligible.map(c => normCik(c.cik));
+  const order = existingOrder.slice();
+  for (const key of frontierKeys) {
+    if (!order.includes(key)) order.push(key);
+  }
+
+  const incomplete = eligible.filter(c => !complete(existing[normCik(c.cik)]));
+  let queue = incomplete;
   if (BATCH > 0) queue = queue.slice(0, BATCH);
+  console.log('incomplete: ' + incomplete.length + ', batch: ' + queue.length);
+
+  if (!queue.length) {
+    console.log('Nothing to score — every eligible row already carries the required evidence. Exiting without writing.');
+    return;
+  }
 
   if (DRY_RUN) {
     console.log('DRY_RUN — would score ' + queue.length + ' CIKs:');
@@ -194,59 +273,75 @@ async function main() {
     return;
   }
 
-  const results = [];
-  let scored = 0, errors = 0, resumed = 0, rescoredLegacy = 0;
+  const resultsByCik = {};
+  for (const key of existingOrder) resultsByCik[key] = existing[key];
+  let scored = 0, errors = 0, rescoredLegacy = 0;
   const start = Date.now();
 
   for (let i = 0; i < queue.length; i++) {
     const c = queue[i];
-    const prior = existing[c.cik];
-    /* --resume only skips a terminal successful qualification. Legacy rows and
-       transient/incomplete refusals are rescored. */
-    if (isResumeComplete(prior)) {
-      results.push(prior); resumed++; continue;
+    const key = normCik(c.cik);
+    const prior = existing[key];
+    /* Normal resume keeps the terminal-success predicate. Thing Zero migration
+       uses scorer-returned evidence as its completion criterion. */
+    if (!THING0_MIGRATION && isResumeComplete(prior)) {
+      resultsByCik[key] = prior;
+      continue;
     }
-    if (prior) rescoredLegacy++;
+    if (prior && !complete(prior)) rescoredLegacy++;
 
-    const domainId = SECTOR_TO_DOMAIN[c.primary_sector] || 'trade';
-    const slug = deriveSlug(c.ticker, c.name);
-    const ds = DOMAIN_STRESS[domainId] || 0.2;
+    const domainId = (prior && prior.d) || SECTOR_TO_DOMAIN[c.primary_sector] || 'trade';
+    const slug = (prior && prior.s) || deriveSlug(c.ticker, c.name);
+    const ds = (prior && typeof prior.ds === 'number') ? prior.ds : (DOMAIN_STRESS[domainId] || 0.2);
 
     try {
       const d = await postScore(c.cik);
       const t0 = d.thing0_eligibility || d.thing0Eligibility || null;
+      if ((ATOMIC || THING0_MIGRATION) && !hasThing0Evidence({ t0 })) {
+        throw new Error('Thing Zero evidence missing or malformed for CIK ' + c.cik);
+      }
       const permitted = !!(t0 && t0.permits_thing1_use === true);
       const validated = d.validation_status === 'validated';
-      results.push({
-        n: c.name, t: c.ticker || '', c: c.cik, s: slug, d: domainId,
+      const row = {
+        n: (prior && prior.n) || c.name,
+        t: (prior && prior.t) || c.ticker || '',
+        c: (prior && prior.c) || c.cik,
+        s: slug,
+        d: domainId,
         p: d.dominant_phase || '?',
         tr: deriveTrajectory(d),
         co: numOrNull(d.composite_score),
-        a: !!d.alert,
+        a: d.alert === true,
         path: d.pathway || null,
         pa: numOrNull(d.path_a_score),
         pb: numOrNull(d.path_b_score),
         pc: numOrNull(d.path_c_score),
         fq: d.first_alert_quarter || null,
-        q:  d.latest_quarter || null,
+        q: d.latest_quarter || null,
         hist: d.history_quarters || 0,
         kid: d.kernel_id || 'limen_backtest.py',
         // Record what the scorer actually returned; never stamp validated.
         vs: d.validation_status || 'unavailable',
         ds: ds,
-        // Envelope-aware fields (new — page can render badge if it wants)
         es: !permitted ? 'NOT_QUALIFIED_BY_THING0'
           : (validated ? 'ELIGIBLE_NOW' : 'OUT_OF_ENVELOPE'),
-        // Authoritative Thing 0 evidence for downstream consumers.
         t0: t0,
-        sec: c.primary_sector || null,
-        sic: c.primary_sic || null,
-      });
+        sec: c.primary_sector || (prior && prior.sec) || null,
+        sic: c.primary_sic || (prior && prior.sic) || null,
+      };
+      /* Preserve fields the existing feed owns that this producer does not
+         recompute. Identity, domain and slug are preserved above. */
+      for (const k of ['subTag', 'hp', 'source', 'eligibility_status_at_build']) {
+        if (prior && prior[k] !== undefined && row[k] === undefined) row[k] = prior[k];
+      }
+      resultsByCik[key] = row;
       scored++;
     } catch (e) {
-      // Surprising — frontier said ELIGIBLE_NOW but API failed. Record it
-      // so the page can show the rare anomaly without crashing.
-      results.push({
+      if (ATOMIC || THING0_MIGRATION) {
+        throw new Error('Scorer failure for CIK ' + c.cik + ': ' + (e.message || String(e)));
+      }
+      // Legacy non-atomic mode only. Migration mode never writes error rows.
+      resultsByCik[key] = {
         n: c.name, t: c.ticker || '', c: c.cik, s: slug, d: domainId,
         p: '?', tr: 'ERROR_AT_REBUILD', co: 0, a: false,
         path: null, pa: 0, pb: 0, pc: 0,
@@ -254,20 +349,35 @@ async function main() {
         kid: 'limen_backtest.py', vs: 'rebuild_error', ds: ds,
         es: 'REBUILD_ERROR', sec: c.primary_sector || null, sic: c.primary_sic || null,
         rebuild_error: (e.message || String(e)).slice(0, 200),
-      });
+      };
       errors++;
     }
 
     if ((scored + errors) % 25 === 0 && (scored + errors) > 0) {
-      console.log('  ' + (scored + errors + resumed) + '/' + queue.length + ' (scored=' + scored + ' resumed=' + resumed + ' errors=' + errors + ')');
-      // Checkpoint
-      writeOutput(results, queue.length, scored, errors, resumed, true);
+      console.log('  ' + (scored + errors) + '/' + queue.length + ' (scored=' + scored + ', errors=' + errors + ')');
     }
 
     if (i < queue.length - 1) await sleep(DELAY_MS);
   }
 
-  writeOutput(results, queue.length, scored, errors, resumed, false);
+  const results = order.map(k => resultsByCik[k]).filter(Boolean);
+  const resumed = existingOrder.filter(k => complete(existing[k])).length;
+  const out = {
+    _generated: new Date().toISOString(),
+    _source: 'kernel-eligibility-frontier.json (ELIGIBLE_NOW only)',
+    _envelope_version: 'v1.0.1',
+    _kernel_sha256: '3ce4a652ff8af4b4ea26ad1811f5cb31f746b5abceda05470d921f6e7a482d20',
+    _total: results.length,
+    _expected: eligible.length,
+    _scored: scored,
+    _resumed: resumed,
+    _errors: errors,
+    _in_progress: false,
+    companies: results,
+  };
+  if (ATOMIC) writeOutputAtomic(out);
+  else writeOutput(results, eligible.length, scored, errors, resumed, false);
+
   const dur = Math.round((Date.now() - start) / 1000);
   console.log('\n──── DONE ────');
   console.log('Run: ' + dur + 's, scored=' + scored + ', resumed=' + resumed +
