@@ -81,6 +81,7 @@ try {
       inEnvelope: /ELIGIBLE/.test(String(c.es || '')),
       validated: String(c.vs || '') === 'validated',
       sic: c.sic,
+      kid: c.kid || null,
       firstAlertQuarter: c.fq || null,
       // Thing 0 evidence only when the snapshot writer recorded it.
       thing0: c.t0 || c.thing0 || c.thing0Eligibility || null
@@ -119,6 +120,11 @@ function _provenanceKey(row) {
     (row && typeof row.composite === 'number') ? row.composite
       : ((row && typeof row.co === 'number') ? row.co : null),
     row && row.inEnvelope === true,
+    /* Everything below can change the published verdict or its authority. */
+    row && row.alert === true,
+    (row && row.kid) || null,
+    row && row.isFinancial === true,
+    (row && row.sic) || null,
     t0 ? (t0.qualification_status || null) : null,
     t0 ? (t0.permits_thing1_use === true) : null,
     row && row.error ? String(row.error) : null

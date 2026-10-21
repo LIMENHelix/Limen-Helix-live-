@@ -430,8 +430,10 @@ check('Helix Report adapter carries Thing 0 and null-safe path scores', function
     'reconciliation text does not derive from Thing 0');
   assert.ok(report.includes('abstained: abstained'),
     'report packet does not carry the abstention state');
-  assert.ok(report.includes("available: t0Permits && effectiveValidation === 'validated'"),
-    'unvalidated results still report the scorer as available');
+  assert.ok(report.includes("available: t0Authorized && effectiveValidation === 'validated'"),
+    'unvalidated or non-permitting results still report the scorer as available');
+  assert.ok(report.includes('var abstained = !(t0Authorized && effectiveValidation'),
+    'abstention is not gated on the Thing 0 authorization chain');
   assert.ok(report.includes('Thing 1 abstains:'),
     'report narrative still issues NO ALERT for a refusal');
   assert.ok(report.includes('gatedT1.abstained === true'),
@@ -569,6 +571,22 @@ check('brain-signals joins fallback evidence by normalized CIK', function () {
   assert.equal(duplicates.conflict, false,
     'identical duplicate rows were treated as contradictory');
   assert.ok(duplicates.record, 'identical duplicate rows produced no record');
+
+  var alertConflict = emitter._selectSameIssuer([
+    { ticker: 'ALKS', cik: '850261', validated: true, inEnvelope: true, composite: 0.5, alert: true, thing0: t0 },
+    { ticker: 'ALKS', cik: '850261', validated: true, inEnvelope: true, composite: 0.5, alert: false, thing0: t0 }
+  ]);
+  assert.equal(alertConflict.conflict, true,
+    'alert-only contradiction was not detected');
+  assert.equal(alertConflict.record, null, 'an alert-only contradictory row was selected');
+
+  var kidConflict = emitter._selectSameIssuer([
+    { ticker: 'ALKS', cik: '850261', validated: true, inEnvelope: true, composite: 0.5, kid: 'limen_backtest.py', thing0: t0 },
+    { ticker: 'ALKS', cik: '850261', validated: true, inEnvelope: true, composite: 0.5, kid: 'phase_engine.py', thing0: t0 }
+  ]);
+  assert.equal(kidConflict.conflict, true,
+    'scorer-identity contradiction was not detected');
+  assert.equal(kidConflict.record, null, 'a scorer-identity contradictory row was selected');
 });
 
 check('snapshot --resume retries incomplete qualification', function () {
@@ -1066,14 +1084,22 @@ async function phaseCacheCheck() {
   var scorer = require('../lib/company-phase-scorer');
   var origGet = db.get, origDel = db.del, origFetch = global.fetch;
   var deleted = [];
-  db.get = async function () { return { phase: 'p4', timestamp: 1 }; };
-  db.del = async function (k) { deleted.push(k); };
+  var store = { 'company_phase_123': { phase: 'p4', timestamp: 1 } };
+  var rejectDel = false;
+  db.get = async function (k) { return store[k] || null; };
+  db.del = async function (k) {
+    deleted.push(k);
+    if (rejectDel) return false;
+    delete store[k];
+    return true;
+  };
 
   function ok(payload) {
     return { ok: true, status: 200, json: async function () { return payload; } };
   }
   async function run(response) {
     deleted.length = 0;
+    store['company_phase_123'] = { phase: 'p4', timestamp: 1 };
     global.fetch = async function () { return response; };
     return scorer._scoreOne({ cik: '123', ticker: 'T', domain: 'energy' });
   }
@@ -1131,6 +1157,19 @@ async function phaseCacheCheck() {
       'thing1_not_validated:unvalidated_after_modification', JSON.stringify(unvalidatedPhase));
     assert.equal(unvalidatedPhase.invalidated, true, JSON.stringify(unvalidatedPhase));
     assert.deepEqual(deleted, ['company_phase_123']);
+
+    /* A rejected deletion is not an invalidation and leaves the stale value. */
+    rejectDel = true;
+    var rejected = await run(ok({
+      thing0_eligibility: { permits_thing1_use: false, qualification_status: 'not_qualified' },
+      dominant_phase: 'p4'
+    }));
+    assert.equal(rejected.scored, false, JSON.stringify(rejected));
+    assert.equal(rejected.invalidated, false, JSON.stringify(rejected));
+    assert.equal(rejected.invalidation_error, 'phase_delete_failed', JSON.stringify(rejected));
+    assert.deepEqual(await db.get('company_phase_123'), { phase: 'p4', timestamp: 1 },
+      'rejected deletion lost the retained value');
+    rejectDel = false;
 
     /* Valid qualified + explicit permission + validated Thing 1 still caches. */
     var valid = await run(ok({

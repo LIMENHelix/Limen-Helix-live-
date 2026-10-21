@@ -1140,11 +1140,7 @@ async function runAnalysis(opts) {
     var t1 = await resp.json();
     var packet = _packServerResult(t1);
     var gatedT1 = packet.validated_signal || {};
-    var combinedAlert = !!(
-      gatedT1.alert
-      && packet.thing0_eligibility
-      && packet.thing0_eligibility.permits_thing1_use === true
-    );
+    var combinedAlert = !!(gatedT1.alert && gatedT1.available === true);
     currentResult = packet;
     _entityName = packet.entity_name || ('CIK ' + cik);
     applyResults(packet);
@@ -1184,6 +1180,12 @@ function _packServerResult(t1) {
   var hist = t1.history_quarters || 0;
   var t0 = t1.thing0_eligibility || null;
   var t0Permits = !!(t0 && t0.permits_thing1_use === true);
+  var t0Qualified = !!(t0 && typeof t0 === 'object' && !Array.isArray(t0)
+    && t0.qualification_status === 'qualified'
+    && typeof t0.permits_thing1_use === 'boolean');
+  /* Permission is a chain: usable Thing 0 evidence, exactly qualified, and an
+     explicit permit. A label or a score never grants it. */
+  var t0Authorized = t0Qualified && t0Permits;
   function _fmt3(v) {
     return (typeof v === 'number' && isFinite(v)) ? v.toFixed(3) : 'n/a';
   }
@@ -1243,9 +1245,10 @@ function _packServerResult(t1) {
   if (effectiveValidation === 'validated' && !fingerprintMatches) {
     effectiveValidation = 'unvalidated_after_modification';
   }
-  var effectiveAlert = effectiveValidation === 'validated' ? !!t1.alert : false;
-  /* Any non-validated result abstains. Neither ALERT nor NO_ALERT is permitted. */
-  var abstained = effectiveValidation !== 'validated';
+  /* Any missing/refused/non-permitting Thing 0 or non-validated Thing 1 result
+     abstains. Neither ALERT nor NO_ALERT is permitted. */
+  var abstained = !(t0Authorized && effectiveValidation === 'validated');
+  var effectiveAlert = !abstained && t1.alert === true;
   var fingerprintReasons = [];
   if (!fingerprintMatches) {
     fingerprintReasons.push('kernel fingerprint ' + serverFingerprint.state
@@ -1268,7 +1271,9 @@ function _packServerResult(t1) {
                + ' \u00b7 Path B (cash): ' + _fmt3(t1.path_b_score) + '/' + _fmt3(t1.path_b_threshold)
                + ' \u00b7 Path C (rupture): ' + _fmt3(t1.path_c_score) + '/' + _fmt3(t1.path_c_threshold));
   if (abstained) {
-    narrative.push('Thing 1 abstains: ' + (serverValidation || effectiveValidation)
+    var abstainReason = !t0Authorized ? 'thing0_not_authorized'
+      : (serverValidation || effectiveValidation);
+    narrative.push('Thing 1 abstains: ' + abstainReason
                  + '. No ALERT or NO_ALERT verdict is issued.');
     if (t1.alert || t1.raw_alert) {
       narrative.push('A raw threshold crossing is present, but it is not an authorized alert.');
@@ -1303,7 +1308,7 @@ function _packServerResult(t1) {
       kernel_version: '4.0',
       kernel_sha256_lock: t1.kernel_sha256_lock || serverFingerprint.lock_sha256 || null,
       kernel_sha256_actual: t1.kernel_sha256_actual || serverFingerprint.kernel_sha256 || null,
-      available: t0Permits && effectiveValidation === 'validated',
+      available: t0Authorized && effectiveValidation === 'validated',
       abstained: abstained,
       server_validation_status: serverValidation,
       alert: effectiveAlert,

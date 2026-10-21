@@ -303,8 +303,11 @@ def _assert_report_consumer():
     assert "var clientValidated = envelope.status === 'validated'" in source, (
         "the browser envelope failure must participate in effective validation"
     )
-    assert "var effectiveAlert = effectiveValidation === 'validated'" in source, (
-        "alert presentation must be gated on effective validation"
+    assert "var abstained = !(t0Authorized && effectiveValidation === 'validated')" in source, (
+        "abstention must require the Thing 0 authorization chain and effective validation"
+    )
+    assert "var effectiveAlert = !abstained && t1.alert === true" in source, (
+        "alert presentation must be gated on the authorized chain"
     )
     assert "alert: effectiveAlert" in source, "validated_signal.alert must use the gated value"
     assert "Raw threshold crossing present" in source, (
