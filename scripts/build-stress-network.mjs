@@ -16,6 +16,7 @@
  */
 import fs from 'node:fs/promises';
 import fssync from 'node:fs';
+import crypto from 'node:crypto';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 
@@ -56,15 +57,21 @@ async function loadPortals() {
 }
 
 async function loadCommandBoard() {
-  const cb = JSON.parse(await fs.readFile(CB_PATH, 'utf8'));
-  return cb.companies || [];
+  const buf = await fs.readFile(CB_PATH);
+  const cb = JSON.parse(buf.toString('utf8'));
+  return {
+    companies: cb.companies || [],
+    generatedAt: cb._generated || null,
+    sha256: crypto.createHash('sha256').update(buf).digest('hex')
+  };
 }
 
 // ─── Run ──────────────────────────────────────────────────────────
 console.log('═══ spider-web stress propagation ═══');
 const portals = await loadPortals();
 console.log('  portals loaded:        ' + portals.loaded + '  (failed: ' + portals.failed + ')');
-const cb = await loadCommandBoard();
+const cbDoc = await loadCommandBoard();
+const cb = cbDoc.companies;
 console.log('  command-board entries: ' + cb.length);
 
 const t0 = Date.now();
@@ -89,6 +96,15 @@ console.log('    alert multiplier:  ' + result.stats.alertMult);
 
 // ─── Top results ──────────────────────────────────────────────────
 const serialized = propagator.serializeResult(result);
+serialized.source = {
+  commandBoard: {
+    path: 'assets/data/command-board-data.json',
+    generatedAt: cbDoc.generatedAt,
+    sha256: cbDoc.sha256,
+    rows: cb.length
+  },
+  portals: { loaded: portals.loaded, failed: portals.failed }
+};
 
 if (FILTER_SLUG) {
   const node = serialized.propagated.find(n => n.slug === FILTER_SLUG);

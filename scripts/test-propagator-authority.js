@@ -72,6 +72,27 @@ for (const kid of [undefined, null, 'phase_engine.py', 'limen_backtest']) {
     'non-protected scorer seeded stress: ' + String(kid));
 }
 
+// ── The full Thing Zero authorization chain is required ───────────────────
+const thing0Cases = [
+  ['absent', undefined],
+  ['malformed string', 'qualified'],
+  ['malformed object', {}],
+  ['partial', { qualification_status: 'partially_qualified', permits_thing1_use: true }],
+  ['not qualified', { qualification_status: 'not_qualified', permits_thing1_use: true }],
+  ['missing permit', { qualification_status: 'qualified' }],
+  ['permit false', { qualification_status: 'qualified', permits_thing1_use: false }],
+  ['contradictory stray permit true', { qualification_status: 'not_qualified', permits_thing1_use: true }],
+  ['camelCase stray permit', { qualification_status: 'qualified', permits_thing1_use: false, permitsThing1Use: true }]
+];
+for (const [label, t0] of thing0Cases) {
+  const node = intrinsicOf({ acme: portal('acme', '42') },
+    [entry({ t0 })]).map.get('acme');
+  assert.strictEqual(node.intrinsic, 0,
+    'non-coherent Thing Zero seeded stress: ' + label);
+  assert.strictEqual(node.hasKernelData, false,
+    'non-coherent Thing Zero counted as kernel data: ' + label);
+}
+
 // ── Validated protected-scorer control contributes; alert multiplier holds ─
 {
   const quiet = intrinsicOf({ acme: portal('acme', '42') },
@@ -134,6 +155,8 @@ assert.strictEqual(
     'current feed produced kernel-derived intrinsic seeds');
   assert.strictEqual(pushed.length, 0,
     'current feed produced kernel-derived network pushes');
+  assert.ok(!res.nodes.has('saia'),
+    'quarantined identity record entered the stress graph');
 
   // Topology survives: the gate removes authority, not edges.
   const edgeCount = [...res.edges.values()].reduce((n, a) => n + a.length, 0);

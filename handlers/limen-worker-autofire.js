@@ -31,6 +31,7 @@
  */
 
 var db = require('../lib/limen-db');
+var stressPropagator = require('../lib/limen-stress-propagator.js');
 var stageClassifier = require('../lib/limen-stage-classifier');
 var { loadPortal } = require('../lib/portal-loader');
 var cronAuth = require('../lib/cron-auth');
@@ -324,6 +325,9 @@ function _loadStressNode(slug) {
       try {
         if (!fs.existsSync(paths[i])) continue;
         var sn = JSON.parse(fs.readFileSync(paths[i], 'utf8'));
+        /* Fail closed on a pre-gate artifact: it can still carry stress seeded
+           by unvalidated Thing One composites. */
+        if (!stressPropagator.hasCurrentAuthority(sn)) continue;
         var arr = (sn && sn.propagated) || [];
         for (var j = 0; j < arr.length; j++) { if (arr[j] && arr[j].slug) _STRESS_STATE[arr[j].slug] = arr[j]; }
         break;

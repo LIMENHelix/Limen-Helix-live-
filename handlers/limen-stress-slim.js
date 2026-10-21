@@ -16,6 +16,7 @@
 var db = require('../lib/limen-db');
 var fs = require('fs');
 var path = require('path');
+var propagator = require('../lib/limen-stress-propagator.js');
 
 var STATE_PATHS = [
   path.join(__dirname, '..', 'assets', 'data', 'stress-network-state.json'),
@@ -24,10 +25,14 @@ var STATE_PATHS = [
 ];
 
 function _fromFile() {
+  var sawStale = false;
   for (var i = 0; i < STATE_PATHS.length; i++) {
     try {
       if (!fs.existsSync(STATE_PATHS[i])) continue;
       var sn = JSON.parse(fs.readFileSync(STATE_PATHS[i], 'utf8'));
+      /* A pre-gate snapshot has the same shape but no authority contract.
+         Refuse it so stale unvalidated stress cannot reach the browser. */
+      if (!propagator.hasCurrentAuthority(sn)) { sawStale = true; continue; }
       var arr = (sn && sn.propagated) || [];
       var bySlug = {};
       for (var j = 0; j < arr.length; j++) {
@@ -41,7 +46,7 @@ function _fromFile() {
       return { generatedAt: (sn && sn.generatedAt) || null, bySlug: bySlug, source: 'file' };
     } catch (e) { /* try next */ }
   }
-  return { generatedAt: null, bySlug: {}, source: 'none' };
+  return { generatedAt: null, bySlug: {}, source: sawStale ? 'stale-authority' : 'none' };
 }
 
 module.exports = async function handler(req, res) {
@@ -60,7 +65,7 @@ module.exports = async function handler(req, res) {
      */
     var stats = null;
     var slim = await db.get('stress_slim');
-    if (slim && slim.byCik) {
+    if (slim && slim.byCik && propagator.isCurrentAuthorityMeta(slim.authority)) {
       var keys = Object.keys(slim.byCik);
       for (var i = 0; i < keys.length; i++) {
         var e = slim.byCik[keys[i]];

@@ -136,15 +136,19 @@ module.exports = async function handler(req, res) {
       snapshot.computeMs = Date.now() - t0;
       snapshot.source = 'live';
     } else {
-      snapshot = loadCachedSnapshot();
-      if (!snapshot) {
-        // Cache miss — compute live without auth (read-only operation)
+      const cached = loadCachedSnapshot();
+      /* A snapshot produced before the Thing One authority gate carries the
+         same shape as a current one. Refuse it and recompute through the gated
+         propagator rather than serving stale unvalidated stress. */
+      if (cached && getPropagator().hasCurrentAuthority(cached)) {
+        snapshot = cached;
+        snapshot.source = 'cache';
+      } else {
+        // Cache miss or stale authority — compute live without auth (read-only).
         const t0 = Date.now();
         snapshot = await liveCompute();
         snapshot.computeMs = Date.now() - t0;
-        snapshot.source = 'live-fallback';
-      } else {
-        snapshot.source = 'cache';
+        snapshot.source = cached ? 'live-stale-authority' : 'live-fallback';
       }
     }
 
