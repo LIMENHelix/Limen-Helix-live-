@@ -209,11 +209,12 @@ function hasThing0Evidence(row) {
     && typeof t0.permits_thing1_use === 'boolean');
 }
 
-function writeOutputAtomic(out) {
-  const tmp = OUTPUT_PATH + '.tmp-' + process.pid;
+function writeOutputAtomic(out, outputPath) {
+  const target = outputPath || OUTPUT_PATH;
+  const tmp = target + '.tmp-' + process.pid;
   try {
     fs.writeFileSync(tmp, JSON.stringify(out));
-    fs.renameSync(tmp, OUTPUT_PATH);
+    fs.renameSync(tmp, target);
   } catch (e) {
     try { fs.unlinkSync(tmp); } catch (_) {}
     throw e;
@@ -222,87 +223,137 @@ function writeOutputAtomic(out) {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-async function main() {
-  console.log('build-command-board: reading frontier...');
-  if (!fs.existsSync(FRONTIER_PATH)) {
-    console.error('FATAL: ' + FRONTIER_PATH + ' missing — run probe-eligibility.js first');
-    process.exit(1);
+function completeRow(row, thing0Migration) {
+  return thing0Migration ? hasThing0Evidence(row) : isResumeComplete(row);
+}
+
+function validateFrontier(frontier) {
+  if (!frontier || typeof frontier !== 'object' || !Array.isArray(frontier.companies)) {
+    throw new Error('frontier is missing or malformed');
   }
-  const frontier = JSON.parse(fs.readFileSync(FRONTIER_PATH, 'utf8'));
-  const eligible = frontier.companies.filter(c => c.envelope_status === 'ELIGIBLE_NOW');
-  console.log('frontier: ' + frontier.companies.length + ' total, ' + eligible.length + ' ELIGIBLE_NOW');
-
-  // Resume: load every existing row so a batch never drops unprocessed rows.
-  let existing = {};
-  let existingOrder = [];
-  if (RESUME && fs.existsSync(OUTPUT_PATH)) {
-    try {
-      const prev = JSON.parse(fs.readFileSync(OUTPUT_PATH, 'utf8'));
-      (prev.companies || []).forEach(c => {
-        const key = normCik(c.c);
-        if (!(key in existing)) {
-          existing[key] = c;
-          existingOrder.push(key);
-        }
-      });
-      console.log('resume: ' + existingOrder.length + ' rows loaded');
-    } catch (e) { console.log('resume: prior file unreadable, starting fresh'); }
+  if (!Number.isInteger(frontier._universe_total) || !Number.isInteger(frontier._processed_total)) {
+    throw new Error('frontier completeness metadata missing');
   }
-
-  const complete = (row) => THING0_MIGRATION ? hasThing0Evidence(row) : isResumeComplete(row);
-  const frontierKeys = eligible.map(c => normCik(c.cik));
-  const order = existingOrder.slice();
-  for (const key of frontierKeys) {
-    if (!order.includes(key)) order.push(key);
+  if (frontier._processed_total < frontier._universe_total) {
+    throw new Error('frontier is incomplete: processed ' + frontier._processed_total +
+      ' of ' + frontier._universe_total);
   }
-
-  const incomplete = eligible.filter(c => !complete(existing[normCik(c.cik)]));
-  let queue = incomplete;
-  if (BATCH > 0) queue = queue.slice(0, BATCH);
-  console.log('incomplete: ' + incomplete.length + ', batch: ' + queue.length);
-
-  if (!queue.length) {
-    console.log('Nothing to score — every eligible row already carries the required evidence. Exiting without writing.');
-    return;
-  }
-
-  if (DRY_RUN) {
-    console.log('DRY_RUN — would score ' + queue.length + ' CIKs:');
-    queue.slice(0, 10).forEach((c, i) => console.log('  ' + (i + 1) + '. ' + (c.ticker || '-').padEnd(8) + c.cik + '  ' + (c.name || '').slice(0, 38)));
-    if (queue.length > 10) console.log('  ... and ' + (queue.length - 10) + ' more');
-    return;
-  }
-
-  const resultsByCik = {};
-  for (const key of existingOrder) resultsByCik[key] = existing[key];
-  let scored = 0, errors = 0, rescoredLegacy = 0;
-  const start = Date.now();
-
-  for (let i = 0; i < queue.length; i++) {
-    const c = queue[i];
-    const key = normCik(c.cik);
-    const prior = existing[key];
-    /* Normal resume keeps the terminal-success predicate. Thing Zero migration
-       uses scorer-returned evidence as its completion criterion. */
-    if (!THING0_MIGRATION && isResumeComplete(prior)) {
-      resultsByCik[key] = prior;
-      continue;
+  var seen = new Set();
+  for (var i = 0; i < frontier.companies.length; i++) {
+    var row = frontier.companies[i];
+    if (!row || typeof row !== 'object') throw new Error('frontier row malformed at ' + i);
+    var key = normCik(row.cik);
+    if (!key || key === '0') throw new Error('frontier row missing CIK at ' + i);
+    if (typeof row.envelope_status !== 'string') {
+      throw new Error('frontier row missing envelope_status at ' + i);
     }
-    if (prior && !complete(prior)) rescoredLegacy++;
+    if (seen.has(key)) throw new Error('duplicate frontier CIK ' + key);
+    seen.add(key);
+  }
+}
 
-    const domainId = (prior && prior.d) || SECTOR_TO_DOMAIN[c.primary_sector] || 'trade';
-    const slug = (prior && prior.s) || deriveSlug(c.ticker, c.name);
-    const ds = (prior && typeof prior.ds === 'number') ? prior.ds : (DOMAIN_STRESS[domainId] || 0.2);
+function planCommandBoard(frontier, priorCompanies, options) {
+  options = options || {};
+  validateFrontier(frontier);
+  var eligible = frontier.companies.filter(function (c) {
+    return c.envelope_status === 'ELIGIBLE_NOW';
+  });
+  var existing = {};
+  var existingOrder = [];
+  (priorCompanies || []).forEach(function (c) {
+    var key = normCik(c.c);
+    if (!(key in existing)) {
+      existing[key] = c;
+      existingOrder.push(key);
+    }
+  });
+  var eligibleByCik = new Map();
+  eligible.forEach(function (c) {
+    var key = normCik(c.cik);
+    if (eligibleByCik.has(key)) throw new Error('duplicate eligible CIK ' + key);
+    eligibleByCik.set(key, c);
+  });
+  var order = [];
+  var removed = [];
+  existingOrder.forEach(function (key) {
+    if (eligibleByCik.has(key)) order.push(key);
+    else removed.push(key);
+  });
+  eligible.forEach(function (c) {
+    var key = normCik(c.cik);
+    if (!(key in existing) && order.indexOf(key) === -1) order.push(key);
+  });
+  var incomplete = eligible.filter(function (c) {
+    return !completeRow(existing[normCik(c.cik)], options.thing0Migration);
+  });
+  var queue = incomplete;
+  if (options.batch > 0) queue = incomplete.slice(0, options.batch);
+  var resumed = existingOrder.filter(function (key) {
+    return eligibleByCik.has(key) && completeRow(existing[key], options.thing0Migration);
+  }).length;
+  return {
+    eligible: eligible,
+    existing: existing,
+    existingOrder: existingOrder,
+    order: order,
+    removed: removed,
+    removedCount: removed.length,
+    incompleteCount: incomplete.length,
+    queue: queue,
+    resumed: resumed
+  };
+}
+
+async function executePlan(plan, opts) {
+  opts = opts || {};
+  var outputPath = opts.outputPath || OUTPUT_PATH;
+  var scoreFn = opts.scoreFn || postScore;
+  var atomic = !!opts.atomic;
+  var thing0Migration = !!opts.thing0Migration;
+  var dryRun = !!opts.dryRun;
+  var delayMs = typeof opts.delayMs === 'number' ? opts.delayMs : DELAY_MS;
+
+  if (dryRun) {
+    console.log('DRY_RUN — would score ' + plan.queue.length + ' CIKs; would remove ' +
+      plan.removedCount + ' rows');
+    plan.queue.slice(0, 10).forEach(function (c, i) {
+      console.log('  ' + (i + 1) + '. ' + (c.ticker || '-').padEnd(8) + c.cik + '  ' +
+        (c.name || '').slice(0, 38));
+    });
+    if (plan.queue.length > 10) console.log('  ... and ' + (plan.queue.length - 10) + ' more');
+    return { scored: 0, errors: 0, wrote: false, removedCount: plan.removedCount };
+  }
+
+  if (plan.queue.length === 0 && plan.removedCount === 0) {
+    console.log('Nothing to score — every eligible row already carries the required evidence. Exiting without writing.');
+    return { scored: 0, errors: 0, wrote: false, removedCount: 0 };
+  }
+
+  var resultsByCik = {};
+  plan.order.forEach(function (key) {
+    if (plan.existing[key]) resultsByCik[key] = plan.existing[key];
+  });
+  var scored = 0, errors = 0, rescoredLegacy = 0;
+  var start = Date.now();
+
+  for (var i = 0; i < plan.queue.length; i++) {
+    var c = plan.queue[i];
+    var key = normCik(c.cik);
+    var prior = plan.existing[key];
+    if (prior && !completeRow(prior, thing0Migration)) rescoredLegacy++;
+    var domainId = (prior && prior.d) || SECTOR_TO_DOMAIN[c.primary_sector] || 'trade';
+    var slug = (prior && prior.s) || deriveSlug(c.ticker, c.name);
+    var ds = (prior && typeof prior.ds === 'number') ? prior.ds : (DOMAIN_STRESS[domainId] || 0.2);
 
     try {
-      const d = await postScore(c.cik);
-      const t0 = d.thing0_eligibility || d.thing0Eligibility || null;
-      if ((ATOMIC || THING0_MIGRATION) && !hasThing0Evidence({ t0 })) {
+      var d = await scoreFn(c.cik);
+      var t0 = d.thing0_eligibility || d.thing0Eligibility || null;
+      if ((atomic || thing0Migration) && !hasThing0Evidence({ t0: t0 })) {
         throw new Error('Thing Zero evidence missing or malformed for CIK ' + c.cik);
       }
-      const permitted = !!(t0 && t0.permits_thing1_use === true);
-      const validated = d.validation_status === 'validated';
-      const row = {
+      var permitted = !!(t0 && t0.permits_thing1_use === true);
+      var validated = d.validation_status === 'validated';
+      var row = {
         n: (prior && prior.n) || c.name,
         t: (prior && prior.t) || c.ticker || '',
         c: (prior && prior.c) || c.cik,
@@ -320,7 +371,6 @@ async function main() {
         q: d.latest_quarter || null,
         hist: d.history_quarters || 0,
         kid: d.kernel_id || 'limen_backtest.py',
-        // Record what the scorer actually returned; never stamp validated.
         vs: d.validation_status || 'unavailable',
         ds: ds,
         es: !permitted ? 'NOT_QUALIFIED_BY_THING0'
@@ -329,18 +379,15 @@ async function main() {
         sec: c.primary_sector || (prior && prior.sec) || null,
         sic: c.primary_sic || (prior && prior.sic) || null,
       };
-      /* Preserve fields the existing feed owns that this producer does not
-         recompute. Identity, domain and slug are preserved above. */
-      for (const k of ['subTag', 'hp', 'source', 'eligibility_status_at_build']) {
-        if (prior && prior[k] !== undefined && row[k] === undefined) row[k] = prior[k];
+      for (var pk of ['subTag', 'hp', 'source', 'eligibility_status_at_build']) {
+        if (prior && prior[pk] !== undefined && row[pk] === undefined) row[pk] = prior[pk];
       }
       resultsByCik[key] = row;
       scored++;
     } catch (e) {
-      if (ATOMIC || THING0_MIGRATION) {
+      if (atomic || thing0Migration) {
         throw new Error('Scorer failure for CIK ' + c.cik + ': ' + (e.message || String(e)));
       }
-      // Legacy non-atomic mode only. Migration mode never writes error rows.
       resultsByCik[key] = {
         n: c.name, t: c.ticker || '', c: c.cik, s: slug, d: domainId,
         p: '?', tr: 'ERROR_AT_REBUILD', co: 0, a: false,
@@ -354,39 +401,96 @@ async function main() {
     }
 
     if ((scored + errors) % 25 === 0 && (scored + errors) > 0) {
-      console.log('  ' + (scored + errors) + '/' + queue.length + ' (scored=' + scored + ', errors=' + errors + ')');
+      console.log('  ' + (scored + errors) + '/' + plan.queue.length +
+        ' (scored=' + scored + ', errors=' + errors + ')');
     }
-
-    if (i < queue.length - 1) await sleep(DELAY_MS);
+    if (i < plan.queue.length - 1) await sleep(delayMs);
   }
 
-  const results = order.map(k => resultsByCik[k]).filter(Boolean);
-  const resumed = existingOrder.filter(k => complete(existing[k])).length;
-  const out = {
+  var results = plan.order.map(function (key) { return resultsByCik[key]; }).filter(Boolean);
+  var out = {
     _generated: new Date().toISOString(),
     _source: 'kernel-eligibility-frontier.json (ELIGIBLE_NOW only)',
     _envelope_version: 'v1.0.1',
     _kernel_sha256: '3ce4a652ff8af4b4ea26ad1811f5cb31f746b5abceda05470d921f6e7a482d20',
     _total: results.length,
-    _expected: eligible.length,
-    /* Last-invocation counts, not corpus coverage. */
+    _expected: plan.eligible.length,
     _scored: scored,
-    _resumed: resumed,
+    _resumed: plan.resumed,
+    _removed: plan.removedCount,
     _errors: errors,
     _in_progress: false,
     companies: results,
   };
-  if (ATOMIC) writeOutputAtomic(out);
-  else writeOutput(results, eligible.length, scored, errors, resumed, false);
+  if (atomic) writeOutputAtomic(out, outputPath);
+  else writeOutput(results, plan.eligible.length, scored, errors, plan.resumed, false, outputPath, plan.removedCount);
 
-  const dur = Math.round((Date.now() - start) / 1000);
+  var dur = Math.round((Date.now() - start) / 1000);
   console.log('\n──── DONE ────');
-  console.log('Run: ' + dur + 's, scored=' + scored + ', resumed=' + resumed +
-    ', rescored_legacy=' + rescoredLegacy + ', errors=' + errors);
-  console.log('Output: ' + OUTPUT_PATH);
+  console.log('Run: ' + dur + 's, scored=' + scored + ', resumed=' + plan.resumed +
+    ', removed=' + plan.removedCount + ', rescored_legacy=' + rescoredLegacy +
+    ', errors=' + errors);
+  console.log('Output: ' + outputPath);
+  return { scored: scored, errors: errors, wrote: true, removedCount: plan.removedCount };
 }
 
-function writeOutput(rows, total, scored, errors, resumed, inProgress) {
+async function main() {
+  console.log('build-command-board: reading frontier...');
+  if (!fs.existsSync(FRONTIER_PATH)) {
+    console.error('FATAL: ' + FRONTIER_PATH + ' missing — run probe-eligibility.js first');
+    process.exit(1);
+  }
+
+  let frontier;
+  try {
+    frontier = JSON.parse(fs.readFileSync(FRONTIER_PATH, 'utf8'));
+  } catch (e) {
+    console.error('FATAL: frontier unreadable: ' + (e.message || String(e)));
+    process.exit(1);
+  }
+
+  let priorCompanies = [];
+  if (RESUME && fs.existsSync(OUTPUT_PATH)) {
+    try {
+      const prev = JSON.parse(fs.readFileSync(OUTPUT_PATH, 'utf8'));
+      priorCompanies = Array.isArray(prev.companies) ? prev.companies : [];
+      console.log('resume: ' + priorCompanies.length + ' rows loaded');
+    } catch (e) {
+      console.log('resume: prior file unreadable, starting fresh');
+    }
+  }
+
+  let plan;
+  try {
+    plan = planCommandBoard(frontier, RESUME ? priorCompanies : [], {
+      batch: BATCH,
+      thing0Migration: THING0_MIGRATION
+    });
+  } catch (e) {
+    console.error('FATAL: ' + (e.message || String(e)));
+    process.exit(1);
+  }
+
+  console.log('frontier: ' + frontier.companies.length + ' total, ' +
+    plan.eligible.length + ' ELIGIBLE_NOW');
+  console.log('incomplete: ' + plan.incompleteCount + ', batch: ' + plan.queue.length +
+    ', removed: ' + plan.removedCount);
+
+  try {
+    await executePlan(plan, {
+      outputPath: OUTPUT_PATH,
+      scoreFn: postScore,
+      atomic: ATOMIC,
+      thing0Migration: THING0_MIGRATION,
+      dryRun: DRY_RUN
+    });
+  } catch (e) {
+    console.error('FATAL: ' + (e.message || String(e)));
+    process.exit(1);
+  }
+}
+
+function writeOutput(rows, total, scored, errors, resumed, inProgress, outputPath, removedCount) {
   const out = {
     _generated: new Date().toISOString(),
     _source: 'kernel-eligibility-frontier.json (ELIGIBLE_NOW only)',
@@ -397,14 +501,22 @@ function writeOutput(rows, total, scored, errors, resumed, inProgress) {
     /* Last-invocation counts, not corpus coverage. */
     _scored: scored,
     _resumed: resumed,
+    /* Rows removed because they left the current ELIGIBLE_NOW frontier. */
+    _removed: removedCount || 0,
     _errors: errors,
     _in_progress: inProgress,
     companies: rows,
   };
-  fs.writeFileSync(OUTPUT_PATH, JSON.stringify(out));
+  fs.writeFileSync(outputPath || OUTPUT_PATH, JSON.stringify(out));
 }
 
 if (require.main === module) {
   main().catch(e => { console.error('FATAL:', e); process.exit(1); });
 }
-module.exports = { isResumeComplete, numOrNull };
+module.exports = {
+  isResumeComplete,
+  numOrNull,
+  validateFrontier,
+  planCommandBoard,
+  executePlan
+};

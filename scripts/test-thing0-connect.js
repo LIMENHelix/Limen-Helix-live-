@@ -14,6 +14,7 @@
 
 var assert = require('assert');
 var fs = require('fs');
+var os = require('os');
 var path = require('path');
 var { spawnSync } = require('child_process');
 
@@ -234,6 +235,64 @@ check('ordinary score-companies path persists scorer Thing Zero evidence', funct
     'scorer failure wrote a successful row');
   assert.ok(source.includes('async function refreshThing0Rows'),
     'refresh mode removed');
+});
+
+check('command-board resume reconciles against current eligible frontier', function () {
+  var board = require('../scripts/build-command-board');
+  var frontier = {
+    _universe_total: 3,
+    _processed_total: 3,
+    companies: [
+      { cik: '1', ticker: 'ONE', name: 'One', envelope_status: 'ELIGIBLE_NOW' },
+      { cik: '2', ticker: 'TWO', name: 'Two', envelope_status: 'STALE' },
+      { cik: '3', ticker: 'THREE', name: 'Three', envelope_status: 'ELIGIBLE_NOW' }
+    ]
+  };
+  var prior = [
+    { c: '1', t: 'ONE', n: 'One', t0: { qualification_status: 'qualified', permits_thing1_use: true }, vs: 'validated', kid: 'limen_backtest.py' },
+    { c: '2', t: 'TWO', n: 'Two', t0: { qualification_status: 'qualified', permits_thing1_use: true }, vs: 'validated', kid: 'limen_backtest.py' },
+    { c: '3', t: 'THREE', n: 'Three' }
+  ];
+  var plan = board.planCommandBoard(frontier, prior, { batch: 1, thing0Migration: true });
+  assert.equal(plan.removedCount, 1, 'stale prior row was not removed');
+  assert.deepEqual(plan.removed, ['2']);
+  assert.deepEqual(plan.order, ['1', '3'],
+    'still-eligible rows outside the batch were not preserved');
+  assert.equal(plan.queue.length, 1, 'small batch did not limit scorer work');
+  assert.equal(plan.queue[0].cik, '3', 'newly incomplete eligible row was not queued');
+  assert.equal(plan.resumed, 1, 'completed eligible row was not counted as resumed');
+  assert.strictEqual(plan.existing['1'], prior[0],
+    'completed eligible row was not preserved by identity');
+  assert.equal(plan.existing['1'].t0.qualification_status, 'qualified');
+
+  assert.throws(function () {
+    board.planCommandBoard({
+      _universe_total: 2, _processed_total: 2,
+      companies: [
+        { cik: '1', envelope_status: 'ELIGIBLE_NOW' },
+        { cik: '1', envelope_status: 'STALE' }
+      ]
+    }, [], {});
+  }, /duplicate frontier CIK/, 'duplicate frontier CIK was accepted');
+
+  assert.throws(function () {
+    board.planCommandBoard({ _universe_total: 2, _processed_total: 1, companies: [] }, [], {});
+  }, /incomplete/, 'incomplete frontier was accepted');
+
+  assert.throws(function () {
+    board.planCommandBoard({ companies: [] }, [], {});
+  }, /completeness metadata/, 'missing completeness metadata was accepted');
+
+  assert.throws(function () {
+    board.planCommandBoard(null, [], {});
+  }, /missing or malformed/, 'missing frontier was accepted');
+
+  assert.throws(function () {
+    board.planCommandBoard({
+      _universe_total: 1, _processed_total: 1,
+      companies: [{ envelope_status: 'ELIGIBLE_NOW' }]
+    }, [], {});
+  }, /missing CIK/, 'frontier row without CIK was accepted');
 });
 
 // ── Brain signals: marshal evidence, gate before Thing 1 ───────────────────
@@ -459,8 +518,10 @@ check('brain-signals selects coherent Thing 0 rows per ticker', function () {
 
 check('snapshot --resume retries incomplete qualification', function () {
   var script = read('scripts/build-command-board.js');
-  assert.ok(script.includes('isResumeComplete(prior)'),
+  assert.ok(script.includes('isResumeComplete(row)'),
     'resume does not use the terminal-success predicate');
+  assert.ok(script.includes('completeRow('),
+    'resume completion predicate missing');
   assert.ok(script.includes('rescoredLegacy'),
     'legacy rescores are not counted');
   var board = require('../scripts/build-command-board');
@@ -811,6 +872,47 @@ async function handlerCheck() {
   }
 }
 
+async function executePlanCheck() {
+  var board = require('../scripts/build-command-board');
+  var dir = fs.mkdtempSync(path.join(os.tmpdir(), 'limen-cb-plan-'));
+  var outPath = path.join(dir, 'feed.json');
+  var sentinel = '{"sentinel":true}';
+  fs.writeFileSync(outPath, sentinel);
+  var frontier = {
+    _universe_total: 1,
+    _processed_total: 1,
+    companies: [{ cik: '1', ticker: 'ONE', name: 'One', envelope_status: 'ELIGIBLE_NOW' }]
+  };
+  try {
+    var plan = board.planCommandBoard(frontier, [], { batch: 1, thing0Migration: true });
+    await assert.rejects(board.executePlan(plan, {
+      outputPath: outPath,
+      atomic: true,
+      thing0Migration: true,
+      delayMs: 0,
+      scoreFn: async function () { throw new Error('boom'); }
+    }), /Scorer failure/);
+    assert.equal(fs.readFileSync(outPath, 'utf8'), sentinel,
+      'scorer failure modified the prior output');
+
+    var dryPlan = board.planCommandBoard(frontier, [], { batch: 1, thing0Migration: true });
+    var calls = 0;
+    await board.executePlan(dryPlan, {
+      outputPath: outPath,
+      atomic: true,
+      thing0Migration: true,
+      dryRun: true,
+      delayMs: 0,
+      scoreFn: async function () { calls++; return {}; }
+    });
+    assert.equal(calls, 0, 'dry run called the scorer');
+    assert.equal(fs.readFileSync(outPath, 'utf8'), sentinel,
+      'dry run modified the prior output');
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+}
+
 async function phaseCacheCheck() {
   var db = require('../lib/limen-db');
   var scorer = require('../lib/company-phase-scorer');
@@ -921,6 +1023,7 @@ async function checkAsync(name, fn) {
 
 (async function () {
   await checkAsync('phase scorer actually deletes a refused cached phase', phaseCacheCheck);
+  await checkAsync('command-board executePlan is atomic and dry-run-safe', executePlanCheck);
   await checkAsync('handler contract against current static snapshots', handlerCheck);
   console.log('');
   if (failures) {
