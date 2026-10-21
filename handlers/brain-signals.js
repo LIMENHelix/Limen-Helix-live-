@@ -18,21 +18,50 @@ var DOMAIN_NAMES = require('../lib/domain-names');
 var CB = null;
 try { CB = require('../assets/data/command-board-data.json'); } catch (e) {}
 
-// Real per-company kernel scores (api/limen/score snapshots), keyed by domain → ticker.
-// Presence of a domain here = that domain has been rescored; absence = falls back to
-// honest abstain. Add more files here as other domains get scored.
+/* Issuer identity is the CIK, never the ticker. Tickers collide across CIKs in
+   the live snapshots (ALKS is 850261 on the board and 1520262 in the eligible
+   feed), so a ticker is display metadata only after a CIK has established who
+   the issuer is. */
+function _normCik(value) {
+  if (value === null || value === undefined) return null;
+  var raw = String(value).trim();
+  if (!/^[0-9]+$/.test(raw)) return null;
+  var stripped = raw.replace(/^0+/, '');
+  return (stripped === '' || stripped === '0') ? null : stripped;
+}
+
+function _cikOf(row) {
+  if (!row) return null;
+  if (row.cik !== undefined && row.cik !== null) return _normCik(row.cik);
+  if (row.c !== undefined && row.c !== null) return _normCik(row.c);
+  return null;
+}
+
+/* Rows without a usable CIK cannot be joined to an issuer, so they are never
+   indexed and can never authorize a fallback. */
+function _indexByCik(records) {
+  var index = Object.create(null);
+  (records || []).forEach(function (rec) {
+    var key = _cikOf(rec);
+    if (!key) return;
+    (index[key] = index[key] || []).push(rec);
+  });
+  return index;
+}
+
+// Real per-company kernel scores (api/limen/score snapshots), keyed by domain and
+// then by normalized CIK. Presence of a domain here = that domain has been
+// rescored; absence = falls back to honest abstain. Add more files here as other
+// domains get scored.
 var REAL = {};
 try {
   var _eng = require('../assets/data/energy-distress-scores.json');
-  REAL.energy = {};
-  (_eng.scores || []).forEach(function (s) {
-    if (s.ticker) REAL.energy[s.ticker] = s;
-  });
+  REAL.energy = _indexByCik(_eng.scores || []);
 } catch (e) {}
 
 // ELIG — kernel verdicts derived from the validated eligible frontier (assets/data/command-board-eligible.json),
-// the SAME per-company kernel data the Command Board (/kernel-comparison) renders. Keyed domain -> ticker.
-// This lets EVERY kernel-covered domain (not just energy) surface its verdicts through the identical honest
+// the SAME per-company kernel data the Command Board (/kernel-comparison) renders. Keyed domain -> normalized
+// CIK. This lets EVERY kernel-covered domain (not just energy) surface its verdicts through the identical honest
 // gate. Each entry may carry the scorer-produced Thing 0 object (t0/thing0/thing0Eligibility). Legacy fields
 // (co, a, es, vs) remain available for Display/Thing 1, but they do NOT qualify a company by themselves.
 var ELIG = {};
@@ -40,9 +69,13 @@ try {
   var _elig = require('../assets/data/command-board-eligible.json');
   (_elig.companies || []).forEach(function (c) {
     if (!c || !c.t || !c.d) return;
+    var _cik = _normCik(c.c);
+    if (!_cik) return;
     var _dk = String(c.d).toLowerCase();
-    (ELIG[_dk] = ELIG[_dk] || {})[c.t] = {
+    if (!ELIG[_dk]) ELIG[_dk] = Object.create(null);
+    (ELIG[_dk][_cik] = ELIG[_dk][_cik] || []).push({
       ticker: c.t,
+      cik: _cik,
       composite: (typeof c.co === 'number') ? c.co : null,
       alert: !!c.a,
       inEnvelope: /ELIGIBLE/.test(String(c.es || '')),
@@ -51,7 +84,7 @@ try {
       firstAlertQuarter: c.fq || null,
       // Thing 0 evidence only when the snapshot writer recorded it.
       thing0: c.t0 || c.thing0 || c.thing0Eligibility || null
-    };
+    });
   });
 } catch (e) {}
 
@@ -71,20 +104,77 @@ function _tickerOf(row) {
   return row && (row.ticker || row.t);
 }
 
+function _tickerKey(row) {
+  var t = _tickerOf(row);
+  if (t === null || t === undefined) return null;
+  var s = String(t).trim().toUpperCase();
+  return s || null;
+}
+
+function _provenanceKey(row) {
+  var t0 = _thing0Of(row);
+  return JSON.stringify([
+    row && row.validated === true,
+    (row && (row.validation_status || row.vs)) || null,
+    (row && typeof row.composite === 'number') ? row.composite
+      : ((row && typeof row.co === 'number') ? row.co : null),
+    row && row.inEnvelope === true,
+    t0 ? (t0.qualification_status || null) : null,
+    t0 ? (t0.permits_thing1_use === true) : null,
+    row && row.error ? String(row.error) : null
+  ]);
+}
+
+/**
+ * Several snapshot rows can claim the same CIK. If they disagree on ticker or
+ * on provenance, there is no way to tell which one is authoritative, so the
+ * company fails closed instead of inheriting one arbitrarily.
+ */
+function _selectSameIssuer(candidates) {
+  if (!candidates || !candidates.length) return { record: null, conflict: false };
+  if (candidates.length === 1) return { record: candidates[0], conflict: false };
+  var ticker = null;
+  var provenance = null;
+  for (var i = 0; i < candidates.length; i++) {
+    var t = _tickerKey(candidates[i]);
+    if (!t) return { record: null, conflict: true };
+    var p = _provenanceKey(candidates[i]);
+    if (ticker === null) {
+      ticker = t;
+      provenance = p;
+    } else if (t !== ticker || p !== provenance) {
+      return { record: null, conflict: true };
+    }
+  }
+  return { record: candidates[0], conflict: false };
+}
+
 /**
  * Compatibility name. Select one coherent response wholesale; never attach
- * Thing 0 evidence from one snapshot to Thing 1 fields from another. Ticker
- * mismatch prevents a fallback row from crossing identities.
+ * Thing 0 evidence from one snapshot to Thing 1 fields from another.
+ *
+ * The join is authorized by normalized CIK only. `expectedCik` is the issuer
+ * the caller is resolving; when it is omitted the preferred row must carry its
+ * own CIK. A fallback is used only when its CIK is present and identical.
+ * Missing, malformed or mismatched identity abstains from the fallback; a
+ * ticker match alone never authorizes anything.
  */
-function _mergeThing0Evidence(preferred, fallback) {
-  var pt = _tickerOf(preferred);
-  var ft = _tickerOf(fallback);
-  if (pt && ft && String(pt).toUpperCase() !== String(ft).toUpperCase()) {
-    return preferred || fallback || null;
-  }
+function _mergeThing0Evidence(preferred, fallback, expectedCik) {
+  var anchor = (expectedCik === undefined || expectedCik === null)
+    ? _cikOf(preferred)
+    : _normCik(expectedCik);
+  if (!anchor) return preferred || null;
+
+  var pc = _cikOf(preferred);
+  var fc = _cikOf(fallback);
+  if (preferred && !pc) return preferred;
+  if (preferred && pc !== anchor) return null;
+  if (!fallback) return preferred || null;
+  if (fc !== anchor) return preferred || null;
+
   /* An errored preferred row is not a score. Use a coherent fallback wholesale,
      or leave the error row unqualified when no fallback exists. */
-  if (preferred && preferred.error) return fallback || preferred;
+  if (preferred && preferred.error) return fallback;
   if (preferred && _thing0Of(preferred)) return preferred;
   if (fallback && _thing0Of(fallback)) return fallback;
   return preferred || fallback || null;
@@ -108,9 +198,18 @@ function run(domain) {
   var hasReal = false;
   var enriched = [];
   comps.forEach(function (c) {
-    var r = preferredMap
-      ? _mergeThing0Evidence(preferredMap[c.t], fallbackMap && fallbackMap[c.t])
-      : (fallbackMap && fallbackMap[c.t]);
+    /* Resolve the issuer by CIK before looking at any score. A board row with
+       no usable CIK cannot be joined to anything, and duplicate CIK rows that
+       disagree fail closed for the whole company. */
+    var cik = _normCik(c.c);
+    var r = null;
+    if (cik) {
+      var pref = _selectSameIssuer(preferredMap && preferredMap[cik]);
+      var fb = _selectSameIssuer(fallbackMap && fallbackMap[cik]);
+      r = (pref.conflict || fb.conflict)
+        ? null
+        : _mergeThing0Evidence(pref.record, fb.record, cik);
+    }
     /* Copy the source row before attaching derived fields. The loaded
        command-board snapshot is shared by every request and must not be mutated. */
     var row = {};
@@ -182,3 +281,5 @@ module.exports = async function handler(req, res) {
 module.exports._mergeThing0Evidence = _mergeThing0Evidence;
 module.exports._thing0Of = _thing0Of;
 module.exports._thing1ValidatedRow = _thing1ValidatedRow;
+module.exports._normCik = _normCik;
+module.exports._selectSameIssuer = _selectSameIssuer;

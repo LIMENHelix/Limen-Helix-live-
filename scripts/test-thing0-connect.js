@@ -300,7 +300,8 @@ var brain = read('handlers/brain-signals.js');
 check('brain-signals marshals Thing 0 evidence', function () {
   assert.ok(brain.includes('thing0Evidence'), 'evidence counter missing');
   assert.ok(brain.includes('row.thing0 = _thing0Of(r)'), 'evidence is not attached to rows');
-  assert.ok(brain.includes('_mergeThing0Evidence('), 'per-ticker selection missing');
+  assert.ok(brain.includes('_mergeThing0Evidence('), 'per-issuer selection missing');
+  assert.ok(brain.includes('_normCik('), 'CIK identity normalization missing');
   assert.ok(brain.includes('no company is qualified for Thing 1 or action authority'),
     'legacy-unqualified note missing');
 });
@@ -439,11 +440,11 @@ check('Helix Report adapter carries Thing 0 and null-safe path scores', function
     'client envelope can overwrite the server refusal status');
 });
 
-check('brain-signals selects coherent Thing 0 rows per ticker', function () {
+check('brain-signals selects coherent Thing 0 rows per issuer', function () {
   var emitter = require('../handlers/brain-signals');
-  var preferred = { ticker: 'X', composite: 0.9, alert: false, validated: true, inEnvelope: true };
+  var preferred = { ticker: 'X', cik: '1001', composite: 0.9, alert: false, validated: true, inEnvelope: true };
   var fallback = {
-    ticker: 'X', composite: null, alert: false, validated: false, inEnvelope: false,
+    ticker: 'X', cik: '1001', composite: null, alert: false, validated: false, inEnvelope: false,
     thing0: { qualification_status: 'qualified', permits_thing1_use: true }
   };
   var selected = emitter._mergeThing0Evidence(preferred, fallback);
@@ -453,20 +454,20 @@ check('brain-signals selects coherent Thing 0 rows per ticker', function () {
   assert.equal(selected.validated, false, 'fallback validation state was not preserved');
 
   var preferredOwn = {
-    ticker: 'X', composite: 0.4, validated: true, inEnvelope: true,
+    ticker: 'X', cik: '1001', composite: 0.4, validated: true, inEnvelope: true,
     thing0: { qualification_status: 'qualified', permits_thing1_use: true }
   };
   assert.strictEqual(
     emitter._mergeThing0Evidence(preferredOwn, fallback), preferredOwn,
     'preferred response with its own Thing 0 was not used wholesale');
 
-  var diagnostic = { ticker: 'Y', composite: 0.5 };
-  assert.strictEqual(emitter._mergeThing0Evidence(diagnostic, { ticker: 'Y' }), diagnostic,
+  var diagnostic = { ticker: 'Y', cik: '1002', composite: 0.5 };
+  assert.strictEqual(emitter._mergeThing0Evidence(diagnostic, { ticker: 'Y', cik: '1002' }), diagnostic,
     'no-evidence row did not remain the diagnostic source');
   assert.equal(emitter._thing0Of(diagnostic), null, 'diagnostic row acquired Thing 0 evidence');
 
-  var untouchedPreferred = { ticker: 'Z', composite: 0.7 };
-  var untouchedFallback = { ticker: 'Z', thing0: { qualification_status: 'qualified' } };
+  var untouchedPreferred = { ticker: 'Z', cik: '1003', composite: 0.7 };
+  var untouchedFallback = { ticker: 'Z', cik: '1003', thing0: { qualification_status: 'qualified' } };
   var preferredBefore = JSON.stringify(untouchedPreferred);
   var fallbackBefore = JSON.stringify(untouchedFallback);
   emitter._mergeThing0Evidence(untouchedPreferred, untouchedFallback);
@@ -475,9 +476,9 @@ check('brain-signals selects coherent Thing 0 rows per ticker', function () {
   assert.equal(JSON.stringify(untouchedFallback), fallbackBefore,
     'fallback source row was mutated');
 
-  var errored = { ticker: 'GEV', error: 'http 502' };
+  var errored = { ticker: 'GEV', cik: '1004', error: 'http 502' };
   var fallbackScore = {
-    ticker: 'GEV', composite: 0.8, validated: true, inEnvelope: true, alert: false,
+    ticker: 'GEV', cik: '1004', composite: 0.8, validated: true, inEnvelope: true, alert: false,
     thing0: { qualification_status: 'qualified', permits_thing1_use: true }
   };
   assert.strictEqual(emitter._mergeThing0Evidence(errored, fallbackScore), fallbackScore,
@@ -487,10 +488,10 @@ check('brain-signals selects coherent Thing 0 rows per ticker', function () {
   assert.equal(emitter._thing0Of(loneError), null, 'errored row was given Thing 0 evidence');
 
   var crossTicker = emitter._mergeThing0Evidence(
-    { ticker: 'AAA', composite: 0.9 },
-    { ticker: 'BBB', thing0: { qualification_status: 'qualified', permits_thing1_use: true } });
-  assert.equal(crossTicker.ticker, 'AAA', 'cross-ticker fallback was selected');
-  assert.equal(emitter._thing0Of(crossTicker), null, 'Thing 0 evidence crossed tickers');
+    { ticker: 'AAA', cik: '1005', composite: 0.9 },
+    { ticker: 'BBB', cik: '1006', thing0: { qualification_status: 'qualified', permits_thing1_use: true } });
+  assert.equal(crossTicker.ticker, 'AAA', 'cross-issuer fallback was selected');
+  assert.equal(emitter._thing0Of(crossTicker), null, 'Thing 0 evidence crossed issuer identities');
 
   var F = require('../lib/thing-formulas');
   assert.equal(F.thing0Eligible({ ticker: 'GEV', real: loneError }).eligible, false,
@@ -514,6 +515,60 @@ check('brain-signals selects coherent Thing 0 rows per ticker', function () {
   };
   assert.equal(F.thing1Distress(unvalidated, { degenerate: false }), null,
     'coherent unvalidated control did not abstain');
+});
+
+check('brain-signals joins fallback evidence by normalized CIK', function () {
+  var emitter = require('../handlers/brain-signals');
+  var t0 = { qualification_status: 'qualified', permits_thing1_use: true };
+  var fallback = {
+    ticker: 'ALKS', cik: '0001520262', composite: 0.3, validated: true,
+    inEnvelope: true, thing0: t0
+  };
+  var preferred = {
+    ticker: 'ALKS', cik: '850261', composite: 0.9, validated: true, inEnvelope: true
+  };
+
+  assert.equal(emitter._normCik('0001520262'), emitter._normCik('1520262'),
+    'padded and unpadded CIKs did not normalize to the same issuer');
+  assert.equal(emitter._normCik('not-a-cik'), null, 'malformed CIK was accepted');
+  assert.equal(emitter._normCik(''), null, 'empty CIK was accepted');
+  assert.equal(emitter._normCik(null), null, 'null CIK was accepted');
+
+  var crossed = emitter._mergeThing0Evidence(preferred, fallback, '850261');
+  assert.strictEqual(crossed, preferred, 'same-ticker/different-CIK fallback was selected');
+  assert.equal(emitter._thing0Of(crossed), null,
+    'ALKS 850261 borrowed Thing 0 evidence from 1520262');
+
+  assert.strictEqual(emitter._mergeThing0Evidence(null, fallback, '1520262'), fallback,
+    'matching normalized CIK did not select the coherent fallback');
+  assert.strictEqual(emitter._mergeThing0Evidence(null, fallback, '0001520262'), fallback,
+    'padded CIK did not select the same issuer fallback');
+
+  assert.strictEqual(
+    emitter._mergeThing0Evidence(null, { ticker: 'ALKS', thing0: t0 }, '850261'), null,
+    'fallback without a CIK was used');
+  assert.strictEqual(
+    emitter._mergeThing0Evidence(null, { ticker: 'ALKS', cik: 'not-a-cik', thing0: t0 }, '850261'), null,
+    'fallback with a malformed CIK was used');
+  assert.strictEqual(
+    emitter._mergeThing0Evidence(preferred, { ticker: 'ALKS', thing0: t0 }), preferred,
+    'ticker-only fallback displaced an identified preferred row');
+
+  var contradictory = emitter._selectSameIssuer([
+    { ticker: 'ALKS', cik: '850261', validated: true, thing0: t0 },
+    { ticker: 'ALK', cik: '850261', validated: false }
+  ]);
+  assert.equal(contradictory.conflict, true,
+    'contradictory rows for one CIK did not fail closed');
+  assert.equal(contradictory.record, null, 'a contradictory duplicate was selected');
+
+  var duplicates = emitter._selectSameIssuer([
+    { ticker: 'ALKS', cik: '850261', validated: true, thing0: t0 },
+    { ticker: 'ALKS', cik: '000850261', validated: true, thing0: t0 }
+  ]);
+  assert.equal(duplicates.conflict, false,
+    'identical duplicate rows were treated as contradictory');
+  assert.ok(duplicates.record, 'identical duplicate rows produced no record');
 });
 
 check('snapshot --resume retries incomplete qualification', function () {
@@ -749,6 +804,10 @@ check('eligibility probe honors a Thing 0 refusal', function () {
 async function handlerCheck() {
   var cbPath = require.resolve('../assets/data/command-board-data.json');
   var cbBefore = JSON.stringify(require(cbPath));
+  var eligPath = require.resolve('../assets/data/command-board-eligible.json');
+  var engPath = require.resolve('../assets/data/energy-distress-scores.json');
+  var eligBefore = JSON.stringify(require(eligPath));
+  var engBefore = JSON.stringify(require(engPath));
   var handler = require('../handlers/brain-signals');
   var payload = null;
   await handler(
@@ -762,6 +821,10 @@ async function handlerCheck() {
   }
   assert.equal(JSON.stringify(require(cbPath)), cbBefore,
     'handler mutated command-board-data source rows');
+  assert.equal(JSON.stringify(require(eligPath)), eligBefore,
+    'handler mutated command-board-eligible source rows');
+  assert.equal(JSON.stringify(require(engPath)), engBefore,
+    'handler mutated energy-distress-scores source rows');
 
   /* The checked-in Command Board now carries scorer-produced Thing 0 evidence.
      The handler must detect it even though the energy distress snapshot does
@@ -786,9 +849,9 @@ async function handlerCheck() {
 
   /* Selection is wholesale and must not mutate either source row or promote
      Thing 1 validation. */
-  var preferred = { ticker: 'X', validated: false, inEnvelope: false, composite: 1 };
+  var preferred = { ticker: 'X', cik: '1007', validated: false, inEnvelope: false, composite: 1 };
   var fallback = {
-    ticker: 'X', validated: false, composite: null, inEnvelope: false,
+    ticker: 'X', cik: '1007', validated: false, composite: null, inEnvelope: false,
     thing0: { qualification_status: 'qualified', permits_thing1_use: true }
   };
   var preferredBefore = JSON.stringify(preferred);
@@ -866,6 +929,91 @@ async function handlerCheck() {
     assert.equal(fixturePayload.publishable.length, 0, JSON.stringify(fixturePayload));
     assert.ok(/Thing 0 qualification evidence is unavailable/.test(fixturePayload.note),
       fixturePayload.note);
+  } finally {
+    Module._load = originalLoad;
+    delete require.cache[handlerPath];
+  }
+}
+
+/* Production handler, isolated fixtures: the board's ALKS row is CIK 850261,
+   while the eligible feed's ALKS row is CIK 1520262. A ticker-only join would
+   publish the latter issuer under the former issuer's row. */
+async function identityCoherenceCheck() {
+  var Module = require('module');
+  var originalLoad = Module._load;
+  var handlerPath = require.resolve('../handlers/brain-signals');
+  var t0 = { qualification_status: 'qualified', permits_thing1_use: true };
+  var scenario = null;
+
+  async function runScenario(next) {
+    scenario = next;
+    delete require.cache[handlerPath];
+    var fixtureHandler = require('../handlers/brain-signals');
+    var payload = null;
+    await fixtureHandler(
+      { url: '/api/brain-signals?domain=medicine' },
+      { setHeader: function () {}, end: function (s) { payload = JSON.parse(s); } }
+    );
+    assert.ok(payload, 'fixture handler did not respond');
+    return payload;
+  }
+
+  try {
+    Module._load = function (request, parent, isMain) {
+      if (!scenario) return originalLoad.apply(this, arguments);
+      if (request === '../assets/data/command-board-data.json') return scenario.cb;
+      if (request === '../assets/data/energy-distress-scores.json') return { scores: [] };
+      if (request === '../assets/data/command-board-eligible.json') return scenario.elig;
+      return originalLoad.apply(this, arguments);
+    };
+
+    var collision = await runScenario({
+      cb: { companies: [
+        { n: 'Alkermes board row', t: 'ALKS', c: '850261', d: 'medicine', ds: 0.65 },
+        { n: 'Coherent control', t: 'CTRL', c: '0001234567', d: 'medicine', ds: 0.5 }
+      ] },
+      elig: { companies: [
+        { t: 'ALKS', c: '0001520262', d: 'medicine', co: 0.30, a: false,
+          es: 'ELIGIBLE_NOW', vs: 'validated', t0: t0 },
+        { t: 'CTRL', c: '1234567', d: 'medicine', co: 0.5, a: false,
+          es: 'ELIGIBLE_NOW', vs: 'validated', t0: t0 }
+      ] }
+    });
+    assert.equal(collision.thing0Evidence, 1, JSON.stringify(collision));
+    assert.equal(collision.publishable.length, 1, JSON.stringify(collision));
+    assert.equal(collision.publishable[0].ticker, 'CTRL',
+      'coherent same-CIK control did not publish');
+    assert.ok(!collision.publishable.some(function (r) { return r.ticker === 'ALKS'; }),
+      'ALKS 850261 inherited the colliding 1520262 qualification');
+
+    var unvalidated = await runScenario({
+      cb: { companies: [
+        { n: 'Unvalidated issuer', t: 'UNV', c: '42', d: 'medicine', ds: 0.9 }
+      ] },
+      elig: { companies: [
+        { t: 'UNV', c: '0000042', d: 'medicine', co: 0.99, a: true,
+          es: 'ELIGIBLE_NOW', vs: 'unvalidated_after_modification', t0: t0 }
+      ] }
+    });
+    assert.equal(unvalidated.thing0Evidence, 1, JSON.stringify(unvalidated));
+    assert.equal(unvalidated.publishable.length, 0,
+      'unvalidated same-CIK row published by borrowing legacy score fields');
+    assert.equal(unvalidated.flagged, 0, 'unvalidated row produced an alert');
+
+    var conflict = await runScenario({
+      cb: { companies: [
+        { n: 'Duplicate issuer', t: 'DUP', c: '77', d: 'medicine', ds: 0.5 }
+      ] },
+      elig: { companies: [
+        { t: 'DUP', c: '77', d: 'medicine', co: 0.4, a: false,
+          es: 'ELIGIBLE_NOW', vs: 'validated', t0: t0 },
+        { t: 'DUPX', c: '000077', d: 'medicine', co: 0.4, a: false,
+          es: 'ELIGIBLE_NOW', vs: 'validated', t0: t0 }
+      ] }
+    });
+    assert.equal(conflict.thing0Evidence, 0, JSON.stringify(conflict));
+    assert.equal(conflict.publishable.length, 0,
+      'contradictory duplicate CIK rows still published');
   } finally {
     Module._load = originalLoad;
     delete require.cache[handlerPath];
@@ -1023,6 +1171,7 @@ async function checkAsync(name, fn) {
 
 (async function () {
   await checkAsync('phase scorer actually deletes a refused cached phase', phaseCacheCheck);
+  await checkAsync('brain-signals identity coherence across colliding tickers', identityCoherenceCheck);
   await checkAsync('command-board executePlan is atomic and dry-run-safe', executePlanCheck);
   await checkAsync('handler contract against current static snapshots', handlerCheck);
   console.log('');
