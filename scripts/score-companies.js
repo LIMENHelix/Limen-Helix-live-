@@ -24,6 +24,7 @@
 const fs = require('fs');
 const https = require('https');
 const path = require('path');
+const quarantine = require('../lib/identity-quarantine');
 
 const DATA_DIR = path.join(__dirname, '..', 'assets', 'data');
 const INDEX_PATH = path.join(DATA_DIR, 'company-index.json');
@@ -150,7 +151,11 @@ function loadPortalSlugMap() {
   for (const f of files) {
     try {
       const p = JSON.parse(fs.readFileSync(path.join(COMPANIES_DIR, f), 'utf8'));
-      if (p && p.cik) map[normCik(p.cik)] = p.slug || f.replace(/\.json$/, '');
+      if (!p || !p.cik) continue;
+      const slug = p.slug || f.replace(/\.json$/, '');
+      /* A quarantined record must not become the portal route for its CIK. */
+      if (quarantine.isQuarantinedPortal({ slug, ticker: p.ticker, cik: p.cik })) continue;
+      map[normCik(p.cik)] = slug;
     } catch (e) { /* skip unreadable portal */ }
   }
   return map;

@@ -36,6 +36,17 @@
     return url.searchParams.get(name);
   }
 
+  /* Identity quarantine. A record that mixes two issuers is not renderable
+     until the missing issuer's authorized data exists. Keep aligned with
+     lib/identity-quarantine.js. */
+  var QUARANTINED_SLUGS = {
+    saia: 'Record quarantined: this page mixes Saia labels with A. O. Smith CIK and financial data. Saia financials have not been scored under its own CIK.'
+  };
+  function _identityQuarantineMessage(slug) {
+    if (!slug) return null;
+    return QUARANTINED_SLUGS[String(slug).toLowerCase()] || null;
+  }
+
   function loadJSON(url, cb) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
@@ -1491,6 +1502,9 @@
     var ticker = getParam('ticker');
     var cik = getParam('cik');
 
+    var directQuarantine = _identityQuarantineMessage(companySlug);
+    if (directQuarantine) { showError(directQuarantine); return; }
+
     if (companySlug) {
       loadJSON('assets/data/companies/' + companySlug + '.json', function(err, data) {
         if (!err) { _render(data); return; }
@@ -1499,6 +1513,8 @@
         // fall back to the not-found message.
         loadJSON('assets/data/company-aliases.json', function(aerr, amap) {
           var canon = amap && amap.aliases && amap.aliases[companySlug];
+          var aliasQuarantine = _identityQuarantineMessage(canon);
+          if (aliasQuarantine) { showError(aliasQuarantine); return; }
           if (canon && canon !== companySlug) {
             loadJSON('assets/data/companies/' + canon + '.json', function(e2, d2) {
               if (!e2) { _render(d2); return; }
@@ -1523,6 +1539,8 @@
       if (typeof window.LIMENCompanyResolver !== 'undefined') {
         window.LIMENCompanyResolver.resolve(input, function(result) {
           if (result) {
+            var resolvedQuarantine = _identityQuarantineMessage(result.slug);
+            if (resolvedQuarantine) { showError(resolvedQuarantine); return; }
             loadJSON('assets/data/companies/' + result.slug + '.json', function(err, data) {
               if (err) { showError('Company data not found'); return; }
               _render(data);

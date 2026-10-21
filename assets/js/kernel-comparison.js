@@ -94,6 +94,14 @@ var SIGNAL_ENUM = {
   NOMINAL:          { label: 'NOMINAL',           color: '#5ab5a0',  icon: '✓' }
 };
 
+/* Identity quarantine. A record that mixes two issuers is not navigable until
+   the missing issuer's authorized data exists. Keep this list aligned with
+   lib/identity-quarantine.js. */
+var QUARANTINED_SLUGS = { saia: 'mixed SAIA / A. O. Smith identity' };
+function _identityQuarantined(slug) {
+  return !!(slug && QUARANTINED_SLUGS[String(slug).toLowerCase()]);
+}
+
 var TERMINAL_PHASES = ['p7','p7a','p9'];
 var STABLE_PHASES = ['p4','p5','p6'];
 var ORDERED_PHASES = ['p6','p10'];
@@ -591,7 +599,11 @@ function _buildExpandContent(d) {
   // COMPANY PORTAL only renders when this row has a built portal (d.hp set by
   // scripts/wire-eligible-slugs.mjs). Avoids dead links while the eligible-
   // portal build is in progress; HELIX REPORT + WATCHLIST stay for every row.
-  if (d.hp) h += '<a href="company-portal.html?company=' + d.s + '">COMPANY PORTAL</a>';
+  if (d.hp && _identityQuarantined(d.s)) {
+    h += '<span title="Record quarantined: mixed SAIA / A. O. Smith identity" style="color:#e8a44e;cursor:not-allowed">IDENTITY QUARANTINE</span>';
+  } else if (d.hp) {
+    h += '<a href="company-portal.html?company=' + d.s + '">COMPANY PORTAL</a>';
+  }
   h += '<button onclick="toggleWatchlist(\'' + d.t + '\',event)">WATCHLIST</button>';
   h += '</div>';
 

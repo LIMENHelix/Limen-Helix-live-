@@ -20,6 +20,10 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+const quarantine = require('../lib/identity-quarantine.js');
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,6 +42,11 @@ async function main() {
     try {
       const raw = await fs.readFile(path.join(PORTAL_DIR, e), 'utf8');
       const p = JSON.parse(raw);
+      /* Quarantined records stay on disk for audit but are not navigable. */
+      if (quarantine.isQuarantinedPortal(p)) {
+        console.error('quarantine ' + slug + ': ' + (quarantine.describe(slug) || {}).reason);
+        continue;
+      }
       slugs.push(slug);
       index[slug] = {
         name: p.name || slug,
