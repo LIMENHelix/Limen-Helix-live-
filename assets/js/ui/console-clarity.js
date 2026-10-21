@@ -3460,6 +3460,19 @@
   // distress (the most-stressed = the most urgent target). When it finishes,
   // re-render the patent tab so targets upgrade from the brainCompanies
   // fallback to distress-ranked names.
+  // ── kernel-watchlist authority contract ──
+  // A watchlist produced before Thing One validation gated the eligible feed can
+  // still claim validated, bankruptcy-watch and investment-primed names. Refuse
+  // it rather than rendering stale authority.
+  function _watchlistAuthorityOk(data) {
+    var a = data && data.authority;
+    return !!(a
+      && a.contract === 'thing1-validated-v1'
+      && a.kernelId === 'limen_backtest.py'
+      && a.source === 'assets/data/command-board-eligible.json');
+  }
+  // ── end _watchlistAuthorityOk ──
+
   function _capLoadBoardMap() {
     if (window._capBoardMap || window._capBoardMapLoading) return;
     window._capBoardMapLoading = true;
@@ -3471,6 +3484,10 @@
     fetch('/assets/data/kernel-watchlist.json')
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (data) {
+        if (data && !_watchlistAuthorityOk(data)) {
+          console.warn('[Clarity] kernel-watchlist authority contract missing or stale; withholding claims');
+          data = null;
+        }
         var map = {};
         if (data) {
           var rows = (data.bankruptcyWatch || []).concat(data.investmentPrimed || []);

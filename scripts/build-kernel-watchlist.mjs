@@ -16,6 +16,7 @@
  * assets/data/kernel-watchlist.json — the single source surfaces filter on.
  */
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
@@ -29,7 +30,8 @@ const phaseFactor = (p) => PHASE_FACTOR[String(p || '').toLowerCase()];
 const ELIGIBLE = path.join(ROOT, 'assets', 'data', 'command-board-eligible.json');
 const OUT = path.join(ROOT, 'assets', 'data', 'kernel-watchlist.json');
 
-const raw = JSON.parse(fs.readFileSync(ELIGIBLE, 'utf8'));
+const eligibleBuf = fs.readFileSync(ELIGIBLE);
+const raw = JSON.parse(eligibleBuf.toString('utf8'));
 const rows = Array.isArray(raw) ? raw : (raw.companies || raw.rows || Object.values(raw));
 
 const validated = rows.filter(r => (r.vs || r.validation_status) === 'validated');
@@ -74,6 +76,16 @@ const investmentPrimed = inScope
 
 const out = {
   generatedAt: new Date().toISOString(),
+  /* Consumers must reject a watchlist produced before Thing One validation
+     gated the source feed. */
+  authority: {
+    contract: 'thing1-validated-v1',
+    kernelId: 'limen_backtest.py',
+    source: 'assets/data/command-board-eligible.json',
+    sourceSha256: crypto.createHash('sha256').update(eligibleBuf).digest('hex'),
+    sourceGeneratedAt: raw._generated || null,
+    sourceRows: rows.length
+  },
   directive: 'Only kernel-validated bankruptcy-call candidates + investment-primed names surface. No other companies matter. (operator 2026-07-11)',
   criteria: {
     envelope: 'validation_status === validated AND NOT Finance/Insurance/Real-Estate (SIC 6000-6799) — kernel invalid on FIRE',
