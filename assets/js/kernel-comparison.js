@@ -99,13 +99,16 @@ var STABLE_PHASES = ['p4','p5','p6'];
 var ORDERED_PHASES = ['p6','p10'];
 
 function classifySignal(d) {
-  // Rule 1: HTTP/API/extraction failure
+  // Rule 1: explicit source/extraction failure
   if (d.p === 'ERROR') return 'DATA_ERROR';
-  // Rule 2: Terminal-like phase but domain stress low → likely extraction bug
-  if (TERMINAL_PHASES.indexOf(d.p) !== -1 && d.ds < 0.30) return 'DATA_ERROR';
-  // Rule 3: No valid Thing 1 claim. A refused or unscored row is not NOMINAL.
+  // Rule 2: authority gates. A row without Thing 0 qualification or without a
+  // validated Thing 1 result has no verdict to interpret; phase and stress must
+  // not override that with a DATA_ERROR claim.
   if (d._thing0Status !== 'QUALIFIED') return 'NOT_QUALIFIED';
   if (d._thing1Result === 'ABSTAIN') return 'ABSTAIN';
+  // Rule 3: terminal-like phase with low domain stress now signals an
+  // extraction contradiction in an otherwise authoritative row.
+  if (TERMINAL_PHASES.indexOf(d.p) !== -1 && d.ds < 0.30) return 'DATA_ERROR';
   // Rule 4: Linear alert with no data contradiction (validated Thing 1 only)
   if (_isValidatedAlert(d)) return 'ALERT';
   // Rule 5: Stable phase but extreme domain stress
