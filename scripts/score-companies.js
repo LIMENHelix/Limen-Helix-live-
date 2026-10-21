@@ -265,6 +265,40 @@ function deriveTrajectory(d) {
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
+function buildOrdinaryRow(co, d, context) {
+  /* Ordinary builds persist the scorer's Thing Zero evidence with the same
+     canonical structure as --refresh-thing0. No evidence is synthesized when
+     the scorer omits or malforms it. */
+  const t0 = d.thing0_eligibility || d.thing0Eligibility || null;
+  const permitted = !!(t0 && t0.permits_thing1_use === true);
+  const validationStatus = d.validation_status === undefined ? null : d.validation_status;
+  const validated = validationStatus === 'validated';
+  return {
+    n: co.name, t: co.ticker, c: co.cik,
+    s: context.portalSlug || co.slug, d: context.canon.domain,
+    subTag: context.canon.subTag,
+    p: d.dominant_phase || '?',
+    tr: deriveTrajectory(d),
+    co: numOrNull(d.composite_score),
+    a: d.alert === true,
+    path: d.pathway === undefined ? null : d.pathway,
+    pa: numOrNull(d.path_a_score),
+    pb: numOrNull(d.path_b_score),
+    pc: numOrNull(d.path_c_score),
+    fq: d.first_alert_quarter === undefined ? null : d.first_alert_quarter,
+    q: d.latest_quarter === undefined ? null : d.latest_quarter,
+    hist: typeof d.history_quarters === 'number' ? d.history_quarters : 0,
+    kid: d.kernel_id || null,
+    vs: validationStatus,
+    ds: context.ds,
+    es: !permitted ? 'NOT_QUALIFIED_BY_THING0'
+      : (validated ? 'ELIGIBLE_NOW' : 'OUT_OF_ENVELOPE'),
+    t0: t0,
+    thing0_source: 'live_scorer',
+    thing0_validation_status: validationStatus
+  };
+}
+
 // ── Source Loaders ──
 
 function loadCompanyIndex() {
@@ -535,26 +569,11 @@ async function main() {
       // Per-row ds prefers the original subcategory's hardcoded value (more
       // granular), falls back to the canonical parent, else 0.2.
       const ds = DOMAIN_STRESS[co.domain] || DOMAIN_STRESS[canon.domain] || 0.2;
-      results.push({
-        n: co.name, t: co.ticker, c: co.cik,
-        s: portalSlugByCik[normCik(co.cik)] || co.slug, d: canon.domain,
-        subTag: canon.subTag,
-        p: d.dominant_phase || '?',
-        tr: deriveTrajectory(d),
-        co: d.composite_score || 0,
-        a: d.alert || false,
-        // Validated-kernel fields surfaced for the expand-row + Helix Report parity
-        path: d.pathway || null,
-        pa: d.path_a_score || 0,
-        pb: d.path_b_score || 0,
-        pc: d.path_c_score || 0,
-        fq: d.first_alert_quarter || null,
-        q:  d.latest_quarter || null,
-        hist: d.history_quarters || 0,
-        kid: d.kernel_id || 'limen_backtest.py',
-        vs: d.validation_status || 'validated',
-        ds: ds
-      });
+      results.push(buildOrdinaryRow(co, d, {
+        canon: canon,
+        ds: ds,
+        portalSlug: portalSlugByCik[normCik(co.cik)]
+      }));
       scored++;
     } catch (e) {
       const canon = canonicalizeDomain(co.domain);
@@ -677,4 +696,8 @@ async function main() {
   console.log('  File size: ' + (fs.statSync(OUTPUT_PATH).size / 1024).toFixed(1) + ' KB');
 }
 
-main().catch(e => { console.error('Fatal:', e); process.exit(1); });
+if (require.main === module) {
+  main().catch(e => { console.error('Fatal:', e); process.exit(1); });
+}
+
+module.exports = { buildOrdinaryRow };

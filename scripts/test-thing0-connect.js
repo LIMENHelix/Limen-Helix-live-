@@ -157,6 +157,85 @@ check('real scorer selection is authoritative over legacy fields', function () {
     'validated legacy fallback without a real property was lost');
 });
 
+check('ordinary score-companies path persists scorer Thing Zero evidence', function () {
+  var producer = require('../scripts/score-companies');
+  var build = producer.buildOrdinaryRow;
+  var co = { name: 'New Co', ticker: 'NEW', cik: '123', slug: 'new_co' };
+  var context = { canon: { domain: 'energy', subTag: null }, ds: 0.77, portalSlug: 'new_co' };
+
+  var qualified = build(co, {
+    thing0_eligibility: { qualification_status: 'qualified', permits_thing1_use: true },
+    validation_status: 'validated',
+    composite_score: 0.72,
+    alert: false,
+    path_a_score: null,
+    path_b_score: 0.1,
+    path_c_score: null,
+    kernel_id: 'limen_backtest.py'
+  }, context);
+  assert.deepEqual(qualified.t0,
+    { qualification_status: 'qualified', permits_thing1_use: true },
+    'qualified Thing Zero evidence was not persisted exactly');
+  assert.equal(qualified.vs, 'validated');
+  assert.equal(qualified.es, 'ELIGIBLE_NOW');
+  assert.equal(qualified.co, 0.72);
+  assert.equal(qualified.pa, null, 'null path score was converted');
+  assert.equal(qualified.pb, 0.1);
+  assert.equal(qualified.pc, null, 'null path score was converted');
+  assert.equal(qualified.thing0_source, 'live_scorer');
+  assert.equal(qualified.thing0_validation_status, 'validated');
+
+  var partial = build(co, {
+    thing0_eligibility: { qualification_status: 'partially_qualified', permits_thing1_use: false },
+    validation_status: 'not_permitted_by_thing0',
+    composite_score: null
+  }, context);
+  assert.equal(partial.t0.qualification_status, 'partially_qualified');
+  assert.equal(partial.t0.permits_thing1_use, false);
+  assert.equal(partial.es, 'NOT_QUALIFIED_BY_THING0');
+  assert.equal(partial.co, null, 'null composite was converted');
+
+  var refused = build(co, {
+    thing0_eligibility: { qualification_status: 'not_qualified', permits_thing1_use: false },
+    validation_status: 'not_permitted_by_thing0'
+  }, context);
+  assert.equal(refused.t0.qualification_status, 'not_qualified');
+  assert.equal(refused.t0.permits_thing1_use, false);
+  assert.equal(refused.es, 'NOT_QUALIFIED_BY_THING0');
+
+  var missing = build(co, { validation_status: 'unvalidated_after_modification' }, context);
+  assert.equal(missing.t0, null, 'missing Thing Zero evidence was synthesized');
+  assert.equal(missing.es, 'NOT_QUALIFIED_BY_THING0');
+  assert.equal(missing.vs, 'unvalidated_after_modification');
+
+  var malformed = build(co, {
+    thing0_eligibility: 'qualified',
+    validation_status: 'validated'
+  }, context);
+  assert.equal(malformed.t0, 'qualified', 'malformed evidence was not preserved exactly');
+  assert.equal(malformed.es, 'NOT_QUALIFIED_BY_THING0');
+  assert.notEqual(typeof malformed.t0, 'object');
+
+  var source = read('scripts/score-companies.js');
+  assert.ok(source.includes('buildOrdinaryRow(co, d'),
+    'ordinary path does not use the Thing Zero row builder');
+  var resume = source.slice(source.indexOf('if (existing[existingKey]'),
+    source.indexOf('// Metadata repair'));
+  assert.ok(resume.includes('results.push(ex)'),
+    'resume path does not preserve the existing row');
+  assert.ok(!/delete\s+ex\.t0/.test(resume),
+    'resume path deletes Thing Zero evidence');
+  var ordinary = source.slice(source.indexOf('const d = await postScore(co.cik);'),
+    source.indexOf('if ((scored + errors) % 10'));
+  var catchBlock = ordinary.slice(ordinary.indexOf('} catch (e) {'));
+  assert.ok(catchBlock.includes("vs: 'error'"),
+    'scorer failure did not produce an explicit error row');
+  assert.ok(!catchBlock.includes('buildOrdinaryRow'),
+    'scorer failure wrote a successful row');
+  assert.ok(source.includes('async function refreshThing0Rows'),
+    'refresh mode removed');
+});
+
 // ── Brain signals: marshal evidence, gate before Thing 1 ───────────────────
 var brain = read('handlers/brain-signals.js');
 check('brain-signals marshals Thing 0 evidence', function () {
