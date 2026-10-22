@@ -7,6 +7,11 @@ const path = require('node:path');
     applyFinancialRefresh, hasThing0Qualification, hasThing1Provenance,
     shouldRescoreStaleOnly
   } = await import(pathToFileURL(path.join(__dirname, 'rescore-portals.mjs')));
+  const coherentT1 = {
+    status: 'validated', available: true, effectiveStatus: 'validated',
+    kernelId: 'limen_backtest.py', thing0Qualification: 'qualified',
+    thing0PermitsThing1Use: true
+  };
   const portal = {
     financialHealth: { alert: true },
     opportunitySignals: [{ engine: 'investment', id: 'old-alert' }, { engine: 'research', id: 'research' }]
@@ -32,9 +37,24 @@ const path = require('node:path');
   const permitted = { opportunitySignals: [{ engine: 'investment', id: 'valid' }] };
   applyFinancialRefresh(permitted, {
     validationStatus: 'validated',
-    thing1Validation: { status: 'validated', available: true }
+    thing1Validation: coherentT1
   }, '2026-10-18T00:00:00Z');
   assert.equal(permitted.opportunitySignals[0].id, 'valid');
+
+  /* Legacy provenance that claims validated+available without the protected
+     identity and canonical Thing Zero fields must not keep a signal active. */
+  const legacy = {
+    opportunitySignals: [
+      { engine: 'investment', id: 'legacy' },
+      { engine: 'research', id: 'research-keep' }
+    ]
+  };
+  applyFinancialRefresh(legacy, {
+    validationStatus: 'validated',
+    thing1Validation: { status: 'validated', available: true }
+  }, '2026-10-18T00:00:00Z');
+  assert.deepEqual(legacy.opportunitySignals.map(s => s.id), ['research-keep']);
+  assert.equal(legacy.quarantinedOpportunitySignals[0].id, 'legacy');
 
   const unvalidated = {
     opportunitySignals: [
@@ -82,7 +102,7 @@ const path = require('node:path');
   };
   applyFinancialRefresh(fundamentals, {
     validationStatus: 'validated',
-    thing1Validation: { status: 'validated', available: true },
+    thing1Validation: coherentT1,
     pathA: 0.2
   }, '2026-10-18T00:00:02Z');
   assert.equal(fundamentals.financialHealth.revenueLast4Q, 123);
@@ -102,7 +122,7 @@ const path = require('node:path');
   };
   applyFinancialRefresh(keep, {
     validationStatus: 'validated',
-    thing1Validation: { status: 'validated', available: true },
+    thing1Validation: coherentT1,
     pathA: 0.2, pathB: 0.1, pathC: 0.0,
     pathAThreshold: 1.1, pathBThreshold: 1.5, pathCThreshold: 1.5,
     inEnvelope: true
@@ -116,7 +136,7 @@ const path = require('node:path');
 
   const now = new Date();
   const currentQ = now.getUTCFullYear() + 'Q' + (Math.floor(now.getUTCMonth() / 3) + 1);
-  const validatedT1 = { status: 'validated', available: true };
+  const validatedT1 = coherentT1;
   const qualifiedT0 = { qualification_status: 'qualified', permits_thing1_use: true };
   const recent = (t0, t1) => ({
     financialHealth: {
@@ -129,6 +149,8 @@ const path = require('node:path');
   /* Skip requires BOTH affirmative provenances. */
   assert.equal(shouldRescoreStaleOnly(recent(qualifiedT0, validatedT1)), false,
     'recent record with validated Thing 1 and qualified/permitted Thing 0 should be skipped');
+  assert.equal(shouldRescoreStaleOnly(recent(qualifiedT0, { status: 'validated', available: true })), true,
+    'legacy Thing 1 provenance without the new evidence must be rescored');
 
   /* Missing Thing 0 evidence, even with a recent validated Thing 1. */
   assert.equal(shouldRescoreStaleOnly(recent(undefined, validatedT1)), true,

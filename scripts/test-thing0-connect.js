@@ -746,7 +746,11 @@ check('investment engine quarantines when Thing 1 is not validated', function ()
     slug: 'fixture-valid', kernelStatus: 'ELIGIBLE_NOW',
     financialHealth: {
       compositeScore: 1.6, alert: true, validationStatus: 'validated',
-      thing1Validation: { status: 'validated', available: true }
+      thing1Validation: {
+        status: 'validated', available: true, effectiveStatus: 'validated',
+        kernelId: 'limen_backtest.py', thing0Qualification: 'qualified',
+        thing0PermitsThing1Use: true
+      }
     },
     opportunitySignals: []
   };
@@ -766,8 +770,10 @@ check('investment engine quarantines when Thing 1 is not validated', function ()
 
   var rescoreSource = read('scripts/rescore-portals.mjs');
   var applyBody = rescoreSource.slice(rescoreSource.indexOf('export function applyFinancialRefresh'));
-  assert.ok(!applyBody.includes('thing0PermitsThing1'),
-    'portal refresh still gates on Thing 0');
+  assert.ok(!/thing0Eligibility|permits_thing1_use/.test(applyBody),
+    'portal refresh re-reads raw Thing 0 as an investment gate');
+  assert.ok(applyBody.includes('thing0PermitsThing1Use'),
+    'portal refresh provenance does not carry Thing 0 permission');
   assert.ok(applyBody.includes('thing1Validation'),
     'portal refresh does not gate on Thing 1 provenance');
   assert.ok(applyBody.includes('portal.financialHealth = { ...preserved, ...financialHealth }'),

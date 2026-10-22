@@ -19,9 +19,18 @@
 })(typeof window !== 'undefined' ? window : null, function () {
   'use strict';
 
+  /* Verify the persisted provenance itself, not only status/available. Legacy
+     objects missing the protected identity or canonical Thing Zero fields
+     abstain. */
   function portalThing1Authorized(co) {
     var t1 = co && co.financialHealth && co.financialHealth.thing1Validation;
-    return !!(t1 && t1.status === 'validated' && t1.available === true);
+    return !!(t1
+      && t1.status === 'validated'
+      && t1.available === true
+      && t1.effectiveStatus === 'validated'
+      && t1.kernelId === 'limen_backtest.py'
+      && t1.thing0Qualification === 'qualified'
+      && t1.thing0PermitsThing1Use === true);
   }
 
   function signalFrozenValidated(signal) {

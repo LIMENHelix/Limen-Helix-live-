@@ -69,8 +69,13 @@ const validSignal = {
   engine: 'investment', subType: 'distress-short-candidate',
   evidence: { validationStatus: 'validated', thing1ValidationStatus: 'validated' }
 };
+const coherentProvenance = {
+  status: 'validated', available: true, effectiveStatus: 'validated',
+  kernelId: 'limen_backtest.py', thing0Qualification: 'qualified',
+  thing0PermitsThing1Use: true
+};
 const coherent = {
-  financialHealth: { thing1Validation: { status: 'validated', available: true } },
+  financialHealth: { thing1Validation: coherentProvenance },
   opportunitySignals: [validSignal, { engine: 'research', id: 'r1' }]
 };
 const coherentPart = A.partitionOpportunitySignals(coherent);
@@ -80,7 +85,7 @@ assert.strictEqual(A.portalThing1Authorized(coherent), true);
 
 // ── Each half of the contract is required ─────────────────────────────────
 const currentOnly = {
-  financialHealth: { thing1Validation: { status: 'validated', available: true } },
+  financialHealth: { thing1Validation: coherentProvenance },
   opportunitySignals: [{ engine: 'investment', evidence: {} }]
 };
 assert.strictEqual(A.partitionOpportunitySignals(currentOnly).active.length, 0,
@@ -95,6 +100,16 @@ const frozenOnly = {
 assert.strictEqual(A.partitionOpportunitySignals(frozenOnly).active.length, 0,
   'missing current Thing One authority surfaced an investment signal');
 assert.strictEqual(A.partitionOpportunitySignals(frozenOnly).withheld[0].reason,
+  'current_thing1_not_authorized');
+
+const legacyProvenance = {
+  financialHealth: { thing1Validation: { status: 'validated', available: true } },
+  opportunitySignals: [{ engine: 'investment', evidence: { validationStatus: 'validated' } }]
+};
+assert.strictEqual(legacyProvenance.financialHealth.thing1Validation.kernelId, undefined);
+assert.strictEqual(A.partitionOpportunitySignals(legacyProvenance).active.length, 0,
+  'legacy provenance without the new evidence surfaced an investment signal');
+assert.strictEqual(A.partitionOpportunitySignals(legacyProvenance).withheld[0].reason,
   'current_thing1_not_authorized');
 
 const nonInvestment = {

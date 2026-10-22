@@ -55,7 +55,15 @@ function qAgeOf(latest) {
    unavailable must be retried once the runtime or data is restored. */
 export function hasThing1Provenance(financialHealth) {
   const p = financialHealth && financialHealth.thing1Validation;
-  return !!(p && p.status === 'validated' && p.available === true);
+  /* Legacy provenance objects without the protected identity and canonical
+     Thing Zero fields are not current and must be rescored. */
+  return !!(p
+    && p.status === 'validated'
+    && p.available === true
+    && p.effectiveStatus === 'validated'
+    && p.kernelId === 'limen_backtest.py'
+    && p.thing0Qualification === 'qualified'
+    && p.thing0PermitsThing1Use === true);
 }
 
 /* Affirmative Thing 0 qualification. Missing, malformed, refused, partial or
@@ -89,26 +97,127 @@ function bandFor(r) {
   return 'green';
 }
 
+/* Derive effective Thing One authority from the whole response. A raw
+   validation_status of 'validated' is not enough: the protected scorer
+   identity, affirmative Thing Zero qualification/permission and the absence of
+   fingerprint, envelope or interpretive refusals must all agree. Raw fields
+   are preserved separately for diagnostics. */
+export function deriveThing1Authority(r) {
+  const rawKernel = r && r.kernel_id;
+  const kernelId = typeof rawKernel === 'string' && rawKernel.trim() ? rawKernel.trim() : null;
+  const validationStatus = r && r.validation_status;
+  const t0 = r && (r.thing0_eligibility || r.thing0Eligibility) || null;
+
+  const t0IsObject = !!(t0 && typeof t0 === 'object' && !Array.isArray(t0));
+  const statusSnake = t0IsObject && typeof t0.qualification_status === 'string'
+    ? t0.qualification_status : null;
+  const statusCamel = t0IsObject && typeof t0.qualificationStatus === 'string'
+    ? t0.qualificationStatus : null;
+  const statusContradictory = statusSnake !== null && statusCamel !== null
+    && statusSnake.toLowerCase() !== statusCamel.toLowerCase();
+  const t0Status = statusSnake || statusCamel;
+  const permitsSnake = t0IsObject && typeof t0.permits_thing1_use === 'boolean'
+    ? t0.permits_thing1_use : null;
+  const permitsCamel = t0IsObject && typeof t0.permitsThing1Use === 'boolean'
+    ? t0.permitsThing1Use : null;
+  const permitsContradictory = permitsSnake !== null && permitsCamel !== null
+    && permitsSnake !== permitsCamel;
+  const t0Qualified = !statusContradictory && t0Status === 'qualified';
+  const t0Permits = !permitsContradictory && (permitsSnake === true || permitsCamel === true);
+
+  const fp = r && r.fingerprint_status;
+  const fpState = fp && typeof fp === 'object' ? fp.state : (typeof fp === 'string' ? fp : null);
+  const fingerprintRefused = !!(fpState && fpState !== 'match');
+  const interpretiveRefused = !!(r && r.interpretive_only === true);
+  const envelopeCode = r && r.envelope_status_code;
+  const envelopeRefused = !!(r && (r.in_envelope === false
+    || (envelopeCode && envelopeCode !== 'ELIGIBLE_NOW')));
+
+  let reason = null;
+  if (validationStatus !== 'validated') {
+    reason = 'validation_not_validated:' + (validationStatus || 'unavailable');
+  } else if (!kernelId) {
+    reason = 'kernel_id_missing';
+  } else if (kernelId !== 'limen_backtest.py') {
+    reason = 'kernel_id_wrong:' + kernelId;
+  } else if (t0 === null || t0 === undefined) {
+    reason = 'thing0_missing';
+  } else if (!t0IsObject) {
+    reason = 'thing0_malformed';
+  } else if (statusContradictory || permitsContradictory) {
+    reason = 'thing0_evidence_contradictory';
+  } else if (!t0Status) {
+    reason = 'thing0_malformed';
+  } else if (!t0Qualified) {
+    reason = 'thing0_not_qualified:' + t0Status;
+  } else if (permitsSnake === null && permitsCamel === null) {
+    reason = 'thing0_permission_missing';
+  } else if (!t0Permits) {
+    reason = 'thing0_permission_false';
+  } else if (fingerprintRefused) {
+    reason = 'fingerprint_refused:' + fpState;
+  } else if (interpretiveRefused) {
+    reason = 'interpretive_refusal';
+  } else if (envelopeRefused) {
+    reason = 'envelope_refused:' + (envelopeCode || 'out_of_envelope');
+  }
+
+  const available = reason === null;
+  return {
+    available,
+    status: validationStatus || 'unavailable',
+    effectiveStatus: available ? 'validated' : (reason || 'unavailable'),
+    kernelId,
+    kernelIdValid: kernelId === 'limen_backtest.py',
+    thing0Present: t0IsObject,
+    thing0Qualification: t0IsObject && typeof t0Status === 'string' ? t0Status : 'unavailable',
+    thing0PermitsThing1Use: t0Permits === true,
+    refusalReason: reason,
+    raw: {
+      validation_status: validationStatus === undefined ? null : validationStatus,
+      kernel_id: rawKernel === undefined ? null : rawKernel,
+      thing0_qualification_status: statusSnake,
+      thing0_qualification_status_camel: statusCamel,
+      permits_thing1_use: permitsSnake,
+      permits_thing1_use_camel: permitsCamel,
+      fingerprint_status: r && r.fingerprint_status !== undefined ? r.fingerprint_status : null,
+      in_envelope: r && r.in_envelope !== undefined ? r.in_envelope : null,
+      interpretive_only: r && r.interpretive_only !== undefined ? r.interpretive_only : null,
+      envelope_status_code: envelopeCode === undefined ? null : envelopeCode
+    }
+  };
+}
+
 // Map the live endpoint response into the financialHealth schema the portal
 // renderer already understands, plus the new envelope fields.
-function toFinancialHealth(r, nowIso) {
+export function toFinancialHealth(r, nowIso) {
+  const authority = deriveThing1Authority(r);
   return {
     asOf: nowIso.slice(0, 10),
     lastKernelRun: nowIso,
-    kernelId: r.kernel_id || null,
+    kernelId: authority.kernelId,
     kernelShaLock: (r.kernel_sha256_lock || '').slice(0, 16),
     validationStatus: r.validation_status,
     /* THING 1 PROVENANCE. Investment and the portal consume this, not Thing 0.
-       A Thing 0 refusal appears here as not_permitted_by_thing0. */
+       Availability is derived from the full authority chain; raw response
+       fields are retained under `raw` for diagnostics. */
     thing1Validation: {
-      status: r.validation_status || 'unavailable',
-      available: r.validation_status === 'validated',
+      status: authority.status,
+      effectiveStatus: authority.effectiveStatus,
+      available: authority.available,
+      kernelId: authority.kernelId,
+      kernelIdValid: authority.kernelIdValid,
+      thing0Present: authority.thing0Present,
+      thing0Qualification: authority.thing0Qualification,
+      thing0PermitsThing1Use: authority.thing0PermitsThing1Use,
+      refusalReason: authority.refusalReason,
       source: 'api/limen/score',
-      runAt: nowIso
+      runAt: nowIso,
+      raw: authority.raw
     },
     // ── Thing 0 qualification (authoritative; absent means unavailable) ──
-    thing0Eligibility: r.thing0_eligibility || null,
-    thing0PermitsThing1: !!(r.thing0_eligibility && r.thing0_eligibility.permits_thing1_use === true),
+    thing0Eligibility: r.thing0_eligibility || r.thing0Eligibility || null,
+    thing0PermitsThing1: authority.thing0PermitsThing1Use,
     // ── envelope (new) ──
     inEnvelope: r.in_envelope,
     interpretiveOnly: r.interpretive_only,
@@ -236,9 +345,14 @@ export function applyFinancialRefresh(portal, financialHealth, at) {
   const preserved = { ...(portal.financialHealth || {}) };
   for (const key of KERNEL_VERDICT_FIELDS) delete preserved[key];
   portal.financialHealth = { ...preserved, ...financialHealth };
-  const thing1Validated = !!(financialHealth.thing1Validation &&
-    financialHealth.thing1Validation.status === 'validated' &&
-    financialHealth.thing1Validation.available === true);
+  const p = financialHealth.thing1Validation;
+  const thing1Validated = !!(p
+    && p.status === 'validated'
+    && p.available === true
+    && p.effectiveStatus === 'validated'
+    && p.kernelId === 'limen_backtest.py'
+    && p.thing0Qualification === 'qualified'
+    && p.thing0PermitsThing1Use === true);
   if (!thing1Validated) {
     investmentEngine.quarantineInvestmentSignals(portal, 'thing1_not_validated', at);
   }
