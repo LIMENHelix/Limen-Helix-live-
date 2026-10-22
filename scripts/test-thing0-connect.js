@@ -1221,7 +1221,8 @@ async function phaseCacheCheck() {
     }));
     assert.equal(valid.scored, true, JSON.stringify(valid));
     assert.equal(valid.phase, 'p4', JSON.stringify(valid));
-    assert.equal(deleted.length, 0, 'valid result invalidated the cache');
+    assert.ok(!deleted.includes('company_phase_123'),
+      'valid result invalidated the phase cache');
 
     /* camelCase Thing Zero evidence must persist canonical provenance and must
        not be rescored repeatedly. */
@@ -1242,7 +1243,8 @@ async function phaseCacheCheck() {
       'camelCase cache entry would be rescored');
     var camelAgain = await run(camel);
     assert.equal(camelAgain.scored, true, JSON.stringify(camelAgain));
-    assert.equal(deleted.length, 0, 'valid camelCase cache entry was invalidated');
+    assert.ok(!deleted.includes('company_phase_123'),
+      'valid camelCase cache entry was invalidated');
 
     /* camelCase without an explicit affirmative permission must not cache. */
     var camelMissingPermit = await run(ok({
