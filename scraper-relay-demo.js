@@ -8,6 +8,11 @@ const fetch = require('node-fetch');
 
 const RELAY_API = 'https://limenhelix.com';
 
+/* FIX-0103: /api/relay-csv-import is a server-to-server administrative route.
+   This demo is a Node operator script, so it reads the credential from its own
+   environment and never embeds it. The value is not printed. */
+const RELAY_ADMIN_KEY = process.env.RELAY_ADMIN_KEY || '';
+
 // Sample products (replace with real Puppeteer scrape)
 const SAMPLE_PRODUCTS = [
   {
@@ -68,6 +73,12 @@ async function downloadImage(url) {
 async function createListingsOnRelay(items) {
   console.log(`\n📤 Creating ${items.length} listings on Relay API...\n`);
 
+  if (!RELAY_ADMIN_KEY) {
+    console.error('❌ RELAY_ADMIN_KEY is required for this administrative import.');
+    console.error('   Set it in the operator environment; do not put it in browser code.');
+    return;
+  }
+
   try {
     // Convert items to CSV format
     const csvLines = ['title,price,condition,category,description,imageUrl'];
@@ -86,7 +97,10 @@ async function createListingsOnRelay(items) {
 
     const response = await fetch(`${RELAY_API}/api/relay-csv-import`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-relay-admin-key': RELAY_ADMIN_KEY
+      },
       body: JSON.stringify(payload),
       timeout: 30000
     });
