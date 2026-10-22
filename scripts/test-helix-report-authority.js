@@ -100,4 +100,50 @@ const missingWithAlert = signal({ thing0_eligibility: null, alert: true, raw_ale
 assert.strictEqual(missingWithAlert.abstained, true);
 assert.strictEqual(missingWithAlert.alert, false, 'abstained row still reported an alert');
 
-console.log('helix report authority: missing/false/partial/malformed Thing 0 and unvalidated Thing 1 abstain; coherent control publishes');
+// ── Reconciliation summary honors the full abstention gate ────────────────
+function packet(overrides) { return sandbox._packServerResult(response(overrides)); }
+function summaryOf(p) { return p.reconciliation.summary || ''; }
+function hasVerdict(s) { return /fired alert|reports no alert/i.test(s); }
+function hasAbstention(s) { return /abstains/i.test(s); }
+function checkSummary(p, label) {
+  const s = summaryOf(p);
+  assert.strictEqual(hasAbstention(s), p.validated_signal.abstained === true,
+    label + ' abstention wording mismatch: ' + s);
+  assert.strictEqual(hasVerdict(s), p.validated_signal.abstained === false,
+    label + ' verdict wording mismatch: ' + s);
+  assert.ok(!(hasAbstention(s) && hasVerdict(s)),
+    label + ' has contradictory abstention and verdict wording: ' + s);
+  assert.strictEqual(p.reconciliation.action_authority, 'none',
+    label + ' granted action authority');
+}
+
+const abstainCases = [
+  ['raw validated alert + missing Thing 0',
+    { thing0_eligibility: null, alert: true, raw_alert: true }],
+  ['raw validated no-alert + missing Thing 0',
+    { thing0_eligibility: null, alert: false }],
+  ['permit false',
+    { thing0_eligibility: { qualification_status: 'qualified', permits_thing1_use: false } }],
+  ['partial qualification',
+    { thing0_eligibility: { qualification_status: 'partially_qualified', permits_thing1_use: true } }],
+  ['fingerprint mismatch',
+    { fingerprint_status: { state: 'mismatch', kernel_sha256: 'new', lock_sha256: 'old' }, alert: true }]
+];
+for (const [label, overrides] of abstainCases) {
+  const p = packet(overrides);
+  assert.strictEqual(p.validated_signal.abstained, true, label + ' did not abstain');
+  checkSummary(p, label);
+  assert.ok(!hasVerdict(summaryOf(p)), label + ' emitted a verdict: ' + summaryOf(p));
+}
+
+const authorizedAlert = packet({ alert: true });
+assert.strictEqual(authorizedAlert.validated_signal.abstained, false);
+checkSummary(authorizedAlert, 'authorized alert');
+assert.ok(/fired alert/i.test(summaryOf(authorizedAlert)), summaryOf(authorizedAlert));
+
+const authorizedNoAlert = packet({});
+assert.strictEqual(authorizedNoAlert.validated_signal.abstained, false);
+checkSummary(authorizedNoAlert, 'authorized no-alert');
+assert.ok(/reports no alert/i.test(summaryOf(authorizedNoAlert)), summaryOf(authorizedNoAlert));
+
+console.log('helix report authority: missing/false/partial/malformed Thing 0 and unvalidated Thing 1 abstain; coherent control publishes; reconciliation summary matches abstention');

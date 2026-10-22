@@ -1271,9 +1271,9 @@ function _packServerResult(t1) {
   narrative.push('Path A (stress): ' + _fmt3(t1.path_a_score) + '/' + _fmt3(t1.path_a_threshold)
                + ' \u00b7 Path B (cash): ' + _fmt3(t1.path_b_score) + '/' + _fmt3(t1.path_b_threshold)
                + ' \u00b7 Path C (rupture): ' + _fmt3(t1.path_c_score) + '/' + _fmt3(t1.path_c_threshold));
+  var abstainReason = !t0Authorized ? 'thing0_not_authorized'
+    : (serverValidation || effectiveValidation);
   if (abstained) {
-    var abstainReason = !t0Authorized ? 'thing0_not_authorized'
-      : (serverValidation || effectiveValidation);
     narrative.push('Thing 1 abstains: ' + abstainReason
                  + '. No ALERT or NO_ALERT verdict is issued.');
     if (t1.alert || t1.raw_alert) {
@@ -1378,11 +1378,11 @@ function _packServerResult(t1) {
       masking_assessment: 'unassessed',
       thing2_role: 'alignment_and_masking_reconciliation_only',
       thing2_trade_weight: 0,
-      summary: effectiveValidation !== 'validated'
-        ? 'Validation is not established for this kernel fingerprint; the raw threshold result is not an authorized alert.'
+      summary: abstained
+        ? ('Thing 1 abstains: ' + abstainReason + '. No ALERT or NO_ALERT verdict is issued.')
         : (effectiveAlert
-          ? ('Validated Thing 1 fired alert via Path ' + (t1.pathway || '?') + '. Composite score ' + (t1.composite_score != null ? t1.composite_score.toFixed(3) : 'n/a') + '. ' + (t0Permits ? 'Thing 0 permits Thing 1 use.' : 'Thing 0 does not permit Thing 1 use; no combined action authority is granted.'))
-          : ('Validated Thing 1 reports no alert.' + (t0Permits ? '' : ' Thing 0 does not permit Thing 1 use.'))),
+          ? ('Validated Thing 1 fired alert via Path ' + (t1.pathway || '?') + '. Composite score ' + (t1.composite_score != null ? t1.composite_score.toFixed(3) : 'n/a') + '. Thing 0 permits Thing 1 use.')
+          : 'Validated Thing 1 reports no alert.'),
       action_authority: 'none',  // reports never authorize a trade; Thing 0 only gates Thing 1 use
       language_constraints: [
         'thing2_section_must_label_unvalidated',
