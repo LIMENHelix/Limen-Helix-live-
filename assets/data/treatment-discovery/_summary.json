@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "builtAt": "2026-10-17T14:55:16.679Z",
+  "builtAt": "2026-10-19T14:56:37.791Z",
   "totalCells": 5524,
   "populatedCells": 5471,
   "cellsWithResiduals": 1695,
@@ -53,34 +53,34 @@
     "cellsWithResiduals": 1695,
     "cellsWithSimilar": 2,
     "similarityThreshold": 0.3,
-    "computedAt": "2026-10-17T14:55:16.679Z"
+    "computedAt": "2026-10-19T14:56:37.791Z"
   },
-  "unverifiedClaimsCount": 46732,
+  "unverifiedClaimsCount": 46532,
   "pendingClaimOccurrences": 74386,
   "verificationReconciliation": {
     "schemaVersion": "verification-reconciliation/1.1",
-    "snapshotAt": "2026-10-17T14:55:16.679Z",
-    "sourceCommit": "57f968148f5cebb7058ac95c48e7bb2c93e34c1b",
+    "snapshotAt": "2026-10-19T14:56:37.791Z",
+    "sourceCommit": "eba241520215135a2c2dff172cda121ff1eecf72",
     "verifierVersion": "claim-verification/2026-10-17.ei3",
     "uniqueCurrentClaims": 46940,
-    "matchedLedgerClaims": 3008,
-    "currentClaimsWithoutLedger": 43932,
+    "matchedLedgerClaims": 3182,
+    "currentClaimsWithoutLedger": 43758,
     "archivedLedgerClaims": 5242,
-    "staleLedgerVerdicts": 2800,
-    "verdictsFromOlderVerifierRules": 2800,
+    "staleLedgerVerdicts": 2774,
+    "verdictsFromOlderVerifierRules": 2774,
     "effectiveCurrentByVerdict": {
-      "VERIFIED": 124,
+      "VERIFIED": 241,
       "DISPUTED": 0,
-      "THEORETICAL": 72,
-      "UNVERIFIABLE": 12,
+      "THEORETICAL": 119,
+      "UNVERIFIABLE": 48,
       "FABRICATED": 0,
-      "PENDING": 46732
+      "PENDING": 46532
     },
     "ledgerAllTimeByVerdict": {
-      "VERIFIED": 3931,
+      "VERIFIED": 4034,
       "DISPUTED": 83,
-      "THEORETICAL": 1654,
-      "UNVERIFIABLE": 2582,
+      "THEORETICAL": 1701,
+      "UNVERIFIABLE": 2606,
       "FABRICATED": 0,
       "PENDING": 0
     },
@@ -122,22 +122,22 @@
   ],
   "note": "Treatment-discovery report uses (brainNodeId × comparisonDomain × stateBucket) cells. Six-step chain per cell: ISSUE → NODE → DISORDER → NEURO_TX → DOMAIN_TX → RESIDUAL. Verification labels each claim by epistemic state (PROVEN / UNPROVEN / UNKNOWN / IMPOSSIBLE) and keeps every residual — none are suppressed.",
   "epistemicBuckets": {
-    "proven": 124,
-    "unproven": 72,
-    "unknown": 46744,
+    "proven": 241,
+    "unproven": 119,
+    "unknown": 46580,
     "impossible": 0,
     "totalClaims": 46940,
-    "processedVerdicts": 3008,
+    "processedVerdicts": 3182,
     "verdictCounts": {
-      "VERIFIED": 124,
+      "VERIFIED": 241,
       "DISPUTED": 0,
-      "THEORETICAL": 72,
-      "UNVERIFIABLE": 12,
+      "THEORETICAL": 119,
+      "UNVERIFIABLE": 48,
       "FABRICATED": 0,
-      "PENDING": 46732
+      "PENDING": 46532
     },
     "note": "Every claim kept and separated by epistemic state. Verification writes the state; it never deletes the finding. Impossible = study why it fails (kept, not discarded).",
     "archivedLedgerClaims": 5242,
-    "computedAt": "2026-10-17T14:55:16.679Z"
+    "computedAt": "2026-10-19T14:56:37.791Z"
   }
 }
