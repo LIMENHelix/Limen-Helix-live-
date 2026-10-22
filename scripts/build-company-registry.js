@@ -31,7 +31,8 @@ const path = require('path');
 const quarantine = require('../lib/identity-quarantine');
 
 const COMPANIES_DIR = path.join(__dirname, '..', 'assets', 'data', 'companies');
-const REGISTRY_OUT  = path.join(__dirname, '..', 'assets', 'data', 'company-registry.json');
+const REGISTRY_OUT  = process.env.COMPANY_REGISTRY_OUT
+  || path.join(__dirname, '..', 'assets', 'data', 'company-registry.json');
 
 function loadCompany(file) {
   return JSON.parse(fs.readFileSync(path.join(COMPANIES_DIR, file), 'utf8'));
@@ -159,8 +160,24 @@ for (const idx of [byDomain, bySic, byPhaseState, byKernelStatus]) {
 const registry = {
   generatedAt: new Date().toISOString(),
   schemaVersion: '2.0.1',
+  /* Quarantined identities are recorded here for audit, never as active
+     byCik/bySlug/graph records. Consumers must reject a registry without this
+     contract when it could still expose them. */
+  identityContract: {
+    contract: quarantine.CONTRACT,
+    quarantined: quarantine.ENTRIES.map((entry) => ({
+      slug: entry.slug,
+      ticker: entry.ticker,
+      portalCik: entry.portalCik,
+      authoritativeCik: entry.authoritativeCik,
+      reason: entry.reason,
+      evidence: entry.evidence,
+      missingEvidence: entry.missingEvidence
+    }))
+  },
   counts: {
     portals: files.length,
+    quarantined: quarantine.ENTRIES.length,
     v2: v2Count,
     v1Legacy: v1Count,
     uniqueCiks: Object.keys(byCik).length,

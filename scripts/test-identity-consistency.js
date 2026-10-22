@@ -75,6 +75,19 @@ assert.strictEqual(manifest.count, manifest.slugs.length);
 const registry = JSON.parse(fs.readFileSync(
   path.join(ROOT, 'assets', 'data', 'company-registry.json'), 'utf8'));
 const regEntry = registry.byCik['0000091142'] || registry.byCik['91142'];
+assert.strictEqual(registry.identityContract && registry.identityContract.contract, Q.CONTRACT,
+  'registry lacks the current identity contract');
+assert.ok(Array.isArray(registry.identityContract.quarantined)
+  && registry.identityContract.quarantined.some((e) => e.slug === 'saia'
+    && Q.normalizeCik(e.authoritativeCik) === '1177702'),
+  'registry quarantine metadata is missing the SAIA evidence');
+assert.strictEqual(registry.byCik['91142'], undefined, 'CIK 91142 still resolves in byCik');
+assert.strictEqual(registry.byCik['0000091142'], undefined, 'padded CIK 0000091142 still resolves in byCik');
+assert.strictEqual(registry.byCik['1177702'], undefined,
+  'SAIA is presented as a complete record for CIK 1177702');
+assert.strictEqual(registry.graph && registry.graph.saia, undefined,
+  'graph still contains the quarantined record');
+
 if (regEntry) {
   /* Either retained and explicitly quarantined, or removed by a gated rebuild. */
   assert.strictEqual(regEntry.slug, 'saia');
@@ -100,6 +113,33 @@ for (const [cik, rec] of Object.entries(registry.byCik)) {
   }
 }
 
+// The rebuilt registry must not target the quarantined slug. Edges carrying
+// CIK 91142 under a different slug are a separate diagnostic identity error.
+let saiaTargets = 0;
+let strayCikEdges = 0;
+for (const arr of Object.values(registry.byBrainNode || {})) {
+  for (const e of arr || []) {
+    if (!e) continue;
+    if (Q.isQuarantinedSlug(e.targetSlug)) saiaTargets++;
+    if (Q.normalizeCik(e.targetCik) === '91142' && !Q.referencesQuarantined(e)) strayCikEdges++;
+  }
+}
+assert.strictEqual(saiaTargets, 0, 'registry relationships still target the quarantined slug');
+
+// Consumers reject a stale registry that still exposes the quarantined identity.
+const join = require('../lib/company-domain-identity-join');
+assert.strictEqual(join.registryIdentityContractOk(registry), true);
+assert.strictEqual(join.registryExposesQuarantined(registry), false);
+const staleRegistry = JSON.parse(JSON.stringify(registry));
+delete staleRegistry.identityContract;
+staleRegistry.bySlug.saia = '0000091142';
+assert.strictEqual(join.registryExposesQuarantined(staleRegistry), true);
+assert.throws(function () {
+  join.buildJoin({ companyRegistry: staleRegistry, identityFiles: {}, commandBoard: [] });
+}, /stale company-registry/, 'stale registry was accepted');
+assert.ok(join.buildJoin({ companyRegistry: registry, identityFiles: {}, commandBoard: [] }),
+  'current registry was rejected');
+
 // ── Board routes ──────────────────────────────────────────────────────────
 const board = JSON.parse(fs.readFileSync(
   path.join(ROOT, 'assets', 'data', 'command-board-data.json'), 'utf8')).companies || [];
@@ -113,8 +153,10 @@ for (const r of saiaRoutes.concat(aosRoutes)) {
 const boardJS = fs.readFileSync(path.join(ROOT, 'assets', 'js', 'kernel-comparison.js'), 'utf8');
 assert.ok(boardJS.includes('_identityQuarantined('),
   'Command Board lost its quarantine route guard');
-assert.ok(boardJS.includes('IDENTITY QUARANTINE'),
-  'Command Board does not label a quarantined route');
+assert.ok(boardJS.includes('_routeCoherent('),
+  'Command Board lost its generic identity route guard');
+assert.ok(boardJS.includes('IDENTITY ROUTE BLOCKED'),
+  'Command Board does not label a blocked identity route');
 const portalUI = fs.readFileSync(path.join(ROOT, 'assets', 'js', 'company-portal-ui.js'), 'utf8');
 assert.ok(portalUI.includes('_identityQuarantineMessage('),
   'company portal lost its direct-URL quarantine guard');
@@ -131,8 +173,8 @@ for (const arr of Object.values(registry.byBrainNode || {})) {
     if (cik !== '91142' && cik !== '1177702') strayCiks++;
   }
 }
-assert.ok(edgeTargets > 0,
-  'no relationship edges reference the quarantined identity');
+assert.strictEqual(edgeTargets, 0,
+  'registry still references the quarantined identity');
 
 /* A quarantined edge whose CIK belongs to another issuer must be dropped, not
    retargeted by the CIK fallback. */
@@ -163,4 +205,5 @@ assert.strictEqual(P.computeIntrinsicStress(graph.nodes, board, portals).has('sa
 
 console.log('identity quarantine: 1 portal, 1 manifest entry removed, ' +
   saiaRoutes.length + ' Board route(s) blocked, ' + edgeTargets +
-  ' relationship edge(s) neutralised (' + strayCiks + ' carried a stray CIK), graph node absent');
+  ' quarantined-slug relationship targets, ' + strayCikEdges +
+  ' non-Saia edges still carry CIK 91142 (separate diagnostic), graph node absent');

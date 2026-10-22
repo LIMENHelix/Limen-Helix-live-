@@ -25,6 +25,7 @@ const fs = require('fs');
 const https = require('https');
 const path = require('path');
 const quarantine = require('../lib/identity-quarantine');
+const coherence = require('../lib/identity-coherence');
 
 const DATA_DIR = path.join(__dirname, '..', 'assets', 'data');
 const INDEX_PATH = path.join(DATA_DIR, 'company-index.json');
@@ -145,8 +146,9 @@ function loadIdentityRepairs() {
 // company->portal link on the board. Resolving `s` against this map fixes the
 // fractal company->portal join at the source.
 function loadPortalSlugMap() {
-  const map = {};
-  if (!fs.existsSync(COMPANIES_DIR)) return map;
+  const byCik = {};
+  const bySlug = {};
+  if (!fs.existsSync(COMPANIES_DIR)) return { byCik, bySlug };
   const files = fs.readdirSync(COMPANIES_DIR).filter(f => f.endsWith('.json') && !f.startsWith('_'));
   for (const f of files) {
     try {
@@ -155,10 +157,27 @@ function loadPortalSlugMap() {
       const slug = p.slug || f.replace(/\.json$/, '');
       /* A quarantined record must not become the portal route for its CIK. */
       if (quarantine.isQuarantinedPortal({ slug, ticker: p.ticker, cik: p.cik })) continue;
-      map[normCik(p.cik)] = slug;
+      const record = { slug, cik: p.cik, ticker: p.ticker || null };
+      byCik[normCik(p.cik)] = record;
+      bySlug[slug] = record;
     } catch (e) { /* skip unreadable portal */ }
   }
-  return map;
+  return { byCik, bySlug };
+}
+
+/* A route is usable only when the Board identity and the portal identity
+   agree. Try the CIK mapping first, then the source slug; never use a ticker
+   match alone. No coherent portal means no route. */
+function resolveCoherentPortal(co, portalMap) {
+  const candidates = [];
+  const byCik = portalMap.byCik[normCik(co.cik)];
+  if (byCik) candidates.push(byCik);
+  const bySlug = portalMap.bySlug[co.slug];
+  if (bySlug && bySlug !== byCik) candidates.push(bySlug);
+  for (const p of candidates) {
+    if (coherence.routeCoherent({ cik: co.cik, ticker: co.ticker }, p)) return p;
+  }
+  return null;
 }
 
 // Validated kernel endpoint — sha256-locked limen_backtest.py
@@ -278,9 +297,13 @@ function buildOrdinaryRow(co, d, context) {
   const permitted = !!(t0 && t0.permits_thing1_use === true);
   const validationStatus = d.validation_status === undefined ? null : d.validation_status;
   const validated = validationStatus === 'validated';
+  const portal = context.portal && coherence.routeCoherent(
+    { cik: co.cik, ticker: co.ticker },
+    { cik: context.portal.cik, ticker: context.portal.ticker }
+  ) ? context.portal : null;
   return {
     n: co.name, t: co.ticker, c: co.cik,
-    s: context.portalSlug || co.slug, d: context.canon.domain,
+    s: portal ? portal.slug : null, d: context.canon.domain,
     subTag: context.canon.subTag,
     p: d.dominant_phase || '?',
     tr: deriveTrajectory(d),
@@ -518,8 +541,8 @@ async function main() {
 
   // Canonical portal-slug map (cik -> portal filename slug). Used to set each
   // row's `s` so the Command Board's company->portal link resolves.
-  const portalSlugByCik = loadPortalSlugMap();
-  console.log('  portal slug map:    ' + Object.keys(portalSlugByCik).length + ' CIKs with a portal');
+  const portalMap = loadPortalSlugMap();
+  console.log('  portal slug map:    ' + Object.keys(portalMap.byCik).length + ' CIKs with a portal');
 
   // Load existing results for resume
   let existing = {};
@@ -545,11 +568,11 @@ async function main() {
     const selectedForRefresh = REFRESH_SELECTED && METADATA_CIKS.has(existingKey);
     if (existing[existingKey] && !(REFRESH_ERRORS && existing[existingKey].p === 'ERROR') && !selectedForRefresh) {
       const ex = existing[existingKey];
-      const ps = portalSlugByCik[normCik(co.cik)];
+      const ps = resolveCoherentPortal(co, portalMap);
       const canon = canonicalizeDomain(co.domain);
       const refreshMetadata = METADATA_CIKS.size === 0 || METADATA_CIKS.has(existingKey);
       if (refreshMetadata) {
-        if (ps) ex.s = ps;
+        ex.s = ps ? ps.slug : null;
         ex.t = co.ticker;
         ex.c = co.cik;
         // Resume preserves measured kernel fields, but source-owned identity
@@ -577,7 +600,7 @@ async function main() {
       results.push(buildOrdinaryRow(co, d, {
         canon: canon,
         ds: ds,
-        portalSlug: portalSlugByCik[normCik(co.cik)]
+        portal: resolveCoherentPortal(co, portalMap)
       }));
       scored++;
     } catch (e) {
@@ -585,13 +608,13 @@ async function main() {
       const ds = DOMAIN_STRESS[co.domain] || DOMAIN_STRESS[canon.domain] || 0.2;
       results.push({
         n: co.name, t: co.ticker, c: co.cik,
-        s: portalSlugByCik[normCik(co.cik)] || co.slug, d: canon.domain,
+        s: (resolveCoherentPortal(co, portalMap) || {}).slug || null, d: canon.domain,
         subTag: canon.subTag,
         p: 'ERROR', tr: (e.message || '').substring(0, 50),
         co: 0, a: false,
         path: null, pa: 0, pb: 0, pc: 0,
         fq: null, q: null, hist: 0,
-        kid: 'limen_backtest.py', vs: 'error',
+        kid: null, vs: 'error',
         ds: ds
       });
       errors++;

@@ -102,6 +102,45 @@ function _identityQuarantined(slug) {
   return !!(slug && QUARANTINED_SLUGS[String(slug).toLowerCase()]);
 }
 
+/* Portal identities, loaded from the manifest. A Board route is usable only
+   when the normalized Board CIK equals the portal CIK and nonempty tickers do
+   not contradict. Unknown identity fails closed. */
+var _portalIdentity = {};
+(function loadPortalIdentity() {
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'assets/data/companies-manifest.json', true);
+    xhr.onload = function () {
+      if (xhr.status !== 200) return;
+      try {
+        var idx = (JSON.parse(xhr.responseText) || {}).index || {};
+        Object.keys(idx).forEach(function (s) {
+          _portalIdentity[s] = { cik: idx[s].cik || null, ticker: idx[s].ticker || null };
+        });
+      } catch (e) { /* manifest unreadable: no routes */ }
+    };
+    xhr.send();
+  } catch (e) { /* no XHR: no routes */ }
+})();
+
+function _tickerKey(value) {
+  if (value === null || value === undefined) return null;
+  var s = String(value).trim().toUpperCase();
+  return s || null;
+}
+
+function _routeCoherent(d) {
+  if (!d || !d.s) return false;
+  if (_identityQuarantined(d.s)) return false;
+  var p = _portalIdentity[d.s];
+  if (!p) return false;
+  var bc = _normCik(d.c), pc = _normCik(p.cik);
+  if (!bc || !pc || bc !== pc) return false;
+  var bt = _tickerKey(d.t), pt = _tickerKey(p.ticker);
+  if (bt && pt && bt !== pt) return false;
+  return true;
+}
+
 var TERMINAL_PHASES = ['p7','p7a','p9'];
 var STABLE_PHASES = ['p4','p5','p6'];
 var ORDERED_PHASES = ['p6','p10'];
@@ -594,15 +633,19 @@ function _buildExpandContent(d) {
     + '&source_surface=command_board'
     + (d.t ? '&ticker=' + encodeURIComponent(d.t) : '')
     + '&requested_report_type=partial_phase_snapshot';
+  var routeOk = !d.s || _routeCoherent(d);
   h += '<div class="expand-actions">';
-  h += '<a href="' + helixHref + '" target="_blank">HELIX REPORT</a>';
+  if (routeOk) {
+    h += '<a href="' + helixHref + '" target="_blank">HELIX REPORT</a>';
+  } else {
+    h += '<span title="Board CIK does not match the routed portal identity" style="color:#e8a44e;cursor:not-allowed">REPORT BLOCKED · IDENTITY MISMATCH</span>';
+  }
   // COMPANY PORTAL only renders when this row has a built portal (d.hp set by
-  // scripts/wire-eligible-slugs.mjs). Avoids dead links while the eligible-
-  // portal build is in progress; HELIX REPORT + WATCHLIST stay for every row.
-  if (d.hp && _identityQuarantined(d.s)) {
-    h += '<span title="Record quarantined: mixed SAIA / A. O. Smith identity" style="color:#e8a44e;cursor:not-allowed">IDENTITY QUARANTINE</span>';
+  // scripts/wire-eligible-slugs.mjs) and the route identity is coherent.
+  if (d.hp && routeOk) {
+    h += '<a href="company-portal.html?company=' + encodeURIComponent(d.s) + '&cik=' + encodeURIComponent(d.c) + (d.t ? '&ticker=' + encodeURIComponent(d.t) : '') + '">COMPANY PORTAL</a>';
   } else if (d.hp) {
-    h += '<a href="company-portal.html?company=' + d.s + '">COMPANY PORTAL</a>';
+    h += '<span title="Board CIK does not match the portal identity" style="color:#e8a44e;cursor:not-allowed">IDENTITY ROUTE BLOCKED</span>';
   }
   h += '<button onclick="toggleWatchlist(\'' + d.t + '\',event)">WATCHLIST</button>';
   h += '</div>';

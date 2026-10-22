@@ -47,6 +47,29 @@
     return QUARANTINED_SLUGS[String(slug).toLowerCase()] || null;
   }
 
+  function _cikKey(value) {
+    if (value === null || value === undefined) return null;
+    var s = String(value).trim();
+    if (!/^[0-9]+$/.test(s)) return null;
+    var stripped = s.replace(/^0+/, '');
+    return stripped === '' ? null : stripped;
+  }
+  function _tickerKey(value) {
+    if (value === null || value === undefined) return null;
+    var s = String(value).trim().toUpperCase();
+    return s || null;
+  }
+  /* A board link carries the identity it intended to open. If the loaded
+     portal disagrees, fail closed instead of rendering another issuer. */
+  function _identityMismatch(portal, expectedCik, expectedTicker) {
+    if (!portal) return 'record';
+    var ec = _cikKey(expectedCik), pc = _cikKey(portal.cik);
+    if (ec && pc && ec !== pc) return 'cik';
+    var et = _tickerKey(expectedTicker), pt = _tickerKey(portal.ticker);
+    if (et && pt && et !== pt) return 'ticker';
+    return null;
+  }
+
   function loadJSON(url, cb) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
@@ -1505,9 +1528,19 @@
     var directQuarantine = _identityQuarantineMessage(companySlug);
     if (directQuarantine) { showError(directQuarantine); return; }
 
+    function _renderIfCoherent(data) {
+      var mismatch = _identityMismatch(data, cik, ticker);
+      if (mismatch) {
+        showError('Identity route blocked: the requested ' + String(mismatch).toUpperCase()
+          + ' does not match the portal record.');
+        return;
+      }
+      _render(data);
+    }
+
     if (companySlug) {
       loadJSON('assets/data/companies/' + companySlug + '.json', function(err, data) {
-        if (!err) { _render(data); return; }
+        if (!err) { _renderIfCoherent(data); return; }
         // miss: companySlug may be a known duplicate slug of a canonical portal
         // (e.g. akamai -> akamai_technologies). Resolve via the alias map, then
         // fall back to the not-found message.
@@ -1517,7 +1550,7 @@
           if (aliasQuarantine) { showError(aliasQuarantine); return; }
           if (canon && canon !== companySlug) {
             loadJSON('assets/data/companies/' + canon + '.json', function(e2, d2) {
-              if (!e2) { _render(d2); return; }
+              if (!e2) { _renderIfCoherent(d2); return; }
               // alias resolution also missed — try graceful CB fallback
               resolveCompanyAbsence(companySlug, function(row, source) {
                 if (row) showCompanyAbsent(companySlug, row, source);
@@ -1543,7 +1576,7 @@
             if (resolvedQuarantine) { showError(resolvedQuarantine); return; }
             loadJSON('assets/data/companies/' + result.slug + '.json', function(err, data) {
               if (err) { showError('Company data not found'); return; }
-              _render(data);
+              _renderIfCoherent(data);
             });
           } else {
             showError('No company found for: ' + input);
