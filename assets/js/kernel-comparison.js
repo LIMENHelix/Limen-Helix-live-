@@ -106,21 +106,30 @@ function _identityQuarantined(slug) {
    when the normalized Board CIK equals the portal CIK and nonempty tickers do
    not contradict. Unknown identity fails closed. */
 var _portalIdentity = {};
+var _portalIdentityState = 'loading';
 (function loadPortalIdentity() {
   try {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'assets/data/companies-manifest.json', true);
     xhr.onload = function () {
-      if (xhr.status !== 200) return;
+      if (xhr.status !== 200) { _portalIdentityState = 'error'; return; }
       try {
         var idx = (JSON.parse(xhr.responseText) || {}).index || {};
         Object.keys(idx).forEach(function (s) {
           _portalIdentity[s] = { cik: idx[s].cik || null, ticker: idx[s].ticker || null };
         });
-      } catch (e) { /* manifest unreadable: no routes */ }
+        _portalIdentityState = 'ready';
+      } catch (e) {
+        _portalIdentityState = 'error';
+        return;
+      }
+      /* An expansion opened while the manifest was pending showed a loading
+         state. Rebuild it so valid routes appear without closing the row. */
+      _refreshOpenRouteControls();
     };
+    xhr.onerror = function () { _portalIdentityState = 'error'; };
     xhr.send();
-  } catch (e) { /* no XHR: no routes */ }
+  } catch (e) { _portalIdentityState = 'error'; }
 })();
 
 function _tickerKey(value) {
@@ -139,6 +148,25 @@ function _routeCoherent(d) {
   var bt = _tickerKey(d.t), pt = _tickerKey(p.ticker);
   if (bt && pt && bt !== pt) return false;
   return true;
+}
+
+function _routeStatus(d) {
+  if (!d || !d.s) return 'no-route';
+  if (_identityQuarantined(d.s)) return 'quarantined';
+  if (_portalIdentityState === 'loading') return 'loading';
+  if (_portalIdentityState !== 'ready') return 'unavailable';
+  return _routeCoherent(d) ? 'ok' : 'mismatch';
+}
+
+function _refreshOpenRouteControls() {
+  if (typeof _expandedIdx === 'undefined' || _expandedIdx === -1) return;
+  if (typeof DATA === 'undefined' || !DATA) return;
+  var d = DATA[_expandedIdx];
+  if (!d) return;
+  var expandRow = document.querySelector('[data-expand-idx="' + _expandedIdx + '"]');
+  if (!expandRow) return;
+  var td = expandRow.querySelector('td');
+  if (td) td.innerHTML = _buildExpandContent(d);
 }
 
 var TERMINAL_PHASES = ['p7','p7a','p9'];
@@ -633,19 +661,24 @@ function _buildExpandContent(d) {
     + '&source_surface=command_board'
     + (d.t ? '&ticker=' + encodeURIComponent(d.t) : '')
     + '&requested_report_type=partial_phase_snapshot';
-  var routeOk = !d.s || _routeCoherent(d);
+  var routeState = _routeStatus(d);
+  var routeOk = routeState === 'no-route' || routeState === 'ok';
+  var routeLabel = routeState === 'loading' ? 'IDENTITY LOADING · ROUTE PENDING'
+    : routeState === 'quarantined' ? 'IDENTITY QUARANTINE'
+      : routeState === 'unavailable' ? 'IDENTITY CHECK UNAVAILABLE'
+        : 'REPORT BLOCKED · IDENTITY MISMATCH';
   h += '<div class="expand-actions">';
   if (routeOk) {
     h += '<a href="' + helixHref + '" target="_blank">HELIX REPORT</a>';
   } else {
-    h += '<span title="Board CIK does not match the routed portal identity" style="color:#e8a44e;cursor:not-allowed">REPORT BLOCKED · IDENTITY MISMATCH</span>';
+    h += '<span title="Board CIK does not match the routed portal identity" style="color:#e8a44e;cursor:not-allowed">' + routeLabel + '</span>';
   }
   // COMPANY PORTAL only renders when this row has a built portal (d.hp set by
   // scripts/wire-eligible-slugs.mjs) and the route identity is coherent.
   if (d.hp && routeOk) {
     h += '<a href="company-portal.html?company=' + encodeURIComponent(d.s) + '&cik=' + encodeURIComponent(d.c) + (d.t ? '&ticker=' + encodeURIComponent(d.t) : '') + '">COMPANY PORTAL</a>';
   } else if (d.hp) {
-    h += '<span title="Board CIK does not match the portal identity" style="color:#e8a44e;cursor:not-allowed">IDENTITY ROUTE BLOCKED</span>';
+    h += '<span title="Board CIK does not match the portal identity" style="color:#e8a44e;cursor:not-allowed">' + routeLabel + '</span>';
   }
   h += '<button onclick="toggleWatchlist(\'' + d.t + '\',event)">WATCHLIST</button>';
   h += '</div>';

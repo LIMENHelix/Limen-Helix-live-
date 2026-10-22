@@ -83,6 +83,7 @@ const sandbox = {};
 vm.createContext(sandbox);
 vm.runInContext(src.slice(normStart, normEnd) + '\n' + src.slice(guardStart, guardEnd)
   + '\nthis._routeCoherent = _routeCoherent;', sandbox);
+sandbox._portalIdentityState = 'ready';
 sandbox._portalIdentity = {
   accenture: { cik: '0001467373', ticker: 'ACN' },
   applied_materials: { cik: '0000006951', ticker: 'AMAT' },
@@ -99,6 +100,18 @@ assert.strictEqual(sandbox._routeCoherent({ c: '42', t: 'CTRL', s: 'unknown' }),
   'unknown portal identity was accepted');
 assert.strictEqual(sandbox._routeCoherent({ c: '91142', t: 'AOS', s: 'saia' }), false,
   'quarantined route was accepted');
+assert.strictEqual(sandbox._routeStatus({ c: '1281761', t: 'ACN', s: 'accenture' }), 'mismatch');
+assert.strictEqual(sandbox._routeStatus({ c: '42', t: 'CTRL', s: 'control' }), 'ok');
+assert.strictEqual(sandbox._routeStatus({ c: '91142', t: 'AOS', s: 'saia' }), 'quarantined');
+assert.strictEqual(sandbox._routeStatus({ c: '42', t: 'CTRL', s: null }), 'no-route');
+sandbox._portalIdentityState = 'loading';
+assert.strictEqual(sandbox._routeStatus({ c: '42', t: 'CTRL', s: 'control' }), 'loading',
+  'a pending manifest was displayed as a mismatch');
+sandbox._portalIdentityState = 'error';
+assert.strictEqual(sandbox._routeStatus({ c: '42', t: 'CTRL', s: 'control' }), 'unavailable');
+sandbox._portalIdentityState = 'ready';
+assert.ok(src.includes('_refreshOpenRouteControls'),
+  'open route controls are not refreshed when identities load');
 
 // ── Producer wiring ───────────────────────────────────────────────────────
 for (const [file, marker] of [

@@ -605,6 +605,16 @@ check('brain-signals joins fallback evidence by normalized CIK', function () {
   assert.equal(kidConflict.record, null, 'a scorer-identity contradictory row was selected');
 });
 
+check('score-companies refresh does not inherit scorer identity', function () {
+  var source = read('scripts/score-companies.js');
+  assert.ok(!source.includes('d.kernel_id || row.kid'),
+    'refresh inherits the prior scorer identity');
+  assert.ok(source.includes('const responseKid'),
+    'refresh does not derive an explicit identity');
+  assert.ok(source.includes('next.kid = responseKid'),
+    'refresh does not persist the current response identity');
+});
+
 check('snapshot --resume retries incomplete qualification', function () {
   var script = read('scripts/build-command-board.js');
   assert.ok(script.includes('isResumeComplete(row)'),

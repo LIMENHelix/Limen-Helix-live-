@@ -24,6 +24,7 @@ vm.createContext(sandbox);
 vm.runInContext(src.slice(start, end) +
   '\nthis._capTargetsFromState = _capTargetsFromState;', sandbox);
 const select = sandbox._capTargetsFromState;
+const loadAllowed = sandbox._capLoadAllowed;
 const eq = (actual, expected, message) => assert.strictEqual(JSON.stringify(actual), JSON.stringify(expected), message);
 
 const populated = {
@@ -51,6 +52,14 @@ eq(select('ready', { trade: [] }, 'trade', 5), [],
 for (const state of ['idle', 'loading', 'stale', 'error', undefined]) {
   eq(select(state, populated, 'trade', 5), [],
     'non-authoritative state produced targets: ' + String(state));
+}
+
+// Failure states are terminal: a re-render must not restart the request.
+for (const state of [undefined, 'idle']) {
+  assert.strictEqual(loadAllowed(state), true, 'idle state cannot load: ' + String(state));
+}
+for (const state of ['loading', 'ready', 'stale', 'error']) {
+  assert.strictEqual(loadAllowed(state), false, 'terminal state restarts the request: ' + state);
 }
 
 // The selector and its caller do not mention brainCompanies.

@@ -3482,10 +3482,17 @@
     var arr = map && map[key];
     return Array.isArray(arr) ? arr.slice(0, n) : [];
   }
+
+  /* Failure states are terminal until an explicit retry. Re-rendering the tab
+     must not start another request through this loader. */
+  function _capLoadAllowed(stateName) {
+    return stateName !== 'loading' && stateName !== 'ready'
+      && stateName !== 'stale' && stateName !== 'error';
+  }
   // ── end _capTargetsFromState ──
 
   function _capLoadBoardMap() {
-    if (window._capBoardMapState === 'loading' || window._capBoardMapState === 'ready') return;
+    if (!_capLoadAllowed(window._capBoardMapState)) return;
     window._capBoardMapState = 'loading';
     window._capBoardMap = null;
     window._capBoardMapLoading = true;

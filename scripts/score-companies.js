@@ -448,6 +448,11 @@ async function refreshThing0Rows() {
 
     const historical = isHistoricalRow(row);
     const next = { ...row, t0: t0, thing0_source: 'live_scorer' };
+    /* The refresh response is authoritative for identity too. Never inherit a
+       prior row's protected scorer id when the new response omits it. */
+    const responseKid = (typeof d.kernel_id === 'string' && d.kernel_id.trim())
+      ? d.kernel_id.trim() : null;
+    next.kid = responseKid;
     next.thing0_validation_status = d.validation_status === undefined ? null : d.validation_status;
 
     if (historical) {
@@ -467,7 +472,6 @@ async function refreshThing0Rows() {
       next.fq = d.first_alert_quarter === undefined ? null : d.first_alert_quarter;
       next.q = d.latest_quarter === undefined ? null : d.latest_quarter;
       next.hist = typeof d.history_quarters === 'number' ? d.history_quarters : 0;
-      next.kid = d.kernel_id || row.kid || null;
       next.vs = d.validation_status === undefined ? null : d.validation_status;
       next.es = !permitted ? 'NOT_QUALIFIED_BY_THING0'
         : (d.validation_status === 'validated' ? 'ELIGIBLE_NOW' : 'OUT_OF_ENVELOPE');
