@@ -108,6 +108,9 @@ module.exports = async function handler(req, res) {
       schemaVersion: 'stress-slim/1.0',
       generatedAt:   (snapshot && snapshot.generatedAt) || new Date().toISOString(),
       generatedAtMs: Date.now(),
+      /* Consumers must be able to tell a gated run from a pre-gate value that
+         is still inside its TTL. */
+      authority:     (snapshot && snapshot.authority) || propagator.authorityMetadata(),
       stats:         (snapshot && snapshot.stats) || null,
       byCik:         byCik
     };

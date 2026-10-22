@@ -17,8 +17,8 @@
  * file is missing); every other shape is rejected before a token is spent.
  *
  * Properties under test:
- *   1. Anonymous in-family request → 200 with the decoded GitHub content, and
- *      the upstream URL is exactly the allowed repo + path prefix.
+ *   1. In-family request → 200 only when the source revision is pinned; the
+ *      handler resolves metadata at that revision and reads the exact blob.
  *   2. Out-of-family / traversal / abuse shapes → 400 with ZERO upstream fetches.
  *   3. The server token is used upstream but never appears in the response.
  *   4. GitHub 404 → 404 passthrough; token unset → 500 fail closed.
@@ -29,7 +29,10 @@
 const assert = require('assert');
 
 const SAVED = {};
-['GITHUB_TOKEN', 'GH_TOKEN', 'VERCEL_GITHUB_TOKEN'].forEach(function (k) { SAVED[k] = process.env[k]; });
+['GITHUB_TOKEN', 'GH_TOKEN', 'VERCEL_GITHUB_TOKEN', 'LIMEN_PORTAL_SOURCE_SHA',
+  'LIMEN_PORTAL_SOURCE_REPOSITORY', 'VERCEL_GIT_COMMIT_SHA', 'GITHUB_SHA',
+  'VERCEL_GIT_REPO_OWNER', 'VERCEL_GIT_REPO_SLUG', 'GITHUB_REPOSITORY']
+  .forEach(function (k) { SAVED[k] = process.env[k]; });
 
 function restoreEnv() {
   Object.keys(SAVED).forEach(function (k) {
@@ -40,15 +43,38 @@ function restoreEnv() {
 
 const TOKEN = 'ghp_fetchportaltesttoken0000';
 const MAX_PORTAL_BYTES = 8 * 1024 * 1024;
+const SOURCE_SHA = 'a'.repeat(40);
+const DEPLOY_SHA = 'b'.repeat(40);
+const CONFLICT_SHA = 'c'.repeat(40);
 
 const REAL_FETCH = global.fetch;
 const fetchedUrls = [];
 let githubStatus = 200;
-let responseBody = JSON.stringify({ activations: [] });
+let responseBody = null;
 let responseContentLength = null;
 let responseBodyMode = 'stream';
 let textCalls = 0;
 let cancelCalls = 0;
+let currentDomainId = 'energy_battery_battrecycling_collection';
+let metadataShaOverride = null;
+function validPortal(domainId) {
+  return {
+    domainId: domainId,
+    title: 'Test portal',
+    phase: 'p2',
+    activations: [],
+    issues: [],
+    edges: []
+  };
+}
+function gitBlobSha(text) {
+  const bytes = Buffer.from(text);
+  return require('crypto').createHash('sha1')
+    .update(Buffer.concat([Buffer.from('blob ' + bytes.length + '\0'), bytes])).digest('hex');
+}
+function upstreamBody() {
+  return responseBody === null ? JSON.stringify(validPortal(currentDomainId)) : responseBody;
+}
 function responseHeaders() {
   return { get: function (name) {
     return name.toLowerCase() === 'content-length' && responseContentLength !== null
@@ -68,19 +94,32 @@ function streamBody(text) {
   });
 }
 global.fetch = async function (url, opts) {
-  fetchedUrls.push(String(url));
-  const rawText = responseBody;
-  return {
-    ok: githubStatus >= 200 && githubStatus < 300,
-    status: githubStatus,
-    headers: responseHeaders(),
-    body: responseBodyMode === 'stream' ? streamBody(rawText) : null,
-    json: async function () {
-      return { content: Buffer.from(rawText).toString('base64') };
-    },
-    // raw-media-type contract: the handler now reads response text for any size
-    text: async function () { textCalls++; return rawText; }
-  };
+  const u = String(url);
+  fetchedUrls.push(u);
+  const metadataMatch = u.match(/\/contents\/assets\/data\/domains\/([^?]+)\.json\?ref=([0-9a-f]{40})$/i);
+  if (metadataMatch) {
+    currentDomainId = decodeURIComponent(metadataMatch[1]);
+    const body = upstreamBody();
+    const metadataSha = metadataShaOverride || gitBlobSha(body);
+    return {
+      ok: githubStatus >= 200 && githubStatus < 300,
+      status: githubStatus,
+      json: async function () {
+        return { type: 'file', path: 'assets/data/domains/' + currentDomainId + '.json', sha: metadataSha };
+      }
+    };
+  }
+  if (/\/git\/blobs\/[0-9a-f]{40}$/i.test(u)) {
+    const rawText = upstreamBody();
+    return {
+      ok: githubStatus >= 200 && githubStatus < 300,
+      status: githubStatus,
+      headers: responseHeaders(),
+      body: responseBodyMode === 'stream' ? streamBody(rawText) : null,
+      text: async function () { textCalls++; return rawText; }
+    };
+  }
+  return { ok: false, status: 500, json: async function () { return {}; } };
 };
 
 const handler = require('../handlers/fetch-portal.js');
@@ -117,11 +156,12 @@ function request(query) {
 
 async function main() {
   process.env.GITHUB_TOKEN = TOKEN;
+  process.env.LIMEN_PORTAL_SOURCE_SHA = SOURCE_SHA;
   delete process.env.GH_TOKEN;
   delete process.env.VERCEL_GITHUB_TOKEN;
   githubStatus = 200;
-  responseBody = JSON.stringify({ activations: [] });
-  responseContentLength = Buffer.byteLength(responseBody);
+  responseBody = null;
+  responseContentLength = null;
   responseBodyMode = 'stream';
   textCalls = 0;
   cancelCalls = 0;
@@ -129,12 +169,81 @@ async function main() {
   // ── anonymous in-family read passes ────────────────────────────────────────
   let r = await invoke(request({ domainId: 'energy_battery_battrecycling_collection' }));
   check('in-family anonymous passes (status)', r.status, 200);
-  check('decoded payload returned', JSON.stringify(r.body), JSON.stringify({ activations: [] }));
-  check('exactly one upstream fetch', fetchedUrls.length, 1);
-  check('upstream URL is the allowed repo + prefix',
+  check('decoded payload returned', r.body.domainId, 'energy_battery_battrecycling_collection');
+  check('metadata and blob are the only upstream fetches', fetchedUrls.length, 2);
+  check('metadata URL pins the exact source revision',
     fetchedUrls[0],
-    'https://api.github.com/repos/LIMENHelix/Limen-Helix/contents/assets/data/domains/energy_battery_battrecycling_collection.json');
+    'https://api.github.com/repos/LIMENHelix/Limen-Helix/contents/assets/data/domains/energy_battery_battrecycling_collection.json?ref=' + SOURCE_SHA);
+  check('blob URL uses the metadata content SHA',
+    fetchedUrls[1],
+    'https://api.github.com/repos/LIMENHelix/Limen-Helix/git/blobs/' + gitBlobSha(JSON.stringify(validPortal('energy_battery_battrecycling_collection'))));
   check('streamed success does not call unbounded text()', textCalls, 0);
+
+  // ── explicit repository + pin pair targets the configured full repo ──────
+  process.env.LIMEN_PORTAL_SOURCE_REPOSITORY = 'LIMENHelix/Limen-Helix-Canonical';
+  fetchedUrls.length = 0;
+  r = await invoke(request({ domainId: 'energy_custom_source' }));
+  check('explicit repository + pin pair is honored (status)', r.status, 200);
+  check('explicit pair queries the configured repository',
+    fetchedUrls[0],
+    'https://api.github.com/repos/LIMENHelix/Limen-Helix-Canonical/contents/assets/data/domains/energy_custom_source.json?ref=' + SOURCE_SHA);
+  delete process.env.LIMEN_PORTAL_SOURCE_REPOSITORY;
+
+  // ── deployment SHA fallback is bound to the deployment repository ──────
+  delete process.env.LIMEN_PORTAL_SOURCE_SHA;
+  delete process.env.GITHUB_SHA;
+  delete process.env.GITHUB_REPOSITORY;
+  process.env.VERCEL_GIT_REPO_OWNER = 'LIMENHelix';
+  process.env.VERCEL_GIT_REPO_SLUG = 'Limen-Helix-live-';
+  process.env.VERCEL_GIT_COMMIT_SHA = DEPLOY_SHA;
+  fetchedUrls.length = 0;
+  r = await invoke(request({ domainId: 'energy_deploy_revision' }));
+  check('deployment SHA fallback passes (status)', r.status, 200);
+  check('deployment fallback queries the deployment repository at its own SHA',
+    fetchedUrls[0],
+    'https://api.github.com/repos/LIMENHelix/Limen-Helix-live-/contents/assets/data/domains/energy_deploy_revision.json?ref=' + DEPLOY_SHA);
+
+  githubStatus = 404;
+  fetchedUrls.length = 0;
+  r = await invoke(request({ domainId: 'energy_full_repo_only' }));
+  check('full-repository-only file missing from deployment repo reports 404', r.status, 404);
+  check('deep portal 404 names the upstream pin requirement',
+    /LIMEN_PORTAL_SOURCE_SHA/.test(JSON.stringify(r.body)), true);
+  githubStatus = 200;
+
+  // Mixed contexts: a repository without its own SHA is incomplete and ignored.
+  process.env.GITHUB_REPOSITORY = 'SomeOther/Repo';
+  delete process.env.GITHUB_SHA;
+  fetchedUrls.length = 0;
+  r = await invoke(request({ domainId: 'energy_mixed_context' }));
+  check('incomplete GitHub context is ignored (status)', r.status, 200);
+  check('fallback uses the complete Vercel context',
+    fetchedUrls[0],
+    'https://api.github.com/repos/LIMENHelix/Limen-Helix-live-/contents/assets/data/domains/energy_mixed_context.json?ref=' + DEPLOY_SHA);
+
+  // Both providers complete but disagree: fail closed.
+  process.env.GITHUB_REPOSITORY = 'SomeOther/Repo';
+  process.env.GITHUB_SHA = CONFLICT_SHA;
+  fetchedUrls.length = 0;
+  r = await invoke(request({ domainId: 'energy_conflict' }));
+  check('conflicting source contexts fail closed (status)', r.status, 503);
+  check('conflicting source contexts perform zero upstream fetches', fetchedUrls.length, 0);
+  check('conflicting source contexts explain the ambiguity',
+    /ambiguous/i.test(JSON.stringify(r.body)), true);
+
+  // Explicit pin wins over any conflicting deployment context.
+  process.env.LIMEN_PORTAL_SOURCE_SHA = SOURCE_SHA;
+  fetchedUrls.length = 0;
+  r = await invoke(request({ domainId: 'energy_pin_wins' }));
+  check('explicit pin wins over conflicting contexts (status)', r.status, 200);
+  check('explicit pin queries the full repository',
+    fetchedUrls[0].indexOf('/repos/LIMENHelix/Limen-Helix/') !== -1, true);
+
+  delete process.env.GITHUB_REPOSITORY;
+  delete process.env.GITHUB_SHA;
+  delete process.env.VERCEL_GIT_COMMIT_SHA;
+  delete process.env.VERCEL_GIT_REPO_OWNER;
+  delete process.env.VERCEL_GIT_REPO_SLUG;
 
   // ── server token used upstream, never in the response ─────────────────────
   const blob = JSON.stringify(r.body) + JSON.stringify(r.headers);
@@ -203,9 +312,39 @@ async function main() {
   check('stream oversized body refuses (status)', r.status, 502);
   check('stream oversized body does not call text()', textCalls, 0);
 
-  responseBody = JSON.stringify({ activations: [] });
-  responseContentLength = Buffer.byteLength(responseBody);
+  responseBody = null;
+  responseContentLength = null;
   responseBodyMode = 'stream';
+
+  responseBody = JSON.stringify({
+    domainId: 'energy', title: 'Deep portal', phase: 'p4', activations: [], edges: []
+  });
+  r = await invoke(request({ domainId: 'energy_battery_battrecycling_collection' }));
+  check('activation-only deep payload passes (status)', r.status, 200);
+  responseBody = JSON.stringify({
+    domainId: 'finance', title: 'Wrong family', phase: 'p4', activations: [], issues: []
+  });
+  r = await invoke(request({ domainId: 'energy_battery_battrecycling_collection' }));
+  check('cross-domain payload fails closed (status)', r.status, 502);
+  responseBody = JSON.stringify({
+    domainId: 'energy', title: 'Authored label', phase: 'p4',
+    activations: [{ brainNodeId: 'FUND' }], issues: []
+  });
+  r = await invoke(request({ domainId: 'energy' }));
+  check('authored activation label passes (status)', r.status, 200);
+  responseBody = JSON.stringify({
+    domainId: 'energy', title: 'Undeclared edge', phase: 'p4',
+    activations: [], issues: [], edges: [{ from: 'FPN', to: 'NOT_DECLARED' }]
+  });
+  r = await invoke(request({ domainId: 'energy' }));
+  check('undeclared edge endpoint fails closed (status)', r.status, 502);
+  responseBody = JSON.stringify({
+    domainId: 'energy', title: 'Declared alias', phase: 'p4',
+    activations: [{ brainNodeId: 'NAc' }], issues: [], edges: []
+  });
+  r = await invoke(request({ domainId: 'energy' }));
+  check('explicit registry alias passes (status)', r.status, 200);
+  responseBody = null;
 
   delete process.env.GITHUB_TOKEN;
   fetchedUrls.length = 0;
@@ -213,6 +352,23 @@ async function main() {
   check('token unset fails closed (status)', r.status, 500);
   check('token unset performed zero upstream fetches', fetchedUrls.length, 0);
   process.env.GITHUB_TOKEN = TOKEN;
+
+  delete process.env.LIMEN_PORTAL_SOURCE_SHA;
+  fetchedUrls.length = 0;
+  r = await invoke(request({ domainId: 'energy' }));
+  check('source revision unset fails closed (status)', r.status, 503);
+  check('source revision unset performed zero upstream fetches', fetchedUrls.length, 0);
+  process.env.LIMEN_PORTAL_SOURCE_SHA = SOURCE_SHA;
+
+  // ── integrity and schema gates ────────────────────────────────────────────
+  metadataShaOverride = 'b'.repeat(40);
+  responseBody = JSON.stringify(validPortal('energy'));
+  r = await invoke(request({ domainId: 'energy' }));
+  check('content SHA mismatch fails closed (status)', r.status, 502);
+  metadataShaOverride = null;
+  responseBody = JSON.stringify({ domainId: 'energy', title: 'wrong', phase: 'p2', issues: [] });
+  r = await invoke(request({ domainId: 'energy' }));
+  check('invalid portal schema fails closed (status)', r.status, 502);
 
   console.log(passed + '/' + passed + ' passed');
 }

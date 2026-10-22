@@ -82,6 +82,16 @@ assert.equal(qualified.thing1.applicable, true);
 assert.equal(qualified.thing2.decisionWeight, 0);
 assert.equal(qualified.thing2.maskingAssessment, 'aligned_with_thing1_non_alert');
 
+/* A qualified label without the permit is not qualification. */
+const noPermit = Input.helixSections(Object.assign({}, report, {
+  is_financial: false,
+  thing0_eligibility: { qualification_status: 'qualified', thing1_execution_status: 'ready', permits_thing1_use: false, reasons: ['sector_lookup_unavailable'] },
+  validated_signal: { available: true, validation_status: 'validated', alert: true }
+}));
+assert.equal(noPermit.thing0Eligibility.qualifiedForValidatedThing1, false);
+assert.equal(noPermit.thing0Eligibility.permitsThing1Use, false);
+assert.equal(noPermit.thing1.applicable, false);
+
 const partial = Input.helixSections(Object.assign({}, report, {
   thing0_eligibility: { qualification_status: 'partially_qualified', thing1_execution_status: 'blocked_by_company_data', permits_thing1_use: false, reasons: ['quarterly_history_below_full_envelope'] },
   validated_signal: { available: false, validation_status: 'insufficient_data' }

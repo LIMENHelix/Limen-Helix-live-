@@ -994,7 +994,8 @@ function _wrapPhase0Result(secFacts, kernelResult, cik) {
         narrative.push('Validated distress scorer produced no rows from this CIK’s SEC data.');
       }
       return {
-        kernel_id: 'limen_backtest.py',
+        /* The browser Phase 0 runtime is not the protected scorer. */
+        kernel_id: null,
         kernel_runtime: hasResult ? 'browser-client-side (Phase 0)' : 'absent',
         kernel_version: '4.0',
         available: hasResult,
@@ -1140,21 +1141,20 @@ async function runAnalysis(opts) {
     var t1 = await resp.json();
     var packet = _packServerResult(t1);
     var gatedT1 = packet.validated_signal || {};
-    var combinedAlert = !!(
-      gatedT1.alert
-      && packet.thing0_eligibility
-      && packet.thing0_eligibility.permits_thing1_use === true
-    );
+    var combinedAlert = !!(gatedT1.alert && gatedT1.available === true);
     currentResult = packet;
     _entityName = packet.entity_name || ('CIK ' + cik);
     applyResults(packet);
     var statusBits;
     if (thing1Label) {
+      var abstainLabel = gatedT1.abstained === true
+        ? ('ABSTAIN \u00b7 THING 1 ' + String(gatedT1.server_validation_status || gatedT1.validation_status || 'NOT VALIDATED').toUpperCase())
+        : (combinedAlert ? ('AUTHORIZED ALERT \u00b7 Path ' + (gatedT1.pathway || '?'))
+          : (gatedT1.alert ? 'THING 1 ALERT \u00b7 THING 0 NOT ESTABLISHED'
+            : (gatedT1.raw_alert ? 'NO AUTHORIZED ALERT \u00b7 RAW CROSSING' : 'NO ALERT')));
       statusBits = [
         _entityName, '\u2014',
-        combinedAlert ? ('AUTHORIZED ALERT \u00b7 Path ' + (gatedT1.pathway || '?'))
-          : (gatedT1.alert ? 'THING 1 ALERT \u00b7 THING 0 NOT ESTABLISHED'
-            : (gatedT1.raw_alert ? 'NO AUTHORIZED ALERT \u00b7 RAW CROSSING' : 'NO ALERT')),
+        abstainLabel,
         '\u00b7',
         'composite ' + (t1.composite_score != null ? t1.composite_score.toFixed(3) : '\u2014')
       ];
@@ -1179,6 +1179,17 @@ async function runAnalysis(opts) {
 // the renderer expects (validated_signal / phase_tracker_signal / reconciliation).
 function _packServerResult(t1) {
   var hist = t1.history_quarters || 0;
+  var t0 = t1.thing0_eligibility || null;
+  var t0Permits = !!(t0 && t0.permits_thing1_use === true);
+  var t0Qualified = !!(t0 && typeof t0 === 'object' && !Array.isArray(t0)
+    && t0.qualification_status === 'qualified'
+    && typeof t0.permits_thing1_use === 'boolean');
+  /* Permission is a chain: usable Thing 0 evidence, exactly qualified, and an
+     explicit permit. A label or a score never grants it. */
+  var t0Authorized = t0Qualified && t0Permits;
+  function _fmt3(v) {
+    return (typeof v === 'number' && isFinite(v)) ? v.toFixed(3) : 'n/a';
+  }
 
   // Operating Envelope §4.1–§4.4. §4.5 (sector membership) deferred to a
   // separate render policy. When a gate fails, validation_status downgrades
@@ -1223,7 +1234,11 @@ function _packServerResult(t1) {
   var serverValidation = t1.validation_status || null;
   var clientValidated = envelope.status === 'validated';
   var effectiveValidation;
-  if (!clientValidated) {
+  if (serverValidation === 'not_permitted_by_thing0' || serverValidation === 'unavailable') {
+    /* The server's refusal/unavailable status is authoritative. The client-side
+       envelope must not overwrite it with an insufficient-history label. */
+    effectiveValidation = serverValidation;
+  } else if (!clientValidated) {
     effectiveValidation = envelope.status;
   } else {
     effectiveValidation = serverValidation || envelope.status;
@@ -1231,7 +1246,10 @@ function _packServerResult(t1) {
   if (effectiveValidation === 'validated' && !fingerprintMatches) {
     effectiveValidation = 'unvalidated_after_modification';
   }
-  var effectiveAlert = effectiveValidation === 'validated' ? !!t1.alert : false;
+  /* Any missing/refused/non-permitting Thing 0 or non-validated Thing 1 result
+     abstains. Neither ALERT nor NO_ALERT is permitted. */
+  var abstained = !(t0Authorized && effectiveValidation === 'validated');
+  var effectiveAlert = !abstained && t1.alert === true;
   var fingerprintReasons = [];
   if (!fingerprintMatches) {
     fingerprintReasons.push('kernel fingerprint ' + serverFingerprint.state
@@ -1250,10 +1268,18 @@ function _packServerResult(t1) {
   var narrative = [];
   narrative.push('Composite score: ' + (t1.composite_score != null ? t1.composite_score.toFixed(3) : 'n/a')
                + ' \u00b7 distress band: ' + (distressBand || 'unknown'));
-  narrative.push('Path A (stress): ' + t1.path_a_score.toFixed(3) + '/' + t1.path_a_threshold
-               + ' \u00b7 Path B (cash): ' + t1.path_b_score.toFixed(3) + '/' + t1.path_b_threshold
-               + ' \u00b7 Path C (rupture): ' + t1.path_c_score.toFixed(3) + '/' + t1.path_c_threshold);
-  if (effectiveAlert) {
+  narrative.push('Path A (stress): ' + _fmt3(t1.path_a_score) + '/' + _fmt3(t1.path_a_threshold)
+               + ' \u00b7 Path B (cash): ' + _fmt3(t1.path_b_score) + '/' + _fmt3(t1.path_b_threshold)
+               + ' \u00b7 Path C (rupture): ' + _fmt3(t1.path_c_score) + '/' + _fmt3(t1.path_c_threshold));
+  var abstainReason = !t0Authorized ? 'thing0_not_authorized'
+    : (serverValidation || effectiveValidation);
+  if (abstained) {
+    narrative.push('Thing 1 abstains: ' + abstainReason
+                 + '. No ALERT or NO_ALERT verdict is issued.');
+    if (t1.alert || t1.raw_alert) {
+      narrative.push('A raw threshold crossing is present, but it is not an authorized alert.');
+    }
+  } else if (effectiveAlert) {
     narrative.push('Alert fired via Path ' + (t1.pathway || '?')
                  + (t1.first_alert_quarter ? ' first at ' + t1.first_alert_quarter : ''));
   } else if (t1.alert || t1.raw_alert) {
@@ -1276,13 +1302,16 @@ function _packServerResult(t1) {
     financial_state: t1.financial_state || null,
     phase_history: Array.isArray(t1.phase_history) ? t1.phase_history : [],
     input_presence: t1.input_presence || null,
+    thing0_eligibility: t0,
     validated_signal: {
-      kernel_id: t1.kernel_id || 'limen_backtest.py',
+      kernel_id: t1.kernel_id || null,
       kernel_runtime: t1.kernel_runtime || 'python-vercel',
       kernel_version: '4.0',
       kernel_sha256_lock: t1.kernel_sha256_lock || serverFingerprint.lock_sha256 || null,
       kernel_sha256_actual: t1.kernel_sha256_actual || serverFingerprint.kernel_sha256 || null,
-      available: true,
+      available: t0Authorized && effectiveValidation === 'validated',
+      abstained: abstained,
+      server_validation_status: serverValidation,
       alert: effectiveAlert,
       raw_alert: t1.raw_alert === true,
       first_alert_quarter: effectiveAlert ? (t1.first_alert_quarter || null) : null,
@@ -1349,12 +1378,12 @@ function _packServerResult(t1) {
       masking_assessment: 'unassessed',
       thing2_role: 'alignment_and_masking_reconciliation_only',
       thing2_trade_weight: 0,
-      summary: effectiveValidation !== 'validated'
-        ? 'Validation is not established for this kernel fingerprint; the raw threshold result is not an authorized alert.'
+      summary: abstained
+        ? ('Thing 1 abstains: ' + abstainReason + '. No ALERT or NO_ALERT verdict is issued.')
         : (effectiveAlert
-          ? ('Validated Thing 1 fired alert via Path ' + (t1.pathway || '?') + '. Composite score ' + (t1.composite_score != null ? t1.composite_score.toFixed(3) : 'n/a') + '. Thing 0 qualification is not available in this score path; no combined action authority is granted.')
+          ? ('Validated Thing 1 fired alert via Path ' + (t1.pathway || '?') + '. Composite score ' + (t1.composite_score != null ? t1.composite_score.toFixed(3) : 'n/a') + '. Thing 0 permits Thing 1 use.')
           : 'Validated Thing 1 reports no alert.'),
-      action_authority: 'none',  // Thing 0 qualification is not carried by this flat score path
+      action_authority: 'none',  // reports never authorize a trade; Thing 0 only gates Thing 1 use
       language_constraints: [
         'thing2_section_must_label_unvalidated',
         'thing2_section_no_alert_field',

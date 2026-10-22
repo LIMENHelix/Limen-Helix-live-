@@ -102,7 +102,8 @@ def _t1_unsupported_categories(reasons: list[str] | None) -> list[str]:
         elif "thing0_not_permitted" in rl:
             out.append("thing0_not_permitted")
         elif ("one_or_more_required_series_incomplete" in rl
-              or "sec_company_facts_or_required_series_unavailable" in rl):
+              or "sec_company_facts_or_required_series_unavailable" in rl
+              or "sector_lookup_unavailable" in rl):
             out.append("company_data_incomplete")
         elif ("quarterly_history_below_full_envelope" in rl
               or "minimum 5" in rl or "insufficient" in rl):

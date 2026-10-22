@@ -54,7 +54,7 @@ from python_runtime.helix_app.thing1.statsmodels_compat import install as _insta
 _install_statsmodels_compat()
 from python_runtime.helix_app.thing1 import limen_backtest as lbt  # noqa: E402
 from python_runtime.helix_app import thing1 as _thing1  # noqa: E402
-from python_runtime.helix_app.thing1 import fred as _fred  # noqa: E402
+from python_runtime.helix_app import thing0 as _thing0  # noqa: E402
 
 Path.mkdir = _orig_mkdir  # restore for any downstream user code
 
@@ -232,18 +232,90 @@ def health():
     }
 
 
+def _latest_raw_quarter(data: dict):
+    """Latest raw filing quarter across extracted series, before features."""
+    quarters = []
+    for series in (data or {}).values():
+        try:
+            quarters.extend(series.keys())
+        except Exception:
+            pass
+    return max(quarters) if quarters else None
+
+
+def _quarter_label(quarter):
+    try:
+        return f"{int(quarter[0])}Q{int(quarter[1])}"
+    except Exception:
+        return None
+
+
+def _thing0_refusal(cik, entity_name, sic, qualification, input_presence, fp, data):
+    """Response when Thing 0 does not permit Thing 1.
+
+    This deliberately does not run or expose Thing 1 computations. Raw company
+    inputs and identity remain visible for diagnosis; no alert, phase, score or
+    action authority is conferred.
+    """
+    return {
+        "cik": cik,
+        "entity_name": entity_name,
+        "alert": False,
+        "alert_authorized": False,
+        "first_alert_quarter": None,
+        "pathway": None,
+        "trajectory": "NOT_RUN",
+        "max_p3": None,
+        "composite_score": None,
+        "path_a_score": None,
+        "path_b_score": None,
+        "path_c_score": None,
+        "path_a_threshold": THRESH_A,
+        "path_b_threshold": THRESH_B,
+        "path_c_threshold": THRESH_C,
+        "alert_a": False,
+        "alert_b": False,
+        "alert_c": False,
+        "kernel_id": "limen_backtest.py",
+        "kernel_runtime": "python-vercel",
+        "validation_status": "not_permitted_by_thing0",
+        "in_envelope": False,
+        "envelope_status_code": "NOT_PERMITTED_BY_THING0",
+        "regime_context": None,
+        "is_financial": bool(
+            (qualification.get("sector_rule") or {}).get("classified_financial")
+        ),
+        "sic_code": sic,
+        "interpretive_only": True,
+        "envelope_disclaimer": (
+            "Thing 0 did not qualify this company for Thing 1 scoring. "
+            "No validated distress assessment is available."
+        ),
+        "fingerprint_status": fp,
+        "kernel_sha256_actual": fp.get("kernel_sha256"),
+        "kernel_sha256_lock": fp.get("lock_sha256"),
+        "fred_status": "not_run",
+        "latest_quarter": _quarter_label(_latest_raw_quarter(data)),
+        "history_quarters": qualification.get("history_quarters", 0),
+        "stress_rate": None,
+        "max_consec_stressed": None,
+        "cash_decline": None,
+        "rupture_n_quarters": None,
+        "stress_accum_latest": None,
+        "financial_state": {},
+        "input_presence": input_presence,
+        "phase_scores": {},
+        "dominant_phase": None,
+        "phase_history": [],
+        "thing0_eligibility": qualification,
+    }
+
+
 @app.post("/api/limen/score")
 def score(req: ScoreRequest):
     cik = req.cik.lstrip("0").zfill(10) if req.cik else ""
     if not cik:
         raise HTTPException(400, "CIK required")
-
-    # Fail before any external fetch when FRED configuration is absent. The
-    # later adapter call still handles transport failures separately.
-    try:
-        _fred.api_key()
-    except _fred.FredNotConfigured:
-        raise HTTPException(503, "fred-not-configured")
 
     facts = lbt.fetch_sec_facts(cik)
     if facts is None:
@@ -294,9 +366,34 @@ def score(req: ScoreRequest):
         "debt_long_quarters":    len(dl),
     }
 
-    # FRED delta — env-only configuration. Missing configuration is a named
-    # failure before any request; transport failures are best-effort and
-    # disclosed in the response.
+    # ── Thing 0 qualification, BEFORE any Thing 1 computation ──────
+    # Qualification is derived from company-level inputs only. It uses this
+    # scorer's released narrow bank rule; the response records that rule and
+    # whether the sectioned report's wider rule would disagree. Not reconciled.
+    is_financial = _thing0.is_financial_depository_bank(sic)
+    thing0_eligibility = _thing0.from_company_data(
+        data,
+        is_financial=is_financial,
+        facts_present=bool(facts),
+        sic=sic,
+        sector_rule_id=_thing0.SECTOR_RULE_FLAT_SCORER,
+    )
+    fp = _thing1.fingerprint_status()
+    if not thing0_eligibility["permits_thing1_use"]:
+        return _thing0_refusal(
+            cik=cik,
+            entity_name=facts.get("entityName", ""),
+            sic=sic,
+            qualification=thing0_eligibility,
+            input_presence=input_presence,
+            fp=fp,
+            data=data,
+        )
+
+    # FRED delta — required only after Thing 0 permits Thing 1 to run. A
+    # deterministic Thing 0 refusal returns above without needing FRED.
+    # Missing configuration is a named failure before any provider request;
+    # transport failures are best-effort and disclosed in the response.
     fred_result = _fetch_fred_quiet()
     if fred_result.get("reason") == "fred-not-configured":
         raise HTTPException(503, "fred-not-configured")
@@ -311,6 +408,7 @@ def score(req: ScoreRequest):
         raise HTTPException(404, "No quarterly data available for this CIK")
     df = lbt.score_all_phases(df)
     df = lbt.analyse_trajectory(df)
+    thing0_eligibility["thing1_execution_status"] = "executed"
 
     # Three-path composite (P3_ENTRY frozen at 0.59)
     composite, first_alert_q, details = lbt.compute_composite_score(
@@ -329,9 +427,12 @@ def score(req: ScoreRequest):
     # Path C (it only matters when Path C is actually elevated). Banks,
     # stale filers, and thin-history are out of envelope regardless.
     envelope = assess_envelope(df, input_presence, sic, path_c=path_c)
-    fp = _thing1.fingerprint_status()
     envelope = _thing1.apply_fingerprint_to_envelope(envelope, fp)
-    effective_validated = bool(envelope.get("in_envelope")) and envelope.get("status") == "validated"
+    effective_validated = (
+        bool(thing0_eligibility.get("permits_thing1_use"))
+        and bool(envelope.get("in_envelope"))
+        and envelope.get("status") == "validated"
+    )
 
     if alert:
         firing = []
@@ -497,6 +598,7 @@ def score(req: ScoreRequest):
         "stress_accum_latest": stress_accum_latest,
         "financial_state": financial_state,
         "input_presence": input_presence,
+        "thing0_eligibility": thing0_eligibility,
         "phase_scores": phase_scores,
         "dominant_phase": dominant_phase,
         "phase_history": phase_history,

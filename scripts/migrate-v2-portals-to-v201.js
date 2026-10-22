@@ -103,7 +103,7 @@ function buildFinancialHealth(k, asOfIso) {
   return {
     asOf: asOfIso.slice(0, 10),
     lastKernelRun: asOfIso,
-    kernelId: k.kernel_id || 'limen_backtest.py',
+    kernelId: k.kernel_id || null,
     kernelShaLock: (k.kernel_sha256_lock || '').slice(0, 16),
     validationStatus: k.validation_status || 'unsupported',
     envelopeStatus: 'ELIGIBLE_NOW', // refined below if history insufficient
@@ -237,7 +237,7 @@ async function migrateOne(slug) {
     j.financialHealth = {
       asOf: new Date().toISOString().slice(0, 10),
       lastKernelRun: new Date().toISOString(),
-      kernelId: 'limen_backtest.py',
+      kernelId: null,
       validationStatus: 'unsupported',
       envelopeStatus: kernelStatus,
       historyQuarters: 0,

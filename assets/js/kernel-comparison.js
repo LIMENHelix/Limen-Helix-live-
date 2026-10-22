@@ -89,29 +89,144 @@ var SIGNAL_ENUM = {
   FRAGILE_STABILITY:{ label: 'FRAGILE STABILITY', color: '#C9A94E',  icon: '◆' },
   ORDERED_WATCH:    { label: 'ORDERED WATCH',     color: '#4a8fd4',  icon: '○' },
   SECTOR_PRESSURE:  { label: 'SECTOR PRESSURE',   color: '#C9A94E',  icon: '▷' },
+  NOT_QUALIFIED:    { label: 'NOT QUALIFIED',     color: '#888',     icon: '⊘' },
+  ABSTAIN:          { label: 'ABSTAIN',           color: '#C9A94E',  icon: '◇' },
   NOMINAL:          { label: 'NOMINAL',           color: '#5ab5a0',  icon: '✓' }
 };
+
+/* Identity quarantine. A record that mixes two issuers is not navigable until
+   the missing issuer's authorized data exists. Keep this list aligned with
+   lib/identity-quarantine.js. */
+var QUARANTINED_SLUGS = { saia: 'mixed SAIA / A. O. Smith identity' };
+function _identityQuarantined(slug) {
+  return !!(slug && QUARANTINED_SLUGS[String(slug).toLowerCase()]);
+}
+
+/* Portal identities, loaded from the manifest. A Board route is usable only
+   when the normalized Board CIK equals the portal CIK and nonempty tickers do
+   not contradict. Unknown identity fails closed. */
+var _portalIdentity = {};
+var _portalIdentityState = 'loading';
+(function loadPortalIdentity() {
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'assets/data/companies-manifest.json', true);
+    xhr.onload = function () {
+      if (xhr.status !== 200) { _settlePortalIdentity('error'); return; }
+      try {
+        var idx = (JSON.parse(xhr.responseText) || {}).index || {};
+        Object.keys(idx).forEach(function (s) {
+          _portalIdentity[s] = { cik: idx[s].cik || null, ticker: idx[s].ticker || null };
+        });
+        _settlePortalIdentity('ready');
+      } catch (e) {
+        _settlePortalIdentity('error');
+      }
+    };
+    xhr.onerror = function () { _settlePortalIdentity('error'); };
+    xhr.send();
+  } catch (e) { _settlePortalIdentity('error'); }
+})();
+
+function _tickerKey(value) {
+  if (value === null || value === undefined) return null;
+  var s = String(value).trim().toUpperCase();
+  return s || null;
+}
+
+function _routeCoherent(d) {
+  if (!d || !d.s) return false;
+  if (_identityQuarantined(d.s)) return false;
+  var p = _portalIdentity[d.s];
+  if (!p) return false;
+  var bc = _normCik(d.c), pc = _normCik(p.cik);
+  if (!bc || !pc || bc !== pc) return false;
+  var bt = _tickerKey(d.t), pt = _tickerKey(p.ticker);
+  if (bt && pt && bt !== pt) return false;
+  return true;
+}
+
+function _routeStatus(d) {
+  if (!d || !d.s) return 'no-route';
+  if (_identityQuarantined(d.s)) return 'quarantined';
+  if (_portalIdentityState === 'loading') return 'loading';
+  if (_portalIdentityState !== 'ready') return 'unavailable';
+  return _routeCoherent(d) ? 'ok' : 'mismatch';
+}
+
+/* Each rendered expansion is bound to the displayed record it was built from.
+   DOM position may locate an element; it never establishes company identity.
+   The page-local index and the global DATA array are never mixed. */
+function _rowIdentityMatches(tr, d) {
+  var id = tr && tr.__boardIdentity;
+  if (!id || !d) return false;
+  return id.cik === _normCik(d.c)
+    && id.ticker === _tickerKey(d.t)
+    && id.name === (d.n || null);
+}
+
+var _IDENTITY_BLOCKED_HTML = '<div class="expand-content"><div class="expand-actions">'
+  + '<span style="color:#e8a44e;cursor:not-allowed">IDENTITY CHECK UNAVAILABLE</span></div></div>';
+
+function _refreshRenderedRouteControls(root, rebuild) {
+  if (!root || typeof root.querySelectorAll !== 'function' || typeof rebuild !== 'function') return 0;
+  var list = root.querySelectorAll('tr.expand-row');
+  var updated = 0;
+  for (var i = 0; i < list.length; i++) {
+    var tr = list[i];
+    var d = tr && tr.__boardRow;
+    var td = tr && tr.querySelector && tr.querySelector('td');
+    if (!td) continue;
+    /* No retained record, or a DOM association that no longer matches its
+       record, is replaced with an explicit blocked state. Never substitute
+       another company and never leave stale route links in place. */
+    if (!d || !_rowIdentityMatches(tr, d)) {
+      td.innerHTML = _IDENTITY_BLOCKED_HTML;
+      continue;
+    }
+    td.innerHTML = rebuild(d);
+    updated++;
+  }
+  return updated;
+}
+
+function _refreshAllRouteControls() {
+  return _refreshRenderedRouteControls(document.getElementById('tableBody'), _buildExpandContent);
+}
+
+/* Terminal manifest states refresh every currently rendered expansion. A
+   render after this point builds the correct state directly. */
+function _settlePortalIdentity(state) {
+  _portalIdentityState = state;
+  _refreshAllRouteControls();
+}
 
 var TERMINAL_PHASES = ['p7','p7a','p9'];
 var STABLE_PHASES = ['p4','p5','p6'];
 var ORDERED_PHASES = ['p6','p10'];
 
 function classifySignal(d) {
-  // Rule 1: HTTP/API/extraction failure
+  // Rule 1: explicit source/extraction failure
   if (d.p === 'ERROR') return 'DATA_ERROR';
-  // Rule 2: Terminal-like phase but domain stress low → likely extraction bug
+  // Rule 2: authority gates. A row without Thing 0 qualification or without a
+  // validated Thing 1 result has no verdict to interpret; phase and stress must
+  // not override that with a DATA_ERROR claim.
+  if (d._thing0Status !== 'QUALIFIED') return 'NOT_QUALIFIED';
+  if (d._thing1Result === 'ABSTAIN') return 'ABSTAIN';
+  // Rule 3: terminal-like phase with low domain stress now signals an
+  // extraction contradiction in an otherwise authoritative row.
   if (TERMINAL_PHASES.indexOf(d.p) !== -1 && d.ds < 0.30) return 'DATA_ERROR';
-  // Rule 3: Linear alert with no data contradiction
-  if (d.a && d.p !== 'ERROR') return 'ALERT';
-  // Rule 4: Stable phase but extreme domain stress
+  // Rule 4: Linear alert with no data contradiction (validated Thing 1 only)
+  if (_isValidatedAlert(d)) return 'ALERT';
+  // Rule 5: Stable phase but extreme domain stress
   if (STABLE_PHASES.indexOf(d.p) !== -1 && d.ds >= 0.90) return 'EARLY_WARNING';
-  // Rule 5: Stable phase in high-stress domain
+  // Rule 6: Stable phase in high-stress domain
   if (STABLE_PHASES.indexOf(d.p) !== -1 && d.ds >= 0.70) return 'FRAGILE_STABILITY';
-  // Rule 6: Ordered/resurrected in moderate stress
+  // Rule 7: Ordered/resurrected in moderate stress
   if (ORDERED_PHASES.indexOf(d.p) !== -1 && d.ds >= 0.50) return 'ORDERED_WATCH';
-  // Rule 7: Stable in moderate stress
+  // Rule 8: Stable in moderate stress
   if (STABLE_PHASES.indexOf(d.p) !== -1 && d.ds >= 0.50) return 'SECTOR_PRESSURE';
-  // Rule 8: Default
+  // Rule 9: Default
   return 'NOMINAL';
 }
 
@@ -122,14 +237,17 @@ function classifySignal(d) {
 var SEVERITY_BASE = {
   DATA_ERROR: 100, ALERT: 90, EARLY_WARNING: 75,
   FRAGILE_STABILITY: 65, ORDERED_WATCH: 55,
-  SECTOR_PRESSURE: 45, NOMINAL: 10
+  SECTOR_PRESSURE: 45, NOMINAL: 10,
+  NOT_QUALIFIED: 0, ABSTAIN: 0
 };
 
 function computeSeverity(d) {
+  /* No qualification or no validated Thing 1 result means no severity claim. */
+  if (d._signal === 'NOT_QUALIFIED' || d._signal === 'ABSTAIN') return 0;
   var base = SEVERITY_BASE[d._signal] || 10;
   if (d.ds >= 0.80) base += 10;
-  if (d.a) base += 10;
-  if (d.co >= 1.0) base += 5;
+  if (_isValidatedAlert(d)) base += 10;
+  if (typeof d.co === 'number' && isFinite(d.co) && d.co >= 1.0) base += 5;
   if (d.tr === 'STABLE' && d.ds < 0.40) base -= 10;
   return Math.max(0, base);
 }
@@ -175,7 +293,8 @@ var VERDICT_TAG = {
   p8:'PIVOT_RECOGNIZED', p9:'CASCADE_FAILURE', p10:'NEUROPLASTIC_REFORMATION'
 };
 function _isValidatedAlert(d) {
-  return d && d.a === true && d.kid === 'limen_backtest.py' && d.vs === 'validated';
+  return d && d.a === true && d.kid === 'limen_backtest.py'
+    && d.vs === 'validated' && d._thing0Status === 'QUALIFIED';
 }
 
 // LIMEN lanes — INVESTMENT + RESEARCH ONLY. Patent/Grant/SBA/Franchise/Loan are PERMANENTLY
@@ -250,6 +369,8 @@ function renderStats() {
   h += '<div class="stat"><div class="stat-val" style="color:' + SIGNAL_ENUM.ORDERED_WATCH.color + '">' + counts.ORDERED_WATCH + '</div><div class="stat-label">WATCH</div></div>';
   h += '<div class="stat"><div class="stat-val" style="color:' + SIGNAL_ENUM.SECTOR_PRESSURE.color + '">' + counts.SECTOR_PRESSURE + '</div><div class="stat-label">PRESSURE</div></div>';
   h += '<div class="stat"><div class="stat-val" style="color:' + SIGNAL_ENUM.NOMINAL.color + '">' + counts.NOMINAL + '</div><div class="stat-label">NOMINAL</div></div>';
+  h += '<div class="stat"><div class="stat-val" style="color:' + SIGNAL_ENUM.NOT_QUALIFIED.color + '">' + counts.NOT_QUALIFIED + '</div><div class="stat-label">NOT QUALIFIED</div></div>';
+  h += '<div class="stat"><div class="stat-val" style="color:' + SIGNAL_ENUM.ABSTAIN.color + '">' + counts.ABSTAIN + '</div><div class="stat-label">ABSTAIN</div></div>';
   h += '<div class="stat"><div class="stat-val" style="color:#e85454">' + highStress + '</div><div class="stat-label">STRESS &ge;70%</div></div>';
   h += '<div class="stat"><div class="stat-val" style="color:#e85454">' + p7count + '</div><div class="stat-label">P7/P7a/P9</div></div>';
   h += '<div class="stat"><div class="stat-val" style="color:#5ab5a0">' + stableCount + '</div><div class="stat-label">P4/P6/P10</div></div>';
@@ -295,6 +416,8 @@ function renderDomainPanel() {
     var warnCount = (dom.signals.EARLY_WARNING || 0) + (dom.signals.FRAGILE_STABILITY || 0) + (dom.signals.ORDERED_WATCH || 0);
     var nomCount = (dom.signals.NOMINAL || 0);
     var pressCount = (dom.signals.SECTOR_PRESSURE || 0);
+    var nqCount = (dom.signals.NOT_QUALIFIED || 0);
+    var abstainCount = (dom.signals.ABSTAIN || 0);
 
     h += '<div class="domain-card">';
     h += '<div class="domain-card-name" style="color:' + sc + '">' + dom.name + '</div>';
@@ -305,6 +428,8 @@ function renderDomainPanel() {
     if (warnCount) h += '<div class="domain-card-row"><span>Warn/Watch</span><b style="color:#C9A94E">' + warnCount + '</b></div>';
     if (pressCount) h += '<div class="domain-card-row"><span>Pressure</span><b style="color:#C9A94E">' + pressCount + '</b></div>';
     if (nomCount) h += '<div class="domain-card-row"><span>Nominal</span><b style="color:#5ab5a0">' + nomCount + '</b></div>';
+    if (nqCount) h += '<div class="domain-card-row"><span>Not Qualified</span><b style="color:#888">' + nqCount + '</b></div>';
+    if (abstainCount) h += '<div class="domain-card-row"><span>Abstain</span><b style="color:#C9A94E">' + abstainCount + '</b></div>';
     h += '</div>';
   }
   document.getElementById('domainPanel').innerHTML = h;
@@ -314,7 +439,7 @@ function renderDomainPanel() {
 // TASK 3 — SORT / FILTER ENGINE
 // ═══════════════════════════════════════════════════════════════════════
 
-var _currentFilter = 'kernel';   // default: companies fully qualified by Thing 0
+var _currentFilter = 'all';   // default: show every in-scope row, qualified or not
 var _currentSort = 'severity';
 var _currentPage = 1;
 var _pageSize = 50;
@@ -397,6 +522,8 @@ var SIGNAL_RULES = {
   FRAGILE_STABILITY: 'Company stable but domain stress high (≥70%) — fragile operating environment',
   ORDERED_WATCH: 'Ordered/recovered company in moderately stressed domain (≥50%)',
   SECTOR_PRESSURE: 'Stable company in stressed sector (≥50%) — monitor for deterioration',
+  NOT_QUALIFIED: 'Thing 0 did not qualify this row — no Thing 1 claim or action authority',
+  ABSTAIN: 'Thing 1 is not effectively validated — neither ALERT nor NO_ALERT is permitted',
   NOMINAL: 'Both layers agree — no concern'
 };
 
@@ -413,8 +540,11 @@ function renderTable(rows, startOffset) {
     var tc = trajColor(d.tr);
     var sc = stressColor(d.ds);
     var sig = SIGNAL_ENUM[d._signal] || SIGNAL_ENUM.NOMINAL;
-    var dsPct = Math.round(d.ds * 100);
-    var compPct = Math.min(Math.round(d.co * 50), 100);
+    var dsPct = Math.round((typeof d.ds === 'number' ? d.ds : 0) * 100);
+    var co = (typeof d.co === 'number' && isFinite(d.co)) ? d.co : null;
+    var compPct = co === null ? 0 : Math.min(Math.round(co * 50), 100);
+    var phaseLabel = PHASE_LABELS[d.p] || (d.p ? String(d.p).toUpperCase() : '—');
+    var trajLabel = d.tr ? String(d.tr).replace(/_/g, ' ') : 'UNKNOWN';
 
     // Watchlist star
     var wl = _getWatchlist();
@@ -425,7 +555,7 @@ function renderTable(rows, startOffset) {
     var srcDataClass = d.p === 'ERROR' ? 'src-dat-err' : (d.ds > 0 ? 'src-dat-ok' : 'src-dat-part');
     var t0Class = d._thing0Status === 'QUALIFIED' ? 'src-dat-ok' : (d._thing0Status === 'PARTIALLY_QUALIFIED' ? 'src-dat-part' : 'src-dat-err');
     var srcBadges = '<span class="src-badge ' + t0Class + '">T0:' + d._thing0Status.replace('_QUALIFIED', '') + '</span>' +
-      '<span class="src-badge src-lin">T1:' + (d._thing1Result || (d.vs || 'NONE').toUpperCase()) + '</span>' +
+      '<span class="src-badge src-lin">T1:' + (d._thing1Result || 'ABSTAIN') + '</span>' +
       '<span class="src-badge src-rec">T2:MASK CHECK</span>' +
       '<span class="src-badge ' + srcDataClass + '">DAT:' + srcData + '</span>';
 
@@ -437,9 +567,9 @@ function renderTable(rows, startOffset) {
       '<td style="color:#555"><span class="wl-star' + (isWatched ? ' active' : '') + '" onclick="_toggleStar(\'' + d.t + '\',event)">' + (isWatched ? '★' : '☆') + '</span>' + (startOffset + i + 1) + '</td>' +
       '<td>' + (d._thing1Result === 'ALERT' ? '<span style="font-size:0.55em;padding:1px 4px;border-radius:2px;margin-right:5px;background:rgba(232,84,84,0.15);color:#e85454">T1 ALERT</span>' : '') + '<span style="color:rgba(201,169,78,0.5)">' + d.n + '</span></td>' +
       '<td style="color:#C9A94E">' + d.t + '</td>' +
-      '<td><span class="phase" style="background:' + pc + '22;color:' + pc + ';border:1px solid ' + pc + '44">' + (PHASE_LABELS[d.p] || d.p.toUpperCase()) + '</span></td>' +
-      '<td style="color:' + tc + '">' + d.tr.replace(/_/g, ' ') + '</td>' +
-      '<td>' + d.co.toFixed(2) + ' <span class="bar-bg"><span class="bar" style="width:' + compPct + '%;background:' + tc + '"></span></span></td>' +
+      '<td><span class="phase" style="background:' + pc + '22;color:' + pc + ';border:1px solid ' + pc + '44">' + phaseLabel + '</span></td>' +
+      '<td style="color:' + tc + '">' + trajLabel + '</td>' +
+      '<td>' + (co === null ? '—' : co.toFixed(2)) + ' <span class="bar-bg"><span class="bar" style="width:' + compPct + '%;background:' + tc + '"></span></span></td>' +
       '<td style="color:rgba(200,195,184,0.4)">' + d.d + '</td>' +
       '<td>' + dsPct + '% <span class="bar-bg"><span class="bar" style="width:' + dsPct + '%;background:' + sc + '"></span></span></td>' +
       '<td>' + srcBadges + '</td>' +
@@ -452,6 +582,14 @@ function renderTable(rows, startOffset) {
     var expandTr = document.createElement('tr');
     expandTr.className = 'expand-row';
     expandTr.setAttribute('data-expand-idx', i);
+    /* Bind the expansion to the exact displayed record. The page-local index
+       is a DOM locator only and is never used to recover identity. */
+    expandTr.__boardRow = d;
+    expandTr.__boardIdentity = {
+      cik: _normCik(d.c),
+      ticker: _tickerKey(d.t),
+      name: d.n || null
+    };
     var expandTd = document.createElement('td');
     expandTd.colSpan = 12;
     expandTd.innerHTML = _buildExpandContent(d);
@@ -479,20 +617,27 @@ function _buildExpandContent(d) {
   // Thing 1 alert — never on Thing 2 posture alone.
   h += '<div>';
   h += '<div class="expand-label">THING 1 — VALIDATED DISTRESS</div>';
-  h += '<div style="color:rgba(200,195,184,0.6)">Phase: <b style="color:' + phaseColor(d.p) + '">' + (PHASE_LABELS[d.p] || d.p.toUpperCase()) + '</b></div>';
+  var detailPhase = PHASE_LABELS[d.p] || (d.p ? String(d.p).toUpperCase() : '—');
+  var detailCo = (typeof d.co === 'number' && isFinite(d.co)) ? d.co : null;
+  var t1 = d._thing1Result;
+  var t1Text = t1 === 'ALERT' ? 'ALERT FIRED'
+    : t1 === 'NO_ALERT' ? 'NO ALERT'
+    : 'ABSTAIN — Thing 1 not validated';
+  var t1Color = t1 === 'ALERT' ? '#e85454' : t1 === 'NO_ALERT' ? '#5ab5a0' : '#C9A94E';
+  h += '<div style="color:rgba(200,195,184,0.6)">Phase: <b style="color:' + phaseColor(d.p) + '">' + detailPhase + '</b></div>';
   if (_isValidatedAlert(d) && VERDICT_TAG[d.p]) {
     h += '<div style="color:#e85454;font-size:0.4rem;letter-spacing:1px;font-weight:600">' + VERDICT_TAG[d.p] + ' — ALERT FIRED</div>';
   }
-  h += '<div style="color:rgba(200,195,184,0.6)">Composite: <b>' + d.co.toFixed(3) + '</b>'
+  h += '<div style="color:rgba(200,195,184,0.6)">Composite: <b>' + (detailCo === null ? '—' : detailCo.toFixed(3)) + '</b>'
      + (d.path ? ' · Path <b>' + d.path + '</b>' : '') + '</div>';
   if (typeof d.pa === 'number' || typeof d.pb === 'number' || typeof d.pc === 'number') {
     h += '<div style="color:rgba(200,195,184,0.45);font-size:0.34rem">'
-       + 'A:' + (d.pa || 0).toFixed(2)
-       + ' · B:' + (d.pb || 0).toFixed(2)
-       + ' · C:' + (d.pc || 0).toFixed(2)
+       + 'A:' + (typeof d.pa === 'number' ? d.pa : 0).toFixed(2)
+       + ' · B:' + (typeof d.pb === 'number' ? d.pb : 0).toFixed(2)
+       + ' · C:' + (typeof d.pc === 'number' ? d.pc : 0).toFixed(2)
        + '</div>';
   }
-  h += '<div style="color:rgba(200,195,184,0.6)">Alert: <b style="color:' + (d.a ? '#e85454' : '#5ab5a0') + '">' + (d.a ? 'ALERT FIRED' : 'NO ALERT') + '</b>'
+  h += '<div style="color:rgba(200,195,184,0.6)">Alert: <b style="color:' + t1Color + '">' + t1Text + '</b>'
      + (d.fq ? ' · ' + d.fq : '') + '</div>';
   h += '<div style="font-size:0.32rem;color:rgba(200,195,184,0.35);margin-top:2px">'
      + (d.q ? 'latest ' + d.q + ' · ' : '')
@@ -556,12 +701,25 @@ function _buildExpandContent(d) {
     + '&source_surface=command_board'
     + (d.t ? '&ticker=' + encodeURIComponent(d.t) : '')
     + '&requested_report_type=partial_phase_snapshot';
+  var routeState = _routeStatus(d);
+  var routeOk = routeState === 'no-route' || routeState === 'ok';
+  var routeLabel = routeState === 'loading' ? 'IDENTITY LOADING · ROUTE PENDING'
+    : routeState === 'quarantined' ? 'IDENTITY QUARANTINE'
+      : routeState === 'unavailable' ? 'IDENTITY CHECK UNAVAILABLE'
+        : 'REPORT BLOCKED · IDENTITY MISMATCH';
   h += '<div class="expand-actions">';
-  h += '<a href="' + helixHref + '" target="_blank">HELIX REPORT</a>';
+  if (routeOk) {
+    h += '<a href="' + helixHref + '" target="_blank">HELIX REPORT</a>';
+  } else {
+    h += '<span title="Board CIK does not match the routed portal identity" style="color:#e8a44e;cursor:not-allowed">' + routeLabel + '</span>';
+  }
   // COMPANY PORTAL only renders when this row has a built portal (d.hp set by
-  // scripts/wire-eligible-slugs.mjs). Avoids dead links while the eligible-
-  // portal build is in progress; HELIX REPORT + WATCHLIST stay for every row.
-  if (d.hp) h += '<a href="company-portal.html?company=' + d.s + '">COMPANY PORTAL</a>';
+  // scripts/wire-eligible-slugs.mjs) and the route identity is coherent.
+  if (d.hp && routeOk) {
+    h += '<a href="company-portal.html?company=' + encodeURIComponent(d.s) + '&cik=' + encodeURIComponent(d.c) + (d.t ? '&ticker=' + encodeURIComponent(d.t) : '') + '">COMPANY PORTAL</a>';
+  } else if (d.hp) {
+    h += '<span title="Board CIK does not match the portal identity" style="color:#e8a44e;cursor:not-allowed">' + routeLabel + '</span>';
+  }
   h += '<button onclick="toggleWatchlist(\'' + d.t + '\',event)">WATCHLIST</button>';
   h += '</div>';
 
@@ -575,7 +733,10 @@ function _classifyAction(d) {
     return { label: 'DATA REVIEW REQUIRED', color: '#e85454', reason: 'The snapshot has an extraction or consistency error, so neither Thing 0 nor Thing 1 should be inferred from this row.', whatNow: 'Run the protected Helix Report before using this company in research.' };
   }
   if (d._thing0Status !== 'QUALIFIED') {
-    return { label: 'THING 0 · ' + d._thing0Status.replace(/_/g, ' '), color: '#C9A94E', reason: 'This company is not fully inside the validated Thing 1 operating envelope on the retained row data.', whatNow: 'It may still be researched or invested through Finance using company news and market performance; no Thing 1 claim is permitted.' };
+    return { label: 'THING 0 · ' + d._thing0Status.replace(/_/g, ' '), color: '#C9A94E', reason: 'Thing 0 did not qualify this row for a validated Thing 1 claim. Legacy row data remains visible for research only.', whatNow: 'It may still be researched or invested through Finance using company news and market performance; no Thing 1 claim is permitted.' };
+  }
+  if (d._thing1Result === 'ABSTAIN') {
+    return { label: 'THING 1 · ABSTAIN (NOT VALIDATED)', color: '#C9A94E', reason: 'Thing 0 qualifies the row, but the retained Thing 1 result is not effectively validated. Neither ALERT nor NO_ALERT is permitted.', whatNow: 'Run the protected Helix Report after validation is restored. Until then this row is not a Thing 1 result.' };
   }
   if (d._thing1Result === 'ALERT') {
     return { label: 'VALIDATED THING 1 ALERT PRESENT', color: '#e85454', reason: 'Thing 0 qualifies the company and the retained validated Thing 1 row carries an alert.', whatNow: 'This is distress evidence, not an automatic trade. Finance must independently assess current feeds, history, risk, and account state.' };
@@ -808,17 +969,34 @@ function _addPortfolioPrompt() {
 // ═══════════════════════════════════════════════════════════════════════
 
 // Board init — called after DATA loads from JSON
-function _isFIRE(d) { var s = parseInt(String(d.sic || d.SIC || '').slice(0, 4), 10); return !isNaN(s) && s >= 6000 && s <= 6799; }
+// Thing 0 qualification comes ONLY from scorer evidence recorded on the row
+// (t0 / thing0 / thing0Eligibility). Legacy validation status (vs) and history
+// describe Thing 1 and must not confer qualification. Rows without evidence
+// remain visible as NOT_QUALIFIED until a static refresh records it.
+function _thing0Permits(d) {
+  /* "qualified" is a label; permits_thing1_use is the authority. A missing or
+     false permit must not open Thing 1, even if the label says qualified. */
+  var t0 = d && (d.t0 || d.thing0 || d.thing0Eligibility) || null;
+  return !!(t0 && (t0.permits_thing1_use === true || t0.permitsThing1Use === true));
+}
 function _thing0Status(d) {
-  var history = Number(d.hist || d.history_quarters || 0);
-  var validation = d.vs || d.validation_status || 'unsupported';
-  if (!d || !d.t || d.p === 'ERROR' || validation === 'error' || _isFIRE(d)) return 'NOT_QUALIFIED';
-  if (validation === 'validated' && history >= 8) return 'QUALIFIED';
-  if (history >= 4) return 'PARTIALLY_QUALIFIED';
+  if (!d || !d.t) return 'NOT_QUALIFIED';
+  var t0 = d.t0 || d.thing0 || d.thing0Eligibility || null;
+  var status = t0 && (t0.qualification_status || t0.qualificationStatus);
+  var normalized = String(status || '').toUpperCase();
+  if (normalized === 'QUALIFIED' && _thing0Permits(d)) return 'QUALIFIED';
+  if (normalized === 'PARTIALLY_QUALIFIED') return 'PARTIALLY_QUALIFIED';
   return 'NOT_QUALIFIED';
 }
+function _thing1Validated(d) {
+  /* Effective Thing 1 validation. A snapshot can carry an alert flag from an
+     older run while its current validation status is unvalidated; neither
+     ALERT nor NO_ALERT is permitted in that state. */
+  return !!(d && d.kid === 'limen_backtest.py' && d.vs === 'validated');
+}
 function _thing1Result(d) {
-  if (d._thing0Status !== 'QUALIFIED') return null;
+  if (d._thing0Status !== 'QUALIFIED' || !_thing0Permits(d)) return null;
+  if (!_thing1Validated(d)) return 'ABSTAIN';
   return d.a === true ? 'ALERT' : 'NO_ALERT';
 }
 
@@ -826,10 +1004,13 @@ function _initBoard() {
   // Enrich every row. FIRE companies remain visible as Thing 0 NOT_QUALIFIED;
   // they are not silently erased and may still be researched outside Thing 1.
   DATA.forEach(function(d) {
-    d._signal = classifySignal(d);
-    d._severity = computeSeverity(d);
+    /* Thing 0 first: signal severity and validated-alert classification both
+       consult it, and a validated Thing 1 alert may not outrank a Thing 0
+       refusal. */
     d._thing0Status = _thing0Status(d);
     d._thing1Result = _thing1Result(d);
+    d._signal = classifySignal(d);
+    d._severity = computeSeverity(d);
     d._matters = d._thing0Status === 'QUALIFIED';
   });
   _updateTimestamp();

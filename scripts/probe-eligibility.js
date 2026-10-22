@@ -106,6 +106,32 @@ function deriveStatus(apiResponse) {
     dc_dl_ratio: null,
   };
 
+  /* Thing 0 evidence is mandatory for the eligibility frontier. Absent or
+     contradictory evidence is unavailable, not eligible. This prevents a
+     legacy/version-skewed scorer response from creating a 90-day ELIGIBLE_NOW
+     entry that the command board would then admit. */
+  const thing0 = apiResponse.thing0_eligibility || null;
+  if (!thing0) {
+    return {
+      status: 'THING0_EVIDENCE_UNAVAILABLE',
+      facts,
+      reasons: ['thing0_eligibility absent']
+    };
+  }
+  const t0Status = thing0.qualification_status || thing0.qualificationStatus || null;
+  const t0Permits = thing0.permits_thing1_use === true || thing0.permitsThing1Use === true;
+  if (typeof t0Status !== 'string' || t0Status.toLowerCase() !== 'qualified' || !t0Permits) {
+    const t0Reasons = Array.isArray(thing0.reasons) ? thing0.reasons.slice() : [];
+    if (typeof t0Status !== 'string') t0Reasons.push('thing0_status_missing');
+    else if (t0Status.toLowerCase() !== 'qualified') t0Reasons.push('thing0_status:' + t0Status);
+    if (!t0Permits) t0Reasons.push('thing0_permission_missing');
+    return {
+      status: 'NOT_QUALIFIED_BY_THING0',
+      facts,
+      reasons: t0Reasons.length ? t0Reasons : ['thing0 refused']
+    };
+  }
+
   // §4.1 priority
   if (hist < 8) {
     return { status: 'INSUFFICIENT_HISTORY', facts, reasons: [`history=${hist} < 8`] };
@@ -384,4 +410,7 @@ async function main() {
   console.log(`Status counts (frontier total): ` + JSON.stringify(frontier._status_counts));
 }
 
-main().catch((e) => { console.error('FATAL:', e); process.exit(1); });
+if (require.main === module) {
+  main().catch((e) => { console.error('FATAL:', e); process.exit(1); });
+}
+module.exports = { deriveStatus };

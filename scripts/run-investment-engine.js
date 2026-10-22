@@ -40,7 +40,7 @@
  *
  *   cohort-anchor (reference, research-only)
  *     IF compositeScore < 0.5 AND historyQuarters >= 60
- *     AND dominantPhase IN {p0, p6} AND envelopeStatus = ELIGIBLE_NOW
+ *     AND dominantPhase IN {p0, p6} AND inEnvelope = true
  *     "Kernel-stable across long history. Calibration-cohort anchor for
  *      retail/CPG-regime backtest. Reference data; not a trade thesis."
  *
@@ -75,6 +75,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const signalAuthority = require('../assets/js/investment-signal-authority.js');
 
 const COMPANIES_DIR = path.join(__dirname, '..', 'assets', 'data', 'companies');
 const args = process.argv.slice(2);
@@ -86,20 +87,39 @@ function isoDate(d) { return (d || new Date()).toISOString().slice(0, 10); }
 function isoNow() { return new Date().toISOString(); }
 
 function evaluatePortal(co) {
-  const fh = co.financialHealth;
-  if (!fh) return { signals: [], skipped: 'no financialHealth' };
+  /* Kernel-side refusals also revoke the kernel-derived fields this engine
+     reads. Check them BEFORE financialHealth: a portal can carry stale
+     investment signals even when its health payload is absent or unusable.
+     All three must quarantine, not leave the old signals active. */
   if (co.kernelStatus === 'ERROR' || co.kernelStatus === 'PRIVATE') {
-    return { signals: [], skipped: 'kernelStatus=' + co.kernelStatus };
+    return { signals: [], skipped: 'kernelStatus=' + co.kernelStatus, quarantine: true };
   }
   if (co.kernelStatus === 'INSUFFICIENT_HISTORY') {
-    return { signals: [], skipped: 'INSUFFICIENT_HISTORY (kernel needs ≥32Q)' };
+    return { signals: [], skipped: 'INSUFFICIENT_HISTORY (kernel needs ≥32Q)', quarantine: true };
+  }
+
+  const fh = co.financialHealth;
+  if (!fh) return { signals: [], skipped: 'no financialHealth', quarantine: true };
+
+  /* INVESTMENT CONSUMES THING 1. It does not re-run Thing 0 qualification.
+     A current Thing 1 run records thing1Validation; its status already carries
+     not_permitted_by_thing0, out-of-envelope and fingerprint outcomes. Legacy
+     portals without that provenance abstain until refreshed. */
+  const thing1 = fh.thing1Validation || null;
+  const thing1Validated = signalAuthority.portalThing1Authorized(co);
+  if (!thing1Validated) {
+    return {
+      signals: [],
+      skipped: 'thing1_not_validated:' + ((thing1 && thing1.status) || 'no_provenance'),
+      quarantine: true
+    };
   }
 
   const composite = fh.compositeScore;
   const alert = !!fh.alert;
   const phase = fh.dominantPhase;
   const history = fh.historyQuarters || 0;
-  const envelope = fh.envelopeStatus;
+  const inEnvelope = fh.inEnvelope === true;
 
   // Frozen evidence snapshot for every signal this run — refers to kernel
   // state at signal-fire time, not the live state when the signal is read.
@@ -113,9 +133,11 @@ function evaluatePortal(co) {
     dominantPhase: phase,
     historyQuarters: history,
     distressBand: fh.distressBand,
-    envelopeStatus: envelope,
+    inEnvelope: inEnvelope,
     kernelShaLock: fh.kernelShaLock,
     lastKernelRun: fh.lastKernelRun,
+    validationStatus: fh.validationStatus,
+    thing1ValidationStatus: thing1.status,
   };
 
   const signals = [];
@@ -194,7 +216,7 @@ function evaluatePortal(co) {
   }
   // Rule 5: cohort-anchor (research-only reference)
   else if (composite != null && composite < 0.5 && history >= 60 &&
-           (phase === 'p0' || phase === 'p6') && envelope === 'ELIGIBLE_NOW') {
+           (phase === 'p0' || phase === 'p6') && inEnvelope) {
     signals.push({
       id: slug + '-investment-' + dateStamp + '-cohort-anchor',
       engine: ENGINE_NAME,
@@ -244,10 +266,60 @@ function applySignals(co, newSignals) {
   return filtered.concat(newSignals);
 }
 
+/**
+ * Remove this engine's kernel-derived signals from the active list and archive
+ * them under quarantinedOpportunitySignals. Other engines' signals are kept.
+ * Called when Thing 1 is not validated for investment use, including a Thing 0
+ * refusal (which appears as not_permitted_by_thing0) and stale/missing
+ * provenance.
+ */
+function quarantineInvestmentSignals(co, reason, at) {
+  const existing = Array.isArray(co.opportunitySignals) ? co.opportunitySignals : [];
+  const keep = [], moved = [];
+  existing.forEach(function (s) {
+    if (s && s.engine === ENGINE_NAME) {
+      moved.push(Object.assign({}, s, {
+        status: 'quarantined',
+        quarantined: true,
+        quarantineReason: reason,
+        quarantinedAt: at || isoNow()
+      }));
+    } else {
+      keep.push(s);
+    }
+  });
+  if (!moved.length) return 0;
+
+  co.opportunitySignals = keep;
+  const archive = Array.isArray(co.quarantinedOpportunitySignals)
+    ? co.quarantinedOpportunitySignals.slice() : [];
+  const seen = Object.create(null);
+  archive.forEach(function (s) { if (s && s.id) seen[s.id] = true; });
+  moved.forEach(function (s) {
+    if (!s.id || !seen[s.id]) {
+      archive.push(s);
+      if (s.id) seen[s.id] = true;
+    }
+  });
+  co.quarantinedOpportunitySignals = archive;
+  return moved.length;
+}
+
 function processOne(slug) {
   const file = path.join(COMPANIES_DIR, slug + '.json');
   const co = JSON.parse(fs.readFileSync(file, 'utf8'));
-  const { signals, skipped } = evaluatePortal(co);
+  const { signals, skipped, quarantine } = evaluatePortal(co);
+  if (quarantine) {
+    if (DRY_RUN) {
+      return { slug, signals: [], skipped: skipped + ' (would quarantine kernel-derived signals)' };
+    }
+    const n = quarantineInvestmentSignals(co, skipped, isoNow());
+    if (n > 0) fs.writeFileSync(file, JSON.stringify(co, null, 2) + '\n');
+    return {
+      slug, signals: [],
+      skipped: skipped + (n > 0 ? ' (quarantined ' + n + ')' : ' (no stale signals)')
+    };
+  }
   if (skipped) return { slug, signals: [], skipped };
   if (!signals.length) {
     if (!DRY_RUN) {
@@ -311,4 +383,10 @@ function main() {
   }
 }
 
-main();
+if (require.main === module) main();
+
+module.exports = {
+  evaluatePortal,
+  applySignals,
+  quarantineInvestmentSignals
+};

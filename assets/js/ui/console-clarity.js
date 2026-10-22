@@ -3457,60 +3457,93 @@
 
   // Load the command-board company universe once (cached on window). Builds a
   // domain -> [{ticker,name,ds,phase,alert,traj}] map sorted by alert then
-  // distress (the most-stressed = the most urgent target). When it finishes,
-  // re-render the patent tab so targets upgrade from the brainCompanies
-  // fallback to distress-ranked names.
-  function _capLoadBoardMap() {
-    if (window._capBoardMap || window._capBoardMapLoading) return;
-    window._capBoardMapLoading = true;
-    // Source = the CURRENT kernel watchlist (build-kernel-watchlist + build-valuation-
-    // longs): validated SHORT bankruptcy-calls + LONG investment-primed names, each
-    // domain-tagged. Replaces the stale command-board-data.json snapshot (frozen
-    // months back, shown as "live") AND the retired patent-opportunity lane, so
-    // Capital Conversion surfaces only kernel-validated, current names.
-    fetch('/assets/data/kernel-watchlist.json')
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (data) {
-        var map = {};
-        if (data) {
-          var rows = (data.bankruptcyWatch || []).concat(data.investmentPrimed || []);
-          rows.forEach(function (x) {
-            if (!x || !x.d || !x.ticker) return;
-            (map[x.d] = map[x.d] || []).push({
-              ticker: x.ticker, name: x.name,
-              ds: (typeof x.distressScore === 'number' ? x.distressScore : 0),
-              phase: x.phase, alert: !!x.alert, traj: x.trajectory,
-              side: x.side || (x.alert ? 'SHORT' : 'LONG'),
-              upsidePct: (typeof x.upsidePct === 'number' ? x.upsidePct : null)
-            });
-          });
-          Object.keys(map).forEach(function (k) {
-            map[k].sort(function (a, b) { return (b.alert - a.alert) || (b.ds - a.ds); });
-          });
-        }
-        window._capBoardMap = map;
-        window._capBoardMapLoading = false;
-        if (_activeTab === 'patent') { _tabContentEl.innerHTML = ''; _renderTabPatent(); }
-      })
-      .catch(function () { window._capBoardMapLoading = false; window._capBoardMap = {}; });
+  // distress. Capital targets are a claim: only an authoritative watchlist may
+  // supply them, and an authoritative empty watchlist means no targets. A
+  // missing, stale or failed load never falls back to provenance-free names.
+  // ── kernel-watchlist authority contract ──
+  // A watchlist produced before Thing One validation gated the eligible feed can
+  // still claim validated, bankruptcy-watch and investment-primed names. Refuse
+  // it rather than rendering stale authority.
+  function _watchlistAuthorityOk(data) {
+    var a = data && data.authority;
+    return !!(a
+      && a.contract === 'thing1-validated-v1'
+      && a.kernelId === 'limen_backtest.py'
+      && a.source === 'assets/data/command-board-eligible.json');
+  }
+  // ── end _watchlistAuthorityOk ──
+
+  /* Capital targets are a claim. Only an authoritative watchlist may supply
+     them. States: idle | loading | ready | stale | error. Every state except
+     ready yields no targets; ready with an empty domain yields no targets. */
+  function _capTargetsFromState(stateName, map, domain, n) {
+    if (stateName !== 'ready') return [];
+    var key = _CAP_BOARD_ALIAS[domain] || domain;
+    var arr = map && map[key];
+    return Array.isArray(arr) ? arr.slice(0, n) : [];
   }
 
-  // Pick the top-N target names for an opportunity's domain. Prefers the
-  // distress-ranked command-board map; falls back to the brain's company list
-  // (always present after the base-brain company fallback) so a target always
-  // shows even before the board map finishes loading.
-  function _capTargetsForDomain(domain, n) {
-    var key = _CAP_BOARD_ALIAS[domain] || domain;
-    var map = window._capBoardMap;
-    if (map && map[key] && map[key].length) return map[key].slice(0, n);
-    var dom = (window.LIMENDomains || {})[domain];
-    var bc = dom && dom.brainCompanies;
-    if (Array.isArray(bc) && bc.length) {
-      return bc.slice(0, n).map(function (c) {
-        return { ticker: c.ticker, name: c.name, phase: c.phase, ds: 0, alert: false };
+  /* Failure states are terminal until an explicit retry. Re-rendering the tab
+     must not start another request through this loader. */
+  function _capLoadAllowed(stateName) {
+    return stateName !== 'loading' && stateName !== 'ready'
+      && stateName !== 'stale' && stateName !== 'error';
+  }
+  // ── end _capTargetsFromState ──
+
+  function _capLoadBoardMap() {
+    if (!_capLoadAllowed(window._capBoardMapState)) return;
+    window._capBoardMapState = 'loading';
+    window._capBoardMap = null;
+    window._capBoardMapLoading = true;
+    // Source = the CURRENT kernel watchlist: validated SHORT bankruptcy-calls +
+    // LONG investment-primed names, each domain-tagged. An authoritative empty
+    // artifact is a valid result and must not trigger any fallback.
+    fetch('/assets/data/kernel-watchlist.json')
+      .then(function (r) {
+        if (!r.ok) { window._capBoardMapState = 'error'; return null; }
+        return r.json();
+      })
+      .then(function (data) {
+        if (!data) return;                       // state already error
+        if (!_watchlistAuthorityOk(data)) {
+          console.warn('[Clarity] kernel-watchlist authority contract missing or stale; withholding claims');
+          window._capBoardMapState = 'stale';
+          window._capBoardMap = null;
+          return;
+        }
+        var map = {};
+        var rows = (data.bankruptcyWatch || []).concat(data.investmentPrimed || []);
+        rows.forEach(function (x) {
+          if (!x || !x.d || !x.ticker) return;
+          (map[x.d] = map[x.d] || []).push({
+            ticker: x.ticker, name: x.name,
+            ds: (typeof x.distressScore === 'number' ? x.distressScore : 0),
+            phase: x.phase, alert: !!x.alert, traj: x.trajectory,
+            side: x.side || (x.alert ? 'SHORT' : 'LONG'),
+            upsidePct: (typeof x.upsidePct === 'number' ? x.upsidePct : null)
+          });
+        });
+        Object.keys(map).forEach(function (k) {
+          map[k].sort(function (a, b) { return (b.alert - a.alert) || (b.ds - a.ds); });
+        });
+        window._capBoardMap = map;
+        window._capBoardMapState = 'ready';
+      })
+      .catch(function () {
+        window._capBoardMapState = 'error';
+        window._capBoardMap = null;
+      })
+      .then(function () {
+        window._capBoardMapLoading = false;
+        if (_activeTab === 'patent') { _tabContentEl.innerHTML = ''; _renderTabPatent(); }
       });
-    }
-    return [];
+  }
+
+  /* Pick the top-N target names for an opportunity's domain. No fallback:
+     provenance-free brain companies are not capital targets. */
+  function _capTargetsForDomain(domain, n) {
+    return _capTargetsFromState(window._capBoardMapState, window._capBoardMap, domain, n);
   }
 
   // Live current-signal line for a domain - the conditions the feeds are
@@ -3686,7 +3719,7 @@
       if (tickers.length) {
         html += '<div style="font-size:0.42rem;color:rgba(120,205,185,0.92);margin-top:2px;letter-spacing:0.5px">Targets: ' + tickers.join(' · ') + '</div>';
       } else {
-        html += '<div style="font-size:0.34rem;color:rgba(200,195,184,0.3);margin-top:2px">Targets: pull command board for ' + (o.domain || '') + ' names</div>';
+        html += '<div style="font-size:0.34rem;color:rgba(200,195,184,0.3);margin-top:2px">Targets: none — no authoritative kernel watchlist candidates for ' + (o.domain || 'this domain') + '</div>';
       }
       if (live) {
         html += '<div style="font-size:0.32rem;color:rgba(180,160,120,0.6);margin-top:2px"><span style="color:rgba(232,84,84,0.7)">●</span> LIVE: ' + live + '</div>';

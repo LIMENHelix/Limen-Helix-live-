@@ -303,8 +303,11 @@ def _assert_report_consumer():
     assert "var clientValidated = envelope.status === 'validated'" in source, (
         "the browser envelope failure must participate in effective validation"
     )
-    assert "var effectiveAlert = effectiveValidation === 'validated'" in source, (
-        "alert presentation must be gated on effective validation"
+    assert "var abstained = !(t0Authorized && effectiveValidation === 'validated')" in source, (
+        "abstention must require the Thing 0 authorization chain and effective validation"
+    )
+    assert "var effectiveAlert = !abstained && t1.alert === true" in source, (
+        "alert presentation must be gated on the authorized chain"
     )
     assert "alert: effectiveAlert" in source, "validated_signal.alert must use the gated value"
     assert "Raw threshold crossing present" in source, (
@@ -370,18 +373,41 @@ def _local_health_integration():
         print("  FAIL: local limen_app.health integration — " + str(exc)[:200])
 
     old_facts = limen_app.lbt.fetch_sec_facts
+    old_extract = limen_app.lbt.extract_quarterly_series
     old_sic = limen_app._fetch_sic
     old_fred = limen_app._fetch_fred_quiet
     old_key = os.environ.pop("FRED_API_KEY", None)
     facts_calls = []
+    fred_calls = []
+
+    def series(n=8):
+        return {(2020, i): float(i) for i in range(1, n + 1)}
+
+    def extract(data, tags, name, is_flow=False):
+        return series() if data.get("_full") else {}
+
+    limen_app.lbt.extract_quarterly_series = extract
     limen_app.lbt.fetch_sec_facts = lambda cik: (
-        facts_calls.append(cik) or {"entityName": "Fixture", "facts": {}}
+        facts_calls.append(cik) or {"entityName": "Fixture", "facts": {}, "_full": False}
     )
     limen_app._fetch_sic = lambda cik: 0
-    limen_app._fetch_fred_quiet = lambda: {
-        "ok": False, "reason": "fred-not-configured", "provider_called": False
-    }
+    limen_app._fetch_fred_quiet = lambda: (
+        fred_calls.append(1) or {"ok": False, "reason": "fred-not-configured", "provider_called": False}
+    )
     try:
+        # Thing 0 refuses from SEC data alone; FRED is not consulted.
+        refused = limen_app.score(limen_app.ScoreRequest(cik="0000000001"))
+        assert refused["validation_status"] == "not_permitted_by_thing0", refused
+        assert facts_calls == ["0000000001"], facts_calls
+        assert fred_calls == [], "FRED was consulted before Thing 0 refused"
+        print("  pass: Thing 0 refusal precedes FRED configuration")
+
+        # A qualified company still fails closed when FRED is missing.
+        facts_calls.clear()
+        limen_app.lbt.fetch_sec_facts = lambda cik: (
+            facts_calls.append(cik) or {"entityName": "Fixture", "facts": {}, "_full": True}
+        )
+        limen_app._fetch_sic = lambda cik: 2911
         try:
             limen_app.score(limen_app.ScoreRequest(cik="0000000001"))
         except Exception as exc:  # FastAPI HTTPException
@@ -389,15 +415,17 @@ def _local_health_integration():
             detail = getattr(exc, "detail", None)
             assert status_code == 503, (status_code, detail)
             assert detail == "fred-not-configured", detail
-            assert facts_calls == [], "missing FRED config must fail before the SEC fetch"
-            print("  pass: local score endpoint refuses missing FRED config before any request")
+            assert facts_calls == ["0000000001"], facts_calls
+            assert fred_calls, "FRED configuration was not checked for a qualified company"
+            print("  pass: qualified company still fails closed without FRED")
         else:
-            raise AssertionError("score did not fail closed on missing FRED config")
+            raise AssertionError("qualified score did not fail closed on missing FRED config")
     except Exception as exc:  # noqa: BLE001
         FAILURES += 1
-        print("  FAIL: local score FRED-config integration — " + str(exc)[:200])
+        print("  FAIL: local score FRED config integration — " + str(exc)[:200])
     finally:
         limen_app.lbt.fetch_sec_facts = old_facts
+        limen_app.lbt.extract_quarterly_series = old_extract
         limen_app._fetch_sic = old_sic
         limen_app._fetch_fred_quiet = old_fred
         if old_key is not None:
@@ -426,8 +454,10 @@ def _local_health_integration():
             "slope_OCF": 0.0, "Cash": 10.0, "Debt": 5.0, "runway": 4.0,
         }])
         limen_app.lbt.fetch_sec_facts = lambda cik: {"entityName": "Fixture", "facts": {}}
+        # Eight raw quarters per required series: Thing 0 must permit Thing 1
+        # before this test can exercise fingerprint/envelope alert gating.
         limen_app.lbt.extract_quarterly_series = lambda *a, **k: {
-            (2020, 1): 1.0, (2020, 2): 2.0
+            (2020, q): float(q) for q in range(1, 9)
         }
         limen_app.lbt.compute_all_features = lambda *a, **k: fixture
         limen_app.lbt.score_all_phases = lambda *a, **k: fixture
@@ -438,7 +468,7 @@ def _local_health_integration():
              "stress_rate": 0.9, "max_consec": 2,
              "cash_decline": 0.1, "rupture_n_quarters": 1},
         )
-        limen_app._fetch_sic = lambda cik: 0
+        limen_app._fetch_sic = lambda cik: 2911
         limen_app._fetch_fred_quiet = lambda: {"ok": True, "reason": None, "delta": {}}
         limen_app.assess_envelope = lambda *a, **k: {
             "in_envelope": True, "status": "validated", "status_code": None,

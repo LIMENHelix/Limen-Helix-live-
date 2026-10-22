@@ -10,14 +10,44 @@ const path = require('path');
 
 (async () => {
   const ROOT = path.join(__dirname, '..');
-  const { sense } = await import('./sense/organ-propagator.mjs');
+  const { sense, countPathCOverCap } = await import('./sense/organ-propagator.mjs');
   const result = sense();
-  const finding = result.attention.find((item) => /path-C/.test(item.issue));
 
-  assert.ok(finding, 'path-C over-cap finding must remain visible');
-  assert.strictEqual(finding.count, 8, 'current portal-backed path-C over-cap count');
-  assert.match(finding.issue, /input cap \(cap remains enforced\)/, 'finding must state propagation is bounded');
-  assert.doesNotMatch(finding.issue, /unbounded propagator|propagator output \(unbounded/i);
+  /* The committed feed intentionally preserves null path/composite values when
+     Thing One is not validated. Path-C over-cap evidence is therefore absent,
+     not silently qualified. */
+  assert.strictEqual(result.metrics.pathCCount, 0,
+    'migrated feed must not report path-C over-cap rows');
+  assert.ok(!result.attention.some((item) => /path-C/.test(item.issue)),
+    'migrated feed must not emit a path-C over-cap finding');
+
+  /* Positive control: the production formula must still count a portal-backed
+     Path-C row whose raw stress exceeds the cap. No old scores are restored. */
+  const manifestIndex = { fixture: { cik: '728535' } };
+  const fixtureRows = [
+    { c: '728535', t: 'JBHT', path: 'C', co: 10, a: false },
+    { c: '728535', t: 'JBHT', path: 'C', co: 5, a: false },
+    { c: '728535', t: 'JBHT', path: 'C', co: 3, a: false },
+    { c: '999999', t: 'OTHER', path: 'C', co: 99, a: false },
+    { c: '728535', t: 'JBHT', path: 'B', co: 99, a: false },
+    { c: '728535', t: 'JBHT', path: 'C', co: 3, a: true }
+  ];
+  assert.strictEqual(countPathCOverCap(fixtureRows, manifestIndex, 5, 2), 2,
+    'production path-C formula must count only portal-backed over-cap rows');
+
+  const propagatorSource = fs.readFileSync(
+    path.join(ROOT, 'scripts', 'sense', 'organ-propagator.mjs'), 'utf8');
+  const pathCFinding = propagatorSource.match(
+    /\{[^}]*issue: '([^']*path-C[^']*)'[^}]*action: '([^']*)'[^}]*\}/);
+  assert.ok(pathCFinding, 'path-C finding construction not found');
+  assert.match(pathCFinding[1], /cap remains enforced/,
+    'finding must state the input cap remains enforced');
+  assert.doesNotMatch(pathCFinding[1], /unbounded/i,
+    'finding must not describe propagator output as unbounded');
+  assert.match(pathCFinding[2], /bounded at intrinsicPropagationCap/,
+    'finding must state propagation is bounded at the cap');
+  assert.doesNotMatch(pathCFinding[2], /unbounded/i,
+    'finding action must not describe propagator output as unbounded');
 
   const refs = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets', 'data', 'operator-references.json'), 'utf8'));
   const hunt = refs.companies.find((row) => String(row.cik).replace(/^0+/, '') === '728535');

@@ -19,6 +19,7 @@
  */
 
 var db = require('../lib/limen-db');
+var stressPropagator = require('../lib/limen-stress-propagator.js');
 var policy = require('../lib/limen-policy');
 var cronAuth = require('../lib/cron-auth');
 var redisGet = require('../lib/redis-kv').redisGet;
@@ -105,7 +106,12 @@ module.exports = async function handler(req, res) {
     var stressSlim = await db.get('stress_slim');
     var stressByCik = (stressSlim && stressSlim.byCik) || {};
     var stressMeta = await db.get('stress_meta');
-    var stressFresh = !!(stressMeta && (Date.now() - (stressMeta.generatedAtMs || 0) < 60 * 60 * 1000));
+    /* A value written before the Thing One authority gate has no authority
+       marker; it must not boost salience even inside its freshness window. */
+    var stressAuthorityOk = !!(stressSlim
+      && stressPropagator.isCurrentAuthorityMeta(stressSlim.authority));
+    var stressFresh = !!(stressAuthorityOk && stressMeta
+      && (Date.now() - (stressMeta.generatedAtMs || 0) < 60 * 60 * 1000));
     var stressApplied = 0;
 
     var added = 0;

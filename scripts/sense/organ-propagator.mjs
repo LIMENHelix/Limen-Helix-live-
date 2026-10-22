@@ -28,6 +28,22 @@ export const order = 90;
 
 const STALE_HOURS = 6;
 
+/* Pure Path-C count. This is the production calculation extracted so a focused
+   test can exercise the positive control without re-implementing the formula. */
+export function countPathCOverCap(companies, manifestIndex, cap, alertMult) {
+  if (!Number.isFinite(cap) || !Number.isFinite(alertMult)) return null;
+  const list = Array.isArray(companies) ? companies : [];
+  const portalCiks = new Set(Object.values(manifestIndex || {})
+    .map((portal) => String(portal?.cik ?? '').replace(/^0+/, ''))
+    .filter(Boolean));
+  return list.filter((row) => {
+    const composite = Number(row.co) || 0;
+    const rawStress = composite * (row.a ? alertMult : 1);
+    const cik = String(row.c ?? '').replace(/^0+/, '');
+    return portalCiks.has(cik) && row.path === 'C' && rawStress > cap;
+  }).length;
+}
+
 export function sense() {
   const io = inputs();
   const present = { propagator: fs.existsSync(PROPAGATOR), snapshot: fs.existsSync(SNAPSHOT) };
@@ -35,11 +51,18 @@ export function sense() {
     return { score: 0, status: 'IN_PAIN', summary: 'propagator file missing', metrics: { present }, attention: [{ issue: 'limen-stress-propagator.js missing', severity: 'high', count: 1, action: 'restore from git history', organ: id }] };
   }
   let snap = {}, ageHours = null, nodeCount = 0, edgeCount = 0, dampedCount = 0, pathCCount = null, alertCount = 0, networkPushedCount = 0;
+  let authorityOk = false;
   if (present.snapshot) {
     try {
       const stat = fs.statSync(SNAPSHOT);
       ageHours = (Date.now() - stat.mtimeMs) / (1000 * 60 * 60);
       snap = JSON.parse(fs.readFileSync(SNAPSHOT, 'utf8'));
+      authorityOk = !!(snap.authority
+        && snap.authority.contract === 'thing1-validated-v1'
+        && snap.authority.kernelId === 'limen_backtest.py'
+        && snap.authority.thing1Validation === 'validated'
+        && snap.authority.thing0Qualification === 'qualified'
+        && snap.authority.thing0PermitsThing1Use === true);
       // Real shape: { schemaVersion, generatedAt, stats: { totalNodes, totalEdges, ... }, propagated: [...] }
       const propagated = Array.isArray(snap.propagated) ? snap.propagated : (snap.nodes || []);
       const nodeList = Array.isArray(propagated) ? propagated : Object.values(propagated);
@@ -63,19 +86,18 @@ export function sense() {
   const manifest = io.json(COMPANIES_MANIFEST, 'assets/data/companies-manifest.json');
   const cap = Number(snap?.stats?.intrinsicPropagationCap);
   const alertMult = Number(snap?.stats?.alertMult);
-  if (cb && manifest && Number.isFinite(cap) && Number.isFinite(alertMult)) {
-    const portalCiks = new Set(Object.values(manifest.index || {})
-      .map((portal) => String(portal?.cik ?? '').replace(/^0+/, ''))
-      .filter(Boolean));
-    pathCCount = (cb.companies || []).filter((row) => {
-      const composite = Number(row.co) || 0;
-      const rawStress = composite * (row.a ? alertMult : 1);
-      const cik = String(row.c ?? '').replace(/^0+/, '');
-      return portalCiks.has(cik) && row.path === 'C' && rawStress > cap;
-    }).length;
+  if (cb && manifest) {
+    const counted = countPathCOverCap(cb.companies, manifest.index, cap, alertMult);
+    if (counted !== null) pathCCount = counted;
   }
 
   const attention = [];
+  if (present.snapshot && !authorityOk) {
+    /* A pre-gate artifact can carry stress seeded by unvalidated composites.
+       Do not report those counts as current. */
+    nodeCount = 0; edgeCount = 0; dampedCount = 0; alertCount = 0; networkPushedCount = 0;
+    attention.push({ issue: 'stress snapshot lacks the current Thing One authority contract — cached stress is withheld', severity: 'high', count: 1, action: 'rerun scripts/build-stress-network.mjs so the snapshot carries authority.contract=thing1-validated-v1', organ: id });
+  }
   if (!present.snapshot) attention.push({ issue: 'stress-network-state.json missing — propagator has never run or output lost', severity: 'high', count: 1, action: 'invoke api/limen-worker-stress-refresh', organ: id });
   else if (ageHours !== null && ageHours > STALE_HOURS) attention.push({ issue: 'stress-network snapshot stale (>6h)', severity: 'med', count: Math.round(ageHours), action: 'invoke api/limen-worker-stress-refresh OR investigate the cron', organ: id });
   if (nodeCount > 0 && nodeCount < 300) attention.push({ issue: 'Propagator node count low (<300)', severity: 'med', count: nodeCount, action: 'investigate — corpus has 767 portals; many should be in the stress graph', organ: id });

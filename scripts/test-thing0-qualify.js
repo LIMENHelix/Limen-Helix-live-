@@ -88,15 +88,17 @@ check('Thing 2 input-builder failure has an independent fallback', function () {
   assert.ok(source.includes('company_data = _thing0_company_data_from_facts(facts)'),
     'build_company_data failure does not use the fallback');
 });
-check('Thing 0 uses common raw coverage, not Thing 2 feature rows', function () {
-  assert.ok(source.includes('def _thing0_history_quarters('),
-    'raw history helper missing');
-  assert.ok(source.includes('thing0_history_quarters = _thing0_history_quarters(company_data)'),
-    'raw history not derived from company_data');
+check('Thing 0 uses one shared aligned-quarter helper', function () {
+  assert.ok(typeSource.includes('def common_history_quarters('),
+    'shared aligned-quarter helper missing');
+  assert.ok(typeSource.includes('set.intersection(*quarter_sets)'),
+    'history must count aligned quarter IDs, not minimum lengths');
+  assert.ok(source.includes('thing0_history_quarters = thing0_pkg.common_history_quarters(company_data)'),
+    'report does not use the shared helper');
   assert.ok(source.includes('history_quarters=thing0_history_quarters'),
-    'Thing 0 gate not using raw history');
-  assert.ok(source.includes('return min(lengths)'),
-    'history gate must use common coverage across required series');
+    'Thing 0 gate not using shared aligned history');
+  assert.ok(!source.includes('def _thing0_history_quarters('),
+    'duplicate history helper remains in the report');
 });
 check('SEC extraction failure is preserved in the refusal', function () {
   assert.ok(source.includes('extraction_error: SEC EDGAR fetch failed.'),
