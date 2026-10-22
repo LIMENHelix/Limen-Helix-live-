@@ -75,6 +75,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const signalAuthority = require('../assets/js/investment-signal-authority.js');
 
 const COMPANIES_DIR = path.join(__dirname, '..', 'assets', 'data', 'companies');
 const args = process.argv.slice(2);
@@ -105,7 +106,7 @@ function evaluatePortal(co) {
      not_permitted_by_thing0, out-of-envelope and fingerprint outcomes. Legacy
      portals without that provenance abstain until refreshed. */
   const thing1 = fh.thing1Validation || null;
-  const thing1Validated = !!(thing1 && thing1.status === 'validated' && thing1.available === true);
+  const thing1Validated = signalAuthority.portalThing1Authorized(co);
   if (!thing1Validated) {
     return {
       signals: [],

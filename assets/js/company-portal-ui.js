@@ -1320,15 +1320,34 @@
     }
     rightHtml += '</div>';
 
-    // Opportunity signals (placeholder for future)
+    // Opportunity signals. Investment-engine signals are gated at read time on
+    // the current Thing One authority contract; withheld signals are retained
+    // as non-actionable history. Other engines are preserved.
     rightHtml += '<div class="cp-section">';
     rightHtml += '<div class="cp-section-title">Opportunity Signals</div>';
-    if (co.opportunitySignals && co.opportunitySignals.length > 0) {
-      for (var o = 0; o < co.opportunitySignals.length; o++) {
-        rightHtml += '<div class="cp-signal cp-opportunity">' + esc(co.opportunitySignals[o]) + '</div>';
+    var signalAuthority = window.LIMENInvestmentSignalAuthority;
+    var rawSignals = Array.isArray(co.opportunitySignals) ? co.opportunitySignals : [];
+    var signalPart;
+    if (signalAuthority) {
+      signalPart = signalAuthority.partitionOpportunitySignals(co);
+    } else {
+      signalPart = {
+        active: rawSignals.filter(function (s) { return !(s && s.engine === 'investment'); }),
+        withheld: rawSignals.filter(function (s) { return s && s.engine === 'investment'; })
+          .map(function (s) { return { signal: s, reason: 'authority_unavailable' }; })
+      };
+    }
+    if (signalPart.active.length > 0) {
+      for (var o = 0; o < signalPart.active.length; o++) {
+        var sig = signalPart.active[o];
+        var label = typeof sig === 'string' ? sig : ((sig && (sig.message || sig.subType || sig.engine)) || '');
+        rightHtml += '<div class="cp-signal cp-opportunity">' + esc(label) + '</div>';
       }
     } else {
       rightHtml += '<div class="cp-empty">No active opportunities</div>';
+    }
+    if (signalPart.withheld.length) {
+      rightHtml += '<div class="cp-signal" style="color:rgba(200,195,184,0.55);font-style:italic">WITHHELD · NON-ACTIONABLE · ' + signalPart.withheld.length + ' investment signal(s) lack current Thing One authority</div>';
     }
     rightHtml += '</div>';
 

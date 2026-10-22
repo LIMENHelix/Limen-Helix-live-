@@ -89,6 +89,7 @@
 <script src="assets/js/domain-identity.js"></script>
 <script src="assets/js/kernel-reading-helper.js"></script>
 <script src="assets/js/render-authority.js"></script>
+<script src="assets/js/investment-signal-authority.js"></script>
 <script src="assets/js/company-portal-ui.js"></script>
 <script src="assets/js/company-portal-engine-render.js"></script>
 <script>
@@ -191,8 +192,21 @@
   // not clinical-narrative claims, so they can fire on non-alert companies
   // without violating Operating Envelope \u00a76 gating.
   function _renderOpportunitySignals(co) {
-    var sigs = Array.isArray(co.opportunitySignals) ? co.opportunitySignals : [];
-    if (!sigs.length) return;
+    var raw = Array.isArray(co.opportunitySignals) ? co.opportunitySignals : [];
+    var authority = window.LIMENInvestmentSignalAuthority;
+    var active, withheld;
+    if (authority) {
+      var part = authority.partitionOpportunitySignals(co);
+      active = part.active;
+      withheld = part.withheld;
+    } else {
+      /* Fail closed for investment claims; unrelated engines still render. */
+      active = raw.filter(function (s) { return !(s && s.engine === 'investment'); });
+      withheld = raw.filter(function (s) { return s && s.engine === 'investment'; })
+        .map(function (s) { return { signal: s, reason: 'authority_unavailable' }; });
+    }
+    if (!active.length && !withheld.length) return;
+    var sigs = active;
     var center = document.getElementById('centerView');
     if (!center) return;
     var prior = document.getElementById('cpOpportunitySignals');
@@ -223,7 +237,7 @@
     html += '<div id="cpOpportunitySignals" style="padding:14px 24px 12px 24px;border-bottom:1px solid rgba(201,169,78,0.08);background:rgba(0,0,0,0.22)">';
     html += '<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">';
     html += '<div style="font-size:0.46rem;letter-spacing:3.5px;color:rgba(201,169,78,0.65);text-transform:uppercase;font-weight:600">Opportunity Signals \u00b7 Engine Output</div>';
-    html += '<div style="font-size:0.36rem;color:rgba(200,195,184,0.4);font-style:italic;letter-spacing:0.5px">' + sigs.length + ' signal' + (sigs.length === 1 ? '' : 's') + ' \u00b7 separate from Helix Report Clinical Interventions (gated)</div>';
+    html += '<div style="font-size:0.36rem;color:rgba(200,195,184,0.4);font-style:italic;letter-spacing:0.5px">' + sigs.length + ' active signal' + (sigs.length === 1 ? '' : 's') + (withheld.length ? ' \u00b7 ' + withheld.length + ' withheld (non-actionable)' : '') + ' \u00b7 separate from Helix Report Clinical Interventions (gated)</div>';
     html += '</div>';
 
     for (var i = 0; i < sigs.length; i++) {
@@ -251,6 +265,19 @@
       }
       if (s.createdAt) {
         html += '<div style="font-size:0.34rem;color:rgba(200,195,184,0.3);letter-spacing:1px;margin-top:4px">created: ' + _esc(String(s.createdAt).slice(0, 10)) + ' \u00b7 id: ' + _esc(s.id || '?') + '</div>';
+      }
+      html += '</div>';
+    }
+    if (withheld.length) {
+      html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(200,195,184,0.12)">';
+      html += '<div style="font-size:0.34rem;letter-spacing:2px;color:rgba(200,195,184,0.45);text-transform:uppercase;margin-bottom:4px">Withheld · non-actionable</div>';
+      for (var w = 0; w < withheld.length; w++) {
+        var ws = (withheld[w] && withheld[w].signal) || {};
+        html += '<div style="padding:6px 9px;border:1px solid rgba(200,195,184,0.12);background:rgba(255,255,255,0.02);margin-bottom:4px;opacity:0.75">';
+        html += '<div style="font-size:0.34rem;color:rgba(200,195,184,0.55);letter-spacing:1px;text-transform:uppercase">WITHHELD · ' + _esc(ws.subType || ws.engine || 'investment signal') + '</div>';
+        if (ws.message) html += '<div style="font-size:0.4rem;color:rgba(200,195,184,0.55);line-height:1.45;margin-top:2px">' + _esc(ws.message) + '</div>';
+        html += '<div style="font-size:0.32rem;color:rgba(200,195,184,0.35);margin-top:2px">Reason: ' + _esc((withheld[w] && withheld[w].reason) || 'provenance_not_authorized') + '</div>';
+        html += '</div>';
       }
       html += '</div>';
     }
