@@ -26,15 +26,26 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // re-rating. >=1 = LONG (expansion/resurrection = investment-primed); <1 = SHORT
 // (distress). This is the operator-pointed parameter that defines the long side.
 const { PHASE_FACTOR } = require(path.join(ROOT, 'lib', 'valuation.js'));
+const coherence = require(path.join(ROOT, 'lib', 'identity-coherence.js'));
 const phaseFactor = (p) => PHASE_FACTOR[String(p || '').toLowerCase()];
-const ELIGIBLE = path.join(ROOT, 'assets', 'data', 'command-board-eligible.json');
-const OUT = path.join(ROOT, 'assets', 'data', 'kernel-watchlist.json');
+const MANIFEST = path.join(ROOT, 'assets', 'data', 'companies-manifest.json');
+const manifest = fs.existsSync(MANIFEST)
+  ? JSON.parse(fs.readFileSync(MANIFEST, 'utf8'))
+  : { index: {} };
+const ELIGIBLE = process.env.KERNEL_WATCHLIST_INPUT
+  || path.join(ROOT, 'assets', 'data', 'command-board-eligible.json');
+const OUT = process.env.KERNEL_WATCHLIST_OUT
+  || path.join(ROOT, 'assets', 'data', 'kernel-watchlist.json');
 
 const eligibleBuf = fs.readFileSync(ELIGIBLE);
 const raw = JSON.parse(eligibleBuf.toString('utf8'));
 const rows = Array.isArray(raw) ? raw : (raw.companies || raw.rows || Object.values(raw));
 
-const validated = rows.filter(r => (r.vs || r.validation_status) === 'validated');
+/* Protected authority requires both an effective validated Thing 1 result and
+   the explicit protected scorer identity. A validated label without that
+   identity is not a kernel-validated row. */
+const validated = rows.filter(r => (r.vs || r.validation_status) === 'validated'
+  && r.kid === 'limen_backtest.py');
 const DISTRESS_TRAJ = new Set(['RUPTURE', 'CASH_DECLINE', 'UNRECOVERED_P3', 'TERMINAL_DIVERGENCE']);
 
 // STRUCTURAL EXCLUSION: the kernel is INVALID on the Finance/Insurance/Real-Estate
@@ -47,11 +58,24 @@ function structurallyExcluded(sic) {
   return !isNaN(s) && s >= 6000 && s <= 6799;
 }
 
+/* A watchlist route is usable only when the row identity matches the portal
+   identity; otherwise the claim keeps its name but carries no route. */
+function coherentSlug(r) {
+  const slug = r.s || r.slug || null;
+  if (!slug) return null;
+  const portal = manifest.index && manifest.index[slug];
+  if (!portal) return null;
+  return coherence.routeCoherent(
+    { cik: r.c || r.cik, ticker: r.t || r.ticker },
+    { cik: portal.cik, ticker: portal.ticker }
+  ) ? slug : null;
+}
+
 function pick(r) {
   const ph = String(r.p || r.phase || '').toLowerCase();
   const pf = phaseFactor(ph);
   return {
-    slug: r.s || r.slug || null, name: r.n || r.name, ticker: r.t || r.ticker, cik: r.c || r.cik,
+    slug: coherentSlug(r), name: r.n || r.name, ticker: r.t || r.ticker, cik: r.c || r.cik,
     phase: ph, phaseFactor: pf != null ? pf : null, side: pf != null ? (pf < 1 ? 'SHORT' : 'LONG') : null,
     path: r.path, composite: Number(r.co || r.composite || 0), trajectory: r.tr || r.trajectory,
     distressScore: Number(r.ds || 0), alert: !!(r.a || r.alert), sector: r.sec, sic: r.sic

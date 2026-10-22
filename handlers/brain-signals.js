@@ -98,6 +98,7 @@ function _thing1ValidatedRow(row) {
      error, an out-of-envelope row, or an unvalidated fingerprint does not count
      as a live validated scan. */
   return !!(row && !row.error && row.inEnvelope === true
+    && row.kid === 'limen_backtest.py'
     && (row.validated === true || row.validation_status === 'validated'));
 }
 

@@ -95,7 +95,7 @@ function toFinancialHealth(r, nowIso) {
   return {
     asOf: nowIso.slice(0, 10),
     lastKernelRun: nowIso,
-    kernelId: r.kernel_id || 'limen_backtest.py',
+    kernelId: r.kernel_id || null,
     kernelShaLock: (r.kernel_sha256_lock || '').slice(0, 16),
     validationStatus: r.validation_status,
     /* THING 1 PROVENANCE. Investment and the portal consume this, not Thing 0.

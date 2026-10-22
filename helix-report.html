@@ -994,7 +994,8 @@ function _wrapPhase0Result(secFacts, kernelResult, cik) {
         narrative.push('Validated distress scorer produced no rows from this CIK’s SEC data.');
       }
       return {
-        kernel_id: 'limen_backtest.py',
+        /* The browser Phase 0 runtime is not the protected scorer. */
+        kernel_id: null,
         kernel_runtime: hasResult ? 'browser-client-side (Phase 0)' : 'absent',
         kernel_version: '4.0',
         available: hasResult,
@@ -1303,7 +1304,7 @@ function _packServerResult(t1) {
     input_presence: t1.input_presence || null,
     thing0_eligibility: t0,
     validated_signal: {
-      kernel_id: t1.kernel_id || 'limen_backtest.py',
+      kernel_id: t1.kernel_id || null,
       kernel_runtime: t1.kernel_runtime || 'python-vercel',
       kernel_version: '4.0',
       kernel_sha256_lock: t1.kernel_sha256_lock || serverFingerprint.lock_sha256 || null,

@@ -126,7 +126,8 @@ async function scoreOne(t) {
     composite: typeof k2.composite === 'number' ? k2.composite : null,
     alert: k2.alert === true,
     trajectory: k2.trajectory || null,
-    kernelId: 'limen_backtest.py',
+    /* K1 here is derived from K2 EDGAR rows, not the protected scorer. */
+    kernelId: null,
     lastScored: new Date().toISOString()
   } : null;
   // primary kernel selection: K2 (post-relaxation, fires for everyone with context),

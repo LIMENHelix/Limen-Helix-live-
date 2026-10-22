@@ -162,7 +162,10 @@ check('ordinary score-companies path persists scorer Thing Zero evidence', funct
   var producer = require('../scripts/score-companies');
   var build = producer.buildOrdinaryRow;
   var co = { name: 'New Co', ticker: 'NEW', cik: '123', slug: 'new_co' };
-  var context = { canon: { domain: 'energy', subTag: null }, ds: 0.77, portalSlug: 'new_co' };
+  var context = {
+    canon: { domain: 'energy', subTag: null }, ds: 0.77,
+    portal: { slug: 'new_co', cik: '0000000123', ticker: 'NEW' }
+  };
 
   var qualified = build(co, {
     thing0_eligibility: { qualification_status: 'qualified', permits_thing1_use: true },
@@ -185,6 +188,19 @@ check('ordinary score-companies path persists scorer Thing Zero evidence', funct
   assert.equal(qualified.pc, null, 'null path score was converted');
   assert.equal(qualified.thing0_source, 'live_scorer');
   assert.equal(qualified.thing0_validation_status, 'validated');
+  assert.equal(qualified.s, 'new_co', 'coherent Board route was dropped');
+
+  var incoherent = build(Object.assign({}, co, { cik: '999' }), {
+    thing0_eligibility: { qualification_status: 'qualified', permits_thing1_use: true },
+    validation_status: 'validated',
+    composite_score: 0.72,
+    alert: false,
+    path_a_score: null,
+    path_b_score: 0.1,
+    path_c_score: null,
+    kernel_id: 'limen_backtest.py'
+  }, context);
+  assert.equal(incoherent.s, null, 'incoherent Board route survived the producer');
 
   var partial = build(co, {
     thing0_eligibility: { qualification_status: 'partially_qualified', permits_thing1_use: false },
@@ -757,10 +773,19 @@ check('investment engine quarantines when Thing 1 is not validated', function ()
 check('legacy phase cache entries are not counted as scored', function () {
   var scorer = require('../lib/company-phase-scorer');
   assert.equal(scorer._cacheProvenanceValid({
-    validation_status: 'validated', thing0_qualification_status: 'qualified', timestamp: 1
+    validation_status: 'validated', kernel_id: 'limen_backtest.py',
+    thing0_qualification_status: 'qualified', thing0_permits_thing1_use: true, timestamp: 1
   }), true);
   assert.equal(scorer._cacheProvenanceValid({
-    validation_status: 'unvalidated_after_modification', thing0_qualification_status: 'qualified'
+    validation_status: 'validated', thing0_qualification_status: 'qualified', timestamp: 1
+  }), false, 'legacy entry without the protected scorer identity was counted');
+  assert.equal(scorer._cacheProvenanceValid({
+    validation_status: 'validated', kernel_id: 'limen_backtest.py',
+    thing0_qualification_status: 'qualified', timestamp: 1
+  }), false, 'entry without the canonical permit was counted');
+  assert.equal(scorer._cacheProvenanceValid({
+    validation_status: 'unvalidated_after_modification', kernel_id: 'limen_backtest.py',
+    thing0_qualification_status: 'qualified', thing0_permits_thing1_use: true
   }), false);
   assert.equal(scorer._cacheProvenanceValid({ validation_status: 'validated' }), false);
   assert.equal(scorer._cacheProvenanceValid({ timestamp: 1, phase: 'p4' }), false);
@@ -771,11 +796,15 @@ check('legacy phase cache entries are not counted as scored', function () {
 
 check('brain-signals counts only validated Thing 1 rows as scanned', function () {
   var emitter = require('../handlers/brain-signals');
-  assert.equal(emitter._thing1ValidatedRow({ validated: true, inEnvelope: true }), true);
-  assert.equal(emitter._thing1ValidatedRow({ validation_status: 'validated', inEnvelope: true }), true);
-  assert.equal(emitter._thing1ValidatedRow({ validated: false, inEnvelope: true }), false);
-  assert.equal(emitter._thing1ValidatedRow({ validated: true, inEnvelope: false }), false);
-  assert.equal(emitter._thing1ValidatedRow({ error: 'http 502', validated: true, inEnvelope: true }), false);
+  assert.equal(emitter._thing1ValidatedRow({ validated: true, inEnvelope: true, kid: 'limen_backtest.py' }), true);
+  assert.equal(emitter._thing1ValidatedRow({ validation_status: 'validated', inEnvelope: true, kid: 'limen_backtest.py' }), true);
+  assert.equal(emitter._thing1ValidatedRow({ validated: true, inEnvelope: true }), false,
+    'missing scorer identity counted as a validated Thing 1 scan');
+  assert.equal(emitter._thing1ValidatedRow({ validated: true, inEnvelope: true, kid: 'other.py' }), false,
+    'wrong scorer identity counted as a validated Thing 1 scan');
+  assert.equal(emitter._thing1ValidatedRow({ validated: false, inEnvelope: true, kid: 'limen_backtest.py' }), false);
+  assert.equal(emitter._thing1ValidatedRow({ validated: true, inEnvelope: false, kid: 'limen_backtest.py' }), false);
+  assert.equal(emitter._thing1ValidatedRow({ error: 'http 502', validated: true, inEnvelope: true, kid: 'limen_backtest.py' }), false);
 });
 
 check('eligibility probe honors a Thing 0 refusal', function () {
@@ -992,9 +1021,9 @@ async function identityCoherenceCheck() {
       ] },
       elig: { companies: [
         { t: 'ALKS', c: '0001520262', d: 'medicine', co: 0.30, a: false,
-          es: 'ELIGIBLE_NOW', vs: 'validated', t0: t0 },
+          es: 'ELIGIBLE_NOW', kid: 'limen_backtest.py', vs: 'validated', t0: t0 },
         { t: 'CTRL', c: '1234567', d: 'medicine', co: 0.5, a: false,
-          es: 'ELIGIBLE_NOW', vs: 'validated', t0: t0 }
+          es: 'ELIGIBLE_NOW', kid: 'limen_backtest.py', vs: 'validated', t0: t0 }
       ] }
     });
     assert.equal(collision.thing0Evidence, 1, JSON.stringify(collision));
@@ -1010,7 +1039,7 @@ async function identityCoherenceCheck() {
       ] },
       elig: { companies: [
         { t: 'UNV', c: '0000042', d: 'medicine', co: 0.99, a: true,
-          es: 'ELIGIBLE_NOW', vs: 'unvalidated_after_modification', t0: t0 }
+          es: 'ELIGIBLE_NOW', kid: 'limen_backtest.py', vs: 'unvalidated_after_modification', t0: t0 }
       ] }
     });
     assert.equal(unvalidated.thing0Evidence, 1, JSON.stringify(unvalidated));
@@ -1024,9 +1053,9 @@ async function identityCoherenceCheck() {
       ] },
       elig: { companies: [
         { t: 'DUP', c: '77', d: 'medicine', co: 0.4, a: false,
-          es: 'ELIGIBLE_NOW', vs: 'validated', t0: t0 },
+          es: 'ELIGIBLE_NOW', kid: 'limen_backtest.py', vs: 'validated', t0: t0 },
         { t: 'DUPX', c: '000077', d: 'medicine', co: 0.4, a: false,
-          es: 'ELIGIBLE_NOW', vs: 'validated', t0: t0 }
+          es: 'ELIGIBLE_NOW', kid: 'limen_backtest.py', vs: 'validated', t0: t0 }
       ] }
     });
     assert.equal(conflict.thing0Evidence, 0, JSON.stringify(conflict));
@@ -1082,11 +1111,12 @@ async function executePlanCheck() {
 async function phaseCacheCheck() {
   var db = require('../lib/limen-db');
   var scorer = require('../lib/company-phase-scorer');
-  var origGet = db.get, origDel = db.del, origFetch = global.fetch;
+  var origGet = db.get, origDel = db.del, origSet = db.set, origFetch = global.fetch;
   var deleted = [];
   var store = { 'company_phase_123': { phase: 'p4', timestamp: 1 } };
   var rejectDel = false;
   db.get = async function (k) { return store[k] || null; };
+  db.set = async function (k, v) { store[k] = v; return true; };
   db.del = async function (k) {
     deleted.push(k);
     if (rejectDel) return false;
@@ -1175,12 +1205,96 @@ async function phaseCacheCheck() {
     var valid = await run(ok({
       thing0_eligibility: { qualification_status: 'qualified', permits_thing1_use: true },
       validation_status: 'validated',
+      kernel_id: 'limen_backtest.py',
       dominant_phase: 'p4',
       trajectory: 'STABLE'
     }));
     assert.equal(valid.scored, true, JSON.stringify(valid));
     assert.equal(valid.phase, 'p4', JSON.stringify(valid));
     assert.equal(deleted.length, 0, 'valid result invalidated the cache');
+
+    /* camelCase Thing Zero evidence must persist canonical provenance and must
+       not be rescored repeatedly. */
+    var camel = ok({
+      thing0Eligibility: { qualificationStatus: 'QUALIFIED', permitsThing1Use: true },
+      validation_status: 'validated',
+      kernel_id: 'limen_backtest.py',
+      dominant_phase: 'p4',
+      trajectory: 'STABLE'
+    });
+    var camelRun = await run(camel);
+    assert.equal(camelRun.scored, true, JSON.stringify(camelRun));
+    var camelEntry = store['company_phase_123'];
+    assert.equal(camelEntry.thing0_qualification_status, 'qualified');
+    assert.equal(camelEntry.thing0_permits_thing1_use, true);
+    assert.equal(camelEntry.kernel_id, 'limen_backtest.py');
+    assert.equal(scorer._cacheProvenanceValid(camelEntry), true,
+      'camelCase cache entry would be rescored');
+    var camelAgain = await run(camel);
+    assert.equal(camelAgain.scored, true, JSON.stringify(camelAgain));
+    assert.equal(deleted.length, 0, 'valid camelCase cache entry was invalidated');
+
+    /* camelCase without an explicit affirmative permission must not cache. */
+    var camelMissingPermit = await run(ok({
+      thing0Eligibility: { qualificationStatus: 'qualified' },
+      validation_status: 'validated',
+      kernel_id: 'limen_backtest.py',
+      dominant_phase: 'p4'
+    }));
+    assert.equal(camelMissingPermit.scored, false, JSON.stringify(camelMissingPermit));
+    assert.equal(camelMissingPermit.error, 'thing0_permission_missing');
+
+    var camelFalsePermit = await run(ok({
+      thing0Eligibility: { qualificationStatus: 'qualified', permitsThing1Use: false },
+      validation_status: 'validated',
+      kernel_id: 'limen_backtest.py',
+      dominant_phase: 'p4'
+    }));
+    assert.equal(camelFalsePermit.scored, false, JSON.stringify(camelFalsePermit));
+    assert.equal(camelFalsePermit.error, 'thing0_permission_missing');
+
+    /* Mixed contradictory spellings must fail closed. */
+    var mixedStatus = await run(ok({
+      thing0_eligibility: {
+        qualification_status: 'qualified', qualificationStatus: 'not_qualified',
+        permits_thing1_use: true
+      },
+      validation_status: 'validated', kernel_id: 'limen_backtest.py', dominant_phase: 'p4'
+    }));
+    assert.equal(mixedStatus.scored, false, JSON.stringify(mixedStatus));
+    assert.equal(mixedStatus.error, 'thing0_evidence_contradictory');
+
+    var mixedPermit = await run(ok({
+      thing0_eligibility: {
+        qualification_status: 'qualified',
+        permits_thing1_use: false, permitsThing1Use: true
+      },
+      validation_status: 'validated', kernel_id: 'limen_backtest.py', dominant_phase: 'p4'
+    }));
+    assert.equal(mixedPermit.scored, false, JSON.stringify(mixedPermit));
+    assert.equal(mixedPermit.error, 'thing0_evidence_contradictory');
+
+    /* A validated response without the explicit protected scorer identity
+       must not cache. */
+    var noKernelId = await run(ok({
+      thing0_eligibility: { qualification_status: 'qualified', permits_thing1_use: true },
+      validation_status: 'validated',
+      dominant_phase: 'p4'
+    }));
+    assert.equal(noKernelId.scored, false, JSON.stringify(noKernelId));
+    assert.equal(noKernelId.error, 'thing1_kernel_identity_invalid:missing');
+
+    var wrongKernelId = await run(ok({
+      thing0_eligibility: { qualification_status: 'qualified', permits_thing1_use: true },
+      validation_status: 'validated', kernel_id: 'phase_engine.py', dominant_phase: 'p4'
+    }));
+    assert.equal(wrongKernelId.scored, false, JSON.stringify(wrongKernelId));
+    assert.equal(wrongKernelId.error, 'thing1_kernel_identity_invalid:phase_engine.py');
+
+    assert.equal(scorer._cacheProvenanceValid({
+      validation_status: 'validated', kernel_id: 'limen_backtest.py',
+      thing0_qualification_status: 'qualified', thing0_permits_thing1_use: false
+    }), false, 'cache provenance accepted a missing canonical permit');
 
     /* A scorer outage preserves the cached phase; it is not a refusal. */
     var httpFail = await run({
@@ -1194,6 +1308,7 @@ async function phaseCacheCheck() {
   } finally {
     db.get = origGet;
     db.del = origDel;
+    db.set = origSet;
     global.fetch = origFetch;
   }
 }

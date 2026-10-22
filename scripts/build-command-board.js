@@ -370,7 +370,10 @@ async function executePlan(plan, opts) {
         fq: d.first_alert_quarter || null,
         q: d.latest_quarter || null,
         hist: d.history_quarters || 0,
-        kid: d.kernel_id || 'limen_backtest.py',
+        /* Persist only an explicit scorer identity. A missing, blank or
+           malformed identity stays null and can never pass protected authority. */
+        kid: (typeof d.kernel_id === 'string' && d.kernel_id.trim())
+          ? d.kernel_id.trim() : null,
         vs: d.validation_status || 'unavailable',
         ds: ds,
         es: !permitted ? 'NOT_QUALIFIED_BY_THING0'
@@ -393,7 +396,7 @@ async function executePlan(plan, opts) {
         p: '?', tr: 'ERROR_AT_REBUILD', co: 0, a: false,
         path: null, pa: 0, pb: 0, pc: 0,
         fq: null, q: c.latest_quarter || null, hist: c.history_quarters || 0,
-        kid: 'limen_backtest.py', vs: 'rebuild_error', ds: ds,
+        kid: null, vs: 'rebuild_error', ds: ds,
         es: 'REBUILD_ERROR', sec: c.primary_sector || null, sic: c.primary_sic || null,
         rebuild_error: (e.message || String(e)).slice(0, 200),
       };

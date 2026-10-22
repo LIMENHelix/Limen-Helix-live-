@@ -14,8 +14,10 @@
 const assert = require('assert');
 const crypto = require('crypto');
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const vm = require('vm');
+const { spawnSync } = require('child_process');
 
 const ROOT = path.join(__dirname, '..');
 const consumer = fs.readFileSync(
@@ -78,4 +80,44 @@ const eligibleHash = crypto.createHash('sha256')
 assert.strictEqual(watchlist.authority.sourceSha256, eligibleHash,
   'watchlist source hash does not match the committed eligible feed');
 
-console.log('kernel watchlist authority: 0 validated, 0 bankruptcy, 0 primed, source hash current');
+// ── Version-skew fixtures: protected identity is required ─────────────────
+const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'limen-watchlist-'));
+try {
+  const base = {
+    n: 'Issuer', t: 'GOOD', c: '42', s: 'good', d: 'trade',
+    sic: '3714', p: 'p7', co: 0.5, a: true, tr: 'RUPTURE'
+  };
+  const fixture = {
+    _generated: 'fixture',
+    companies: [
+      Object.assign({}, base, { kid: 'limen_backtest.py', vs: 'validated' }),
+      Object.assign({}, base, { n: 'Missing id', t: 'MISS', c: '43', vs: 'validated' }),
+      Object.assign({}, base, { n: 'Blank id', t: 'BLNK', c: '44', kid: '   ', vs: 'validated' }),
+      Object.assign({}, base, { n: 'Wrong id', t: 'WRNG', c: '45', kid: 'phase_engine.py', vs: 'validated' }),
+      Object.assign({}, base, { n: 'Unvalidated', t: 'UNVL', c: '46', kid: 'limen_backtest.py', vs: 'unvalidated_after_modification' })
+    ]
+  };
+  const input = path.join(dir, 'eligible.json');
+  const output = path.join(dir, 'watchlist.json');
+  fs.writeFileSync(input, JSON.stringify(fixture));
+  const run = spawnSync(process.execPath, [path.join(ROOT, 'scripts', 'build-kernel-watchlist.mjs')], {
+    env: Object.assign({}, process.env, {
+      KERNEL_WATCHLIST_INPUT: input,
+      KERNEL_WATCHLIST_OUT: output
+    }),
+    encoding: 'utf8'
+  });
+  assert.strictEqual(run.status, 0, run.stderr || run.stdout);
+  const built = JSON.parse(fs.readFileSync(output, 'utf8'));
+  assert.strictEqual(built.counts.universe, 5);
+  assert.strictEqual(built.counts.validatedEnvelope, 1,
+    'a validated row without the protected scorer identity counted');
+  assert.deepStrictEqual(built.bankruptcyWatch.map((r) => r.ticker), ['GOOD'],
+    'watchlist surfaced an identity-less validated row');
+  assert.deepStrictEqual(built.investmentPrimed, []);
+  assert.strictEqual(built.authority.kernelId, 'limen_backtest.py');
+} finally {
+  fs.rmSync(dir, { recursive: true, force: true });
+}
+
+console.log('kernel watchlist authority: 0 validated, 0 bankruptcy, 0 primed, source hash current, version-skew rejected');
