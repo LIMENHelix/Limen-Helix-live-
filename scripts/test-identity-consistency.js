@@ -159,8 +159,10 @@ assert.ok(boardJS.includes('_routeStatus('),
   'Command Board does not distinguish loading from mismatch');
 assert.ok(boardJS.includes('IDENTITY LOADING'),
   'Command Board does not label a pending identity route');
-assert.ok(boardJS.includes('_refreshOpenRouteControls'),
-  'Command Board does not refresh an open route after identities load');
+assert.ok(boardJS.includes('_refreshRenderedRouteControls'),
+  'Command Board does not refresh rendered route controls after identities load');
+assert.ok(boardJS.includes('__boardRow'),
+  'Command Board does not bind expansions to their displayed record');
 const portalUI = fs.readFileSync(path.join(ROOT, 'assets', 'js', 'company-portal-ui.js'), 'utf8');
 assert.ok(portalUI.includes('_identityQuarantineMessage('),
   'company portal lost its direct-URL quarantine guard');

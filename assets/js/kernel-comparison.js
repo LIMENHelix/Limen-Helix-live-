@@ -112,24 +112,20 @@ var _portalIdentityState = 'loading';
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'assets/data/companies-manifest.json', true);
     xhr.onload = function () {
-      if (xhr.status !== 200) { _portalIdentityState = 'error'; return; }
+      if (xhr.status !== 200) { _settlePortalIdentity('error'); return; }
       try {
         var idx = (JSON.parse(xhr.responseText) || {}).index || {};
         Object.keys(idx).forEach(function (s) {
           _portalIdentity[s] = { cik: idx[s].cik || null, ticker: idx[s].ticker || null };
         });
-        _portalIdentityState = 'ready';
+        _settlePortalIdentity('ready');
       } catch (e) {
-        _portalIdentityState = 'error';
-        return;
+        _settlePortalIdentity('error');
       }
-      /* An expansion opened while the manifest was pending showed a loading
-         state. Rebuild it so valid routes appear without closing the row. */
-      _refreshOpenRouteControls();
     };
-    xhr.onerror = function () { _portalIdentityState = 'error'; };
+    xhr.onerror = function () { _settlePortalIdentity('error'); };
     xhr.send();
-  } catch (e) { _portalIdentityState = 'error'; }
+  } catch (e) { _settlePortalIdentity('error'); }
 })();
 
 function _tickerKey(value) {
@@ -158,15 +154,51 @@ function _routeStatus(d) {
   return _routeCoherent(d) ? 'ok' : 'mismatch';
 }
 
-function _refreshOpenRouteControls() {
-  if (typeof _expandedIdx === 'undefined' || _expandedIdx === -1) return;
-  if (typeof DATA === 'undefined' || !DATA) return;
-  var d = DATA[_expandedIdx];
-  if (!d) return;
-  var expandRow = document.querySelector('[data-expand-idx="' + _expandedIdx + '"]');
-  if (!expandRow) return;
-  var td = expandRow.querySelector('td');
-  if (td) td.innerHTML = _buildExpandContent(d);
+/* Each rendered expansion is bound to the displayed record it was built from.
+   DOM position may locate an element; it never establishes company identity.
+   The page-local index and the global DATA array are never mixed. */
+function _rowIdentityMatches(tr, d) {
+  var id = tr && tr.__boardIdentity;
+  if (!id || !d) return false;
+  return id.cik === _normCik(d.c)
+    && id.ticker === _tickerKey(d.t)
+    && id.name === (d.n || null);
+}
+
+var _IDENTITY_BLOCKED_HTML = '<div class="expand-content"><div class="expand-actions">'
+  + '<span style="color:#e8a44e;cursor:not-allowed">IDENTITY CHECK UNAVAILABLE</span></div></div>';
+
+function _refreshRenderedRouteControls(root, rebuild) {
+  if (!root || typeof root.querySelectorAll !== 'function' || typeof rebuild !== 'function') return 0;
+  var list = root.querySelectorAll('tr.expand-row');
+  var updated = 0;
+  for (var i = 0; i < list.length; i++) {
+    var tr = list[i];
+    var d = tr && tr.__boardRow;
+    var td = tr && tr.querySelector && tr.querySelector('td');
+    if (!td) continue;
+    /* No retained record, or a DOM association that no longer matches its
+       record, is replaced with an explicit blocked state. Never substitute
+       another company and never leave stale route links in place. */
+    if (!d || !_rowIdentityMatches(tr, d)) {
+      td.innerHTML = _IDENTITY_BLOCKED_HTML;
+      continue;
+    }
+    td.innerHTML = rebuild(d);
+    updated++;
+  }
+  return updated;
+}
+
+function _refreshAllRouteControls() {
+  return _refreshRenderedRouteControls(document.getElementById('tableBody'), _buildExpandContent);
+}
+
+/* Terminal manifest states refresh every currently rendered expansion. A
+   render after this point builds the correct state directly. */
+function _settlePortalIdentity(state) {
+  _portalIdentityState = state;
+  _refreshAllRouteControls();
 }
 
 var TERMINAL_PHASES = ['p7','p7a','p9'];
@@ -550,6 +582,14 @@ function renderTable(rows, startOffset) {
     var expandTr = document.createElement('tr');
     expandTr.className = 'expand-row';
     expandTr.setAttribute('data-expand-idx', i);
+    /* Bind the expansion to the exact displayed record. The page-local index
+       is a DOM locator only and is never used to recover identity. */
+    expandTr.__boardRow = d;
+    expandTr.__boardIdentity = {
+      cik: _normCik(d.c),
+      ticker: _tickerKey(d.t),
+      name: d.n || null
+    };
     var expandTd = document.createElement('td');
     expandTd.colSpan = 12;
     expandTd.innerHTML = _buildExpandContent(d);

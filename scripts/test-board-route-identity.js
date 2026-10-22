@@ -79,7 +79,12 @@ const guardStart = src.indexOf('var QUARANTINED_SLUGS');
 const guardEnd = src.indexOf('var TERMINAL_PHASES', guardStart);
 assert.ok(normStart !== -1 && guardStart !== -1 && guardEnd > guardStart,
   'Board route guard not found');
-const sandbox = {};
+/* The module-load IIFE settles immediately in this VM; provide the DOM stub it
+   touches before executing the extracted helpers. */
+const sandbox = {
+  document: { getElementById: () => null },
+  _buildExpandContent: () => ''
+};
 vm.createContext(sandbox);
 vm.runInContext(src.slice(normStart, normEnd) + '\n' + src.slice(guardStart, guardEnd)
   + '\nthis._routeCoherent = _routeCoherent;', sandbox);
@@ -110,8 +115,10 @@ assert.strictEqual(sandbox._routeStatus({ c: '42', t: 'CTRL', s: 'control' }), '
 sandbox._portalIdentityState = 'error';
 assert.strictEqual(sandbox._routeStatus({ c: '42', t: 'CTRL', s: 'control' }), 'unavailable');
 sandbox._portalIdentityState = 'ready';
-assert.ok(src.includes('_refreshOpenRouteControls'),
-  'open route controls are not refreshed when identities load');
+assert.ok(src.includes('_refreshRenderedRouteControls'),
+  'rendered route controls are not refreshed when identities load');
+assert.ok(src.includes('__boardRow'),
+  'expansions are not bound to their displayed record');
 
 // ── Producer wiring ───────────────────────────────────────────────────────
 for (const [file, marker] of [
