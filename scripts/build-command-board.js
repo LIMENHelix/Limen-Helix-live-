@@ -304,6 +304,23 @@ function planCommandBoard(frontier, priorCompanies, options) {
   };
 }
 
+function buildOutput(plan, results, scored, errors) {
+  return {
+    _generated: new Date().toISOString(),
+    _source: 'kernel-eligibility-frontier.json (ELIGIBLE_NOW only)',
+    _envelope_version: 'v1.0.1',
+    _kernel_sha256: '3ce4a652ff8af4b4ea26ad1811f5cb31f746b5abceda05470d921f6e7a482d20',
+    _total: results.length,
+    _expected: plan.eligible.length,
+    _scored: scored,
+    _resumed: plan.resumed,
+    _removed: plan.removedCount,
+    _errors: errors,
+    _in_progress: false,
+    companies: results,
+  };
+}
+
 async function executePlan(plan, opts) {
   opts = opts || {};
   var outputPath = opts.outputPath || OUTPUT_PATH;
@@ -311,9 +328,15 @@ async function executePlan(plan, opts) {
   var atomic = !!opts.atomic;
   var thing0Migration = !!opts.thing0Migration;
   var dryRun = !!opts.dryRun;
+  var fullRebuild = !!opts.fullRebuild;
   var delayMs = typeof opts.delayMs === 'number' ? opts.delayMs : DELAY_MS;
 
   if (dryRun) {
+    if (fullRebuild && plan.eligible.length === 0) {
+      console.log('DRY_RUN — authoritative frontier has zero ELIGIBLE_NOW companies; ' +
+        'would write an empty board with 0 rows; no write performed.');
+      return { scored: 0, errors: 0, wrote: false, removedCount: 0, wouldRemain: 0 };
+    }
     console.log('DRY_RUN — would score ' + plan.queue.length + ' CIKs; would remove ' +
       plan.removedCount + ' rows');
     plan.queue.slice(0, 10).forEach(function (c, i) {
@@ -325,6 +348,16 @@ async function executePlan(plan, opts) {
   }
 
   if (plan.queue.length === 0 && plan.removedCount === 0) {
+    /* A full non-resume rebuild whose authoritative frontier admits nothing is
+       a real result: replace the old output with a valid empty board. A resume
+       with a fully current output remains a no-op. */
+    if (fullRebuild && plan.eligible.length === 0) {
+      var emptyOut = buildOutput(plan, [], 0, 0);
+      writeOutputAtomic(emptyOut, outputPath);
+      console.log('Full rebuild: authoritative frontier has zero ELIGIBLE_NOW companies; ' +
+        'wrote an empty board.');
+      return { scored: 0, errors: 0, wrote: true, removedCount: 0 };
+    }
     console.log('Nothing to score — every eligible row already carries the required evidence. Exiting without writing.');
     return { scored: 0, errors: 0, wrote: false, removedCount: 0 };
   }
@@ -411,20 +444,7 @@ async function executePlan(plan, opts) {
   }
 
   var results = plan.order.map(function (key) { return resultsByCik[key]; }).filter(Boolean);
-  var out = {
-    _generated: new Date().toISOString(),
-    _source: 'kernel-eligibility-frontier.json (ELIGIBLE_NOW only)',
-    _envelope_version: 'v1.0.1',
-    _kernel_sha256: '3ce4a652ff8af4b4ea26ad1811f5cb31f746b5abceda05470d921f6e7a482d20',
-    _total: results.length,
-    _expected: plan.eligible.length,
-    _scored: scored,
-    _resumed: plan.resumed,
-    _removed: plan.removedCount,
-    _errors: errors,
-    _in_progress: false,
-    companies: results,
-  };
+  var out = buildOutput(plan, results, scored, errors);
   if (atomic) writeOutputAtomic(out, outputPath);
   else writeOutput(results, plan.eligible.length, scored, errors, plan.resumed, false, outputPath, plan.removedCount);
 
@@ -485,7 +505,8 @@ async function main() {
       scoreFn: postScore,
       atomic: ATOMIC,
       thing0Migration: THING0_MIGRATION,
-      dryRun: DRY_RUN
+      dryRun: DRY_RUN,
+      fullRebuild: !RESUME
     });
   } catch (e) {
     console.error('FATAL: ' + (e.message || String(e)));
