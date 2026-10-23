@@ -517,10 +517,21 @@ async function rejectsNeutral(name, promise) {
 
   {
     const source = fs.readFileSync(path.join(ROOT, 'handlers/relay-csv-import.js'), 'utf8');
-    assert.ok(/timingSafeEqual/.test(source));
-    assert.ok(/x-relay-admin-key/.test(source));
+    const auth = fs.readFileSync(path.join(ROOT, 'lib/relay-admin-auth.js'), 'utf8');
+    const route = fs.readFileSync(path.join(ROOT, 'api/[...route].js'), 'utf8');
+    assert.ok(/relay-admin-auth/.test(source));
+    assert.ok(/checkRelayAdmin/.test(source));
+    assert.ok(!/process\.env\.RELAY_ADMIN_KEY/.test(source),
+      'handler must not duplicate credential logic');
+    assert.ok(/timingSafeEqual/.test(auth));
+    assert.ok(/x-relay-admin-key/.test(auth));
+    assert.ok(!/req\.query|req\.url.*key/.test(auth), 'helper must not read query strings');
+    assert.ok(/relay-admin-auth/.test(route));
+    assert.ok(/checkRelayAdmin/.test(route));
+    assert.ok(route.indexOf('RelayAdminAuth.checkRelayAdmin') < route.indexOf('valve.authorizeActivity'),
+      'route authentication must precede authorizeActivity');
     assert.ok(!/access-control-allow-origin/i.test(source));
-    pass('source uses a timing-safe header check and grants no CORS origin');
+    pass('router and handler share one timing-safe header helper; auth precedes the valve');
   }
 
   {
@@ -530,11 +541,24 @@ async function rejectsNeutral(name, promise) {
   }
 
   {
-    const demo = fs.readFileSync(path.join(ROOT, 'scraper-relay-demo.js'), 'utf8');
-    assert.ok(!new RegExp(TEST_KEY).test(demo), 'test key must not be embedded in the demo');
-    assert.ok(/process\.env\.RELAY_ADMIN_KEY/.test(demo));
-    assert.ok(/x-relay-admin-key/.test(demo));
+    const demoSrc = fs.readFileSync(path.join(ROOT, 'scraper-relay-demo.js'), 'utf8');
+    assert.ok(!new RegExp(TEST_KEY).test(demoSrc), 'test key must not be embedded in the demo');
+    assert.ok(/process\.env\.RELAY_ADMIN_KEY/.test(demoSrc));
+    assert.ok(/x-relay-admin-key/.test(demoSrc));
+    assert.ok(!/function downloadImage/.test(demoSrc), 'demo must not predownload images');
+    assert.ok(!/data:image/.test(demoSrc), 'demo must not contain data URIs');
     pass('demo reads the credential from its environment and sends the dedicated header');
+  }
+
+  {
+    const demo = require('../scraper-relay-demo');
+    const csv = demo.buildCsv(demo.SAMPLE_PRODUCTS);
+    assert.ok(/https:\/\//.test(csv), 'demo payload must contain HTTPS image URLs');
+    assert.ok(!/data:image/.test(csv), 'demo payload must not contain data URIs');
+    assert.ok(demo.SAMPLE_PRODUCTS.every(function (item) {
+      return /^https:\/\//.test(item.imageUrl);
+    }), 'every sample image URL must be HTTPS');
+    pass('demo payload contains original HTTPS image URLs, not data URIs');
   }
 
   delete process.env.RELAY_ADMIN_KEY;

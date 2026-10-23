@@ -20,6 +20,7 @@
 const { RegExpRouter } = require('hono/router/reg-exp-router');
 const CivilizationValve = require('../lib/civilization-valve-control');
 const CivilizationValveRegistry = require('../lib/civilization-valve-registry');
+const RelayAdminAuth = require('../lib/relay-admin-auth');
 
 // Bumped each migration commit so a deploy is probeable: any unknown /api/* path
 // returns this in the miss JSON (curl /api/__probe__ | grep the tag).
@@ -376,8 +377,10 @@ const INTERNALLY_GATED_OR_RECOVERY_POST_ROUTES = new Set([
   'communication-video-upload-work'
 ]);
 
-function runtimeValveHold(name, req) {
-  const valveId = CivilizationValveRegistry.forRoute(name);
+function runtimeValveHold(name, req, deps) {
+  const valve = (deps && deps.civilizationValve) || CivilizationValve;
+  const registry = (deps && deps.civilizationValveRegistry) || CivilizationValveRegistry;
+  const valveId = registry.forRoute(name);
   if (!valveId) return null;
   const method = String(req.method || 'GET').toUpperCase();
   // POST on these exact cycle routes only queues exact work; it does not create
@@ -385,12 +388,13 @@ function runtimeValveHold(name, req) {
   // closed. Every other method/route combination remains inhibited.
   if (method === 'POST' && PREPARATION_POST_ROUTES.has(name)) return null;
   if (method === 'POST' && INTERNALLY_GATED_OR_RECOVERY_POST_ROUTES.has(name)) return null;
-  return CivilizationValve.authorize(valveId).then(function (result) {
+  return valve.authorize(valveId).then(function (result) {
     return result.allowed ? null : result;
   });
 }
 
-module.exports = async function honoEntry(req, res) {
+module.exports = async function honoEntry(req, res, deps) {
+  deps = deps || {};
   let pathname = req.url || '';
   try { pathname = new URL(req.url, 'http://h').pathname; } catch (e) {}
   if (pathname.length > 1 && pathname.endsWith('/')) pathname = pathname.slice(0, -1);
@@ -407,11 +411,49 @@ module.exports = async function honoEntry(req, res) {
     res.setHeader('Content-Type', 'application/json');
     return res.end(JSON.stringify({ error: 'route not handled by Hono entry', path: pathname, build: BUILD }));
   }
+
+  /* relay-csv-import is a server-to-server administrative route. Authenticate
+     before authorizeActivity, runtimeValveHold, Redis/control-store logic, body
+     parsing, DNS, network or mutation. The handler repeats this check for direct
+     invocation and defense in depth. */
+  if (name === 'relay-csv-import') {
+    const method = String(req.method || 'GET').toUpperCase();
+    if (method === 'OPTIONS') {
+      /* Preflight has no action and must not disclose control-store state. */
+      res.statusCode = 204;
+      res.setHeader('Allow', 'POST, OPTIONS');
+      res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, ' + RelayAdminAuth.ADMIN_HEADER);
+      res.setHeader('Access-Control-Max-Age', '600');
+      res.setHeader('Cache-Control', 'no-store');
+      return res.end();
+    }
+    if (method !== 'POST') {
+      /* The route is POST-only. Reject the invalid method before any valve or
+         control-store read so an unauthenticated caller cannot observe state. */
+      res.statusCode = 405;
+      res.setHeader('Allow', 'POST, OPTIONS');
+      res.setHeader('Content-Type', 'application/json');
+      res.setHeader('Cache-Control', 'no-store');
+      return res.end(JSON.stringify({ ok: false, error: 'POST only' }));
+    }
+    const auth = RelayAdminAuth.checkRelayAdmin(req);
+    if (!auth.ok) {
+      res.statusCode = auth.status;
+      res.setHeader('Content-Type', 'application/json');
+      res.setHeader('Cache-Control', 'no-store');
+      res.setHeader('X-Content-Type-Options', 'nosniff');
+      try { if (typeof req.resume === 'function') req.resume(); } catch (e) {}
+      return res.end(JSON.stringify({ ok: false, error: auth.error }));
+    }
+  }
+
+  const valve = (deps && deps.civilizationValve) || CivilizationValve;
   // NUKE is the exceptional whole-civilization burst-suppression boundary.
   // It runs before every local efferent valve, including cron/cognition routes.
   // Diagnostic reads and staged re-entry are explicitly classified by the
   // control contract; an unavailable control store fails closed.
-  const activityCheck = CivilizationValve.authorizeActivity(name, req.method || 'GET');
+  const activityCheck = valve.authorizeActivity(name, req.method || 'GET');
   const activity = activityCheck && typeof activityCheck.then === 'function'
     ? await activityCheck
     : activityCheck;
@@ -429,7 +471,7 @@ module.exports = async function honoEntry(req, res) {
       statePreserved: true
     }));
   }
-  const heldCheck = runtimeValveHold(name, req);
+  const heldCheck = runtimeValveHold(name, req, deps);
   // Preserve synchronous dispatch for every route outside the efferent valve
   // topology. Only a mapped outward-effect route crosses the durable async gate.
   const held = heldCheck && typeof heldCheck.then === 'function'
@@ -446,8 +488,8 @@ module.exports = async function honoEntry(req, res) {
       valveId: held.valveId,
       valveReceiptId: held.receipt && held.receipt.receiptId || null,
       externalEffectExecuted: false,
-      observersRemainOpen: held.receipt && held.receipt.valveId === CivilizationValve.GLOBAL_ID ? false : true,
-      recoveryRemainsOpen: held.receipt && held.receipt.valveId === CivilizationValve.GLOBAL_ID ? false : true
+      observersRemainOpen: held.receipt && held.receipt.valveId === valve.GLOBAL_ID ? false : true,
+      recoveryRemainsOpen: held.receipt && held.receipt.valveId === valve.GLOBAL_ID ? false : true
     }));
   }
   return resolve(handler)(req, res);

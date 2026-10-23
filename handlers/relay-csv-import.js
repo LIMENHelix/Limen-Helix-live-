@@ -22,12 +22,12 @@
  * title,price,condition,category,description,imageUrl
  */
 
-const crypto = require('node:crypto');
 const dns = require('node:dns');
 const net = require('node:net');
 const https = require('node:https');
+const RelayAdminAuth = require('../lib/relay-admin-auth');
 
-const ADMIN_HEADER = 'x-relay-admin-key';
+const ADMIN_HEADER = RelayAdminAuth.ADMIN_HEADER;
 const MAX_CSV_BYTES = 2 * 1024 * 1024;
 const MAX_IMPORT_ROWS = 500;
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
@@ -55,27 +55,6 @@ function setPreflightHeaders(res) {
   res.setHeader('Access-Control-Max-Age', '600');
 }
 
-function headerValue(req, name) {
-  const headers = (req && req.headers) || {};
-  const wanted = String(name).toLowerCase();
-  const keys = Object.keys(headers);
-  for (let i = 0; i < keys.length; i++) {
-    if (keys[i].toLowerCase() !== wanted) continue;
-    const value = headers[keys[i]];
-    if (Array.isArray(value)) return value.length ? String(value[0]) : '';
-    return value == null ? '' : String(value);
-  }
-  return '';
-}
-
-function timingSafeTextEqual(a, b) {
-  /* Hash first so the comparison is fixed-length and does not throw on a
-     length mismatch. This is a credential comparison, not a general hash. */
-  const ha = crypto.createHash('sha256').update(String(a || ''), 'utf8').digest();
-  const hb = crypto.createHash('sha256').update(String(b || ''), 'utf8').digest();
-  return crypto.timingSafeEqual(ha, hb);
-}
-
 function reject(req, res, code, error) {
   sendJSON(res, code, { ok: false, error: error });
   /* Drain without parsing. This keeps the connection well-behaved while
@@ -84,22 +63,12 @@ function reject(req, res, code, error) {
 }
 
 function authorize(req, res) {
-  const expected = process.env.RELAY_ADMIN_KEY || '';
-  if (!expected) {
-    /* Fail closed. Do not name the missing variable or reveal configuration. */
-    sendJSON(res, 503, { ok: false, error: 'service unavailable' });
-    return false;
-  }
-  const supplied = headerValue(req, ADMIN_HEADER);
-  if (!supplied) {
-    reject(req, res, 401, 'unauthorized');
-    return false;
-  }
-  if (!timingSafeTextEqual(supplied, expected)) {
-    reject(req, res, 403, 'forbidden');
-    return false;
-  }
-  return true;
+  /* The router checks this same helper before the civilization valves. The
+     handler keeps its own check for direct invocation and defense in depth. */
+  const result = RelayAdminAuth.checkRelayAdmin(req);
+  if (result.ok) return true;
+  reject(req, res, result.status, result.error);
+  return false;
 }
 
 function readBody(req) {

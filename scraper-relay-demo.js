@@ -4,8 +4,6 @@
  * Shows complete workflow with sample data (you adapt selectors for real scraping)
  */
 
-const fetch = require('node-fetch');
-
 const RELAY_API = 'https://limenhelix.com';
 
 /* FIX-0103: /api/relay-csv-import is a server-to-server administrative route.
@@ -52,22 +50,15 @@ const SAMPLE_PRODUCTS = [
   }
 ];
 
-async function downloadImage(url) {
-  try {
-    console.log(`  📥 Downloading: ${url.substring(0, 50)}...`);
-    const response = await fetch(url, { timeout: 10000 });
-    if (!response.ok) {
-      console.log('    ⚠️  Failed (non-200 status)');
-      return null;
-    }
-    const buffer = await response.buffer();
-    const base64 = buffer.toString('base64');
-    console.log(`    ✓ Encoded to base64 (${buffer.length} bytes)`);
-    return 'data:image/jpeg;base64,' + base64;
-  } catch (e) {
-    console.log(`    ❌ Error: ${e.message}`);
-    return null;
-  }
+/* Send the original HTTPS image URLs. The server performs the validated,
+   pinned, bounded fetch. This demo never predownloads or base64-encodes. */
+function buildCsv(items) {
+  const csvLines = ['title,price,condition,category,description,imageUrl'];
+  items.forEach(item => {
+    const quote = (str) => `"${String(str).replace(/"/g, '""')}"`;
+    csvLines.push(`${quote(item.title)},${item.price},${item.condition},fashion,${quote(item.description)},${item.imageUrl}`);
+  });
+  return csvLines.join('\n');
 }
 
 async function createListingsOnRelay(items) {
@@ -80,13 +71,7 @@ async function createListingsOnRelay(items) {
   }
 
   try {
-    // Convert items to CSV format
-    const csvLines = ['title,price,condition,category,description,imageUrl'];
-    items.forEach(item => {
-      const quote = (str) => `"${String(str).replace(/"/g, '""')}"`;
-      csvLines.push(`${quote(item.title)},${item.price},${item.condition},fashion,${quote(item.description)},${item.imageUrl}`);
-    });
-    const csv = csvLines.join('\n');
+    const csv = buildCsv(items);
 
     const payload = {
       csv: csv,
@@ -102,7 +87,7 @@ async function createListingsOnRelay(items) {
         'x-relay-admin-key': RELAY_ADMIN_KEY
       },
       body: JSON.stringify(payload),
-      timeout: 30000
+      signal: AbortSignal.timeout(30000)
     });
 
     const data = await response.json();
@@ -135,18 +120,9 @@ async function main() {
   console.log(`Items to process: ${SAMPLE_PRODUCTS.length}`);
   console.log('═══════════════════════════════════════\n');
 
-  // Download and encode images
-  console.log('🖼️  Processing images...\n');
-  const itemsWithImages = await Promise.all(
-    SAMPLE_PRODUCTS.map(async (item, i) => {
-      console.log(`[${i+1}/${SAMPLE_PRODUCTS.length}] ${item.title}`);
-      const imageUrl = await downloadImage(item.imageUrl);
-      return { ...item, imageUrl: imageUrl || item.imageUrl };
-    })
-  );
-
-  // Upload to Relay
-  await createListingsOnRelay(itemsWithImages);
+  // The server fetches and validates each original HTTPS image URL.
+  console.log('🖼️  Image retrieval is performed by the Relay import route.\n');
+  await createListingsOnRelay(SAMPLE_PRODUCTS);
 
   console.log('\n🎉 Demo Complete!');
   console.log('\nNext Steps:');
@@ -156,4 +132,12 @@ async function main() {
   console.log('4. Run: node scraper-relay.js vinted shoes 10');
 }
 
-main().catch(console.error);
+if (require.main === module) {
+  main().catch(console.error);
+}
+
+module.exports = {
+  buildCsv: buildCsv,
+  createListingsOnRelay: createListingsOnRelay,
+  SAMPLE_PRODUCTS: SAMPLE_PRODUCTS
+};
