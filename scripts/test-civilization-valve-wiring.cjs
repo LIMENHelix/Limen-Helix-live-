@@ -10,10 +10,10 @@ const admin = fs.readFileSync(require.resolve('../admin.html'), 'utf8');
 const page = fs.readFileSync(require.resolve('../admin-valves.html'), 'utf8');
 const kill = fs.readFileSync(require.resolve('../lib/ai-kill-switch.js'), 'utf8');
 
-assert.match(router, /runtimeValveHold\(name, req\)/);
-assert.match(router, /authorizeActivity\(name, req\.method/);
+assert.match(router, /runtimeValveHold\(name, req, deps\)/);
+assert.match(router, /valve\.authorizeActivity\(name, req\.method/);
 assert.match(router, /statusCode = 423/);
-assert.match(router, /CivilizationValve\.authorize\(valveId\)/);
+assert.match(router, /valve\.authorize\(valveId\)/);
 assert.match(router, /PREPARATION_POST_ROUTES = new Set/);
 assert.match(router, /INTERNALLY_GATED_OR_RECOVERY_POST_ROUTES = new Set/);
 assert.match(router, /INTERNALLY_GATED_OR_RECOVERY_POST_ROUTES\.has\(name\)/);
