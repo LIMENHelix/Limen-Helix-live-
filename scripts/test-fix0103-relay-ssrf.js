@@ -124,6 +124,43 @@ function fakeResponse(opts) {
   return res;
 }
 
+/* A deliberately slow body: one byte every few milliseconds for longer than the
+   absolute deadline, while every gap stays below any socket inactivity timeout.
+   This distinguishes a hard wall-clock deadline from an inactivity timeout. */
+function slowResponse(opts) {
+  opts = opts || {};
+  const res = new EventEmitter();
+  res.statusCode = 200;
+  res.headers = { 'content-type': 'image/jpeg' };
+  res.socket = { remoteAddress: '93.184.216.34' };
+  let timer = null;
+  res.destroy = function () {
+    if (timer) { clearInterval(timer); timer = null; }
+    res.destroyed = true;
+  };
+  res.resume = function () {};
+  let sent = 0;
+  const every = Math.max(1, opts.chunkEveryMs || 10);
+  timer = setInterval(function () {
+    if (res.destroyed) return;
+    res.emit('data', Buffer.from('x'));
+    sent++;
+    if (sent * every >= (opts.totalMs || 500)) {
+      clearInterval(timer);
+      timer = null;
+      res.emit('end');
+    }
+  }, every);
+  if (opts.signal) {
+    opts.signal.addEventListener('abort', function () {
+      if (res.destroyed) return;
+      res.destroy();
+      res.emit('error', new Error('aborted'));
+    });
+  }
+  return res;
+}
+
 function requestScript(script) {
   return function requestImpl(target, options, callback) {
     const req = new EventEmitter();
@@ -385,6 +422,67 @@ async function rejectsNeutral(name, promise) {
       })
     }));
 
+  {
+    /* Socket inactivity is 1000ms here. The stream sends a byte every 10ms for
+       500ms, so inactivity never fires. Only the absolute 100ms deadline can
+       stop it early. */
+    const started = Date.now();
+    await assert.rejects(
+      T.downloadImage('https://images.example.com/x.jpg', {
+        lookup: publicLookup,
+        deadlineMs: 100,
+        timeoutMs: 1000,
+        request: requestScript(function (ctx) {
+          ctx.callback(slowResponse({
+            signal: ctx.options.signal,
+            chunkEveryMs: 10,
+            totalMs: 500
+          }));
+        })
+      }),
+      function (err) {
+        assert.strictEqual(err && err.message, 'image_unavailable');
+        return true;
+      }
+    );
+    const elapsed = Date.now() - started;
+    assert.ok(elapsed < 300,
+      'absolute deadline did not fire; elapsed=' + elapsed + 'ms');
+    pass('absolute deadline aborts a slow stream that never trips inactivity');
+  }
+
+  {
+    /* No response headers arrive. The socket inactivity timeout is 1000ms and
+       never fires; the absolute 100ms deadline must abort the request. */
+    const started = Date.now();
+    await assert.rejects(
+      T.downloadImage('https://images.example.com/x.jpg', {
+        lookup: publicLookup,
+        deadlineMs: 100,
+        timeoutMs: 1000,
+        request: requestScript(function (ctx) {
+          const fallback = setTimeout(function () {
+            ctx.req.emit('error', new Error('fallback'));
+          }, 500);
+          if (ctx.options.signal) {
+            ctx.options.signal.addEventListener('abort', function () {
+              clearTimeout(fallback);
+              ctx.req.emit('error', new Error('aborted'));
+            });
+          }
+        })
+      }),
+      function (err) {
+        assert.strictEqual(err && err.message, 'image_unavailable');
+        return true;
+      }
+    );
+    const elapsed = Date.now() - started;
+    assert.ok(elapsed < 300,
+      'absolute deadline did not cover headers; elapsed=' + elapsed + 'ms');
+    pass('absolute deadline covers connection and response headers');
+  }
+
   await rejectsNeutral('oversized streaming response stops at the cap',
     T.downloadImage('https://images.example.com/x.jpg', {
       lookup: publicLookup,
@@ -516,6 +614,8 @@ async function rejectsNeutral(name, promise) {
   }
 
   {
+    assert.ok(T.IMAGE_DEADLINE_MS > T.IMAGE_TIMEOUT_MS,
+      'absolute deadline must be distinct from socket inactivity');
     const source = fs.readFileSync(path.join(ROOT, 'handlers/relay-csv-import.js'), 'utf8');
     const auth = fs.readFileSync(path.join(ROOT, 'lib/relay-admin-auth.js'), 'utf8');
     const route = fs.readFileSync(path.join(ROOT, 'api/[...route].js'), 'utf8');

@@ -32,7 +32,8 @@ const MAX_CSV_BYTES = 2 * 1024 * 1024;
 const MAX_IMPORT_ROWS = 500;
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 const MAX_REDIRECTS = 2;
-const IMAGE_TIMEOUT_MS = 8000;
+const IMAGE_TIMEOUT_MS = 8000; // socket inactivity, reset by traffic
+const IMAGE_DEADLINE_MS = 15000; // absolute wall-clock cap for one downloadImage call
 const MAX_RESPONSE_ROWS = 50;
 const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif'];
 
@@ -262,7 +263,7 @@ function withTimeout(promise, ms) {
   return Promise.race([promise, timeout]).finally(function () { clearTimeout(timer); });
 }
 
-async function resolveHost(host, lookup) {
+async function resolveHost(host, lookup, timeoutMs) {
   if (net.isIP(host)) {
     if (isProhibitedAddress(host)) throw neutralError();
     return [{ address: host, family: net.isIP(host) }];
@@ -278,7 +279,7 @@ async function resolveHost(host, lookup) {
       Promise.resolve().then(function () {
         return lookup(host, { all: true, verbatim: true });
       }),
-      IMAGE_TIMEOUT_MS
+      Number.isFinite(timeoutMs) && timeoutMs > 0 ? timeoutMs : IMAGE_TIMEOUT_MS
     );
   } catch (e) {
     throw neutralError();
@@ -294,7 +295,7 @@ async function resolveHost(host, lookup) {
   return answers;
 }
 
-async function validateImageUrl(rawUrl, lookup) {
+async function validateImageUrl(rawUrl, lookup, timeoutMs) {
   let url;
   try { url = new URL(String(rawUrl || '')); }
   catch (e) { throw neutralError(); }
@@ -302,7 +303,7 @@ async function validateImageUrl(rawUrl, lookup) {
   if (url.username || url.password) throw neutralError();
   const host = normalizeHost(url.hostname);
   if (!host) throw neutralError();
-  const addresses = await resolveHost(host, lookup || dns.promises.lookup);
+  const addresses = await resolveHost(host, lookup || dns.promises.lookup, timeoutMs);
   return { url: url, host: host, addresses: addresses };
 }
 
@@ -310,7 +311,11 @@ function toDataUri(buffer, contentType) {
   return 'data:' + contentType + ';base64,' + buffer.toString('base64');
 }
 
-function requestOnce(target, addresses, requestImpl) {
+function requestOnce(target, addresses, requestImpl, opts) {
+  opts = opts || {};
+  const timeoutMs = Number.isFinite(opts.timeoutMs) && opts.timeoutMs > 0
+    ? opts.timeoutMs
+    : IMAGE_TIMEOUT_MS;
   return new Promise(function (resolve, reject) {
     let settled = false;
     function fail() {
@@ -336,9 +341,10 @@ function requestOnce(target, addresses, requestImpl) {
       lookup: function (hostname, opts, callback) {
         callback(null, pinned.address, pinned.family);
       },
-      timeout: IMAGE_TIMEOUT_MS,
+      timeout: timeoutMs,
       agent: false
     };
+    if (opts.signal) options.signal = opts.signal;
 
     let req;
     try {
@@ -410,7 +416,7 @@ function requestOnce(target, addresses, requestImpl) {
     });
     req.on('error', fail);
     try {
-      req.setTimeout(IMAGE_TIMEOUT_MS, function () {
+      req.setTimeout(timeoutMs, function () {
         try { req.destroy(); } catch (e) {}
         fail();
       });
@@ -423,22 +429,41 @@ async function downloadImage(rawUrl, deps) {
   deps = deps || {};
   const lookup = deps.lookup || dns.promises.lookup;
   const requestImpl = deps.request || https.request;
-  let current = String(rawUrl || '');
+  const inactivityMs = Number.isFinite(deps.timeoutMs) && deps.timeoutMs > 0
+    ? deps.timeoutMs : IMAGE_TIMEOUT_MS;
+  const deadlineMs = Number.isFinite(deps.deadlineMs) && deps.deadlineMs > 0
+    ? deps.deadlineMs : IMAGE_DEADLINE_MS;
+  const deadlineAt = Date.now() + deadlineMs;
+  const controller = new AbortController();
+  const deadlineTimer = setTimeout(function () { controller.abort(); }, deadlineMs);
+  if (deadlineTimer && typeof deadlineTimer.unref === 'function') deadlineTimer.unref();
 
-  for (let redirects = 0; ; redirects++) {
-    const checked = await validateImageUrl(current, lookup);
-    const result = await requestOnce(checked.url, checked.addresses, requestImpl);
-    if (result.redirect) {
-      if (redirects >= MAX_REDIRECTS) throw neutralError();
-      try {
-        current = new URL(result.redirect, checked.url).toString();
-      } catch (e) {
-        throw neutralError();
+  try {
+    let current = String(rawUrl || '');
+    for (let redirects = 0; ; redirects++) {
+      const remaining = deadlineAt - Date.now();
+      if (remaining <= 0) throw neutralError();
+      const checked = await validateImageUrl(current, lookup, Math.min(inactivityMs, remaining));
+      const afterDns = deadlineAt - Date.now();
+      if (afterDns <= 0) throw neutralError();
+      const result = await requestOnce(checked.url, checked.addresses, requestImpl, {
+        signal: controller.signal,
+        timeoutMs: Math.min(inactivityMs, afterDns)
+      });
+      if (result.redirect) {
+        if (redirects >= MAX_REDIRECTS) throw neutralError();
+        try {
+          current = new URL(result.redirect, checked.url).toString();
+        } catch (e) {
+          throw neutralError();
+        }
+        continue;
       }
-      continue;
+      if (!result.buffer || !result.buffer.length) throw neutralError();
+      return toDataUri(result.buffer, result.contentType);
     }
-    if (!result.buffer || !result.buffer.length) throw neutralError();
-    return toDataUri(result.buffer, result.contentType);
+  } finally {
+    clearTimeout(deadlineTimer);
   }
 }
 
@@ -576,6 +601,8 @@ module.exports._test = {
   MAX_IMPORT_ROWS: MAX_IMPORT_ROWS,
   MAX_IMAGE_BYTES: MAX_IMAGE_BYTES,
   MAX_REDIRECTS: MAX_REDIRECTS,
+  IMAGE_TIMEOUT_MS: IMAGE_TIMEOUT_MS,
+  IMAGE_DEADLINE_MS: IMAGE_DEADLINE_MS,
   isProhibitedAddress: isProhibitedAddress,
   normalizeHost: normalizeHost,
   resolveHost: resolveHost,
