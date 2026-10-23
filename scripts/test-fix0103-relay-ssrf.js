@@ -161,6 +161,28 @@ function slowResponse(opts) {
   return res;
 }
 
+/* A response that keeps producing bytes until it is destroyed. Used to prove
+   that redirect and non-200 bodies are terminated rather than drained. */
+function streamingResponse(status, headers) {
+  const res = new EventEmitter();
+  res.statusCode = status;
+  res.headers = headers || {};
+  res.socket = { remoteAddress: '93.184.216.34' };
+  res.chunks = 0;
+  res.resumed = false;
+  const timer = setInterval(function () {
+    if (res.destroyed) return;
+    res.chunks++;
+    res.emit('data', Buffer.from('x'));
+  }, 5);
+  res.destroy = function () {
+    res.destroyed = true;
+    clearInterval(timer);
+  };
+  res.resume = function () { res.resumed = true; };
+  return res;
+}
+
 function requestScript(script) {
   return function requestImpl(target, options, callback) {
     const req = new EventEmitter();
@@ -367,6 +389,36 @@ async function rejectsNeutral(name, promise) {
   }
 
   {
+    let allResult = null;
+    let singleResult = null;
+    const request = requestScript(function (ctx) {
+      ctx.options.lookup('images.example.com', { all: true }, function (err, addresses) {
+        allResult = { err: err && err.message, addresses: addresses };
+      });
+      ctx.options.lookup('images.example.com', {}, function (err, address, family) {
+        singleResult = { err: err && err.message, address: address, family: family };
+      });
+      ctx.callback(fakeResponse({
+        headers: { 'content-type': 'image/jpeg' },
+        chunks: ['abc']
+      }));
+    });
+    const data = await T.downloadImage('https://images.example.com/x.jpg', {
+      lookup: publicLookup,
+      request: request
+    });
+    assert.strictEqual(data, 'data:image/jpeg;base64,YWJj');
+    assert.strictEqual(allResult.err, null);
+    assert.ok(Array.isArray(allResult.addresses), 'opts.all must return an address array');
+    assert.strictEqual(allResult.addresses[0].address, '93.184.216.34');
+    assert.strictEqual(allResult.addresses[0].family, 4);
+    assert.strictEqual(singleResult.err, null);
+    assert.strictEqual(singleResult.address, '93.184.216.34');
+    assert.strictEqual(singleResult.family, 4);
+    pass('DNS lookup honors opts.all and the single-address form');
+  }
+
+  {
     let calls = 0;
     await rejectsNeutral('redirect to a prohibited destination is rejected',
       T.downloadImage('https://images.example.com/x.jpg', {
@@ -397,6 +449,38 @@ async function rejectsNeutral(name, promise) {
       }));
     assert.strictEqual(calls, 1);
   }
+
+  async function assertUnusedBodyTerminated(label, status, headers) {
+    let captured = null;
+    const request = requestScript(function (ctx) {
+      captured = streamingResponse(status, headers);
+      ctx.callback(captured);
+    });
+    try {
+      await assert.rejects(
+        T.downloadImage('https://images.example.com/x.jpg', {
+          lookup: publicLookup,
+          request: request
+        }),
+        function (err) {
+          assert.strictEqual(err && err.message, 'image_unavailable');
+          return true;
+        }
+      );
+      const before = captured.chunks;
+      await new Promise(function (resolve) { setTimeout(resolve, 30); });
+      assert.strictEqual(captured.destroyed, true, label + ': body was not destroyed');
+      assert.strictEqual(captured.chunks, before, label + ': stream continued after settle');
+      assert.ok(!captured.resumed, label + ': body was resumed instead of destroyed');
+      pass(label);
+    } finally {
+      if (captured) captured.destroy();
+    }
+  }
+
+  await assertUnusedBodyTerminated('redirect response body is terminated',
+    302, { location: 'https://127.0.0.1/x' });
+  await assertUnusedBodyTerminated('non-200 response body is terminated', 404, {});
 
   {
     let calls = 0;

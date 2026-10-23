@@ -338,7 +338,16 @@ function requestOnce(target, addresses, requestImpl, opts) {
       },
       /* Pin the connection to the address validated above. The hostname is
          still used for TLS SNI and certificate verification. */
-      lookup: function (hostname, opts, callback) {
+      lookup: function (hostname, lookupOpts, callback) {
+        /* Node may ask for every address (opts.all) when it wants to choose
+           among them. Return the validated set in that form; otherwise return
+           the validated first address in the single-address form. */
+        if (lookupOpts && lookupOpts.all) {
+          callback(null, addresses.map(function (a) {
+            return { address: a.address, family: a.family };
+          }));
+          return;
+        }
         callback(null, pinned.address, pinned.family);
       },
       timeout: timeoutMs,
@@ -366,12 +375,21 @@ function requestOnce(target, addresses, requestImpl, opts) {
         if (status >= 300 && status < 400) {
           let location = res.headers && (res.headers.location || res.headers.Location);
           if (Array.isArray(location)) location = location[0];
-          try { if (typeof res.resume === 'function') res.resume(); } catch (e) {}
-          if (!location) return fail();
-          return succeed({ redirect: String(location) });
+          if (!location) {
+            try { res.destroy(); } catch (e) {}
+            return fail();
+          }
+          /* Settle before terminating so an intentional destroy error cannot
+             turn the redirect into a failure. */
+          const redirect = String(location);
+          succeed({ redirect: redirect });
+          try { res.destroy(); } catch (e) {}
+          return;
         }
         if (status !== 200) {
-          try { if (typeof res.resume === 'function') res.resume(); } catch (e) {}
+          /* Unused bodies are terminated, not drained. A streaming error
+             response must not keep the socket or bandwidth after settle. */
+          try { res.destroy(); } catch (e) {}
           return fail();
         }
 
