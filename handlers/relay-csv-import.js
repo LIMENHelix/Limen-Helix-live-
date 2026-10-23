@@ -361,13 +361,19 @@ function requestOnce(target, addresses, requestImpl, opts) {
         /* Attach first so a destroy during a later rejection cannot surface as
            an unhandled response error. */
         res.on('error', fail);
-        if (settled) {
+        /* Unused response bodies are terminated together with their request,
+           so no socket or bandwidth survives the settled promise. */
+        function terminate() {
           try { res.destroy(); } catch (e) {}
+          try { req.destroy(); } catch (e) {}
+        }
+        if (settled) {
+          terminate();
           return;
         }
         const remote = res.socket && res.socket.remoteAddress;
         if (remote && isProhibitedAddress(remote)) {
-          try { res.destroy(); } catch (e) {}
+          terminate();
           return fail();
         }
 
@@ -376,20 +382,20 @@ function requestOnce(target, addresses, requestImpl, opts) {
           let location = res.headers && (res.headers.location || res.headers.Location);
           if (Array.isArray(location)) location = location[0];
           if (!location) {
-            try { res.destroy(); } catch (e) {}
+            terminate();
             return fail();
           }
           /* Settle before terminating so an intentional destroy error cannot
              turn the redirect into a failure. */
           const redirect = String(location);
           succeed({ redirect: redirect });
-          try { res.destroy(); } catch (e) {}
+          terminate();
           return;
         }
         if (status !== 200) {
           /* Unused bodies are terminated, not drained. A streaming error
              response must not keep the socket or bandwidth after settle. */
-          try { res.destroy(); } catch (e) {}
+          terminate();
           return fail();
         }
 
@@ -397,13 +403,13 @@ function requestOnce(target, addresses, requestImpl, opts) {
         if (Array.isArray(contentType)) contentType = contentType[0];
         contentType = String(contentType || '').toLowerCase().split(';')[0].trim();
         if (ALLOWED_IMAGE_TYPES.indexOf(contentType) === -1) {
-          try { res.destroy(); } catch (e) {}
+          terminate();
           return fail();
         }
 
         const declared = parseInt(res.headers && res.headers['content-length'], 10);
         if (Number.isFinite(declared) && declared > MAX_IMAGE_BYTES) {
-          try { res.destroy(); } catch (e) {}
+          terminate();
           return fail();
         }
 
@@ -414,7 +420,7 @@ function requestOnce(target, addresses, requestImpl, opts) {
           const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
           total += buffer.length;
           if (total > MAX_IMAGE_BYTES) {
-            try { res.destroy(); } catch (e) {}
+            terminate();
             return fail();
           }
           chunks.push(buffer);

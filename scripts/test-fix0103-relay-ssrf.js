@@ -452,7 +452,9 @@ async function rejectsNeutral(name, promise) {
 
   async function assertUnusedBodyTerminated(label, status, headers) {
     let captured = null;
+    let capturedReq = null;
     const request = requestScript(function (ctx) {
+      capturedReq = ctx.req;
       captured = streamingResponse(status, headers);
       ctx.callback(captured);
     });
@@ -470,6 +472,7 @@ async function rejectsNeutral(name, promise) {
       const before = captured.chunks;
       await new Promise(function (resolve) { setTimeout(resolve, 30); });
       assert.strictEqual(captured.destroyed, true, label + ': body was not destroyed');
+      assert.strictEqual(capturedReq.destroyed, true, label + ': request was not destroyed');
       assert.strictEqual(captured.chunks, before, label + ': stream continued after settle');
       assert.ok(!captured.resumed, label + ': body was resumed instead of destroyed');
       pass(label);
