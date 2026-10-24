@@ -24,7 +24,9 @@ It is superseded and removed by this correction.
   The verifier key and issuer come only from the server-side
   `ENERGY_E2E_VERIFIER_KEY` and `ENERGY_E2E_VERIFIER_ISSUER` channel. Cycle
   input, outcome objects and CLI flags cannot supply them. When the channel is
-  unset, the measured gate stays closed.
+  unset, the measured gate stays closed. A test-only key or non-external trust
+  mode remains `SIMULATED_TEST_ONLY` even when its signature is valid. Measured
+  also requires the issuer to be bound to the expected customer and order.
 - Fulfillment matches the existing `energy.p2` "Your Utility Rate Watch" offer.
   The portal issue, node and treatment are related context, not the purchased
   deliverable and not an automatic substitute.
@@ -77,10 +79,15 @@ Proved:
 - The stale gate prevents an order from a stale observation.
 - A synthetic acknowledgment remains explicitly synthetic and does not qualify as
   a measured independent outcome.
-- A verified-receipt gate exists and is regression-tested for valid, spoofed,
-  wrong-content, wrong-event, wrong-issuer, missing-verifier and replayed receipts.
+- A verified-receipt gate exists and is regression-tested for test-signed,
+  spoofed, wrong-content, wrong-event, wrong-issuer, missing-verifier, wrong
+  customer/order and replayed receipts.
+- A valid test-signed receipt is cryptographically checked but remains
+  simulated because the test key is not an external trust root. Test-only keys
+  cannot set measured.
 - Caller-signed receipts and caller-supplied verifier configuration cannot
-  elevate an outcome to measured; the verifier is server-environment only.
+  elevate an outcome to measured; the verifier is server-environment only and
+  bound to the expected customer and order.
 - The fulfillment matches the purchased Utility Rate Watch offer.
 - Test money is booked only as accounting-only test money; real revenue is zero.
 - The simulated learning changes the next proposed test decision and persists in
@@ -91,9 +98,9 @@ Not proved:
 - No real customer was contacted and no real external delivery occurred.
 - No real Stripe charge or production revenue occurred.
 - No separately verified real customer receipt was supplied, so no measured
-  independent outcome is claimed. The verified path is tested with a test-only
-  verifier configured through the server-side test environment, not through
-  cycle input, and it is not a real credential.
+  independent outcome is claimed. Test-only signatures remain simulated. The
+  measured gate stays open until an external verifier is actually provisioned;
+  no such verifier exists in this environment.
 
 ## Files
 

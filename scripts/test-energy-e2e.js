@@ -18,6 +18,7 @@ const TEST_VERIFIER_KEY = 'test-only-verification-key';
 const TEST_VERIFIER_ISSUER = 'test-customer-verifier';
 process.env.ENERGY_E2E_VERIFIER_KEY = TEST_VERIFIER_KEY;
 process.env.ENERGY_E2E_VERIFIER_ISSUER = TEST_VERIFIER_ISSUER;
+process.env.ENERGY_E2E_VERIFIER_TRUST = 'test';
 
 const cycle = require('../lib/energy-e2e-cycle');
 const catalog = require('../lib/offer-catalog');
@@ -133,6 +134,11 @@ async function prepareFulfilledOrder(store, customerRef, now) {
   await cycle.recordAccounting(store, created.order.orderId, now);
   const receipt = await store.get('e2e:receipt:' + created.order.orderId);
   return { customer: customer, order: created.order, receipt: receipt, fulfillment: fulfillment };
+}
+
+function bindVerifier(order, customerRef) {
+  process.env.ENERGY_E2E_VERIFIER_CUSTOMER_REFS = customerRef;
+  process.env.ENERGY_E2E_VERIFIER_ORDER_IDS = order.orderId;
 }
 
 (async function main() {
@@ -310,22 +316,27 @@ async function prepareFulfilledOrder(store, customerRef, now) {
   const verifier = { key: TEST_VERIFIER_KEY, issuer: TEST_VERIFIER_ISSUER };
   const verifiedStore = cycle.createMemoryStore();
   const verifiedPrepared = await prepareFulfilledOrder(verifiedStore, 'test-customer-verified', NOW);
+  bindVerifier(verifiedPrepared.order, verifiedPrepared.customer.customerRef);
   const verifiedOutcome = makeSignedOutcome(verifiedPrepared.order, verifiedPrepared.receipt, verifier);
   const verifiedResult = await cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, verifiedOutcome, NOW + 1000);
-  assert.strictEqual(verifiedResult.outcome.independent, true);
-  assert.strictEqual(verifiedResult.outcome.measured, true);
-  assert.strictEqual(verifiedResult.outcome.authority, 'VERIFIED_CUSTOMER_EVIDENCE');
+  assert.strictEqual(verifiedResult.outcome.independent, false);
+  assert.strictEqual(verifiedResult.outcome.measured, false);
+  assert.strictEqual(verifiedResult.outcome.authority, 'SIMULATED_TEST_ONLY');
+  assert.strictEqual(verifiedResult.outcome.simulated, true);
+  assert.strictEqual(verifiedResult.outcome.testOnly, true);
   assert.strictEqual(verifiedResult.outcome.verification.signatureVerified, true);
-  assert.strictEqual(verifiedResult.outcome.simulated, false);
+  assert.strictEqual(verifiedResult.outcome.verification.testOnly, true);
+  assert.strictEqual(verifiedResult.outcome.verification.measuredCapable, false);
   assert.strictEqual(verifiedResult.outcome.realCustomer, false);
   const verifiedLearning = await cycle.learn(verifiedStore, verifiedPrepared.order, verifiedResult.outcome, NOW + 1000);
-  assert.strictEqual(verifiedLearning.learning.authority, 'MEASURED_INDEPENDENT_OUTCOME');
-  assert.strictEqual(verifiedLearning.learning.measuredOutcome, true);
+  assert.strictEqual(verifiedLearning.learning.authority, 'SIMULATED_TEST_ONLY');
+  assert.strictEqual(verifiedLearning.learning.measuredOutcome, false);
+  assert.strictEqual(verifiedLearning.learning.simulated, true);
   const verifiedDecision = await cycle.decideNext(verifiedStore, verifiedPrepared.customer, null, NOW + 1000);
   assert.strictEqual(verifiedDecision.action, 'OFFER_STATE_OF_HEALTH_DIAGNOSTIC');
-  assert.strictEqual(verifiedDecision.measuredOutcome, true);
-  assert.strictEqual(verifiedDecision.simulated, false);
-  pass('separately signed receipt qualifies as measured independent evidence');
+  assert.strictEqual(verifiedDecision.measuredOutcome, false);
+  assert.strictEqual(verifiedDecision.simulated, true);
+  pass('valid test-signed receipt is verified but remains simulated; measured gate stays open');
 
   const badSignature = makeSignedOutcome(verifiedPrepared.order, verifiedPrepared.receipt, verifier, {
     signature: '0'.repeat(64)
@@ -374,6 +385,7 @@ async function prepareFulfilledOrder(store, customerRef, now) {
   pass('missing verifier channel or provenance cannot become a measured outcome');
 
   const replayPrepared = await prepareFulfilledOrder(verifiedStore, 'test-customer-replay', NOW + 1);
+  bindVerifier(replayPrepared.order, replayPrepared.customer.customerRef);
   const replayed = makeSignedOutcome(replayPrepared.order, replayPrepared.receipt, verifier, {
     receiptId: verifiedOutcome.receiptId,
     eventAt: new Date(NOW + 2).toISOString()
@@ -383,6 +395,17 @@ async function prepareFulfilledOrder(store, customerRef, now) {
   pass('a receipt identity cannot be replayed on another order');
 
   const attackerPrepared = await prepareFulfilledOrder(verifiedStore, 'test-customer-attacker', NOW + 3);
+  const bindingOutcome = makeSignedOutcome(attackerPrepared.order, attackerPrepared.receipt, verifier, {
+    receiptId: 'rcpt_binding_001',
+    eventAt: new Date(NOW + 4).toISOString()
+  });
+  process.env.ENERGY_E2E_VERIFIER_CUSTOMER_REFS = 'wrong-customer';
+  process.env.ENERGY_E2E_VERIFIER_ORDER_IDS = attackerPrepared.order.orderId;
+  await assert.rejects(cycle.recordOutcome(verifiedStore, attackerPrepared.order.orderId, bindingOutcome, NOW + 3000),
+    function (err) { return err.code === 'OUTCOME_CUSTOMER_OR_ORDER_NOT_AUTHORIZED'; });
+  pass('issuer authorization is bound to the expected customer and order');
+  bindVerifier(attackerPrepared.order, attackerPrepared.customer.customerRef);
+
   const attacker = { key: 'attacker-only-key', issuer: 'attacker-issuer' };
   const attackerWrongIssuer = makeSignedOutcome(attackerPrepared.order, attackerPrepared.receipt, attacker, {
     receiptId: 'rcpt_attacker_001',
@@ -404,6 +427,9 @@ async function prepareFulfilledOrder(store, customerRef, now) {
   assert.ok(!/outcomeVerifier/.test(cycleSource), 'caller-controlled verifier input must not exist');
   assert.ok(/ENERGY_E2E_VERIFIER_KEY/.test(verifierSource));
   assert.ok(/ENERGY_E2E_VERIFIER_ISSUER/.test(verifierSource));
+  assert.ok(/ENERGY_E2E_VERIFIER_TRUST/.test(verifierSource));
+  assert.ok(/ENERGY_E2E_VERIFIER_CUSTOMER_REFS/.test(verifierSource));
+  assert.ok(/ENERGY_E2E_VERIFIER_ORDER_IDS/.test(verifierSource));
   pass('verifier configuration is server-environment only');
 
   console.log('ENERGY-E2E refund and file store');
