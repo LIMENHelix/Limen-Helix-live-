@@ -1,0 +1,148 @@
+{
+  "generatedAt": 1792801237737,
+  "_ageSeconds": 751,
+  "_stale": true,
+  "domains": {
+    "energy": {
+      "stress": 1,
+      "activity": 0.13,
+      "confidence": 0.89,
+      "maturity": "STRUCTURAL",
+      "phase": "p5",
+      "phaseLabel": "ENDURANCE",
+      "status": "LIVE",
+      "liveCount": 18,
+      "topSignal": "5 event clusters (nuclear threat)",
+      "topSignalUrl": null,
+      "topSignalSource": null,
+      "sources": [
+        {
+          "name": "Massive Crude Oil",
+          "live": true,
+          "channel": "stress"
+        },
+        {
+          "name": "FRED Crude Oil",
+          "live": true,
+          "channel": "stress"
+        },
+        {
+          "name": "EIA Petroleum",
+          "live": true,
+          "channel": "stress"
+        },
+        {
+          "name": "Grid Reliability (FERC/NERC)",
+          "live": true,
+          "channel": "stress"
+        },
+        {
+          "name": "EIA Natural Gas Weekly",
+          "live": true,
+          "channel": "stress"
+        },
+        {
+          "name": "EIA Weekly Petroleum Status",
+          "live": true,
+          "channel": "stress"
+        },
+        {
+          "name": "OPEC Reference Basket",
+          "live": true,
+          "channel": "stress"
+        },
+        {
+          "name": "Nuclear Energy News",
+          "live": true,
+          "channel": "stress"
+        },
+        {
+          "name": "EIA Electricity Monthly",
+          "live": true,
+          "channel": "stress"
+        },
+        {
+          "name": "NOAA NWS Alerts",
+          "live": true,
+          "channel": "stress"
+        },
+        {
+          "name": "CISA KEV",
+          "live": true,
+          "channel": "stress"
+        },
+        {
+          "name": "Fed Reg NRC",
+          "live": true,
+          "channel": "stress"
+        },
+        {
+          "name": "Fed Reg DOE",
+          "live": true,
+          "channel": "stress"
+        },
+        {
+          "name": "LNG Market News",
+          "live": true,
+          "channel": "stress"
+        },
+        {
+          "name": "IEA Energy News",
+          "live": true,
+          "channel": "stress"
+        },
+        {
+          "name": "Solar Industry News",
+          "live": true,
+          "channel": "stress"
+        },
+        {
+          "name": "Wind Energy News",
+          "live": true,
+          "channel": "stress"
+        },
+        {
+          "name": "Coal Transition News",
+          "live": true,
+          "channel": "stress"
+        }
+      ],
+      "_channels": {
+        "stressDriverCount": 5,
+        "activitySourceCount": 13,
+        "contextSourceCount": 0,
+        "eventFeedCount": 11
+      },
+      "_confidence": {
+        "sourceQuality": 0.73,
+        "corroboration": 1,
+        "specificity": 0.89,
+        "recency": 1
+      },
+      "phasePrior": "p5",
+      "phaseGrounded": false,
+      "phasePrecision": 0,
+      "phaseDivergent": false,
+      "phaseSalience": "prior-only (ungrounded)",
+      "phaseEvidence": {
+        "scored": 0,
+        "coverage": 0,
+        "distribution": {}
+      },
+      "phaseSource": "stress-heuristic",
+      "groundedStress": {
+        "grounded": false,
+        "stress": null,
+        "reason": "thin coverage (0 scored < 4) — abstain (feed-stress fallback)"
+      }
+    }
+  },
+  "_capture": {
+    "endpoint": "https://limenhelix.com/api/limen-snapshot?type=console",
+    "method": "GET",
+    "capturedAt": "2026-10-24T00:33:16.010Z",
+    "sha256": "2c33a681347a769617e9c4475f8d2f7dff5db525c70853ffc9243012177958ec",
+    "retainedProjection": "generatedAt, _ageSeconds, _stale, domains.energy",
+    "note": "Public read-only capture. No credentials. Full all-domain response is not retained."
+  }
+}

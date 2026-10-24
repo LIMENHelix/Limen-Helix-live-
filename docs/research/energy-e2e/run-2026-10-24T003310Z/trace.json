@@ -1,0 +1,752 @@
+{
+  "schemaVersion": "energy-e2e-cycle/1.0",
+  "runId": "e2e_9f37fec7d74969d7",
+  "mode": "TEST",
+  "status": "COMPLETE",
+  "generatedAt": "2026-10-24T00:33:16.018Z",
+  "observation": {
+    "sourceEndpoint": "https://limenhelix.com/api/limen-snapshot?type=console",
+    "capturedAt": "2026-10-24T00:33:16.010Z",
+    "generatedAt": "2026-10-24T00:20:37.737Z",
+    "ageSeconds": 758,
+    "computedAgeSeconds": 758,
+    "reportedAgeSeconds": 751,
+    "stress": 1,
+    "maturity": "STRUCTURAL",
+    "phase": "p5",
+    "phaseLabel": "ENDURANCE",
+    "confidence": 0.89,
+    "sourceQuality": 0.73,
+    "corroboration": 1,
+    "specificity": 0.89,
+    "recency": 1,
+    "liveSourceCount": 18,
+    "sourceCount": 18,
+    "topSignal": "5 event clusters (nuclear threat)",
+    "sources": [
+      {
+        "name": "Massive Crude Oil",
+        "live": true,
+        "channel": "stress"
+      },
+      {
+        "name": "FRED Crude Oil",
+        "live": true,
+        "channel": "stress"
+      },
+      {
+        "name": "EIA Petroleum",
+        "live": true,
+        "channel": "stress"
+      },
+      {
+        "name": "Grid Reliability (FERC/NERC)",
+        "live": true,
+        "channel": "stress"
+      },
+      {
+        "name": "EIA Natural Gas Weekly",
+        "live": true,
+        "channel": "stress"
+      },
+      {
+        "name": "EIA Weekly Petroleum Status",
+        "live": true,
+        "channel": "stress"
+      },
+      {
+        "name": "OPEC Reference Basket",
+        "live": true,
+        "channel": "stress"
+      },
+      {
+        "name": "Nuclear Energy News",
+        "live": true,
+        "channel": "stress"
+      },
+      {
+        "name": "EIA Electricity Monthly",
+        "live": true,
+        "channel": "stress"
+      },
+      {
+        "name": "NOAA NWS Alerts",
+        "live": true,
+        "channel": "stress"
+      },
+      {
+        "name": "CISA KEV",
+        "live": true,
+        "channel": "stress"
+      },
+      {
+        "name": "Fed Reg NRC",
+        "live": true,
+        "channel": "stress"
+      },
+      {
+        "name": "Fed Reg DOE",
+        "live": true,
+        "channel": "stress"
+      },
+      {
+        "name": "LNG Market News",
+        "live": true,
+        "channel": "stress"
+      },
+      {
+        "name": "IEA Energy News",
+        "live": true,
+        "channel": "stress"
+      },
+      {
+        "name": "Solar Industry News",
+        "live": true,
+        "channel": "stress"
+      },
+      {
+        "name": "Wind Energy News",
+        "live": true,
+        "channel": "stress"
+      },
+      {
+        "name": "Coal Transition News",
+        "live": true,
+        "channel": "stress"
+      }
+    ],
+    "observationSha256": "2a6b6c21ebb8f52ae5d612a855d4c339582de946f9d8d8685f00c368134edcb2",
+    "inputSha256": "2c33a681347a769617e9c4475f8d2f7dff5db525c70853ffc9243012177958ec"
+  },
+  "thingTwo": {
+    "phase": "p5",
+    "phaseLabel": "ENDURANCE",
+    "phaseSource": "stress-heuristic",
+    "grounded": false,
+    "precision": 0,
+    "temporalEvidence": "LATEST_ONLY",
+    "seriesAvailable": false,
+    "authority": "OBSERVE_ONLY_NOT_A_COMPANY_VERDICT",
+    "abstentionReasons": [
+      "phase_is_a_feed_heuristic_not_a_validated_temporal_claim",
+      "thing_two_never_confers_thing_one_validation",
+      "no_phase_time_series"
+    ]
+  },
+  "issue": {
+    "id": "SYSTEMIC_ENERGY_STRESS",
+    "label": "Systemic Energy Stress",
+    "summary": "Sustained pressure across the energy system from combined high stress, structural strain, and macro shock conditions, creating cumulative load on policy, market, grid, demand, storage, and generation subsystems without a single isolated failure point.",
+    "score": 5,
+    "selectionEvidence": [
+      "stress>=0.50",
+      "maturity=STRUCTURAL",
+      "phase=p5"
+    ],
+    "inference": true,
+    "authority": "MODEL_INFERENCE_FROM_OBSERVED_STATE",
+    "alternatives": [
+      {
+        "id": "NUCLEAR_INCIDENT",
+        "score": 5,
+        "reasons": [
+          "topSignal names a nuclear condition",
+          "stress>=0.50"
+        ],
+        "rejected": "not_relevant_to_service_asset"
+      },
+      {
+        "id": "OIL_SHOCK",
+        "score": 1,
+        "reasons": [
+          "stress>=0.50"
+        ],
+        "rejected": "not_relevant_to_service_asset"
+      },
+      {
+        "id": "GRID_COLLAPSE",
+        "score": 0,
+        "reasons": [],
+        "rejected": "not_relevant_to_service_asset"
+      },
+      {
+        "id": "PIPELINE_DISRUPTION",
+        "score": 0,
+        "reasons": [],
+        "rejected": "not_relevant_to_service_asset"
+      },
+      {
+        "id": "RENEWABLE_INTERMITTENCY",
+        "score": 0,
+        "reasons": [],
+        "rejected": "no_portal_treatment"
+      }
+    ],
+    "serviceRelevance": "constrained_to_small commercial battery storage operator"
+  },
+  "node": {
+    "nodeId": "HIPP",
+    "canonical": true,
+    "class": "real",
+    "canBindBusiness": true,
+    "role": "HPA feedback + memory index",
+    "businessFunction": "self-correcting loops (inventory reorder, budget-to-actual variance, automatic stabilizers)",
+    "energyRole": "Battery Storage"
+  },
+  "treatment": {
+    "selected": {
+      "label": "Battery Management System Optimization",
+      "type": "STRUCTURAL",
+      "description": "Implement advanced charge-discharge algorithms, thermal management, and cell balancing to maximize cycle life, safety, and usable capacity across battery fleet operations.",
+      "evidence": "Strong",
+      "node": "HIPP",
+      "canonicalBindable": true
+    },
+    "supporting": [
+      {
+        "label": "State-of-Health Diagnostics",
+        "type": "DIAGNOSTIC",
+        "description": "Deploy electrochemical impedance spectroscopy and capacity fade modeling to track battery degradation trajectories and schedule replacements before performance drops below threshold.",
+        "evidence": "Strong"
+      }
+    ],
+    "authority": "PORTAL_EVIDENCE_STRONG",
+    "notACompanyVerdict": true
+  },
+  "service": {
+    "offerId": "energy.p2",
+    "name": "Your Utility Rate Watch",
+    "line": "Rate and bill-pressure for the utility or state you name, re-cut as new readings land.",
+    "cadence": "monthly, as bills and readings arrive",
+    "priceCents": 400,
+    "customerClass": "small commercial battery storage operator",
+    "deliverable": "Utility rate and storage stress brief (test artifact)",
+    "authority": "PROPOSED_TEST_ONLY",
+    "realOutreachAuthorized": false
+  },
+  "customer": {
+    "customerRef": "test-customer-energy-001",
+    "customerClass": "small commercial battery storage operator",
+    "customerLabel": "Test Storage Operator 001",
+    "utility": "Test Utility Co",
+    "region": "Test Region",
+    "reading": {
+      "billUsd": 180,
+      "kwh": 1200,
+      "billShock": 0.22,
+      "ratePressure": 0.18,
+      "outageCount": 2
+    },
+    "realCustomer": false,
+    "pii": false
+  },
+  "decisions": {
+    "before": {
+      "action": "SEND_UTILITY_RATE_WATCH",
+      "reason": "no prior test outcome requesting diagnostics",
+      "authority": "PROPOSED_TEST_ONLY",
+      "testAuthorization": "test-operator",
+      "realOutreachAuthorized": false,
+      "learningRef": null,
+      "decidedAt": "2026-10-24T00:33:16.018Z"
+    },
+    "after": {
+      "action": "OFFER_STATE_OF_HEALTH_DIAGNOSTIC",
+      "reason": "prior test outcome acknowledged and requested diagnostics",
+      "authority": "PROPOSED_TEST_ONLY",
+      "testAuthorization": "test-operator",
+      "realOutreachAuthorized": false,
+      "learningRef": "learn_test_7f895e0a05f33dc2",
+      "decidedAt": "2026-10-24T00:33:16.018Z"
+    },
+    "changed": true
+  },
+  "order": {
+    "orderId": "ord_test_350718c1e76e1580",
+    "mode": "test",
+    "liveMoney": false,
+    "realRevenue": false,
+    "status": "FULFILLED",
+    "customerRef": "test-customer-energy-001",
+    "offerId": "energy.p2",
+    "offerName": "Your Utility Rate Watch",
+    "amountCents": 400,
+    "currency": "usd",
+    "createdAt": "2026-10-24T00:33:16.018Z",
+    "idempotencyKey": "energy-e2e:test-customer-energy-001:energy.p2",
+    "authorization": "test-operator",
+    "externalEffectExecuted": false,
+    "fulfillingAt": "2026-10-24T00:33:16.018Z",
+    "fulfilledAt": "2026-10-24T00:33:16.018Z",
+    "deliverableHash": "fcc437b68fb76fb8676f1a25218dfc5ee2e2d271e77c8edb610957719b5bfe72",
+    "receiptId": "del_test_4011a3f6275f09f4"
+  },
+  "fulfillment": {
+    "receipt": {
+      "receiptId": "del_test_4011a3f6275f09f4",
+      "orderId": "ord_test_350718c1e76e1580",
+      "customerRef": "test-customer-energy-001",
+      "contentHash": "fcc437b68fb76fb8676f1a25218dfc5ee2e2d271e77c8edb610957719b5bfe72",
+      "deliveredAt": "2026-10-24T00:33:16.018Z",
+      "channel": "isolated-test-artifact",
+      "delivered": true,
+      "realExternalDelivery": false,
+      "mode": "test"
+    },
+    "duplicate": false,
+    "deliverableTitle": "Energy Watch: Utility Rate and Storage Stress Brief (TEST)",
+    "deliverableHash": "fcc437b68fb76fb8676f1a25218dfc5ee2e2d271e77c8edb610957719b5bfe72"
+  },
+  "accounting": {
+    "receipts": [
+      {
+        "receiptId": "ctr_915e03042d8c9d59866c620d50e4",
+        "kind": "SALE_CAPTURED",
+        "status": "POSTED",
+        "accountingOnly": true,
+        "externalEffectExecuted": false
+      },
+      {
+        "receiptId": "ctr_a80cdc1d1c0bd63d889605d971f4",
+        "kind": "SALE_SETTLED",
+        "status": "POSTED",
+        "accountingOnly": true,
+        "externalEffectExecuted": false
+      },
+      {
+        "receiptId": "ctr_eed3ef63f47767f3b77e83cec47b",
+        "kind": "EXPENSE",
+        "status": "POSTED",
+        "accountingOnly": true,
+        "externalEffectExecuted": false
+      }
+    ],
+    "testRevenueCents": 400,
+    "testCostCents": 50,
+    "testContributionCents": 350,
+    "realRevenueCents": 0,
+    "energyAccount": {
+      "productDomain": "energy",
+      "availableCashCents": 350,
+      "pendingCashCents": 0,
+      "reservedCashCents": 0,
+      "committedCashCents": 0,
+      "recognizedRevenueCents": 400,
+      "costsCents": 50,
+      "obligationsCents": 0,
+      "statutoryTaxLiabilityCents": 0,
+      "disputeHoldCents": 0,
+      "civilizationLevyPaidCents": 0,
+      "contributionsCents": 0,
+      "capitalizationReceivedCents": 0,
+      "spendableCents": 350
+    },
+    "projection": {
+      "schemaVersion": "civilization-treasury-projection/1.0",
+      "generatedAt": "2026-10-24T00:33:16.066Z",
+      "currency": "usd",
+      "domainCount": 20,
+      "receiptCount": 3,
+      "accounts": [
+        {
+          "productDomain": "agriculture",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        },
+        {
+          "productDomain": "communication",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        },
+        {
+          "productDomain": "culture",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        },
+        {
+          "productDomain": "defense",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        },
+        {
+          "productDomain": "economy",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        },
+        {
+          "productDomain": "education",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        },
+        {
+          "productDomain": "energy",
+          "availableCashCents": 350,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 400,
+          "costsCents": 50,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 350
+        },
+        {
+          "productDomain": "environment",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        },
+        {
+          "productDomain": "finance",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        },
+        {
+          "productDomain": "governance",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        },
+        {
+          "productDomain": "industry",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        },
+        {
+          "productDomain": "infrastructure",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        },
+        {
+          "productDomain": "intelligence",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        },
+        {
+          "productDomain": "law",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        },
+        {
+          "productDomain": "medicine",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        },
+        {
+          "productDomain": "population",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        },
+        {
+          "productDomain": "religion",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        },
+        {
+          "productDomain": "science",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        },
+        {
+          "productDomain": "technology",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        },
+        {
+          "productDomain": "trade",
+          "availableCashCents": 0,
+          "pendingCashCents": 0,
+          "reservedCashCents": 0,
+          "committedCashCents": 0,
+          "recognizedRevenueCents": 0,
+          "costsCents": 0,
+          "obligationsCents": 0,
+          "statutoryTaxLiabilityCents": 0,
+          "disputeHoldCents": 0,
+          "civilizationLevyPaidCents": 0,
+          "contributionsCents": 0,
+          "capitalizationReceivedCents": 0,
+          "spendableCents": 0
+        }
+      ],
+      "conserved": true,
+      "protectedBalancesNonnegative": true,
+      "outboundMoneyAuthorized": false,
+      "blockers": [
+        "external-balance-reconciliation-not-connected",
+        "atomic-spend-reservation-not-implemented",
+        "outbound-payment-adapter-not-authorized"
+      ],
+      "interpretation": "accounting and reconciliation projection only; no payment or transfer authority"
+    }
+  },
+  "outcome": {
+    "outcomeId": "out_test_5897c6d9c17a96ac",
+    "orderId": "ord_test_350718c1e76e1580",
+    "customerRef": "test-customer-energy-001",
+    "acknowledged": true,
+    "diagnosticRequested": true,
+    "source": "test-customer-receipt",
+    "evidenceRef": "test-customer-ack-001",
+    "actor": "test-customer",
+    "recordedAt": "2026-10-24T00:33:16.018Z",
+    "independent": true,
+    "realCustomer": false,
+    "mode": "test"
+  },
+  "learning": {
+    "learningId": "learn_test_7f895e0a05f33dc2",
+    "customerRef": "test-customer-energy-001",
+    "lastOrderId": "ord_test_350718c1e76e1580",
+    "outcomeId": "out_test_5897c6d9c17a96ac",
+    "acknowledged": true,
+    "diagnosticRequested": true,
+    "nextAction": "OFFER_STATE_OF_HEALTH_DIAGNOSTIC",
+    "reason": "prior test outcome acknowledged and requested diagnostics",
+    "updatedAt": "2026-10-24T00:33:16.018Z",
+    "mode": "test",
+    "authority": "TEST_LEARNING_ONLY",
+    "realOutreachAuthorized": false
+  },
+  "audit": {
+    "stream": "energy-e2e",
+    "verify": {
+      "ok": true,
+      "length": 7,
+      "brokenAt": -1,
+      "reason": null,
+      "partial": false,
+      "boundaryChecked": false,
+      "head": "ef64df1fa76ccba0eca1f57260c6fea1a571e9e9ed66418a5f5e87cb4b5e9e24",
+      "firstSeq": 0,
+      "lastSeq": 6,
+      "genesisAnchored": true
+    }
+  },
+  "actionStates": {
+    "observedFact": true,
+    "modelInference": true,
+    "testOrderCreated": true,
+    "fulfilled": true,
+    "accounted": true,
+    "measuredOutcome": true,
+    "learningApplied": true,
+    "nextDecisionChanged": true
+  },
+  "guarantees": {
+    "testOnly": true,
+    "liveMoney": false,
+    "realRevenue": false,
+    "realExternalDelivery": false,
+    "productionWrites": false,
+    "customerContacted": false,
+    "realCredentialsUsed": false,
+    "thingOneAuthorityUsed": false
+  },
+  "limitations": [
+    "Thing Two phase is latest-only and may be ungrounded; no persisted phase series exists.",
+    "The selected issue is a model inference constrained to the service asset, not a validated diagnosis.",
+    "The customer, order, delivery, outcome and learning are TEST artifacts. No real customer, money, email or production write exists.",
+    "The service is the existing energy.p2 offer; the brief content is generated deterministically from observed and portal data."
+  ]
+}
