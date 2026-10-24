@@ -87,13 +87,24 @@ async function main() {
     process.exit(2);
   }
   const customer = arg('customer', '') ? readJson(arg('customer', '')) : cycle.TEST_CUSTOMER;
-  const outcome = arg('outcome', '') ? readJson(arg('outcome', '')) : cycle.TEST_OUTCOME;
+  const outcomePath = arg('outcome', '');
+  let outcome;
+  if (outcomePath) {
+    outcome = readJson(outcomePath);
+  } else if (flag('synthetic-outcome')) {
+    outcome = cycle.TEST_OUTCOME;
+  } else {
+    console.error('FATAL: pass --outcome <json> or --synthetic-outcome; no outcome is assumed');
+    process.exit(2);
+  }
   if (customer.mode !== 'test' || outcome.mode !== 'test') {
     console.error('FATAL: this runner accepts TEST customer and TEST outcome only');
     process.exit(2);
   }
 
   fs.mkdirSync(outDir, { recursive: true });
+  fs.writeFileSync(path.join(outDir, 'customer.json'), JSON.stringify(customer, null, 2) + '\n');
+  fs.writeFileSync(path.join(outDir, 'outcome-input.json'), JSON.stringify(outcome, null, 2) + '\n');
   const store = cycle.createFileStore(outDir);
   const result = await cycle.runCycle(store, {
     snapshot: snapshot,
@@ -128,6 +139,10 @@ async function main() {
     decisionBefore: result.decisions ? result.decisions.before.action : null,
     decisionAfter: result.decisions ? result.decisions.after.action : null,
     decisionChanged: result.decisions ? result.decisions.before.action !== result.decisions.after.action : false,
+    outcomeMeasured: result.trace.outcome ? result.trace.outcome.measured === true : false,
+    outcomeIndependent: result.trace.outcome ? result.trace.outcome.independent === true : false,
+    learningAuthority: result.trace.learning ? result.trace.learning.authority : null,
+    syntheticOutcome: outcome.provenance === 'synthetic_test_fixture',
     auditOk: result.trace.audit && result.trace.audit.verify ? result.trace.audit.verify.ok : null,
     outputDir: outDir
   };

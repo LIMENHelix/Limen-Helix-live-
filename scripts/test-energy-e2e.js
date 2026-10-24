@@ -10,6 +10,7 @@
  */
 
 const assert = require('node:assert');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
@@ -50,7 +51,7 @@ function fixture(overrides) {
   return {
     generatedAt: overrides && overrides.generatedAt != null ? overrides.generatedAt : NOW - 60000,
     _ageSeconds: overrides && overrides._ageSeconds != null ? overrides._ageSeconds : 60,
-    _stale: true,
+    _stale: overrides && overrides._stale != null ? overrides._stale : false,
     _capture: {
       endpoint: 'fixture://energy',
       capturedAt: new Date(NOW - 60000).toISOString(),
@@ -79,6 +80,56 @@ async function countKeys(store, prefix) {
   return keys.filter(function (k) { return k.indexOf(prefix) === 0; }).length;
 }
 
+function stable(value) {
+  if (value === null || typeof value !== 'object') return JSON.stringify(value);
+  if (Array.isArray(value)) return '[' + value.map(stable).join(',') + ']';
+  return '{' + Object.keys(value).filter(function (k) { return value[k] !== undefined; }).sort()
+    .map(function (k) { return JSON.stringify(k) + ':' + stable(value[k]); }).join(',') + '}';
+}
+
+function signOutcome(order, outcome, verifier) {
+  const payload = stable({
+    orderId: order.orderId,
+    customerRef: order.customerRef,
+    receiptId: outcome.receiptId,
+    eventAt: outcome.eventAt,
+    contentHash: outcome.contentHash,
+    acknowledged: outcome.acknowledged === true,
+    diagnosticRequested: outcome.diagnosticRequested === true
+  });
+  return crypto.createHmac('sha256', verifier.key).update(payload).digest('hex');
+}
+
+function makeSignedOutcome(order, receipt, verifier, opts) {
+  opts = opts || {};
+  const outcome = {
+    mode: 'test',
+    provenance: 'verified_customer_receipt',
+    acknowledged: true,
+    diagnosticRequested: true,
+    receiptId: opts.receiptId || 'rcpt_test_verified_001',
+    eventAt: opts.eventAt || new Date(NOW + 1).toISOString(),
+    contentHash: opts.contentHash || receipt.contentHash,
+    actor: 'verified-test-customer',
+    sourceAuthenticity: { issuer: opts.issuer || verifier.issuer }
+  };
+  outcome.sourceAuthenticity.signature = opts.signature || signOutcome(order, outcome, verifier);
+  return outcome;
+}
+
+async function prepareFulfilledOrder(store, customerRef, now) {
+  const customer = Object.assign({}, cycle.TEST_CUSTOMER, { customerRef: customerRef });
+  const created = await cycle.createTestOrder(store, {
+    mode: 'test', authorization: cycle.TEST_ORDER_AUTHORIZATION,
+    customerRef: customerRef, offer: offer
+  }, now);
+  const assessment = cycle.assessObservation(fixture(), now, domain, canonicalNodes, nodeDomains, cycle.SERVICE, offer);
+  const fulfillment = await cycle.fulfillOrder(store, created.order.orderId, assessment, customer, now);
+  await cycle.recordAccounting(store, created.order.orderId, now);
+  const receipt = await store.get('e2e:receipt:' + created.order.orderId);
+  return { customer: customer, order: created.order, receipt: receipt, fulfillment: fulfillment };
+}
+
 (async function main() {
   console.log('ENERGY-E2E happy path');
   const store = cycle.createMemoryStore();
@@ -105,17 +156,36 @@ async function countKeys(store, prefix) {
   assert.strictEqual(result.trace.outcome.acknowledged, true);
   assert.strictEqual(result.trace.outcome.diagnosticRequested, true);
   assert.strictEqual(result.trace.outcome.realCustomer, false);
+  assert.strictEqual(result.trace.outcome.independent, false);
+  assert.strictEqual(result.trace.outcome.measured, false);
+  assert.strictEqual(result.trace.outcome.actor, 'test-harness');
+  assert.strictEqual(result.trace.outcome.authority, 'SIMULATED_TEST_ONLY');
   assert.strictEqual(result.trace.learning.nextAction, 'OFFER_STATE_OF_HEALTH_DIAGNOSTIC');
+  assert.strictEqual(result.trace.learning.authority, 'SIMULATED_TEST_ONLY');
+  assert.strictEqual(result.trace.learning.measuredOutcome, false);
+  assert.strictEqual(result.trace.learning.simulated, true);
   assert.strictEqual(result.decisions.before.action, 'SEND_UTILITY_RATE_WATCH');
   assert.strictEqual(result.decisions.after.action, 'OFFER_STATE_OF_HEALTH_DIAGNOSTIC');
+  assert.strictEqual(result.decisions.after.simulated, true);
+  assert.strictEqual(result.decisions.after.measuredOutcome, false);
   assert.strictEqual(result.trace.decisions.changed, true);
   assert.strictEqual(result.decisions.after.testAuthorization, 'test-operator');
+  assert.strictEqual(result.trace.actionStates.measuredOutcome, false);
+  assert.strictEqual(result.trace.actionStates.learningApplied, 'SIMULATED_ONLY');
+  assert.strictEqual(result.trace.guarantees.measuredOutcome, false);
+  assert.strictEqual(result.trace.guarantees.simulatedOutcome, true);
   assert.strictEqual(result.trace.audit.verify.ok, true);
   assert.ok(result.trace.audit.verify.length > 0);
   assert.strictEqual(result.trace.guarantees.realRevenue, false);
   assert.strictEqual(result.trace.guarantees.productionWrites, false);
   assert.strictEqual(result.trace.guarantees.thingOneAuthorityUsed, false);
   assert.strictEqual(result.deliverable.contentHash, result.trace.fulfillment.deliverableHash);
+  assert.strictEqual(result.trace.service.name, 'Your Utility Rate Watch');
+  assert.strictEqual(result.trace.service.deliverable, 'Utility rate and bill-pressure watch brief (test artifact)');
+  assert.strictEqual(result.trace.fulfillment.deliverableTitle, 'Energy Watch: Utility Rate Watch Brief (TEST)');
+  assert.ok(result.deliverable.markdown.indexOf('Your utility rate watch') >= 0);
+  assert.ok(result.deliverable.markdown.indexOf('Purchased offer: Your Utility Rate Watch') >= 0);
+  assert.ok(result.deliverable.markdown.indexOf('Related portal context (not the purchased deliverable)') >= 0);
   assert.ok(result.deliverable.markdown.indexOf('TEST') >= 0);
   assert.ok(result.deliverable.markdown.indexOf('Battery Management System Optimization') >= 0);
   assert.ok(result.deliverable.markdown.indexOf('observe-only') >= 0 || result.deliverable.markdown.indexOf('Observe-only') >= 0);
@@ -170,14 +240,26 @@ async function countKeys(store, prefix) {
   assert.strictEqual(await countKeys(emptyStore, 'e2e:receipt:'), 0);
   pass('missing observation abstains before any order');
 
-  const staleStore = cycle.createMemoryStore();
-  const stale = await cycle.runCycle(staleStore, input(staleStore, fixture({
-    generatedAt: NOW - 1000 * 1000, _ageSeconds: 1000
+  const staleFlagStore = cycle.createMemoryStore();
+  const staleFlag = await cycle.runCycle(staleFlagStore, input(staleFlagStore, fixture({
+    _stale: true, generatedAt: NOW - 60000, _ageSeconds: 60
   })));
-  assert.strictEqual(stale.trace.status, 'ABSTAINED');
-  assert.ok(stale.trace.abstention.reasons.indexOf('observation_too_old_for_a_proposal') >= 0);
-  assert.strictEqual(await countKeys(staleStore, 'e2e:order:'), 0);
-  pass('stale observation abstains before any order');
+  assert.strictEqual(staleFlag.trace.status, 'ABSTAINED');
+  assert.ok(staleFlag.trace.abstention.reasons.indexOf('snapshot_marked_stale') >= 0);
+  assert.strictEqual(await countKeys(staleFlagStore, 'e2e:order:'), 0);
+  assert.strictEqual(await countKeys(staleFlagStore, 'e2e:receipt:'), 0);
+  assert.strictEqual(await countKeys(staleFlagStore, 'e2e:outcome:'), 0);
+  assert.strictEqual(await countKeys(staleFlagStore, 'e2e:learning:'), 0);
+  pass('snapshot _stale:true abstains before any order, delivery, accounting or learning');
+
+  const staleAgeStore = cycle.createMemoryStore();
+  const staleAge = await cycle.runCycle(staleAgeStore, input(staleAgeStore, fixture({
+    _stale: false, generatedAt: NOW - 400000, _ageSeconds: 400
+  })));
+  assert.strictEqual(staleAge.trace.status, 'ABSTAINED');
+  assert.ok(staleAge.trace.abstention.reasons.indexOf('observation_too_old_for_an_order') >= 0);
+  assert.strictEqual(await countKeys(staleAgeStore, 'e2e:order:'), 0);
+  pass('observation older than 300 seconds abstains before any order');
 
   const quietStore = cycle.createMemoryStore();
   const quiet = await cycle.runCycle(quietStore, input(quietStore, fixture({
@@ -200,6 +282,96 @@ async function countKeys(store, prefix) {
   }, NOW), function (err) { return err.code === 'SERVICE_OFFER_MISMATCH'; });
   assert.strictEqual(await countKeys(authStore, 'e2e:order:'), 0);
   pass('unauthorized, live-mode and tampered-price orders fail closed');
+
+  console.log('ENERGY-E2E outcome provenance');
+  const noOutcomeStore = cycle.createMemoryStore();
+  await assert.rejects(cycle.runCycle(noOutcomeStore, input(noOutcomeStore, fixture(), { outcome: null })),
+    function (err) { return err.code === 'OUTCOME_REQUIRED'; });
+  assert.strictEqual(await countKeys(noOutcomeStore, 'e2e:order:'), 0);
+  pass('runCycle no longer invents a default outcome');
+
+  const syntheticStore = cycle.createMemoryStore();
+  const syntheticPrepared = await prepareFulfilledOrder(syntheticStore, 'test-customer-spoof', NOW);
+  const spoofed = Object.assign({}, cycle.TEST_OUTCOME, {
+    independent: true, measured: true, actor: 'test-customer'
+  });
+  const spoofedResult = await cycle.recordOutcome(syntheticStore, syntheticPrepared.order.orderId, spoofed, NOW + 1000);
+  assert.strictEqual(spoofedResult.outcome.independent, false);
+  assert.strictEqual(spoofedResult.outcome.measured, false);
+  assert.strictEqual(spoofedResult.outcome.actor, 'test-harness');
+  assert.strictEqual(spoofedResult.outcome.authority, 'SIMULATED_TEST_ONLY');
+  pass('synthetic outcome cannot assert independent or measured status');
+
+  const verifier = { key: 'test-only-verification-key', issuer: 'test-customer-verifier' };
+  const verifiedStore = cycle.createMemoryStore();
+  const verifiedPrepared = await prepareFulfilledOrder(verifiedStore, 'test-customer-verified', NOW);
+  const verifiedOutcome = makeSignedOutcome(verifiedPrepared.order, verifiedPrepared.receipt, verifier);
+  const verifiedResult = await cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, verifiedOutcome, NOW + 1000, verifier);
+  assert.strictEqual(verifiedResult.outcome.independent, true);
+  assert.strictEqual(verifiedResult.outcome.measured, true);
+  assert.strictEqual(verifiedResult.outcome.authority, 'VERIFIED_CUSTOMER_EVIDENCE');
+  assert.strictEqual(verifiedResult.outcome.verification.signatureVerified, true);
+  assert.strictEqual(verifiedResult.outcome.simulated, false);
+  assert.strictEqual(verifiedResult.outcome.realCustomer, false);
+  const verifiedLearning = await cycle.learn(verifiedStore, verifiedPrepared.order, verifiedResult.outcome, NOW + 1000);
+  assert.strictEqual(verifiedLearning.learning.authority, 'MEASURED_INDEPENDENT_OUTCOME');
+  assert.strictEqual(verifiedLearning.learning.measuredOutcome, true);
+  const verifiedDecision = await cycle.decideNext(verifiedStore, verifiedPrepared.customer, null, NOW + 1000);
+  assert.strictEqual(verifiedDecision.action, 'OFFER_STATE_OF_HEALTH_DIAGNOSTIC');
+  assert.strictEqual(verifiedDecision.measuredOutcome, true);
+  assert.strictEqual(verifiedDecision.simulated, false);
+  pass('separately signed receipt qualifies as measured independent evidence');
+
+  const badSignature = makeSignedOutcome(verifiedPrepared.order, verifiedPrepared.receipt, verifier, {
+    signature: '0'.repeat(64)
+  });
+  await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, badSignature, NOW + 1000, verifier),
+    function (err) { return err.code === 'OUTCOME_SIGNATURE_INVALID'; });
+  pass('spoofed signature is rejected');
+
+  const wrongIssuer = makeSignedOutcome(verifiedPrepared.order, verifiedPrepared.receipt, verifier, {
+    issuer: 'wrong-verifier'
+  });
+  await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, wrongIssuer, NOW + 1000, verifier),
+    function (err) { return err.code === 'OUTCOME_SOURCE_UNVERIFIED'; });
+  pass('untrusted receipt issuer is rejected');
+
+  const wrongHash = makeSignedOutcome(verifiedPrepared.order, verifiedPrepared.receipt, verifier, {
+    contentHash: 'f'.repeat(64)
+  });
+  await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, wrongHash, NOW + 1000, verifier),
+    function (err) { return err.code === 'OUTCOME_CONTENT_HASH_MISMATCH'; });
+  pass('outcome content hash must match the delivered artifact');
+
+  const early = makeSignedOutcome(verifiedPrepared.order, verifiedPrepared.receipt, verifier, {
+    eventAt: new Date(NOW - 1000).toISOString()
+  });
+  await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, early, NOW + 1000, verifier),
+    function (err) { return err.code === 'OUTCOME_EVENT_PRECEDES_DELIVERY'; });
+  pass('outcome event before delivery is rejected');
+
+  const future = makeSignedOutcome(verifiedPrepared.order, verifiedPrepared.receipt, verifier, {
+    eventAt: new Date(NOW + 5000).toISOString()
+  });
+  await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, future, NOW + 1000, verifier),
+    function (err) { return err.code === 'OUTCOME_EVENT_IN_FUTURE'; });
+  pass('future outcome event is rejected');
+
+  await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, verifiedOutcome, NOW + 1000),
+    function (err) { return err.code === 'OUTCOME_VERIFIER_REQUIRED'; });
+  await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, {
+    mode: 'test', acknowledged: true, diagnosticRequested: true, evidenceRef: 'no-provenance'
+  }, NOW + 1000, verifier), function (err) { return err.code === 'OUTCOME_PROVENANCE_REQUIRED'; });
+  pass('missing verifier or provenance cannot become a measured outcome');
+
+  const replayPrepared = await prepareFulfilledOrder(verifiedStore, 'test-customer-replay', NOW + 1);
+  const replayed = makeSignedOutcome(replayPrepared.order, replayPrepared.receipt, verifier, {
+    receiptId: verifiedOutcome.receiptId,
+    eventAt: new Date(NOW + 2).toISOString()
+  });
+  await assert.rejects(cycle.recordOutcome(verifiedStore, replayPrepared.order.orderId, replayed, NOW + 2000, verifier),
+    function (err) { return err.code === 'OUTCOME_RECEIPT_REPLAYED'; });
+  pass('a receipt identity cannot be replayed on another order');
 
   console.log('ENERGY-E2E refund and file store');
   const refundStore = cycle.createMemoryStore();

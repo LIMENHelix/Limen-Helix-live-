@@ -1,8 +1,8 @@
 {
   "values": {
-    "e2e:order_idem:energy-e2e:test-customer-energy-001:energy.p2": "ord_test_350718c1e76e1580",
-    "e2e:order:ord_test_350718c1e76e1580": {
-      "orderId": "ord_test_350718c1e76e1580",
+    "e2e:order_idem:energy-e2e:test-customer-energy-001:energy.p2": "ord_test_f0c9fb34863dce13",
+    "e2e:order:ord_test_f0c9fb34863dce13": {
+      "orderId": "ord_test_f0c9fb34863dce13",
       "mode": "test",
       "liveMoney": false,
       "realRevenue": false,
@@ -12,52 +12,52 @@
       "offerName": "Your Utility Rate Watch",
       "amountCents": 400,
       "currency": "usd",
-      "createdAt": "2026-10-24T00:33:16.018Z",
+      "createdAt": "2026-10-24T01:05:57.780Z",
       "idempotencyKey": "energy-e2e:test-customer-energy-001:energy.p2",
       "authorization": "test-operator",
       "externalEffectExecuted": false,
-      "fulfillingAt": "2026-10-24T00:33:16.018Z",
-      "fulfilledAt": "2026-10-24T00:33:16.018Z",
-      "deliverableHash": "fcc437b68fb76fb8676f1a25218dfc5ee2e2d271e77c8edb610957719b5bfe72",
-      "receiptId": "del_test_4011a3f6275f09f4",
-      "accountedAt": "2026-10-24T00:33:16.018Z",
+      "fulfillingAt": "2026-10-24T01:05:57.780Z",
+      "fulfilledAt": "2026-10-24T01:05:57.780Z",
+      "deliverableHash": "d8a0ed52453249d7e47582b0faf3b1cf6922fca2d41cca02e71ebaccc0e43fd6",
+      "receiptId": "del_test_89317f4aa513f778",
+      "accountedAt": "2026-10-24T01:05:57.780Z",
       "accountingReceiptIds": [
-        "ctr_915e03042d8c9d59866c620d50e4",
-        "ctr_a80cdc1d1c0bd63d889605d971f4",
-        "ctr_eed3ef63f47767f3b77e83cec47b"
+        "ctr_ad20ce1019e66c775b19d9919919",
+        "ctr_f9fa93fb9aa27b8592a90af82228",
+        "ctr_ac8b1bf7fd9038e960ce7163f14a"
       ]
     },
-    "e2e:deliverable:ord_test_350718c1e76e1580": {
-      "orderId": "ord_test_350718c1e76e1580",
-      "title": "Energy Watch: Utility Rate and Storage Stress Brief (TEST)",
-      "markdown": "# Energy Watch: Utility Rate and Storage Stress Brief (TEST)\n\n**Status:** isolated TEST artifact for test-customer-energy-001. Not a real customer delivery. No real revenue.\n\n## Observed Energy state\n- Snapshot generated: 2026-10-24T00:20:37.737Z (age 758s)\n- Stress: 1, maturity: STRUCTURAL, confidence: 0.89\n- Phase: p5 ENDURANCE (stress-heuristic, observe-only)\n- Sources live: 18/18; top signal: 5 event clusters (nuclear threat)\n- Observation hash: `2a6b6c21ebb8f52ae5d612a855d4c339582de946f9d8d8685f00c368134edcb2`\n- Source: https://limenhelix.com/api/limen-snapshot?type=console\n\n## Thing Two interpretation\n- Ungrounded/latest-only. Temporal evidence is not a persisted series.\n- This is stress context. It is not a company verdict and does not confer Thing One validation.\n\n## Test customer reading\n- Customer: Test Storage Operator 001 (small commercial battery storage operator, TEST)\n- Utility/region: Test Utility Co / Test Region\n- Bill: $180.00 for 1200 kWh (effective 15 ¢/kWh)\n- Bill shock: 0.22; rate pressure: 0.18; outages: 2\n\n## Portal-backed response\n- Inferred issue: **Systemic Energy Stress** (score 5). This is a model inference, not a validated diagnosis.\n- Activated node: **HIPP** (Battery Storage), canonical=true, business-bindable=true.\n- Primary treatment evidence: **Battery Management System Optimization** (STRUCTURAL, Strong).\n- Supporting: State-of-Health Diagnostics (Strong).\n- Portal evidence is not a prescription. No treatment was applied.\n\n## Test order and boundaries\n- Order: ord_test_350718c1e76e1580; offer: energy.p2; amount: 400 cents TEST. Delivery receipt is recorded separately.\n- No Stripe charge, invoice, email, customer contact, or production write.\n- Any next action is proposed only and requires owner authorization.\n\n## Provenance\n- Source snapshot hash: `2a6b6c21ebb8f52ae5d612a855d4c339582de946f9d8d8685f00c368134edcb2`\n- Captured input file hash: `2c33a681347a769617e9c4475f8d2f7dff5db525c70853ffc9243012177958ec`\n- Cycle generated: 2026-10-24T00:33:16.018Z\n",
-      "contentHash": "fcc437b68fb76fb8676f1a25218dfc5ee2e2d271e77c8edb610957719b5bfe72",
-      "generatedAt": "2026-10-24T00:33:16.018Z",
+    "e2e:deliverable:ord_test_f0c9fb34863dce13": {
+      "orderId": "ord_test_f0c9fb34863dce13",
+      "title": "Energy Watch: Utility Rate Watch Brief (TEST)",
+      "markdown": "# Energy Watch: Utility Rate Watch Brief (TEST)\n\n**Status:** isolated TEST artifact for test-customer-energy-001. Not a real customer delivery. No real revenue.\n\n## Observed Energy state\n- Snapshot generated: 2026-10-24T01:05:37.758Z (age 20s)\n- Stress: 1, maturity: STRUCTURAL, confidence: 0.89\n- Phase: p5 ENDURANCE (stress-heuristic, observe-only)\n- Sources live: 18/18; top signal: 6 event clusters (nuclear threat)\n- Observation hash: `5fe40270d08bfd96b931a5a56178b92b2c6491a9bbfff0382ae581aa2316a2f8`\n- Source: https://limenhelix.com/api/limen-snapshot?type=console\n\n## Thing Two interpretation\n- Ungrounded/latest-only. Temporal evidence is not a persisted series.\n- This is stress context. It is not a company verdict and does not confer Thing One validation.\n\n## Your utility rate watch (TEST)\n- Purchased offer: Your Utility Rate Watch (energy.p2), 400 cents TEST.\n- Customer: Test Storage Operator 001 (small commercial battery storage operator, TEST)\n- Utility/region: Test Utility Co / Test Region\n- Bill: $180.00 for 1200 kWh (effective 15 ¢/kWh)\n- Bill shock: 0.22; rate pressure: 0.18; outages: 2\n- Rate watch summary: the reading and the observed Energy stress are reported; no forecast, market claim or substitute service is added.\n\n## Related portal context (not the purchased deliverable)\n- The purchased deliverable is the utility rate watch. The portal issue, node and treatment below are related domain context, not a substitute for the rate watch.\n- Inferred issue: **Systemic Energy Stress** (score 5). This is a model inference, not a validated diagnosis.\n- Activated node: **HIPP** (Battery Storage), canonical=true, business-bindable=true.\n- Primary treatment evidence: **Battery Management System Optimization** (STRUCTURAL, Strong).\n- Supporting: State-of-Health Diagnostics (Strong).\n- Portal evidence is not a prescription and is not the purchased deliverable. No treatment was applied.\n\n## Test order and boundaries\n- Order: ord_test_f0c9fb34863dce13; offer: energy.p2; amount: 400 cents TEST. Delivery receipt is recorded separately.\n- No Stripe charge, invoice, email, customer contact, or production write.\n- Any next action is proposed only and requires owner authorization.\n\n## Provenance\n- Source snapshot hash: `5fe40270d08bfd96b931a5a56178b92b2c6491a9bbfff0382ae581aa2316a2f8`\n- Captured input file hash: `90fc4be0690f616ababde4c290c9cae1b9c44e4b96289d4e08225753e1be607e`\n- Cycle generated: 2026-10-24T01:05:57.780Z\n",
+      "contentHash": "d8a0ed52453249d7e47582b0faf3b1cf6922fca2d41cca02e71ebaccc0e43fd6",
+      "generatedAt": "2026-10-24T01:05:57.780Z",
       "mode": "test"
     },
-    "e2e:receipt:ord_test_350718c1e76e1580": {
-      "receiptId": "del_test_4011a3f6275f09f4",
-      "orderId": "ord_test_350718c1e76e1580",
+    "e2e:receipt:ord_test_f0c9fb34863dce13": {
+      "receiptId": "del_test_89317f4aa513f778",
+      "orderId": "ord_test_f0c9fb34863dce13",
       "customerRef": "test-customer-energy-001",
-      "contentHash": "fcc437b68fb76fb8676f1a25218dfc5ee2e2d271e77c8edb610957719b5bfe72",
-      "deliveredAt": "2026-10-24T00:33:16.018Z",
+      "contentHash": "d8a0ed52453249d7e47582b0faf3b1cf6922fca2d41cca02e71ebaccc0e43fd6",
+      "deliveredAt": "2026-10-24T01:05:57.780Z",
       "channel": "isolated-test-artifact",
       "delivered": true,
       "realExternalDelivery": false,
       "mode": "test"
     },
-    "civilization_treasury_receipt:ctr_915e03042d8c9d59866c620d50e4": {
+    "civilization_treasury_receipt:ctr_ad20ce1019e66c775b19d9919919": {
       "schemaVersion": "civilization-treasury-receipt/1.0",
-      "receiptId": "ctr_915e03042d8c9d59866c620d50e4",
-      "contentDigest": "e39dc0cbf638c241f8d4126eb46eedcab8226a53acabc69401073828f2c2824d",
+      "receiptId": "ctr_ad20ce1019e66c775b19d9919919",
+      "contentDigest": "e1b405d5be8a9c0fd0a20a80078959beeba202fabe3c0e9dc91960b2aa2b56cb",
       "status": "POSTED",
-      "recordedAt": "2026-10-24T00:33:16.018Z",
-      "recordedAtMs": 1792801996018,
+      "recordedAt": "2026-10-24T01:05:57.780Z",
+      "recordedAtMs": 1792803957780,
       "accountingOnly": true,
       "externalEffectExecuted": false,
       "outboundMoneyAuthorized": false,
       "kind": "SALE_CAPTURED",
-      "idempotencyKey": "energy-e2e:ord_test_350718c1e76e1580:sale-captured",
+      "idempotencyKey": "energy-e2e:ord_test_f0c9fb34863dce13:sale-captured",
       "ownerDomain": "energy",
       "currency": "usd",
       "movements": [
@@ -74,22 +74,22 @@
         "contributionCents": 0,
         "capitalizationCents": 0
       },
-      "externalRef": "test_order:ord_test_350718c1e76e1580",
+      "externalRef": "test_order:ord_test_f0c9fb34863dce13",
       "policyRef": null,
       "reason": null
     },
-    "civilization_treasury_receipt:ctr_a80cdc1d1c0bd63d889605d971f4": {
+    "civilization_treasury_receipt:ctr_f9fa93fb9aa27b8592a90af82228": {
       "schemaVersion": "civilization-treasury-receipt/1.0",
-      "receiptId": "ctr_a80cdc1d1c0bd63d889605d971f4",
-      "contentDigest": "6ebfdd939e5469ef0efa84f4187d953627ca63a6d1e015f461c217b203d69b0a",
+      "receiptId": "ctr_f9fa93fb9aa27b8592a90af82228",
+      "contentDigest": "f9a4d9bf7069d7afb6026a1fcccd1151b33de0ef2905627e04ece9df845e8231",
       "status": "POSTED",
-      "recordedAt": "2026-10-24T00:33:16.018Z",
-      "recordedAtMs": 1792801996018,
+      "recordedAt": "2026-10-24T01:05:57.780Z",
+      "recordedAtMs": 1792803957780,
       "accountingOnly": true,
       "externalEffectExecuted": false,
       "outboundMoneyAuthorized": false,
       "kind": "SALE_SETTLED",
-      "idempotencyKey": "energy-e2e:ord_test_350718c1e76e1580:sale-settled",
+      "idempotencyKey": "energy-e2e:ord_test_f0c9fb34863dce13:sale-settled",
       "ownerDomain": "energy",
       "currency": "usd",
       "movements": [
@@ -106,22 +106,22 @@
         "contributionCents": 0,
         "capitalizationCents": 0
       },
-      "externalRef": "test_settlement:ord_test_350718c1e76e1580",
+      "externalRef": "test_settlement:ord_test_f0c9fb34863dce13",
       "policyRef": null,
       "reason": null
     },
-    "civilization_treasury_receipt:ctr_eed3ef63f47767f3b77e83cec47b": {
+    "civilization_treasury_receipt:ctr_ac8b1bf7fd9038e960ce7163f14a": {
       "schemaVersion": "civilization-treasury-receipt/1.0",
-      "receiptId": "ctr_eed3ef63f47767f3b77e83cec47b",
-      "contentDigest": "e021b08a768c9e548b5952af519922cdbcb10b90b5c41fe60be9f980e66b49c3",
+      "receiptId": "ctr_ac8b1bf7fd9038e960ce7163f14a",
+      "contentDigest": "76114efe0ef5f3991d33c34e9aa15abb012c33ff014af037047ac68716a08342",
       "status": "POSTED",
-      "recordedAt": "2026-10-24T00:33:16.018Z",
-      "recordedAtMs": 1792801996018,
+      "recordedAt": "2026-10-24T01:05:57.780Z",
+      "recordedAtMs": 1792803957780,
       "accountingOnly": true,
       "externalEffectExecuted": false,
       "outboundMoneyAuthorized": false,
       "kind": "EXPENSE",
-      "idempotencyKey": "energy-e2e:ord_test_350718c1e76e1580:delivery-cost",
+      "idempotencyKey": "energy-e2e:ord_test_f0c9fb34863dce13:delivery-cost",
       "ownerDomain": "energy",
       "currency": "usd",
       "movements": [
@@ -138,51 +138,64 @@
         "contributionCents": 0,
         "capitalizationCents": 0
       },
-      "externalRef": "test_delivery_cost:ord_test_350718c1e76e1580",
+      "externalRef": "test_delivery_cost:ord_test_f0c9fb34863dce13",
       "policyRef": null,
       "reason": null
     },
-    "e2e:outcome:ord_test_350718c1e76e1580": {
-      "outcomeId": "out_test_5897c6d9c17a96ac",
-      "orderId": "ord_test_350718c1e76e1580",
+    "e2e:outcome:ord_test_f0c9fb34863dce13": {
+      "outcomeId": "out_test_synthetic_cebcf7c916b0fc81",
+      "orderId": "ord_test_f0c9fb34863dce13",
       "customerRef": "test-customer-energy-001",
       "acknowledged": true,
       "diagnosticRequested": true,
-      "source": "test-customer-receipt",
-      "evidenceRef": "test-customer-ack-001",
-      "actor": "test-customer",
-      "recordedAt": "2026-10-24T00:33:16.018Z",
-      "independent": true,
+      "provenance": "synthetic_test_fixture",
+      "source": "synthetic-test-fixture",
+      "evidenceRef": "synthetic-ack-001",
+      "actor": "test-harness",
+      "recordedAt": "2026-10-24T01:05:57.780Z",
+      "independent": false,
+      "measured": false,
+      "authority": "SIMULATED_TEST_ONLY",
+      "simulated": true,
+      "testCustomer": false,
       "realCustomer": false,
+      "verification": null,
       "mode": "test"
     },
     "e2e:learning:test-customer-energy-001": {
-      "learningId": "learn_test_7f895e0a05f33dc2",
+      "learningId": "learn_test_60fb5869d7ccbc5f",
       "customerRef": "test-customer-energy-001",
-      "lastOrderId": "ord_test_350718c1e76e1580",
-      "outcomeId": "out_test_5897c6d9c17a96ac",
+      "lastOrderId": "ord_test_f0c9fb34863dce13",
+      "outcomeId": "out_test_synthetic_cebcf7c916b0fc81",
       "acknowledged": true,
       "diagnosticRequested": true,
       "nextAction": "OFFER_STATE_OF_HEALTH_DIAGNOSTIC",
-      "reason": "prior test outcome acknowledged and requested diagnostics",
-      "updatedAt": "2026-10-24T00:33:16.018Z",
+      "reason": "synthetic test acknowledgment requested diagnostics; simulated only",
+      "updatedAt": "2026-10-24T01:05:57.780Z",
       "mode": "test",
-      "authority": "TEST_LEARNING_ONLY",
+      "authority": "SIMULATED_TEST_ONLY",
+      "measuredOutcome": false,
+      "simulated": true,
       "realOutreachAuthorized": false
     },
-    "e2e:trace:e2e_9f37fec7d74969d7": {
+    "e2e:trace:e2e_6cb106f30ad1e52c": {
       "schemaVersion": "energy-e2e-cycle/1.0",
-      "runId": "e2e_9f37fec7d74969d7",
+      "runId": "e2e_6cb106f30ad1e52c",
       "mode": "TEST",
       "status": "COMPLETE",
-      "generatedAt": "2026-10-24T00:33:16.018Z",
+      "generatedAt": "2026-10-24T01:05:57.780Z",
       "observation": {
         "sourceEndpoint": "https://limenhelix.com/api/limen-snapshot?type=console",
-        "capturedAt": "2026-10-24T00:33:16.010Z",
-        "generatedAt": "2026-10-24T00:20:37.737Z",
-        "ageSeconds": 758,
-        "computedAgeSeconds": 758,
-        "reportedAgeSeconds": 751,
+        "capturedAt": "2026-10-24T01:05:57.775Z",
+        "generatedAt": "2026-10-24T01:05:37.758Z",
+        "ageSeconds": 20,
+        "computedAgeSeconds": 20,
+        "reportedAgeSeconds": 20,
+        "stale": false,
+        "freshnessPolicy": {
+          "maxAgeSeconds": 300,
+          "staleFlagAuthority": true
+        },
         "stress": 1,
         "maturity": "STRUCTURAL",
         "phase": "p5",
@@ -194,7 +207,7 @@
         "recency": 1,
         "liveSourceCount": 18,
         "sourceCount": 18,
-        "topSignal": "5 event clusters (nuclear threat)",
+        "topSignal": "6 event clusters (nuclear threat)",
         "sources": [
           {
             "name": "Massive Crude Oil",
@@ -287,8 +300,8 @@
             "channel": "stress"
           }
         ],
-        "observationSha256": "2a6b6c21ebb8f52ae5d612a855d4c339582de946f9d8d8685f00c368134edcb2",
-        "inputSha256": "2c33a681347a769617e9c4475f8d2f7dff5db525c70853ffc9243012177958ec"
+        "observationSha256": "5fe40270d08bfd96b931a5a56178b92b2c6491a9bbfff0382ae581aa2316a2f8",
+        "inputSha256": "90fc4be0690f616ababde4c290c9cae1b9c44e4b96289d4e08225753e1be607e"
       },
       "thingTwo": {
         "phase": "p5",
@@ -392,7 +405,7 @@
         "cadence": "monthly, as bills and readings arrive",
         "priceCents": 400,
         "customerClass": "small commercial battery storage operator",
-        "deliverable": "Utility rate and storage stress brief (test artifact)",
+        "deliverable": "Utility rate and bill-pressure watch brief (test artifact)",
         "authority": "PROPOSED_TEST_ONLY",
         "realOutreachAuthorized": false
       },
@@ -415,26 +428,30 @@
       "decisions": {
         "before": {
           "action": "SEND_UTILITY_RATE_WATCH",
-          "reason": "no prior test outcome requesting diagnostics",
+          "reason": "no prior measured or simulated outcome requesting diagnostics",
           "authority": "PROPOSED_TEST_ONLY",
+          "measuredOutcome": false,
+          "simulated": false,
           "testAuthorization": "test-operator",
           "realOutreachAuthorized": false,
           "learningRef": null,
-          "decidedAt": "2026-10-24T00:33:16.018Z"
+          "decidedAt": "2026-10-24T01:05:57.780Z"
         },
         "after": {
           "action": "OFFER_STATE_OF_HEALTH_DIAGNOSTIC",
-          "reason": "prior test outcome acknowledged and requested diagnostics",
-          "authority": "PROPOSED_TEST_ONLY",
+          "reason": "synthetic test acknowledgment requested diagnostics; simulated only",
+          "authority": "SIMULATED_TEST_ONLY",
+          "measuredOutcome": false,
+          "simulated": true,
           "testAuthorization": "test-operator",
           "realOutreachAuthorized": false,
-          "learningRef": "learn_test_7f895e0a05f33dc2",
-          "decidedAt": "2026-10-24T00:33:16.018Z"
+          "learningRef": "learn_test_60fb5869d7ccbc5f",
+          "decidedAt": "2026-10-24T01:05:57.780Z"
         },
         "changed": true
       },
       "order": {
-        "orderId": "ord_test_350718c1e76e1580",
+        "orderId": "ord_test_f0c9fb34863dce13",
         "mode": "test",
         "liveMoney": false,
         "realRevenue": false,
@@ -444,49 +461,49 @@
         "offerName": "Your Utility Rate Watch",
         "amountCents": 400,
         "currency": "usd",
-        "createdAt": "2026-10-24T00:33:16.018Z",
+        "createdAt": "2026-10-24T01:05:57.780Z",
         "idempotencyKey": "energy-e2e:test-customer-energy-001:energy.p2",
         "authorization": "test-operator",
         "externalEffectExecuted": false,
-        "fulfillingAt": "2026-10-24T00:33:16.018Z",
-        "fulfilledAt": "2026-10-24T00:33:16.018Z",
-        "deliverableHash": "fcc437b68fb76fb8676f1a25218dfc5ee2e2d271e77c8edb610957719b5bfe72",
-        "receiptId": "del_test_4011a3f6275f09f4"
+        "fulfillingAt": "2026-10-24T01:05:57.780Z",
+        "fulfilledAt": "2026-10-24T01:05:57.780Z",
+        "deliverableHash": "d8a0ed52453249d7e47582b0faf3b1cf6922fca2d41cca02e71ebaccc0e43fd6",
+        "receiptId": "del_test_89317f4aa513f778"
       },
       "fulfillment": {
         "receipt": {
-          "receiptId": "del_test_4011a3f6275f09f4",
-          "orderId": "ord_test_350718c1e76e1580",
+          "receiptId": "del_test_89317f4aa513f778",
+          "orderId": "ord_test_f0c9fb34863dce13",
           "customerRef": "test-customer-energy-001",
-          "contentHash": "fcc437b68fb76fb8676f1a25218dfc5ee2e2d271e77c8edb610957719b5bfe72",
-          "deliveredAt": "2026-10-24T00:33:16.018Z",
+          "contentHash": "d8a0ed52453249d7e47582b0faf3b1cf6922fca2d41cca02e71ebaccc0e43fd6",
+          "deliveredAt": "2026-10-24T01:05:57.780Z",
           "channel": "isolated-test-artifact",
           "delivered": true,
           "realExternalDelivery": false,
           "mode": "test"
         },
         "duplicate": false,
-        "deliverableTitle": "Energy Watch: Utility Rate and Storage Stress Brief (TEST)",
-        "deliverableHash": "fcc437b68fb76fb8676f1a25218dfc5ee2e2d271e77c8edb610957719b5bfe72"
+        "deliverableTitle": "Energy Watch: Utility Rate Watch Brief (TEST)",
+        "deliverableHash": "d8a0ed52453249d7e47582b0faf3b1cf6922fca2d41cca02e71ebaccc0e43fd6"
       },
       "accounting": {
         "receipts": [
           {
-            "receiptId": "ctr_915e03042d8c9d59866c620d50e4",
+            "receiptId": "ctr_ad20ce1019e66c775b19d9919919",
             "kind": "SALE_CAPTURED",
             "status": "POSTED",
             "accountingOnly": true,
             "externalEffectExecuted": false
           },
           {
-            "receiptId": "ctr_a80cdc1d1c0bd63d889605d971f4",
+            "receiptId": "ctr_f9fa93fb9aa27b8592a90af82228",
             "kind": "SALE_SETTLED",
             "status": "POSTED",
             "accountingOnly": true,
             "externalEffectExecuted": false
           },
           {
-            "receiptId": "ctr_eed3ef63f47767f3b77e83cec47b",
+            "receiptId": "ctr_ac8b1bf7fd9038e960ce7163f14a",
             "kind": "EXPENSE",
             "status": "POSTED",
             "accountingOnly": true,
@@ -515,7 +532,7 @@
         },
         "projection": {
           "schemaVersion": "civilization-treasury-projection/1.0",
-          "generatedAt": "2026-10-24T00:33:16.066Z",
+          "generatedAt": "2026-10-24T01:05:57.839Z",
           "currency": "usd",
           "domainCount": 20,
           "receiptCount": 3,
@@ -853,31 +870,39 @@
         }
       },
       "outcome": {
-        "outcomeId": "out_test_5897c6d9c17a96ac",
-        "orderId": "ord_test_350718c1e76e1580",
+        "outcomeId": "out_test_synthetic_cebcf7c916b0fc81",
+        "orderId": "ord_test_f0c9fb34863dce13",
         "customerRef": "test-customer-energy-001",
         "acknowledged": true,
         "diagnosticRequested": true,
-        "source": "test-customer-receipt",
-        "evidenceRef": "test-customer-ack-001",
-        "actor": "test-customer",
-        "recordedAt": "2026-10-24T00:33:16.018Z",
-        "independent": true,
+        "provenance": "synthetic_test_fixture",
+        "source": "synthetic-test-fixture",
+        "evidenceRef": "synthetic-ack-001",
+        "actor": "test-harness",
+        "recordedAt": "2026-10-24T01:05:57.780Z",
+        "independent": false,
+        "measured": false,
+        "authority": "SIMULATED_TEST_ONLY",
+        "simulated": true,
+        "testCustomer": false,
         "realCustomer": false,
+        "verification": null,
         "mode": "test"
       },
       "learning": {
-        "learningId": "learn_test_7f895e0a05f33dc2",
+        "learningId": "learn_test_60fb5869d7ccbc5f",
         "customerRef": "test-customer-energy-001",
-        "lastOrderId": "ord_test_350718c1e76e1580",
-        "outcomeId": "out_test_5897c6d9c17a96ac",
+        "lastOrderId": "ord_test_f0c9fb34863dce13",
+        "outcomeId": "out_test_synthetic_cebcf7c916b0fc81",
         "acknowledged": true,
         "diagnosticRequested": true,
         "nextAction": "OFFER_STATE_OF_HEALTH_DIAGNOSTIC",
-        "reason": "prior test outcome acknowledged and requested diagnostics",
-        "updatedAt": "2026-10-24T00:33:16.018Z",
+        "reason": "synthetic test acknowledgment requested diagnostics; simulated only",
+        "updatedAt": "2026-10-24T01:05:57.780Z",
         "mode": "test",
-        "authority": "TEST_LEARNING_ONLY",
+        "authority": "SIMULATED_TEST_ONLY",
+        "measuredOutcome": false,
+        "simulated": true,
         "realOutreachAuthorized": false
       },
       "audit": {
@@ -889,7 +914,7 @@
           "reason": null,
           "partial": false,
           "boundaryChecked": false,
-          "head": "ef64df1fa76ccba0eca1f57260c6fea1a571e9e9ed66418a5f5e87cb4b5e9e24",
+          "head": "5a9087c824f196327d295db2b730412884dd6234ab0a3d1bca5123a0f4da6e91",
           "firstSeq": 0,
           "lastSeq": 6,
           "genesisAnchored": true
@@ -901,8 +926,8 @@
         "testOrderCreated": true,
         "fulfilled": true,
         "accounted": true,
-        "measuredOutcome": true,
-        "learningApplied": true,
+        "measuredOutcome": false,
+        "learningApplied": "SIMULATED_ONLY",
         "nextDecisionChanged": true
       },
       "guarantees": {
@@ -913,12 +938,16 @@
         "productionWrites": false,
         "customerContacted": false,
         "realCredentialsUsed": false,
-        "thingOneAuthorityUsed": false
+        "thingOneAuthorityUsed": false,
+        "measuredOutcome": false,
+        "simulatedOutcome": true
       },
       "limitations": [
         "Thing Two phase is latest-only and may be ungrounded; no persisted phase series exists.",
         "The selected issue is a model inference constrained to the service asset, not a validated diagnosis.",
         "The customer, order, delivery, outcome and learning are TEST artifacts. No real customer, money, email or production write exists.",
+        "The executed outcome is synthetic unless a separately verified receipt is supplied. Synthetic acknowledgment is independent=false and measuredOutcome=false; its decision change is simulated only.",
+        "A measured independent outcome requires receipt identity, event time, content hash and source-authenticity verification, not asserted fields.",
         "The service is the existing energy.p2 offer; the brief content is generated deterministically from observed and portal data."
       ]
     }
@@ -927,130 +956,137 @@
     "audit:energy-e2e": [
       {
         "seq": 6,
-        "ts": 1792801996018,
+        "ts": 1792803957780,
         "type": "TEST_CYCLE_COMPLETED",
         "actor": "energy-e2e-cycle",
         "payload": {
-          "runId": "e2e_9f37fec7d74969d7",
-          "orderId": "ord_test_350718c1e76e1580",
+          "runId": "e2e_6cb106f30ad1e52c",
+          "orderId": "ord_test_f0c9fb34863dce13",
           "issueId": "SYSTEMIC_ENERGY_STRESS",
           "nodeId": "HIPP",
           "treatment": "Battery Management System Optimization",
           "decisionBefore": "SEND_UTILITY_RATE_WATCH",
           "decisionAfter": "OFFER_STATE_OF_HEALTH_DIAGNOSTIC",
           "testRevenueCents": 400,
-          "realRevenueCents": 0
+          "realRevenueCents": 0,
+          "measuredOutcome": false,
+          "outcomeAuthority": "SIMULATED_TEST_ONLY"
         },
-        "prevHash": "c64e9f41183666efde0e08cf6e25722e49855d61fae505d0e095d7592e1452d7",
-        "hash": "ef64df1fa76ccba0eca1f57260c6fea1a571e9e9ed66418a5f5e87cb4b5e9e24"
+        "prevHash": "4a1780031f60aabd070bbc458d1e25ae460f7fb758239364a84e52f88fab0d7d",
+        "hash": "5a9087c824f196327d295db2b730412884dd6234ab0a3d1bca5123a0f4da6e91"
       },
       {
         "seq": 5,
-        "ts": 1792801996018,
+        "ts": 1792803957780,
         "type": "TEST_LEARNING_UPDATED",
         "actor": "energy-e2e-test-operator",
         "payload": {
           "customerRef": "test-customer-energy-001",
-          "learningId": "learn_test_7f895e0a05f33dc2",
-          "outcomeId": "out_test_5897c6d9c17a96ac",
+          "learningId": "learn_test_60fb5869d7ccbc5f",
+          "outcomeId": "out_test_synthetic_cebcf7c916b0fc81",
           "nextAction": "OFFER_STATE_OF_HEALTH_DIAGNOSTIC",
-          "mode": "test"
+          "mode": "test",
+          "measuredOutcome": false,
+          "simulated": true
         },
-        "prevHash": "d7642b2002d15e9d6757ee1c50ad9552af779e15bfdade7d7f985b34f87dc9b7",
-        "hash": "c64e9f41183666efde0e08cf6e25722e49855d61fae505d0e095d7592e1452d7"
+        "prevHash": "e1ef9b0a7dcb8d88c84449e0fce8927e4dbd676d20fdc9197e13f88317e21360",
+        "hash": "4a1780031f60aabd070bbc458d1e25ae460f7fb758239364a84e52f88fab0d7d"
       },
       {
         "seq": 4,
-        "ts": 1792801996018,
+        "ts": 1792803957780,
         "type": "TEST_OUTCOME_RECORDED",
-        "actor": "test-customer",
+        "actor": "test-harness",
         "payload": {
-          "orderId": "ord_test_350718c1e76e1580",
-          "outcomeId": "out_test_5897c6d9c17a96ac",
+          "orderId": "ord_test_f0c9fb34863dce13",
+          "outcomeId": "out_test_synthetic_cebcf7c916b0fc81",
           "acknowledged": true,
           "diagnosticRequested": true,
-          "evidenceRef": "test-customer-ack-001",
-          "independent": true,
+          "evidenceRef": "synthetic-ack-001",
+          "provenance": "synthetic_test_fixture",
+          "independent": false,
+          "measured": false,
+          "authority": "SIMULATED_TEST_ONLY",
           "realCustomer": false
         },
-        "prevHash": "122fe1491173715a5eed8e4cbe0beca939c8aee5192140d6bae6c87b40dc98b5",
-        "hash": "d7642b2002d15e9d6757ee1c50ad9552af779e15bfdade7d7f985b34f87dc9b7"
+        "prevHash": "525b4cf0ad96379ee177348f87472a888c5b6b270b62ca7fb1274a139940562c",
+        "hash": "e1ef9b0a7dcb8d88c84449e0fce8927e4dbd676d20fdc9197e13f88317e21360"
       },
       {
         "seq": 3,
-        "ts": 1792801996018,
+        "ts": 1792803957780,
         "type": "TEST_ACCOUNTING_POSTED",
         "actor": "energy-e2e-test-operator",
         "payload": {
-          "orderId": "ord_test_350718c1e76e1580",
+          "orderId": "ord_test_f0c9fb34863dce13",
           "receipts": [
-            "ctr_915e03042d8c9d59866c620d50e4",
-            "ctr_a80cdc1d1c0bd63d889605d971f4",
-            "ctr_eed3ef63f47767f3b77e83cec47b"
+            "ctr_ad20ce1019e66c775b19d9919919",
+            "ctr_f9fa93fb9aa27b8592a90af82228",
+            "ctr_ac8b1bf7fd9038e960ce7163f14a"
           ],
           "testRevenueCents": 400,
           "testCostCents": 50,
           "realRevenueCents": 0,
           "accountingOnly": true
         },
-        "prevHash": "797a1bf1a178c65a87577782ee81ff854238233438c8eee073653bf8b918d34a",
-        "hash": "122fe1491173715a5eed8e4cbe0beca939c8aee5192140d6bae6c87b40dc98b5"
+        "prevHash": "13eaa73d5da9d665c06cdfa9ea2f45833ef79790df1b8caac7f31bf8b8a36753",
+        "hash": "525b4cf0ad96379ee177348f87472a888c5b6b270b62ca7fb1274a139940562c"
       },
       {
         "seq": 2,
-        "ts": 1792801996018,
+        "ts": 1792803957780,
         "type": "TEST_DELIVERABLE_FULFILLED",
         "actor": "energy-e2e-test-operator",
         "payload": {
-          "orderId": "ord_test_350718c1e76e1580",
-          "receiptId": "del_test_4011a3f6275f09f4",
-          "contentHash": "fcc437b68fb76fb8676f1a25218dfc5ee2e2d271e77c8edb610957719b5bfe72",
+          "orderId": "ord_test_f0c9fb34863dce13",
+          "receiptId": "del_test_89317f4aa513f778",
+          "contentHash": "d8a0ed52453249d7e47582b0faf3b1cf6922fca2d41cca02e71ebaccc0e43fd6",
           "channel": "isolated-test-artifact",
           "realExternalDelivery": false
         },
-        "prevHash": "e33485ec78a8ca7d15d6eaf502ca3dbb5e4f516e3ce61470421d6e722ff401a1",
-        "hash": "797a1bf1a178c65a87577782ee81ff854238233438c8eee073653bf8b918d34a"
+        "prevHash": "d324c2b00c436cc842174a7dbaff1f57ace3c74e3b26582c6591327bb426a097",
+        "hash": "13eaa73d5da9d665c06cdfa9ea2f45833ef79790df1b8caac7f31bf8b8a36753"
       },
       {
         "seq": 1,
-        "ts": 1792801996018,
+        "ts": 1792803957780,
         "type": "TEST_FULFILLMENT_STARTED",
         "actor": "energy-e2e-test-operator",
         "payload": {
-          "orderId": "ord_test_350718c1e76e1580"
+          "orderId": "ord_test_f0c9fb34863dce13"
         },
-        "prevHash": "0ecc4a9f7a67171c420adcbd63539cc902837b0b0a9dba395784d175227bb462",
-        "hash": "e33485ec78a8ca7d15d6eaf502ca3dbb5e4f516e3ce61470421d6e722ff401a1"
+        "prevHash": "a897da06bf9c8c031df5d0b5c41ca158c6062719422f36e8844d0e57e9503c94",
+        "hash": "d324c2b00c436cc842174a7dbaff1f57ace3c74e3b26582c6591327bb426a097"
       },
       {
         "seq": 0,
-        "ts": 1792801996018,
+        "ts": 1792803957780,
         "type": "TEST_ORDER_CREATED",
         "actor": "energy-e2e-test-operator",
         "payload": {
-          "orderId": "ord_test_350718c1e76e1580",
+          "orderId": "ord_test_f0c9fb34863dce13",
           "customerRef": "test-customer-energy-001",
           "offerId": "energy.p2",
           "amountCents": 400,
           "mode": "test"
         },
         "prevHash": "0000000000000000000000000000000000000000000000000000000000000000",
-        "hash": "0ecc4a9f7a67171c420adcbd63539cc902837b0b0a9dba395784d175227bb462"
+        "hash": "a897da06bf9c8c031df5d0b5c41ca158c6062719422f36e8844d0e57e9503c94"
       }
     ],
     "civilization_treasury_receipt_log": [
       {
         "schemaVersion": "civilization-treasury-receipt/1.0",
-        "receiptId": "ctr_eed3ef63f47767f3b77e83cec47b",
-        "contentDigest": "e021b08a768c9e548b5952af519922cdbcb10b90b5c41fe60be9f980e66b49c3",
+        "receiptId": "ctr_ac8b1bf7fd9038e960ce7163f14a",
+        "contentDigest": "76114efe0ef5f3991d33c34e9aa15abb012c33ff014af037047ac68716a08342",
         "status": "POSTED",
-        "recordedAt": "2026-10-24T00:33:16.018Z",
-        "recordedAtMs": 1792801996018,
+        "recordedAt": "2026-10-24T01:05:57.780Z",
+        "recordedAtMs": 1792803957780,
         "accountingOnly": true,
         "externalEffectExecuted": false,
         "outboundMoneyAuthorized": false,
         "kind": "EXPENSE",
-        "idempotencyKey": "energy-e2e:ord_test_350718c1e76e1580:delivery-cost",
+        "idempotencyKey": "energy-e2e:ord_test_f0c9fb34863dce13:delivery-cost",
         "ownerDomain": "energy",
         "currency": "usd",
         "movements": [
@@ -1067,22 +1103,22 @@
           "contributionCents": 0,
           "capitalizationCents": 0
         },
-        "externalRef": "test_delivery_cost:ord_test_350718c1e76e1580",
+        "externalRef": "test_delivery_cost:ord_test_f0c9fb34863dce13",
         "policyRef": null,
         "reason": null
       },
       {
         "schemaVersion": "civilization-treasury-receipt/1.0",
-        "receiptId": "ctr_a80cdc1d1c0bd63d889605d971f4",
-        "contentDigest": "6ebfdd939e5469ef0efa84f4187d953627ca63a6d1e015f461c217b203d69b0a",
+        "receiptId": "ctr_f9fa93fb9aa27b8592a90af82228",
+        "contentDigest": "f9a4d9bf7069d7afb6026a1fcccd1151b33de0ef2905627e04ece9df845e8231",
         "status": "POSTED",
-        "recordedAt": "2026-10-24T00:33:16.018Z",
-        "recordedAtMs": 1792801996018,
+        "recordedAt": "2026-10-24T01:05:57.780Z",
+        "recordedAtMs": 1792803957780,
         "accountingOnly": true,
         "externalEffectExecuted": false,
         "outboundMoneyAuthorized": false,
         "kind": "SALE_SETTLED",
-        "idempotencyKey": "energy-e2e:ord_test_350718c1e76e1580:sale-settled",
+        "idempotencyKey": "energy-e2e:ord_test_f0c9fb34863dce13:sale-settled",
         "ownerDomain": "energy",
         "currency": "usd",
         "movements": [
@@ -1099,22 +1135,22 @@
           "contributionCents": 0,
           "capitalizationCents": 0
         },
-        "externalRef": "test_settlement:ord_test_350718c1e76e1580",
+        "externalRef": "test_settlement:ord_test_f0c9fb34863dce13",
         "policyRef": null,
         "reason": null
       },
       {
         "schemaVersion": "civilization-treasury-receipt/1.0",
-        "receiptId": "ctr_915e03042d8c9d59866c620d50e4",
-        "contentDigest": "e39dc0cbf638c241f8d4126eb46eedcab8226a53acabc69401073828f2c2824d",
+        "receiptId": "ctr_ad20ce1019e66c775b19d9919919",
+        "contentDigest": "e1b405d5be8a9c0fd0a20a80078959beeba202fabe3c0e9dc91960b2aa2b56cb",
         "status": "POSTED",
-        "recordedAt": "2026-10-24T00:33:16.018Z",
-        "recordedAtMs": 1792801996018,
+        "recordedAt": "2026-10-24T01:05:57.780Z",
+        "recordedAtMs": 1792803957780,
         "accountingOnly": true,
         "externalEffectExecuted": false,
         "outboundMoneyAuthorized": false,
         "kind": "SALE_CAPTURED",
-        "idempotencyKey": "energy-e2e:ord_test_350718c1e76e1580:sale-captured",
+        "idempotencyKey": "energy-e2e:ord_test_f0c9fb34863dce13:sale-captured",
         "ownerDomain": "energy",
         "currency": "usd",
         "movements": [
@@ -1131,7 +1167,7 @@
           "contributionCents": 0,
           "capitalizationCents": 0
         },
-        "externalRef": "test_order:ord_test_350718c1e76e1580",
+        "externalRef": "test_order:ord_test_f0c9fb34863dce13",
         "policyRef": null,
         "reason": null
       }
