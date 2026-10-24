@@ -14,6 +14,11 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
+const TEST_VERIFIER_KEY = 'test-only-verification-key';
+const TEST_VERIFIER_ISSUER = 'test-customer-verifier';
+process.env.ENERGY_E2E_VERIFIER_KEY = TEST_VERIFIER_KEY;
+process.env.ENERGY_E2E_VERIFIER_ISSUER = TEST_VERIFIER_ISSUER;
+
 const cycle = require('../lib/energy-e2e-cycle');
 const catalog = require('../lib/offer-catalog');
 
@@ -302,11 +307,11 @@ async function prepareFulfilledOrder(store, customerRef, now) {
   assert.strictEqual(spoofedResult.outcome.authority, 'SIMULATED_TEST_ONLY');
   pass('synthetic outcome cannot assert independent or measured status');
 
-  const verifier = { key: 'test-only-verification-key', issuer: 'test-customer-verifier' };
+  const verifier = { key: TEST_VERIFIER_KEY, issuer: TEST_VERIFIER_ISSUER };
   const verifiedStore = cycle.createMemoryStore();
   const verifiedPrepared = await prepareFulfilledOrder(verifiedStore, 'test-customer-verified', NOW);
   const verifiedOutcome = makeSignedOutcome(verifiedPrepared.order, verifiedPrepared.receipt, verifier);
-  const verifiedResult = await cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, verifiedOutcome, NOW + 1000, verifier);
+  const verifiedResult = await cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, verifiedOutcome, NOW + 1000);
   assert.strictEqual(verifiedResult.outcome.independent, true);
   assert.strictEqual(verifiedResult.outcome.measured, true);
   assert.strictEqual(verifiedResult.outcome.authority, 'VERIFIED_CUSTOMER_EVIDENCE');
@@ -325,53 +330,81 @@ async function prepareFulfilledOrder(store, customerRef, now) {
   const badSignature = makeSignedOutcome(verifiedPrepared.order, verifiedPrepared.receipt, verifier, {
     signature: '0'.repeat(64)
   });
-  await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, badSignature, NOW + 1000, verifier),
+  await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, badSignature, NOW + 1000),
     function (err) { return err.code === 'OUTCOME_SIGNATURE_INVALID'; });
   pass('spoofed signature is rejected');
 
   const wrongIssuer = makeSignedOutcome(verifiedPrepared.order, verifiedPrepared.receipt, verifier, {
     issuer: 'wrong-verifier'
   });
-  await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, wrongIssuer, NOW + 1000, verifier),
+  await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, wrongIssuer, NOW + 1000),
     function (err) { return err.code === 'OUTCOME_SOURCE_UNVERIFIED'; });
   pass('untrusted receipt issuer is rejected');
 
   const wrongHash = makeSignedOutcome(verifiedPrepared.order, verifiedPrepared.receipt, verifier, {
     contentHash: 'f'.repeat(64)
   });
-  await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, wrongHash, NOW + 1000, verifier),
+  await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, wrongHash, NOW + 1000),
     function (err) { return err.code === 'OUTCOME_CONTENT_HASH_MISMATCH'; });
   pass('outcome content hash must match the delivered artifact');
 
   const early = makeSignedOutcome(verifiedPrepared.order, verifiedPrepared.receipt, verifier, {
     eventAt: new Date(NOW - 1000).toISOString()
   });
-  await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, early, NOW + 1000, verifier),
+  await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, early, NOW + 1000),
     function (err) { return err.code === 'OUTCOME_EVENT_PRECEDES_DELIVERY'; });
   pass('outcome event before delivery is rejected');
 
   const future = makeSignedOutcome(verifiedPrepared.order, verifiedPrepared.receipt, verifier, {
     eventAt: new Date(NOW + 5000).toISOString()
   });
-  await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, future, NOW + 1000, verifier),
+  await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, future, NOW + 1000),
     function (err) { return err.code === 'OUTCOME_EVENT_IN_FUTURE'; });
   pass('future outcome event is rejected');
 
+  delete process.env.ENERGY_E2E_VERIFIER_KEY;
+  delete process.env.ENERGY_E2E_VERIFIER_ISSUER;
   await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, verifiedOutcome, NOW + 1000),
-    function (err) { return err.code === 'OUTCOME_VERIFIER_REQUIRED'; });
+    function (err) { return err.code === 'OUTCOME_VERIFIER_CHANNEL_UNAVAILABLE'; });
+  process.env.ENERGY_E2E_VERIFIER_KEY = TEST_VERIFIER_KEY;
+  process.env.ENERGY_E2E_VERIFIER_ISSUER = TEST_VERIFIER_ISSUER;
   await assert.rejects(cycle.recordOutcome(verifiedStore, verifiedPrepared.order.orderId, {
     mode: 'test', acknowledged: true, diagnosticRequested: true, evidenceRef: 'no-provenance'
-  }, NOW + 1000, verifier), function (err) { return err.code === 'OUTCOME_PROVENANCE_REQUIRED'; });
-  pass('missing verifier or provenance cannot become a measured outcome');
+  }, NOW + 1000), function (err) { return err.code === 'OUTCOME_PROVENANCE_REQUIRED'; });
+  pass('missing verifier channel or provenance cannot become a measured outcome');
 
   const replayPrepared = await prepareFulfilledOrder(verifiedStore, 'test-customer-replay', NOW + 1);
   const replayed = makeSignedOutcome(replayPrepared.order, replayPrepared.receipt, verifier, {
     receiptId: verifiedOutcome.receiptId,
     eventAt: new Date(NOW + 2).toISOString()
   });
-  await assert.rejects(cycle.recordOutcome(verifiedStore, replayPrepared.order.orderId, replayed, NOW + 2000, verifier),
+  await assert.rejects(cycle.recordOutcome(verifiedStore, replayPrepared.order.orderId, replayed, NOW + 2000),
     function (err) { return err.code === 'OUTCOME_RECEIPT_REPLAYED'; });
   pass('a receipt identity cannot be replayed on another order');
+
+  const attackerPrepared = await prepareFulfilledOrder(verifiedStore, 'test-customer-attacker', NOW + 3);
+  const attacker = { key: 'attacker-only-key', issuer: 'attacker-issuer' };
+  const attackerWrongIssuer = makeSignedOutcome(attackerPrepared.order, attackerPrepared.receipt, attacker, {
+    receiptId: 'rcpt_attacker_001',
+    eventAt: new Date(NOW + 4).toISOString()
+  });
+  await assert.rejects(cycle.recordOutcome(verifiedStore, attackerPrepared.order.orderId, attackerWrongIssuer, NOW + 3000),
+    function (err) { return err.code === 'OUTCOME_SOURCE_UNVERIFIED'; });
+  const attackerSameIssuer = makeSignedOutcome(attackerPrepared.order, attackerPrepared.receipt, attacker, {
+    receiptId: 'rcpt_attacker_002',
+    issuer: TEST_VERIFIER_ISSUER,
+    eventAt: new Date(NOW + 4).toISOString()
+  });
+  await assert.rejects(cycle.recordOutcome(verifiedStore, attackerPrepared.order.orderId, attackerSameIssuer, NOW + 3000),
+    function (err) { return err.code === 'OUTCOME_SIGNATURE_INVALID'; });
+  pass('caller-signed receipts cannot use a caller-supplied verifier');
+
+  const cycleSource = fs.readFileSync(path.join(ROOT, 'lib/energy-e2e-cycle.js'), 'utf8');
+  const verifierSource = fs.readFileSync(path.join(ROOT, 'lib/energy-e2e-verifier.js'), 'utf8');
+  assert.ok(!/outcomeVerifier/.test(cycleSource), 'caller-controlled verifier input must not exist');
+  assert.ok(/ENERGY_E2E_VERIFIER_KEY/.test(verifierSource));
+  assert.ok(/ENERGY_E2E_VERIFIER_ISSUER/.test(verifierSource));
+  pass('verifier configuration is server-environment only');
 
   console.log('ENERGY-E2E refund and file store');
   const refundStore = cycle.createMemoryStore();

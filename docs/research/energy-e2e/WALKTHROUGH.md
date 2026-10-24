@@ -21,6 +21,10 @@ It is superseded and removed by this correction.
   receipt identity, event time, content hash, issuer and HMAC source signature.
   The gate checks the signature, content hash, event window, issuer, and receipt
   replay identity. The positive and negative cases are covered by tests.
+  The verifier key and issuer come only from the server-side
+  `ENERGY_E2E_VERIFIER_KEY` and `ENERGY_E2E_VERIFIER_ISSUER` channel. Cycle
+  input, outcome objects and CLI flags cannot supply them. When the channel is
+  unset, the measured gate stays closed.
 - Fulfillment matches the existing `energy.p2` "Your Utility Rate Watch" offer.
   The portal issue, node and treatment are related context, not the purchased
   deliverable and not an automatic substitute.
@@ -75,6 +79,8 @@ Proved:
   a measured independent outcome.
 - A verified-receipt gate exists and is regression-tested for valid, spoofed,
   wrong-content, wrong-event, wrong-issuer, missing-verifier and replayed receipts.
+- Caller-signed receipts and caller-supplied verifier configuration cannot
+  elevate an outcome to measured; the verifier is server-environment only.
 - The fulfillment matches the purchased Utility Rate Watch offer.
 - Test money is booked only as accounting-only test money; real revenue is zero.
 - The simulated learning changes the next proposed test decision and persists in
@@ -86,7 +92,8 @@ Not proved:
 - No real Stripe charge or production revenue occurred.
 - No separately verified real customer receipt was supplied, so no measured
   independent outcome is claimed. The verified path is tested with a test-only
-  verifier key, not a real credential.
+  verifier configured through the server-side test environment, not through
+  cycle input, and it is not a real credential.
 
 ## Files
 
